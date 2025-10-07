@@ -5,7 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SpeakOut MindCheck Nigeria</title>
   <style>
-    body{font-family:system-ui,Arial,sans-serif;margin:0;background:#0b1b2b;color:#fff}
+    body {
+  font-family: system-ui, Arial, sans-serif;
+  margin: 0;
+  background: #bbf7d0;  /* light minty green */
+  color: #ffffff;       /* white text */
+}
+
     .wrap{max-width:900px;margin:0 auto;padding:24px}
     header{padding:24px 0}
     h1{margin:0 0 8px}
@@ -40,33 +46,44 @@ iframe {
       <a class="btn" href="#start">Start Now</a>
     </header>
 
-    <section id="start" class="card">
-      <section id="start" class="card">
-  <!-- Embed your Tally form correctly -->
-  <iframe
-    data-tally-src="https://tally.so/r/w2QbOV?transparentBackground=1&hideTitle=1"
-    loading="lazy"
-    width="100%"
-    height="800"
-    frameborder="0"
-    marginheight="0"
-    marginwidth="0"
-    title="SpeakOut MindCheck Nigeria">
-  </iframe>
+   <section id="start" class="card">
+  <button id="startBtn" class="btn">Start Now</button>
+
+  <div id="formContainer" style="display:none; margin-top:20px;">
+    <iframe
+      data-tally-src="https://tally.so/r/YOUR_FORM_ID?transparentBackground=1&hideTitle=1"
+      loading="lazy"
+      width="100%"
+      height="800"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      title="SpeakOut MindCheck Nigeria">
+    </iframe>
+  </div>
 </section>
 
 <script>
-  // ✅ Official Tally embed script (required)
-  (function () {
-    var d = document,
-      s = d.createElement("script");
-    s.src = "https://tally.so/widgets/embed.js";
-    s.onload = function () {
-      if (window.Tally) Tally.loadEmbeds();
-    };
+  // ✅ Tally embed script
+  (function(){
+    var d=document,s=d.createElement("script");
+    s.src="https://tally.so/widgets/embed.js";
+    s.onload=function(){if(window.Tally) Tally.loadEmbeds();};
     d.body.appendChild(s);
   })();
+
+  // ✅ Show form only when Start Now is clicked
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('startBtn');
+    const form = document.getElementById('formContainer');
+    btn.addEventListener('click', function() {
+      form.style.display = 'block';
+      btn.style.display = 'none';
+      window.scrollTo({ top: form.offsetTop, behavior: 'smooth' });
+    });
+  });
 </script>
+
 
     </section>
 
