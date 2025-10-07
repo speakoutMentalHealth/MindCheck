@@ -50,7 +50,27 @@ iframe {
     footer{opacity:.8;font-size:.9rem;margin-top:16px}
     a{color:#7dd3fc}
     .btn{display:inline-block;background:#22c55e;color:#062436;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
-  </style>
+  /* Smooth fade animations */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+}
+
+.fade-out {
+  opacity: 1;
+  animation: fadeOut 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-15px); }
+}
+</style>
   <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
@@ -79,7 +99,7 @@ iframe {
 </section>
 
 <script>
-  // ✅ Tally embed script
+  // ✅ Load Tally embed
   (function(){
     var d=document,s=d.createElement("script");
     s.src="https://tally.so/widgets/embed.js";
@@ -87,17 +107,24 @@ iframe {
     d.body.appendChild(s);
   })();
 
-  // ✅ Show form only when Start Now is clicked
+  // ✅ Fade transitions between button and form
   document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('startBtn');
     const form = document.getElementById('formContainer');
+
     btn.addEventListener('click', function() {
-      form.style.display = 'block';
-      btn.style.display = 'none';
-      window.scrollTo({ top: form.offsetTop, behavior: 'smooth' });
+      // fade out the button
+      btn.classList.add('fade-out');
+      setTimeout(() => {
+        btn.style.display = 'none';
+        form.style.display = 'block';
+        form.classList.add('fade-in');
+        window.scrollTo({ top: form.offsetTop, behavior: 'smooth' });
+      }, 800); // wait for fade-out to finish
     });
   });
 </script>
+
 
 
     </section>
