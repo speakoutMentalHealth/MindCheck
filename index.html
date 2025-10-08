@@ -5,161 +5,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SpeakOut MindCheck 💚</title>
   <link rel="icon" type="image/png" href="favicon.png" />
-
   <style>
+    :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; }
+    *{box-sizing:border-box}
     body {
-      font-family: "Inter", sans-serif;
-      background: #f5fdf8;
-      color: #062436;
-      text-align: center;
-      margin: 0;
-      padding: 0;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #f5fdf8; color: var(--ink); text-align: center; margin: 0;
     }
-    header {
-      background: #22c55e;
-      color: white;
-      padding: 1rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
+    header { background: var(--green); color: #fff; padding: 1rem; font-size: 1.5rem; font-weight: 800; }
+    p { margin: .75rem 0; }
     #startBtn {
-      background: #22c55e;
-      color: white;
-      border: none;
-      padding: 15px 35px;
-      border-radius: 40px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      margin-top: 40px;
-      transition: all 0.3s ease;
+      background: var(--green); color: #fff; border: none; padding: 15px 35px; border-radius: 40px;
+      font-size: 1.1rem; cursor: pointer; margin-top: 24px; transition: .2s;
     }
-    #startBtn:hover {
-      background: #16a34a;
-      transform: scale(1.05);
+    #startBtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.02); }
+    #formContainer { display: none; margin-top: 16px; animation: fadeIn .8s ease-in-out; }
+    iframe { width: 100%; height: 800px; border: 0; border-radius: 12px; background: #fff; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    /* Language buttons */
+    .lang { margin: 18px 0 6px; }
+    .twrap { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
+    .tbtn {
+      background: var(--green); color:#fff; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:700;
+      transition:.2s; display:inline-block;
     }
-    #formContainer {
-      display: none;
-      margin-top: 30px;
-      animation: fadeIn 0.8s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    /* Translator box */
+    .tbtn:hover { background: var(--greenDark); transform: scale(1.03); }
+    /* Translate widget (optional top-right) */
     #google_translate_element {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 9999;
-      background: #22c55e;
-      padding: 6px 10px;
-      border-radius: 8px;
-      color: white;
-      font-weight: 600;
+      position: fixed; top: 10px; right: 10px; z-index: 9999; background: var(--green);
+      padding: 6px 10px; border-radius: 8px; color: white; font-weight: 600;
     }
+    /* Accessibility focus */
+    :focus-visible { outline: 3px solid #062436; outline-offset: 3px; }
+    .skip {
+      position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden;
+    }
+    .skip:focus { position:static; width:auto; height:auto; padding:8px 12px; background:#fff; border:2px solid var(--green); border-radius:8px; display:inline-block; margin:8px auto; }
   </style>
 </head>
-
-
 <body>
+  <a class="skip" href="#formContainer">Skip to form</a>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
   <p>Check your mental health privately, safely, and in your preferred language.</p>
 
-  <!-- ✅ Keep your Start Now button if you already have it -->
-  <button id="startBtn">Start Now</button>
+  <!-- Start button -->
+  <button id="startBtn" type="button" aria-controls="formContainer" aria-label="Start the SpeakOut MindCheck form">Start Now</button>
 
-  <!-- 🌍 ADD THIS NEW SECTION right before your form -->
-  <div style="margin-top:30px; text-align:center;">
-    <p style="font-size:1.1rem; font-weight:600;">🌍 Open in your language:</p>
-
-    <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
-      <a class="tbtn" href="https://tally.so/r/w2QbOV" target="_blank" rel="noopener">English</a>
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ha&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV" target="_blank" rel="noopener">Hausa</a>
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=yo&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV" target="_blank" rel="noopener">Yoruba</a>
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ig&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV" target="_blank" rel="noopener">Igbo</a>
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=fr&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV" target="_blank" rel="noopener">French</a>
+  <!-- Language buttons ABOVE the form -->
+  <div class="lang" role="navigation" aria-label="Language options">
+    <p style="font-weight:700; margin:0 0 6px;">🌍 Open in your language:</p>
+    <div class="twrap">
+      <!-- Plain English link -->
+      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=en" target="_blank" rel="noopener">English</a>
+      <!-- Google Translate wrapper links (URL-encoded target) -->
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ha&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dha" target="_blank" rel="noopener">Hausa</a>
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=yo&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dyo" target="_blank" rel="noopener">Yoruba</a>
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ig&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dig" target="_blank" rel="noopener">Igbo</a>
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=fr&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dfr" target="_blank" rel="noopener">French</a>
     </div>
 
-    <style>
-      .tbtn {
-        background: #22c55e;
-        color: white;
-        padding: 10px 16px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-family: "Inter", sans-serif;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      }
-      .tbtn:hover {
-        background: #16a34a;
-        transform: scale(1.05);
-      }
-    </style>
+    <!-- Optional dropdown launcher -->
+    <label for="langPick" style="font-weight:600;">🌍 Open in your language (picker):</label>
+    <select id="langPick" style="margin:0 8px;">
+      <option value="">Select…</option>
+      <option value="ha">Hausa</option>
+      <option value="yo">Yoruba</option>
+      <option value="ig">Igbo</option>
+      <option value="fr">French</option>
+    </select>
+    <button id="openLang" class="tbtn" type="button">Open</button>
   </div>
 
-  <!-- 🌿 Your form stays right below -->
+  <!-- Embedded form BELOW -->
   <div id="formContainer" style="margin-top:10px;">
-    <iframe src="https://tally.so/r/w2QbOV"
-      width="100%" height="800" frameborder="0"
-      marginheight="0" marginwidth="0"
-      title="SpeakOut MindCheck"></iframe>
+    <iframe
+      src="https://tally.so/r/w2QbOV"
+      title="SpeakOut MindCheck form"
+      loading="lazy"
+      referrerpolicy="no-referrer"></iframe>
   </div>
 
-  <!-- 🔁 Keep the rest: your Google Translate script, button JS, etc. -->
-</body>
-
-  <!-- Form Container -->
-  <div id="formContainer">
-    <iframe src="https://tally.so/r/w2QbOV" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0" title="MindCheck"></iframe>
-    <label for="langPick" style="font-weight:600;">🌍 Open in your language:</label>
-<select id="langPick" style="margin:0 8px 0 8px;">
-  <option value="">Select…</option>
-  <option value="ha">Hausa</option>
-  <option value="yo">Yoruba</option>
-  <option value="ig">Igbo</option>
-  <option value="fr">French</option>
-</select>
-<button id="openLang" style="background:#22c55e;color:#fff;border:none;border-radius:8px;padding:8px 12px;">
-  Open
-</button>
-
-<script>
-  const formURL = 'https://tally.so/r/w2QbOV'; // e.g. https://tally.so/r/w2QbOV
-  document.getElementById('openLang').addEventListener('click', () => {
-    const tl = document.getElementById('langPick').value;
-    if(!tl) return;
-    const u = 'https://translate.google.com/translate?sl=auto&tl=' + tl + '&u=' + encodeURIComponent(formURL);
-    window.open(u, '_blank', 'noopener');
-  });
-</script>
-
-  </div>
-
-  <!-- Google Translate Widget -->
-  <div id="google_translate_element"></div>
-  <script type="text/javascript">
+  <!-- Google Translate Widget (for your site text; if you prefer only the buttons, you can remove this) -->
+  <div id="google_translate_element" aria-label="Translate this page"></div>
+  <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement(
-        {
-          pageLanguage: 'en',
-          includedLanguages: 'en,ha,yo,ig,pcm,fr,sw,ar',
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-        },
+        { pageLanguage: 'en', includedLanguages: 'en,ha,yo,ig,pcm,fr,sw,ar', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
         'google_translate_element'
       );
     }
   </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-  <!-- Fade-in Logic -->
+  <!-- Logic scripts -->
   <script>
+    // Reveal embedded form after click
     const btn = document.getElementById('startBtn');
     const form = document.getElementById('formContainer');
-    btn.addEventListener('click', () => {
-      btn.style.display = 'none';
-      form.style.display = 'block';
+    btn.addEventListener('click', () => { btn.style.display='none'; form.style.display='block'; });
+
+    // Language picker → open translated in new tab
+    const formURL = 'https://tally.so/r/w2QbOV';
+    document.getElementById('openLang').addEventListener('click', () => {
+      const tl = document.getElementById('langPick').value;
+      if(!tl) return;
+      const u = 'https://translate.google.com/translate?sl=auto&tl=' + tl + '&u=' + encodeURIComponent(formURL + '?language=' + tl);
+      window.open(u, '_blank', 'noopener');
     });
   </script>
 </body>
