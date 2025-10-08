@@ -67,6 +67,53 @@
 
   <!-- Start Button -->
   <button id="startBtn">Start Now</button>
+<body>
+  <header>🧠 SpeakOut MindCheck Nigeria</header>
+  <p>Check your mental health privately, safely, and in your preferred language.</p>
+
+  <!-- ✅ Keep your Start Now button if you already have it -->
+  <button id="startBtn">Start Now</button>
+
+  <!-- 🌍 ADD THIS NEW SECTION right before your form -->
+  <div style="margin-top:30px; text-align:center;">
+    <p style="font-size:1.1rem; font-weight:600;">🌍 Open in your language:</p>
+
+    <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
+      <a class="tbtn" href="https://tally.so/r/YOUR_FORM_ID" target="_blank" rel="noopener">English</a>
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ha&u=https%3A%2F%2Ftally.so%2Fr%2FYOUR_FORM_ID" target="_blank" rel="noopener">Hausa</a>
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=yo&u=https%3A%2F%2Ftally.so%2Fr%2FYOUR_FORM_ID" target="_blank" rel="noopener">Yoruba</a>
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ig&u=https%3A%2F%2Ftally.so%2Fr%2FYOUR_FORM_ID" target="_blank" rel="noopener">Igbo</a>
+      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=fr&u=https%3A%2F%2Ftally.so%2Fr%2FYOUR_FORM_ID" target="_blank" rel="noopener">French</a>
+    </div>
+
+    <style>
+      .tbtn {
+        background: #22c55e;
+        color: white;
+        padding: 10px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+      .tbtn:hover {
+        background: #16a34a;
+        transform: scale(1.05);
+      }
+    </style>
+  </div>
+
+  <!-- 🌿 Your form stays right below -->
+  <div id="formContainer" style="margin-top:10px;">
+    <iframe src="https://tally.so/r/YOUR_FORM_ID"
+      width="100%" height="800" frameborder="0"
+      marginheight="0" marginwidth="0"
+      title="SpeakOut MindCheck"></iframe>
+  </div>
+
+  <!-- 🔁 Keep the rest: your Google Translate script, button JS, etc. -->
+</body>
 
   <!-- Form Container -->
   <div id="formContainer">
