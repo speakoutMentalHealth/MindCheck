@@ -71,12 +71,27 @@
   <!-- Form Container -->
   <div id="formContainer">
     <iframe src="https://tally.so/r/w2QbOV" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0" title="MindCheck"></iframe>
-    <a href="https://tally.so/r/w2QbOV" target="_blank"
-style="display:inline-block;margin-top:20px;background:#22c55e;color:#fff;padding:12px 25px;border-radius:8px;
-font-weight:600;text-decoration:none;font-family:Inter,sans-serif;transition:all .3s;">
-🌍 Open in your language (new tab)
-</a>
+    <label for="langPick" style="font-weight:600;">🌍 Open in your language:</label>
+<select id="langPick" style="margin:0 8px 0 8px;">
+  <option value="">Select…</option>
+  <option value="ha">Hausa</option>
+  <option value="yo">Yoruba</option>
+  <option value="ig">Igbo</option>
+  <option value="fr">French</option>
+</select>
+<button id="openLang" style="background:#22c55e;color:#fff;border:none;border-radius:8px;padding:8px 12px;">
+  Open
+</button>
 
+<script>
+  const formURL = 'https://tally.so/r/w2QbOV'; // e.g. https://tally.so/r/w2QbOV
+  document.getElementById('openLang').addEventListener('click', () => {
+    const tl = document.getElementById('langPick').value;
+    if(!tl) return;
+    const u = 'https://translate.google.com/translate?sl=auto&tl=' + tl + '&u=' + encodeURIComponent(formURL);
+    window.open(u, '_blank', 'noopener');
+  });
+</script>
 
   </div>
 
