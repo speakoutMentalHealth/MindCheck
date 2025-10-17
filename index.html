@@ -22,6 +22,7 @@
     #formContainer { display: none; margin-top: 16px; animation: fadeIn .8s ease-in-out; }
     iframe { width: 100%; height: 800px; border: 0; border-radius: 12px; background: #fff; }
     @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
     /* Language buttons */
     .lang { margin: 18px 0 6px; }
     .twrap { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
@@ -30,11 +31,7 @@
       transition:.2s; display:inline-block;
     }
     .tbtn:hover { background: var(--greenDark); transform: scale(1.03); }
-    /* Translate widget (optional top-right) */
-    #google_translate_element {
-      position: fixed; top: 10px; right: 10px; z-index: 9999; background: var(--green);
-      padding: 6px 10px; border-radius: 8px; color: white; font-weight: 600;
-    }
+
     /* Accessibility focus */
     :focus-visible { outline: 3px solid #062436; outline-offset: 3px; }
     .skip {
@@ -55,16 +52,13 @@
   <div class="lang" role="navigation" aria-label="Language options">
     <p style="font-weight:700; margin:0 0 6px;">🌍 Open in your language:</p>
     <div class="twrap">
-      <!-- Plain English link -->
+      <!-- Direct Tally links per language -->
       <a class="tbtn" href="https://tally.so/r/w2QbOV?language=en" target="_blank" rel="noopener">English</a>
-      <!-- Google Translate wrapper links (URL-encoded target) -->
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ha&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dha" target="_blank" rel="noopener">Hausa</a>
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=yo&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dyo" target="_blank" rel="noopener">Yoruba</a>
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=ig&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dig" target="_blank" rel="noopener">Igbo</a>
-      <a class="tbtn" href="https://translate.google.com/translate?sl=auto&tl=fr&u=https%3A%2F%2Ftally.so%2Fr%2Fw2QbOV%3Flanguage%3Dfr" target="_blank" rel="noopener">French</a>
+      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=ha" target="_blank" rel="noopener">Hausa</a>
+      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=yo" target="_blank" rel="noopener">Yoruba</a>
+      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=ig" target="_blank" rel="noopener">Igbo</a>
+      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=fr" target="_blank" rel="noopener">French</a>
     </div>
-
-    
   </div>
 
   <!-- Embedded form BELOW -->
@@ -76,40 +70,18 @@
       referrerpolicy="no-referrer"></iframe>
   </div>
 
-  <!-- Google Translate Widget (for your site text; if you prefer only the buttons, you can remove this) -->
- 
+  <!-- Logic script (only for the Start button) -->
   <script>
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement(
-        { pageLanguage: 'en', includedLanguages: 'en,ha,yo,ig,pcm,fr,sw,ar', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
-        'google_translate_element'
-      );
-    }
-  </script>
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-  <!-- Logic scripts -->
-  <script>
-    // Reveal embedded form after click
     const btn = document.getElementById('startBtn');
     const form = document.getElementById('formContainer');
     btn.addEventListener('click', () => { btn.style.display='none'; form.style.display='block'; });
-
-    // Language picker → open translated in new tab
-    const formURL = 'https://tally.so/r/w2QbOV';
-    document.getElementById('openLang').addEventListener('click', () => {
-      const tl = document.getElementById('langPick').value;
-      if(!tl) return;
-      const u = 'https://translate.google.com/translate?sl=auto&tl=' + tl + '&u=' + encodeURIComponent(formURL + '?language=' + tl);
-      window.open(u, '_blank', 'noopener');
-    });
   </script>
-  <footer style="margin:28px 0 40px; font-size:.95rem; opacity:.9;">
-  🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
-  📄 <a href="/MindCheck/terms.html">Terms</a> •
-  ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a> •
-  🚨 If you feel unsafe, call <a href="tel:112"><b>112</b></a> or <a href="tel:+2348118103510">+234 811 810 3510</a>.
-</footer>
 
+  <footer style="margin:28px 0 40px; font-size:.95rem; opacity:.9;">
+    🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
+    📄 <a href="/MindCheck/terms.html">Terms</a> •
+    ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a> •
+    🚨 If you feel unsafe, call <a href="tel:112"><b>112</b></a> or <a href="tel:+2348118103510">+234 811 810 3510</a>.
+  </footer>
 </body>
 </html>
