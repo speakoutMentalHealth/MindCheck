@@ -29,11 +29,27 @@
     }
     #startBtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.02); }
 
-    #formContainer { display: none; margin-top: 16px; animation: fadeIn .8s ease-in-out; }
-    iframe { width: 100%; height: 800px; border: 0; border-radius: 12px; background: #fff; }
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    #formContainer, .lang {
+      display: none; 
+      opacity: 0;
+      animation: fadeIn .8s ease-in-out forwards;
+    }
 
-    .lang { margin: 20px 0 6px; }
+    iframe {
+      width: 100%;
+      height: 800px;
+      border: 0;
+      border-radius: 12px;
+      background: #fff;
+      margin-top: 10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lang { margin: 22px 0 8px; }
     .twrap {
       display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;
     }
@@ -75,7 +91,6 @@
       margin: 28px 0 40px; font-size:.95rem; opacity:.9;
     }
     footer a { color:inherit; }
-
   </style>
 </head>
 <body>
@@ -84,7 +99,8 @@
 
   <button id="startBtn" type="button">Start Now</button>
 
-  <div class="lang">
+  <!-- Hidden language section (appears after Start Now) -->
+  <div class="lang" id="langSection">
     <p style="font-weight:700; margin:0 0 8px;">🌍 Open in your language:</p>
     <div class="twrap">
       <a class="tbtn live" href="https://tally.so/r/w2QbOV?language=en" target="_blank">English</a>
@@ -96,6 +112,7 @@
     </div>
   </div>
 
+  <!-- Hidden form -->
   <div id="formContainer">
     <iframe src="https://tally.so/r/w2QbOV" title="SpeakOut MindCheck form" loading="lazy" referrerpolicy="no-referrer"></iframe>
   </div>
@@ -108,12 +125,20 @@
   </footer>
 
   <script>
-    const btn=document.getElementById('startBtn');
-    const form=document.getElementById('formContainer');
-    btn.addEventListener('click',()=>{
-      btn.style.display='none';
-      form.style.display='block';
-      form.scrollIntoView({behavior:'smooth'});
+    const btn = document.getElementById('startBtn');
+    const form = document.getElementById('formContainer');
+    const lang = document.getElementById('langSection');
+
+    btn.addEventListener('click', () => {
+      btn.style.display = 'none';
+      form.style.display = 'block';
+      lang.style.display = 'block';
+      // Fade in animation
+      setTimeout(() => {
+        form.style.opacity = 1;
+        lang.style.opacity = 1;
+      }, 100);
+      form.scrollIntoView({ behavior: 'smooth' });
     });
   </script>
 </body>
