@@ -6,7 +6,7 @@
   <title>SpeakOut MindCheck 💚</title>
   <link rel="icon" type="image/png" href="favicon.png" />
   <style>
-    :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; }
+    :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; --gray:#cbd5e1; }
     *{box-sizing:border-box}
     body {
       font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -32,6 +32,11 @@
     }
     .tbtn:hover { background: var(--greenDark); transform: scale(1.03); }
 
+    /* Disabled (Coming Soon) button */
+    .tbtn.disabled {
+      background: var(--gray); color:#555; cursor:not-allowed; pointer-events:none;
+    }
+
     /* Accessibility focus */
     :focus-visible { outline: 3px solid #062436; outline-offset: 3px; }
     .skip {
@@ -52,12 +57,13 @@
   <div class="lang" role="navigation" aria-label="Language options">
     <p style="font-weight:700; margin:0 0 6px;">🌍 Open in your language:</p>
     <div class="twrap">
-      <!-- Direct Tally links per language -->
+      <!-- English is live -->
       <a class="tbtn" href="https://tally.so/r/w2QbOV?language=en" target="_blank" rel="noopener">English</a>
-      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=ha" target="_blank" rel="noopener">Hausa</a>
-      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=yo" target="_blank" rel="noopener">Yoruba</a>
-      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=ig" target="_blank" rel="noopener">Igbo</a>
-      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=fr" target="_blank" rel="noopener">French</a>
+      <!-- Others show Coming Soon -->
+      <span class="tbtn disabled">Hausa — Coming Soon</span>
+      <span class="tbtn disabled">Yoruba — Coming Soon</span>
+      <span class="tbtn disabled">Igbo — Coming Soon</span>
+      <span class="tbtn disabled">French — Coming Soon</span>
     </div>
   </div>
 
@@ -70,7 +76,7 @@
       referrerpolicy="no-referrer"></iframe>
   </div>
 
-  <!-- Logic script (only for the Start button) -->
+  <!-- Logic script -->
   <script>
     const btn = document.getElementById('startBtn');
     const form = document.getElementById('formContainer');
