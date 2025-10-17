@@ -8,103 +8,98 @@
   <style>
     :root {
       --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
-      --gray:#d1d5db; --muted:#6b7280;
+      --gray:#d1d5db; --bg:#f5fdf8;
     }
     body {
       font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #f5fdf8; color: var(--ink); text-align: center; margin: 0;
+      background: var(--bg); color: var(--ink);
+      text-align: center; margin: 0; padding: 0;
     }
     header {
-      background: var(--green);
-      color: #fff; padding: 1rem; font-size: 1.6rem; font-weight: 800;
+      background: var(--green); color: #fff;
+      padding: 1.2rem; font-size: 1.6rem; font-weight: 800;
     }
     p { margin: .75rem 0; }
 
+    /* Step 1: Start Button */
     #startBtn {
-      background: var(--green); color: #fff; border: none;
-      padding: 15px 35px; border-radius: 40px;
-      font-size: 1.1rem; cursor: pointer; margin-top: 24px;
-      transition: .2s;
-      box-shadow: 0 6px 20px rgba(34,197,94,0.3);
+      background: var(--green); color: #fff;
+      border: none; padding: 15px 35px;
+      border-radius: 40px; font-size: 1.1rem;
+      cursor: pointer; margin-top: 24px;
+      transition: .2s ease; box-shadow: 0 6px 20px rgba(34,197,94,0.3);
     }
     #startBtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.02); }
 
-    #formContainer, .lang {
-      display: none; 
-      opacity: 0;
-      animation: fadeIn .8s ease-in-out forwards;
-    }
-
-    iframe {
-      width: 100%;
-      height: 800px;
-      border: 0;
-      border-radius: 12px;
-      background: #fff;
-      margin-top: 10px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .lang { margin: 22px 0 8px; }
+    /* Step 2: Language section */
+    #langSection { display: none; margin-top: 22px; animation: fadeIn .8s ease-in-out; }
     .twrap {
-      display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;
+      display:flex; justify-content:center; flex-wrap:wrap;
+      gap:12px; margin-top:10px;
     }
-
     .tbtn {
-      background: var(--green);
-      color:#fff; padding:10px 18px; border-radius:10px;
-      text-decoration:none; font-weight:700;
-      transition:.2s ease; display:inline-flex; align-items:center; gap:6px;
+      background: var(--green); color:#fff;
+      padding:10px 18px; border-radius:10px; text-decoration:none;
+      font-weight:700; transition:.2s ease; display:inline-flex;
+      align-items:center; gap:6px;
       box-shadow: 0 4px 15px rgba(34,197,94,0.25);
+      cursor:pointer;
     }
     .tbtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.03); }
 
-    /* Pulse for English (live) */
+    /* English active pulse */
     .tbtn.live { animation: pulse 2s infinite; }
     @keyframes pulse {
       0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}
       50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}
     }
 
-    /* Coming Soon buttons */
+    /* Coming soon style */
     .tbtn.soon {
       background: linear-gradient(145deg, #a7f3d0, #6ee7b7);
-      color:#064e3b; cursor: default; box-shadow: 0 2px 8px rgba(6,78,59,.2);
+      color:#064e3b; cursor: default;
       position: relative;
     }
-    .tbtn.soon:hover { transform: translateY(-1px) scale(1.02); }
-
     .tbtn.soon::after {
       content: attr(data-tooltip);
       position:absolute; bottom:125%; left:50%; transform:translateX(-50%);
-      background:#062436; color:#fff; padding:6px 10px; border-radius:6px;
-      white-space:nowrap; font-size:.8rem; opacity:0; transition:opacity .3s;
-      box-shadow:0 3px 8px rgba(0,0,0,.15);
+      background:#062436; color:#fff; padding:6px 10px;
+      border-radius:6px; font-size:.8rem; white-space:nowrap;
+      opacity:0; transition:opacity .3s; box-shadow:0 3px 8px rgba(0,0,0,.15);
     }
     .tbtn.soon:hover::after { opacity:1; }
+
+    /* Step 3: Form */
+    #formContainer {
+      display: none; margin-top: 20px;
+      animation: fadeIn .8s ease-in-out;
+    }
+    iframe {
+      width: 100%; height: 800px; border: 0; border-radius: 12px;
+      background: #fff;
+    }
+
+    /* Animation */
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
     footer {
       margin: 28px 0 40px; font-size:.95rem; opacity:.9;
     }
-    footer a { color:inherit; }
+    footer a { color: inherit; }
   </style>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
   <p>Check your mental health privately, safely, and in your preferred language.</p>
 
+  <!-- Step 1: Start -->
   <button id="startBtn" type="button">Start Now</button>
 
-  <!-- Hidden language section (appears after Start Now) -->
-  <div class="lang" id="langSection">
-    <p style="font-weight:700; margin:0 0 8px;">🌍 Open in your language:</p>
+  <!-- Step 2: Language Options -->
+  <div id="langSection">
+    <p style="font-weight:700;">🌍 Choose your language:</p>
     <div class="twrap">
-      <a class="tbtn live" href="https://tally.so/r/w2QbOV?language=en" target="_blank">English</a>
-
+      <button class="tbtn live" data-lang="en">English</button>
       <span class="tbtn soon" data-tooltip="Launching soon in Hausa">🕓 Hausa — Coming Soon</span>
       <span class="tbtn soon" data-tooltip="Launching soon in Yoruba">🕓 Yoruba — Coming Soon</span>
       <span class="tbtn soon" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
@@ -112,9 +107,13 @@
     </div>
   </div>
 
-  <!-- Hidden form -->
+  <!-- Step 3: Embedded Form -->
   <div id="formContainer">
-    <iframe src="https://tally.so/r/w2QbOV" title="SpeakOut MindCheck form" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    <iframe id="formFrame"
+      src=""
+      title="SpeakOut MindCheck form"
+      loading="lazy"
+      referrerpolicy="no-referrer"></iframe>
   </div>
 
   <footer>
@@ -125,20 +124,28 @@
   </footer>
 
   <script>
-    const btn = document.getElementById('startBtn');
-    const form = document.getElementById('formContainer');
-    const lang = document.getElementById('langSection');
+    const startBtn = document.getElementById('startBtn');
+    const langSection = document.getElementById('langSection');
+    const formContainer = document.getElementById('formContainer');
+    const formFrame = document.getElementById('formFrame');
 
-    btn.addEventListener('click', () => {
-      btn.style.display = 'none';
-      form.style.display = 'block';
-      lang.style.display = 'block';
-      // Fade in animation
-      setTimeout(() => {
-        form.style.opacity = 1;
-        lang.style.opacity = 1;
-      }, 100);
-      form.scrollIntoView({ behavior: 'smooth' });
+    // Step 1 → Step 2
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      langSection.style.display = 'block';
+      langSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Step 2 → Step 3
+    document.querySelectorAll('.tbtn.live').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        const formURL = `https://tally.so/r/w2QbOV?language=${lang}`;
+        formFrame.src = formURL;
+        langSection.style.display = 'none';
+        formContainer.style.display = 'block';
+        formContainer.scrollIntoView({ behavior: 'smooth' });
+      });
     });
   </script>
 </body>
