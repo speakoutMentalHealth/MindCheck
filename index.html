@@ -1,93 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Essential Meta -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#22c55e" />
+  <meta name="description" content="SpeakOut MindCheck — a quick, private mental health self-check for Nigeria. Start in English; more languages launching soon." />
+
   <title>SpeakOut MindCheck 💚</title>
   <link rel="icon" type="image/png" href="favicon.png" />
+
+  <!-- Performance Hints -->
+  <link rel="preconnect" href="https://tally.so" crossorigin />
+  <link rel="dns-prefetch" href="//tally.so" />
+
+  <!-- Canonical (adjust to your live URL) -->
+  <link rel="canonical" href="https://speakout.ng/MindCheck" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="SpeakOut MindCheck 💚" />
+  <meta property="og:description" content="A quick, private mental health self-check. Start in English; more languages launching soon." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://speakout.ng/MindCheck" />
+  <meta property="og:image" content="https://speakout.ng/MindCheck/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SpeakOut MindCheck 💚" />
+  <meta name="twitter:description" content="A quick, private mental health self-check. Start in English; more languages launching soon." />
+  <meta name="twitter:image" content="https://speakout.ng/MindCheck/og-image.png" />
+
   <style>
-    :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; --gray:#cbd5e1; }
+    :root{
+      --green:#22c55e; --greenDark:#16a34a; --ink:#062436; --inkSoft:#0b3249;
+      --bg:#f5fdf8; --card:#ffffff; --muted:#6b7280; --gray:#d1d5db;
+      --ring:#062436; --shadow:0 10px 30px rgba(6,36,54,.08);
+      --radius:14px;
+    }
+    /* Dark mode */
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#071b23; --card:#0e2732; --ink:#e6f4f1; --inkSoft:#d2ece6;
+        --muted:#b7c8cf; --gray:#374151; --shadow:0 10px 30px rgba(0,0,0,.35);
+      }
+    }
+
     *{box-sizing:border-box}
-    body {
-      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: #f5fdf8; color: var(--ink); text-align: center; margin: 0;
+    html,body{height:100%}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Inter", Arial, sans-serif;
+      background: var(--bg); color: var(--ink); margin:0; text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-    header { background: var(--green); color: #fff; padding: 1rem; font-size: 1.5rem; font-weight: 800; }
-    p { margin: .75rem 0; }
-    #startBtn {
-      background: var(--green); color: #fff; border: none; padding: 15px 35px; border-radius: 40px;
-      font-size: 1.1rem; cursor: pointer; margin-top: 24px; transition: .2s;
-    }
-    #startBtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.02); }
-    #formContainer { display: none; margin-top: 16px; animation: fadeIn .8s ease-in-out; }
-    iframe { width: 100%; height: 800px; border: 0; border-radius: 12px; background: #fff; }
-    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
-    /* Language buttons */
-    .lang { margin: 18px 0 6px; }
-    .twrap { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:12px; }
-    .tbtn {
-      background: var(--green); color:#fff; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:700;
-      transition:.2s; display:inline-block;
+    /* Layout shell */
+    .wrap{
+      max-width: 980px; margin: 0 auto; padding: 16px;
     }
-    .tbtn:hover { background: var(--greenDark); transform: scale(1.03); }
 
-    /* Disabled (Coming Soon) button */
-    .tbtn.disabled {
+    header{
+      background: linear-gradient(135deg, var(--green), var(--greenDark));
+      color:#fff; padding: 20px 16px; text-align:center; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    header h1{margin:0; font-size: clamp(1.25rem, 1rem + 1.8vw, 2rem); font-weight: 900; letter-spacing:.2px}
+    header p{margin:.5rem 0 0; opacity:.95; font-weight:600}
+
+    main{padding: 22px 0 10px}
+    .card{
+      background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: clamp(16px, 3vw, 28px); text-align:center;
+    }
+    .lead{margin:.25rem 0 1rem; color: var(--inkSoft)}
+
+    /* CTA */
+    #startBtn{
+      background: var(--green); color:#fff; border:none; padding: 15px 36px; border-radius: 999px;
+      font-size: 1.05rem; font-weight:800; cursor:pointer; transition:.2s transform, .2s background;
+      box-shadow: 0 8px 24px rgba(34,197,94,.25);
+    }
+    #startBtn:hover{ background: var(--greenDark); transform: translateY(-1px) scale(1.02); }
+    #startBtn:active{ transform: translateY(0) scale(.99); }
+
+    /* Section: Languages */
+    .lang{ margin: 18px 0 8px; }
+    .lang h2{
+      margin: 0 0 8px; font-size: 1rem; letter-spacing:.2px; color: var(--muted);
+    }
+    .twrap{
+      display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:6px;
+    }
+    .tbtn{
+      background: var(--green); color:#fff; padding:10px 16px; border-radius:10px; text-decoration:none; font-weight:800;
+      transition:.2s transform, .2s background, .2s box-shadow; display:inline-block; position:relative; line-height:1;
+      box-shadow: 0 6px 18px rgba(34,197,94,.18);
+    }
+    .tbtn:hover{ background: var(--greenDark); transform: translateY(-1px); }
+    .tbtn:focus-visible{ outline: 3px solid var(--ring); outline-offset: 3px; }
+
+    /* Pulse the live language to draw attention */
+    .tbtn.live{ animation: pulse 2.2s ease-in-out infinite; }
+    @keyframes pulse{
+      0%,100%{ box-shadow: 0 0 0 0 rgba(34,197,94,.35); transform: translateY(0) }
+      50%{ box-shadow: 0 0 0 12px rgba(34,197,94,0); transform: translateY(-1px) }
+    }
+
+    /* Coming Soon buttons (disabled) */
+    .tbtn.disabled{
       background: var(--gray); color:#555; cursor:not-allowed; pointer-events:none;
+      opacity:0; animation: fadeUp 1.2s ease forwards;
+      box-shadow:none; font-weight:800;
+    }
+    @media (prefers-color-scheme: dark){
+      .tbtn.disabled{ color:#9fb0b8; }
+    }
+    @keyframes fadeUp{
+      from{ opacity:0; transform: translateY(8px) }
+      to{ opacity:1; transform: translateY(0) }
+    }
+    .tbtn.disabled[data-delay="1"]{ animation-delay:.3s }
+    .tbtn.disabled[data-delay="2"]{ animation-delay:.6s }
+    .tbtn.disabled[data-delay="3"]{ animation-delay:.9s }
+    .tbtn.disabled[data-delay="4"]{ animation-delay:1.2s }
+
+    /* Tooltips (pure CSS) */
+    .tbtn.disabled::after{
+      content: attr(data-tooltip);
+      position:absolute; bottom: 135%; left:50%; transform:translateX(-50%);
+      background: var(--ink); color:#fff; padding:6px 10px; border-radius:8px; font-size:.8rem; white-space:nowrap;
+      opacity:0; transition: opacity .25s ease; pointer-events:none;
+      box-shadow: var(--shadow);
+    }
+    .tbtn.disabled:hover::after{ opacity:1; }
+
+    /* Reduced motion: disable non-essential animations */
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after{ animation: none !important; transition: none !important; }
     }
 
-    /* Accessibility focus */
-    :focus-visible { outline: 3px solid #062436; outline-offset: 3px; }
-    .skip {
+    /* Embedded form */
+    #formContainer{ display:none; margin-top: 14px; }
+    .frameWrap{
+      border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); background: var(--card);
+    }
+    iframe{
+      width:100%; height: 80vh; min-height: 720px; border:0; display:block;
+    }
+
+    /* Footer */
+    footer{
+      margin: 28px 0 40px; font-size:.95rem; opacity:.9; text-align:center;
+    }
+    footer a{ color: inherit }
+    .skip{
       position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden;
     }
-    .skip:focus { position:static; width:auto; height:auto; padding:8px 12px; background:#fff; border:2px solid var(--green); border-radius:8px; display:inline-block; margin:8px auto; }
+    .skip:focus{
+      position:static; width:auto; height:auto; padding:8px 12px; background:#fff;
+      border:2px solid var(--green); border-radius:8px; display:inline-block; margin:8px auto;
+    }
   </style>
 </head>
 <body>
   <a class="skip" href="#formContainer">Skip to form</a>
-  <header>🧠 SpeakOut MindCheck Nigeria</header>
-  <p>Check your mental health privately, safely, and in your preferred language.</p>
 
-  <!-- Start button -->
-  <button id="startBtn" type="button" aria-controls="formContainer" aria-label="Start the SpeakOut MindCheck form">Start Now</button>
-
-  <!-- Language buttons ABOVE the form -->
-  <div class="lang" role="navigation" aria-label="Language options">
-    <p style="font-weight:700; margin:0 0 6px;">🌍 Open in your language:</p>
-    <div class="twrap">
-      <!-- English is live -->
-      <a class="tbtn" href="https://tally.so/r/w2QbOV?language=en" target="_blank" rel="noopener">English</a>
-      <!-- Others show Coming Soon -->
-      <span class="tbtn disabled">Hausa — Coming Soon</span>
-      <span class="tbtn disabled">Yoruba — Coming Soon</span>
-      <span class="tbtn disabled">Igbo — Coming Soon</span>
-      <span class="tbtn disabled">French — Coming Soon</span>
+  <header role="banner">
+    <div class="wrap">
+      <h1>🧠 SpeakOut MindCheck Nigeria</h1>
+      <p aria-live="polite">Check your mental health privately, safely, and in your preferred language.</p>
     </div>
-  </div>
+  </header>
 
-  <!-- Embedded form BELOW -->
-  <div id="formContainer" style="margin-top:10px;">
-    <iframe
-      src="https://tally.so/r/w2QbOV"
-      title="SpeakOut MindCheck form"
-      loading="lazy"
-      referrerpolicy="no-referrer"></iframe>
-  </div>
+  <main class="wrap" id="content" role="main">
+    <section class="card" aria-labelledby="start-title">
+      <h2 id="start-title" class="sr-only" style="position:absolute;left:-9999px;">Start MindCheck</h2>
+      <p class="lead">Takes about 3–5 minutes. Your responses are confidential.</p>
 
-  <!-- Logic script -->
-  <script>
-    const btn = document.getElementById('startBtn');
-    const form = document.getElementById('formContainer');
-    btn.addEventListener('click', () => { btn.style.display='none'; form.style.display='block'; });
-  </script>
+      <button id="startBtn" type="button" aria-controls="formContainer" aria-label="Start the SpeakOut MindCheck form">
+        Start Now
+      </button>
 
-  <footer style="margin:28px 0 40px; font-size:.95rem; opacity:.9;">
+      <div class="lang" role="navigation" aria-label="Language options">
+        <h2>🌍 Open in your language</h2>
+        <div class="twrap">
+          <!-- Live language -->
+          <a class="tbtn live" href="https://tally.so/r/w2QbOV?language=en" target="_blank" rel="noopener" aria-label="Open the MindCheck form in English">
+            English
+          </a>
+
+          <!-- Coming soon (accessible as disabled buttons) -->
+          <span class="tbtn disabled" role="button" aria-disabled="true" data-delay="1" data-tooltip="Launching soon in Hausa">
+            Hausa — Coming Soon
+          </span>
+          <span class="tbtn disabled" role="button" aria-disabled="true" data-delay="2" data-tooltip="Launching soon in Yoruba">
+            Yoruba — Coming Soon
+          </span>
+          <span class="tbtn disabled" role="button" aria-disabled="true" data-delay="3" data-tooltip="Launching soon in Igbo">
+            Igbo — Coming Soon
+          </span>
+          <span class="tbtn disabled" role="button" aria-disabled="true" data-delay="4" data-tooltip="Launching soon in French">
+            French — Coming Soon
+          </span>
+        </div>
+      </div>
+
+      <!-- Embedded form -->
+      <div id="formContainer" class="frameWrap" style="margin-top:12px;" aria-live="polite">
+        <iframe
+          src="https://tally.so/r/w2QbOV"
+          title="SpeakOut MindCheck form"
+          loading="lazy"
+          referrerpolicy="no-referrer">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
     🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
     📄 <a href="/MindCheck/terms.html">Terms</a> •
     ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a> •
     🚨 If you feel unsafe, call <a href="tel:112"><b>112</b></a> or <a href="tel:+2348118103510">+234 811 810 3510</a>.
+    <noscript><br/>Note: JavaScript is disabled — click “English” above to open the form in a new tab.</noscript>
   </footer>
+
+  <script>
+    // Small enhancements:
+    // 1) Reveal embedded form when "Start" is clicked
+    // 2) Support deep-link open: #start or ?open=1 to auto-open the embedded form
+    (function(){
+      const btn = document.getElementById('startBtn');
+      const form = document.getElementById('formContainer');
+
+      function openForm(){
+        if(btn) btn.style.display = 'none';
+        if(form) form.style.display = 'block';
+        // Scroll the form into view smoothly (respects reduced motion)
+        form?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      btn?.addEventListener('click', openForm);
+
+      const params = new URLSearchParams(window.location.search);
+      const shouldOpen = params.has('open') || window.location.hash.replace('#','').toLowerCase() === 'start';
+      if(shouldOpen) openForm();
+    })();
+  </script>
 </body>
 </html>
