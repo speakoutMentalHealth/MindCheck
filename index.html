@@ -1,3 +1,4 @@
+<!-- ✅ SpeakOut MindCheck with Simple Stats -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,45 +32,9 @@
     .btn-primary:hover { background: var(--greenDark); }
     .btn-ghost { background: #fff; border: 1px solid #e5e7eb; }
 
-    /* Start */
-    #startBtn {
-      margin-top: 24px;
-    }
-
     /* Sections */
     section { display: none; padding: 16px; animation: fadeIn .35s ease-in-out; }
     section.active { display: block; }
-
-    /* Language */
-    .twrap {
-      display:flex; justify-content:center; flex-wrap:wrap;
-      gap:12px; margin-top:10px;
-    }
-    .tbtn {
-      background: var(--green); color:#fff;
-      padding:10px 18px; border-radius:10px; text-decoration:none;
-      font-weight:700; transition:.2s ease; display:inline-flex;
-      align-items:center; gap:6px; cursor:pointer;
-      box-shadow: 0 4px 15px rgba(34,197,94,0.25);
-    }
-    .tbtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.03); }
-    .tbtn.live { animation: pulse 2s infinite; }
-    @keyframes pulse {
-      0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}
-      50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}
-    }
-    .tbtn.soon {
-      background: linear-gradient(145deg, #a7f3d0, #6ee7b7);
-      color:#064e3b; cursor: default; position: relative;
-    }
-    .tbtn.soon::after {
-      content: attr(data-tooltip);
-      position:absolute; bottom:125%; left:50%; transform:translateX(-50%);
-      background:#062436; color:#fff; padding:6px 10px;
-      border-radius:6px; font-size:.8rem; white-space:nowrap;
-      opacity:0; transition:opacity .3s; box-shadow:0 3px 8px rgba(0,0,0,.15);
-    }
-    .tbtn.soon:hover::after { opacity:1; }
 
     /* Home grid */
     .grid {
@@ -91,22 +56,13 @@
     .mood { font-size:28px; background:#fff; border:1px solid #ddd; border-radius:12px; padding:10px 12px; cursor:pointer; }
     .result { background:#f0f7ff; border:1px solid #cfe3ff; border-radius:10px; padding:12px; margin:12px auto; max-width:520px; }
 
-    /* Form iframe */
-    iframe {
-      width: 100%; height: 800px; border: 0; border-radius: 12px;
-      background: #fff;
-    }
-
-    /* Anim */
+    /* Animation */
     @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
     footer {
       margin: 28px 0 40px; font-size:.95rem; opacity:.9;
     }
     footer a { color: inherit; }
-
-    /* Utility */
-    .top-note { color:#334155; margin-top:8px; }
     .toolbar { display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap: wrap; }
   </style>
 </head>
@@ -117,62 +73,47 @@
   <!-- Step 1: Start -->
   <button id="startBtn" type="button" class="btn btn-primary">Start Now</button>
 
-  <!-- Step 2: Language Options -->
+  <!-- Step 2: Language -->
   <section id="langSection">
-    <p style="font-weight:700;">🌍 Choose your language:</p>
-    <div class="twrap">
-      <button class="tbtn live" data-lang="en">English</button>
-      <span class="tbtn soon" data-tooltip="Launching soon in Hausa">🕓 Hausa — Coming Soon</span>
-      <span class="tbtn soon" data-tooltip="Launching soon in Yoruba">🕓 Yoruba — Coming Soon</span>
-      <span class="tbtn soon" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
-      <span class="tbtn soon" data-tooltip="Launching soon in French">🕓 French — Coming Soon</span>
+    <p><b>🌍 Choose your language:</b></p>
+    <div>
+      <button class="btn btn-primary" id="langEnglish">English</button>
     </div>
-    <p class="top-note">You can change language later from your browser settings when we add more.</p>
   </section>
 
-  <!-- NEW: Step 3A: Home Categories -->
+  <!-- Step 3A: Home Categories + Stats -->
   <section id="homeSection">
     <h2>Welcome to MindCheck 🌿</h2>
-    <p class="top-note">Choose what you want to do today:</p>
+    <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:10px;"></p>
 
     <div class="grid">
-      <!-- Mood -->
       <div class="card" id="goMood">
         <div class="big">😊</div>
         <h3>Check Your Mood</h3>
-        <p>Tap an emoji and get a quick wellness tip.</p>
+        <p>Tap an emoji and get a quick tip.</p>
       </div>
 
-      <!-- Screenings (opens your Tally in the page) -->
       <div class="card" id="goScreenings">
         <div class="big">🧠</div>
-        <h3>Mental Health Screenings</h3>
-        <p>WHO-5, PHQ-9, GAD-7, PSS-10 — private and quick.</p>
+        <h3>Screenings</h3>
+        <p>Quick self-tests like WHO-5 and PHQ-9.</p>
       </div>
 
-      <!-- Tips (LINK THIS to your tips page or leave for later) -->
-      <a class="card" id="goTips" href="#" aria-label="Wellness Tips">
+      <div class="card" id="goTips">
         <div class="big">🌿</div>
         <h3>Wellness Tips</h3>
         <p>Small actions that make a big difference.</p>
-      </a>
+      </div>
 
-      <!-- Help (LINK THIS to your help/contacts page) -->
-      <a class="card" id="goHelp" href="#" aria-label="Get Help">
+      <div class="card" id="goHelp">
         <div class="big">📞</div>
         <h3>Get Help</h3>
-        <p>Talk to someone or find nearby support.</p>
-      </a>
-
-      <!-- Add your existing categories here as more .card items -->
-    </div>
-
-    <div class="toolbar">
-      <button id="backToLang" class="btn btn-ghost">Change Language</button>
+        <p>Find support or talk to someone.</p>
+      </div>
     </div>
   </section>
 
-  <!-- NEW: Step 3B: Mood Check-in -->
+  <!-- Step 3B: Mood Check-in -->
   <section id="moodSection">
     <h2>How are you feeling today?</h2>
     <div class="mood-row">
@@ -188,13 +129,9 @@
     </div>
   </section>
 
-  <!-- Existing: Step 3C: Embedded Form (Screenings) -->
+  <!-- Step 3C: Form (Screenings) -->
   <section id="formContainer">
-    <iframe id="formFrame"
-      src=""
-      title="SpeakOut MindCheck form"
-      loading="lazy"
-      referrerpolicy="no-referrer"></iframe>
+    <iframe id="formFrame" src="" title="MindCheck form"></iframe>
     <div class="toolbar">
       <button id="formBackHome" class="btn btn-ghost">Back to Home</button>
     </div>
@@ -203,99 +140,81 @@
   <footer>
     🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
     📄 <a href="/MindCheck/terms.html">Terms</a> •
-    ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a> •
-    🚨 If you feel unsafe, call <a href="tel:112"><b>112</b></a> or <a href="tel:+2348118103510">+234 811 810 3510</a>.
+    ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
   </footer>
 
   <script>
-    // Elements
-    const startBtn = document.getElementById('startBtn');
-    const langSection = document.getElementById('langSection');
-    const homeSection = document.getElementById('homeSection');
-    const moodSection = document.getElementById('moodSection');
-    const formContainer = document.getElementById('formContainer');
-    const formFrame = document.getElementById('formFrame');
-    const moodResult = document.getElementById('moodResult');
+    const startBtn=document.getElementById('startBtn');
+    const langSection=document.getElementById('langSection');
+    const homeSection=document.getElementById('homeSection');
+    const moodSection=document.getElementById('moodSection');
+    const formContainer=document.getElementById('formContainer');
+    const moodResult=document.getElementById('moodResult');
+    const statsText=document.getElementById('statsText');
+    const formFrame=document.getElementById('formFrame');
 
-    // Simple UI show/hide helper
-    function show(sectionEl){
-      [langSection, homeSection, moodSection, formContainer].forEach(s => s.classList.remove('active'));
-      sectionEl.classList.add('active');
-      sectionEl.scrollIntoView({ behavior: 'smooth' });
+    function show(section){
+      [langSection,homeSection,moodSection,formContainer].forEach(s=>s.classList.remove('active'));
+      section.classList.add('active');
+      section.scrollIntoView({behavior:'smooth'});
+      if(section===homeSection){updateStats();}
     }
 
-    // STEP 1 → STEP 2 (Start → Language)
-    startBtn.addEventListener('click', () => {
-      startBtn.style.display = 'none';
-      show(langSection);
-    });
+    startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
+    document.getElementById('langEnglish').onclick=()=>show(homeSection);
 
-    // STEP 2 → STEP 3A (Language → Home)
-    let chosenLang = 'en'; // default to English
-    document.querySelectorAll('.tbtn.live').forEach(btn => {
-      btn.addEventListener('click', () => {
-        chosenLang = btn.getAttribute('data-lang') || 'en';
-        localStorage.setItem('mc_lang', chosenLang);
-        show(homeSection);
-      });
-    });
-
-    // Home actions
-    document.getElementById('goMood').addEventListener('click', () => show(moodSection));
-
-    document.getElementById('goScreenings').addEventListener('click', () => {
-      // Load your Tally form with selected language
-      const formURL = `https://tally.so/r/w2QbOV?language=${encodeURIComponent(chosenLang)}`;
-      formFrame.src = formURL;
+    document.getElementById('goMood').onclick=()=>show(moodSection);
+    document.getElementById('moodBackHome').onclick=()=>show(homeSection);
+    document.getElementById('formBackHome').onclick=()=>show(homeSection);
+    document.getElementById('goScreenings').onclick=()=>{
+      formFrame.src='https://tally.so/r/w2QbOV';
       show(formContainer);
-    });
+    };
+    document.getElementById('goTips').onclick=()=>alert('Tips coming soon.');
+    document.getElementById('goHelp').onclick=()=>alert('Help page coming soon.');
 
-    // TODO: link these to your real pages/anchors when ready
-    document.getElementById('goTips').addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('Tips page coming soon. You can link this card to /tips.html or any page you have.');
-    });
-    document.getElementById('goHelp').addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('Help & Contacts page coming soon. Link this card to /help.html or your contact page.');
-    });
-
-    // Back buttons
-    document.getElementById('backToLang').addEventListener('click', () => show(langSection));
-    document.getElementById('moodBackHome').addEventListener('click', () => show(homeSection));
-    document.getElementById('formBackHome').addEventListener('click', () => show(homeSection));
-
-    // Mood check-in (ultra-simple, no backend needed yet)
+    // Mood check-ins
     document.querySelectorAll('.mood').forEach(btn=>{
-      btn.addEventListener('click', () => {
-        const val = parseInt(btn.dataset.val, 10);
-        const emoji = ['😢','😞','😐','😊','😄'][val] || '😐';
-
-        // Friendly, instant feedback
-        let tip = "Take a slow deep breath for 60 seconds.";
-        if (val >= 3) tip = "Nice! Keep the good vibe — send a quick thank-you text to someone.";
-        if (val === 2) tip = "Take a 5-minute walk or stretch — small resets help.";
-        if (val <= 1) tip = "You’re not alone. Drink water, breathe, and talk to someone you trust.";
-
-        moodResult.style.display = 'block';
-        moodResult.innerHTML = `
-          <p>Thanks for checking in ${emoji}</p>
-          <p><strong>Tip:</strong> ${tip}</p>
-        `;
-
-        // Optional: store a lightweight local history for future charts
-        try {
-          const key = 'mc_mood_history';
-          const arr = JSON.parse(localStorage.getItem(key) || '[]');
-          arr.push({ ts: new Date().toISOString(), mood_value: val });
-          localStorage.setItem(key, JSON.stringify(arr));
-        } catch(e){ /* ignore storage errors */ }
-      });
+      btn.onclick=()=>{
+        const val=parseInt(btn.dataset.val);
+        const emoji=['😢','😞','😐','😊','😄'][val];
+        let tip="Take a slow deep breath for 60 seconds.";
+        if(val>=3) tip="Great mood! Spread kindness today 🌻.";
+        if(val===2) tip="Take a short walk to refresh.";
+        if(val<=1) tip="You’re not alone — breathe and reach out if you need to.";
+        moodResult.style.display='block';
+        moodResult.innerHTML=`<p>Thanks for checking in ${emoji}</p><p><b>Tip:</b> ${tip}</p>`;
+        storeCheckin(val);
+      };
     });
 
-    // Restore last language if available
-    const savedLang = localStorage.getItem('mc_lang');
-    if (savedLang) chosenLang = savedLang;
+    function storeCheckin(mood){
+      const key='mc_mood_history';
+      let arr=[];
+      try{arr=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
+      arr.push({ts:new Date().toISOString(),mood_value:mood});
+      localStorage.setItem(key,JSON.stringify(arr));
+    }
+
+    function updateStats(){
+      const key='mc_mood_history';
+      let arr=[];
+      try{arr=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
+      const now=new Date();
+      const weekAgo=new Date(now);
+      weekAgo.setDate(now.getDate()-7);
+      const weekCount=arr.filter(i=>{
+        const t=new Date(i.ts);
+        return t>=weekAgo && t<=now;
+      }).length;
+      const message=weekCount>0
+        ? `📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`
+        : `📊 You haven’t checked your mood this week yet — try it now!`;
+      statsText.textContent=message;
+    }
+
+    // Start on first screen
+    show(startBtn);
   </script>
 </body>
 </html>
