@@ -10,25 +10,16 @@
       --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
       --bg:#f5fdf8; --card:#ffffff;
     }
-    body {
-      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-      background:var(--bg); color:var(--ink);
-      text-align:center; margin:0; padding:0;
-    }
+    body { font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      background:var(--bg); color:var(--ink); text-align:center; margin:0; padding:0; }
     header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;}
     p{margin:.75rem 0;}
-
-    /* Buttons */
     .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;}
     .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
     .btn-primary:hover{background:var(--greenDark);}
     .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
-
-    /* Sections */
     section{display:none;padding:16px;animation:fadeIn .25s ease-in-out;}
     section.active{display:block;}
-
-    /* Language */
     .twrap{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:10px;}
     .tbtn{background:var(--green);color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;
       transition:.2s ease;display:inline-flex;align-items:center;gap:6px;cursor:pointer;
@@ -41,8 +32,6 @@
       background:#062436;color:#fff;padding:6px 10px;border-radius:6px;font-size:.8rem;white-space:nowrap;
       opacity:0;transition:opacity .3s;box-shadow:0 3px 8px rgba(0,0,0,.15);}
     .tbtn.soon:hover::after{opacity:1;}
-
-    /* Grid + Cards */
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;text-align:left;}
     .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;
       box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;}
@@ -50,28 +39,22 @@
     .card .big{font-size:28px;line-height:1;}
     .card h3{margin:.4rem 0 .25rem;font-size:1.05rem;}
     .card p{margin:.2rem 0 0;color:#52606d;font-size:.92rem;}
-
-    /* Stats strip on Home */
-    .stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto;max-width:860px;}
+    .stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto;max-width:960px;}
     .pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:600;}
-
-    /* Mood */
     .mood-row{display:flex;justify-content:center;gap:12px;margin:16px 0;flex-wrap:wrap;}
     .mood{font-size:28px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:10px 12px;cursor:pointer;}
     .result{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px;margin:12px auto;max-width:520px;}
-
-    /* Badges list */
     .badge-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px auto;max-width:900px;}
     .badge{border:1px solid #e8eef5;border-radius:12px;background:#fff;text-align:left;padding:12px;}
     .badge.locked{opacity:.55;}
     .badge .name{font-weight:700;margin:.2rem 0;}
     .badge .desc{font-size:.9rem;color:#52606d;margin:.1rem 0 .3rem;}
     .badge .status{font-size:.85rem;color:#0b5;}
-
-    /* Iframe (Screenings) */
+    .award-list{max-width:900px;margin:14px auto;display:grid;gap:12px;}
+    .award{border:1px solid #e8eef5;border-radius:12px;background:#fff;text-align:left;padding:12px;}
+    .award .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+    .award .id{font-family:ui-monospace,Consolas,monospace;background:#f6f7f9;border:1px solid #e8eef5;border-radius:6px;padding:4px 6px;}
     iframe{width:100%;height:800px;border:0;border-radius:12px;background:#fff;}
-
-    /* Anim */
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
     footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
     .toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
@@ -102,13 +85,14 @@
     <div class="stats">
       <span class="pill">Points: <span id="pointsPill">0</span></span>
       <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
+      <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
     </div>
     <div class="grid">
-      <div class="card" id="goMood"><div class="big">😊</div><h3>Check Your Mood</h3><p>Tap an emoji and earn points (once daily).</p></div>
+      <div class="card" id="goMood"><div class="big">😊</div><h3>Check Your Mood</h3><p>Earn points once daily (+10). 20-day streak wins ₦1000.</p></div>
       <div class="card" id="goScreenings"><div class="big">🧠</div><h3>Screenings</h3><p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p></div>
       <a class="card" id="goTips" href="#"><div class="big">🌿</div><h3>Wellness Tips</h3><p>Simple habits for calm and focus.</p></a>
       <a class="card" id="goHelp" href="#"><div class="big">📞</div><h3>Get Help</h3><p>Find mental-health support nearby.</p></a>
-      <div class="card" id="goBadges"><div class="big">🏅</div><h3>Badges & Awards</h3><p>See what you’ve unlocked.</p></div>
+      <div class="card" id="goBadges"><div class="big">🏅</div><h3>Badges & Awards</h3><p>See unlocked badges & claim awards.</p></div>
     </div>
   </section>
 
@@ -167,11 +151,13 @@
     <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost">Back to Home</button></div>
   </section>
 
-  <!-- Badges -->
+  <!-- Badges & Awards -->
   <section id="badgesSection">
     <h2>Badges & Awards 🏅</h2>
-    <p style="color:#334155">Earn points with daily mood check-ins and unlock streak or points milestones.</p>
+    <p style="color:#334155">Daily mood check-ins earn points; 20-day streak wins ₦1000. Claim via WhatsApp with your Award ID.</p>
     <div id="badgesGrid" class="badge-list"></div>
+    <h3 style="margin-top:18px;">Your Awards</h3>
+    <div id="awardsList" class="award-list"></div>
     <div class="toolbar"><button id="badgesBackHome" class="btn btn-ghost">Back to Home</button></div>
   </section>
 
@@ -182,7 +168,7 @@
   </footer>
 
   <script>
-    /* ---------- Elements & Sections ---------- */
+    /* ---------------- Basics & Sections ---------------- */
     const startBtn=document.getElementById('startBtn');
     const langSection=document.getElementById('langSection');
     const homeSection=document.getElementById('homeSection');
@@ -196,22 +182,22 @@
     const statsText=document.getElementById('statsText');
     const pointsPill=document.getElementById('pointsPill');
     const streakPill=document.getElementById('streakPill');
+    const awardsPill=document.getElementById('awardsPill');
     const moodResult=document.getElementById('moodResult');
-
     const tipText=document.getElementById('tipText');
     const tipNote=document.getElementById('tipNote');
     const nextTipBtn=document.getElementById('nextTip');
     const badgesGrid=document.getElementById('badgesGrid');
+    const awardsList=document.getElementById('awardsList');
 
     function show(section){
       [langSection,homeSection,moodSection,formContainer,tipsSection,helpSection,badgesSection].forEach(s=>s.classList.remove('active'));
       section.classList.add('active');
       section.scrollIntoView({behavior:'smooth'});
       if(section===homeSection){ updateStats(); updateHeaderPills(); }
-      if(section===badgesSection){ renderBadges(); }
+      if(section===badgesSection){ renderBadges(); renderAwards(); }
     }
 
-    /* ---------- Simple Navigation ---------- */
     startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
     document.querySelectorAll('.tbtn.live').forEach(btn=>{
       btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); show(homeSection); };
@@ -235,87 +221,85 @@
     document.getElementById('goBadges').onclick=()=>show(badgesSection);
     document.getElementById('badgesBackHome').onclick=()=>show(homeSection);
 
-    /* ---------- Local Storage Keys ---------- */
+    /* ---------------- Local Storage Keys ---------------- */
+    const KEY_UID='mc_uid';
     const KEY_POINTS='mc_points';
     const KEY_STREAK='mc_streak';
     const KEY_LAST='mc_lastCheckin'; // "YYYY-MM-DD"
     const KEY_HISTORY='mc_mood_history';
     const KEY_BADGES='mc_badges'; // ["first_checkin", ...]
+    const KEY_AWARDS='mc_awards'; // [{id,amount,issued_at,streak_cycle,claimed:boolean,claimed_at?}]
 
-    /* ---------- Helpers: Dates & Storage ---------- */
+    /* ---------------- UID ---------------- */
+    function getUID(){
+      let uid = localStorage.getItem(KEY_UID);
+      if(!uid){
+        uid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('mc_'+Math.random().toString(36).slice(2));
+        localStorage.setItem(KEY_UID, uid);
+      }
+      return uid;
+    }
+    const UID = getUID();
+
+    /* ---------------- Helpers ---------------- */
     function todayStr(){
-      // Local calendar day in "YYYY-MM-DD"
-      const d=new Date();
-      const y=d.getFullYear();
+      const d=new Date(); const y=d.getFullYear();
       const m=String(d.getMonth()+1).padStart(2,'0');
       const day=String(d.getDate()).padStart(2,'0');
       return `${y}-${m}-${day}`;
     }
     function isoToDate(iso){ return new Date(iso); }
-
     function getJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }catch(e){ return fallback; } }
     function setJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+    const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
+    const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
+    const addPoints=n=>setPoints(getPoints()+n);
+    const getStreak=()=>parseInt(localStorage.getItem(KEY_STREAK)||'0',10);
+    const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
+    const getLast=()=>localStorage.getItem(KEY_LAST) || '';
+    const setLast=v=>localStorage.setItem(KEY_LAST, v);
+    const getBadges=()=>getJSON(KEY_BADGES, []);
+    const setBadges=arr=>setJSON(KEY_BADGES, arr);
+    const hasBadge=id=>getBadges().includes(id);
+    function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true;} return false; }
+    const getAwards=()=>getJSON(KEY_AWARDS, []);
+    const setAwards=arr=>setJSON(KEY_AWARDS, arr);
 
-    function getPoints(){ return parseInt(localStorage.getItem(KEY_POINTS)||'0',10); }
-    function setPoints(v){ localStorage.setItem(KEY_POINTS, String(v)); }
-    function addPoints(n){ setPoints(getPoints()+n); }
+    /* ---------------- Config (Adjust for ops) ---------------- */
+    const AWARD_AMOUNT_NAIRA = 1000;
+    const WHATSAPP_NUMBER = '2348118103510'; // change to your payout line (no +)
 
-    function getStreak(){ return parseInt(localStorage.getItem(KEY_STREAK)||'0',10); }
-    function setStreak(v){ localStorage.setItem(KEY_STREAK, String(v)); }
-
-    function getLast(){ return localStorage.getItem(KEY_LAST) || ''; }
-    function setLast(v){ localStorage.setItem(KEY_LAST, v); }
-
-    function getBadges(){ return getJSON(KEY_BADGES, []); }
-    function setBadges(arr){ setJSON(KEY_BADGES, arr); }
-    function hasBadge(id){ return getBadges().includes(id); }
-    function awardBadge(id){
-      const b=getBadges();
-      if(!b.includes(id)){ b.push(id); setBadges(b); return true; }
-      return false;
-    }
-
-    /* ---------- Mood Check-in (Once Daily) ---------- */
-    const moodButtons=document.querySelectorAll('.mood');
-    moodButtons.forEach(btn=>{
-      btn.onclick=()=>{
-        const val=parseInt(btn.dataset.val,10);
-        handleCheckin(val);
-      };
+    /* ---------------- Mood Check-in (Once Daily + Awards) ---------------- */
+    document.querySelectorAll('.mood').forEach(btn=>{
+      btn.onclick=()=>handleCheckin(parseInt(btn.dataset.val,10));
     });
 
     function handleCheckin(moodValue){
-      const today=todayStr();
-      const last=getLast();
-
-      // Enforce once per day
+      const today = todayStr();
+      const last = getLast();
       if(last===today){
         moodResult.style.display='block';
         moodResult.innerHTML=`<p>✅ You already checked in today. Come back tomorrow!</p>`;
         return;
       }
 
-      // Award points (+10) and set last check-in
+      // Points, last, streak
       addPoints(10);
       setLast(today);
-
-      // Streak logic (if yesterday checked in, +1 else reset to 1)
       const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
       if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
 
-      // Save lightweight history for weekly stats
-      const arr=getJSON(KEY_HISTORY, []);
-      arr.push({ ts:new Date().toISOString(), mood_value:moodValue });
-      setJSON(KEY_HISTORY, arr);
+      // History
+      const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
 
-      // Friendly tip
+      // Tip + feedback
       const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
       let tip="Take a deep breath for 60 seconds.";
       if(moodValue>=3) tip="Great mood! Share a smile today 🌻.";
       if(moodValue===2) tip="Stretch or walk a little to refresh.";
       if(moodValue<=1) tip="You’re not alone — breathe and reach out if you need help.";
 
-      // Badge checks
+      // Badges
       const newly=[];
       if(awardBadge('first_checkin')) newly.push('First Check-in');
       if(getStreak()>=3 && awardBadge('streak_3')) newly.push('3-Day Streak');
@@ -324,35 +308,82 @@
       if(pts>=100 && awardBadge('points_100')) newly.push('100 Points');
       if(pts>=300 && awardBadge('points_300')) newly.push('300 Points');
 
-      // Show result
+      // Award (every 20-day streak)
+      let awardHTML='';
+      const streak = getStreak();
+      if(streak>0 && streak%20===0){
+        const created = createStreakAwardIfNew(streak);
+        if(created){
+          awardHTML = `<p style="font-size:1.05rem;">🎁 <b>Congratulations!</b> You’ve won <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>Use your Award ID to claim on WhatsApp.</p>
+          <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
+          <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener">Claim via WhatsApp</a></p>`;
+        }
+      }
+
       moodResult.style.display='block';
       moodResult.innerHTML=`
         <p>🎉 Thanks for checking in ${emoji} — you earned <b>+10 points</b>.</p>
         <p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p>
         <p><b>Tip:</b> ${tip}</p>
         ${newly.length ? `<p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p>` : ''}
+        ${awardHTML}
       `;
 
       updateHeaderPills();
     }
 
-    /* ---------- Home Stats ---------- */
+    function createStreakAwardIfNew(streakCycle){
+      const awards = getAwards();
+      // avoid duplicates for same cycle
+      const exists = awards.find(a => a.streak_cycle===streakCycle);
+      if(exists) return null;
+
+      // Generate unique Award ID: MC-YYYYMMDD-XXXXXX (UID tail)
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth()+1).padStart(2,'0');
+      const d = String(today.getDate()).padStart(2,'0');
+      const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
+      const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
+
+      const award = {
+        id,
+        amount: AWARD_AMOUNT_NAIRA,
+        issued_at: today.toISOString(),
+        streak_cycle: streakCycle,
+        uid: UID,
+        claimed: false,
+        claimed_at: null
+      };
+      awards.push(award);
+      setAwards(awards);
+      return award;
+    }
+
+    function whatsAppClaimLink(award){
+      const msg = encodeURIComponent(
+        `Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${award.id}\nAmount: ₦${award.amount}\nUID: ${UID}\n\nThank you!`
+      );
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    }
+
+    /* ---------------- Home Stats & Header Pills ---------------- */
     function updateHeaderPills(){
       pointsPill.textContent=getPoints();
       streakPill.textContent=getStreak();
+      const pend = getAwards().filter(a=>!a.claimed).length;
+      awardsPill.textContent = pend;
     }
-
     function updateStats(){
       const arr=getJSON(KEY_HISTORY, []);
-      const now=new Date();
-      const weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
+      const now=new Date(); const weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
       const weekCount=arr.filter(i=>{ const t=isoToDate(i.ts); return t>=weekAgo && t<=now; }).length;
       statsText.textContent = weekCount>0
         ? `📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`
         : `📊 You haven’t checked your mood this week yet — try it now!`;
     }
 
-    /* ---------- Badges Catalog & Render ---------- */
+    /* ---------------- Badges ---------------- */
     const BADGE_CATALOG = [
       { id:'first_checkin', name:'First Check-in', desc:'Your first ever mood check.' },
       { id:'streak_3', name:'3-Day Streak', desc:'Checked your mood 3 days in a row.' },
@@ -360,7 +391,6 @@
       { id:'points_100', name:'100 Points', desc:'Reached 100 total points.' },
       { id:'points_300', name:'300 Points', desc:'Reached 300 total points.' },
     ];
-
     function renderBadges(){
       const owned=new Set(getBadges());
       badgesGrid.innerHTML = BADGE_CATALOG.map(b=>{
@@ -375,7 +405,53 @@
       }).join('');
     }
 
-    /* ---------- Tips Engine ---------- */
+    /* ---------------- Awards List (+ WhatsApp claim + mark claimed) ---------------- */
+    function renderAwards(){
+      const awards = getAwards().sort((a,b)=> new Date(b.issued_at) - new Date(a.issued_at));
+      if(!awards.length){
+        awardsList.innerHTML = `<div class="award"><p>No awards yet. Keep your streak to win ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} every 20 days.</p></div>`;
+        return;
+      }
+      awardsList.innerHTML = awards.map(a=>{
+        const when = new Date(a.issued_at).toLocaleString();
+        const status = a.claimed ? `Claimed ✅ (${new Date(a.claimed_at).toLocaleString()})` : 'Pending 🔔';
+        const btns = a.claimed ? '' : `
+          <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a>
+          <button class="btn btn-ghost" data-mark="${a.id}">Mark as Claimed</button>
+        `;
+        return `
+          <div class="award">
+            <div class="row">
+              <div>
+                <div><b>₦${a.amount.toLocaleString()}</b> • Streak: ${a.streak_cycle} days</div>
+                <div>ID: <span class="id">${a.id}</span></div>
+                <div style="color:#52606d">Issued: ${when} • ${status}</div>
+              </div>
+              <div>${btns}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Mark as claimed (admin/user action)
+      document.querySelectorAll('[data-mark]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const id = btn.getAttribute('data-mark');
+          const list = getAwards();
+          const idx = list.findIndex(x=>x.id===id);
+          if(idx>-1){
+            list[idx].claimed = true;
+            list[idx].claimed_at = new Date().toISOString();
+            setAwards(list);
+            renderAwards();
+            updateHeaderPills();
+            alert('Marked as claimed. Thank you!');
+          }
+        });
+      });
+    }
+
+    /* ---------------- Tips Engine ---------------- */
     const TIPS = [
       { text: "Try 4-7-8 breathing for one minute.", tags: ["anxious","low","neutral"] },
       { text: "Take a 10-minute walk in fresh air.", tags: ["low","neutral","positive"] },
@@ -410,8 +486,7 @@
     });
     nextTipBtn.addEventListener('click', renderTip);
 
-    /* ---------- Boot ---------- */
-    // Start on language or resume home
+    /* ---------------- Boot ---------------- */
     startBtn.style.display=''; // visible
   </script>
 </body>
