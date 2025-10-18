@@ -119,7 +119,8 @@
       <div id="tipNote" style="color:#52606d;margin:0;"></div>
     </div>
     <div class="toolbar">
-      <button id="nextTip" class="btn btn-primary">Show another tip</button>
+      <button id="tipDoneBtn" class="btn btn-primary">Mark as done</button>
+      <button id="nextTip" class="btn btn-ghost">Show another tip</button>
       <button id="tipsBackHome" class="btn btn-ghost">Back to Home</button>
     </div>
   </section>
@@ -173,6 +174,7 @@
     const tipText=document.getElementById('tipText');
     const tipNote=document.getElementById('tipNote');
     const nextTipBtn=document.getElementById('nextTip');
+    const tipDoneBtn=document.getElementById('tipDoneBtn');
     const badgesGrid=document.getElementById('badgesGrid');
     const awardsList=document.getElementById('awardsList');
 
@@ -211,6 +213,7 @@
     /* ---------------- Storage Keys & Helpers ---------------- */
     const KEY_UID='mc_uid', KEY_POINTS='mc_points', KEY_STREAK='mc_streak', KEY_LAST='mc_lastCheckin';
     const KEY_HISTORY='mc_mood_history', KEY_BADGES='mc_badges', KEY_AWARDS='mc_awards';
+    const KEY_TIPS_DONE='mc_tips_done';
 
     function getUID(){ let uid=localStorage.getItem(KEY_UID);
       if(!uid){ uid=(crypto&&crypto.randomUUID)?crypto.randomUUID():('mc_'+Math.random().toString(36).slice(2)); localStorage.setItem(KEY_UID,uid); }
@@ -291,21 +294,16 @@
       `;
       updateHeaderPills();
 
-      // ---- Send to Google Apps Script backend
+      // ---- Send mood to Google Apps Script
       const payload = {
+        type: "mood",
         uid: UID,
         mood_value: moodValue,
         streak: getStreak(),
         points: getPoints(),
         timestamp: new Date().toISOString()
       };
-      if (GAS_URL && GAS_URL.includes('/exec')){
-        fetch(`${GAS_URL}?key=${encodeURIComponent(AUTH_KEY)}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        }).then(r=>r.json()).then(j=>console.log('✅ Sent to GAS', j)).catch(err=>console.warn('⚠️ GAS error', err));
-      }
+      postToGAS(payload);
     }
 
     function createStreakAwardIfNew(streakCycle){
@@ -365,24 +363,26 @@
     }
 
     /* ---------------- ELABORATE WELLNESS TIPS ---------------- */
+    // Added an id field so we can log a stable TipID
     const TIPS = [
-      { text:"🌬️ Breathe with Intention", detail:"Find a quiet spot. Breathe in through your nose for 4 seconds, hold for 4 seconds, then exhale slowly through your mouth for 6 seconds. Repeat 5 times. This deep breathing lowers stress hormones and brings your body into a calm state.", tags:["anxious","neutral","low"] },
-      { text:"🚶 Take a 10-Minute Walk", detail:"Step outside or walk around your space at a gentle pace. Focus on what you can see, hear, and feel — the air on your skin, the sounds around you. Movement increases serotonin and clears mental fog.", tags:["low","neutral","positive"] },
-      { text:"💭 Write It Out", detail:"Open your notes and free-write for five minutes without editing. Getting thoughts out of your head reduces mental clutter and helps you process emotions.", tags:["anxious","low"] },
-      { text:"🌅 Morning Gratitude Ritual", detail:"List three things you’re grateful for — even small ones. Gratitude trains your brain to notice positives and strengthens resilience.", tags:["neutral","positive"] },
-      { text:"🧴 Relax Your Body", detail:"From head to toe: gently tense each muscle for 5 seconds, then release. Notice the contrast. This progressive relaxation helps release stored tension.", tags:["anxious","neutral"] },
-      { text:"📞 Connect with Someone You Trust", detail:"Send a short message or make a quick call. Social connection lowers anxiety and reminds you you’re not alone.", tags:["low","anxious"] },
-      { text:"🧠 Digital Detox Moment", detail:"Take a 30-minute break from screens. Step away from news and notifications. Use the time to breathe, stretch, or rest your eyes to restore focus.", tags:["anxious","neutral"] },
-      { text:"🍃 Mindful Pause", detail:"Close your eyes for 60 seconds and observe your breath. Let thoughts come and go without judgment. Even one minute can reset your nervous system.", tags:["anxious","calm","neutral"] },
-      { text:"☕ Warm Comfort", detail:"Make a warm drink. Hold the cup with both hands. Feel the heat and breathe in the aroma. This sensory grounding signals safety to your body.", tags:["low","anxious","neutral"] },
-      { text:"🛌 Rest Without Guilt", detail:"If you’re tired, allow a 10-minute rest. Lie down and follow your breath. Resting is how your body repairs and resets.", tags:["low","neutral","anxious"] },
-      { text:"🎶 Sound Therapy", detail:"Play soft instrumental or nature sounds. Let the rhythm soften your breathing and bring you into the present.", tags:["anxious","low","neutral"] },
-      { text:"📔 Reflect on a Good Moment", detail:"Recall one small win or kind moment today. Replay it for 30 seconds. Reliving positives boosts serotonin and gratitude.", tags:["positive","neutral"] },
-      { text:"🌻 Affirm Yourself", detail:"Say: “I am enough. I’m doing my best, and that’s okay.” Repeating affirmations can shift self-talk toward compassion.", tags:["low","neutral"] },
-      { text:"🏞️ Touch Nature", detail:"Step outside if possible. Notice trees, clouds, or birds for a few minutes. Exposure to nature lowers cortisol and brightens mood.", tags:["neutral","low","positive"] },
-      { text:"🧍 Grounding (5-4-3-2-1)", detail:"Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you can taste. This anchors you in the present.", tags:["anxious","low"] }
+      { id:"breathe_intention", text:"🌬️ Breathe with Intention", detail:"Find a quiet spot. Breathe in through your nose for 4 seconds, hold for 4 seconds, then exhale slowly through your mouth for 6 seconds. Repeat 5 times. This deep breathing lowers stress hormones and brings your body into a calm state.", tags:["anxious","neutral","low"] },
+      { id:"walk_10min", text:"🚶 Take a 10-Minute Walk", detail:"Step outside or walk around your space at a gentle pace. Focus on what you can see, hear, and feel — the air on your skin, the sounds around you. Movement increases serotonin and clears mental fog.", tags:["low","neutral","positive"] },
+      { id:"write_it_out", text:"💭 Write It Out", detail:"Open your notes and free-write for five minutes without editing. Getting thoughts out of your head reduces mental clutter and helps you process emotions.", tags:["anxious","low"] },
+      { id:"morning_gratitude", text:"🌅 Morning Gratitude Ritual", detail:"List three things you’re grateful for — even small ones. Gratitude trains your brain to notice positives and strengthens resilience.", tags:["neutral","positive"] },
+      { id:"relax_body", text:"🧴 Relax Your Body", detail:"From head to toe: gently tense each muscle for 5 seconds, then release. Notice the contrast. This progressive relaxation helps release stored tension.", tags:["anxious","neutral"] },
+      { id:"connect_someone", text:"📞 Connect with Someone You Trust", detail:"Send a short message or make a quick call. Social connection lowers anxiety and reminds you you’re not alone.", tags:["low","anxious"] },
+      { id:"digital_detox", text:"🧠 Digital Detox Moment", detail:"Take a 30-minute break from screens. Step away from news and notifications. Use the time to breathe, stretch, or rest your eyes to restore focus.", tags:["anxious","neutral"] },
+      { id:"mindful_pause", text:"🍃 Mindful Pause", detail:"Close your eyes for 60 seconds and observe your breath. Let thoughts come and go without judgment. Even one minute can reset your nervous system.", tags:["anxious","calm","neutral"] },
+      { id:"warm_comfort", text:"☕ Warm Comfort", detail:"Make a warm drink. Hold the cup with both hands. Feel the heat and breathe in the aroma. This sensory grounding signals safety to your body.", tags:["low","anxious","neutral"] },
+      { id:"rest_without_guilt", text:"🛌 Rest Without Guilt", detail:"If you’re tired, allow a 10-minute rest. Lie down and follow your breath. Resting is how your body repairs and resets.", tags:["low","neutral","anxious"] },
+      { id:"sound_therapy", text:"🎶 Sound Therapy", detail:"Play soft instrumental or nature sounds. Let the rhythm soften your breathing and bring you into the present.", tags:["anxious","low","neutral"] },
+      { id:"reflect_good", text:"📔 Reflect on a Good Moment", detail:"Recall one small win or kind moment today. Replay it for 30 seconds. Reliving positives boosts serotonin and gratitude.", tags:["positive","neutral"] },
+      { id:"affirm_self", text:"🌻 Affirm Yourself", detail:"Say: “I am enough. I’m doing my best, and that’s okay.” Repeating affirmations can shift self-talk toward compassion.", tags:["low","neutral"] },
+      { id:"touch_nature", text:"🏞️ Touch Nature", detail:"Step outside if possible. Notice trees, clouds, or birds for a few minutes. Exposure to nature lowers cortisol and brightens mood.", tags:["neutral","low","positive"] },
+      { id:"grounding_54321", text:"🧍 Grounding (5-4-3-2-1)", detail:"Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you can taste. This anchors you in the present.", tags:["anxious","low"] }
     ];
     let currentTipFilter='all';
+    let currentTip=null;
 
     function lastMoodTag(){
       const arr=getJSON(KEY_HISTORY, []); if(!arr.length) return 'all';
@@ -390,25 +390,60 @@
     }
     function pickTip(filter='all'){
       const pool = filter==='all' ? TIPS : TIPS.filter(t=>t.tags.includes(filter));
-      if(!pool.length) return { text:"Mindful breath", detail:"Take 5 slow breaths. Inhale 4, hold 4, exhale 6.", tags:["all"] };
-      // Tip of the Day rotation so content feels fresh
-      const dayIndex = new Date().getDate() % pool.length;
+      if(!pool.length) return { id:"fallback", text:"Mindful breath", detail:"Take 5 slow breaths. Inhale 4, hold 4, exhale 6.", tags:["all"] };
+      const dayIndex = new Date().getDate() % pool.length; // Tip-of-day rotation
       return pool[dayIndex];
     }
     function renderTip(){
-      const tip=pickTip(currentTipFilter);
-      tipText.textContent=tip.text;
-      tipNote.innerHTML = `<p style="margin-top:8px;">${tip.detail}</p><p style="margin:.3rem 0 0;color:#6b7280;">${currentTipFilter==='all'?'General tip':('Suggested for: '+currentTipFilter)}</p>`;
+      currentTip = pickTip(currentTipFilter);
+      tipText.textContent=currentTip.text;
+      tipNote.innerHTML = `<p style="margin-top:8px;">${currentTip.detail}</p><p style="margin:.3rem 0 0;color:#6b7280;">${currentTipFilter==='all'?'General tip':('Suggested for: '+currentTipFilter)}</p>`;
     }
     document.querySelectorAll('.tip-filter').forEach(btn=>{
       btn.addEventListener('click', ()=>{ currentTipFilter=btn.dataset.filter||'all'; renderTip(); });
     });
     nextTipBtn.addEventListener('click', ()=>{
-      // random alternative when user taps "Show another"
       const pool = currentTipFilter==='all' ? TIPS : TIPS.filter(t=>t.tags.includes(currentTipFilter));
-      const alt = pool[Math.floor(Math.random()*pool.length)];
-      tipText.textContent=alt.text; tipNote.innerHTML=`<p style="margin-top:8px;">${alt.detail}</p><p style="margin:.3rem 0 0;color:#6b7280;">${currentTipFilter==='all'?'General tip':('Suggested for: '+currentTipFilter)}</p>`;
+      currentTip = pool[Math.floor(Math.random()*pool.length)];
+      tipText.textContent=currentTip.text;
+      tipNote.innerHTML=`<p style="margin-top:8px;">${currentTip.detail}</p><p style="margin:.3rem 0 0;color:#6b7280;">${currentTipFilter==='all'?'General tip':('Suggested for: '+currentTipFilter)}</p>`;
     });
+
+    // ---- Tip completion: local save + backend POST
+    tipDoneBtn.addEventListener('click', ()=>{
+      if(!currentTip){ renderTip(); }
+      // Local log
+      const done = getJSON(KEY_TIPS_DONE, []);
+      done.push({ uid: UID, tip_id: currentTip.id, tip_text: currentTip.text, filter: currentTipFilter, timestamp: new Date().toISOString() });
+      setJSON(KEY_TIPS_DONE, done);
+      // Optional: give tiny points bonus
+      addPoints(2); updateHeaderPills();
+
+      // Backend POST
+      const payload = {
+        type: "tip",
+        uid: UID,
+        tip_id: currentTip.id,
+        tip_text: currentTip.text,
+        tip_filter: currentTipFilter,
+        timestamp: new Date().toISOString()
+      };
+      postToGAS(payload).then(()=>{
+        tipDoneBtn.textContent = "Saved ✓";
+        setTimeout(()=> tipDoneBtn.textContent = "Mark as done", 1500);
+      }).catch(()=>{ /* leave button text */ });
+    });
+
+    // Shared POST helper
+    function postToGAS(payload){
+      if (!GAS_URL || !GAS_URL.includes('/exec')) return Promise.resolve();
+      const url = AUTH_KEY ? `${GAS_URL}?key=${encodeURIComponent(AUTH_KEY)}` : GAS_URL;
+      return fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(r=>r.json()).then(j=>{ console.log('✅ Sent to GAS', j); return j; });
+    }
 
     /* ---------------- Boot ---------------- */
     startBtn.style.display='';
