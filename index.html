@@ -8,7 +8,7 @@
   <style>
     :root {
       --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
-      --gray:#d1d5db; --bg:#f5fdf8;
+      --gray:#d1d5db; --bg:#f5fdf8; --card:#ffffff;
     }
     body {
       font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -21,18 +21,26 @@
     }
     p { margin: .75rem 0; }
 
-    /* Step 1: Start Button */
-    #startBtn {
-      background: var(--green); color: #fff;
-      border: none; padding: 15px 35px;
-      border-radius: 40px; font-size: 1.1rem;
-      cursor: pointer; margin-top: 24px;
-      transition: .2s ease; box-shadow: 0 6px 20px rgba(34,197,94,0.3);
+    /* Buttons */
+    .btn {
+      border: none; padding: 15px 20px; border-radius: 14px;
+      font-size: 1rem; cursor: pointer; transition: .15s ease;
     }
-    #startBtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.02); }
+    .btn:hover { transform: translateY(-1px) scale(1.02); }
+    .btn-primary { background: var(--green); color: #fff; box-shadow: 0 6px 20px rgba(34,197,94,0.3); }
+    .btn-primary:hover { background: var(--greenDark); }
+    .btn-ghost { background: #fff; border: 1px solid #e5e7eb; }
 
-    /* Step 2: Language section */
-    #langSection { display: none; margin-top: 22px; animation: fadeIn .8s ease-in-out; }
+    /* Start */
+    #startBtn {
+      margin-top: 24px;
+    }
+
+    /* Sections */
+    section { display: none; padding: 16px; animation: fadeIn .35s ease-in-out; }
+    section.active { display: block; }
+
+    /* Language */
     .twrap {
       display:flex; justify-content:center; flex-wrap:wrap;
       gap:12px; margin-top:10px;
@@ -41,24 +49,18 @@
       background: var(--green); color:#fff;
       padding:10px 18px; border-radius:10px; text-decoration:none;
       font-weight:700; transition:.2s ease; display:inline-flex;
-      align-items:center; gap:6px;
+      align-items:center; gap:6px; cursor:pointer;
       box-shadow: 0 4px 15px rgba(34,197,94,0.25);
-      cursor:pointer;
     }
     .tbtn:hover { background: var(--greenDark); transform: translateY(-1px) scale(1.03); }
-
-    /* English active pulse */
     .tbtn.live { animation: pulse 2s infinite; }
     @keyframes pulse {
       0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}
       50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}
     }
-
-    /* Coming soon style */
     .tbtn.soon {
       background: linear-gradient(145deg, #a7f3d0, #6ee7b7);
-      color:#064e3b; cursor: default;
-      position: relative;
+      color:#064e3b; cursor: default; position: relative;
     }
     .tbtn.soon::after {
       content: attr(data-tooltip);
@@ -69,23 +71,43 @@
     }
     .tbtn.soon:hover::after { opacity:1; }
 
-    /* Step 3: Form */
-    #formContainer {
-      display: none; margin-top: 20px;
-      animation: fadeIn .8s ease-in-out;
+    /* Home grid */
+    .grid {
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap:14px; margin-top:16px; text-align:left;
     }
+    .card {
+      background: var(--card); border: 1px solid #eef2f7; border-radius: 14px;
+      padding: 16px; box-shadow: 0 6px 18px rgba(2, 23, 34, 0.05);
+      cursor:pointer; transition: transform .12s ease;
+    }
+    .card:hover { transform: translateY(-2px); }
+    .card .big { font-size: 28px; line-height: 1; }
+    .card h3 { margin:.4rem 0 .25rem; font-size: 1.05rem; }
+    .card p { margin:.2rem 0 0; color:#52606d; font-size:.92rem; }
+
+    /* Mood */
+    .mood-row { display:flex; justify-content:center; gap:12px; margin:16px 0; flex-wrap: wrap; }
+    .mood { font-size:28px; background:#fff; border:1px solid #ddd; border-radius:12px; padding:10px 12px; cursor:pointer; }
+    .result { background:#f0f7ff; border:1px solid #cfe3ff; border-radius:10px; padding:12px; margin:12px auto; max-width:520px; }
+
+    /* Form iframe */
     iframe {
       width: 100%; height: 800px; border: 0; border-radius: 12px;
       background: #fff;
     }
 
-    /* Animation */
+    /* Anim */
     @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
     footer {
       margin: 28px 0 40px; font-size:.95rem; opacity:.9;
     }
     footer a { color: inherit; }
+
+    /* Utility */
+    .top-note { color:#334155; margin-top:8px; }
+    .toolbar { display:flex; gap:10px; justify-content:center; margin-top:10px; flex-wrap: wrap; }
   </style>
 </head>
 <body>
@@ -93,10 +115,10 @@
   <p>Check your mental health privately, safely, and in your preferred language.</p>
 
   <!-- Step 1: Start -->
-  <button id="startBtn" type="button">Start Now</button>
+  <button id="startBtn" type="button" class="btn btn-primary">Start Now</button>
 
   <!-- Step 2: Language Options -->
-  <div id="langSection">
+  <section id="langSection">
     <p style="font-weight:700;">🌍 Choose your language:</p>
     <div class="twrap">
       <button class="tbtn live" data-lang="en">English</button>
@@ -105,16 +127,78 @@
       <span class="tbtn soon" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
       <span class="tbtn soon" data-tooltip="Launching soon in French">🕓 French — Coming Soon</span>
     </div>
-  </div>
+    <p class="top-note">You can change language later from your browser settings when we add more.</p>
+  </section>
 
-  <!-- Step 3: Embedded Form -->
-  <div id="formContainer">
+  <!-- NEW: Step 3A: Home Categories -->
+  <section id="homeSection">
+    <h2>Welcome to MindCheck 🌿</h2>
+    <p class="top-note">Choose what you want to do today:</p>
+
+    <div class="grid">
+      <!-- Mood -->
+      <div class="card" id="goMood">
+        <div class="big">😊</div>
+        <h3>Check Your Mood</h3>
+        <p>Tap an emoji and get a quick wellness tip.</p>
+      </div>
+
+      <!-- Screenings (opens your Tally in the page) -->
+      <div class="card" id="goScreenings">
+        <div class="big">🧠</div>
+        <h3>Mental Health Screenings</h3>
+        <p>WHO-5, PHQ-9, GAD-7, PSS-10 — private and quick.</p>
+      </div>
+
+      <!-- Tips (LINK THIS to your tips page or leave for later) -->
+      <a class="card" id="goTips" href="#" aria-label="Wellness Tips">
+        <div class="big">🌿</div>
+        <h3>Wellness Tips</h3>
+        <p>Small actions that make a big difference.</p>
+      </a>
+
+      <!-- Help (LINK THIS to your help/contacts page) -->
+      <a class="card" id="goHelp" href="#" aria-label="Get Help">
+        <div class="big">📞</div>
+        <h3>Get Help</h3>
+        <p>Talk to someone or find nearby support.</p>
+      </a>
+
+      <!-- Add your existing categories here as more .card items -->
+    </div>
+
+    <div class="toolbar">
+      <button id="backToLang" class="btn btn-ghost">Change Language</button>
+    </div>
+  </section>
+
+  <!-- NEW: Step 3B: Mood Check-in -->
+  <section id="moodSection">
+    <h2>How are you feeling today?</h2>
+    <div class="mood-row">
+      <button class="mood" data-val="4">😄</button>
+      <button class="mood" data-val="3">😊</button>
+      <button class="mood" data-val="2">😐</button>
+      <button class="mood" data-val="1">😞</button>
+      <button class="mood" data-val="0">😢</button>
+    </div>
+    <div id="moodResult" class="result" style="display:none;"></div>
+    <div class="toolbar">
+      <button id="moodBackHome" class="btn btn-ghost">Back to Home</button>
+    </div>
+  </section>
+
+  <!-- Existing: Step 3C: Embedded Form (Screenings) -->
+  <section id="formContainer">
     <iframe id="formFrame"
       src=""
       title="SpeakOut MindCheck form"
       loading="lazy"
       referrerpolicy="no-referrer"></iframe>
-  </div>
+    <div class="toolbar">
+      <button id="formBackHome" class="btn btn-ghost">Back to Home</button>
+    </div>
+  </section>
 
   <footer>
     🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
@@ -124,29 +208,94 @@
   </footer>
 
   <script>
+    // Elements
     const startBtn = document.getElementById('startBtn');
     const langSection = document.getElementById('langSection');
+    const homeSection = document.getElementById('homeSection');
+    const moodSection = document.getElementById('moodSection');
     const formContainer = document.getElementById('formContainer');
     const formFrame = document.getElementById('formFrame');
+    const moodResult = document.getElementById('moodResult');
 
-    // Step 1 → Step 2
+    // Simple UI show/hide helper
+    function show(sectionEl){
+      [langSection, homeSection, moodSection, formContainer].forEach(s => s.classList.remove('active'));
+      sectionEl.classList.add('active');
+      sectionEl.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // STEP 1 → STEP 2 (Start → Language)
     startBtn.addEventListener('click', () => {
       startBtn.style.display = 'none';
-      langSection.style.display = 'block';
-      langSection.scrollIntoView({ behavior: 'smooth' });
+      show(langSection);
     });
 
-    // Step 2 → Step 3
+    // STEP 2 → STEP 3A (Language → Home)
+    let chosenLang = 'en'; // default to English
     document.querySelectorAll('.tbtn.live').forEach(btn => {
       btn.addEventListener('click', () => {
-        const lang = btn.getAttribute('data-lang');
-        const formURL = `https://tally.so/r/w2QbOV?language=${lang}`;
-        formFrame.src = formURL;
-        langSection.style.display = 'none';
-        formContainer.style.display = 'block';
-        formContainer.scrollIntoView({ behavior: 'smooth' });
+        chosenLang = btn.getAttribute('data-lang') || 'en';
+        localStorage.setItem('mc_lang', chosenLang);
+        show(homeSection);
       });
     });
+
+    // Home actions
+    document.getElementById('goMood').addEventListener('click', () => show(moodSection));
+
+    document.getElementById('goScreenings').addEventListener('click', () => {
+      // Load your Tally form with selected language
+      const formURL = `https://tally.so/r/w2QbOV?language=${encodeURIComponent(chosenLang)}`;
+      formFrame.src = formURL;
+      show(formContainer);
+    });
+
+    // TODO: link these to your real pages/anchors when ready
+    document.getElementById('goTips').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Tips page coming soon. You can link this card to /tips.html or any page you have.');
+    });
+    document.getElementById('goHelp').addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Help & Contacts page coming soon. Link this card to /help.html or your contact page.');
+    });
+
+    // Back buttons
+    document.getElementById('backToLang').addEventListener('click', () => show(langSection));
+    document.getElementById('moodBackHome').addEventListener('click', () => show(homeSection));
+    document.getElementById('formBackHome').addEventListener('click', () => show(homeSection));
+
+    // Mood check-in (ultra-simple, no backend needed yet)
+    document.querySelectorAll('.mood').forEach(btn=>{
+      btn.addEventListener('click', () => {
+        const val = parseInt(btn.dataset.val, 10);
+        const emoji = ['😢','😞','😐','😊','😄'][val] || '😐';
+
+        // Friendly, instant feedback
+        let tip = "Take a slow deep breath for 60 seconds.";
+        if (val >= 3) tip = "Nice! Keep the good vibe — send a quick thank-you text to someone.";
+        if (val === 2) tip = "Take a 5-minute walk or stretch — small resets help.";
+        if (val <= 1) tip = "You’re not alone. Drink water, breathe, and talk to someone you trust.";
+
+        moodResult.style.display = 'block';
+        moodResult.innerHTML = `
+          <p>Thanks for checking in ${emoji}</p>
+          <p><strong>Tip:</strong> ${tip}</p>
+        `;
+
+        // Optional: store a lightweight local history for future charts
+        try {
+          const key = 'mc_mood_history';
+          const arr = JSON.parse(localStorage.getItem(key) || '[]');
+          arr.push({ ts: new Date().toISOString(), mood_value: val });
+          localStorage.setItem(key, JSON.stringify(arr));
+        } catch(e){ /* ignore storage errors */ }
+      });
+    });
+
+    // Restore last language if available
+    const savedLang = localStorage.getItem('mc_lang');
+    if (savedLang) chosenLang = savedLang;
   </script>
 </body>
 </html>
