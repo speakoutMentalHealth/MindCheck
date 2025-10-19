@@ -43,6 +43,7 @@
     .pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:600;}
     .mood-row{display:flex;justify-content:center;gap:12px;margin:16px 0;flex-wrap:wrap;}
     .mood{font-size:28px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:10px 12px;cursor:pointer;}
+    .mood-label{display:block;font-size:.8rem;color:#334155;font-weight:600;}
     .result{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px;margin:12px auto;max-width:520px;}
     .badge-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px auto;max-width:900px;}
     .badge{border:1px solid #e8eef5;border-radius:12px;background:#fff;text-align:left;padding:12px;}
@@ -100,12 +101,12 @@
   <section id="moodSection">
     <h2>How are you feeling today?</h2>
     <div class="mood-row">
-    <button class="mood" data-val="4">😄<br><span class="mood-label">Very Happy</span></button>
-    <button class="mood" data-val="3">😊<br><span class="mood-label">Happy</span></button>
-    <button class="mood" data-val="2">😐<br><span class="mood-label">Okay</span></button>
-    <button class="mood" data-val="1">😞<br><span class="mood-label">Sad</span></button>
-    <button class="mood" data-val="0">😢<br><span class="mood-label">Very Sad</span></button>
-  </div>
+      <button class="mood" data-val="4">😄<br><span class="mood-label">Very Happy</span></button>
+      <button class="mood" data-val="3">😊<br><span class="mood-label">Happy</span></button>
+      <button class="mood" data-val="2">😐<br><span class="mood-label">Okay</span></button>
+      <button class="mood" data-val="1">😞<br><span class="mood-label">Sad</span></button>
+      <button class="mood" data-val="0">😢<br><span class="mood-label">Very Sad</span></button>
+    </div>
     <div id="moodResult" class="result" style="display:none;"></div>
     <div class="toolbar"><button id="moodBackHome" class="btn btn-ghost">Back to Home</button></div>
   </section>
@@ -164,7 +165,7 @@
   <footer style="margin-top:20px;">
     🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
     📄 <a href="/MindCheck/terms.html">Terms</a> •
-    ✉ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
+    ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
   </footer>
 
   <script>
@@ -243,10 +244,11 @@
 
     /* ---------------- Helpers ---------------- */
     function todayStr(){
-      const d=new Date(); const y=d.getFullYear();
+      const d=new Date();
+      const y=d.getFullYear();
       const m=String(d.getMonth()+1).padStart(2,'0');
       const day=String(d.getDate()).padStart(2,'0');
-      return ${y}-${m}-${day};
+      return `${y}-${m}-${day}`;
     }
     function isoToDate(iso){ return new Date(iso); }
     function getJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }catch(e){ return fallback; } }
@@ -279,7 +281,7 @@
       const last = getLast();
       if(last===today){
         moodResult.style.display='block';
-        moodResult.innerHTML=<p>✅ You already checked in today. Come back tomorrow!</p>;
+        moodResult.innerHTML=`<p>✅ You already checked in today. Come back tomorrow!</p>`;
         return;
       }
 
@@ -325,7 +327,7 @@
         <p>🎉 Thanks for checking in ${emoji} — you earned <b>+10 points</b>.</p>
         <p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p>
         <p><b>Tip:</b> ${tip}</p>
-        ${newly.length ? <p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p> : ''}
+        ${newly.length ? `<p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p>` : ''}
         ${awardHTML}
       `;
 
@@ -344,7 +346,7 @@
       const m = String(today.getMonth()+1).padStart(2,'0');
       const d = String(today.getDate()).padStart(2,'0');
       const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
-      const id = MC-${y}${m}${d}-${uidTail}-${streakCycle};
+      const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
 
       const award = {
         id,
@@ -362,9 +364,9 @@
 
     function whatsAppClaimLink(award){
       const msg = encodeURIComponent(
-        Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${award.id}\nAmount: ₦${award.amount}\nUID: ${UID}\n\nThank you!
+        `Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${award.id}\nAmount: ₦${award.amount}\nUID: ${UID}\n\nThank you!`
       );
-      return https://wa.me/${WHATSAPP_NUMBER}?text=${msg};
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
     }
 
     /* ---------------- Home Stats & Header Pills ---------------- */
@@ -379,8 +381,8 @@
       const now=new Date(); const weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
       const weekCount=arr.filter(i=>{ const t=isoToDate(i.ts); return t>=weekAgo && t<=now; }).length;
       statsText.textContent = weekCount>0
-        ? 📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.
-        : 📊 You haven’t checked your mood this week yet — try it now!;
+        ? `📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`
+        : `📊 You haven’t checked your mood this week yet — try it now!`;
     }
 
     /* ---------------- Badges ---------------- */
@@ -409,12 +411,12 @@
     function renderAwards(){
       const awards = getAwards().sort((a,b)=> new Date(b.issued_at) - new Date(a.issued_at));
       if(!awards.length){
-        awardsList.innerHTML = <div class="award"><p>No awards yet. Keep your streak to win ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} every 20 days.</p></div>;
+        awardsList.innerHTML = `<div class="award"><p>No awards yet. Keep your streak to win ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} every 20 days.</p></div>`;
         return;
       }
       awardsList.innerHTML = awards.map(a=>{
         const when = new Date(a.issued_at).toLocaleString();
-        const status = a.claimed ? Claimed ✅ (${new Date(a.claimed_at).toLocaleString()}) : 'Pending 🔔';
+        const status = a.claimed ? `Claimed ✅ (${new Date(a.claimed_at).toLocaleString()})` : 'Pending 🔔';
         const btns = a.claimed ? '' : `
           <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a>
           <button class="btn btn-ghost" data-mark="${a.id}">Mark as Claimed</button>
@@ -479,7 +481,7 @@
     function renderTip(){
       const tip=pickTip(currentTipFilter);
       tipText.textContent=tip.text;
-      tipNote.textContent=currentTipFilter==='all' ? 'General tip' : Tip for: ${currentTipFilter};
+      tipNote.textContent=currentTipFilter==='all' ? 'General tip' : `Tip for: ${currentTipFilter}`;
     }
     document.querySelectorAll('.tip-filter').forEach(btn=>{
       btn.addEventListener('click', ()=>{ currentTipFilter=btn.dataset.filter||'all'; renderTip(); });
