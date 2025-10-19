@@ -1,0 +1,16 @@
+{
+  "name": "SpeakOut MindCheck",
+  "short_name": "MindCheck",
+  "start_url": "/MindCheck/",
+  "scope": "/MindCheck/",
+  "display": "standalone",
+  "background_color": "#22c55e",
+  "theme_color": "#22c55e",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
