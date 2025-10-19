@@ -491,43 +491,38 @@ window.MC_UID = UID;
     updateHeaderPills();
 
     /* ------------ BACKEND LOGGING (robust UID) ------------ */
-   (async () => {
+  (async () => {
   try {
-    const UID_SAFE = (typeof UID !== 'undefined' && UID) ? UID
-      : (window.MC_UID || localStorage.getItem('mc_uid') || (function(){
+    const UID_SAFE = (typeof UID !== 'undefined' && UID)
+      ? UID
+      : (localStorage.getItem('mc_uid') || (function(){
           try { return crypto.randomUUID(); } catch { return 'mc_' + Math.random().toString(36).slice(2); }
         })());
 
-    const todayISO = todayStr();
-    const awardsLocal = JSON.parse(localStorage.getItem('mc_awards') || '[]');
-    const lastAward = awardsLocal.length ? awardsLocal[awardsLocal.length-1] : null;
-    const todaysAward = (lastAward && (lastAward.issued_at||'').slice(0,10) === todayISO && (lastAward.uid||'') === UID_SAFE) ? lastAward : null;
-
     const body = {
+      auth: 'speakout123',                // 🔐 must match BEARER_TOKEN in Code.gs
       type: 'checkin',
       uid: UID_SAFE,
-      day: todayISO,
+      day: todayStr(),
       mood_value: moodValue,
       streak_after: getStreak(),
       points_after: getPoints(),
       lang: localStorage.getItem('mc_lang') || 'en',
       app_version: 'v1.0.0',
-      award_issued: !!todaysAward,
-      award_id: todaysAward ? todaysAward.id : ''
+      award_issued: !!created,
+      award_id: created ? created.id : ''
     };
 
     await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer speakout123'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
   } catch (e) {
     console.warn('Check-in logging failed:', e);
   }
 })();
+
 
   }
 </script>
