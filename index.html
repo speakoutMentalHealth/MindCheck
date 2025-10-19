@@ -6,82 +6,54 @@
 <title>SpeakOut MindCheck 💚</title>
 <link rel="icon" type="image/png" href="favicon.png" />
 <style>
-:root {
-  --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
-  --bg:#f5fdf8; --card:#ffffff;
-}
-body {
-  font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:var(--bg);color:var(--ink);text-align:center;margin:0;padding:0;
-}
+:root{--green:#22c55e;--greenDark:#16a34a;--ink:#062436;--gray:#d1d5db;--bg:#f5fdf8;}
+body{font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);text-align:center;margin:0;padding:0;}
 header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;}
 p{margin:.75rem 0;}
-.btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;}
-.btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
-.btn-primary:hover{background:var(--greenDark);}
-.btn-ghost{background:#fff;border:1px solid #e5e7eb;}
-section{display:none;padding:16px;animation:fadeIn .25s ease-in-out;}
-section.active{display:block;}
+#startBtn{background:var(--green);color:#fff;border:none;padding:15px 35px;border-radius:40px;font-size:1.1rem;cursor:pointer;margin-top:24px;transition:.2s;box-shadow:0 6px 20px rgba(34,197,94,0.3);}
+#startBtn:hover{background:var(--greenDark);transform:translateY(-1px) scale(1.02);}
+#langSection{display:none;margin-top:22px;animation:fadeIn .8s ease-in-out;}
 .twrap{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:10px;}
-.tbtn{background:var(--green);color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;
-  transition:.2s ease;display:inline-flex;align-items:center;gap:6px;cursor:pointer;
-  box-shadow:0 4px 15px rgba(34,197,94,.25);}
-.tbtn:hover{background:var(--greenDark);transform:translateY(-1px) scale(1.03);}
+.tbtn{background:var(--green);color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;transition:.2s;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 15px rgba(34,197,94,0.25);cursor:pointer;}
+.tbtn:hover{background:var(--greenDark);}
 .tbtn.live{animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;text-align:left;}
-.card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;
-  box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;}
-.card:hover{transform:translateY(-2px);}
-.card .big{font-size:28px;line-height:1;}
-.card h3{margin:.4rem 0 .25rem;font-size:1.05rem;}
-.card p{margin:.2rem 0 0;color:#52606d;font-size:.92rem;}
-.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto;max-width:960px;}
-.pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:600;}
-.mood-row{display:flex;justify-content:center;gap:12px;margin:16px 0;flex-wrap:wrap;}
-.mood{font-size:28px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:10px 14px;
-  cursor:pointer;width:90px;text-align:center;line-height:1.4;}
-.mood-label{display:block;font-size:0.8rem;color:#334155;font-weight:600;}
-.mood.selected{border-color:var(--green);background:#e9fcef;transform:scale(1.05);}
-.result{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px;margin:12px auto;max-width:520px;}
+#formContainer{display:none;margin-top:20px;animation:fadeIn .8s ease-in-out;}
 iframe{width:100%;height:800px;border:0;border-radius:12px;background:#fff;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
-.toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;}footer a{color:inherit;}
+/* Mood Check Styling */
+#moodSection{display:none;margin-top:20px;}
+.mood-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:18px 0;}
+.mood{font-size:28px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:10px 14px;cursor:pointer;width:90px;text-align:center;line-height:1.4;}
+.mood-label{display:block;font-size:.8rem;color:#334155;font-weight:600;}
+.mood.selected{border-color:var(--green);background:#e9fcef;transform:scale(1.05);}
+.result{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px;margin:12px auto;max-width:480px;}
+.pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;font-weight:600;margin:0 4px;}
 </style>
 </head>
 <body>
 <header>🧠 SpeakOut MindCheck Nigeria</header>
 <p>Check your mental health privately, safely, and in your preferred language.</p>
 
-<button id="startBtn" class="btn btn-primary">Start Now</button>
+<!-- Step 1 -->
+<button id="startBtn">Start Now</button>
 
-<!-- Language -->
-<section id="langSection">
+<!-- Step 2 -->
+<div id="langSection">
   <p style="font-weight:700;">🌍 Choose your language:</p>
   <div class="twrap">
     <button class="tbtn live" data-lang="en">English</button>
-    <span class="tbtn soon" data-tooltip="Launching soon">🕓 Hausa — Coming Soon</span>
+    <span class="tbtn soon" data-tooltip="Launching soon in Hausa">🕓 Hausa — Coming Soon</span>
+    <span class="tbtn soon" data-tooltip="Launching soon in Yoruba">🕓 Yoruba — Coming Soon</span>
+    <span class="tbtn soon" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
   </div>
-</section>
+</div>
 
-<!-- Home -->
-<section id="homeSection">
-  <h2>Welcome to MindCheck 🌿</h2>
-  <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
-  <div class="stats">
-    <span class="pill">Points: <span id="pointsPill">0</span></span>
-    <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
-  </div>
-  <div class="grid">
-    <div class="card" id="goMood"><div class="big">😊</div><h3>Check Your Mood</h3><p>Earn points (+10) once daily.</p></div>
-    <div class="card" id="goScreenings"><div class="big">🧠</div><h3>Screenings</h3><p>WHO-5, PHQ-9, GAD-7</p></div>
-  </div>
-</section>
-
-<!-- Mood -->
+<!-- Mood Check -->
 <section id="moodSection">
   <h2>How are you feeling today?</h2>
+  <p id="statsLine" style="font-weight:500;"></p>
   <div class="mood-row">
     <button class="mood" data-val="4">😄<br><span class="mood-label">Very Happy</span></button>
     <button class="mood" data-val="3">😊<br><span class="mood-label">Happy</span></button>
@@ -90,54 +62,30 @@ footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
     <button class="mood" data-val="0">😢<br><span class="mood-label">Very Sad</span></button>
   </div>
   <div id="moodResult" class="result" style="display:none;"></div>
-  <div class="toolbar"><button id="moodBackHome" class="btn btn-ghost">Back to Home</button></div>
+  <p><button id="moodBackBtn" class="tbtn">⬅ Back</button></p>
 </section>
 
 <!-- Form -->
-<section id="formContainer">
-  <iframe id="formFrame" src=""></iframe>
-  <div class="toolbar"><button id="formBackHome" class="btn btn-ghost">Back to Home</button></div>
-</section>
+<div id="formContainer">
+  <iframe id="formFrame" title="SpeakOut MindCheck form"></iframe>
+</div>
 
 <footer>
-🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
-📄 <a href="/MindCheck/terms.html">Terms</a> •
-✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
+🔒 <a href="/MindCheck/privacy.html">Privacy</a> • 📄 <a href="/MindCheck/terms.html">Terms</a> • ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
 </footer>
 
 <script>
 const startBtn=document.getElementById('startBtn');
 const langSection=document.getElementById('langSection');
-const homeSection=document.getElementById('homeSection');
-const moodSection=document.getElementById('moodSection');
 const formContainer=document.getElementById('formContainer');
 const formFrame=document.getElementById('formFrame');
+const moodSection=document.getElementById('moodSection');
 const moodResult=document.getElementById('moodResult');
-const pointsPill=document.getElementById('pointsPill');
-const streakPill=document.getElementById('streakPill');
-const statsText=document.getElementById('statsText');
+const statsLine=document.getElementById('statsLine');
+const API_URL="PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
-const API_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
-
-function show(section){
-  [langSection,homeSection,moodSection,formContainer].forEach(s=>s.classList.remove('active'));
-  section.classList.add('active');
-}
-
-startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
-document.querySelectorAll('.tbtn.live').forEach(btn=>{
-  btn.onclick=()=>{show(homeSection);}
-});
-document.getElementById('goMood').onclick=()=>show(moodSection);
-document.getElementById('moodBackHome').onclick=()=>show(homeSection);
-document.getElementById('goScreenings').onclick=()=>{
-  formFrame.src='https://tally.so/r/w2QbOV';
-  show(formContainer);
-};
-document.getElementById('formBackHome').onclick=()=>show(homeSection);
-
-// Storage keys
-const KEY_POINTS='mc_points', KEY_STREAK='mc_streak', KEY_LAST='mc_lastCheckin', KEY_HISTORY='mc_mood_history';
+/* STATE */
+const KEY_POINTS='mc_points',KEY_STREAK='mc_streak',KEY_LAST='mc_lastCheckin',KEY_HISTORY='mc_history';
 function getPoints(){return parseInt(localStorage.getItem(KEY_POINTS)||'0',10);}
 function setPoints(v){localStorage.setItem(KEY_POINTS,v);}
 function addPoints(n){setPoints(getPoints()+n);}
@@ -145,11 +93,23 @@ function getStreak(){return parseInt(localStorage.getItem(KEY_STREAK)||'0',10);}
 function setStreak(v){localStorage.setItem(KEY_STREAK,v);}
 function getLast(){return localStorage.getItem(KEY_LAST)||'';}
 function setLast(v){localStorage.setItem(KEY_LAST,v);}
-function todayStr(){const d=new Date();return d.toISOString().slice(0,10);}
+function todayStr(){return new Date().toISOString().slice(0,10);}
 function getJSON(k,f){try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f));}catch(e){return f;}}
 function setJSON(k,v){localStorage.setItem(k,JSON.stringify(v));}
 
-// Mood click
+startBtn.onclick=()=>{startBtn.style.display='none';langSection.style.display='block';};
+document.querySelectorAll('.tbtn.live').forEach(b=>b.onclick=()=>{langSection.style.display='none';formContainer.style.display='block';formFrame.src='https://tally.so/r/w2QbOV';});
+document.getElementById('moodBackBtn').onclick=()=>{moodSection.style.display='none';formContainer.style.display='block';};
+
+function updateStats(){
+  const arr=getJSON(KEY_HISTORY,[]);
+  const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-7);
+  const count=arr.filter(i=>new Date(i.ts)>=weekAgo).length;
+  statsLine.textContent=`📊 Mood checks this week: ${count}`;
+}
+updateStats();
+
+/* Mood check */
 document.querySelectorAll('.mood').forEach(btn=>{
   btn.onclick=()=>{
     document.querySelectorAll('.mood').forEach(b=>b.classList.remove('selected'));
@@ -157,38 +117,24 @@ document.querySelectorAll('.mood').forEach(btn=>{
     handleCheckin(parseInt(btn.dataset.val,10));
   };
 });
-
-function handleCheckin(moodValue){
+function handleCheckin(val){
   const today=todayStr(), last=getLast();
-  if(last===today){
-    moodResult.style.display='block';
-    moodResult.innerHTML='<p>✅ You already checked in today. Come back tomorrow!</p>';
-    return;
-  }
-  addPoints(10); setLast(today);
-  const yesterdayStr=(()=>{const d=new Date();d.setDate(d.getDate()-1);return d.toISOString().slice(0,10);})();
-  if(last===yesterdayStr)setStreak(getStreak()+1);else setStreak(1);
-  const arr=getJSON(KEY_HISTORY,[]); arr.push({ts:new Date().toISOString(),mood_value:moodValue}); setJSON(KEY_HISTORY,arr);
-  const emoji=['😢','😞','😐','😊','😄'][moodValue]||'😐';
-  let tip='Take a deep breath for 60 seconds.';
-  if(moodValue>=3) tip='Great mood! Share a smile 🌻.';
-  if(moodValue===2) tip='Stretch or walk a bit to refresh.';
-  if(moodValue<=1) tip='You’re not alone — breathe and reach out.';
-  moodResult.style.display='block';
-  moodResult.innerHTML=`<p>🎉 Thanks for checking in ${emoji} — +10 points!</p><p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p><p><b>Tip:</b> ${tip}</p>`;
-  pointsPill.textContent=getPoints();
-  streakPill.textContent=getStreak();
-  const payload={uid:"UID_"+navigator.userAgent.slice(-6),mood_value:moodValue,streak:getStreak(),points:getPoints(),timestamp:new Date().toISOString(),timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,source:'pwa'};
-  fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(r=>r.json()).then(d=>console.log('✅ sent',d)).catch(e=>console.log('❌',e));
+  if(last===today){moodResult.style.display='block';moodResult.innerHTML='✅ You already checked in today!';return;}
+  addPoints(10);setLast(today);
+  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+  const yStr=yesterday.toISOString().slice(0,10);
+  setStreak(last===yStr?getStreak()+1:1);
+  const arr=getJSON(KEY_HISTORY,[]);arr.push({ts:new Date().toISOString(),mood_value:val});setJSON(KEY_HISTORY,arr);
+  const emoji=['😢','😞','😐','😊','😄'][val];const tips=['You’re not alone.','Breathe deeply.','Take a stretch.','Keep it up!','Share a smile!'][val];
+  const pts=getPoints(),streak=getStreak();
+  let msg=`🎉 Thanks for checking in ${emoji} +10 points! <br>Points: <b>${pts}</b> | Streak: <b>${streak}</b> day(s)`;
+  if(streak%20===0){const uid='MC'+Math.random().toString(36).slice(2,8);msg+=`<br>🏆 You’ve won ₦1000!<br><a href="https://wa.me/2348118103510?text=I am claiming my ₦1000 award ID:${uid}" class="tbtn" target="_blank">Claim via WhatsApp</a>`;}
+  moodResult.innerHTML=msg+`<p><b>Tip:</b> ${tips}</p>`;moodResult.style.display='block';
+  updateStats();
+  const payload={uid:'UID_'+navigator.userAgent.slice(-6),mood_value:val,streak,points:pts,timestamp:new Date().toISOString(),timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,source:'pwa'};
+  fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(r=>r.json()).then(d=>console.log('✅ sent',d)).catch(e=>console.error(e));
 }
-
-function updateStats(){
-  const arr=getJSON(KEY_HISTORY,[]);
-  const now=new Date();const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);
-  const weekCount=arr.filter(i=>new Date(i.ts)>=weekAgo).length;
-  statsText.textContent=weekCount>0?`📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`:`📊 You haven’t checked your mood this week yet.`;
-}
-show(homeSection);updateStats();
 </script>
 </body>
 </html>
