@@ -491,57 +491,44 @@ window.MC_UID = UID;
     updateHeaderPills();
 
     /* ------------ BACKEND LOGGING (robust UID) ------------ */
-    (async () => {
-      try {
-        // Safe UID even if global UID is out of scope for any reason
-        const UID_SAFE = (typeof UID !== 'undefined' && UID)
-          ? UID
-          : (localStorage.getItem('mc_uid') || (function(){ 
-              function _mk() {
-                try { return crypto.randomUUID(); } catch(_) { return 'mc_' + Math.random().toString(36).slice(2); }
-              }
-              const u = _mk();
-              localStorage.setItem('mc_uid', u);
-              return u;
-            })());
+   (async () => {
+  try {
+    const UID_SAFE = (typeof UID !== 'undefined' && UID) ? UID
+      : (window.MC_UID || localStorage.getItem('mc_uid') || (function(){
+          try { return crypto.randomUUID(); } catch { return 'mc_' + Math.random().toString(36).slice(2); }
+        })());
 
-        // If user just won an award, send it; otherwise try to infer "today's" award from storage
-        const todayISO = todayStr();
-        const inferredAward = created || (function(){
-          try {
-            const list = JSON.parse(localStorage.getItem('mc_awards') || '[]');
-            if(!list.length) return null;
-            const lastA = list[list.length-1];
-            if ((lastA.issued_at||'').slice(0,10) === todayISO && (lastA.uid||'') === UID_SAFE) return lastA;
-          } catch(_) {}
-          return null;
-        })();
+    const todayISO = todayStr();
+    const awardsLocal = JSON.parse(localStorage.getItem('mc_awards') || '[]');
+    const lastAward = awardsLocal.length ? awardsLocal[awardsLocal.length-1] : null;
+    const todaysAward = (lastAward && (lastAward.issued_at||'').slice(0,10) === todayISO && (lastAward.uid||'') === UID_SAFE) ? lastAward : null;
 
-        const body = {
-          type: 'checkin',
-          uid: UID_SAFE,
-          day: todayISO,
-          mood_value: moodValue,
-          streak_after: getStreak(),
-          points_after: getPoints(),
-          lang: localStorage.getItem('mc_lang') || 'en',
-          app_version: 'v1.0.0',
-          award_issued: !!inferredAward,
-          award_id: inferredAward ? inferredAward.id : ''
-        };
+    const body = {
+      type: 'checkin',
+      uid: UID_SAFE,
+      day: todayISO,
+      mood_value: moodValue,
+      streak_after: getStreak(),
+      points_after: getPoints(),
+      lang: localStorage.getItem('mc_lang') || 'en',
+      app_version: 'v1.0.0',
+      award_issued: !!todaysAward,
+      award_id: todaysAward ? todaysAward.id : ''
+    };
 
-        await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer speakout123'
-          },
-          body: JSON.stringify(body)
-        });
-      } catch (e) {
-        console.warn('Check-in logging failed:', e);
-      }
-    })();
+    await fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer YOUR_SECRET_HERE'
+      },
+      body: JSON.stringify(body)
+    });
+  } catch (e) {
+    console.warn('Check-in logging failed:', e);
+  }
+})();
+
   }
 </script>
 
