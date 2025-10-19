@@ -1,35 +1,57 @@
-// sw.js (MindCheck folder)
-const CACHE_NAME = 'mindcheck-v1';
-// List the core files you want available offline
-const OFFLINE_URLS = [
-  './',                // resolves to /MindCheck/
-  './index.html',
+// /MindCheck/sw.js
+const CACHE_VERSION = 'mc-v5';               // bump this to force an update
+const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
+const PRECACHE_URLS = [
+  './',                     // scope root
+  './manifest.webmanifest',
   './favicon.png',
-  './privacy.html',    // include if you have it
-  './terms.html'       // include if you have it
+  './icons/apple-touch-icon.png'
 ];
 
+// Install: pre-cache a few static files (NOT index.html)
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(OFFLINE_URLS))
+    caches.open(RUNTIME_CACHE).then((cache) => cache.addAll(PRECACHE_URLS))
   );
   self.skipWaiting();
 });
 
+// Activate: clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-    ))
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter(k => k !== RUNTIME_CACHE).map(k => caches.delete(k)))
+    )
   );
   self.clients.claim();
 });
 
+// Fetch:
+// - HTML: NETWORK-FIRST (so new index.html shows immediately)
+// - Other: CACHE-FIRST with network fallback
 self.addEventListener('fetch', (event) => {
-  // Try cache first, fall back to network
+  const req = event.request;
+  const isHTML = req.headers.get('accept')?.includes('text/html');
+
+  if (isHTML) {
+    event.respondWith(
+      fetch(req).then((res) => {
+        const resClone = res.clone();
+        caches.open(RUNTIME_CACHE).then((c) => c.put(req, resClone));
+        return res;
+      }).catch(() => caches.match(req))
+    );
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request);
+    caches.match(req).then((cached) => {
+      if (cached) return cached;
+      return fetch(req).then((res) => {
+        const resClone = res.clone();
+        caches.open(RUNTIME_CACHE).then((c) => c.put(req, resClone));
+        return res;
+      }).catch(() => cached);
     })
   );
 });
