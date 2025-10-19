@@ -403,6 +403,35 @@
 
     maybeShowCrisis();
     updateHeaderPills();
+    // ---------- Send anonymous check-in to Google Sheet ----------
+(async () => {
+  try {
+    const body = {
+      type: 'checkin',
+      uid: UID,                               // comes from your getUID() in index.html
+      day: todayStr(),                        // e.g. "2025-10-19"
+      mood_value: moodValue,                  // the mood user selected
+      streak_after: getStreak(),
+      points_after: getPoints(),
+      lang: localStorage.getItem('mc_lang') || 'en',
+      app_version: 'v1.0.0',
+      award_issued: typeof created !== 'undefined' && !!created,
+      award_id: created ? created.id : ''
+    };
+
+    await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer REPLACE_WITH_YOUR_SECRET'
+      },
+      body: JSON.stringify(body)
+    });
+  } catch (e) {
+    console.warn('Check-in logging failed:', e);
+  }
+})();
+
   }
 
   function createStreakAwardIfNew(streakCycle){
