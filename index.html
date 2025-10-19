@@ -1,452 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SpeakOut MindCheck 💚</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <style>
-    :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; --bg:#f5fdf8; --card:#ffffff; }
-    body { font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); text-align:center; margin:0; padding:0; }
-    header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;}
-    p{margin:.75rem 0;}
-    .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;}
-    .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
-    .btn-primary:hover{background:var(--greenDark);}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
-    section{display:none;padding:16px;animation:fadeIn .25s ease-in-out;} section.active{display:block;}
-    .twrap{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:10px;}
-    .tbtn{background:var(--green);color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;transition:.2s ease;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 15px rgba(34,197,94,.25);}
-    .tbtn:hover{background:var(--greenDark);transform:translateY(-1px) scale(1.03);}
-    .tbtn.live{animation:pulse 2s infinite;} @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
-    .tbtn.soon{background:linear-gradient(145deg,#a7f3d0,#6ee7b7);color:#064e3b;cursor:default;position:relative;}
-    .tbtn.soon::after{content:attr(data-tooltip);position:absolute;bottom:125%;left:50%;transform:translateX(-50%);background:#062436;color:#fff;padding:6px 10px;border-radius:6px;font-size:.8rem;white-space:nowrap;opacity:0;transition:opacity .3s;box-shadow:0 3px 8px rgba(0,0,0,.15);}
-    .tbtn.soon:hover::after{opacity:1;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;text-align:left;}
-    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;}
-    .card:hover{transform:translateY(-2px);} .card .big{font-size:28px;line-height:1;} .card h3{margin:.4rem 0 .25rem;font-size:1.05rem;} .card p{margin:.2rem 0 0;color:#52606d;font-size:.92rem;}
-    .stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto;max-width:960px;}
-    .pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:600;}
-    .mood-row{display:flex;justify-content:center;gap:12px;margin:16px 0;flex-wrap:wrap;}
-    .mood{font-size:28px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:10px 12px;cursor:pointer;}
-    .result{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px;margin:12px auto;max-width:520px;}
-    .badge-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px auto;max-width:900px;}
-    .badge{border:1px solid #e8eef5;border-radius:12px;background:#fff;text-align:left;padding:12px;} .badge.locked{opacity:.55;}
-    .badge .name{font-weight:700;margin:.2rem 0;} .badge .desc{font-size:.9rem;color:#52606d;margin:.1rem 0 .3rem;} .badge .status{font-size:.85rem;color:#0b5;}
-    .award-list{max-width:900px;margin:14px auto;display:grid;gap:12px;}
-    .award{border:1px solid #e8eef5;border-radius:12px;background:#fff;text-align:left;padding:12px;}
-    .award .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
-    .award .id{font-family:ui-monospace,Consolas,monospace;background:#f6f7f9;border:1px solid #e8eef5;border-radius:6px;padding:4px 6px;}
-    iframe{width:100%;height:800px;border:0;border-radius:12px;background:#fff;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-    footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
-    .toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
-    /* Tips UI tweak */
-    #tipCard h3{font-size:1.1rem;margin:.25rem 0 .5rem;}
-    #tipCard p{line-height:1.6;}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SpeakOut MindCheck 💚</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<style>
+:root {
+  --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
+  --bg:#f5fdf8; --card:#ffffff;
+}
+body {
+  font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:var(--bg);color:var(--ink);text-align:center;margin:0;padding:0;
+}
+header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;}
+p{margin:.75rem 0;}
+.btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;}
+.btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
+.btn-primary:hover{background:var(--greenDark);}
+.btn-ghost{background:#fff;border:1px solid #e5e7eb;}
+section{display:none;padding:16px;animation:fadeIn .25s ease-in-out;}
+section.active{display:block;}
+.twrap{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:10px;}
+.tbtn{background:var(--green);color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;
+  transition:.2s ease;display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+  box-shadow:0 4px 15px rgba(34,197,94,.25);}
+.tbtn:hover{background:var(--greenDark);transform:translateY(-1px) scale(1.03);}
+.tbtn.live{animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;text-align:left;}
+.card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;
+  box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;}
+.card:hover{transform:translateY(-2px);}
+.card .big{font-size:28px;line-height:1;}
+.card h3{margin:.4rem 0 .25rem;font-size:1.05rem;}
+.card p{margin:.2rem 0 0;color:#52606d;font-size:.92rem;}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto;max-width:960px;}
+.pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:600;}
+.mood-row{display:flex;justify-content:center;gap:12px;margin:16px 0;flex-wrap:wrap;}
+.mood{font-size:28px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:10px 14px;
+  cursor:pointer;width:90px;text-align:center;line-height:1.4;}
+.mood-label{display:block;font-size:0.8rem;color:#334155;font-weight:600;}
+.mood.selected{border-color:var(--green);background:#e9fcef;transform:scale(1.05);}
+.result{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px;margin:12px auto;max-width:520px;}
+iframe{width:100%;height:800px;border:0;border-radius:12px;background:#fff;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
+.toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+</style>
 </head>
 <body>
-  <header>🧠 SpeakOut MindCheck Nigeria</header>
-  <p>Check your mental health privately, safely, and in your preferred language.</p>
+<header>🧠 SpeakOut MindCheck Nigeria</header>
+<p>Check your mental health privately, safely, and in your preferred language.</p>
 
-  <button id="startBtn" class="btn btn-primary">Start Now</button>
+<button id="startBtn" class="btn btn-primary">Start Now</button>
 
-  <!-- Language -->
-  <section id="langSection">
-    <p style="font-weight:700;">🌍 Choose your language:</p>
-    <div class="twrap">
-      <button class="tbtn live" data-lang="en">English</button>
-      <span class="tbtn soon" data-tooltip="Launching soon in Hausa">🕓 Hausa — Coming Soon</span>
-      <span class="tbtn soon" data-tooltip="Launching soon in Yoruba">🕓 Yoruba — Coming Soon</span>
-      <span class="tbtn soon" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
-      <span class="tbtn soon" data-tooltip="Launching soon in French">🕓 French — Coming Soon</span>
-    </div>
-  </section>
+<!-- Language -->
+<section id="langSection">
+  <p style="font-weight:700;">🌍 Choose your language:</p>
+  <div class="twrap">
+    <button class="tbtn live" data-lang="en">English</button>
+    <span class="tbtn soon" data-tooltip="Launching soon">🕓 Hausa — Coming Soon</span>
+  </div>
+</section>
 
-  <!-- Home + Stats -->
-  <section id="homeSection">
-    <h2>Welcome to MindCheck 🌿</h2>
-    <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
-    <div class="stats">
-      <span class="pill">Points: <span id="pointsPill">0</span></span>
-      <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
-      <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
-    </div>
-    <div class="grid">
-      <div class="card" id="goMood"><div class="big">😊</div><h3>Check Your Mood</h3><p>Earn points once daily (+10). 20-day streak wins ₦1000.</p></div>
-      <div class="card" id="goScreenings"><div class="big">🧠</div><h3>Mental Health Screenings</h3><p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p></div>
-      <a class="card" id="goTips" href="#"><div class="big">🌿</div><h3>Wellness Tips</h3><p>Guided mini-exercises for any mood.</p></a>
-      <a class="card" id="goHelp" href="#"><div class="big">📞</div><h3>Get Help</h3><p>Find mental-health support nearby.</p></a>
-      <div class="card" id="goBadges"><div class="big">🏅</div><h3>Badges & Awards</h3><p>See unlocked badges & claim awards.</p></div>
-    </div>
-  </section>
+<!-- Home -->
+<section id="homeSection">
+  <h2>Welcome to MindCheck 🌿</h2>
+  <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
+  <div class="stats">
+    <span class="pill">Points: <span id="pointsPill">0</span></span>
+    <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
+  </div>
+  <div class="grid">
+    <div class="card" id="goMood"><div class="big">😊</div><h3>Check Your Mood</h3><p>Earn points (+10) once daily.</p></div>
+    <div class="card" id="goScreenings"><div class="big">🧠</div><h3>Screenings</h3><p>WHO-5, PHQ-9, GAD-7</p></div>
+  </div>
+</section>
 
-  <!-- Mood Check-in -->
-  <section id="moodSection">
-    <h2>How are you feeling today?</h2>
-    <div class="mood-row">
-      <button class="mood" data-val="4">😄</button>
-      <button class="mood" data-val="3">😊</button>
-      <button class="mood" data-val="2">😐</button>
-      <button class="mood" data-val="1">😞</button>
-      <button class="mood" data-val="0">😢</button>
-    </div>
-    <div id="moodResult" class="result" style="display:none;"></div>
-    <div class="toolbar"><button id="moodBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
+<!-- Mood -->
+<section id="moodSection">
+  <h2>How are you feeling today?</h2>
+  <div class="mood-row">
+    <button class="mood" data-val="4">😄<br><span class="mood-label">Very Happy</span></button>
+    <button class="mood" data-val="3">😊<br><span class="mood-label">Happy</span></button>
+    <button class="mood" data-val="2">😐<br><span class="mood-label">Okay</span></button>
+    <button class="mood" data-val="1">😞<br><span class="mood-label">Sad</span></button>
+    <button class="mood" data-val="0">😢<br><span class="mood-label">Very Sad</span></button>
+  </div>
+  <div id="moodResult" class="result" style="display:none;"></div>
+  <div class="toolbar"><button id="moodBackHome" class="btn btn-ghost">Back to Home</button></div>
+</section>
 
-  <!-- Screenings form -->
-  <section id="formContainer">
-    <iframe id="formFrame" src="" title="SpeakOut MindCheck form"></iframe>
-    <div class="toolbar"><button id="formBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
+<!-- Form -->
+<section id="formContainer">
+  <iframe id="formFrame" src=""></iframe>
+  <div class="toolbar"><button id="formBackHome" class="btn btn-ghost">Back to Home</button></div>
+</section>
 
-  <!-- Wellness Tips (ELABORATE) -->
-  <section id="tipsSection">
-    <h2>Wellness Tips 🌿</h2>
-    <div class="toolbar">
-      <button class="btn btn-ghost tip-filter" data-filter="all">All</button>
-      <button class="btn btn-ghost tip-filter" data-filter="calm">Calm</button>
-      <button class="btn btn-ghost tip-filter" data-filter="anxious">Anxious</button>
-      <button class="btn btn-ghost tip-filter" data-filter="low">Low</button>
-      <button class="btn btn-ghost tip-filter" data-filter="neutral">Neutral</button>
-      <button class="btn btn-ghost tip-filter" data-filter="positive">Positive</button>
-    </div>
-    <div class="card" id="tipCard" style="max-width:720px;margin:14px auto;text-align:left;">
-      <div class="big">🌱</div>
-      <h3 id="tipText" style="margin:.5rem 0;"></h3>
-      <div id="tipNote" style="color:#52606d;margin:0;"></div>
-    </div>
-    <div class="toolbar">
-      <button id="tipDoneBtn" class="btn btn-primary">Mark as done</button>
-      <button id="nextTip" class="btn btn-ghost">Show another tip</button>
-      <button id="tipsBackHome" class="btn btn-ghost">Back to Home</button>
-    </div>
-  </section>
+<footer>
+🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
+📄 <a href="/MindCheck/terms.html">Terms</a> •
+✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
+</footer>
 
-  <!-- Get Help -->
-  <section id="helpSection">
-    <h2>Get Help 📞</h2>
-    <p style="color:#334155">If you're in immediate danger or feel unsafe, contact your local emergency number.</p>
-    <div class="grid" style="max-width:820px;margin:0 auto;">
-      <a class="card" href="tel:112"><div class="big">🚑</div><h3>Emergency Services</h3><p>Call 112 (or your country emergency number) for urgent help.</p></a>
-      <a class="card" href="tel:+2348118103510"><div class="big">📞</div><h3>SpeakOut Helpline</h3><p>Call us for support and referral options.</p></a>
-      <a class="card" href="https://wa.me/2348118103510" target="_blank" rel="noopener"><div class="big">💬</div><h3>WhatsApp</h3><p>Chat with a SpeakOut volunteer.</p></a>
-      <a class="card" href="/MindCheck/resources.html"><div class="big">📍</div><h3>Clinics & Resources</h3><p>Find mental-health services near you.</p></a>
-    </div>
-    <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
+<script>
+const startBtn=document.getElementById('startBtn');
+const langSection=document.getElementById('langSection');
+const homeSection=document.getElementById('homeSection');
+const moodSection=document.getElementById('moodSection');
+const formContainer=document.getElementById('formContainer');
+const formFrame=document.getElementById('formFrame');
+const moodResult=document.getElementById('moodResult');
+const pointsPill=document.getElementById('pointsPill');
+const streakPill=document.getElementById('streakPill');
+const statsText=document.getElementById('statsText');
 
-  <!-- Badges & Awards -->
-  <section id="badgesSection">
-    <h2>Badges & Awards 🏅</h2>
-    <p style="color:#334155">Daily mood check-ins earn points; 20-day streak wins ₦1000. Claim via WhatsApp with your Award ID.</p>
-    <div id="badgesGrid" class="badge-list"></div>
-    <h3 style="margin-top:18px;">Your Awards</h3>
-    <div id="awardsList" class="award-list"></div>
-    <div class="toolbar"><button id="badgesBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
+const API_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
-  <footer style="margin-top:20px;">
-    🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
-    📄 <a href="/MindCheck/terms.html">Terms</a> •
-    ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
-  </footer>
+function show(section){
+  [langSection,homeSection,moodSection,formContainer].forEach(s=>s.classList.remove('active'));
+  section.classList.add('active');
+}
 
-  <script>
-    /* ---------------- Sections & Elements ---------------- */
-    const startBtn=document.getElementById('startBtn');
-    const langSection=document.getElementById('langSection');
-    const homeSection=document.getElementById('homeSection');
-    const moodSection=document.getElementById('moodSection');
-    const formContainer=document.getElementById('formContainer');
-    const tipsSection=document.getElementById('tipsSection');
-    const helpSection=document.getElementById('helpSection');
-    const badgesSection=document.getElementById('badgesSection');
+startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
+document.querySelectorAll('.tbtn.live').forEach(btn=>{
+  btn.onclick=()=>{show(homeSection);}
+});
+document.getElementById('goMood').onclick=()=>show(moodSection);
+document.getElementById('moodBackHome').onclick=()=>show(homeSection);
+document.getElementById('goScreenings').onclick=()=>{
+  formFrame.src='https://tally.so/r/w2QbOV';
+  show(formContainer);
+};
+document.getElementById('formBackHome').onclick=()=>show(homeSection);
 
-    const formFrame=document.getElementById('formFrame');
-    const statsText=document.getElementById('statsText');
-    const pointsPill=document.getElementById('pointsPill');
-    const streakPill=document.getElementById('streakPill');
-    const awardsPill=document.getElementById('awardsPill');
-    const moodResult=document.getElementById('moodResult');
-    const tipText=document.getElementById('tipText');
-    const tipNote=document.getElementById('tipNote');
-    const nextTipBtn=document.getElementById('nextTip');
-    const tipDoneBtn=document.getElementById('tipDoneBtn');
-    const badgesGrid=document.getElementById('badgesGrid');
-    const awardsList=document.getElementById('awardsList');
+// Storage keys
+const KEY_POINTS='mc_points', KEY_STREAK='mc_streak', KEY_LAST='mc_lastCheckin', KEY_HISTORY='mc_mood_history';
+function getPoints(){return parseInt(localStorage.getItem(KEY_POINTS)||'0',10);}
+function setPoints(v){localStorage.setItem(KEY_POINTS,v);}
+function addPoints(n){setPoints(getPoints()+n);}
+function getStreak(){return parseInt(localStorage.getItem(KEY_STREAK)||'0',10);}
+function setStreak(v){localStorage.setItem(KEY_STREAK,v);}
+function getLast(){return localStorage.getItem(KEY_LAST)||'';}
+function setLast(v){localStorage.setItem(KEY_LAST,v);}
+function todayStr(){const d=new Date();return d.toISOString().slice(0,10);}
+function getJSON(k,f){try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f));}catch(e){return f;}}
+function setJSON(k,v){localStorage.setItem(k,JSON.stringify(v));}
 
-    function show(section){
-      [langSection,homeSection,moodSection,formContainer,tipsSection,helpSection,badgesSection].forEach(s=>s.classList.remove('active'));
-      section.classList.add('active');
-      section.scrollIntoView({behavior:'smooth'});
-      if(section===homeSection){ updateStats(); updateHeaderPills(); }
-      if(section===badgesSection){ renderBadges(); renderAwards(); }
-    }
+// Mood click
+document.querySelectorAll('.mood').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.mood').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    handleCheckin(parseInt(btn.dataset.val,10));
+  };
+});
 
-    /* ---------------- Navigation ---------------- */
-    startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
-    document.querySelectorAll('.tbtn.live').forEach(btn=>{
-      btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); show(homeSection); };
-    });
+function handleCheckin(moodValue){
+  const today=todayStr(), last=getLast();
+  if(last===today){
+    moodResult.style.display='block';
+    moodResult.innerHTML='<p>✅ You already checked in today. Come back tomorrow!</p>';
+    return;
+  }
+  addPoints(10); setLast(today);
+  const yesterdayStr=(()=>{const d=new Date();d.setDate(d.getDate()-1);return d.toISOString().slice(0,10);})();
+  if(last===yesterdayStr)setStreak(getStreak()+1);else setStreak(1);
+  const arr=getJSON(KEY_HISTORY,[]); arr.push({ts:new Date().toISOString(),mood_value:moodValue}); setJSON(KEY_HISTORY,arr);
+  const emoji=['😢','😞','😐','😊','😄'][moodValue]||'😐';
+  let tip='Take a deep breath for 60 seconds.';
+  if(moodValue>=3) tip='Great mood! Share a smile 🌻.';
+  if(moodValue===2) tip='Stretch or walk a bit to refresh.';
+  if(moodValue<=1) tip='You’re not alone — breathe and reach out.';
+  moodResult.style.display='block';
+  moodResult.innerHTML=`<p>🎉 Thanks for checking in ${emoji} — +10 points!</p><p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p><p><b>Tip:</b> ${tip}</p>`;
+  pointsPill.textContent=getPoints();
+  streakPill.textContent=getStreak();
+  const payload={uid:"UID_"+navigator.userAgent.slice(-6),mood_value:moodValue,streak:getStreak(),points:getPoints(),timestamp:new Date().toISOString(),timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,source:'pwa'};
+  fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(r=>r.json()).then(d=>console.log('✅ sent',d)).catch(e=>console.log('❌',e));
+}
 
-    document.getElementById('goMood').onclick=()=>show(moodSection);
-    document.getElementById('moodBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goScreenings').onclick=()=>{
-      formFrame.src='https://tally.so/r/w2QbOV';
-      show(formContainer);
-    };
-    document.getElementById('formBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goTips').onclick=(e)=>{e.preventDefault(); currentTipFilter = lastMoodTag(); show(tipsSection); renderTip();};
-    document.getElementById('tipsBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goHelp').onclick=(e)=>{e.preventDefault(); show(helpSection);};
-    document.getElementById('helpBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goBadges').onclick=()=>show(badgesSection);
-    document.getElementById('badgesBackHome').onclick=()=>show(homeSection);
-
-    /* ---------------- Storage Keys & Helpers ---------------- */
-    const KEY_UID='mc_uid', KEY_POINTS='mc_points', KEY_STREAK='mc_streak', KEY_LAST='mc_lastCheckin';
-    const KEY_HISTORY='mc_mood_history', KEY_BADGES='mc_badges', KEY_AWARDS='mc_awards';
-    const KEY_TIPS_DONE='mc_tips_done';
-
-    function getUID(){ let uid=localStorage.getItem(KEY_UID);
-      if(!uid){ uid=(crypto&&crypto.randomUUID)?crypto.randomUUID():('mc_'+Math.random().toString(36).slice(2)); localStorage.setItem(KEY_UID,uid); }
-      return uid;
-    }
-    const UID = getUID();
-
-    function todayStr(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
-    const isoToDate = (iso)=>new Date(iso);
-    const getJSON=(k,f)=>{ try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f));}catch(e){return f;} };
-    const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-    const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
-    const setPoints=(v)=>localStorage.setItem(KEY_POINTS,String(v));
-    const addPoints=(n)=>setPoints(getPoints()+n);
-    const getStreak=()=>parseInt(localStorage.getItem(KEY_STREAK)||'0',10);
-    const setStreak=(v)=>localStorage.setItem(KEY_STREAK,String(v));
-    const getLast=()=>localStorage.getItem(KEY_LAST)||''; const setLast=(v)=>localStorage.setItem(KEY_LAST,v);
-    const getBadges=()=>getJSON(KEY_BADGES,[]); const setBadges=(arr)=>setJSON(KEY_BADGES,arr); const hasBadge=(id)=>getBadges().includes(id);
-    function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true; } return false; }
-    const getAwards=()=>getJSON(KEY_AWARDS,[]); const setAwards=(arr)=>setJSON(KEY_AWARDS,arr);
-
-    /* ---------------- Config ---------------- */
-    const AWARD_AMOUNT_NAIRA = 1000;
-    const WHATSAPP_NUMBER = '2348118103510'; // no "+" here
-    const GAS_URL = 'https://script.google.com/macros/s/PASTE_YOUR_APPS_SCRIPT_ID/exec'; // <-- set yours
-    const AUTH_KEY = 'SPEAKOUT2025SECRET'; // if you enabled auth in Apps Script
-
-    /* ---------------- Mood Check-in (once daily + backend POST + awards) ---------------- */
-    document.querySelectorAll('.mood').forEach(btn=>{
-      btn.onclick=()=>handleCheckin(parseInt(btn.dataset.val,10));
-    });
-
-    function handleCheckin(moodValue){
-      const today=todayStr(); const last=getLast();
-      if(last===today){
-        moodResult.style.display='block';
-        moodResult.innerHTML=`<p>✅ You already checked in today. Come back tomorrow!</p>`;
-        return;
-      }
-      addPoints(10); setLast(today);
-      const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
-      if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
-
-      const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
-
-      const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
-      let tip="Take a deep breath for 60 seconds.";
-      if(moodValue>=3) tip="Great mood! Share a smile today 🌻.";
-      if(moodValue===2) tip="Stretch or walk a little to refresh.";
-      if(moodValue<=1) tip="You’re not alone — breathe and reach out if you need help.";
-
-      const newly=[];
-      if(awardBadge('first_checkin')) newly.push('First Check-in');
-      if(getStreak()>=3 && awardBadge('streak_3')) newly.push('3-Day Streak');
-      if(getStreak()>=7 && awardBadge('streak_7')) newly.push('7-Day Streak');
-      const pts=getPoints();
-      if(pts>=100 && awardBadge('points_100')) newly.push('100 Points');
-      if(pts>=300 && awardBadge('points_300')) newly.push('300 Points');
-
-      let awardHTML='';
-      const streak=getStreak();
-      if(streak>0 && streak%20===0){
-        const created=createStreakAwardIfNew(streak);
-        if(created){
-          awardHTML=`<p style="font-size:1.05rem;">🎁 <b>Congratulations!</b> You’ve won <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>Use your Award ID to claim on WhatsApp.</p>
-          <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
-          <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener">Claim via WhatsApp</a></p>`;
-        }
-      }
-
-      moodResult.style.display='block';
-      moodResult.innerHTML=`
-        <p>🎉 Thanks for checking in ${emoji} — you earned <b>+10 points</b>.</p>
-        <p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p>
-        <p><b>Tip:</b> ${tip}</p>
-        ${newly.length ? `<p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p>` : ''}
-        ${awardHTML}
-      `;
-      updateHeaderPills();
-
-      // ---- Send mood to Google Apps Script
-      const payload = {
-        type: "mood",
-        uid: UID,
-        mood_value: moodValue,
-        streak: getStreak(),
-        points: getPoints(),
-        timestamp: new Date().toISOString()
-      };
-      postToGAS(payload);
-    }
-
-    function createStreakAwardIfNew(streakCycle){
-      const awards=getAwards();
-      const exists=awards.find(a=>a.streak_cycle===streakCycle);
-      if(exists) return null;
-      const today=new Date();
-      const y=today.getFullYear(), m=String(today.getMonth()+1).padStart(2,'0'), d=String(today.getDate()).padStart(2,'0');
-      const uidTail=UID.replace(/-/g,'').slice(-6).toUpperCase();
-      const id=`MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
-      const award={ id, amount:AWARD_AMOUNT_NAIRA, issued_at:today.toISOString(), streak_cycle:streakCycle, uid:UID, claimed:false, claimed_at:null };
-      awards.push(award); setAwards(awards); return award;
-    }
-    function whatsAppClaimLink(award){
-      const msg=encodeURIComponent(`Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${award.id}\nAmount: ₦${award.amount}\nUID: ${UID}\n\nThank you!`);
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-    }
-
-    /* ---------------- Home Stats & Badges/Awards rendering ---------------- */
-    function updateHeaderPills(){ pointsPill.textContent=getPoints(); streakPill.textContent=getStreak(); awardsPill.textContent=getAwards().filter(a=>!a.claimed).length; }
-    function updateStats(){
-      const arr=getJSON(KEY_HISTORY, []);
-      const now=new Date(), weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
-      const weekCount=arr.filter(i=>{ const t=isoToDate(i.ts); return t>=weekAgo && t<=now; }).length;
-      statsText.textContent = weekCount>0 ? `📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.` : `📊 You haven’t checked your mood this week yet — try it now!`;
-    }
-
-    const BADGE_CATALOG=[
-      { id:'first_checkin', name:'First Check-in', desc:'Your first ever mood check.' },
-      { id:'streak_3', name:'3-Day Streak', desc:'Checked your mood 3 days in a row.' },
-      { id:'streak_7', name:'7-Day Streak', desc:'Checked your mood 7 days in a row.' },
-      { id:'points_100', name:'100 Points', desc:'Reached 100 total points.' },
-      { id:'points_300', name:'300 Points', desc:'Reached 300 total points.' },
-    ];
-    function renderBadges(){
-      const owned=new Set(getBadges());
-      badgesGrid.innerHTML = BADGE_CATALOG.map(b=>{
-        const unlocked=owned.has(b.id);
-        return `<div class="badge ${unlocked?'':'locked'}"><div class="name">🏅 ${b.name}</div><div class="desc">${b.desc}</div><div class="status">${unlocked?'Unlocked ✅':'Locked 🔒'}</div></div>`;
-      }).join('');
-    }
-    function renderAwards(){
-      const awards=getAwards().sort((a,b)=>new Date(b.issued_at)-new Date(a.issued_at));
-      if(!awards.length){ awardsList.innerHTML=`<div class="award"><p>No awards yet. Keep your streak to win ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} every 20 days.</p></div>`; return; }
-      awardsList.innerHTML=awards.map(a=>{
-        const when=new Date(a.issued_at).toLocaleString();
-        const status=a.claimed?`Claimed ✅ (${new Date(a.claimed_at).toLocaleString()})`:'Pending 🔔';
-        const btns=a.claimed?'':`<a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a> <button class="btn btn-ghost" data-mark="${a.id}">Mark as Claimed</button>`;
-        return `<div class="award"><div class="row"><div><div><b>₦${a.amount.toLocaleString()}</b> • Streak: ${a.streak_cycle} days</div><div>ID: <span class="id">${a.id}</span></div><div style="color:#52606d">Issued: ${when} • ${status}</div></div><div>${btns}</div></div></div>`;
-      }).join('');
-      document.querySelectorAll('[data-mark]').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const id=btn.getAttribute('data-mark'); const list=getAwards(); const idx=list.findIndex(x=>x.id===id);
-          if(idx>-1){ list[idx].claimed=true; list[idx].claimed_at=new Date().toISOString(); setAwards(list); renderAwards(); updateHeaderPills(); alert('Marked as claimed. Thank you!'); }
-        });
-      });
-    }
-
-    /* ---------------- ELABORATE WELLNESS TIPS ---------------- */
-    // Added an id field so we can log a stable TipID
-    const TIPS = [
-      { id:"breathe_intention", text:"🌬️ Breathe with Intention", detail:"Find a quiet spot. Breathe in through your nose for 4 seconds, hold for 4 seconds, then exhale slowly through your mouth for 6 seconds. Repeat 5 times. This deep breathing lowers stress hormones and brings your body into a calm state.", tags:["anxious","neutral","low"] },
-      { id:"walk_10min", text:"🚶 Take a 10-Minute Walk", detail:"Step outside or walk around your space at a gentle pace. Focus on what you can see, hear, and feel — the air on your skin, the sounds around you. Movement increases serotonin and clears mental fog.", tags:["low","neutral","positive"] },
-      { id:"write_it_out", text:"💭 Write It Out", detail:"Open your notes and free-write for five minutes without editing. Getting thoughts out of your head reduces mental clutter and helps you process emotions.", tags:["anxious","low"] },
-      { id:"morning_gratitude", text:"🌅 Morning Gratitude Ritual", detail:"List three things you’re grateful for — even small ones. Gratitude trains your brain to notice positives and strengthens resilience.", tags:["neutral","positive"] },
-      { id:"relax_body", text:"🧴 Relax Your Body", detail:"From head to toe: gently tense each muscle for 5 seconds, then release. Notice the contrast. This progressive relaxation helps release stored tension.", tags:["anxious","neutral"] },
-      { id:"connect_someone", text:"📞 Connect with Someone You Trust", detail:"Send a short message or make a quick call. Social connection lowers anxiety and reminds you you’re not alone.", tags:["low","anxious"] },
-      { id:"digital_detox", text:"🧠 Digital Detox Moment", detail:"Take a 30-minute break from screens. Step away from news and notifications. Use the time to breathe, stretch, or rest your eyes to restore focus.", tags:["anxious","neutral"] },
-      { id:"mindful_pause", text:"🍃 Mindful Pause", detail:"Close your eyes for 60 seconds and observe your breath. Let thoughts come and go without judgment. Even one minute can reset your nervous system.", tags:["anxious","calm","neutral"] },
-      { id:"warm_comfort", text:"☕ Warm Comfort", detail:"Make a warm drink. Hold the cup with both hands. Feel the heat and breathe in the aroma. This sensory grounding signals safety to your body.", tags:["low","anxious","neutral"] },
-      { id:"rest_without_guilt", text:"🛌 Rest Without Guilt", detail:"If you’re tired, allow a 10-minute rest. Lie down and follow your breath. Resting is how your body repairs and resets.", tags:["low","neutral","anxious"] },
-      { id:"sound_therapy", text:"🎶 Sound Therapy", detail:"Play soft instrumental or nature sounds. Let the rhythm soften your breathing and bring you into the present.", tags:["anxious","low","neutral"] },
-      { id:"reflect_good", text:"📔 Reflect on a Good Moment", detail:"Recall one small win or kind moment today. Replay it for 30 seconds. Reliving positives boosts serotonin and gratitude.", tags:["positive","neutral"] },
-      { id:"affirm_self", text:"🌻 Affirm Yourself", detail:"Say: “I am enough. I’m doing my best, and that’s okay.” Repeating affirmations can shift self-talk toward compassion.", tags:["low","neutral"] },
-      { id:"touch_nature", text:"🏞️ Touch Nature", detail:"Step outside if possible. Notice trees, clouds, or birds for a few minutes. Exposure to nature lowers cortisol and brightens mood.", tags:["neutral","low","positive"] },
-      { id:"grounding_54321", text:"🧍 Grounding (5-4-3-2-1)", detail:"Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you can taste. This anchors you in the present.", tags:["anxious","low"] }
-    ];
-    let currentTipFilter='all';
-    let currentTip=null;
-
-    function lastMoodTag(){
-      const arr=getJSON(KEY_HISTORY, []); if(!arr.length) return 'all';
-      const last=arr[arr.length-1].mood_value; if(last<=1) return 'low'; if(last===2) return 'neutral'; if(last>=3) return 'positive'; return 'all';
-    }
-    function pickTip(filter='all'){
-      const pool = filter==='all' ? TIPS : TIPS.filter(t=>t.tags.includes(filter));
-      if(!pool.length) return { id:"fallback", text:"Mindful breath", detail:"Take 5 slow breaths. Inhale 4, hold 4, exhale 6.", tags:["all"] };
-      const dayIndex = new Date().getDate() % pool.length; // Tip-of-day rotation
-      return pool[dayIndex];
-    }
-    function renderTip(){
-      currentTip = pickTip(currentTipFilter);
-      tipText.textContent=currentTip.text;
-      tipNote.innerHTML = `<p style="margin-top:8px;">${currentTip.detail}</p><p style="margin:.3rem 0 0;color:#6b7280;">${currentTipFilter==='all'?'General tip':('Suggested for: '+currentTipFilter)}</p>`;
-    }
-    document.querySelectorAll('.tip-filter').forEach(btn=>{
-      btn.addEventListener('click', ()=>{ currentTipFilter=btn.dataset.filter||'all'; renderTip(); });
-    });
-    nextTipBtn.addEventListener('click', ()=>{
-      const pool = currentTipFilter==='all' ? TIPS : TIPS.filter(t=>t.tags.includes(currentTipFilter));
-      currentTip = pool[Math.floor(Math.random()*pool.length)];
-      tipText.textContent=currentTip.text;
-      tipNote.innerHTML=`<p style="margin-top:8px;">${currentTip.detail}</p><p style="margin:.3rem 0 0;color:#6b7280;">${currentTipFilter==='all'?'General tip':('Suggested for: '+currentTipFilter)}</p>`;
-    });
-
-    // ---- Tip completion: local save + backend POST
-    tipDoneBtn.addEventListener('click', ()=>{
-      if(!currentTip){ renderTip(); }
-      // Local log
-      const done = getJSON(KEY_TIPS_DONE, []);
-      done.push({ uid: UID, tip_id: currentTip.id, tip_text: currentTip.text, filter: currentTipFilter, timestamp: new Date().toISOString() });
-      setJSON(KEY_TIPS_DONE, done);
-      // Optional: give tiny points bonus
-      addPoints(2); updateHeaderPills();
-
-      // Backend POST
-      const payload = {
-        type: "tip",
-        uid: UID,
-        tip_id: currentTip.id,
-        tip_text: currentTip.text,
-        tip_filter: currentTipFilter,
-        timestamp: new Date().toISOString()
-      };
-      postToGAS(payload).then(()=>{
-        tipDoneBtn.textContent = "Saved ✓";
-        setTimeout(()=> tipDoneBtn.textContent = "Mark as done", 1500);
-      }).catch(()=>{ /* leave button text */ });
-    });
-
-    // Shared POST helper
-    function postToGAS(payload){
-      if (!GAS_URL || !GAS_URL.includes('/exec')) return Promise.resolve();
-      const url = AUTH_KEY ? `${GAS_URL}?key=${encodeURIComponent(AUTH_KEY)}` : GAS_URL;
-      return fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }).then(r=>r.json()).then(j=>{ console.log('✅ Sent to GAS', j); return j; });
-    }
-
-    /* ---------------- Boot ---------------- */
-    startBtn.style.display='';
-  </script>
+function updateStats(){
+  const arr=getJSON(KEY_HISTORY,[]);
+  const now=new Date();const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);
+  const weekCount=arr.filter(i=>new Date(i.ts)>=weekAgo).length;
+  statsText.textContent=weekCount>0?`📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`:`📊 You haven’t checked your mood this week yet.`;
+}
+show(homeSection);updateStats();
+</script>
 </body>
 </html>
