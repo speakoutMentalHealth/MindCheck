@@ -348,11 +348,11 @@
       award_id: latestAward ? latestAward.id : ''
     };
 
-    await fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec', {
+    await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer REPLACE_WITH_YOUR_SECRET'
+        'Authorization': 'Bearer speakout123'
       },
       body: JSON.stringify(body)
     });
@@ -401,32 +401,37 @@
     btn.onclick=()=>handleCheckin(parseInt(btn.dataset.val,10));
   });
 
+ <script>
   function handleCheckin(moodValue){
     const today = todayStr();
     const last = getLast();
+
+    // Block double check-in in same day
     if(last===today){
       moodResult.style.display='block';
       moodResult.innerHTML=`<p>✅ You already checked in today. Come back tomorrow!</p>`;
       return;
     }
 
-    // Points, last, streak
+    /* ------------ Points, Streak, History ------------ */
     addPoints(10);
     setLast(today);
+
     const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
     if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
 
-    // History
-    const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
+    const arr=getJSON(KEY_HISTORY, []);
+    arr.push({ ts:new Date().toISOString(), mood_value:moodValue });
+    setJSON(KEY_HISTORY, arr);
 
-    // Tip + feedback
+    /* ------------ Feedback tip ------------ */
     const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
     let tip="Take a deep breath for 60 seconds.";
     if(moodValue>=3) tip="Great mood! Share a smile today 🌻.";
     if(moodValue===2) tip="Stretch or walk a little to refresh.";
     if(moodValue<=1) tip="You’re not alone — breathe and reach out if you need help.";
 
-    // Badges
+    /* ------------ Badges ------------ */
     const newly=[];
     if(awardBadge('first_checkin')) newly.push('First Check-in');
     if(getStreak()>=3 && awardBadge('streak_3')) newly.push('3-Day Streak');
@@ -435,18 +440,24 @@
     if(pts>=100 && awardBadge('points_100')) newly.push('100 Points');
     if(pts>=300 && awardBadge('points_300')) newly.push('300 Points');
 
-    // Award (every 20-day streak)
+    /* ------------ Award (every 20 days) ------------ */
     let awardHTML='';
+    let created = null; // keep a reference we can send to backend
     const streak = getStreak();
     if(streak>0 && streak%20===0){
-      const created = createStreakAwardIfNew(streak);
+      created = createStreakAwardIfNew(streak);
       if(created){
-        awardHTML = `<p style="font-size:1.05rem;">🎁 <b>Congratulations!</b> You’ve won <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>Use your Award ID to claim on WhatsApp.</p>
-        <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
-        <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener">Claim via WhatsApp</a></p>`;
+        awardHTML = `
+          <p style="font-size:1.05rem;">🎁 <b>Congratulations!</b> You’ve won
+          <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>
+          Use your Award ID to claim on WhatsApp.</p>
+          <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
+          <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener">Claim via WhatsApp</a></p>
+        `;
       }
     }
 
+    /* ------------ Show result UI ------------ */
     moodResult.style.display='block';
     moodResult.innerHTML=`
       <p>🎉 Thanks for checking in ${emoji} — you earned <b>+10 points</b>.</p>
@@ -456,38 +467,63 @@
       ${awardHTML}
     `;
 
-    maybeShowCrisis();
     updateHeaderPills();
-    // ---------- Send anonymous check-in to Google Sheet ----------
-(async () => {
-  try {
-    const body = {
-      type: 'checkin',
-      uid: UID,                               // comes from your getUID() in index.html
-      day: todayStr(),                        // e.g. "2025-10-19"
-      mood_value: moodValue,                  // the mood user selected
-      streak_after: getStreak(),
-      points_after: getPoints(),
-      lang: localStorage.getItem('mc_lang') || 'en',
-      app_version: 'v1.0.0',
-      award_issued: typeof created !== 'undefined' && !!created,
-      award_id: created ? created.id : ''
-    };
 
-    await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer REPLACE_WITH_YOUR_SECRET'
-      },
-      body: JSON.stringify(body)
-    });
-  } catch (e) {
-    console.warn('Check-in logging failed:', e);
-  }
-})();
+    /* ------------ BACKEND LOGGING (robust UID) ------------ */
+    (async () => {
+      try {
+        // Safe UID even if global UID is out of scope for any reason
+        const UID_SAFE = (typeof UID !== 'undefined' && UID)
+          ? UID
+          : (localStorage.getItem('mc_uid') || (function(){ 
+              function _mk() {
+                try { return crypto.randomUUID(); } catch(_) { return 'mc_' + Math.random().toString(36).slice(2); }
+              }
+              const u = _mk();
+              localStorage.setItem('mc_uid', u);
+              return u;
+            })());
 
+        // If user just won an award, send it; otherwise try to infer "today's" award from storage
+        const todayISO = todayStr();
+        const inferredAward = created || (function(){
+          try {
+            const list = JSON.parse(localStorage.getItem('mc_awards') || '[]');
+            if(!list.length) return null;
+            const lastA = list[list.length-1];
+            if ((lastA.issued_at||'').slice(0,10) === todayISO && (lastA.uid||'') === UID_SAFE) return lastA;
+          } catch(_) {}
+          return null;
+        })();
+
+        const body = {
+          type: 'checkin',
+          uid: UID_SAFE,
+          day: todayISO,
+          mood_value: moodValue,
+          streak_after: getStreak(),
+          points_after: getPoints(),
+          lang: localStorage.getItem('mc_lang') || 'en',
+          app_version: 'v1.0.0',
+          award_issued: !!inferredAward,
+          award_id: inferredAward ? inferredAward.id : ''
+        };
+
+        await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer speakout123'
+          },
+          body: JSON.stringify(body)
+        });
+      } catch (e) {
+        console.warn('Check-in logging failed:', e);
+      }
+    })();
   }
+</script>
+
 
   function createStreakAwardIfNew(streakCycle){
     const awards = getAwards();
