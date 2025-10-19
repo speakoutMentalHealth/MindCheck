@@ -32,13 +32,6 @@
     .card p{margin:.2rem 0 0;color:#52606d;font-size:.92rem;}
     .stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto;max-width:960px;}
     .pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:600;}
-    /* sparkline */
-    .sparkline-wrap{display:flex;justify-content:center;margin-top:6px;}
-    .sparkline{width:240px;height:42px;}
-    .mood-row{display:flex;justify-content:center;gap:12px;margin:16px 0;flex-wrap:wrap;}
-    .mood{font-size:28px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:10px 12px;cursor:pointer;}
-    .mood-label{display:block;font-size:.8rem;color:#334155;font-weight:600;}
-    .result{background:#f0f7ff;border:1px solid #cfe3ff;border-radius:10px;padding:12px;margin:12px auto;max-width:520px;}
     /* crisis banner */
     .crisis{max-width:680px;margin:12px auto;padding:12px;border:1px solid #fecaca;background:#fff1f2;border-radius:12px;color:#7f1d1d;}
     .crisis .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
@@ -89,10 +82,7 @@
       <span class="pill">Tips done (7d): <span id="tipsDonePill">0</span></span>
       <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
     </div>
-    <!-- sparkline -->
-    <div class="sparkline-wrap">
-      <svg id="moodSpark" class="sparkline" viewBox="0 0 120 20" aria-label="7-day mood trend"></svg>
-    </div>
+    
 
     <div class="grid">
       <div class="card" id="goMood"><div class="big">😊</div><h3>Check Your Mood</h3><p>Earn points once daily (+10). 20-day streak wins ₦1000.</p></div>
