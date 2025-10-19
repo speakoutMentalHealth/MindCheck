@@ -315,72 +315,52 @@ const UID = getUID();
 window.MC_UID = UID;
 </script>
 
-  /* ---------------- UID ---------------- */
-  function getUID(){
-    let uid = localStorage.getItem(KEY_UID);
-    if(!uid){
-      uid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('mc_'+Math.random().toString(36).slice(2));
-      localStorage.setItem(KEY_UID, uid);
-    }
-    return uid;
+ <script>
+/* ---------------- UID ---------------- */
+function getUID() {
+  let uid = localStorage.getItem(KEY_UID);
+  if (!uid) {
+    uid = (crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : ('mc_' + Math.random().toString(36).slice(2));
+    localStorage.setItem(KEY_UID, uid);
   }
-  const UID = getUID();
-  window.MC_UID = UID;
+  return uid;
+}
 
-    // ---------- Send anonymous check-in to Google Sheet (robust UID) ----------
+const UID = getUID();
+window.MC_UID = UID;
+
+// ---- Send anonymous check-in ----
 (async () => {
   try {
-    // Safely obtain UID even if a global UID isn't visible in this scope
     const UID_SAFE = (typeof UID !== 'undefined' && UID)
       ? UID
-      : (localStorage.getItem('mc_uid') || (function(){ 
-          // If somehow missing, re-generate it to avoid sending "undefined"
-          function _mk() {
-            try { return crypto.randomUUID(); } catch(_) { return 'mc_' + Math.random().toString(36).slice(2); }
-          }
-          const u = _mk();
-          localStorage.setItem('mc_uid', u);
-          return u;
-        })());
-
-    // If you want to flag an award in the payload without relying on "created" variable:
-    const today = (function(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; })();
-    const latestAward = (function(){
-      try {
-        const arr = JSON.parse(localStorage.getItem('mc_awards') || '[]');
-        if (!arr.length) return null;
-        const last = arr[arr.length - 1];
-        // consider it "today's" award if issued today and belongs to this UID
-        if ((last.issued_at||'').slice(0,10) === today && (last.uid||'') === UID_SAFE) return last;
-      } catch(_) {}
-      return null;
-    })();
+      : (localStorage.getItem('mc_uid') || 'mc_' + Math.random().toString(36).slice(2));
 
     const body = {
+      auth: 'speakout123',
       type: 'checkin',
       uid: UID_SAFE,
-      day: today,
-      mood_value: moodValue,              // <-- from handleCheckin parameter
+      day: todayStr(),
+      mood_value: moodValue,
       streak_after: getStreak(),
       points_after: getPoints(),
       lang: localStorage.getItem('mc_lang') || 'en',
-      app_version: 'v1.0.0',
-      award_issued: !!latestAward,
-      award_id: latestAward ? latestAward.id : ''
+      app_version: 'v1.0.0'
     };
 
     await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer speakout123'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
   } catch (e) {
     console.warn('Check-in logging failed:', e);
   }
 })();
+</script>
+
 
   /* ---------------- Helpers ---------------- */
   function todayStr(){
