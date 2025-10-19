@@ -657,6 +657,15 @@
   document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
   document.getElementById('goBadges')?.addEventListener('click', ()=>track('OpenBadges'));
 </script>
+<script>
+  // Register the service worker scoped to the MindCheck folder
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js', { scope: './' })
+        .catch(err => console.warn('SW registration failed:', err));
+    });
+  }
+</script>
 
 </body>
 </html>
