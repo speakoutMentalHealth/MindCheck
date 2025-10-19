@@ -59,6 +59,10 @@
     @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
     footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
     .toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+
+    /* saved tips list tweaks (optional) */
+    #savedTipsList li { margin: 6px 0; }
+    #savedTipsList small { color:#64748b; }
   </style>
 </head>
 <body>
@@ -117,9 +121,12 @@
     <div class="toolbar"><button id="formBackHome" class="btn btn-ghost">Back to Home</button></div>
   </section>
 
-  <!-- Wellness Tips -->
+  <!-- Wellness Tips (dynamic + save/done) -->
   <section id="tipsSection">
     <h2>Wellness Tips 🌿</h2>
+
+    <p id="tipsGreeting" style="font-weight:600;color:#334155;margin:6px 0;"></p>
+
     <div class="toolbar">
       <button class="btn btn-ghost tip-filter" data-filter="all">All</button>
       <button class="btn btn-ghost tip-filter" data-filter="calm">Calm</button>
@@ -128,11 +135,24 @@
       <button class="btn btn-ghost tip-filter" data-filter="neutral">Neutral</button>
       <button class="btn btn-ghost tip-filter" data-filter="positive">Positive</button>
     </div>
+
     <div class="card" id="tipCard" style="max-width:680px;margin:14px auto;text-align:left;">
       <div class="big">🌱</div>
       <h3 id="tipText" style="margin:.5rem 0;"></h3>
       <p id="tipNote" style="color:#52606d;margin:0;"></p>
+
+      <div class="toolbar" style="justify-content:flex-start;margin-top:12px;">
+        <button id="tipDoneBtn" class="btn btn-primary">I did this ✅</button>
+        <button id="tipSaveBtn" class="btn btn-ghost">Save tip ⭐</button>
+      </div>
+      <p id="tipStatus" style="color:#0b5;font-weight:600;display:none;margin-top:8px;"></p>
     </div>
+
+    <details style="max-width:680px;margin:10px auto;text-align:left;background:#fff;border:1px solid #eef2f7;border-radius:12px;padding:10px;">
+      <summary style="cursor:pointer;font-weight:700;">⭐ Saved tips</summary>
+      <ul id="savedTipsList" style="padding-left:18px;margin-top:8px;"></ul>
+    </details>
+
     <div class="toolbar">
       <button id="nextTip" class="btn btn-primary">Show another tip</button>
       <button id="tipsBackHome" class="btn btn-ghost">Back to Home</button>
@@ -190,6 +210,11 @@
     const nextTipBtn=document.getElementById('nextTip');
     const badgesGrid=document.getElementById('badgesGrid');
     const awardsList=document.getElementById('awardsList');
+    const tipsGreeting=document.getElementById('tipsGreeting');
+    const tipSaveBtn=document.getElementById('tipSaveBtn');
+    const tipDoneBtn=document.getElementById('tipDoneBtn');
+    const tipStatus=document.getElementById('tipStatus');
+    const savedTipsList=document.getElementById('savedTipsList');
 
     function show(section){
       [langSection,homeSection,moodSection,formContainer,tipsSection,helpSection,badgesSection].forEach(s=>s.classList.remove('active'));
@@ -197,6 +222,7 @@
       section.scrollIntoView({behavior:'smooth'});
       if(section===homeSection){ updateStats(); updateHeaderPills(); }
       if(section===badgesSection){ renderBadges(); renderAwards(); }
+      if(section===tipsSection){ renderSavedTips(); }
     }
 
     startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
@@ -228,8 +254,11 @@
     const KEY_STREAK='mc_streak';
     const KEY_LAST='mc_lastCheckin'; // "YYYY-MM-DD"
     const KEY_HISTORY='mc_mood_history';
-    const KEY_BADGES='mc_badges'; // ["first_checkin", ...]
-    const KEY_AWARDS='mc_awards'; // [{id,amount,issued_at,streak_cycle,claimed:boolean,claimed_at?}]
+    const KEY_BADGES='mc_badges';
+    const KEY_AWARDS='mc_awards';
+
+    const KEY_TIPS_SAVED='mc_tips_saved'; // [{text,saved_at}]
+    const KEY_TIPS_DONE ='mc_tips_done';  // [{text,done_at}]
 
     /* ---------------- UID ---------------- */
     function getUID(){
@@ -266,6 +295,12 @@
     function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true;} return false; }
     const getAwards=()=>getJSON(KEY_AWARDS, []);
     const setAwards=arr=>setJSON(KEY_AWARDS, arr);
+
+    // tips storage helpers
+    function getSavedTips(){ return getJSON(KEY_TIPS_SAVED, []); }
+    function setSavedTips(arr){ setJSON(KEY_TIPS_SAVED, arr); }
+    function getDoneTips(){ return getJSON(KEY_TIPS_DONE, []); }
+    function setDoneTips(arr){ setJSON(KEY_TIPS_DONE, arr); }
 
     /* ---------------- Config (Adjust for ops) ---------------- */
     const AWARD_AMOUNT_NAIRA = 1000;
@@ -336,18 +371,14 @@
 
     function createStreakAwardIfNew(streakCycle){
       const awards = getAwards();
-      // avoid duplicates for same cycle
       const exists = awards.find(a => a.streak_cycle===streakCycle);
       if(exists) return null;
-
-      // Generate unique Award ID: MC-YYYYMMDD-XXXXXX (UID tail)
       const today = new Date();
       const y = today.getFullYear();
       const m = String(today.getMonth()+1).padStart(2,'0');
       const d = String(today.getDate()).padStart(2,'0');
       const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
       const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
-
       const award = {
         id,
         amount: AWARD_AMOUNT_NAIRA,
@@ -435,7 +466,6 @@
         `;
       }).join('');
 
-      // Mark as claimed (admin/user action)
       document.querySelectorAll('[data-mark]').forEach(btn=>{
         btn.addEventListener('click', ()=>{
           const id = btn.getAttribute('data-mark');
@@ -453,57 +483,109 @@
       });
     }
 
-   /* ---------------- Updated Wellness Tips ---------------- */
-const TIPS = [
-  { text: "🧘‍♀️ Sit comfortably, close your eyes, and do the 4-7-8 breathing pattern — inhale 4 seconds, hold 7, exhale 8. Repeat four times.", tags: ["anxious","calm","neutral"] },
-  { text: "🚶‍♂️ Take a slow 10-minute walk outdoors. Pay attention to sounds and smells — stay mindful of the present moment.", tags: ["low","neutral","positive"] },
-  { text: "📓 Write down three things you’re grateful for today. They can be as simple as good weather or a kind word from a friend.", tags: ["neutral","low","positive"] },
-  { text: "💧 Drink a full glass of water and stretch your arms, neck, and back for one minute to reset your energy.", tags: ["low","neutral","all"] },
-  { text: "📵 Silence notifications for 30 minutes. Use that time to breathe, read, or simply rest your eyes.", tags: ["anxious","calm","neutral"] },
-  { text: "🎶 Play a song that lifts your mood and sing or hum along — music releases dopamine and eases tension.", tags: ["low","neutral","positive"] },
-  { text: "🌤 Step outside and get five minutes of sunlight. Natural light can boost your serotonin and focus.", tags: ["low","neutral","positive"] },
-  { text: "💬 Send a short message to a friend or family member — connection reduces stress hormones and builds resilience.", tags: ["anxious","low","positive"] },
-  { text: "🛏 Before bed, list one thing you accomplished today — big or small — and give yourself credit for it.", tags: ["low","neutral","positive"] },
-  { text: "🌱 Try box breathing: inhale 4 seconds, hold 4, exhale 4, hold 4. Repeat 3–4 times to center your mind.", tags: ["anxious","calm","neutral"] },
-  { text: "🕯 Light a candle or take a warm shower — focus on the smell or the feeling of warmth to calm your body.", tags: ["anxious","low","neutral"] },
-  { text: "🍎 Eat something nourishing — fruit, nuts, or yogurt. Avoid skipping meals when feeling overwhelmed.", tags: ["low","anxious","neutral"] },
-  { text: "📚 Read a few pages of a comforting book or an inspiring quote before bed instead of scrolling online.", tags: ["low","neutral","positive"] },
-  { text: "🌻 Do something kind for someone today — compliment, hold a door, or check on a friend.", tags: ["positive","neutral","low"] },
-  { text: "🪞 Look in the mirror and say something kind to yourself. You’re doing your best, and that’s enough.", tags: ["low","neutral","positive"] },
-  { text: "🧩 Focus on one small task at a time — completing even a simple chore can restore a sense of control.", tags: ["anxious","low","neutral"] },
-  { text: "📴 Take a digital break. Step away from your phone for 15 minutes to give your brain room to breathe.", tags: ["anxious","neutral","calm"] },
-  { text: "🎨 Engage in something creative — doodle, color, cook, or dance. Creativity lowers cortisol levels.", tags: ["low","positive","neutral"] },
-  { text: "🕊 Practice forgiveness — release one small grudge and remind yourself you deserve peace.", tags: ["calm","neutral","positive"] },
-  { text: "🌙 Go to bed 30 minutes earlier tonight. Sleep is your brain’s way of healing emotional stress.", tags: ["low","anxious","neutral"] }
-];
+    /* ---------------- Dynamic Wellness Tips ---------------- */
+
+    // Rich, doable tips with preferred times of day
+    const TIPS = [
+      { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", tags: ["anxious","calm","neutral"], times:["evening","night"] },
+      { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", tags: ["low","neutral","positive"], times:["morning","afternoon"] },
+      { text: "📓 Write three gratitudes. Keep each to one sentence to make it easy.", tags: ["neutral","low","positive"], times:["evening"] },
+      { text: "💧 Drink a full glass of water, then stretch neck, shoulders, and back for one minute.", tags: ["low","neutral","all"], times:["morning","afternoon"] },
+      { text: "📵 Mute non-urgent notifications for 30 minutes and do one tiny task you’ve avoided.", tags: ["anxious","calm","neutral"], times:["afternoon"] },
+      { text: "🎶 Play one uplifting song. Breathe with the rhythm or sing along to release tension.", tags: ["low","neutral","positive"], times:["morning","afternoon","evening"] },
+      { text: "🌤 Get 5 minutes of sunlight. Look at the sky (not the sun) and take 5 deep breaths.", tags: ["low","neutral","positive"], times:["morning"] },
+      { text: "💬 Send a quick check-in: “Thinking of you. How are you today?”", tags: ["anxious","low","positive"], times:["afternoon","evening"] },
+      { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", tags: ["low","neutral","positive"], times:["evening","night"] },
+      { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s. Do 3–4 rounds.", tags: ["anxious","calm","neutral"], times:["any"] },
+      { text: "🕯 Take a warm shower; focus on smell and warmth to ground your body.", tags: ["anxious","low","neutral"], times:["evening","night"] },
+      { text: "🍎 Have a nourishing snack (fruit, nuts, or yogurt). Don’t skip meals when stressed.", tags: ["low","anxious","neutral"], times:["morning","afternoon"] },
+      { text: "📚 Read 2–3 pages of a comforting book instead of scrolling before sleep.", tags: ["low","neutral","positive"], times:["evening","night"] },
+      { text: "🌻 Do one kind act: a compliment, a thank-you, or share something helpful.", tags: ["positive","neutral","low"], times:["any"] },
+      { text: "🪞 Say one kind sentence to yourself in the mirror. Talk like a friend.", tags: ["low","neutral","positive"], times:["morning","evening"] },
+      { text: "🧩 Pick one tiny task (2–5 min). Start now — momentum beats motivation.", tags: ["anxious","low","neutral"], times:["morning","afternoon"] },
+      { text: "📴 Take a 15-minute screen break. Stand up, look far away, relax your jaw.", tags: ["anxious","neutral","calm"], times:["afternoon"] },
+      { text: "🎨 Do a micro-creative burst: doodle 3 minutes or photograph something beautiful.", tags: ["low","positive","neutral"], times:["afternoon","evening"] },
+      { text: "🕊 Write a note to your future self: one reassurance you’ll be glad to read later.", tags: ["calm","neutral","positive"], times:["night"] },
+      { text: "🌙 Wind down earlier: dim lights and avoid heavy topics 30 minutes before bed.", tags: ["low","anxious","neutral"], times:["evening","night"] }
+    ];
 
     let currentTipFilter='all';
-    function lastMoodTag(){
-      const arr=getJSON(KEY_HISTORY, []);
-      if(!arr.length) return 'all';
-      const last=arr[arr.length-1].mood_value;
-      if(last<=1) return 'low';
-      if(last===2) return 'neutral';
-      if(last>=3) return 'positive';
-      return 'all';
+    let currentTipObj=null;
+
+    function getDaypart(){
+      const h=new Date().getHours();
+      if(h>=5 && h<12) return 'morning';
+      if(h>=12 && h<17) return 'afternoon';
+      if(h>=17 && h<21) return 'evening';
+      return 'night';
     }
+    function greetingFor(daypart){
+      switch(daypart){
+        case 'morning': return 'Good morning! Try this reset idea…';
+        case 'afternoon': return 'Good afternoon! A quick refresh…';
+        case 'evening': return 'Good evening! Try this wind-down tip…';
+        default: return 'It’s a quiet time — here’s a gentle tip…';
+      }
+    }
+
+    // prefer tips that match the selected filter AND current daypart
     function pickTip(filter='all'){
-      const pool = filter==='all' ? TIPS : TIPS.filter(t=>t.tags.includes(filter));
-      if(!pool.length) return { text:"Take a slow deep breath — you’ve got this.", tags:["all"] };
-      return pool[Math.floor(Math.random()*pool.length)];
+      const day=getDaypart();
+      const fitsFilter = t => filter==='all' || (t.tags||[]).includes(filter);
+      const fitsTime   = t => !t.times || t.times.includes('any') || t.times.includes(day);
+      const pool=TIPS.filter(fitsFilter);
+      const timedPool=pool.filter(fitsTime);
+      const src=(timedPool.length?timedPool:pool);
+      if(!src.length) return null;
+      return src[Math.floor(Math.random()*src.length)];
     }
+
     function renderTip(){
-      const tip=pickTip(currentTipFilter);
-      tipText.textContent=tip.text;
-      tipNote.textContent=currentTipFilter==='all' ? 'General tip' : `Tip for: ${currentTipFilter}`;
+      const day=getDaypart();
+      tipsGreeting.textContent = greetingFor(day);
+      const tip = pickTip(currentTipFilter) || { text:"Take a slow deep breath — you’ve got this.", tags:["all"] };
+      currentTipObj = tip;
+      tipText.textContent = tip.text;
+      tipNote.textContent = currentTipFilter==='all' ? `Suggested for: ${day}` : `Filter: ${currentTipFilter} • Suggested for: ${day}`;
+      tipStatus.style.display='none';
     }
+
+    // Save & Done actions
+    function renderSavedTips(){
+      const saved = getSavedTips();
+      if(!saved.length){ savedTipsList.innerHTML='<li><em>No saved tips yet.</em></li>'; return; }
+      savedTipsList.innerHTML = saved.slice().reverse()
+        .map(t=>`<li>${t.text} <br><small>Saved ${new Date(t.saved_at).toLocaleString()}</small></li>`)
+        .join('');
+    }
+    tipSaveBtn.addEventListener('click', ()=>{
+      if(!currentTipObj) return;
+      const saved=getSavedTips();
+      if(!saved.find(s=>s.text===currentTipObj.text)){
+        saved.push({text:currentTipObj.text, saved_at:new Date().toISOString()});
+        setSavedTips(saved);
+        renderSavedTips();
+      }
+      tipStatus.textContent='⭐ Saved!';
+      tipStatus.style.display='block';
+    });
+    tipDoneBtn.addEventListener('click', ()=>{
+      if(!currentTipObj) return;
+      const done=getDoneTips();
+      done.push({text:currentTipObj.text, done_at:new Date().toISOString()});
+      setDoneTips(done);
+      tipStatus.textContent='✅ Great job — marked as done!';
+      tipStatus.style.display='block';
+    });
+
+    // Filters + Next
     document.querySelectorAll('.tip-filter').forEach(btn=>{
       btn.addEventListener('click', ()=>{ currentTipFilter=btn.dataset.filter||'all'; renderTip(); });
     });
     nextTipBtn.addEventListener('click', renderTip);
 
     /* ---------------- Boot ---------------- */
-    startBtn.style.display=''; // visible
+    startBtn.style.display='';
   </script>
 </body>
 </html>
