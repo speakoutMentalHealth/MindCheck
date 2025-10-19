@@ -516,11 +516,11 @@ window.MC_UID = UID;
       award_id: todaysAward ? todaysAward.id : ''
     };
 
-    await fetch('https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec', {
+    await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer YOUR_SECRET_HERE'
+        'Authorization': 'Bearer speakout123'
       },
       body: JSON.stringify(body)
     });
