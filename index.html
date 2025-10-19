@@ -361,7 +361,7 @@ window.MC_UID = UID;
 })();
 </script>
 
-
+<script>
   /* ---------------- Helpers ---------------- */
   function todayStr(){
     const d=new Date();
@@ -401,7 +401,7 @@ window.MC_UID = UID;
   document.querySelectorAll('.mood').forEach(btn=>{
     btn.onclick=()=>handleCheckin(parseInt(btn.dataset.val,10));
   });
-
+</script>
  <script>
   function handleCheckin(moodValue){
     const today = todayStr();
@@ -502,12 +502,10 @@ window.MC_UID = UID;
     console.warn('Check-in logging failed:', e);
   }
 })();
-
-
   }
 </script>
 
-
+<script>
  function createStreakAwardIfNew(streakCycle){
   const awards = getAwards();
   if (awards.find(a => a.streak_cycle === streakCycle)) return null;
