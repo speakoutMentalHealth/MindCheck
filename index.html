@@ -238,7 +238,7 @@
     /* ---------------- Config ---------------- */
     const AWARD_AMOUNT_NAIRA = 1000;
     const WHATSAPP_NUMBER = '2348118103510'; // no "+" here
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyUKjLnPj0jaYETypglV5r5f_ffHDfseHbcp5-sNC4qv22g1Yd_0qCpUWMJg6sSO0hBHQ/exec'; // <-- set yours
+    const GAS_URL = 'https://script.google.com/macros/s/PASTE_YOUR_APPS_SCRIPT_ID/exec'; // <-- set yours
     const AUTH_KEY = 'SPEAKOUT2025SECRET'; // if you enabled auth in Apps Script
 
     /* ---------------- Mood Check-in (once daily + backend POST + awards) ---------------- */
@@ -292,30 +292,6 @@
         ${newly.length ? `<p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p>` : ''}
         ${awardHTML}
       `;
-      //----------------------------------------------------
-// ✅ SEND CHECK-IN DATA TO GOOGLE SHEETS BACKEND
-//----------------------------------------------------
-const API_URL = 'https://script.google.com/macros/s/AKfycbyUKjLnPj0jaYETypglV5r5f_ffHDfseHbcp5-sNC4qv22g1Yd_0qCpUWMJg6sSO0hBHQ/exec';
-const PUBLIC_KEY = 'YOUR_PUBLIC_KEY_123'; // same one you used in Apps Script
-
-const payload = {
-  uid: UID,
-  mood_value: moodValue,
-  streak: getStreak(),
-  points: getPoints(),
-  tz: Intl.DateTimeFormat().resolvedOptions().timeZone
-};
-
-// Use text/plain to avoid CORS preflight in browser
-fetch(`${API_URL}?key=${encodeURIComponent(PUBLIC_KEY)}`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-  body: JSON.stringify(payload)
-})
-.then(r => r.json())
-.then(d => console.log('✅ Sent to Google Sheet:', d))
-.catch(err => console.warn('⚠️ Could not send to backend:', err));
-
       updateHeaderPills();
 
       // ---- Send mood to Google Apps Script
