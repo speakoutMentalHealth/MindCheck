@@ -295,6 +295,26 @@
   const KEY_TIPS_DONE ='mc_tips_done';  // [{text,done_at}]
   const KEY_CRISIS_DISMISS='mc_crisis_dismiss_date'; // YYYY-MM-DD
 
+    <script>
+// ---------- GLOBAL UID (define once) ----------
+const KEY_UID = 'mc_uid'; // keep your existing constant if already defined
+
+function getUID() {
+  let uid = localStorage.getItem(KEY_UID);
+  if (!uid) {
+    try { uid = crypto.randomUUID(); }
+    catch { uid = 'mc_' + Math.random().toString(36).slice(2); }
+    localStorage.setItem(KEY_UID, uid);
+  }
+  return uid;
+}
+
+// Make it global and stable
+const UID = getUID();
+// Also expose it on window in case other scripts run earlier/later
+window.MC_UID = UID;
+</script>
+
   /* ---------------- UID ---------------- */
   function getUID(){
     let uid = localStorage.getItem(KEY_UID);
@@ -305,6 +325,7 @@
     return uid;
   }
   const UID = getUID();
+  window.MC_UID = UID;
 
     // ---------- Send anonymous check-in to Google Sheet (robust UID) ----------
 (async () => {
@@ -525,19 +546,33 @@
 </script>
 
 
-  function createStreakAwardIfNew(streakCycle){
-    const awards = getAwards();
-    const exists = awards.find(a => a.streak_cycle===streakCycle);
-    if(exists) return null;
-    const today = new Date();
-    const y = today.getFullYear();
-    const m = String(today.getMonth()+1).padStart(2,'0');
-    const d = String(today.getDate()).padStart(2,'0');
-    const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
-    const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
-    const award = { id, amount: AWARD_AMOUNT_NAIRA, issued_at: today.toISOString(), streak_cycle: streakCycle, uid: UID, claimed: false, claimed_at: null };
-    awards.push(award); setAwards(awards); return award;
-  }
+ function createStreakAwardIfNew(streakCycle){
+  const awards = getAwards();
+  if (awards.find(a => a.streak_cycle === streakCycle)) return null;
+
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth()+1).padStart(2,'0');
+  const d = String(today.getDate()).padStart(2,'0');
+
+  const uidNow = (typeof UID !== 'undefined' && UID) ? UID : (window.MC_UID || getUID());
+  const uidTail = uidNow.replace(/-/g,'').slice(-6).toUpperCase();
+  const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
+
+  const award = {
+    id,
+    amount: AWARD_AMOUNT_NAIRA,
+    issued_at: today.toISOString(),
+    streak_cycle: streakCycle,
+    uid: uidNow,
+    claimed: false,
+    claimed_at: null
+  };
+  awards.push(award);
+  setAwards(awards);
+  return award;
+}
+
 
   function whatsAppClaimLink(award){
     const msg = encodeURIComponent(`Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${award.id}\nAmount: ₦${award.amount}\nUID: ${UID}\n\nThank you!`);
