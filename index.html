@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Privacy-friendly analytics (Plausible) -->
+<script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SpeakOut MindCheck 💚</title>
@@ -638,6 +641,18 @@
   // 🔧 FIX: do NOT auto-show Home; keep Start → Language → Home
   startBtn.style.display=''; // visible on first load
   // No call to show(homeSection) here.
+</script>
+<script>
+  // Safe small helper (won't break if Plausible isn't loaded yet)
+  function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
+
+  // Example hooks (these IDs already exist in your page)
+  document.getElementById('goMood')?.addEventListener('click', ()=>track('OpenMood'));
+  document.querySelectorAll('.mood')?.forEach(b=>{
+    b.addEventListener('click', ()=>track('CheckIn', { mood: b.dataset.val }));
+  });
+  document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
+  document.getElementById('goBadges')?.addEventListener('click', ()=>track('OpenBadges'));
 </script>
 
 </body>
