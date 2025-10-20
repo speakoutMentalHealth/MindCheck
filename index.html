@@ -435,28 +435,32 @@ window.addEventListener('error', function(ev){
           award_issued: !!created,
           award_id: created ? created.id : ''
         };
-    <script>
-  (async () => {
-    try {
-      await fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
-          type: 'checkin',
-          uid: (typeof UID !== 'undefined' && UID) ? UID : ('mc_' + Math.random().toString(36).slice(2)),
-          day: new Date().toISOString().slice(0,10),
-          mood_value: 3,
-          streak_after: 0,
-          points_after: 0,
-          lang: localStorage.getItem('mc_lang') || 'en',
-          app_version: 'v1.0'
-        })
-      });
-    } catch (e) {
-      console.warn('Check-in logging failed:', e);
-    }
-  })();
+   <script>
+(function(){
+  try {
+    fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' }, // <= important: no preflight
+      body: JSON.stringify({
+        type: 'checkin',
+        uid: (window.UID || localStorage.getItem('mc_uid') || ('mc_' + Math.random().toString(36).slice(2))),
+        day: new Date().toISOString().slice(0,10),
+        mood_value: 3,
+        streak_after: 0,
+        points_after: 0,
+        lang: localStorage.getItem('mc_lang') || 'en',
+        app_version: 'v1.0'
+      })
+    })
+    .then(function(r){ return r.text(); })
+    .then(function(t){ try{ console.log('GAS response:', JSON.parse(t)); } catch(_){ console.log('GAS raw:', t); } })
+    .catch(function(e){ console.warn('Check-in logging failed:', e); });
+  } catch(e) {
+    console.warn('Fetch block failed:', e);
+  }
+})();
 </script>
+
 
 
 <script>
