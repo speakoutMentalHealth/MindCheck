@@ -386,7 +386,7 @@
           award_issued: !!created,
           award_id: created ? created.id : ''
         };
-        await fetch('https://script.google.com/macros/s/AKfycbxqpYNILP20zW61gg58VEY7DAbnrlJTJrYQ7CXiWGvIOt_Ok_cf3GoTEJchHdqaA9wFgQ/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec', {
           method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
         });
       }catch(e){ console.warn('Check-in logging failed:', e); }
