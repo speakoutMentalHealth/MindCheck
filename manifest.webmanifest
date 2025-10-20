@@ -1,23 +1,27 @@
 {
   "name": "SpeakOut MindCheck",
   "short_name": "MindCheck",
-  "description": "Private, simple daily mood check-ins and mental health tips.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "/MindCheck/",
+  "scope": "/MindCheck/",
   "display": "standalone",
-  "background_color": "#f5fdf8",
+  "background_color": "#22c55e",
   "theme_color": "#22c55e",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "./icons/mindcheck-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/apple-touch-icon.png",
-      "sizes": "180x180",
+      "src": "./icons/mindcheck-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/mindcheck-512-maskable.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ]
 }
