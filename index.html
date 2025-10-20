@@ -616,13 +616,13 @@ const TOKEN   = 'speakout123'; // must match Code.gs
   </script>
 
   <script>
-    // Service worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js', { scope: './' })
-          .catch(err => console.warn('SW registration failed:', err));
-      });
-    }
-  </script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js?v=6', { scope: './' })
+      .catch(err => console.warn('SW registration failed:', err));
+  });
+}
+</script>
+
 </body>
 </html>
