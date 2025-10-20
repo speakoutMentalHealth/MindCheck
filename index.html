@@ -66,6 +66,55 @@
   <header>🧠 SpeakOut MindCheck Nigeria</header>
   <p>Check your mental health privately, safely, and in your preferred language.</p>
   <button id="startBtn" class="btn btn-primary">Start Now</button>
+<script>
+/* Failsafe: wire Start Now even if other JS fails */
+(function() {
+  // Show helper (minimal, in case the main show() isn’t defined yet)
+  function minimalShow(section) {
+    var ids = ["langSection","homeSection","moodSection","formContainer","tipsSection","helpSection","badgesSection"];
+    ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
+    if (section) { section.classList.add('active'); section.scrollIntoView({behavior:'smooth'}); }
+  }
+
+  function goToLang() {
+    var startBtn = document.getElementById('startBtn');
+    var lang = document.getElementById('langSection');
+    if (startBtn) startBtn.style.display = 'none';
+    if (typeof window.show === 'function') {
+      try { window.show(lang); } catch(e) { console.warn('show() failed, using minimalShow', e); minimalShow(lang); }
+    } else {
+      minimalShow(lang);
+    }
+  }
+
+  // Bind as early as possible
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('startBtn');
+    if (btn) {
+      btn.addEventListener('click', function(ev){ ev.preventDefault(); goToLang(); }, { once:true });
+    }
+  });
+
+  // Last-resort inline onclick (works even if earlier JS never ran)
+  var btnEl = document.getElementById('startBtn');
+  if (btnEl && !btnEl.getAttribute('data-onclick-patched')) {
+    btnEl.setAttribute('onclick', '(' + goToLang.toString() + ')();');
+    btnEl.setAttribute('data-onclick-patched','1');
+  }
+})();
+</script>
+
+<!-- Simple runtime error reporter so we can see the real blocker -->
+<script>
+window.addEventListener('error', function(ev){
+  console.error('JS Error:', ev.message, 'at', ev.filename+':'+ev.lineno+':'+ev.colno);
+  // Optional: one-time alert to surface the exact error line
+  if (!window._mcAlerted) {
+    window._mcAlerted = true;
+    alert('A script error stopped the app:\n' + ev.message + '\nCheck DevTools Console for details.');
+  }
+});
+</script>
 
   <!-- Language -->
   <section id="langSection">
