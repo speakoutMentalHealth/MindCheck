@@ -1,57 +1,32 @@
-// /MindCheck/sw.js
-const CACHE_VERSION = 'mc-v5';               // bump this to force an update
-const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
-const PRECACHE_URLS = [
-  './',                     // scope root
-  './manifest.webmanifest',
-  './favicon.png',
-  './icons/apple-touch-icon.png'
-];
+self.addEventListener('install', (event) => self.skipWaiting());
+self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
 
-// Install: pre-cache a few static files (NOT index.html)
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(RUNTIME_CACHE).then((cache) => cache.addAll(PRECACHE_URLS))
-  );
-  self.skipWaiting();
-});
+const CACHE = 'mc-v7';
 
-// Activate: clean old caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter(k => k !== RUNTIME_CACHE).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-// Fetch:
-// - HTML: NETWORK-FIRST (so new index.html shows immediately)
-// - Other: CACHE-FIRST with network fallback
 self.addEventListener('fetch', (event) => {
   const req = event.request;
-  const isHTML = req.headers.get('accept')?.includes('text/html');
 
+  // Only cache GET requests
+  if (req.method !== 'GET') return;
+
+  // Navigations: network-first; fallback to cached index
+  const isHTML = req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html');
   if (isHTML) {
     event.respondWith(
-      fetch(req).then((res) => {
-        const resClone = res.clone();
-        caches.open(RUNTIME_CACHE).then((c) => c.put(req, resClone));
-        return res;
-      }).catch(() => caches.match(req))
+      fetch(req).catch(() => caches.match('./index.html'))
     );
     return;
   }
 
+  // Static assets: cache-first
   event.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
       return fetch(req).then((res) => {
-        const resClone = res.clone();
-        caches.open(RUNTIME_CACHE).then((c) => c.put(req, resClone));
+        const clone = res.clone();
+        caches.open(CACHE).then((cache) => cache.put(req, clone));
         return res;
-      }).catch(() => cached);
+      });
     })
   );
 });
