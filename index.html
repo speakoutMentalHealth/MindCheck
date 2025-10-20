@@ -66,55 +66,44 @@
   <header>🧠 SpeakOut MindCheck Nigeria</header>
   <p>Check your mental health privately, safely, and in your preferred language.</p>
   <button id="startBtn" class="btn btn-primary">Start Now</button>
-<script>
-/* Failsafe: wire Start Now even if other JS fails */
-(function() {
-  // Show helper (minimal, in case the main show() isn’t defined yet)
-  function minimalShow(section) {
-    var ids = ["langSection","homeSection","moodSection","formContainer","tipsSection","helpSection","badgesSection"];
-    ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
-    if (section) { section.classList.add('active'); section.scrollIntoView({behavior:'smooth'}); }
-  }
 
-  function goToLang() {
-    var startBtn = document.getElementById('startBtn');
-    var lang = document.getElementById('langSection');
-    if (startBtn) startBtn.style.display = 'none';
-    if (typeof window.show === 'function') {
-      try { window.show(lang); } catch(e) { console.warn('show() failed, using minimalShow', e); minimalShow(lang); }
-    } else {
-      minimalShow(lang);
+  <!-- Failsafe: ensure Start Now always works -->
+  <script>
+  (function() {
+    function minimalShow(section) {
+      var ids = ["langSection","homeSection","moodSection","formContainer","tipsSection","helpSection","badgesSection"];
+      ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
+      if (section) { section.classList.add('active'); section.scrollIntoView({behavior:'smooth'}); }
     }
-  }
+    function goToLang() {
+      var startBtn = document.getElementById('startBtn');
+      var lang = document.getElementById('langSection');
+      if (startBtn) startBtn.style.display = 'none';
+      if (typeof window.show === 'function') {
+        try { window.show(lang); } catch(e) { console.warn('show() failed, using minimalShow', e); minimalShow(lang); }
+      } else {
+        minimalShow(lang);
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('startBtn');
+      if (btn) btn.addEventListener('click', function(ev){ ev.preventDefault(); goToLang(); }, { once:true });
+    });
+    var btnEl = document.getElementById('startBtn');
+    if (btnEl && !btnEl.getAttribute('data-onclick-patched')) {
+      btnEl.setAttribute('onclick', '(' + goToLang.toString() + ')();');
+      btnEl.setAttribute('data-onclick-patched','1');
+    }
+  })();
+  </script>
 
-  // Bind as early as possible
-  document.addEventListener('DOMContentLoaded', function() {
-    var btn = document.getElementById('startBtn');
-    if (btn) {
-      btn.addEventListener('click', function(ev){ ev.preventDefault(); goToLang(); }, { once:true });
-    }
+  <!-- Runtime error reporter -->
+  <script>
+  window.addEventListener('error', function(ev){
+    console.error('JS Error:', ev.message, 'at', ev.filename+':'+ev.lineno+':'+ev.colno);
+    if (!window._mcAlerted) { window._mcAlerted = true; alert('A script error stopped the app:\n' + ev.message + '\nCheck DevTools Console for details.'); }
   });
-
-  // Last-resort inline onclick (works even if earlier JS never ran)
-  var btnEl = document.getElementById('startBtn');
-  if (btnEl && !btnEl.getAttribute('data-onclick-patched')) {
-    btnEl.setAttribute('onclick', '(' + goToLang.toString() + ')();');
-    btnEl.setAttribute('data-onclick-patched','1');
-  }
-})();
-</script>
-
-<!-- Simple runtime error reporter so we can see the real blocker -->
-<script>
-window.addEventListener('error', function(ev){
-  console.error('JS Error:', ev.message, 'at', ev.filename+':'+ev.lineno+':'+ev.colno);
-  // Optional: one-time alert to surface the exact error line
-  if (!window._mcAlerted) {
-    window._mcAlerted = true;
-    alert('A script error stopped the app:\n' + ev.message + '\nCheck DevTools Console for details.');
-  }
-});
-</script>
+  </script>
 
   <!-- Language -->
   <section id="langSection">
@@ -307,7 +296,7 @@ window.addEventListener('error', function(ev){
     document.getElementById('goBadges').onclick=()=>show(badgesSection);
     document.getElementById('badgesBackHome').onclick=()=>show(homeSection);
 
-    /* ---------- Keys & UID (define ONCE) ---------- */
+    /* ---------- Keys & UID ---------- */
     const KEY_UID='mc_uid';
     const KEY_POINTS='mc_points';
     const KEY_STREAK='mc_streak';
@@ -329,7 +318,7 @@ window.addEventListener('error', function(ev){
       return uid;
     }
     const UID = getUID();
-    window.MC_UID = UID; // expose if other scripts ever need it
+    window.MC_UID = UID;
 
     /* ---------- Helpers ---------- */
     function todayStr(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
@@ -420,50 +409,30 @@ window.addEventListener('error', function(ev){
       updateHeaderPills();
       maybeShowCrisis();
 
-      // backend log (Google Apps Script)
-      try{
-        const body = {
-          auth: 'speakout123',
-          type: 'checkin',
-          uid: UID,
-          day: todayStr(),
-          mood_value: moodValue,
-          streak_after: getStreak(),
-          points_after: getPoints(),
-          lang: localStorage.getItem('mc_lang') || 'en',
-          app_version: 'v1.0.0',
-          award_issued: !!created,
-          award_id: created ? created.id : ''
-        };
-   <script>
-(function(){
-  try {
-    fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' }, // <= important: no preflight
-      body: JSON.stringify({
-        type: 'checkin',
-        uid: (window.UID || localStorage.getItem('mc_uid') || ('mc_' + Math.random().toString(36).slice(2))),
-        day: new Date().toISOString().slice(0,10),
-        mood_value: 3,
-        streak_after: 0,
-        points_after: 0,
-        lang: localStorage.getItem('mc_lang') || 'en',
-        app_version: 'v1.0'
-      })
-    })
-    .then(function(r){ return r.text(); })
-    .then(function(t){ try{ console.log('GAS response:', JSON.parse(t)); } catch(_){ console.log('GAS raw:', t); } })
-    .catch(function(e){ console.warn('Check-in logging failed:', e); });
-  } catch(e) {
-    console.warn('Fetch block failed:', e);
-  }
-})();
-</script>
+      /* backend log (Google Apps Script) — IMPORTANT: no extra <script> tags here */
+      try {
+        fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' }, // simple request; avoids preflight
+          body: JSON.stringify({
+            type: 'checkin',
+            uid: UID,
+            day: todayStr(),
+            mood_value: moodValue,
+            streak_after: getStreak(),
+            points_after: getPoints(),
+            lang: localStorage.getItem('mc_lang') || 'en',
+            app_version: 'v1.0.0',
+            award_issued: !!created,
+            award_id: created ? created.id : ''
+          })
+        })
+        .then(r=>r.text())
+        .then(t=>{ try{ console.log('GAS response:', JSON.parse(t)); }catch{ console.log('GAS raw:', t); } })
+        .catch(e=>console.warn('Check-in logging failed:', e));
+      } catch(e) { console.warn('Fetch block failed:', e); }
+    }
 
-
-
-<script>
     function createStreakAwardIfNew(streakCycle){
       const awards = getAwards();
       if (awards.find(a => a.streak_cycle === streakCycle)) return null;
@@ -478,7 +447,7 @@ window.addEventListener('error', function(ev){
     }
     function whatsAppClaimLink(a){
       const msg = encodeURIComponent(`Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${a.id}\nAmount: ₦${a.amount}\nUID: ${UID}\n\nThank you!`);
-      return `https://wa.me/2348118103510?text=${msg}`;
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
     }
 
     /* ---------- Home stats ---------- */
@@ -501,7 +470,7 @@ window.addEventListener('error', function(ev){
       const done=getDoneTips(); const now=new Date(); const wk=new Date(now); wk.setDate(now.getDate()-7);
       return done.filter(i=>{const t=new Date(i.done_at); return t>=wk && t<=now;}).length;
     }
-    function renderSparkline(){ if(!sparkSVG) return; sparkSVG.innerHTML=''; } // safe no-op (no SVG in DOM)
+    function renderSparkline(){ if(!sparkSVG) return; sparkSVG.innerHTML=''; }
 
     /* ---------- Badges & Awards rendering ---------- */
     const BADGE_CATALOG = [
@@ -567,7 +536,7 @@ window.addEventListener('error', function(ev){
       });
     }
 
-    /* ---------- Tips engine (time-aware + save/done) ---------- */
+    /* ---------- Tips engine ---------- */
     const TIPS = [
       { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", tags: ["anxious","calm","neutral"], times:["evening","night"] },
       { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", tags: ["low","neutral","positive"], times:["morning","afternoon"] },
@@ -632,6 +601,7 @@ window.addEventListener('error', function(ev){
       const done=getDoneTips(); done.push({text:currentTipObj.text,done_at:new Date().toISOString()});
       setDoneTips(done); tipStatus.textContent='✅ Great job — marked as done!'; tipStatus.style.display='block'; updateHeaderPills();
     });
+
     document.querySelectorAll('.tip-filter').forEach(btn=>{
       btn.addEventListener('click', ()=>{ currentTipFilter=btn.dataset.filter||'all'; renderTip(); });
     });
