@@ -29,9 +29,12 @@ self.addEventListener('activate', (event) => {
 // Fetch:
 // - HTML: NETWORK-FIRST (so new index.html shows immediately)
 // - Other: CACHE-FIRST with network fallback
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   const req = event.request;
-  const isHTML = req.headers.get('accept')?.includes('text/html');
+  // Let non-GET (POST/OPTIONS) pass through untouched
+  if (req.method !== 'GET') return;
+  // (… your GET cache logic …)
+});
 
   if (isHTML) {
     event.respondWith(
