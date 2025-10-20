@@ -60,6 +60,19 @@
     footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
     .toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
     #savedTipsList li { margin: 6px 0; } #savedTipsList small { color:#64748b; }
+
+    /* Mood grid + buttons */
+    .mood-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;max-width:680px;margin:12px auto}
+    .mood{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:16px 10px;font-size:22px;line-height:1.1;cursor:pointer;box-shadow:0 6px 18px rgba(2,23,34,.05);transition:transform .12s,box-shadow .12s}
+    .mood:hover{transform:translateY(-1px)}
+    .mood:focus{outline:3px solid #a7f3d0;outline-offset:2px}
+    .mood .mood-label{display:block;font-size:.9rem;color:#334155;margin-top:6px}
+
+    /* Motion sensitivity */
+    @media (prefers-reduced-motion: reduce){
+      .tbtn.live{animation:none}
+      .card:hover{transform:none}
+    }
   </style>
 </head>
 <body>
@@ -82,7 +95,7 @@
   <!-- Home + Stats -->
   <section id="homeSection">
     <h2>Welcome to MindCheck 🌿</h2>
-    <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
+    <p id="statsText" aria-live="polite" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
     <div class="stats">
       <span class="pill">Points: <span id="pointsPill">0</span></span>
       <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
@@ -90,11 +103,11 @@
       <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
     </div>
     <div class="grid">
-      <div class="card" id="goMood"><div class="big">😊</div><h3>Check Your Mood</h3><p>Earn points once daily (+10). 20-day streak wins ₦1000.</p></div>
-      <div class="card" id="goScreenings"><div class="big">🧠</div><h3>Mental Health Screenings</h3><p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p></div>
-      <a class="card" id="goTips" href="#"><div class="big">🌿</div><h3>Wellness Tips</h3><p>Simple habits for calm and focus.</p></a>
-      <a class="card" id="goHelp" href="#"><div class="big">📞</div><h3>Get Help</h3><p>Find mental-health support nearby.</p></a>
-      <div class="card" id="goBadges"><div class="big">🏅</div><h3>Badges & Awards</h3><p>See unlocked badges & claim awards.</p></div>
+      <div class="card" id="goMood" role="button" tabindex="0"><div class="big">😊</div><h3>Check Your Mood</h3><p>Earn points once daily (+10). 20-day streak wins ₦1000.</p></div>
+      <div class="card" id="goScreenings" role="button" tabindex="0"><div class="big">🧠</div><h3>Mental Health Screenings</h3><p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p></div>
+      <a class="card" id="goTips" href="#" role="button"><div class="big">🌿</div><h3>Wellness Tips</h3><p>Simple habits for calm and focus.</p></a>
+      <a class="card" id="goHelp" href="#" role="button"><div class="big">📞</div><h3>Get Help</h3><p>Find mental-health support nearby.</p></a>
+      <div class="card" id="goBadges" role="button" tabindex="0"><div class="big">🏅</div><h3>Badges & Awards</h3><p>See unlocked badges & claim awards.</p></div>
     </div>
   </section>
 
@@ -125,7 +138,9 @@
 
   <!-- Screenings form -->
   <section id="formContainer">
-    <iframe id="formFrame" src="" title="SpeakOut MindCheck form"></iframe>
+    <iframe id="formFrame" src="" title="SpeakOut MindCheck form"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="clipboard-write; web-share"></iframe>
     <div class="toolbar"><button id="formBackHome" class="btn btn-ghost">Back to Home</button></div>
   </section>
 
@@ -226,7 +241,7 @@
 
     const crisisBanner=document.getElementById('crisisBanner');
     const dismissCrisis=document.getElementById('dismissCrisis');
-    const sparkSVG=document.getElementById('moodSpark');
+    const sparkSVG=document.getElementById('moodSpark'); // safe no-op
 
     function show(section){
       [langSection,homeSection,moodSection,formContainer,tipsSection,helpSection,badgesSection].forEach(s=>s.classList.remove('active'));
@@ -239,8 +254,15 @@
     }
 
     startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
+
+    // Safety: if language already chosen, go straight to app
+    if (localStorage.getItem('mc_lang')) {
+      startBtn.style.display = 'none';
+      show(homeSection);
+    }
+
     document.querySelectorAll('.tbtn.live').forEach(btn=>{
-      btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); show(homeSection); };
+      btn.onclick=()=>{ safeSet('mc_lang', btn.dataset.lang || 'en'); show(homeSection); };
     });
 
     document.getElementById('goMood').onclick=()=>show(moodSection);
@@ -258,7 +280,18 @@
     document.getElementById('goBadges').onclick=()=>show(badgesSection);
     document.getElementById('badgesBackHome').onclick=()=>show(homeSection);
 
-    /* ---------- Keys & UID (define ONCE) ---------- */
+    // Make cards keyboard-activatable
+    function clickOnEnterSpace(el){
+      el.addEventListener('keydown', (e)=>{
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+      });
+    }
+    ['goMood','goScreenings','goBadges'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) clickOnEnterSpace(el);
+    });
+
+    /* ---------- Keys & UID ---------- */
     const KEY_UID='mc_uid';
     const KEY_POINTS='mc_points';
     const KEY_STREAK='mc_streak';
@@ -270,30 +303,34 @@
     const KEY_TIPS_DONE ='mc_tips_done';
     const KEY_CRISIS_DISMISS='mc_crisis_dismiss_date';
 
+    /* ---------- Safe storage helpers ---------- */
+    function safeGet(key, fallback){ try{ const v=localStorage.getItem(key); return v===null?fallback:v; }catch{ return fallback; } }
+    function safeSet(key, val){ try{ localStorage.setItem(key, val); }catch{} }
+    function getJSON(key, fallback){ try{ return JSON.parse(safeGet(key, JSON.stringify(fallback))); }catch{ return fallback; } }
+    function setJSON(key, val){ safeSet(key, JSON.stringify(val)); }
+    const getPoints=()=>parseInt(safeGet(KEY_POINTS,'0'),10);
+    const setPoints=v=>safeSet(KEY_POINTS, String(v));
+    const getStreak=()=>parseInt(safeGet(KEY_STREAK,'0'),10);
+    const setStreak=v=>safeSet(KEY_STREAK, String(v));
+    const getLast=()=>safeGet(KEY_LAST,'');
+    const setLast=v=>safeSet(KEY_LAST, v);
+
     function getUID() {
-      let uid = localStorage.getItem(KEY_UID);
+      let uid = safeGet(KEY_UID, null);
       if (!uid) {
         try { uid = crypto.randomUUID(); }
         catch { uid = 'mc_' + Math.random().toString(36).slice(2); }
-        localStorage.setItem(KEY_UID, uid);
+        safeSet(KEY_UID, uid);
       }
       return uid;
     }
     const UID = getUID();
-    window.MC_UID = UID; // expose if other scripts ever need it
+    window.MC_UID = UID;
 
     /* ---------- Helpers ---------- */
     function todayStr(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
     function isoToDate(iso){ return new Date(iso); }
-    function getJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }catch(e){ return fallback; } }
-    function setJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-    const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
-    const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
-    const addPoints=n=>setPoints(getPoints()+n);
-    const getStreak=()=>parseInt(localStorage.getItem(KEY_STREAK)||'0',10);
-    const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
-    const getLast=()=>localStorage.getItem(KEY_LAST) || '';
-    const setLast=v=>localStorage.setItem(KEY_LAST, v);
+
     const getBadges=()=>getJSON(KEY_BADGES, []);
     const setBadges=arr=>setJSON(KEY_BADGES, arr);
     function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true;} return false; }
@@ -322,7 +359,7 @@
         return;
       }
 
-      addPoints(10);
+      setPoints(getPoints()+10);
       setLast(today);
       const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
       if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
@@ -371,56 +408,48 @@
       updateHeaderPills();
       maybeShowCrisis();
 
+      // --- Client-side logging (consider hardening on server) ---
       const GAS_URL = 'https://script.google.com/macros/s/AKfycbwLA0hASArbO6trbkbuN4Zd3qLrXkLUFoLhHILzRTp47xfrEtDijl2WDvXyPkyd0cfEpQ/exec';
-const TOKEN   = 'speakout123'; // must match Code.gs
+      (async () => {
+        try {
+          const UID_SAFE = UID || safeGet('mc_uid','mc_'+Math.random().toString(36).slice(2));
+          const payload = {
+            type: 'checkin',
+            uid: UID_SAFE,
+            day: todayStr(),
+            mood_value: moodValue,
+            streak_after: getStreak(),
+            points_after: getPoints(),
+            lang: safeGet('mc_lang','en'),
+            app_version: 'v1.0.0'
+          };
+          await fetch(GAS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload),
+            mode: 'cors'
+          });
+        } catch (e) {
+          console.warn('Check-in logging failed:', e);
+        }
+      })();
 
-(async () => {
-  try {
-    const UID_SAFE = (typeof UID !== 'undefined' && UID) ? UID
-                   : (localStorage.getItem('mc_uid') || (function(){ try { return crypto.randomUUID(); } catch { return 'mc_' + Math.random().toString(36).slice(2); } })());
-
-    const payload = {
-      type: 'checkin',
-      uid: UID_SAFE,
-      day: todayStr(),
-      mood_value: moodValue,
-      streak_after: getStreak(),
-      points_after: getPoints(),
-      lang: localStorage.getItem('mc_lang') || 'en',
-      app_version: 'v1.0.0'
-    };
-
-    // 👇 No Authorization header, text/plain content-type → no preflight
-    const res = await fetch(`${GAS_URL}?auth=${encodeURIComponent(TOKEN)}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload),
-      mode: 'cors' // fine; it won't preflight now
-    });
-
-    // Optional: read response (Apps Script returns JSON text)
-    // const data = await res.json();
-    // console.log('Logged:', data);
-  } catch (e) {
-    console.warn('Check-in logging failed:', e);
-  }
-})();
-
-    function createStreakAwardIfNew(streakCycle){
-      const awards = getAwards();
-      if (awards.find(a => a.streak_cycle === streakCycle)) return null;
-      const today = new Date();
-      const y = today.getFullYear();
-      const m = String(today.getMonth()+1).padStart(2,'0');
-      const d = String(today.getDate()).padStart(2,'0');
-      const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
-      const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
-      const award = { id, amount: AWARD_AMOUNT_NAIRA, issued_at: today.toISOString(), streak_cycle: streakCycle, uid: UID, claimed:false, claimed_at:null };
-      awards.push(award); setAwards(awards); return award;
-    }
-    function whatsAppClaimLink(a){
-      const msg = encodeURIComponent(`Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${a.id}\nAmount: ₦${a.amount}\nUID: ${UID}\n\nThank you!`);
-      return `https://wa.me/2348118103510?text=${msg}`;
+      function createStreakAwardIfNew(streakCycle){
+        const awards = getAwards();
+        if (awards.find(a => a.streak_cycle === streakCycle)) return null;
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth()+1).padStart(2,'0');
+        const d = String(today.getDate()).padStart(2,'0');
+        const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
+        const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
+        const award = { id, amount: AWARD_AMOUNT_NAIRA, issued_at: today.toISOString(), streak_cycle: streakCycle, uid: UID, claimed:false, claimed_at:null };
+        awards.push(award); setAwards(awards); return award;
+      }
+      function whatsAppClaimLink(a){
+        const msg = encodeURIComponent(`Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${a.id}\nAmount: ₦${a.amount}\nUID: ${UID}\n\nThank you!`);
+        return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+      }
     }
 
     /* ---------- Home stats ---------- */
@@ -476,7 +505,10 @@ const TOKEN   = 'speakout123'; // must match Code.gs
         const when = new Date(a.issued_at).toLocaleString();
         const status = a.claimed ? `Claimed ✅ (${new Date(a.claimed_at).toLocaleString()})` : 'Pending 🔔';
         const btns = a.claimed ? '' : `
-          <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a>
+          <a class="btn btn-primary" href="${(function(){
+            const msg = encodeURIComponent(\`Hello SpeakOut,\\n\\nI want to claim my MindCheck award.\\nAward ID: \${a.id}\\nAmount: ₦\${a.amount}\\nUID: \${UID}\\n\\nThank you!\`);
+            return \`https://wa.me/${WHATSAPP_NUMBER}?text=\${msg}\`;
+          })()}" target="_blank" rel="noopener">Claim via WhatsApp</a>
           <button class="btn btn-ghost" data-mark="${a.id}">Mark as Claimed</button>
         `;
         return `
@@ -509,7 +541,7 @@ const TOKEN   = 'speakout123'; // must match Code.gs
       });
     }
 
-    /* ---------- Tips engine (time-aware + save/done) ---------- */
+    /* ---------- Tips engine ---------- */
     const TIPS = [
       { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", tags: ["anxious","calm","neutral"], times:["evening","night"] },
       { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", tags: ["low","neutral","positive"], times:["morning","afternoon"] },
@@ -593,22 +625,30 @@ const TOKEN   = 'speakout123'; // must match Code.gs
     }
     function maybeShowCrisis(){
       const today=todayStr();
-      const dismissed=localStorage.getItem(KEY_CRISIS_DISMISS);
+      const dismissed=safeGet(KEY_CRISIS_DISMISS,'');
       if(dismissed===today){ crisisBanner.style.display='none'; return; }
       crisisBanner.style.display = verySadStreak3Days() ? 'block' : 'none';
     }
     if (dismissCrisis) dismissCrisis.addEventListener('click', ()=>{
-      localStorage.setItem(KEY_CRISIS_DISMISS, todayStr());
+      safeSet(KEY_CRISIS_DISMISS, todayStr());
       crisisBanner.style.display='none';
     });
 
+    // Ensure crisis check also runs on reload
+    document.addEventListener('DOMContentLoaded', maybeShowCrisis);
+
     /* ---------- Boot ---------- */
     startBtn.style.display='';
+
   </script>
 
   <script>
     // Plausible events (safe if not loaded)
-    function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
+    function track(name, props){
+      try {
+        if (window.plausible) window.plausible(name, { props: props || {} });
+      } catch {}
+    }
     document.getElementById('goMood')?.addEventListener('click', ()=>track('OpenMood'));
     document.querySelectorAll('.mood')?.forEach(b=> b.addEventListener('click', ()=>track('CheckIn', { mood: b.dataset.val })));
     document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
@@ -616,13 +656,13 @@ const TOKEN   = 'speakout123'; // must match Code.gs
   </script>
 
   <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=6', { scope: './' })
-      .catch(err => console.warn('SW registration failed:', err));
-  });
-}
-</script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js?v=6', { scope: './' })
+          .catch(err => console.warn('SW registration failed:', err));
+      });
+    }
+  </script>
 
 </body>
 </html>
