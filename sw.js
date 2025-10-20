@@ -1,60 +1,84 @@
 // /MindCheck/sw.js
-const CACHE_VERSION = 'mc-v5';               // bump this to force an update
+const CACHE_VERSION = 'mc-v6'; // bump when you change this file
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 const PRECACHE_URLS = [
-  './',                     // scope root
+  './',
   './manifest.webmanifest',
   './favicon.png',
   './icons/apple-touch-icon.png'
 ];
 
-// Install: pre-cache a few static files (NOT index.html)
+// ---- helpers ----
+function isHTMLRequest(req) {
+  const url = new URL(req.url);
+  const accept = req.headers.get('accept') || '';
+  // treat navigation and HTML requests as HTML
+  return req.mode === 'navigate' || accept.includes('text/html') || url.pathname.endsWith('.html');
+}
+
+// ---- install: pre-cache some static assets (not index.html) ----
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(RUNTIME_CACHE).then((cache) => cache.addAll(PRECACHE_URLS))
-  );
+  event.waitUntil(caches.open(RUNTIME_CACHE).then((c) => c.addAll(PRECACHE_URLS)));
   self.skipWaiting();
 });
 
-// Activate: clean old caches
+// ---- activate: delete old caches ----
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter(k => k !== RUNTIME_CACHE).map(k => caches.delete(k)))
+      Promise.all(keys.filter((k) => k !== RUNTIME_CACHE).map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();
 });
 
-// Fetch:
-// - HTML: NETWORK-FIRST (so new index.html shows immediately)
-// - Other: CACHE-FIRST with network fallback
-self.addEventListener('fetch', event => {
+// ---- fetch strategy ----
+// - Only handle same-origin GET requests.
+// - HTML: network-first so new index.html shows immediately.
+// - Other assets: cache-first with network fallback.
+self.addEventListener('fetch', (event) => {
   const req = event.request;
-  // Let non-GET (POST/OPTIONS) pass through untouched
-  if (req.method !== 'GET') return;
-  // (… your GET cache logic …)
-});
+  const url = new URL(req.url);
 
-  if (isHTML) {
+  // let non-GET pass through (important for POST/OPTIONS to Apps Script)
+  if (req.method !== 'GET') return;
+
+  // only manage same-origin files; don't touch 3rd-party (e.g., plausible, GAS)
+  if (url.origin !== location.origin) return;
+
+  // HTML: Network-first
+  if (isHTMLRequest(req)) {
     event.respondWith(
-      fetch(req).then((res) => {
-        const resClone = res.clone();
-        caches.open(RUNTIME_CACHE).then((c) => c.put(req, resClone));
-        return res;
-      }).catch(() => caches.match(req))
+      (async () => {
+        try {
+          const fresh = await fetch(req);
+          const cache = await caches.open(RUNTIME_CACHE);
+          cache.put(req, fresh.clone());
+          return fresh;
+        } catch {
+          // fallback to cached page (maybe './')
+          const cached = await caches.match(req) || await caches.match('./');
+          return cached || Response.error();
+        }
+      })()
     );
     return;
   }
 
+  // Non-HTML: Cache-first
   event.respondWith(
-    caches.match(req).then((cached) => {
+    (async () => {
+      const cached = await caches.match(req);
       if (cached) return cached;
-      return fetch(req).then((res) => {
-        const resClone = res.clone();
-        caches.open(RUNTIME_CACHE).then((c) => c.put(req, resClone));
+      try {
+        const res = await fetch(req);
+        const cache = await caches.open(RUNTIME_CACHE);
+        cache.put(req, res.clone());
         return res;
-      }).catch(() => cached);
-    })
+      } catch {
+        // nothing cached, give up
+        return Response.error();
+      }
+    })()
   );
 });
