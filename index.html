@@ -386,11 +386,22 @@
           award_issued: !!created,
           award_id: created ? created.id : ''
         };
-        await fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec', {
-          method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
-        });
-      }catch(e){ console.warn('Check-in logging failed:', e); }
-    }
+        await fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
+  method: 'POST',
+  headers: { 'Content-Type': 'text/plain' },
+  body: JSON.stringify({
+    type: 'checkin',
+    uid: body.uid || 'test_user_001',
+    day: body.day || new Date().toISOString().split('T')[0],
+    mood_value: body.mood_value || 3,
+    streak_after: body.streak_after || 0,
+    points_after: body.points_after || 0,
+    lang: body.lang || 'en',
+    app_version: 'v1.0',
+    client_hash: body.client_hash || 'browser-' + Math.random().toString(36).slice(2, 8)
+  })
+});
+
 
     function createStreakAwardIfNew(streakCycle){
       const awards = getAwards();
