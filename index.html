@@ -371,26 +371,40 @@
       updateHeaderPills();
       maybeShowCrisis();
 
-      // backend log (Google Apps Script)
-      try{
-        const body = {
-          auth: 'speakout123',
-          type: 'checkin',
-          uid: UID,
-          day: todayStr(),
-          mood_value: moodValue,
-          streak_after: getStreak(),
-          points_after: getPoints(),
-          lang: localStorage.getItem('mc_lang') || 'en',
-          app_version: 'v1.0.0',
-          award_issued: !!created,
-          award_id: created ? created.id : ''
-        };
-        await fetch('https://script.google.com/macros/s/AKfycbwLA0hASArbO6trbkbuN4Zd3qLrXkLUFoLhHILzRTp47xfrEtDijl2WDvXyPkyd0cfEpQ/exec', {
-          method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
-        });
-      }catch(e){ console.warn('Check-in logging failed:', e); }
-    }
+      const GAS_URL = 'https://script.google.com/macros/s/AKfycbwLA0hASArbO6trbkbuN4Zd3qLrXkLUFoLhHILzRTp47xfrEtDijl2WDvXyPkyd0cfEpQ/exec';
+const TOKEN   = 'speakout123'; // must match Code.gs
+
+(async () => {
+  try {
+    const UID_SAFE = (typeof UID !== 'undefined' && UID) ? UID
+                   : (localStorage.getItem('mc_uid') || (function(){ try { return crypto.randomUUID(); } catch { return 'mc_' + Math.random().toString(36).slice(2); } })());
+
+    const payload = {
+      type: 'checkin',
+      uid: UID_SAFE,
+      day: todayStr(),
+      mood_value: moodValue,
+      streak_after: getStreak(),
+      points_after: getPoints(),
+      lang: localStorage.getItem('mc_lang') || 'en',
+      app_version: 'v1.0.0'
+    };
+
+    // 👇 No Authorization header, text/plain content-type → no preflight
+    const res = await fetch(`${GAS_URL}?auth=${encodeURIComponent(TOKEN)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      mode: 'cors' // fine; it won't preflight now
+    });
+
+    // Optional: read response (Apps Script returns JSON text)
+    // const data = await res.json();
+    // console.log('Logged:', data);
+  } catch (e) {
+    console.warn('Check-in logging failed:', e);
+  }
+})();
 
     function createStreakAwardIfNew(streakCycle){
       const awards = getAwards();
