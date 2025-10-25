@@ -154,15 +154,12 @@
   </form>
 
 <script>
-  // 1. Set your deployed Apps Script URL here:
-  const endpoint = "https://script.google.com/macros/s/AKfycbwy5c2dMIpG--9viDp9k9UvpZn6cBXMs4r87q_QSp_75pyBuMhhYdM6RDhxByly3StI2Q/exec";
+  const endpoint = "PASTE_NEW_EXEC_URL_HERE";
 
-  // 2. This sends user back to your MindCheck home screen
   function goHomeNow() {
     window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
   }
 
-  // 3. Handle form submit
   document.getElementById("reportForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -176,28 +173,26 @@
         body: JSON.stringify(formData)
       });
 
-      let result = null;
-      try {
-        result = await res.json();
-      } catch {
-        const text = await res.text();
-        result = text.includes("ok") ? { ok: true } : { ok: false };
-      }
+      // We'll safely parse response
+      let txt = await res.text();
+      let json = {};
+      try { json = JSON.parse(txt); } catch (_) {}
 
-      if (res.ok && result.ok) {
+      if (res.ok && json.ok) {
         alert("✅ Thank you for speaking up. You did the right thing.");
         e.target.reset();
-        goHomeNow(); // <-- after success, go home
+        goHomeNow();
       } else {
-        alert("⚠ Something went wrong. Please tell a trusted adult or call 112.");
+        console.warn("Response not ok:", txt);
+        alert("⚠ Error sending report. Please tell a trusted adult or call 112.");
       }
-
-    } catch (error) {
-      console.error("Network error:", error);
+    } catch (err) {
+      console.error("Network error:", err);
       alert("⚠ Error sending report. Please tell a trusted adult or call 112.");
     }
   });
 </script>
+
 
 
 
