@@ -154,30 +154,18 @@
   </form>
 
 <script>
-  // 1. Your Google Apps Script Web App URL (must end in /exec)
-  const endpoint = "YOUR_WEB_APP_URL_HERE";
+  // Replace this with your real deployed Apps Script URL ending with /exec
+  const endpoint = "https://script.google.com/macros/s/AKfycb.../exec";
 
-  // 2. Send user back to MindCheck home
-  function goHomeNow() {
+  function goBack() {
     window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
   }
 
-  // 3. Handle the form submit
-  async function safeSubmit(e) {
+  document.getElementById("reportForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const formEl = e.target;
-    const formData = Object.fromEntries(new FormData(formEl).entries());
-
-    // Attach anonymous UID from local storage (if available)
-    try {
-      formData.uid = localStorage.getItem("mc_uid") || "anonymous";
-    } catch (_) {
-      formData.uid = "anonymous";
-    }
-
-    let networkOK = false;
-    let bodyJSON = null;
+    const formData = Object.fromEntries(new FormData(e.target).entries());
+    formData.uid = localStorage.getItem("mc_uid") || "anonymous";
 
     try {
       const res = await fetch(endpoint, {
@@ -186,42 +174,31 @@
         body: JSON.stringify(formData)
       });
 
-      networkOK = res.ok; // true if HTTP 200-299
-
-      // Try to parse JSON, but don't crash if it's plain text
+      let result = null;
       try {
-        bodyJSON = await res.json();
-      } catch (parseErr) {
-        bodyJSON = null;
+        // Try to parse JSON first
+        result = await res.json();
+      } catch {
+        // If it’s plain text, check if it contains “ok:true”
+        const text = await res.text();
+        result = text.includes("ok") ? { ok: true } : { ok: false };
       }
 
-    } catch (fetchErr) {
-      // fetch itself failed (no internet, etc.)
-      networkOK = false;
-    }
+      if (res.ok && result.ok) {
+        alert("✅ Thank you for speaking up. You did the right thing.");
+        e.target.reset();
+        goBack();
+      } else {
+        alert("⚠ Something went wrong. Please tell a trusted adult or call 112.");
+      }
 
-    // Success rules:
-    // - We got valid JSON and ok:true
-    // - OR we got a 200-ish response and no JSON (Apps Script sometimes returns text)
-    const success =
-      (bodyJSON && bodyJSON.ok === true) ||
-      (networkOK && !bodyJSON);
-
-    if (success) {
-      alert("✅ Thank you for speaking up. You did the right thing.");
-      formEl.reset();
-      goHomeNow();
-    } else {
+    } catch (error) {
+      console.error("Network error:", error);
       alert("⚠ Error sending report. Please tell a trusted adult or call 112.");
     }
-  }
-
-  // 4. Attach submit listener
-  document
-    .getElementById("reportForm")
-    .addEventListener("submit", safeSubmit);
-  } async function safeSubmit(e) { function goHomeNow() { goBack(); }
+  });
 </script>
+
 
 
 </body>
