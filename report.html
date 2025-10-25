@@ -154,7 +154,7 @@
   </form>
 
 <script>
-  const endpoint = "https://script.google.com/macros/s/AKfycbw0hp1hYfv87fJCF2fZrPEisvPxEP_WDSlG7J4Vh2_BHmTPYfw5o5yQKjD1_XNoHAhHqA/exec";
+  const endpoint = "PASTE_YOUR_LATEST_/exec_URL_HERE";
 
   function goHomeNow() {
     window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
@@ -163,34 +163,38 @@
   document.getElementById("reportForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const formData = Object.fromEntries(new FormData(e.target).entries());
-    formData.uid = localStorage.getItem("mc_uid") || "anonymous";
+    // Build form body as FormData (browser-native, simple POST)
+    const formData = new FormData(e.target);
+
+    // attach uid too
+    const uid = localStorage.getItem("mc_uid") || "anonymous";
+    formData.append("uid", uid);
 
     try {
       const res = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: formData   // <-- NO headers, NO JSON, stays "simple"
       });
 
-      // We'll safely parse response
-      let txt = await res.text();
-      let json = {};
-      try { json = JSON.parse(txt); } catch (_) {}
+      const text = await res.text();
+      let data = {};
+      try { data = JSON.parse(text); } catch (_) {}
 
-      if (res.ok && json.ok) {
+      if (res.ok && data.ok) {
         alert("✅ Thank you for speaking up. You did the right thing.");
         e.target.reset();
         goHomeNow();
       } else {
-        console.warn("Response not ok:", txt);
-        alert("⚠ Error sending report. Please tell a trusted adult or call 112.");
+        console.warn("Unexpected response:", text);
+        alert("⚠ We could not confirm send. Please tell a trusted adult or call 112.");
       }
+
     } catch (err) {
       console.error("Network error:", err);
-      alert("⚠ Error sending report. Please tell a trusted adult or call 112.");
+      alert("⚠ Network issue. Please tell a trusted adult or call 112.");
     }
   });
 </script>
+
 </body>
 </html>
