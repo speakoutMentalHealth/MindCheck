@@ -703,6 +703,7 @@
     document.querySelectorAll('.mood')?.forEach(b=> b.addEventListener('click', ()=>track('CheckIn', { mood: b.dataset.val })));
     document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
     document.getElementById('goBadges')?.addEventListener('click', ()=>track('OpenBadges'));
+    document.getElementById('goReport')?.addEventListener('click', ()=>track('OpenReport'));
   </script>
 
   <script>
