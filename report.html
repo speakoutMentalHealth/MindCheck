@@ -193,7 +193,7 @@
       if (res.ok && data.ok) {
         alert("✅ Thank you for speaking up. You did the right thing.");
         e.target.reset();
-        goHomeNow();
+        setTimeout(goHomeNow, 1500);
       } else {
         console.warn("Unexpected response:", text);
         alert("⚠ We could not confirm send. Please tell a trusted adult or call 112.");
