@@ -153,38 +153,72 @@
   </form>
 
   <script>
-    const endpoint = "https://script.google.com/macros/s/AKfycbxahmST3shIaOTVNuTSi3V_ZBGJHnDVoph-K55Jef-lhMF_N7hQwhFTSWyuRLPxtAV7kw/exec";
+  // IMPORTANT: paste your real /exec URL here
+  const endpoint = "YOUR_WEB_APP_URL_HERE";
 
-    function goBack() {
-      window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/"; // Adjust if hosted differently
+  function goBack() {
+    // send them back to home screen after submit or back button
+    window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
+  }
+
+  async function safeSubmit(e) {
+    e.preventDefault();
+
+    const formEl = e.target;
+    const formData = Object.fromEntries(new FormData(formEl).entries());
+
+    // attach anonymous UID so we can (later) spot repeated severe cases
+    try {
+      formData.uid = localStorage.getItem("mc_uid") || "anonymous";
+    } catch (_) {
+      formData.uid = "anonymous";
     }
 
-    document.getElementById("reportForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
+    let networkOK = false;
+    let bodyJSON = null;
 
-      const formData = Object.fromEntries(new FormData(e.target).entries());
-      formData.uid = localStorage.getItem("mc_uid") || "anonymous";
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
 
+      networkOK = res.ok; // true if status 200-299
+
+      // Try to parse JSON, but don't die if it's just text
       try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
-        });
-
-        const result = await res.json();
-        if (result.ok) {
-          alert("✅ Thank you for speaking up. You did the right thing.");
-          e.target.reset();
-          goBack();
-        } else {
-          alert("⚠️ Something went wrong. Please tell a trusted adult or call 112.");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("⚠️ Error sending report. Please tell a trusted adult or call 112.");
+        bodyJSON = await res.json();
+      } catch (parseErr) {
+        bodyJSON = null;
       }
-    });
-  </script>
+
+    } catch (fetchErr) {
+      // fetch itself failed (offline, CORS, etc.)
+      networkOK = false;
+    }
+
+    // Decide if it worked
+    const success =
+      (bodyJSON && bodyJSON.ok === true) ||
+      (networkOK && !bodyJSON); // if sheet wrote + we got 200 but no JSON
+
+    if (success) {
+      alert("✅ Thank you for speaking up. You did the right thing.");
+      formEl.reset();
+      goBack();
+    } else {
+      alert("⚠ Error sending report. Please tell a trusted adult or call 112.");
+    }
+  }
+
+  // hook up submit + back button
+  document.getElementById("reportForm").addEventListener("submit", safeSubmit);
+
+  function goHomeNow() {
+    goBack();
+  }
+</script>
+
 </body>
 </html>
