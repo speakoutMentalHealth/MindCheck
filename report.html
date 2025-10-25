@@ -149,16 +149,19 @@
     </small>
 
     <button type="submit">Submit Report ✅</button>
-    <button type="button" class="back-btn" onclick="goBack()">← Back to Home</button>
+    <button type="button" class="back-btn" onclick="goHomeNow()">← Back to Home</button>
+
   </form>
 
   <script>
   // IMPORTANT: paste your real /exec URL here
-  const endpoint = "YOUR_WEB_APP_URL_HERE";
+  const endpoint = "https://script.google.com/macros/s/AKfycbxahmST3shIaOTVNuTSi3V_ZBGJHnDVoph-K55Jef-lhMF_N7hQwhFTSWyuRLPxtAV7kw/exec";
 
-  function goBack() {
-    // send them back to home screen after submit or back button
-    window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
+  function goHomeNow() {
+    window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/"; 
+  }
+</script>
+
   }
 
   async function safeSubmit(e) {
