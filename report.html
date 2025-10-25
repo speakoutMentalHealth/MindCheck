@@ -154,7 +154,7 @@
   </form>
 
 <script>
-  const endpoint = "https://script.google.com/macros/s/AKfycbw80FIQ7zzz88DIkolrXchYGV8WwlbfxPjZKA_mua1joaI_6DLLFjqUJWv4g-HRIb8aaQ/exec";
+  const endpoint = "PASTE_YOUR_LATEST_EXEC_URL_HERE";
 
   function goHomeNow() {
     window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
@@ -163,17 +163,28 @@
   document.getElementById("reportForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // Build form body as FormData (browser-native, simple POST)
+    // Grab all form fields
     const formData = new FormData(e.target);
 
-    // attach uid too
+    // Add UID from localStorage
     const uid = localStorage.getItem("mc_uid") || "anonymous";
     formData.append("uid", uid);
+
+    // Convert to URL-encoded body
+    const bodyParams = new URLSearchParams();
+    for (const [key, value] of formData.entries()) {
+      bodyParams.append(key, value);
+    }
 
     try {
       const res = await fetch(endpoint, {
         method: "POST",
-        body: formData   // <-- NO headers, NO JSON, stays "simple"
+        headers: {
+          // This is KEY: we send as x-www-form-urlencoded,
+          // which Apps Script reads reliably via e.postData.contents
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        body: bodyParams.toString()
       });
 
       const text = await res.text();
@@ -195,6 +206,7 @@
     }
   });
 </script>
+
 
 </body>
 </html>
