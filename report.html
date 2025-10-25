@@ -154,13 +154,15 @@
   </form>
 
 <script>
-  // Replace this with your real deployed Apps Script URL ending with /exec
+  // 1. Set your deployed Apps Script URL here:
   const endpoint = "https://script.google.com/macros/s/AKfycbxahmST3shIaOTVNuTSi3V_ZBGJHnDVoph-K55Jef-lhMF_N7hQwhFTSWyuRLPxtAV7kw/exec";
 
-  function goBack() {
+  // 2. This sends user back to your MindCheck home screen
+  function goHomeNow() {
     window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
   }
 
+  // 3. Handle form submit
   document.getElementById("reportForm").addEventListener("submit", async function (e) {
     e.preventDefault();
 
@@ -176,10 +178,8 @@
 
       let result = null;
       try {
-        // Try to parse JSON first
         result = await res.json();
       } catch {
-        // If it’s plain text, check if it contains “ok:true”
         const text = await res.text();
         result = text.includes("ok") ? { ok: true } : { ok: false };
       }
@@ -187,7 +187,7 @@
       if (res.ok && result.ok) {
         alert("✅ Thank you for speaking up. You did the right thing.");
         e.target.reset();
-        goBack();
+        goHomeNow(); // <-- after success, go home
       } else {
         alert("⚠ Something went wrong. Please tell a trusted adult or call 112.");
       }
