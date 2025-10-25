@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeakOut | Anonymous Safety Report</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f7f8fa;
+      color: #111;
+      margin: 0;
+      padding: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      padding: 1.5rem 1.25rem 2rem;
+    }
+
+    h1, h2, h3, label {
+      color: #111;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      margin: 0 0 0.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+      margin: 0 0 1rem;
+      color: #444;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin: 1rem 0 0.5rem;
+      color: #222;
+    }
+
+    .radio-group,
+    .select-group {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .radio-row {
+      margin-bottom: 0.5rem;
+    }
+
+    .radio-row:last-child {
+      margin-bottom: 0;
+    }
+
+    textarea,
+    input[type="text"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      border-radius: 0.6rem;
+      border: 1px solid #ccc;
+      background: #fff;
+      padding: 0.75rem;
+      box-sizing: border-box;
+      color: #111;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    small.helper {
+      font-size: 0.75rem;
+      color: #666;
+      display: block;
+      margin-top: 0.4rem;
+      line-height: 1.4;
+    }
+
+    .consent-box {
+      background: #fff8e5;
+      border: 1px solid #f5d37a;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: #4a3a00;
+      line-height: 1.4;
+      margin-top: 1rem;
+    }
+
+    button.primary {
+      width: 100%;
+      background: #0f5132; /* deep calming green */
+      color: #fff;
+      font-weight: 600;
+      border: 0;
+      border-radius: 0.75rem;
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+      line-height: 1.2;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button.primary:active {
+      transform: scale(0.99);
+    }
+
+    .success-box {
+      text-align: center;
+    }
+
+    .success-box h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      color: #0f5132;
+    }
+
+    .panic-box {
+      background: #fff0f0;
+      border: 1px solid #ffb7b7;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: #7a0000;
+      line-height: 1.4;
+      margin: 1rem 0;
+      text-align: left;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #0f5132;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      line-height: 48px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(15,81,50,0.3);
+    }
+
+    .brand-meta {
+      font-size: 0.8rem;
+      line-height: 1.3;
+      color: #444;
+    }
+
+    .brand-meta strong {
+      display: block;
+      font-size: 0.9rem;
+      color: #0f5132;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Small brand header -->
+  <div class="brand-block">
+    <div class="brand-icon">
+      MindCheck
+    </div>
+    <div class="brand-meta">
+      <strong>SpeakOut Mental Health Outreach</strong>
+      Safe • Private • Support
+    </div>
+  </div>
+
+  <!-- SCREEN 1: intro -->
+  <section id="intro-screen">
+    <h1>You Can Tell Us Safely</h1>
+    <p>This space is for serious safety issues:
+      <br>• You feel like hurting yourself
+      <br>• Someone is hurting you
+      <br>• You feel unsafe
+      <br>• You’re worried about a friend
+    </p>
+
+    <div class="panic-box">
+      <strong>If you or someone is in danger right now:</strong><br>
+      Call 112 or tell a trusted adult (parent, school counselor, teacher, auntie, pastor/imam) immediately.
+    </div>
+
+    <p style="font-size:0.8rem; color:#666;">
+      You can send this without putting your name.
+    </p>
+
+    <button class="primary" onclick="goToForm()">Continue</button>
+  </section>
+
+  <!-- SCREEN 2: form -->
+  <section id="form-screen" class="hidden">
+    <form id="reportForm" onsubmit="handleSubmit(event)">
+      <!-- 1. Who are you worried about -->
+      <div class="section">
+        <div class="section-title">Who are you worried about?</div>
+        <div class="radio-group">
+          <div class="radio-row">
+            <label>
+              <input type="radio" name="who" value="me" required>
+              Me
+            </label>
+          </div>
+          <div class="radio-row">
+            <label>
+              <input type="radio" name="who" value="someone_else" required>
+              My friend / someone else
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. What is happening -->
+      <div class="section">
+        <div class="section-title">What is happening?</div>
+        <div class="radio-group">
+          <div class="radio-row">
+            <label><input type="radio" name="concernType" value="self_harm" required> I feel like hurting myself</label>
+          </div>
+          <div class="radio-row">
+            <label><input type="radio" name="concernType" value="being_hurt" required> Someone is hurting me (bullying, abuse, threats)</label>
+          </div>
+          <div class="radio-row">
+            <label><input type="radio" name="concernType" value="not_safe_home" required> I don't feel safe at home</label>
+          </div>
+          <div class="radio-row">
+            <label><input type="radio" name="concernType" value="worried_for_friend" required> I'm scared for someone else</label>
+          </div>
+          <div class="radio-row">
+            <label><input type="radio" name="concernType" value="other_serious" required> Other serious situation</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Describe -->
+      <div class="section">
+        <div class="section-title">Please describe what is going on</div>
+        <textarea name="details" required
+          placeholder="Please tell us what happened, where, and who is involved. Use first names or nicknames if you don’t feel safe."></textarea>
+        <small class="helper">
+          Write as much detail as you can. Your words will help us understand how serious this is.
+        </small>
+      </div>
+
+      <!-- 4. Where is this happening mostly -->
+      <div class="section">
+        <div class="section-title">Where is this happening mostly?</div>
+        <select name="locationContext" required>
+          <option value="" disabled selected>Select one</option>
+          <option value="school">At school</option>
+          <option value="home">At home / family</option>
+          <option value="online">Online / WhatsApp / social media</option>
+          <option value="outside">Outside (street / neighborhood / other)</option>
+          <option value="prefer_no_say">I don't want to say</option>
+        </select>
+      </div>
+
+      <!-- 5. Age band -->
+      <div class="section">
+        <div class="section-title">How old are you?</div>
+        <select name="ageBand" required>
+          <option value="" disabled selected>Select your age group</option>
+          <option value="10_13">10–13</option>
+          <option value="14_17">14–17</option>
+          <option value="18_plus">18+</option>
+        </select>
+      </div>
+
+      <!-- 6. Contact permission -->
+      <div class="section">
+        <div class="section-title">Do you want someone to contact you directly to help you?</div>
+        <div class="radio-group">
+          <div class="radio-row">
+            <label><input type="radio" name="allowContact" value="yes" required onclick="toggleContact(true)"> Yes, please reach me</label>
+          </div>
+          <div class="radio-row">
+            <label><input type="radio" name="allowContact" value="no" required onclick="toggleContact(false)"> No, keep me anonymous</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- contact fields (conditional) -->
+      <div id="contactFields" class="hidden">
+        <div class="section">
+          <label class="section-title" for="contactInfo">How can we reach you safely?</label>
+          <input type="tel" id="contactInfo" name="contactInfo"
+            placeholder="Phone / WhatsApp (optional)">
+          <small class="helper">
+            OR tell us the name of a safe adult (teacher, auntie, counselor) we can talk to on your behalf.
+          </small>
+        </div>
+        <div class="section">
+          <label class="section-title" for="safeAdult">Safe adult (optional)</label>
+          <input type="text" id="safeAdult" name="safeAdult"
+            placeholder="e.g. 'Mrs. Grace, Guidance Counselor, SS2 block'">
+        </div>
+      </div>
+
+      <!-- consent / safety notice -->
+      <div class="consent-box">
+        Important:<br>
+        • If you or someone is in immediate danger right now, please call 112 or tell a trusted adult immediately.<br>
+        • By submitting, you agree we may share this info with a trusted adult or school safety contact if someone’s life or safety is in serious danger.
+      </div>
+
+      <button type="submit" class="primary">Submit</button>
+    </form>
+  </section>
+
+  <!-- SCREEN 3: success -->
+  <section id="success-screen" class="hidden success-box">
+    <h2>Thank you for speaking up. You did the right thing.</h2>
+    <div class="panic-box">
+      If you or someone is in danger right now, please call 112
+      or talk to a trusted adult (parent, school counselor, teacher, auntie, pastor/imam) immediately.
+    </div>
+    <p style="font-size:0.9rem; color:#444;">
+      We will review what you sent. If you asked us to contact you,
+      someone from SpeakOut or your school's safety contact may reach out.
+    </p>
+  </section>
+
+</div>
+
+<script>
+  function goToForm() {
+    document.getElementById("intro-screen").classList.add("hidden");
+    document.getElementById("form-screen").classList.remove("hidden");
+  }
+
+  function toggleContact(show) {
+    const block = document.getElementById("contactFields");
+    if (show) {
+      block.classList.remove("hidden");
+    } else {
+      block.classList.add("hidden");
+      // clear
+      const contactInfo = document.getElementById("contactInfo");
+      const safeAdult = document.getElementById("safeAdult");
+      if (contactInfo) contactInfo.value = "";
+      if (safeAdult) safeAdult.value = "";
+    }
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = {
+      who: form.who.value,
+      concernType: form.concernType.value,
+      details: form.details.value,
+      locationContext: form.locationContext.value,
+      ageBand: form.ageBand.value,
+      allowContact: form.allowContact.value,
+      contactInfo: form.contactInfo ? form.contactInfo.value.trim() : "",
+      safeAdult: form.safeAdult ? form.safeAdult.value.trim() : "",
+      timestamp: new Date().toISOString()
+    };
+
+    // TODO: paste your Google Apps Script Web App URL here
+    const endpoint = "PUT_YOUR_WEB_APP_URL_HERE";
+
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      // show success screen
+      document.getElementById("form-screen").classList.add("hidden");
+      document.getElementById("success-screen").classList.remove("hidden");
+
+      // reset
+      form.reset();
+      toggleContact(false);
+
+    } catch (err) {
+      alert("Something went wrong sending your report. Please tell a trusted adult immediately or call 112.");
+    }
+  }
+</script>
+
+</body>
+</html>
