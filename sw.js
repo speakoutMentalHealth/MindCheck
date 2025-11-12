@@ -1,5 +1,5 @@
 // sw.js
-const CACHE = 'mc-v4'; // ⬅️ bump this when assets change
+const CACHE = 'mc-v5'; // bump
 const ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const ASSETS = [
   './volunteers.html',
   './training-hub.html',
   './certificate.html',
+  './verify.html',          // ⬅️ add
   './resources.html',
   './monitoring.html',
   './privacy.html',
@@ -14,6 +15,7 @@ const ASSETS = [
   './favicon.png',
   './manifest.webmanifest'
 ];
+
 
 // Install
 self.addEventListener('install', (e) => {
