@@ -1,32 +1,41 @@
-self.addEventListener('install', (event) => self.skipWaiting());
-self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
+// 🧠 SpeakOut MindCheck Service Worker — v4
+const CACHE = 'mc-v4';  // bump this version when you add/edit files
 
-const CACHE = 'mc-v7';
+// List all essential assets you want available offline
+const ASSETS = [
+  './',
+  './index.html',
+  './mc-theme.css',
+  './resources.html',
+  './volunteers.html',
+  './training-hub.html',
+  './favicon.png',
+  './manifest.webmanifest'
+];
 
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
+// Install event: cache all required files
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(ASSETS))
+  );
+  self.skipWaiting(); // activate immediately
+});
 
-  // Only cache GET requests
-  if (req.method !== 'GET') return;
+// Activate event: remove old caches
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+    )
+  );
+  self.clients.claim(); // take control of open pages
+});
 
-  // Navigations: network-first; fallback to cached index
-  const isHTML = req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html');
-  if (isHTML) {
-    event.respondWith(
-      fetch(req).catch(() => caches.match('./index.html'))
-    );
-    return;
-  }
-
-  // Static assets: cache-first
+// Fetch event: serve from cache first, then network fallback
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) return cached;
-      return fetch(req).then((res) => {
-        const clone = res.clone();
-        caches.open(CACHE).then((cache) => cache.put(req, clone));
-        return res;
-      });
-    })
+    caches.match(event.request).then(response =>
+      response || fetch(event.request)
+    )
   );
 });
