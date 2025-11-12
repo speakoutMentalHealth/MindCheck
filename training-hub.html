@@ -6,29 +6,151 @@
   <title>SpeakOut MindCheck — Training Hub</title>
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="mc-theme.css"/>
+  <meta name="theme-color" content="#22c55e"/>
+
+  <style>
+    .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; }
+    .lesson h3 { margin:.25rem 0 .25rem; font-size:1.05rem; }
+    .muted { color:#52606d; }
+    .quiz-card { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:16px; }
+    .q { margin:12px 0; text-align:left; }
+    .q legend { font-weight:700; margin-bottom:6px; }
+    .q label { display:block; padding:6px 8px; border:1px solid #e8eef5; border-radius:10px; margin:6px 0; cursor:pointer; }
+    .q input { margin-right:8px; }
+    .result { display:none; margin-top:12px; font-weight:700; }
+    .good { color:#166534; }
+    .bad { color:#7f1d1d; }
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
+  </style>
+
+  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
   <main>
     <h2>Start Your Certified Training</h2>
-    <div class="card">
-      <p>Open the training portal, complete the modules, then take the quiz. Afterwards, return to <code>index.html?quiz=done</code> to unlock your badge.</p>
+    <p class="muted" style="max-width:780px;margin:0 auto;">
+      Complete these short lessons and take the quiz. Score at least <b>80%</b> to earn your
+      <b>Volunteer Trained</b> badge, gain +50 points, and download your certificate.
+    </p>
 
-      <!-- TODO: replace both links with your real URLs -->
-      <p class="grid">
-        <a class="btn btn-primary" href="https://example.com/your-training-portal" target="_blank" rel="noopener">Open Training Portal</a>
-        <a class="btn btn-ghost" href="https://forms.gle/your-mindcheck-volunteer-quiz" target="_blank" rel="noopener">Take Quiz</a>
+    <!-- Lessons -->
+    <section class="lesson">
+      <h3>Lesson 1 — Safe Listening Basics</h3>
+      <p class="muted">Use <b>L-I-S-T-E-N</b>: Listen, Inquire, Summarize, Thank, Empathize, Next steps.</p>
+    </section>
+
+    <section class="lesson">
+      <h3>Lesson 2 — Red Flags & Immediate Danger</h3>
+      <p class="muted">If there’s risk of harm or violence, call <b>112</b> or escalate immediately.</p>
+    </section>
+
+    <section class="lesson">
+      <h3>Lesson 3 — Referral & Boundaries</h3>
+      <p class="muted">Volunteers are not therapists. Always get consent before referring or sharing info.</p>
+    </section>
+
+    <section class="lesson">
+      <h3>Lesson 4 — Privacy-First Logging</h3>
+      <p class="muted">Record only what’s needed — date, concern, and action — never personal names.</p>
+    </section>
+
+    <!-- Quiz -->
+    <section class="quiz-card">
+      <h3>Volunteer Quiz</h3>
+      <form id="quizForm"></form>
+
+      <div class="toolbar">
+        <button id="submitQuiz" class="btn btn-primary" type="button">Submit Quiz</button>
+        <button id="resetQuiz" class="btn btn-ghost" type="button">Reset</button>
         <a class="btn btn-ghost" href="volunteers.html">← Back to Volunteer Zone</a>
-      </p>
-    </div>
+      </div>
+
+      <div id="quizResult" class="result"></div>
+
+      <!-- Certificate and completion block -->
+      <div id="postPass" class="card" style="display:none;margin-top:12px;text-align:left;">
+        <h3>✅ You passed!</h3>
+        <p class="muted">Your <b>Volunteer Trained</b> badge is unlocked (+50 points).</p>
+
+        <label style="display:block;margin:10px 0 6px;font-weight:700;">Your full name (for certificate)</label>
+        <input id="certName" class="btn btn-ghost" style="width:100%;text-align:left" placeholder="Type your name as it should appear"/>
+
+        <div class="toolbar" style="justify-content:flex-start;margin-top:10px;">
+          <button id="makeCert" class="btn btn-primary" type="button">Generate Certificate</button>
+          <a class="btn btn-ghost" href="index.html">Open MindCheck Home</a>
+          <a class="btn btn-ghost" href="resources.html">Clinics & Resources</a>
+        </div>
+
+        <p id="certHint" class="muted" style="display:none;margin-top:8px;"></p>
+      </div>
+    </section>
   </main>
 
-  <footer>
+  <footer style="margin-top:20px;">
     🔒 <a href="privacy.html">Privacy</a> •
     📄 <a href="terms.html">Terms</a> •
     🏥 <a href="resources.html">Clinics & Resources</a> •
-    ✉️ <a href="mailto:support@speakout.ng">support@speakout.ng</a>
+    ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
   </footer>
+
+  <script>
+    const KEY_POINTS='mc_points', KEY_BADGES='mc_badges', KEY_TRAINING='mc_training', KEY_TRAINING_LOG='mc_training_log';
+    const PASS_MARK=0.8, BONUS=50;
+    const getJSON=(k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
+    const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+    const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
+    const setPoints=v=>localStorage.setItem(KEY_POINTS,String(v));
+    const addPoints=n=>setPoints(getPoints()+n);
+    const getBadges=()=>getJSON(KEY_BADGES,[]);
+    const setBadges=a=>setJSON(KEY_BADGES,a);
+    const awardBadge=id=>{const b=getBadges();if(!b.includes(id)){b.push(id);setBadges(b);return true}return false};
+    const logPass=pct=>{const log=getJSON(KEY_TRAINING_LOG,[]);log.push({date:new Date().toISOString(),pct});setJSON(KEY_TRAINING_LOG,log);};
+
+    const QUESTIONS=[
+      {q:"Which response best shows safe listening?",a:["Interrupt to give solutions","Listen, reflect, ask open questions","Tell them others have it worse"],c:1},
+      {q:"Which is a red flag?",a:["Can’t sleep well","Active self-harm plan","Lonely sometimes"],c:1},
+      {q:"Volunteers should avoid:",a:["Offering clinic options","Promising limited confidentiality","Giving medical advice"],c:2},
+      {q:"If danger is happening now:",a:["Keep chatting","Call 112 immediately","Tell them to relax"],c:1},
+      {q:"Best privacy practice:",a:["Use initials only","Write full story","Post publicly"],c:0},
+      {q:"A good referral step is to:",a:["Get consent and offer trusted options","Choose for them","Tell them to pray"],c:0},
+      {q:"Boundaries help because:",a:["They prevent burnout","They make you cold","They stop listening"],c:0},
+      {q:"If unsure what to do:",a:["Do nothing","Escalate to supervisor","Post on social media"],c:1},
+      {q:"Empathy sounds like:",a:["You’re overreacting","It sounds like this is hard for you","Calm down"],c:1},
+      {q:"After a conversation:",a:["Agree one small next step","Plan their life","End abruptly"],c:0}
+    ];
+
+    const form=document.getElementById('quizForm');
+    function renderQuiz(){
+      form.innerHTML=QUESTIONS.map((Q,i)=>`
+      <fieldset class="q">
+        <legend>Q${i+1}. ${Q.q}</legend>
+        ${Q.a.map((opt,j)=>`<label><input type="radio" name="q${i}" value="${j}" required/> ${opt}</label>`).join('')}
+      </fieldset>`).join('');
+    }
+    renderQuiz();
+
+    const result=document.getElementById('quizResult'),post=document.getElementById('postPass');
+    document.getElementById('submitQuiz').onclick=()=>{
+      if(!form.checkValidity()){form.reportValidity();return;}
+      let correct=0;QUESTIONS.forEach((Q,i)=>{const ch=form.querySelector(`input[name=q${i}]:checked`);if(ch&&parseInt(ch.value,10)===Q.c)correct++;});
+      const pct=correct/QUESTIONS.length;setJSON(KEY_TRAINING,{pct,date:new Date().toISOString()});
+      const pass=pct>=PASS_MARK;
+      result.style.display='block';result.className='result '+(pass?'good':'bad');
+      result.textContent=`You scored ${correct}/${QUESTIONS.length} (${Math.round(pct*100)}%). ${pass?'You passed!':'Try again.'}`;
+      if(pass){awardBadge('volunteer_trained');addPoints(BONUS);logPass(pct);post.style.display='block';}
+    };
+    document.getElementById('resetQuiz').onclick=()=>{form.reset();result.style.display='none';post.style.display='none';};
+
+    const makeBtn=document.getElementById('makeCert'),certInput=document.getElementById('certName'),hint=document.getElementById('certHint');
+    makeBtn.onclick=()=>{
+      const name=(certInput.value||'').trim();if(!name){alert('Enter your name');return;}
+      const t=getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
+      const score=Math.round(t.pct*100),d=encodeURIComponent(t.date);
+      const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${d}`;
+      hint.style.display='block';hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
+    };
+  </script>
 </body>
 </html>
