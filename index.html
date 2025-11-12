@@ -128,74 +128,86 @@
       <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
     </div>
     <div class="grid">
-  <div class="card" id="goMood">
-    <div class="big">😊</div>
-    <h3>Check Your Mood</h3>
-    <p>Earn points once daily (+10). 20-day streak wins ₦1000.</p>
-  </div>
+      <div class="card" id="goMood">
+        <div class="big">😊</div>
+        <h3>Check Your Mood</h3>
+        <p>Earn points once daily (+10). 20-day streak wins ₦1000.</p>
+      </div>
 
-  <div class="card" id="goScreenings">
-    <div class="big">🧠</div>
-    <h3>Mental Health Screenings</h3>
-    <p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p>
-  </div>
+      <div class="card" id="goScreenings">
+        <div class="big">🧠</div>
+        <h3>Mental Health Screenings</h3>
+        <p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p>
+      </div>
 
-  <a class="card" id="goTips" href="#">
-    <div class="big">🌿</div>
-    <h3>Wellness Tips</h3>
-    <p>Simple habits for calm and focus.</p>
-  </a>
+      <a class="card" id="goTips" href="#">
+        <div class="big">🌿</div>
+        <h3>Wellness Tips</h3>
+        <p>Simple habits for calm and focus.</p>
+      </a>
 
-  <a class="card" id="goHelp" href="#">
-    <div class="big">📞</div>
-    <h3>Get Help</h3>
-    <p>Find mental-health support nearby.</p>
-  </a>
+      <a class="card" id="goHelp" href="#">
+        <div class="big">📞</div>
+        <h3>Get Help</h3>
+        <p>Find mental-health support nearby.</p>
+      </a>
 
-  <div class="card" id="goBadges">
-    <div class="big">🏅</div>
-    <h3>Badges & Awards</h3>
-    <p>See unlocked badges & claim awards.</p>
-  </div>
+      <div class="card" id="goBadges">
+        <div class="big">🏅</div>
+        <h3>Badges & Awards</h3>
+        <p>See unlocked badges & claim awards.</p>
+      </div>
 
-  <!-- ⬇⬇⬇ NEW ANONYMOUS SAFETY REPORT CARD ⬇⬇⬇ -->
-  <a class="card" id="goReport" href="report.html" style="border:2px solid #fecaca;">
-    <div class="big">🚨</div>
-    <h3>I Need Help (Anonymous)</h3>
-    <p>Tell us safely if you feel hurt, not safe, or worried about a friend. No name needed.</p>
+      <!-- NEW: Volunteer Zone card -->
+      <a class="card" id="goVolunteer" href="volunteers.html">
+        <div class="big">🤝</div>
+        <h3>Volunteer Zone</h3>
+        <p>Learn, get certified, and join outreach.</p>
+      </a>
+
+      <!-- NEW: Direct Clinics & Resources card -->
+      <a class="card" id="goResources" href="resources.html">
+        <div class="big">📍</div>
+        <h3>Clinics & Resources</h3>
+        <p>Find services near you (Abuja, Keffi, Owerri).</p>
+      </a>
+
+      <!-- Anonymous Safety Report -->
+      <a class="card" id="goReport" href="report.html" style="border:2px solid #fecaca;">
+        <div class="big">🚨</div>
+        <h3>I Need Help (Anonymous)</h3>
+        <p>Tell us safely if you feel hurt, not safe, or worried about a friend. No name needed.</p>
+        <div style="
+          font-size:.8rem;
+          line-height:1.4;
+          color:#7f1d1d;
+          background:#fff1f2;
+          border:1px solid #fecaca;
+          border-radius:8px;
+          padding:6px 8px;
+          margin-top:8px;
+          font-weight:600;
+        ">
+          If someone is in danger right now, call 112 or tell a trusted adult immediately.
+        </div>
+      </a>
+    </div>
+
     <div style="
       font-size:.8rem;
       line-height:1.4;
-      color:#7f1d1d;
-      background:#fff1f2;
-      border:1px solid #fecaca;
-      border-radius:8px;
-      padding:6px 8px;
-      margin-top:8px;
-      font-weight:600;
+      color:#666;
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:12px;
+      max-width:680px;
+      margin:16px auto 0;
+      text-align:left;
     ">
-      If someone is in danger right now, call 112 or tell a trusted adult immediately.
+      <strong>Important:</strong><br/>
+      SpeakOut MindCheck is not an emergency service. If you or someone is in danger right now, please call 112 or tell a trusted adult (parent, school counselor, teacher, auntie, pastor/imam) immediately.
     </div>
-  </a>
-  <!-- ⬆⬆⬆ NEW ANONYMOUS SAFETY REPORT CARD ⬆⬆⬆ -->
-
-</div>
-<div style="
-  font-size:.8rem;
-  line-height:1.4;
-  color:#666;
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius:12px;
-  padding:12px;
-  max-width:680px;
-  margin:16px auto 0;
-  text-align:left;
-">
-  <strong>Important:</strong><br/>
-  SpeakOut MindCheck is not an emergency service. If you or someone is in danger right now, please call 112 or tell a trusted adult (parent, school counselor, teacher, auntie, pastor/imam) immediately.
-</div>
-
   </section>
 
   <!-- Mood Check-in -->
@@ -272,7 +284,8 @@
       <a class="card" href="tel:112"><div class="big">🚑</div><h3>Emergency Services</h3><p>Call 112 (or your country emergency number) for urgent help.</p></a>
       <a class="card" href="tel:+2348118103510"><div class="big">📞</div><h3>SpeakOut Helpline</h3><p>Call us for support and referral options.</p></a>
       <a class="card" href="https://wa.me/2348118103510" target="_blank" rel="noopener"><div class="big">💬</div><h3>WhatsApp</h3><p>Chat with a SpeakOut volunteer.</p></a>
-      <a class="card" href="/MindCheck/resources.html"><div class="big">📍</div><h3>Clinics & Resources</h3><p>Find mental-health services near you.</p></a>
+      <!-- updated to relative path -->
+      <a class="card" href="resources.html"><div class="big">📍</div><h3>Clinics & Resources</h3><p>Find mental-health services near you.</p></a>
     </div>
     <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost">Back to Home</button></div>
   </section>
@@ -288,8 +301,10 @@
   </section>
 
   <footer style="margin-top:20px;">
-    🔒 <a href="/MindCheck/privacy.html">Privacy</a> •
-    📄 <a href="/MindCheck/terms.html">Terms</a> •
+    🔒 <a href="privacy.html">Privacy</a> •
+    📄 <a href="terms.html">Terms</a> •
+    🏥 <a href="resources.html">Clinics & Resources</a> •
+    🤝 <a href="volunteers.html">Volunteer Zone</a> •
     ✉️ <a href="mailto:speaaakout@gmail.com">support@speakout.ng</a>
   </footer>
 
@@ -357,7 +372,10 @@
 
     document.getElementById('goBadges').onclick=()=>show(badgesSection);
     document.getElementById('badgesBackHome').onclick=()=>show(homeSection);
+    /* end nav */
+  </script>
 
+  <script>
     /* ---------- Keys & UID ---------- */
     const KEY_UID='mc_uid';
     const KEY_POINTS='mc_points';
@@ -427,9 +445,7 @@
       const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
       if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
 
-      const arr=getJSON(KEY_HISTORY, []);
-      arr.push({ ts:new Date().toISOString(), mood_value:moodValue });
-      setJSON(KEY_HISTORY, arr);
+      const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
 
       const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
       let tip="Take a deep breath for 60 seconds.";
@@ -704,6 +720,9 @@
     document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
     document.getElementById('goBadges')?.addEventListener('click', ()=>track('OpenBadges'));
     document.getElementById('goReport')?.addEventListener('click', ()=>track('OpenReport'));
+    // NEW analytics hooks
+    document.getElementById('goVolunteer')?.addEventListener('click', ()=>track('OpenVolunteerZone'));
+    document.getElementById('goResources')?.addEventListener('click', ()=>track('OpenResourcesDirect'));
   </script>
 
   <script>
