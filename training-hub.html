@@ -25,6 +25,13 @@
 
   <!-- Plausible (already used across your site) -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+
+  <!-- NEW: page-view custom event -->
+  <script>
+    (function(){
+      try { window.plausible && window.plausible('TrainingHubViewed'); } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
