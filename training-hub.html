@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MindCheck | Training Hub</title>
+  <link rel="icon" href="favicon.png"/>
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#f7fbff; color:#0f172a; margin:0; }
+    header { background:#0b8a4a; color:#fff; text-align:center; padding:1.1rem 0; font-weight:800; }
+    main { max-width:840px; margin:2rem auto 3rem; padding:0 1.2rem; }
+    .card { background:#fff; border:1px solid #dff3e7; border-radius:14px; padding:18px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+    h1 { color:#0b8a4a; margin:.2rem 0 .8rem; }
+    p { color:#334155; }
+    .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; }
+    .btn { display:inline-block; background:#0b8a4a; color:#fff; padding:.7rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:600; }
+    .btn:hover { background:#0a6e3d; }
+    .ghost { background:#fff; color:#0b8a4a; border:1px solid #0b8a4a; }
+    .ghost:hover { background:#eefbf4; }
+    .note { background:#f0fff6; border:1px dashed #98e1bf; color:#0b8a4a; border-radius:10px; padding:10px; margin-top:12px; }
+  </style>
+  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+  <header>MindCheck — Training Hub</header>
+
+  <main>
+    <div class="card">
+      <h1>Start Your Certified Training</h1>
+      <p>Open the training portal to complete the modules at your pace. When done, take the short quiz to record completion.</p>
+
+      <div class="cta">
+        <!-- TODO: Replace with your real training portal link -->
+        <a class="btn" id="startModules" href="https://example.com/your-training-portal" target="_blank" rel="noopener">Open Training Portal</a>
+        <!-- TODO: Replace with your real quiz link -->
+        <a class="btn ghost" id="openQuiz" href="https://forms.gle/your-mindcheck-volunteer-quiz" target="_blank" rel="noopener">Take Quiz</a>
+        <a class="btn ghost" href="volunteers.html">← Back</a>
+      </div>
+
+      <div class="note">
+        After your quiz, return to <code>index.html?quiz=done</code> to auto-unlock your “Volunteer Trained” badge.
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Optional analytics
+    function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
+    document.getElementById('startModules')?.addEventListener('click', ()=>track('OpenTrainingPortal'));
+    document.getElementById('openQuiz')?.addEventListener('click', ()=>track('OpenVolunteerQuiz'));
+  </script>
+</body>
+</html>
