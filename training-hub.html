@@ -9,11 +9,19 @@
   <meta name="theme-color" content="#22c55e"/>
 
   <style>
-    .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; text-align:left; }
+    /* Layout + theming helpers (keeps your site look consistent) */
+    .muted { color:#52606d; }
+    .pill { border:1px solid #e8eef5; background:#fff; border-radius:999px; padding:6px 10px; font-weight:700; }
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
+
+    /* Lessons */
+    .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; text-align:left; display:none; }
+    .lesson.active { display:block; animation:fadeIn .25s ease-in-out; }
     .lesson h3 { margin:.25rem 0 .35rem; font-size:1.08rem; }
     .lesson ul { margin:.4rem 0 .25rem; padding-left:18px; }
     .lesson li { margin:.25rem 0; }
-    .muted { color:#52606d; }
+
+    /* Quiz */
     .quiz-card { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:16px; }
     .q { margin:12px 0; text-align:left; }
     .q legend { font-weight:700; margin-bottom:6px; }
@@ -22,10 +30,20 @@
     .result { display:none; margin-top:12px; font-weight:700; }
     .good { color:#166534; }
     .bad { color:#7f1d1d; }
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
-    .pill { border:1px solid #e8eef5; background:#fff; border-radius:999px; padding:6px 10px; font-weight:700; }
     .timer { font-weight:800; }
     .warn { color:#854d0e; }
+
+    /* Pager / progress */
+    .progress-wrap{position:relative;background:#f1f5f9;border:1px solid #e8eef5;border-radius:12px;height:10px;overflow:hidden}
+    .progress-bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#16a34a)}
+    .pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0}
+    .pager .side{display:flex;gap:10px;align-items:center}
+    .pager .center{font-weight:800;color:#062436}
+    .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;}
+    .btn-primary{background:#22c55e;color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
+    .btn-primary:hover{background:#16a34a;}
+    .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
   </style>
 
   <!-- Plausible (already used across your site) -->
@@ -48,212 +66,224 @@
       <b>Volunteer Trained</b> badge, gain +50 points, and download your certificate.
     </p>
 
-    <!-- Lessons (Drop-in replacement starts here) -->
-<section class="lesson">
-  <h3>Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h3>
-  <img src="images/listen.png" alt="Safe Listening Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
-  <p class="muted">
-    This lesson teaches a simple step-by-step approach you can use anytime someone opens up about their feelings.
-    We call it <b>L-I-S-T-E-N</b>: <b>Listen, Inquire, Summarize, Thank, Empathize, Next steps.</b> Think of it
-    like a small bridge you build together—from confusion and isolation to clarity and support. You don’t need
-    special powers or medical training to be helpful; you only need presence, patience, and a respectful,
-    non-judgmental attitude.
-  </p>
+    <!-- Progress + Pager -->
+    <div class="pager" aria-label="Lesson navigation">
+      <div class="side">
+        <button id="prevLesson" class="btn btn-ghost" type="button">← Previous</button>
+      </div>
+      <div class="center" id="lessonCounter" aria-live="polite">Lesson 1 of 5</div>
+      <div class="side">
+        <button id="nextLesson" class="btn btn-primary" type="button">Next →</button>
+      </div>
+    </div>
+    <div class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0% complete">
+      <div id="lessonProgress" class="progress-bar"></div>
+    </div>
 
-  <div class="card" style="text-align:left">
-    <b>Why safe listening matters</b>
-    <p>
-      When people feel heard, their stress often reduces enough to make safer choices and accept help. In many
-      Nigerian contexts—campus life, church/mosque groups, hostels, busy homes—people may fear judgment or
-      gossip. A calm volunteer who listens well can make a huge difference in a few minutes. You’re not fixing
-      everything; you’re opening a door.
-    </p>
-  </div>
+    <!-- Lessons -->
+    <section class="lesson">
+      <h3>Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h3>
+      <img src="images/listen.png" alt="Safe Listening Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
+      <p class="muted">
+        This lesson teaches a simple step-by-step approach you can use anytime someone opens up about their feelings.
+        We call it <b>L-I-S-T-E-N</b>: <b>Listen, Inquire, Summarize, Thank, Empathize, Next steps.</b> Think of it
+        like a small bridge you build together—from confusion and isolation to clarity and support. You don’t need
+        special powers or medical training to be helpful; you only need presence, patience, and a respectful,
+        non-judgmental attitude.
+      </p>
 
-  <ul>
-    <li><b>L — Listen:</b> Give full attention. Put your phone face-down, lower your voice, and remove distractions. Use comfortable silence—don’t rush to fill every gap. Nods and short words like “I hear you” can help them continue.</li>
-    <li><b>I — Inquire:</b> Ask open questions: “How long have you felt this way?” “What helps you on better days?” Avoid yes/no questions at the start. Be curious, not intrusive.</li>
-    <li><b>S — Summarize:</b> Repeat key points in your own words: “So, the pressure at school plus money worries are affecting your sleep.” Summaries prove you understood and allow them to correct anything you missed.</li>
-    <li><b>T — Thank:</b> “Thank you for trusting me.” Sharing is hard—appreciation builds safety.</li>
-    <li><b>E — Empathize:</b> Validate feelings without judging. “That sounds heavy.” “It makes sense you feel overwhelmed.” Empathy ≠ agreement with every detail; it’s respect for their experience.</li>
-    <li><b>N — Next steps:</b> Agree one small step together—drink water, try a breathing tip, message a trusted adult, or browse nearby clinics. Keep steps realistic for <i>today</i>, not perfect for the next five years.</li>
-  </ul>
+      <div class="card" style="text-align:left">
+        <b>Why safe listening matters</b>
+        <p>
+          When people feel heard, their stress often reduces enough to make safer choices and accept help. In many
+          Nigerian contexts—campus life, church/mosque groups, hostels, busy homes—people may fear judgment or
+          gossip. A calm volunteer who listens well can make a huge difference in a few minutes. You’re not fixing
+          everything; you’re opening a door.
+        </p>
+      </div>
 
-  <div class="card" style="text-align:left">
-    <b>Simple definitions</b>
-    <ul>
-      <li><b>Open question:</b> A question that invites details (not just yes/no). Example: “What was the hardest part of today?”</li>
-      <li><b>Summarize:</b> Briefly repeat the main points to check accuracy and show understanding.</li>
-      <li><b>Empathy:</b> Communicating “I get that this is tough” without blaming, shaming, or rushing.</li>
-    </ul>
-  </div>
+      <ul>
+        <li><b>L — Listen:</b> Give full attention. Put your phone face-down, lower your voice, and remove distractions. Use comfortable silence—don’t rush to fill every gap. Nods and short words like “I hear you” can help them continue.</li>
+        <li><b>I — Inquire:</b> Ask open questions: “How long have you felt this way?” “What helps you on better days?” Avoid yes/no questions at the start. Be curious, not intrusive.</li>
+        <li><b>S — Summarize:</b> Repeat key points in your own words: “So, the pressure at school plus money worries are affecting your sleep.” Summaries prove you understood and allow them to correct anything you missed.</li>
+        <li><b>T — Thank:</b> “Thank you for trusting me.” Sharing is hard—appreciation builds safety.</li>
+        <li><b>E — Empathize:</b> Validate feelings without judging. “That sounds heavy.” “It makes sense you feel overwhelmed.” Empathy ≠ agreement with every detail; it’s respect for their experience.</li>
+        <li><b>N — Next steps:</b> Agree one small step together—drink water, try a breathing tip, message a trusted adult, or browse nearby clinics. Keep steps realistic for <i>today</i>, not perfect for the next five years.</li>
+      </ul>
 
-  <div class="card" style="text-align:left">
-    <b>Do / Don’t</b>
-    <ul>
-      <li><b>Do:</b> Keep a calm tone, allow pauses, ask permission before sensitive questions.</li>
-      <li><b>Don’t:</b> Preach, compare (“others have it worse”), or dismiss (“just be strong”).</li>
-    </ul>
-  </div>
+      <div class="card" style="text-align:left">
+        <b>Simple definitions</b>
+        <ul>
+          <li><b>Open question:</b> A question that invites details (not just yes/no). Example: “What was the hardest part of today?”</li>
+          <li><b>Summarize:</b> Briefly repeat the main points to check accuracy and show understanding.</li>
+          <li><b>Empathy:</b> Communicating “I get that this is tough” without blaming, shaming, or rushing.</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Mini scenario:</b> Femi says, “I’m tired of everything.” You might say, “I’m glad you told me. Can you share what today felt like?” Then summarize: “It sounds like school deadlines and family pressure are piling up.” Empathize: “That’s a lot for one person.” Next step: “Would you like a quick breathing exercise or to see clinic options near campus?”</p>
+      <div class="card" style="text-align:left">
+        <b>Do / Don’t</b>
+        <ul>
+          <li><b>Do:</b> Keep a calm tone, allow pauses, ask permission before sensitive questions.</li>
+          <li><b>Don’t:</b> Preach, compare (“others have it worse”), or dismiss (“just be strong”).</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Reflection:</b> Which phrases help <i>you</i> show empathy without giving advice too soon?</p>
-</section>
+      <p class="muted"><b>Mini scenario:</b> Femi says, “I’m tired of everything.” You might say, “I’m glad you told me. Can you share what today felt like?” Then summarize: “It sounds like school deadlines and family pressure are piling up.” Empathize: “That’s a lot for one person.” Next step: “Would you like a quick breathing exercise or to see clinic options near campus?”</p>
 
-<section class="lesson">
-  <h3>Lesson 2 — Red Flags & Immediate Danger</h3>
-  <img src="images/red-flags.png" alt="Red Flags & Immediate Danger Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
-  <p class="muted">
-    Your first responsibility is safety. Most conversations will be non-urgent, but sometimes you’ll hear red flags
-    that mean immediate action is needed. You are not alone—escalation to emergency services or a supervisor is not
-    failure; it’s good practice.
-  </p>
+      <p class="muted"><b>Reflection:</b> Which phrases help <i>you</i> show empathy without giving advice too soon?</p>
+    </section>
 
-  <div class="card" style="text-align:left">
-    <b>Immediate red flags (act now)</b>
-    <ul>
-      <li>Active self-harm plan or intent (“I plan to take pills tonight”).</li>
-      <li>Current violence or threat of violence (domestic, campus, community).</li>
-      <li>Someone is missing, unconscious, or cannot stay safe right now.</li>
-      <li>Child or vulnerable adult at risk (safeguarding concern).</li>
-      <li>Severe symptoms: command hallucinations (“a voice tells me to harm myself”), extreme agitation, or confusion.</li>
-    </ul>
-  </div>
+    <section class="lesson">
+      <h3>Lesson 2 — Red Flags & Immediate Danger</h3>
+      <img src="images/red-flags.png" alt="Red Flags & Immediate Danger Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
+      <p class="muted">
+        Your first responsibility is safety. Most conversations will be non-urgent, but sometimes you’ll hear red flags
+        that mean immediate action is needed. You are not alone—escalation to emergency services or a supervisor is not
+        failure; it’s good practice.
+      </p>
 
-  <div class="card" style="text-align:left">
-    <b>What to do (simple steps)</b>
-    <ul>
-      <li>Stay present on the call/chat; keep your voice steady: “Your safety matters. I’m here with you.”</li>
-      <li>Call <b>112</b> (or the local emergency number). If on chat, ask where they are and if someone nearby can help.</li>
-      <li>Inform your supervisor/safeguarding lead as your protocol requires.</li>
-      <li>Log minimal facts: date, concern, action taken. No full names or private details.</li>
-    </ul>
-  </div>
+      <div class="card" style="text-align:left">
+        <b>Immediate red flags (act now)</b>
+        <ul>
+          <li>Active self-harm plan or intent (“I plan to take pills tonight”).</li>
+          <li>Current violence or threat of violence (domestic, campus, community).</li>
+          <li>Someone is missing, unconscious, or cannot stay safe right now.</li>
+          <li>Child or vulnerable adult at risk (safeguarding concern).</li>
+          <li>Severe symptoms: command hallucinations (“a voice tells me to harm myself”), extreme agitation, or confusion.</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Language tips:</b> Be clear and kind: “Because your safety is the priority, I need to involve emergency help now.”</p>
-  <p class="muted"><b>Boundary tip:</b> If a person refuses help and you believe there is imminent risk, follow your escalation protocol. Safety beats popularity.</p>
+      <div class="card" style="text-align:left">
+        <b>What to do (simple steps)</b>
+        <ul>
+          <li>Stay present on the call/chat; keep your voice steady: “Your safety matters. I’m here with you.”</li>
+          <li>Call <b>112</b> (or the local emergency number). If on chat, ask where they are and if someone nearby can help.</li>
+          <li>Inform your supervisor/safeguarding lead as your protocol requires.</li>
+          <li>Log minimal facts: date, concern, action taken. No full names or private details.</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Mini scenario:</b> Ada says, “I bought pills.” You might reply, “Thank you for telling me. Are you alone now? I’m calling 112 to get help to you. Stay with me on the line.”</p>
+      <p class="muted"><b>Language tips:</b> Be clear and kind: “Because your safety is the priority, I need to involve emergency help now.”</p>
+      <p class="muted"><b>Boundary tip:</b> If a person refuses help and you believe there is imminent risk, follow your escalation protocol. Safety beats popularity.</p>
 
-  <p class="muted"><b>Reflection:</b> Which steps help you stay calm while moving quickly in a crisis?</p>
-</section>
+      <p class="muted"><b>Mini scenario:</b> Ada says, “I bought pills.” You might reply, “Thank you for telling me. Are you alone now? I’m calling 112 to get help to you. Stay with me on the line.”</p>
 
-<section class="lesson">
-  <h3>Lesson 3 — Boundaries & Ethical Referral</h3>
-  <img src="images/referral.png" alt="Boundaries and Ethical Referral Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
-  <p class="muted">
-    Volunteers are powerful <i>connectors</i>—you offer support and link people to care. Boundaries protect the person and
-    protect you. Ethical referral means you offer choices, seek consent, and respect dignity through every step.
-  </p>
+      <p class="muted"><b>Reflection:</b> Which steps help you stay calm while moving quickly in a crisis?</p>
+    </section>
 
-  <div class="card" style="text-align:left">
-    <b>Healthy boundaries</b>
-    <ul>
-      <li><b>Your scope:</b> Listening, emotional support, information, and referral. You do <i>not</i> diagnose, prescribe, or promise outcomes.</li>
-      <li><b>Availability:</b> Agree realistic times. If you say you’ll check in tomorrow, keep it. Don’t promise 24/7 access.</li>
-      <li><b>Personal safety:</b> Meet in safe, public spaces if in-person; use official lines/accounts for communication.</li>
-    </ul>
-  </div>
+    <section class="lesson">
+      <h3>Lesson 3 — Boundaries & Ethical Referral</h3>
+      <img src="images/referral.png" alt="Boundaries and Ethical Referral Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
+      <p class="muted">
+        Volunteers are powerful <i>connectors</i>—you offer support and link people to care. Boundaries protect the person and
+        protect you. Ethical referral means you offer choices, seek consent, and respect dignity through every step.
+      </p>
 
-  <div class="card" style="text-align:left">
-    <b>Ethical referrals (step-by-step)</b>
-    <ul>
-      <li><b>Ask consent:</b> “Would you like clinic or phone support options?”</li>
-      <li><b>Offer choices:</b> Provide 2–3 reputable options (public/private/faith-based/WhatsApp/phone). Avoid pressuring.</li>
-      <li><b>Match needs:</b> If money is a barrier, highlight affordable services. If mobility is an issue, highlight tele-options.</li>
-      <li><b>Plan follow-up:</b> “If you like, I can check in with you in two days to hear how it went.”</li>
-    </ul>
-  </div>
+      <div class="card" style="text-align:left">
+        <b>Healthy boundaries</b>
+        <ul>
+          <li><b>Your scope:</b> Listening, emotional support, information, and referral. You do <i>not</i> diagnose, prescribe, or promise outcomes.</li>
+          <li><b>Availability:</b> Agree realistic times. If you say you’ll check in tomorrow, keep it. Don’t promise 24/7 access.</li>
+          <li><b>Personal safety:</b> Meet in safe, public spaces if in-person; use official lines/accounts for communication.</li>
+        </ul>
+      </div>
 
-  <div class="card" style="text-align:left">
-    <b>Simple definitions</b>
-    <ul>
-      <li><b>Boundary:</b> A healthy limit that keeps support safe and sustainable (for both people).</li>
-      <li><b>Referral:</b> Sharing pathways to professional or community services for ongoing help.</li>
-      <li><b>Consent:</b> Clear “yes” after understanding what will happen with their information.</li>
-    </ul>
-  </div>
+      <div class="card" style="text-align:left">
+        <b>Ethical referrals (step-by-step)</b>
+        <ul>
+          <li><b>Ask consent:</b> “Would you like clinic or phone support options?”</li>
+          <li><b>Offer choices:</b> Provide 2–3 reputable options (public/private/faith-based/WhatsApp/phone). Avoid pressuring.</li>
+          <li><b>Match needs:</b> If money is a barrier, highlight affordable services. If mobility is an issue, highlight tele-options.</li>
+          <li><b>Plan follow-up:</b> “If you like, I can check in with you in two days to hear how it went.”</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Mini scenario:</b> “I’m scared to go alone.” You: “Would a phone helpline or WhatsApp chat help for a start? We can also plan one small step together today.”</p>
-  <p class="muted"><b>Reflection:</b> What respectful words can you use to offer choices without pressure?</p>
-</section>
+      <div class="card" style="text-align:left">
+        <b>Simple definitions</b>
+        <ul>
+          <li><b>Boundary:</b> A healthy limit that keeps support safe and sustainable (for both people).</li>
+          <li><b>Referral:</b> Sharing pathways to professional or community services for ongoing help.</li>
+          <li><b>Consent:</b> Clear “yes” after understanding what will happen with their information.</li>
+        </ul>
+      </div>
 
-<section class="lesson">
-  <h3>Lesson 4 — Privacy-First Logging (Minimum Necessary)</h3>
-  <img src="images/privacy.png" alt="Privacy-first Logging Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
-  <p class="muted">
-    Good notes help your team improve support while protecting people’s privacy. Record only what is necessary to understand
-    the concern and the action taken, not the person’s identity or private story. Imagine your log will be read in a team
-    review: it should be short, respectful, and useful.
-  </p>
+      <p class="muted"><b>Mini scenario:</b> “I’m scared to go alone.” You: “Would a phone helpline or WhatsApp chat help for a start? We can also plan one small step together today.”</p>
+      <p class="muted"><b>Reflection:</b> What respectful words can you use to offer choices without pressure?</p>
+    </section>
 
-  <div class="card" style="text-align:left">
-    <b>Log this (keep it short)</b>
-    <ul>
-      <li><b>Date/time:</b> “2025-11-12, 3:15pm.”</li>
-      <li><b>General concern:</b> “Worry and poor sleep,” “Exam stress,” “Relationship conflict.”</li>
-      <li><b>Action taken:</b> “Shared breathing tip + Abuja clinic list,” “Escalated to supervisor,” “Crisis: called 112.”</li>
-    </ul>
-  </div>
+    <section class="lesson">
+      <h3>Lesson 4 — Privacy-First Logging (Minimum Necessary)</h3>
+      <img src="images/privacy.png" alt="Privacy-first Logging Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
+      <p class="muted">
+        Good notes help your team improve support while protecting people’s privacy. Record only what is necessary to understand
+        the concern and the action taken, not the person’s identity or private story. Imagine your log will be read in a team
+        review: it should be short, respectful, and useful.
+      </p>
 
-  <div class="card" style="text-align:left">
-    <b>Do <i>not</i> log</b>
-    <ul>
-      <li>Full names, phone numbers, hostel addresses, screenshots, or private photos.</li>
-      <li>Gossip or opinions (“person is dramatic”). Keep tone neutral and kind.</li>
-      <li>Long transcripts. Summaries are safer and more helpful.</li>
-    </ul>
-  </div>
+      <div class="card" style="text-align:left">
+        <b>Log this (keep it short)</b>
+        <ul>
+          <li><b>Date/time:</b> “2025-11-12, 3:15pm.”</li>
+          <li><b>General concern:</b> “Worry and poor sleep,” “Exam stress,” “Relationship conflict.”</li>
+          <li><b>Action taken:</b> “Shared breathing tip + Abuja clinic list,” “Escalated to supervisor,” “Crisis: called 112.”</li>
+        </ul>
+      </div>
 
-  <div class="card" style="text-align:left">
-    <b>Storage & access</b>
-    <ul>
-      <li>Use approved tools only (not personal WhatsApp chats or random notebooks).</li>
-      <li>Restrict access to authorized team members; set a sensible retention period.</li>
-      <li>When in doubt, ask your supervisor how to store a note safely.</li>
-    </ul>
-  </div>
+      <div class="card" style="text-align:left">
+        <b>Do <i>not</i> log</b>
+        <ul>
+          <li>Full names, phone numbers, hostel addresses, screenshots, or private photos.</li>
+          <li>Gossip or opinions (“person is dramatic”). Keep tone neutral and kind.</li>
+          <li>Long transcripts. Summaries are safer and more helpful.</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Good example:</b> “2025-11-12 • anxiety & sleep • taught 4-7-8 breathing; offered clinic options; person chose WhatsApp helpline.”</p>
-  <p class="muted"><b>Reflection:</b> How can you write a helpful log in one or two lines?</p>
-</section>
+      <div class="card" style="text-align:left">
+        <b>Storage & access</b>
+        <ul>
+          <li>Use approved tools only (not personal WhatsApp chats or random notebooks).</li>
+          <li>Restrict access to authorized team members; set a sensible retention period.</li>
+          <li>When in doubt, ask your supervisor how to store a note safely.</li>
+        </ul>
+      </div>
 
-<section class="lesson">
-  <h3>Lesson 5 — Cultural Sensitivity & Volunteer Self-Care</h3>
-  <img src="images/culture.png" alt="Cultural Sensitivity and Self-Care Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
-  <p class="muted">
-    Nigeria (and Africa at large) is rich with different languages, beliefs, and customs. Cultural sensitivity means you
-    respect how people understand mental health, family roles, and faith. At the same time, you must also care for yourself:
-    listening can be emotionally heavy, and your wellbeing matters.
-  </p>
+      <p class="muted"><b>Good example:</b> “2025-11-12 • anxiety & sleep • taught 4-7-8 breathing; offered clinic options; person chose WhatsApp helpline.”</p>
+      <p class="muted"><b>Reflection:</b> How can you write a helpful log in one or two lines?</p>
+    </section>
 
-  <div class="card" style="text-align:left">
-    <b>Cultural sensitivity</b>
-    <ul>
-      <li><b>Ask preferences:</b> “What name and language should we use?”</li>
-      <li><b>Honor beliefs:</b> If someone leans on prayer, validate it and suggest complementary supports (helplines, clinics).</li>
-      <li><b>Avoid labels:</b> Replace words like “crazy” with “going through a hard time.”</li>
-      <li><b>Seek to understand:</b> “Can you help me understand how this affects you at home/school?”</li>
-    </ul>
-  </div>
+    <section class="lesson">
+      <h3>Lesson 5 — Cultural Sensitivity & Volunteer Self-Care</h3>
+      <img src="images/culture.png" alt="Cultural Sensitivity and Self-Care Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
+      <p class="muted">
+        Nigeria (and Africa at large) is rich with different languages, beliefs, and customs. Cultural sensitivity means you
+        respect how people understand mental health, family roles, and faith. At the same time, you must also care for yourself:
+        listening can be emotionally heavy, and your wellbeing matters.
+      </p>
 
-  <div class="card" style="text-align:left">
-    <b>Volunteer self-care</b>
-    <ul>
-      <li><b>Debrief:</b> After tough chats, speak with a supervisor. Don’t carry it alone.</li>
-      <li><b>Recharge:</b> Hydrate, stretch, rest your eyes. Set limits on how many heavy conversations you handle in a day.</li>
-      <li><b>Know your signs:</b> If you feel overwhelmed or helpless, pause and escalate. You are not failing—you’re protecting yourself and the person.</li>
-    </ul>
-  </div>
+      <div class="card" style="text-align:left">
+        <b>Cultural sensitivity</b>
+        <ul>
+          <li><b>Ask preferences:</b> “What name and language should we use?”</li>
+          <li><b>Honor beliefs:</b> If someone leans on prayer, validate it and suggest complementary supports (helplines, clinics).</li>
+          <li><b>Avoid labels:</b> Replace words like “crazy” with “going through a hard time.”</li>
+          <li><b>Seek to understand:</b> “Can you help me understand how this affects you at home/school?”</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Mini scenario:</b> Someone says, “My family thinks counseling is shameful.” You: “I understand those concerns.
-  Many people combine faith, family support, and short counseling to feel better. Would you like to see options you can choose from?”</p>
+      <div class="card" style="text-align:left">
+        <b>Volunteer self-care</b>
+        <ul>
+          <li><b>Debrief:</b> After tough chats, speak with a supervisor. Don’t carry it alone.</li>
+          <li><b>Recharge:</b> Hydrate, stretch, rest your eyes. Set limits on how many heavy conversations you handle in a day.</li>
+          <li><b>Know your signs:</b> If you feel overwhelmed or helpless, pause and escalate. You are not failing—you’re protecting yourself and the person.</li>
+        </ul>
+      </div>
 
-  <p class="muted"><b>Reflection:</b> What boundaries help <i>you</i> stay compassionate without burning out?</p>
-</section>
-<!-- Lessons (Drop-in replacement ends here) -->
+      <p class="muted"><b>Mini scenario:</b> Someone says, “My family thinks counseling is shameful.” You: “I understand those concerns.
+      Many people combine faith, family support, and short counseling to feel better. Would you like to see options you can choose from?”</p>
 
+      <p class="muted"><b>Reflection:</b> What boundaries help <i>you</i> stay compassionate without burning out?</p>
+    </section>
 
     <!-- Quiz -->
     <section class="quiz-card">
@@ -311,7 +341,104 @@
   </footer>
 
   <script>
-    // ---------- Storage & constants ----------
+    /* ---------- LESSONS: pager + progress + quiz lock ---------- */
+    (function(){
+      const lessons = Array.from(document.querySelectorAll('.lesson'));
+      if (!lessons.length) return;
+
+      const prevBtn  = document.getElementById('prevLesson');
+      const nextBtn  = document.getElementById('nextLesson');
+      const counter  = document.getElementById('lessonCounter');
+      const bar      = document.getElementById('lessonProgress');
+      const progressWrap = document.querySelector('.progress-wrap');
+
+      let quizCard = document.querySelector('section.quiz-card');
+      if (quizCard && !quizCard.id) quizCard.id = 'quizCard';
+      if (quizCard && !quizCard.hasAttribute('data-locked')) quizCard.setAttribute('data-locked','1');
+      if (quizCard && !quizCard.querySelector('#quizLock')) {
+        const lockP = document.createElement('p');
+        lockP.id = 'quizLock';
+        lockP.className = 'muted';
+        lockP.textContent = 'Please complete all lessons to unlock the quiz.';
+        quizCard.insertBefore(lockP, quizCard.firstChild);
+      }
+
+      const KEY_IDX  = 'mc_lesson_ix';
+      const KEY_DONE = 'mc_lessons_done';
+
+      let idx = parseInt(localStorage.getItem(KEY_IDX)||'0',10);
+      if (isNaN(idx) || idx < 0) idx = 0;
+      if (idx > lessons.length - 1) idx = lessons.length - 1;
+
+      function saveIdx(i){ localStorage.setItem(KEY_IDX, String(i)); }
+      function percent(i){ return Math.round(((i+1) / lessons.length) * 100); }
+
+      function updateCounter(){
+        if (counter) counter.textContent = `Lesson ${idx+1} of ${lessons.length}`;
+        if (prevBtn) prevBtn.disabled = (idx === 0);
+        if (nextBtn) nextBtn.textContent = (idx === lessons.length - 1) ? 'Start Quiz →' : 'Next →';
+        const p = percent(idx);
+        if (bar){ bar.style.width = p + '%'; }
+        if (progressWrap){
+          progressWrap.setAttribute('aria-valuenow', String(p));
+          progressWrap.setAttribute('aria-valuetext', `${p}% complete`);
+        }
+      }
+
+      function showLesson(i){
+        lessons.forEach((s, n) => s.classList.toggle('active', n === i));
+        updateCounter();
+        saveIdx(i);
+        try { lessons[i].scrollIntoView({ behavior:'smooth', block:'start' }); } catch(e){}
+        if (i === lessons.length - 1) {
+          localStorage.setItem(KEY_DONE, '1');
+        }
+      }
+
+      function unlockQuiz(){
+        if (!quizCard) return;
+        quizCard.setAttribute('data-locked','0');
+        const lock = document.getElementById('quizLock');
+        if (lock) lock.remove();
+      }
+
+      // Init
+      lessons.forEach(s => s.classList.remove('active'));
+      showLesson(idx);
+      if (localStorage.getItem(KEY_DONE) === '1') unlockQuiz();
+
+      // Clicks
+      prevBtn?.addEventListener('click', () => {
+        if (idx > 0) { idx--; showLesson(idx); }
+        try { window.plausible && window.plausible('LessonPrev', { props:{ to: idx+1 } }); } catch(e){}
+      });
+      nextBtn?.addEventListener('click', () => {
+        if (idx < lessons.length - 1) {
+          idx++; showLesson(idx);
+          try { window.plausible && window.plausible('LessonNext', { props:{ to: idx+1 } }); } catch(e){}
+        } else {
+          localStorage.setItem(KEY_DONE, '1');
+          unlockQuiz();
+          // Scroll to quiz
+          try { document.getElementById('quizCard').scrollIntoView({ behavior:'smooth' }); } catch(e){}
+        }
+      });
+
+      // Keyboard shortcuts (ignore when typing in inputs)
+      document.addEventListener('keydown', (e) => {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+        if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+        if (e.key === 'ArrowRight') { e.preventDefault(); nextBtn?.click(); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); prevBtn?.click(); }
+        else if (e.key === 'Enter') {
+          if (document.activeElement !== prevBtn) nextBtn?.click();
+        }
+      });
+    })();
+  </script>
+
+  <script>
+    /* ---------- Storage & constants (quiz/timer) ---------- */
     const KEY_POINTS='mc_points', KEY_BADGES='mc_badges', KEY_TRAINING='mc_training', KEY_TRAINING_LOG='mc_training_log', KEY_TIMER_START='mc_training_timer_start';
     const PASS_MARK=0.8, BONUS=50, QUIZ_SECONDS=10*60; // 10 minutes
 
@@ -366,7 +493,6 @@
     function fmt(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
 
     function startTimer(){
-      // store a start timestamp so refreshes don’t reset the clock
       const now=Date.now();
       if(!localStorage.getItem(KEY_TIMER_START)){
         localStorage.setItem(KEY_TIMER_START,String(now));
@@ -396,7 +522,8 @@
 
     function disableQuiz(){
       form.querySelectorAll('input[type=radio]').forEach(el=>el.disabled=true);
-      document.getElementById('submitQuiz').disabled=true;
+      const sbtn=document.getElementById('submitQuiz');
+      if (sbtn) sbtn.disabled=true;
     }
 
     function autoSubmitOnTimeout(){
@@ -407,6 +534,13 @@
 
     // ---------- Events ----------
     document.getElementById('startQuiz').onclick=()=>{
+      // Block quiz until lessons done
+      const locked = (document.querySelector('.quiz-card')?.getAttribute('data-locked') === '1');
+      if (locked){
+        alert('Please complete all lessons first.');
+        try { document.querySelector('.lesson:last-of-type').scrollIntoView({behavior:'smooth'}); } catch(e){}
+        return;
+      }
       preQuizBar.style.display='none';
       form.style.display='block';
       quizBtns.style.display='flex';
@@ -434,7 +568,6 @@
     // ---------- Grading ----------
     function gradeQuiz(timedOut){
       if(form.style.display==='none'){ return; } // nothing to grade yet
-      // Ensure required validation unless timed out
       if(!timedOut && !form.checkValidity()){form.reportValidity();return;}
 
       let correct=0;
@@ -466,7 +599,7 @@
 
     // ---------- Certificate ----------
     const makeBtn=document.getElementById('makeCert'),certInput=document.getElementById('certName'),hint=document.getElementById('certHint');
-    makeBtn.onclick=()=>{
+    if (makeBtn) makeBtn.onclick=()=>{
       const name=(certInput.value||'').trim();if(!name){alert('Enter your name');return;}
       const t=getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
       const score=Math.round(t.pct*100),d=encodeURIComponent(t.date);
