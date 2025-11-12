@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpeakOut MindCheck — Certificate</title>
+  <link rel="icon" href="favicon.png"/>
+  <link rel="stylesheet" href="mc-theme.css"/>
+  <meta name="theme-color" content="#22c55e"/>
+  <style>
+    .cert{max-width:900px;margin:20px auto;background:#fff;border:2px solid #22c55e;border-radius:16px;padding:24px;box-shadow:0 6px 18px rgba(2,23,34,.06)}
+    .cert h1{margin:0 0 6px;font-size:1.8rem}
+    .line{height:1px;background:#e5e7eb;margin:10px 0}
+    .name{font-size:1.6rem;font-weight:800;margin:10px 0}
+    .muted{color:#52606d}
+    @media print {.toolbar{display:none}}
+  </style>
+</head>
+<body>
+  <header>🧠 SpeakOut MindCheck Nigeria</header>
+
+  <main>
+    <div class="cert">
+      <h1>Certificate of Volunteer Training</h1>
+      <div class="muted">SpeakOut MindCheck — Community Mental Health Support</div>
+      <div class="line"></div>
+
+      <p>This certifies that</p>
+      <div id="who" class="name">Volunteer Name</div>
+
+      <p>has successfully completed the MindCheck Volunteer Training requirements, demonstrating
+         competence in safe listening, red-flag triage, referral, and privacy-first logging.</p>
+
+      <div class="line"></div>
+      <p><b>Score:</b> <span id="score">100</span>% &nbsp;•&nbsp; <b>Date:</b> <span id="date"></span></p>
+      <p class="muted">Badge: Volunteer Trained • Valid on the device where training was completed.</p>
+
+      <div class="line"></div>
+      <p>Signed: SpeakOut MindCheck Coordination Team</p>
+    </div>
+
+    <div class="toolbar" style="justify-content:center;margin-top:12px;">
+      <button class="btn btn-primary" onclick="window.print()">Download (Print to PDF)</button>
+      <a class="btn btn-ghost" href="training-hub.html">← Back to Training Hub</a>
+    </div>
+  </main>
+
+  <footer style="margin-top:20px;">
+    🔒 <a href="privacy.html">Privacy</a> •
+    📄 <a href="terms.html">Terms</a> •
+    ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const name = params.get('name') || 'Volunteer Name';
+    const score = params.get('score') || '100';
+    const dateISO = params.get('date') || new Date().toISOString();
+    document.getElementById('who').textContent = name;
+    document.getElementById('score').textContent = score;
+    document.getElementById('date').textContent = new Date(dateISO).toLocaleString();
+    try{ window.plausible && window.plausible('CertificateViewed',{props:{score}});}catch(e){}
+  </script>
+</body>
+</html>
