@@ -9,8 +9,10 @@
   <meta name="theme-color" content="#22c55e"/>
 
   <style>
-    .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; }
-    .lesson h3 { margin:.25rem 0 .25rem; font-size:1.05rem; }
+    .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; text-align:left; }
+    .lesson h3 { margin:.25rem 0 .35rem; font-size:1.08rem; }
+    .lesson ul { margin:.4rem 0 .25rem; padding-left:18px; }
+    .lesson li { margin:.25rem 0; }
     .muted { color:#52606d; }
     .quiz-card { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:16px; }
     .q { margin:12px 0; text-align:left; }
@@ -21,12 +23,15 @@
     .good { color:#166534; }
     .bad { color:#7f1d1d; }
     .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
+    .pill { border:1px solid #e8eef5; background:#fff; border-radius:999px; padding:6px 10px; font-weight:700; }
+    .timer { font-weight:800; }
+    .warn { color:#854d0e; }
   </style>
 
   <!-- Plausible (already used across your site) -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
 
-  <!-- NEW: page-view custom event -->
+  <!-- Page-view custom event -->
   <script>
     (function(){
       try { window.plausible && window.plausible('TrainingHubViewed'); } catch (e) {}
@@ -39,37 +44,83 @@
   <main>
     <h2>Start Your Certified Training</h2>
     <p class="muted" style="max-width:780px;margin:0 auto;">
-      Complete these short lessons and take the quiz. Score at least <b>80%</b> to earn your
+      Complete the lessons and take the quiz. You have <b>10 minutes</b>. Score at least <b>80%</b> to earn your
       <b>Volunteer Trained</b> badge, gain +50 points, and download your certificate.
     </p>
 
-    <!-- Lessons -->
+    <!-- In-depth Lessons -->
     <section class="lesson">
-      <h3>Lesson 1 — Safe Listening Basics</h3>
-      <p class="muted">Use <b>L-I-S-T-E-N</b>: Listen, Inquire, Summarize, Thank, Empathize, Next steps.</p>
+      <h3>Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h3>
+      <p class="muted">Your role is to create psychological safety and help the person feel heard.</p>
+      <ul>
+        <li><b>L — Listen:</b> Be fully present; avoid interrupting or multi-tasking.</li>
+        <li><b>I — Inquire:</b> Use open questions: “How long have you felt this way?”</li>
+        <li><b>S — Summarize:</b> Reflect key points: “What I’m hearing is…”</li>
+        <li><b>T — Thank:</b> “Thank you for trusting me with this.”</li>
+        <li><b>E — Empathize:</b> Validate feelings: “That sounds really heavy.”</li>
+        <li><b>N — Next steps:</b> Agree one small, doable action (call, text, rest, water).</li>
+      </ul>
+      <p class="muted"><b>Do:</b> slow down, use calm tone, allow silence. <b>Don’t:</b> minimize, rush, or preach.</p>
     </section>
 
     <section class="lesson">
       <h3>Lesson 2 — Red Flags & Immediate Danger</h3>
-      <p class="muted">If there’s risk of harm or violence, call <b>112</b> or escalate immediately.</p>
+      <p class="muted">Some signals require urgent escalation to emergency services (112) or a supervisor.</p>
+      <ul>
+        <li><b>Imminent risk:</b> Active self-harm plan, current violence, loss of consciousness.</li>
+        <li><b>Severe symptoms:</b> Command hallucinations, severe agitation, unable to care for self.</li>
+        <li><b>Safeguarding:</b> Abuse of a child/vulnerable adult → follow safeguarding protocol.</li>
+        <li><b>Action:</b> Stay with the person (phone/chat), call <b>112</b>, contact supervisor, document minimal facts.</li>
+      </ul>
     </section>
 
     <section class="lesson">
-      <h3>Lesson 3 — Referral & Boundaries</h3>
-      <p class="muted">Volunteers are not therapists. Always get consent before referring or sharing info.</p>
+      <h3>Lesson 3 — Boundaries & Ethical Referral</h3>
+      <p class="muted">Volunteers are not therapists. Protect both the person and yourself.</p>
+      <ul>
+        <li><b>Scope:</b> Listening, support, information, and <b>referral</b> only.</li>
+        <li><b>Consent first:</b> Ask before sharing options or contacting anyone on their behalf.</li>
+        <li><b>Choices:</b> Offer <i>several</i> reputable options (public/private/faith-based), never push one.</li>
+        <li><b>Follow-up:</b> Agree how and when to check back in; don’t over-promise availability.</li>
+      </ul>
     </section>
 
     <section class="lesson">
-      <h3>Lesson 4 — Privacy-First Logging</h3>
-      <p class="muted">Record only what’s needed — date, concern, and action — never personal names.</p>
+      <h3>Lesson 4 — Privacy-First Logging (Minimum Necessary)</h3>
+      <p class="muted">Record only what’s needed to improve care quality and monitoring — never gossip data.</p>
+      <ul>
+        <li><b>What to log:</b> date, broad concern (e.g., “anxiety, sleep”), action taken (e.g., “referred to clinic”).</li>
+        <li><b>What to avoid:</b> full names, contact details, unnecessary medical history, screenshots.</li>
+        <li><b>Storage:</b> Secure tools; restrict access; follow your data retention policy.</li>
+      </ul>
+    </section>
+
+    <section class="lesson">
+      <h3>Lesson 5 — Cultural Sensitivity & Self-Care</h3>
+      <ul>
+        <li><b>Cultural lens:</b> Respect beliefs and language preferences; avoid assumptions.</li>
+        <li><b>Stigma aware:</b> Use non-judgmental wording; avoid labels.</li>
+        <li><b>Volunteer wellness:</b> Debrief tough cases, take breaks, and escalate when unsure.</li>
+      </ul>
     </section>
 
     <!-- Quiz -->
     <section class="quiz-card">
       <h3>Volunteer Quiz</h3>
-      <form id="quizForm"></form>
 
-      <div class="toolbar">
+      <p class="muted" style="text-align:left">
+        <span class="pill">Pass mark: 80%</span>
+        <span class="pill">Time: <span id="timeLeft" class="timer">10:00</span></span>
+      </p>
+
+      <div class="toolbar" id="preQuizBar">
+        <button id="startQuiz" class="btn btn-primary" type="button">Start Quiz</button>
+        <a class="btn btn-ghost" href="volunteers.html">← Back to Volunteer Zone</a>
+      </div>
+
+      <form id="quizForm" style="display:none"></form>
+
+      <div class="toolbar" id="quizBtns" style="display:none">
         <button id="submitQuiz" class="btn btn-primary" type="button">Submit Quiz</button>
         <button id="resetQuiz" class="btn btn-ghost" type="button">Reset</button>
         <a class="btn btn-ghost" href="volunteers.html">← Back to Volunteer Zone</a>
@@ -91,6 +142,11 @@
           <a class="btn btn-ghost" href="resources.html">Clinics & Resources</a>
         </div>
 
+        <!-- Optional verification link reminder -->
+        <p class="muted" style="margin-top:10px">
+          Need to verify a certificate later? Use <a href="verify.html" target="_blank" rel="noopener">Verify Certificate</a>.
+        </p>
+
         <p id="certHint" class="muted" style="display:none;margin-top:8px;"></p>
       </div>
     </section>
@@ -104,8 +160,10 @@
   </footer>
 
   <script>
-    const KEY_POINTS='mc_points', KEY_BADGES='mc_badges', KEY_TRAINING='mc_training', KEY_TRAINING_LOG='mc_training_log';
-    const PASS_MARK=0.8, BONUS=50;
+    // ---------- Storage & constants ----------
+    const KEY_POINTS='mc_points', KEY_BADGES='mc_badges', KEY_TRAINING='mc_training', KEY_TRAINING_LOG='mc_training_log', KEY_TIMER_START='mc_training_timer_start';
+    const PASS_MARK=0.8, BONUS=50, QUIZ_SECONDS=10*60; // 10 minutes
+
     const getJSON=(k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
     const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
     const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
@@ -116,57 +174,146 @@
     const awardBadge=id=>{const b=getBadges();if(!b.includes(id)){b.push(id);setBadges(b);return true}return false};
     const logPass=pct=>{const log=getJSON(KEY_TRAINING_LOG,[]);log.push({date:new Date().toISOString(),pct});setJSON(KEY_TRAINING_LOG,log);};
 
+    // ---------- Questions (15) ----------
     const QUESTIONS=[
       {q:"Which response best shows safe listening?",a:["Interrupt to give solutions","Listen, reflect, ask open questions","Tell them others have it worse"],c:1},
-      {q:"Which is a red flag?",a:["Can’t sleep well","Active self-harm plan","Lonely sometimes"],c:1},
-      {q:"Volunteers should avoid:",a:["Offering clinic options","Promising limited confidentiality","Giving medical advice"],c:2},
-      {q:"If danger is happening now:",a:["Keep chatting","Call 112 immediately","Tell them to relax"],c:1},
-      {q:"Best privacy practice:",a:["Use initials only","Write full story","Post publicly"],c:0},
-      {q:"A good referral step is to:",a:["Get consent and offer trusted options","Choose for them","Tell them to pray"],c:0},
-      {q:"Boundaries help because:",a:["They prevent burnout","They make you cold","They stop listening"],c:0},
-      {q:"If unsure what to do:",a:["Do nothing","Escalate to supervisor","Post on social media"],c:1},
-      {q:"Empathy sounds like:",a:["You’re overreacting","It sounds like this is hard for you","Calm down"],c:1},
-      {q:"After a conversation:",a:["Agree one small next step","Plan their life","End abruptly"],c:0}
+      {q:"Which is an immediate red flag?",a:["Occasional sadness","Active self-harm plan","Feeling tired after work"],c:1},
+      {q:"Volunteers should avoid:",a:["Offering clinic options","Promising limited confidentiality","Giving medical advice/diagnoses"],c:2},
+      {q:"If danger is happening now, what’s the first action?",a:["Keep chatting","Call 112 immediately","Tell them to relax"],c:1},
+      {q:"Privacy-first logging means:",a:["Use initials only, minimal facts","Write their full name and story","Screenshot the chat for records"],c:0},
+      {q:"Before making a referral you should:",a:["Get consent and offer choices","Choose one clinic for them","Ask for their full medical history"],c:0},
+      {q:"Boundaries help because they:",a:["Prevent burnout and role drift","Make you uncaring","Stop you from listening"],c:0},
+      {q:"A good empathic reflection is:",a:["You’re overreacting","It sounds like this is hard for you","Calm down"],c:1},
+      {q:"If unsure what to do:",a:["Do nothing","Escalate to supervisor/safeguarding lead","Post on social media for advice"],c:1},
+      {q:"A small next step might be:",a:["Plan their whole life","Agree they call a clinic tomorrow","End abruptly"],c:1},
+      {q:"Which is appropriate to log?",a:["Date + concern + action taken","Their full name and address","Screenshots of messages"],c:0},
+      {q:"Cultural sensitivity includes:",a:["Respecting beliefs & language","Assuming everyone thinks alike","Correcting their culture"],c:0},
+      {q:"When a child may be at risk, you should:",a:["Keep it secret","Follow safeguarding protocol and escalate","Handle it alone without records"],c:1},
+      {q:"During listening, silence is:",a:["Useful to give space","A sign you’re failing","To be avoided"],c:0},
+      {q:"Consent in referrals means:",a:["Acting without telling them","Getting their informed permission","Telling them they must accept"],c:1}
     ];
 
+    // ---------- DOM ----------
     const form=document.getElementById('quizForm');
+    const preQuizBar=document.getElementById('preQuizBar');
+    const quizBtns=document.getElementById('quizBtns');
+    const result=document.getElementById('quizResult');
+    const post=document.getElementById('postPass');
+    const timeLeftEl=document.getElementById('timeLeft');
+
     function renderQuiz(){
       form.innerHTML=QUESTIONS.map((Q,i)=>`
-      <fieldset class="q">
-        <legend>Q${i+1}. ${Q.q}</legend>
-        ${Q.a.map((opt,j)=>`<label><input type="radio" name="q${i}" value="${j}" required/> ${opt}</label>`).join('')}
-      </fieldset>`).join('');
+        <fieldset class="q">
+          <legend>Q${i+1}. ${Q.q}</legend>
+          ${Q.a.map((opt,j)=>`<label><input type="radio" name="q${i}" value="${j}" required/> ${opt}</label>`).join('')}
+        </fieldset>
+      `).join('');
     }
-    renderQuiz();
 
-    const result=document.getElementById('quizResult'),post=document.getElementById('postPass');
+    // ---------- Timer ----------
+    let timerId=null;
+    function fmt(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
 
-    document.getElementById('submitQuiz').onclick=()=>{
-      if(!form.checkValidity()){form.reportValidity();return;}
-      let correct=0;QUESTIONS.forEach((Q,i)=>{const ch=form.querySelector(`input[name=q${i}]:checked`);if(ch&&parseInt(ch.value,10)===Q.c)correct++;});
+    function startTimer(){
+      // store a start timestamp so refreshes don’t reset the clock
+      const now=Date.now();
+      if(!localStorage.getItem(KEY_TIMER_START)){
+        localStorage.setItem(KEY_TIMER_START,String(now));
+      }
+      tickTimer(); // immediate paint
+      timerId=setInterval(tickTimer,1000);
+      try{ window.plausible && window.plausible('TrainingTimerStarted'); }catch(e){}
+    }
+
+    function remainingSeconds(){
+      const started=parseInt(localStorage.getItem(KEY_TIMER_START)||'0',10);
+      if(!started) return QUIZ_SECONDS;
+      const elapsed=Math.floor((Date.now()-started)/1000);
+      return Math.max(0, QUIZ_SECONDS - elapsed);
+    }
+
+    function tickTimer(){
+      const r=remainingSeconds();
+      timeLeftEl.textContent=fmt(r);
+      if(r<=60) timeLeftEl.classList.add('warn'); // last minute styling
+      if(r<=0){
+        clearInterval(timerId);
+        timeLeftEl.textContent='00:00';
+        autoSubmitOnTimeout();
+      }
+    }
+
+    function disableQuiz(){
+      form.querySelectorAll('input[type=radio]').forEach(el=>el.disabled=true);
+      document.getElementById('submitQuiz').disabled=true;
+    }
+
+    function autoSubmitOnTimeout(){
+      try{ window.plausible && window.plausible('TrainingTimerExpired'); }catch(e){}
+      gradeQuiz(true); // true = timed out
+      disableQuiz();
+    }
+
+    // ---------- Events ----------
+    document.getElementById('startQuiz').onclick=()=>{
+      preQuizBar.style.display='none';
+      form.style.display='block';
+      quizBtns.style.display='flex';
+      renderQuiz();
+      startTimer();
+    };
+
+    document.getElementById('submitQuiz').onclick=()=>gradeQuiz(false);
+
+    document.getElementById('resetQuiz').onclick=()=>{
+      // reset current attempt (not lessons)
+      form.reset();
+      result.style.display='none'; post.style.display='none';
+      // reset timer
+      localStorage.removeItem(KEY_TIMER_START);
+      timeLeftEl.classList.remove('warn');
+      timeLeftEl.textContent=fmt(QUIZ_SECONDS);
+      // allow a fresh attempt
+      clearInterval(timerId);
+      form.style.display='none';
+      quizBtns.style.display='none';
+      preQuizBar.style.display='flex';
+    };
+
+    // ---------- Grading ----------
+    function gradeQuiz(timedOut){
+      if(form.style.display==='none'){ return; } // nothing to grade yet
+      // Ensure required validation unless timed out
+      if(!timedOut && !form.checkValidity()){form.reportValidity();return;}
+
+      let correct=0;
+      QUESTIONS.forEach((Q,i)=>{
+        const ch=form.querySelector(`input[name=q${i}]:checked`);
+        if(ch && parseInt(ch.value,10)===Q.c) correct++;
+      });
+
       const pct=correct/QUESTIONS.length;
       setJSON(KEY_TRAINING,{pct,date:new Date().toISOString()});
       const pass=pct>=PASS_MARK;
 
-      result.style.display='block';result.className='result '+(pass?'good':'bad');
-      result.textContent=`You scored ${correct}/${QUESTIONS.length} (${Math.round(pct*100)}%). ${pass?'You passed!':'Try again.'}`;
+      result.style.display='block';
+      result.className='result '+(pass?'good':'bad');
+      const tag = timedOut ? ' (time up)' : '';
+      result.textContent=`You scored ${correct}/${QUESTIONS.length} (${Math.round(pct*100)}%). ${pass?'You passed!':'Try again.'}${tag}`;
 
       if(pass){
         awardBadge('volunteer_trained');
         addPoints(BONUS);
         logPass(pct);
         post.style.display='block';
-        // 🔔 Plausible: quiz passed
         try{ window.plausible && window.plausible('VolunteerQuizPassed',{props:{score:Math.round(pct*100)}});}catch(e){}
       }else{
         post.style.display='none';
-        // 🔔 Plausible: quiz failed
-        try{ window.plausible && window.plausible('VolunteerQuizFailed',{props:{score:Math.round(pct*100)}});}catch(e){}
+        try{ window.plausible && window.plausible('VolunteerQuizFailed',{props:{score:Math.round(pct*100), timedOut: !!timedOut}});}catch(e){}
       }
-    };
+    }
 
-    document.getElementById('resetQuiz').onclick=()=>{form.reset();result.style.display='none';post.style.display='none';};
-
+    // ---------- Certificate ----------
     const makeBtn=document.getElementById('makeCert'),certInput=document.getElementById('certName'),hint=document.getElementById('certHint');
     makeBtn.onclick=()=>{
       const name=(certInput.value||'').trim();if(!name){alert('Enter your name');return;}
@@ -175,9 +322,11 @@
       const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${d}`;
       hint.style.display='block';
       hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
-      // 🔔 Plausible: certificate opened
       try{ window.plausible && window.plausible('VolunteerCertificateOpen',{props:{score}});}catch(e){}
     };
+
+    // Initialize timer display for first load
+    timeLeftEl.textContent = '10:00';
   </script>
 </body>
 </html>
