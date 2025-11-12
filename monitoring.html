@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpeakOut MindCheck — Monitoring</title>
+  <link rel="icon" href="favicon.png"/>
+  <link rel="stylesheet" href="mc-theme.css"/>
+  <meta name="theme-color" content="#22c55e"/>
+  <style>
+    .kpi{background:#fff;border:1px solid #e8eef5;border-radius:14px;padding:16px}
+    .kpi h3{margin:.25rem 0 .25rem;font-size:1.05rem}
+    .muted{color:#52606d}
+    .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:12px 0}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+    .badge{font-weight:700}
+    pre{background:#fff;border:1px solid #e8eef5;border-radius:12px;padding:10px;overflow:auto}
+  </style>
+  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+  <header>🧠 SpeakOut MindCheck Nigeria</header>
+
+  <main>
+    <h2>Program Monitoring (Offline)</h2>
+    <p class="muted" style="max-width:820px;margin:0 auto">
+      A lightweight, offline dashboard that mirrors a WHO-style indicator set using data stored on this device.
+      Switch week, review indicators, and export a JSON snapshot to share.
+    </p>
+
+    <div class="toolbar">
+      <select id="weekSel" class="btn btn-ghost" aria-label="Choose week">
+        <option value="this">This Week</option>
+        <option value="last">Last Week</option>
+      </select>
+      <button id="exportBtn" class="btn btn-primary">Export JSON</button>
+      <button id="clearBtn" class="btn btn-ghost">Clear Monitoring Cache (safe)</button>
+      <a class="btn btn-ghost" href="index.html">← Back to Home</a>
+    </div>
+
+    <div id="when" class="muted" style="text-align:center;margin-top:8px"></div>
+
+    <div class="row" style="margin-top:10px">
+      <div class="kpi">
+        <h3>1) Mood Check-ins</h3>
+        <p class="muted">Unique check-ins recorded this week.</p>
+        <div><span class="badge" id="kpiCheckins">0</span></div>
+      </div>
+      <div class="kpi">
+        <h3>2) Self-care Actions</h3>
+        <p class="muted">Tips marked “Done” this week.</p>
+        <div><span class="badge" id="kpiTips">0</span></div>
+      </div>
+      <div class="kpi">
+        <h3>3) Volunteer Certifications</h3>
+        <p class="muted">New “Volunteer Trained” passes this week.</p>
+        <div><span class="badge" id="kpiVols">0</span></div>
+      </div>
+      <div class="kpi">
+        <h3>4) Awards Issued</h3>
+        <p class="muted">Streak awards created on device this week.</p>
+        <div><span class="badge" id="kpiAwards">0</span></div>
+      </div>
+    </div>
+
+    <div class="kpi">
+      <h3>Device Snapshot</h3>
+      <p class="muted">Local summary (private to this device).</p>
+      <pre id="jsonBox">{}</pre>
+    </div>
+  </main>
+
+  <footer style="margin-top:20px;">
+    🔒 <a href="privacy.html">Privacy</a> •
+    📄 <a href="terms.html">Terms</a> •
+    ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+  </footer>
+
+  <script>
+    // Keys reused from your app
+    const KEY_HISTORY='mc_mood_history';
+    const KEY_TIPS_DONE='mc_tips_done';
+    const KEY_AWARDS='mc_awards';
+    const KEY_TRAINING='mc_training'; // contains last pass (pct/date)
+    const KEY_TRAINING_LOG='mc_training_log'; // array of pass events we’ll maintain
+
+    const getJSON=(k,f)=>{ try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f} };
+    const setJSON=(k,v)=>localStorage.setItem(k, JSON.stringify(v));
+
+    function startOfWeek(d){
+      const n=new Date(d); const day=(n.getDay()+6)%7; // ISO week (Mon=0)
+      n.setHours(0,0,0,0); n.setDate(n.getDate()-day); return n;
+    }
+    function endOfWeek(sow){ const e=new Date(sow); e.setDate(e.getDate()+7); e.setMilliseconds(-1); return e; }
+    function inRange(ts, a, b){ const t=new Date(ts); return t>=a && t<=b; }
+
+    // Maintain a log of volunteer passes (so multiple passes are counted over time)
+    (function hydrateTrainingLog(){
+      const log=getJSON(KEY_TRAINING_LOG,[]);
+      const last=getJSON(KEY_TRAINING,null);
+      if(last && last.pct>=0.80){
+        // if not already logged for that timestamp, log once
+        const stamp=last.date||'';
+        if(stamp && !log.find(x=>x.date===stamp)) {
+          log.push({ date: stamp, pct: last.pct });
+          setJSON(KEY_TRAINING_LOG, log);
+        }
+      }
+    })();
+
+    function compute(range){
+      const hist=getJSON(KEY_HISTORY,[]);
+      const tips=getJSON(KEY_TIPS_DONE,[]);
+      const awards=getJSON(KEY_AWARDS,[]);
+      const vols=getJSON(KEY_TRAINING_LOG,[]);
+      const [a,b]=range;
+
+      const checkins=hist.filter(h=>inRange(h.ts,a,b)).length;
+      const tipDone=tips.filter(t=>inRange(t.done_at,a,b)).length;
+      const newVols=vols.filter(v=>inRange(v.date,a,b)).length;
+      const newAwards=awards.filter(w=>inRange(w.issued_at,a,b)).length;
+
+      return { checkins, tipDone, newVols, newAwards };
+    }
+
+    function thisWeekRange(){
+      const sow=startOfWeek(new Date());
+      return [sow, endOfWeek(sow)];
+    }
+    function lastWeekRange(){
+      const sow=startOfWeek(new Date()); sow.setDate(sow.getDate()-7);
+      return [sow, endOfWeek(sow)];
+    }
+
+    const weekSel=document.getElementById('weekSel');
+    const when=document.getElementById('when');
+    const k1=document.getElementById('kpiCheckins');
+    const k2=document.getElementById('kpiTips');
+    const k3=document.getElementById('kpiVols');
+    const k4=document.getElementById('kpiAwards');
+    const jsonBox=document.getElementById('jsonBox');
+
+    function fmt(d){ return new Date(d).toLocaleString(); }
+
+    function render(){
+      const range = weekSel.value==='last' ? lastWeekRange() : thisWeekRange();
+      const data = compute(range);
+      k1.textContent = data.checkins;
+      k2.textContent = data.tipDone;
+      k3.textContent = data.newVols;
+      k4.textContent = data.newAwards;
+      when.textContent = `Showing ${weekSel.value==='last'?'Last Week':'This Week'} — ${fmt(range[0])} → ${fmt(range[1])}`;
+
+      const snapshot = {
+        period: weekSel.value,
+        range_iso: [range[0].toISOString(), range[1].toISOString()],
+        indicators: {
+          mood_checkins: data.checkins,
+          selfcare_actions: data.tipDone,
+          volunteer_certifications: data.newVols,
+          awards_issued: data.newAwards
+        },
+        device_meta: { ua: navigator.userAgent }
+      };
+      jsonBox.textContent = JSON.stringify(snapshot, null, 2);
+    }
+
+    weekSel.addEventListener('change', render);
+    render();
+
+    document.getElementById('exportBtn').addEventListener('click', ()=>{
+      const blob = new Blob([jsonBox.textContent], {type:'application/json'});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=`mindcheck-monitoring-${weekSel.value}.json`;
+      a.click();
+      try{ window.plausible && window.plausible('MonitoringExport',{props:{period:weekSel.value}}); }catch(e){}
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', ()=>{
+      if(!confirm('Clear monitoring cache (training log only)? Mood/tips/awards stay intact.')) return;
+      localStorage.removeItem(KEY_TRAINING_LOG);
+      render();
+    });
+  </script>
+</body>
+</html>
