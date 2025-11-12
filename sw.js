@@ -1,41 +1,42 @@
-// 🧠 SpeakOut MindCheck Service Worker — v4
-const CACHE = 'mc-v4';  // bump this version when you add/edit files
-
-// List all essential assets you want available offline
+// sw.js
+const CACHE = 'mc-v4'; // ⬅️ bump this when assets change
 const ASSETS = [
   './',
   './index.html',
   './mc-theme.css',
-  './resources.html',
   './volunteers.html',
   './training-hub.html',
+  './certificate.html',
+  './resources.html',
+  './monitoring.html',
+  './privacy.html',
+  './terms.html',
   './favicon.png',
   './manifest.webmanifest'
 ];
 
-// Install event: cache all required files
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(ASSETS))
-  );
-  self.skipWaiting(); // activate immediately
+// Install
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
+  self.skipWaiting();
 });
 
-// Activate event: remove old caches
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+// Activate (clear old caches)
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
   );
-  self.clients.claim(); // take control of open pages
+  self.clients.claim();
 });
 
-// Fetch event: serve from cache first, then network fallback
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response =>
-      response || fetch(event.request)
-    )
+// Fetch
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  e.respondWith(
+    caches.match(req).then(cached => cached || fetch(req).then(res => {
+      const copy = res.clone();
+      caches.open(CACHE).then(cache => { if (req.method === 'GET' && res.ok) cache.put(req, copy); });
+      return res;
+    }).catch(()=> caches.match('./index.html')))
   );
 });
