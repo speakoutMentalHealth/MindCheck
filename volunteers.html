@@ -2,70 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MindCheck | Volunteer Zone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpeakOut MindCheck — Volunteer Zone</title>
   <link rel="icon" href="favicon.png"/>
-  <style>
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#f7fbff; color:#0f172a; margin:0; }
-    header { background:#004aad; color:#fff; text-align:center; padding:1.1rem 0; font-weight:800; }
-    main { max-width:900px; margin:2rem auto 3rem; padding:0 1.2rem; }
-    h1 { color:#004aad; margin:.2rem 0 .8rem; }
-    p.lede { color:#475569; font-size:1.05rem; }
-    .card { background:#fff; border:1px solid #e7eef9; border-radius:14px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
-    ul { margin:.5rem 0 1rem; color:#334155; }
-    .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; }
-    .btn { display:inline-block; background:#004aad; color:#fff; padding:.7rem 1.1rem; border-radius:10px; text-decoration:none; font-weight:600; }
-    .btn:hover { background:#043a86; }
-    .ghost { background:#fff; color:#004aad; border:1px solid #004aad; }
-    .ghost:hover { background:#f0f6ff; }
-    footer { text-align:center; background:#004aad; color:#fff; padding:1rem; margin-top:2rem; }
-  </style>
-  <!-- (Optional) Plausible custom event -->
-  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+  <link rel="stylesheet" href="mc-theme.css"/>
 </head>
 <body>
-  <header>MindCheck — Volunteer Zone</header>
+  <header>🧠 SpeakOut MindCheck Nigeria</header>
 
   <main>
-    <h1>Get Trained. Make a Difference.</h1>
-    <p class="lede">
-      We offer <b>certified volunteer training</b> to equip you with practical skills for
-      safe listening, red-flag triage, and referral pathways in Nigerian communities.
+    <h2>Get Trained. Make a Difference.</h2>
+    <p>
+      We provide <b>certified volunteer training</b> to equip you for safe listening,
+      red-flag triage, and referral in Nigerian communities. Finish the modules, take a short quiz,
+      and unlock your in-app <b>“Volunteer Trained”</b> badge.
     </p>
 
     <div class="card">
-      <h2 style="margin:.2rem 0 .6rem;">What you’ll gain</h2>
+      <h3>What you’ll gain</h3>
       <ul>
-        <li>Confidence to receive and support someone in distress — safely and respectfully.</li>
-        <li>Clear referral steps for emergencies and ongoing care (Abuja, Keffi, Owerri & beyond).</li>
-        <li>Simple, privacy-first recording for impact reporting (schools, partners, grants).</li>
-        <li>Digital certificate and a “Volunteer Trained” badge inside MindCheck.</li>
+        <li>Confidence to receive someone in distress respectfully and safely.</li>
+        <li>Clear steps for emergency and non-emergency referrals.</li>
+        <li>Simple, privacy-first logging for impact reporting.</li>
+        <li>Digital certificate + in-app badge.</li>
       </ul>
 
-      <h2 style="margin:.8rem 0 .6rem;">How it works</h2>
-      <ul>
-        <li>Access the training portal below (mobile-friendly lessons & short checks).</li>
-        <li>Finish the modules, then complete the quick quiz.</li>
-        <li>Return to the app via <code>index.html?quiz=done</code> to unlock your badge.</li>
-      </ul>
-
-      <div class="cta">
-        <!-- Replace training-hub.html with your real LMS link when ready -->
-        <a class="btn" id="openTraining" href="training-hub.html">Access Trainings</a>
-        <a class="btn ghost" href="resources.html">Clinics & Resources</a>
-        <a class="btn ghost" href="index.html">← Back to Home</a>
+      <div class="grid" style="margin-top:8px">
+        <a class="btn btn-primary" href="training-hub.html">Access Trainings</a>
+        <a class="btn btn-ghost" href="resources.html">Clinics & Resources</a>
+        <a class="btn btn-ghost" href="index.html">← Back to Home</a>
       </div>
     </div>
   </main>
 
   <footer>
-    &copy; 2025 SpeakOut Mental Health Outreach — All Rights Reserved.
+    🔒 <a href="privacy.html">Privacy</a> •
+    📄 <a href="terms.html">Terms</a> •
+    🏥 <a href="resources.html">Clinics & Resources</a> •
+    ✉️ <a href="mailto:support@speakout.ng">support@speakout.ng</a>
   </footer>
-
-  <script>
-    // Optional analytics
-    function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
-    document.getElementById('openTraining')?.addEventListener('click', ()=>track('OpenVolunteerTraining'));
-  </script>
 </body>
 </html>
