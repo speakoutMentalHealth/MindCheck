@@ -23,6 +23,7 @@
     .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
   </style>
 
+  <!-- Plausible (already used across your site) -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
@@ -132,15 +133,31 @@
     renderQuiz();
 
     const result=document.getElementById('quizResult'),post=document.getElementById('postPass');
+
     document.getElementById('submitQuiz').onclick=()=>{
       if(!form.checkValidity()){form.reportValidity();return;}
       let correct=0;QUESTIONS.forEach((Q,i)=>{const ch=form.querySelector(`input[name=q${i}]:checked`);if(ch&&parseInt(ch.value,10)===Q.c)correct++;});
-      const pct=correct/QUESTIONS.length;setJSON(KEY_TRAINING,{pct,date:new Date().toISOString()});
+      const pct=correct/QUESTIONS.length;
+      setJSON(KEY_TRAINING,{pct,date:new Date().toISOString()});
       const pass=pct>=PASS_MARK;
+
       result.style.display='block';result.className='result '+(pass?'good':'bad');
       result.textContent=`You scored ${correct}/${QUESTIONS.length} (${Math.round(pct*100)}%). ${pass?'You passed!':'Try again.'}`;
-      if(pass){awardBadge('volunteer_trained');addPoints(BONUS);logPass(pct);post.style.display='block';}
+
+      if(pass){
+        awardBadge('volunteer_trained');
+        addPoints(BONUS);
+        logPass(pct);
+        post.style.display='block';
+        // 🔔 Plausible: quiz passed
+        try{ window.plausible && window.plausible('VolunteerQuizPassed',{props:{score:Math.round(pct*100)}});}catch(e){}
+      }else{
+        post.style.display='none';
+        // 🔔 Plausible: quiz failed
+        try{ window.plausible && window.plausible('VolunteerQuizFailed',{props:{score:Math.round(pct*100)}});}catch(e){}
+      }
     };
+
     document.getElementById('resetQuiz').onclick=()=>{form.reset();result.style.display='none';post.style.display='none';};
 
     const makeBtn=document.getElementById('makeCert'),certInput=document.getElementById('certName'),hint=document.getElementById('certHint');
@@ -149,7 +166,10 @@
       const t=getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
       const score=Math.round(t.pct*100),d=encodeURIComponent(t.date);
       const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${d}`;
-      hint.style.display='block';hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
+      hint.style.display='block';
+      hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
+      // 🔔 Plausible: certificate opened
+      try{ window.plausible && window.plausible('VolunteerCertificateOpen',{props:{score}});}catch(e){}
     };
   </script>
 </body>
