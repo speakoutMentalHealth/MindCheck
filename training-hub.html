@@ -48,8 +48,8 @@
       <b>Volunteer Trained</b> badge, gain +50 points, and download your certificate.
     </p>
 
-    <!-- LESSONS -->
-    <section class="lesson">
+    <!-- Lessons (one-at-a-time navigation) -->
+    <section class="lesson" data-lesson="1">
       <h3>Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h3>
       <img src="images/listen.png" alt="Safe Listening Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
       <p class="muted">
@@ -101,7 +101,7 @@
       <p class="muted"><b>Reflection:</b> Which phrases help <i>you</i> show empathy without giving advice too soon?</p>
     </section>
 
-    <section class="lesson">
+    <section class="lesson" data-lesson="2">
       <h3>Lesson 2 — Red Flags & Immediate Danger</h3>
       <img src="images/red-flags.png" alt="Red Flags & Immediate Danger Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
       <p class="muted">
@@ -139,7 +139,7 @@
       <p class="muted"><b>Reflection:</b> Which steps help you stay calm while moving quickly in a crisis?</p>
     </section>
 
-    <section class="lesson">
+    <section class="lesson" data-lesson="3">
       <h3>Lesson 3 — Boundaries & Ethical Referral</h3>
       <img src="images/referral.png" alt="Boundaries and Ethical Referral Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
       <p class="muted">
@@ -179,7 +179,7 @@
       <p class="muted"><b>Reflection:</b> What respectful words can you use to offer choices without pressure?</p>
     </section>
 
-    <section class="lesson">
+    <section class="lesson" data-lesson="4">
       <h3>Lesson 4 — Privacy-First Logging (Minimum Necessary)</h3>
       <img src="images/privacy.png" alt="Privacy-first Logging Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
       <p class="muted">
@@ -219,7 +219,7 @@
       <p class="muted"><b>Reflection:</b> How can you write a helpful log in one or two lines?</p>
     </section>
 
-    <section class="lesson">
+    <section class="lesson" data-lesson="5">
       <h3>Lesson 5 — Cultural Sensitivity & Volunteer Self-Care</h3>
       <img src="images/culture.png" alt="Cultural Sensitivity and Self-Care Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
       <p class="muted">
@@ -253,15 +253,22 @@
       <p class="muted"><b>Reflection:</b> What boundaries help <i>you</i> stay compassionate without burning out?</p>
     </section>
 
-    <!-- LESSON NAVIGATION (below lessons) -->
-    <div class="toolbar" id="lessonNav">
-      <button class="btn btn-ghost" id="prevLesson" type="button">Previous</button>
-      <span class="muted" id="lessonProgress">Lesson 1 of 5</span>
-      <button class="btn btn-primary" id="nextLesson" type="button">Next</button>
+    <!-- Lesson navigation BELOW lessons -->
+    <div class="card" id="lessonNavCard" style="margin-top:10px;">
+      <p class="muted">
+        <b>Lesson progress:</b> <span id="lessonStatus">Lesson 1 of 5</span>
+      </p>
+      <div class="toolbar">
+        <button id="prevLesson" class="btn btn-ghost" type="button">Previous lesson</button>
+        <button id="nextLesson" class="btn btn-primary" type="button">Next lesson</button>
+      </div>
+      <p id="lessonHint" class="muted" style="margin-top:8px;">
+        Read each lesson fully, then click <b>Next lesson</b>. The quiz will unlock after Lesson 5.
+      </p>
     </div>
 
-    <!-- Quiz (locked until lessons complete) -->
-    <section class="quiz-card" id="quizCard" style="display:none;">
+    <!-- Quiz -->
+    <section class="quiz-card">
       <h3>Volunteer Quiz</h3>
 
       <p class="muted" style="text-align:left">
@@ -270,7 +277,7 @@
       </p>
 
       <div class="toolbar" id="preQuizBar">
-        <button id="startQuiz" class="btn btn-primary" type="button">Start Quiz</button>
+        <button id="startQuiz" class="btn btn-primary" type="button" disabled>Start Quiz</button>
         <a class="btn btn-ghost" href="volunteers.html">← Back to Volunteer Zone</a>
       </div>
 
@@ -316,61 +323,14 @@
   </footer>
 
   <script>
-    // ---------- LESSON NAVIGATION (locks quiz until all lessons done) ----------
-    const lessons = Array.from(document.querySelectorAll('.lesson'));
-    const prevLessonBtn = document.getElementById('prevLesson');
-    const nextLessonBtn = document.getElementById('nextLesson');
-    const lessonProgress = document.getElementById('lessonProgress');
-    const quizCard = document.getElementById('quizCard');
-    let currentLesson = 0;
-    let lessonsComplete = false;
-
-    function applyLessonVisibility() {
-      lessons.forEach((el, idx) => {
-        el.style.display = idx === currentLesson ? 'block' : 'none';
-      });
-      if (prevLessonBtn) {
-        prevLessonBtn.disabled = currentLesson === 0;
-      }
-      if (nextLessonBtn) {
-        nextLessonBtn.textContent = (currentLesson === lessons.length - 1)
-          ? 'Go to Quiz'
-          : 'Next';
-      }
-      if (lessonProgress) {
-        lessonProgress.textContent = `Lesson ${currentLesson + 1} of ${lessons.length}`;
-      }
-    }
-
-    if (prevLessonBtn && nextLessonBtn) {
-      prevLessonBtn.onclick = () => {
-        if (currentLesson > 0) {
-          currentLesson--;
-          applyLessonVisibility();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      };
-
-      nextLessonBtn.onclick = () => {
-        if (currentLesson < lessons.length - 1) {
-          currentLesson++;
-          applyLessonVisibility();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          // Last lesson reached – unlock and reveal quiz
-          lessonsComplete = true;
-          if (quizCard) {
-            quizCard.style.display = 'block';
-            quizCard.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-      };
-    }
-
-    applyLessonVisibility();
-
     // ---------- Storage & constants ----------
-    const KEY_POINTS='mc_points', KEY_BADGES='mc_badges', KEY_TRAINING='mc_training', KEY_TRAINING_LOG='mc_training_log', KEY_TIMER_START='mc_training_timer_start';
+    const KEY_POINTS='mc_points',
+          KEY_BADGES='mc_badges',
+          KEY_TRAINING='mc_training',
+          KEY_TRAINING_LOG='mc_training_log',
+          KEY_TIMER_START='mc_training_timer_start',
+          KEY_LESSON_PROGRESS='mc_training_lessons_done';
+
     const PASS_MARK=0.8, BONUS=50, QUIZ_SECONDS=10*60; // 10 minutes
 
     const getJSON=(k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
@@ -382,6 +342,83 @@
     const setBadges=a=>setJSON(KEY_BADGES,a);
     const awardBadge=id=>{const b=getBadges();if(!b.includes(id)){b.push(id);setBadges(b);return true}return false};
     const logPass=pct=>{const log=getJSON(KEY_TRAINING_LOG,[]);log.push({date:new Date().toISOString(),pct});setJSON(KEY_TRAINING_LOG,log);};
+
+    // ---------- Lesson navigation ----------
+    const lessons = Array.from(document.querySelectorAll('.lesson'));
+    const totalLessons = lessons.length;
+    const prevLessonBtn = document.getElementById('prevLesson');
+    const nextLessonBtn = document.getElementById('nextLesson');
+    const lessonStatus = document.getElementById('lessonStatus');
+    const lessonHint = document.getElementById('lessonHint');
+    const startQuizBtn = document.getElementById('startQuiz');
+
+    let currentLessonIndex = 0;
+    let completedLessonsCount = parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10);
+    if (completedLessonsCount < 0) completedLessonsCount = 0;
+    if (completedLessonsCount > totalLessons) completedLessonsCount = totalLessons;
+
+    function showLesson(index){
+      lessons.forEach((sec,i)=>{
+        sec.style.display = (i===index) ? 'block' : 'none';
+      });
+      currentLessonIndex = index;
+      if(lessonStatus){
+        lessonStatus.textContent = `Lesson ${index+1} of ${totalLessons}`;
+      }
+      if(prevLessonBtn){
+        prevLessonBtn.disabled = index === 0;
+      }
+      if(nextLessonBtn){
+        nextLessonBtn.textContent = (index === totalLessons-1) ? 'Finish lessons' : 'Next lesson';
+      }
+    }
+
+    function unlockQuiz(){
+      if(startQuizBtn){
+        startQuizBtn.disabled = false;
+      }
+      if(lessonHint){
+        lessonHint.textContent = 'All lessons completed. You can now start the quiz below.';
+      }
+    }
+
+    if(prevLessonBtn && nextLessonBtn && lessons.length){
+      // Initial lesson on load
+      if(completedLessonsCount >= 1){
+        // Go to last completed or final lesson (but still allow navigation)
+        const idx = Math.min(completedLessonsCount-1, totalLessons-1);
+        showLesson(idx);
+      } else {
+        showLesson(0);
+      }
+
+      // If user already completed all lessons before, unlock quiz immediately
+      if(completedLessonsCount >= totalLessons){
+        unlockQuiz();
+      }
+
+      prevLessonBtn.addEventListener('click', ()=>{
+        if(currentLessonIndex > 0){
+          showLesson(currentLessonIndex - 1);
+        }
+      });
+
+      nextLessonBtn.addEventListener('click', ()=>{
+        if(currentLessonIndex < totalLessons-1){
+          // Mark current as completed
+          if(completedLessonsCount < currentLessonIndex+1){
+            completedLessonsCount = currentLessonIndex+1;
+            localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessonsCount));
+          }
+          showLesson(currentLessonIndex + 1);
+        } else {
+          // Finishing last lesson
+          completedLessonsCount = totalLessons;
+          localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessonsCount));
+          unlockQuiz();
+        }
+      });
+    }
 
     // ---------- Questions (15) ----------
     const QUESTIONS=[
@@ -402,7 +439,7 @@
       {q:"Consent in referrals means:",a:["Acting without telling them","Getting their informed permission","Telling them they must accept"],c:1}
     ];
 
-    // ---------- DOM ----------
+    // ---------- DOM for quiz ----------
     const form=document.getElementById('quizForm');
     const preQuizBar=document.getElementById('preQuizBar');
     const quizBtns=document.getElementById('quizBtns');
@@ -424,11 +461,12 @@
     function fmt(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
 
     function startTimer(){
+      // store a start timestamp so refreshes don’t reset the clock
       const now=Date.now();
       if(!localStorage.getItem(KEY_TIMER_START)){
         localStorage.setItem(KEY_TIMER_START,String(now));
       }
-      tickTimer();
+      tickTimer(); // immediate paint
       timerId=setInterval(tickTimer,1000);
       try{ window.plausible && window.plausible('TrainingTimerStarted'); }catch(e){}
     }
@@ -443,7 +481,7 @@
     function tickTimer(){
       const r=remainingSeconds();
       timeLeftEl.textContent=fmt(r);
-      if(r<=60) timeLeftEl.classList.add('warn');
+      if(r<=60) timeLeftEl.classList.add('warn'); // last minute styling
       if(r<=0){
         clearInterval(timerId);
         timeLeftEl.textContent='00:00';
@@ -458,32 +496,36 @@
 
     function autoSubmitOnTimeout(){
       try{ window.plausible && window.plausible('TrainingTimerExpired'); }catch(e){}
-      gradeQuiz(true);
+      gradeQuiz(true); // true = timed out
       disableQuiz();
     }
 
     // ---------- Events ----------
-    document.getElementById('startQuiz').onclick=()=>{
-      // extra safety: in case someone forces the quiz visible in dev tools
-      if (!lessonsComplete) {
-        alert('Please complete all lessons before starting the quiz.');
-        return;
-      }
-      preQuizBar.style.display='none';
-      form.style.display='block';
-      quizBtns.style.display='flex';
-      renderQuiz();
-      startTimer();
-    };
+    if(startQuizBtn){
+      startQuizBtn.onclick=()=>{
+        if(startQuizBtn.disabled){
+          alert('Please complete all lessons before starting the quiz.');
+          return;
+        }
+        preQuizBar.style.display='none';
+        form.style.display='block';
+        quizBtns.style.display='flex';
+        renderQuiz();
+        startTimer();
+      };
+    }
 
     document.getElementById('submitQuiz').onclick=()=>gradeQuiz(false);
 
     document.getElementById('resetQuiz').onclick=()=>{
+      // reset current attempt (not lessons)
       form.reset();
-      result.style.display='none';post.style.display='none';
+      result.style.display='none'; post.style.display='none';
+      // reset timer
       localStorage.removeItem(KEY_TIMER_START);
       timeLeftEl.classList.remove('warn');
       timeLeftEl.textContent=fmt(QUIZ_SECONDS);
+      // allow a fresh attempt
       clearInterval(timerId);
       form.style.display='none';
       quizBtns.style.display='none';
@@ -492,7 +534,8 @@
 
     // ---------- Grading ----------
     function gradeQuiz(timedOut){
-      if(form.style.display==='none'){ return; }
+      if(form.style.display==='none'){ return; } // nothing to grade yet
+      // Ensure required validation unless timed out
       if(!timedOut && !form.checkValidity()){form.reportValidity();return;}
 
       let correct=0;
@@ -523,17 +566,23 @@
     }
 
     // ---------- Certificate ----------
-    const makeBtn=document.getElementById('makeCert'),certInput=document.getElementById('certName'),hint=document.getElementById('certHint');
-    makeBtn.onclick=()=>{
-      const name=(certInput.value||'').trim();if(!name){alert('Enter your name');return;}
-      const t=getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
-      const score=Math.round(t.pct*100),d=encodeURIComponent(t.date);
-      const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${d}`;
-      hint.style.display='block';
-      hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
-      try{ window.plausible && window.plausible('VolunteerCertificateOpen',{props:{score}});}catch(e){}
-    };
+    const makeBtn=document.getElementById('makeCert'),
+          certInput=document.getElementById('certName'),
+          hint=document.getElementById('certHint');
 
+    if(makeBtn){
+      makeBtn.onclick=()=>{
+        const name=(certInput.value||'').trim();if(!name){alert('Enter your name');return;}
+        const t=getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
+        const score=Math.round(t.pct*100),d=encodeURIComponent(t.date);
+        const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${d}`;
+        hint.style.display='block';
+        hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
+        try{ window.plausible && window.plausible('VolunteerCertificateOpen',{props:{score}});}catch(e){}
+      };
+    }
+
+    // Initialize timer display for first load
     timeLeftEl.textContent = '10:00';
   </script>
 </body>
