@@ -260,8 +260,8 @@
       <button class="btn btn-primary" id="nextLesson" type="button">Next</button>
     </div>
 
-    <!-- Quiz -->
-    <section class="quiz-card">
+    <!-- Quiz (locked until lessons complete) -->
+    <section class="quiz-card" id="quizCard" style="display:none;">
       <h3>Volunteer Quiz</h3>
 
       <p class="muted" style="text-align:left">
@@ -316,12 +316,14 @@
   </footer>
 
   <script>
-    // ---------- LESSON NAVIGATION ----------
+    // ---------- LESSON NAVIGATION (locks quiz until all lessons done) ----------
     const lessons = Array.from(document.querySelectorAll('.lesson'));
     const prevLessonBtn = document.getElementById('prevLesson');
     const nextLessonBtn = document.getElementById('nextLesson');
     const lessonProgress = document.getElementById('lessonProgress');
+    const quizCard = document.getElementById('quizCard');
     let currentLesson = 0;
+    let lessonsComplete = false;
 
     function applyLessonVisibility() {
       lessons.forEach((el, idx) => {
@@ -331,7 +333,9 @@
         prevLessonBtn.disabled = currentLesson === 0;
       }
       if (nextLessonBtn) {
-        nextLessonBtn.textContent = (currentLesson === lessons.length - 1) ? 'Go to Quiz' : 'Next';
+        nextLessonBtn.textContent = (currentLesson === lessons.length - 1)
+          ? 'Go to Quiz'
+          : 'Next';
       }
       if (lessonProgress) {
         lessonProgress.textContent = `Lesson ${currentLesson + 1} of ${lessons.length}`;
@@ -353,8 +357,12 @@
           applyLessonVisibility();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          // Last lesson -> scroll to quiz
-          document.querySelector('.quiz-card')?.scrollIntoView({ behavior: 'smooth' });
+          // Last lesson reached – unlock and reveal quiz
+          lessonsComplete = true;
+          if (quizCard) {
+            quizCard.style.display = 'block';
+            quizCard.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       };
     }
@@ -456,6 +464,11 @@
 
     // ---------- Events ----------
     document.getElementById('startQuiz').onclick=()=>{
+      // extra safety: in case someone forces the quiz visible in dev tools
+      if (!lessonsComplete) {
+        alert('Please complete all lessons before starting the quiz.');
+        return;
+      }
       preQuizBar.style.display='none';
       form.style.display='block';
       quizBtns.style.display='flex';
