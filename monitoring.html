@@ -7,155 +7,124 @@
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="mc-theme.css"/>
   <meta name="theme-color" content="#22c55e"/>
-  <style>
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:12px; }
-    .card { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; }
-    .num { font-size:1.8rem; font-weight:800; }
-    .muted { color:#52606d; }
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
-    table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff;border:1px solid #e8eef5;border-radius:12px;overflow:hidden}
-    th,td{padding:8px 10px;border-bottom:1px solid #eef2f7;text-align:left}
-    th{background:#f8fafc}
-  </style>
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+  <style>
+    .card{background:#fff;border:1px solid #e8eef5;border-radius:14px;padding:14px;margin:12px 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+    label{font-weight:700}
+    input[type="number"],input[type="text"],input[type="week"]{width:100%;padding:10px;border:1px solid #e8eef5;border-radius:10px}
+    table{width:100%;border-collapse:collapse;margin-top:10px;background:#fff;border-radius:12px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid #eef2f7;text-align:left}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  </style>
   <script>
+    // Page view event
     (function(){ try{ window.plausible && window.plausible('MonitoringViewed'); }catch(e){} })();
   </script>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
-
   <main>
-    <h2>WHO-style Weekly Monitoring</h2>
-    <p class="muted">Local, privacy-first snapshot mirrored from app activity (device storage).</p>
-
-    <div class="toolbar">
-      <label>Week starting:
-        <input type="date" id="weekStart"/>
-      </label>
-      <button id="exportBtn" class="btn btn-ghost">Export CSV</button>
-      <a class="btn btn-ghost" href="index.html">← Home</a>
+    <h2>Weekly Monitoring (WHO-style)</h2>
+    <div class="card">
+      <p>Submit weekly totals by city/LGA. Keep personal data out—aggregates only.</p>
+      <div class="grid">
+        <div><label>Week</label><input id="mWeek" type="week" required/></div>
+        <div><label>City / LGA</label><input id="mSite" type="text" placeholder="e.g., Abuja / AMAC" required/></div>
+        <div><label>Contacts</label><input id="mContacts" type="number" min="0" value="0"/></div>
+        <div><label>% Screened</label><input id="mPctScreened" type="number" min="0" max="100" value="0"/></div>
+        <div><label>Red-flags</label><input id="mRedFlags" type="number" min="0" value="0"/></div>
+        <div><label>Referrals</label><input id="mReferrals" type="number" min="0" value="0"/></div>
+        <div><label>Follow-ups</label><input id="mFollowUps" type="number" min="0" value="0"/></div>
+        <div><label>Volunteer Hours</label><input id="mHours" type="number" min="0" step="0.5" value="0"/></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-primary" id="mSubmit">Submit Week</button>
+        <button class="btn btn-ghost" id="mExport">Export CSV</button>
+        <a class="btn btn-ghost" href="index.html">← Home</a>
+      </div>
+      <p class="muted" id="mStatus"></p>
     </div>
 
-    <div id="tiles" class="grid"></div>
-    <div id="tableWrap" class="card" style="display:none;">
-      <h3>Weekly Events (raw)</h3>
-      <table id="eventsTable"><thead></thead><tbody></tbody></table>
+    <div class="card">
+      <h3>Submitted Weeks</h3>
+      <table id="mTable">
+        <thead>
+          <tr><th>Week</th><th>City/LGA</th><th>Contacts</th><th>% Screened</th><th>Red-flags</th><th>Referrals</th><th>Follow-ups</th><th>Hours</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
   </main>
 
   <footer>
     🔒 <a href="privacy.html">Privacy</a> •
     📄 <a href="terms.html">Terms</a> •
+    🏥 <a href="resources.html">Clinics & Resources</a> •
     ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
   </footer>
 
   <script>
-    // Helpers
+    const KEY_MON='mc_monitoring_rows';
     const getJSON=(k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
-    const inRange=(ts,a,b)=>{const t=new Date(ts); return t>=a && t<b;};
-    function startOfWeek(d){ const x=new Date(d); const day=(x.getDay()+6)%7; x.setHours(0,0,0,0); x.setDate(x.getDate()-day); return x; }
-    function endOfWeek(s){ const e=new Date(s); e.setDate(e.getDate()+7); return e; }
+    const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
-    // Sources from app
-    const mood = getJSON('mc_mood_history', []);          // [{ts, mood_value}]
-    const training = getJSON('mc_training_log', []);      // [{date, pct}]
-    const awards = getJSON('mc_awards', []);              // [{issued_at, amount, claimed}]
-    const tipsDone = getJSON('mc_tips_done', []);         // [{done_at, text}]
+    const rowsBody=document.querySelector('#mTable tbody');
+    function render(){
+      const rows=getJSON(KEY_MON,[]);
+      rowsBody.innerHTML=rows.map(r=>`
+        <tr>
+          <td>${r.week}</td><td>${r.site}</td><td>${r.contacts}</td>
+          <td>${r.pct_screened}%</td><td>${r.red}</td><td>${r.ref}</td><td>${r.follow}</td><td>${r.hours}</td>
+        </tr>`).join('');
+    }
+    render();
 
-    const weekSel=document.getElementById('weekStart');
-    weekSel.value = startOfWeek(new Date()).toISOString().slice(0,10);
+    document.getElementById('mSubmit').onclick=async ()=>{
+      const week=document.getElementById('mWeek').value;
+      const site=document.getElementById('mSite').value.trim();
+      if(!week||!site){ alert('Select week and site'); return; }
+      const row={
+        week, site,
+        contacts: +document.getElementById('mContacts').value||0,
+        pct_screened: +document.getElementById('mPctScreened').value||0,
+        red: +document.getElementById('mRedFlags').value||0,
+        ref: +document.getElementById('mReferrals').value||0,
+        follow: +document.getElementById('mFollowUps').value||0,
+        hours: +document.getElementById('mHours').value||0,
+        ts: new Date().toISOString()
+      };
+      const all=getJSON(KEY_MON,[]); all.push(row); setJSON(KEY_MON,all);
+      render();
+      document.getElementById('mStatus').textContent='Saved locally. Syncing…';
 
-    function summarize() {
-      const ws = new Date(weekSel.value + 'T00:00:00');
-      const we = endOfWeek(ws);
-
-      const moodW = mood.filter(m=>inRange(m.ts, ws, we));
-      const verySad3d = (()=>{ // proxy/crisis showing count
-        // We count number of days in this week where last mood of that day <=1
-        const days = {};
-        moodW.forEach(m=>{ const d=m.ts.slice(0,10); (days[d]=days[d]||[]).push(m); });
-        return Object.values(days).filter(list => {
-          const last = list[list.length-1];
-          return last && last.mood_value <= 1;
-        }).length >= 3 ? 1 : 0;
-      })();
-
-      const trainings = training.filter(t=>inRange(t.date, ws, we));
-      const passes = trainings.filter(t=>t.pct>=0.8).length;
-
-      const awardsW = awards.filter(a=>inRange(a.issued_at, ws, we));
-      const claims = awardsW.filter(a=>a.claimed).length;
-
-      const tipsW = tipsDone.filter(t=>inRange(t.done_at, ws, we)).length;
-
-      const indicators = [
-        { name:'Users checked-in (mood entries)', val: moodW.length },
-        { name:'Days flagged (very sad ≥3d)', val: verySad3d },
-        { name:'Volunteer passes (≥80%)', val: passes },
-        { name:'Awards issued', val: awardsW.length },
-        { name:'Awards claimed', val: claims },
-        { name:'Wellness tips completed', val: tipsW },
-      ];
-
-      // Tiles
-      const tiles=document.getElementById('tiles');
-      tiles.innerHTML = indicators.map(i=>`
-        <div class="card">
-          <div class="num">${i.val}</div>
-          <div class="muted">${i.name}</div>
-        </div>
-      `).join('');
-
-      // Raw table (optional)
-      const tableWrap=document.getElementById('tableWrap');
-      const thead=document.querySelector('#eventsTable thead');
-      const tbody=document.querySelector('#eventsTable tbody');
-      const events = [
-        ...moodW.map(m=>({type:'mood', ts:m.ts, detail:m.mood_value})),
-        ...trainings.map(t=>({type:'training', ts:t.date, detail:Math.round(t.pct*100)+'%'})),
-        ...awardsW.map(a=>({type:'award', ts:a.issued_at, detail:(a.claimed?'claimed':'pending')+' ₦'+a.amount})),
-        ...tipsDone.filter(t=>inRange(t.done_at, ws, we)).map(t=>({type:'tip', ts:t.done_at, detail:t.text}))
-      ].sort((a,b)=>new Date(a.ts)-new Date(b.ts));
-
-      if (events.length) {
-        tableWrap.style.display='block';
-        thead.innerHTML='<tr><th>Time</th><th>Type</th><th>Detail</th></tr>';
-        tbody.innerHTML=events.map(e=>`<tr><td>${new Date(e.ts).toLocaleString()}</td><td>${e.type}</td><td>${e.detail}</td></tr>`).join('');
-      } else {
-        tableWrap.style.display='none';
+      // Optional: sync to your Google Apps Script (replace with your script URL)
+      try{
+        await fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
+          method:'POST',
+          headers:{'Content-Type':'text/plain'},
+          body: JSON.stringify({type:'weekly_monitor', ...row})
+        });
+        document.getElementById('mStatus').textContent='Saved & synced.';
+      }catch(e){
+        document.getElementById('mStatus').textContent='Saved locally (sync failed; will retry when online).';
       }
-    }
 
-    function toCSV(rows){
-      const head=['time','type','detail'];
-      return [head.join(','), ...rows.map(r=>[r.time,r.type,JSON.stringify(r.detail)].join(','))].join('\n');
-    }
+      try{ window.plausible && window.plausible('MonitoringSubmit',{props:{site}});}catch(e){}
+    };
 
-    document.getElementById('exportBtn').addEventListener('click', ()=>{
-      const ws = new Date(weekSel.value + 'T00:00:00');
-      const we = endOfWeek(ws);
-      const events = [
-        ...getJSON('mc_mood_history', []).filter(m=>inRange(m.ts, ws, we)).map(m=>({time:m.ts,type:'mood',detail:m.mood_value})),
-        ...getJSON('mc_training_log', []).filter(t=>inRange(t.date, ws, we)).map(t=>({time:t.date,type:'training',detail:Math.round(t.pct*100)+'%'})),
-        ...getJSON('mc_awards', []).filter(a=>inRange(a.issued_at, ws, we)).map(a=>({time:a.issued_at,type:'award',detail:(a.claimed?'claimed':'pending')+' ₦'+a.amount})),
-        ...getJSON('mc_tips_done', []).filter(t=>inRange(t.done_at, ws, we)).map(t=>({time:t.done_at,type:'tip',detail:t.text}))
-      ].sort((a,b)=>new Date(a.time)-new Date(b.time));
-
-      const blob = new Blob([toCSV(events)], {type:'text/csv'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href=url; a.download=`mindcheck_week_${weekSel.value}.csv`; a.click();
-      setTimeout(()=>URL.revokeObjectURL(url),1000);
-
-      // Plausible custom event
-      try{ window.plausible && window.plausible('MonitoringExport',{props:{period:weekSel.value}}); }catch(e){}
-    });
-
-    weekSel.addEventListener('change', summarize);
-
-    // Initial render + view event with period
-    summarize();
-    try{ window.plausible && window.plausible('MonitoringViewed',{props:{period:weekSel.value}});}catch(e){}
+    document.getElementById('mExport').onclick=()=>{
+      const rows=getJSON(KEY_MON,[]);
+      const csv=['week,site,contacts,pct_screened,red_flags,referrals,followups,hours,ts']
+        .concat(rows.map(r=>[r.week,r.site,r.contacts,r.pct_screened,r.red,r.ref,r.follow,r.hours,r.ts].join(',')))
+        .join('\n');
+      const blob=new Blob([csv],{type:'text/csv'});
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download='mindcheck_weekly_monitoring.csv';
+      a.click();
+      try{ window.plausible && window.plausible('MonitoringExport'); }catch(e){}
+    };
   </script>
 </body>
 </html>
