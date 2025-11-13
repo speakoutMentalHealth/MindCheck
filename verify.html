@@ -9,78 +9,57 @@
   <meta name="theme-color" content="#22c55e"/>
 
   <style>
-    .muted { color:#52606d; }
     .verify-card {
-      max-width:480px;
-      margin:0 auto;
+      max-width:640px;
+      margin:18px auto;
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:14px;
+      padding:16px;
       text-align:left;
+      box-shadow:0 8px 24px rgba(15,23,42,.06);
     }
-    .info-card {
-      max-width:480px;
-      margin:14px auto;
-      font-size:.9rem;
-      text-align:left;
+    .muted { color:#64748b; }
+    .status-ok { color:#166534; font-weight:700; }
+    .status-bad { color:#b91c1c; font-weight:700; }
+    .status-warn { color:#854d0e; font-weight:700; }
+    .field { margin:10px 0; }
+    input[type=text] {
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #e5e7eb;
+      font-size:1rem;
+      box-sizing:border-box;
     }
-    .status-good { color:#166534; font-weight:600; }
-    .status-warn { color:#854d0e; font-weight:600; }
-    .status-bad  { color:#7f1d1d; font-weight:600; }
   </style>
 
-  <!-- Plausible analytics -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-
-  <!-- Optional: page-view event -->
-  <script>
-    (function(){
-      try { window.plausible && window.plausible('VerifyPageViewed'); } catch(e){}
-    })();
-  </script>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
   <main>
-    <h2>Verify Certificate</h2>
-    <p class="muted" style="max-width:780px;margin:0 auto 10px;">
-      Enter the Certificate ID exactly as it appears on the certificate
-      (for example: <code>MCV-1A2B3C4D</code>).
-    </p>
+    <div class="verify-card">
+      <h2>Verify Certificate</h2>
+      <p class="muted">
+        Enter the <b>Certificate ID</b> shown on the document (format: <code>MCV-XXXXXXXX</code>).
+        This tool checks if the ID matches an official SpeakOut MindCheck training record.
+      </p>
 
-    <section class="card verify-card">
-      <label for="certInput" style="display:block;margin-bottom:6px;font-weight:700;">Certificate ID</label>
-      <input
-        id="certInput"
-        class="btn btn-ghost"
-        style="width:100%;text-align:left"
-        placeholder="MCV-XXXXXXXX"
-      />
-
-      <div class="toolbar" style="justify-content:flex-start;margin-top:10px;">
-        <button id="verifyBtn" class="btn btn-primary" type="button">Check</button>
-        <button id="clearBtn" class="btn btn-ghost" type="button">Clear</button>
-        <a class="btn btn-ghost" href="certificate.html" target="_blank" rel="noopener">View Sample Certificate</a>
+      <div class="field">
+        <label for="certId" class="muted" style="font-weight:600;">Certificate ID</label>
+        <input id="certId" type="text" placeholder="e.g. MCV-1A2B3C4D"/>
       </div>
 
-      <p id="verifyResult" class="muted" style="margin-top:10px;"></p>
-    </section>
+      <div class="toolbar" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+        <button id="checkBtn" class="btn btn-primary" type="button">Verify</button>
+        <button id="clearBtn" class="btn btn-ghost" type="button">Clear</button>
+        <a class="btn btn-ghost" href="training-hub.html">← Back to Training Hub</a>
+      </div>
 
-    <section class="card info-card">
-      <b>What this check does</b>
-      <ul>
-        <li>Confirms the ID matches the format used by SpeakOut MindCheck (e.g., <code>MCV-1A2B3C4D</code>).</li>
-        <li>Helps schools, partners, or volunteers quickly pre-screen a certificate.</li>
-        <li>For full confirmation, cross-check the name, date and score on the certificate or contact SpeakOut.</li>
-      </ul>
-      <p class="muted">
-        For formal verification or concerns about misuse, email
-        <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>.
-      </p>
-    </section>
-
-    <p class="toolbar" style="margin-top:10px;">
-      <a class="btn btn-ghost" href="training-hub.html">← Back to Training Hub</a>
-      <a class="btn btn-ghost" href="index.html">Home</a>
-    </p>
+      <div id="statusBox" style="margin-top:14px;"></div>
+    </div>
   </main>
 
   <footer style="margin-top:20px;">
@@ -91,81 +70,86 @@
   </footer>
 
   <script>
-    const input  = document.getElementById('certInput');
-    const result = document.getElementById('verifyResult');
-    const btn    = document.getElementById('verifyBtn');
-    const clear  = document.getElementById('clearBtn');
+    const API_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
+    const input = document.getElementById('certId');
+    const statusBox = document.getElementById('statusBox');
+    const checkBtn = document.getElementById('checkBtn');
+    const clearBtn = document.getElementById('clearBtn');
 
-    function normalizeId(raw){
-      return (raw || '')
-        .trim()
-        .toUpperCase()
-        .replace(/\s+/g, ''); // remove internal spaces
+    function showStatus(html, cls) {
+      statusBox.innerHTML = `<div class="${cls}">${html}</div>`;
     }
 
-    function checkFormat() {
-      const raw = input.value;
-      const id  = normalizeId(raw);
+    function normalizeId(raw) {
+      return raw.trim().toUpperCase();
+    }
 
+    function isFormatOk(id) {
+      // MCV- + 8 hex characters
+      return /^MCV-[0-9A-F]{8}$/.test(id);
+    }
+
+    async function verify() {
+      const raw = input.value;
+      const id = normalizeId(raw);
       if (!id) {
-        result.className = 'muted';
-        result.textContent = 'Please type a Certificate ID to check.';
+        showStatus('Please enter a Certificate ID.', 'status-warn');
         return;
       }
 
-      // Expected pattern from certificate.html: MCV- + 8 hex characters
-      const fullPattern   = /^MCV-[A-F0-9]{8}$/;
-      const almostPattern = /^MCV-/;
-
-      let statusClass = 'status-bad';
-      let msg         = '';
-
-      if (fullPattern.test(id)) {
-        statusClass = 'status-good';
-        msg = '✅ Format OK. This looks like a valid SpeakOut MindCheck certificate ID. '
-            + 'To fully confirm, please cross-check the name, date and score on the certificate '
-            + 'or contact SpeakOut if you have any doubt.';
-        try {
-          window.plausible && window.plausible('CertificateVerifyValidFormat', { props:{ idPattern:'MCV-XXXXXXXX' }});
-        } catch(e){}
-      } else if (almostPattern.test(id)) {
-        statusClass = 'status-warn';
-        msg = '⚠ The ID starts correctly with “MCV-” but does not match the expected format '
-            + '(MCV-XXXXXXXX using numbers 0–9 and letters A–F). Please check for typos.';
-        try {
-          window.plausible && window.plausible('CertificateVerifyAlmostFormat', { props:{ raw:id }});
-        } catch(e){}
-      } else {
-        statusClass = 'status-bad';
-        msg = '❌ Not recognized. The ID does not match the format used by SpeakOut MindCheck '
-            + '(for example, MCV-1A2B3C4D). Please confirm you copied it correctly or contact SpeakOut.';
-        try {
-          window.plausible && window.plausible('CertificateVerifyInvalidFormat', { props:{ raw:id }});
-        } catch(e){}
+      if (!isFormatOk(id)) {
+        showStatus('Format not recognized. Expected something like <code>MCV-1A2B3C4D</code>.', 'status-bad');
+        return;
       }
 
-      result.className = statusClass;
-      result.textContent = msg;
+      // Front-end format OK
+      showStatus('Checking our records…', 'muted');
 
       try {
-        window.plausible && window.plausible('CertificateVerifyAttempt', { props:{ outcome:statusClass }});
-      } catch(e){}
+        const url = `${API_URL}?auth=speakout123&type=verify_cert&id=${encodeURIComponent(id)}`;
+        const res = await fetch(url);
+        const data = await res.json().catch(() => ({}));
+
+        if (data.ok) {
+          const name = data.name || '—';
+          const score = data.score != null ? data.score : '—';
+          const date = data.date ? new Date(data.date).toLocaleDateString() : '—';
+          showStatus(`
+            ✅ <span class="status-ok">Valid SpeakOut MindCheck certificate.</span><br/>
+            <b>Certificate ID:</b> ${id}<br/>
+            <b>Name:</b> ${name}<br/>
+            <b>Score:</b> ${score}%<br/>
+            <b>Date issued:</b> ${date}
+          `, '');
+          try { window.plausible && window.plausible('CertificateVerified', {props:{status:'ok'}}); } catch(e){}
+        } else {
+          const reason = data.reason || 'not_found';
+          showStatus(`
+            ❌ <span class="status-bad">Not recognized in our official records.</span><br/>
+            Please check the ID formatting or contact <a href="mailto:speaaakout@gmail.com">SpeakOut</a> if you believe this is an error.
+          `, '');
+          try { window.plausible && window.plausible('CertificateVerified', {props:{status:reason}}); } catch(e){}
+        }
+      } catch (err) {
+        console.warn('Verify error', err);
+        showStatus('Network error while verifying. Please try again.', 'status-bad');
+      }
     }
 
-    btn.addEventListener('click', checkFormat);
-    clear.addEventListener('click', ()=>{
+    checkBtn.addEventListener('click', verify);
+    clearBtn.addEventListener('click', () => {
       input.value = '';
-      result.className = 'muted';
-      result.textContent = '';
+      statusBox.innerHTML = '';
     });
-
-    // Allow Enter key to trigger check
-    input.addEventListener('keydown', (ev)=>{
-      if (ev.key === 'Enter') {
-        ev.preventDefault();
-        checkFormat();
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        verify();
       }
     });
+
+    // Plausible page view
+    try { window.plausible && window.plausible('VerifyViewed'); } catch(e){}
   </script>
 </body>
 </html>
