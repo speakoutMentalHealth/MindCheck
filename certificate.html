@@ -7,168 +7,282 @@
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="mc-theme.css"/>
   <meta name="theme-color" content="#22c55e"/>
+
   <style>
-    /* Page + print */
-    :root{ --green:#22c55e; --ink:#062436; --gold:#d4af37; --paper:#ffffff; --muted:#52606d; }
-    body{ background:#f5fdf8; color:var(--ink); margin:0; }
-    .sheet{
-      max-width: 1056px; /* ~A4 width at ~96dpi */
-      margin: 24px auto; padding: 28px;
-      background: var(--paper);
-      border: 2px solid var(--gold);
-      border-radius: 16px;
-      box-shadow: 0 6px 24px rgba(2,23,34,.06);
-      position: relative; overflow: hidden;
+    body {
+      margin:0;
+      padding:16px;
+      background:#0f172a;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
     }
-    /* Inner decorative border */
-    .sheet::before{
-      content:""; position:absolute; inset:12px;
-      border: 2px solid rgba(212,175,55,.6);
-      border-radius: 12px; pointer-events:none;
+    .cert-page {
+      background:#ffffff;
+      border-radius:18px;
+      padding:28px 40px;
+      max-width:1120px;
+      width:100%;
+      aspect-ratio: 11 / 8.5; /* landscape feel */
+      box-shadow:0 18px 45px rgba(15,23,42,0.35);
+      position:relative;
+      box-sizing:border-box;
     }
-    /* Watermark */
-    .wm{
-      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-      font-weight:900; font-size:120px; letter-spacing:.08em; color:#0b2a3a11; user-select:none;
+    .cert-border {
+      position:absolute;
+      inset:14px;
+      border:2px solid #e2e8f0;
+      border-radius:14px;
+      pointer-events:none;
     }
-    /* Header */
-    .brand{ text-align:center; margin-top:10px; }
-    .brand img{ width:92px; height:92px; object-fit:contain; }
-    .title{ text-align:center; margin:.6rem 0 .2rem; font-size:1.85rem; font-weight:900; color:var(--ink); }
-    .subtitle{ text-align:center; color:var(--muted); margin:0 0 10px; }
-    /* Fancy rule */
-    .rule{ display:flex; align-items:center; gap:10px; margin:14px auto 18px; max-width:780px; }
-    .rule .bar{ flex:1; height:2px; background:linear-gradient(90deg,transparent, var(--gold), transparent); }
-    .rule .dot{ width:10px; height:10px; border-radius:999px; background:var(--gold); }
-    /* Body */
-    .cert-body{ text-align:center; max-width:820px; margin:0 auto; padding:10px 16px; }
-    .muted{ color:var(--muted); }
-    .name{ font-size:1.8rem; font-weight:900; color:#0c2f44; margin:.25rem 0 .35rem; }
-    .badges{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:12px 0; }
-    .pill{ border:1px solid #e8eef5; background:#fff; border-radius:999px; padding:6px 12px; font-weight:700; }
-    .kv{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin:12px 0 6px; }
-    .kv .item{ background:#fff; border:1px solid #e8eef5; border-radius:10px; padding:8px 12px; min-width:180px; }
-    .kv .label{ font-size:.85rem; color:var(--muted); }
-    .kv .val{ font-weight:800; }
-    /* Signature row */
-    .sig-row{ display:flex; gap:20px; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; margin:22px auto 6px; max-width:820px; }
-    .sig{ flex:1 1 320px; text-align:left; }
-    .sig .line{ border-bottom:2px solid #e5e7eb; height:54px; position:relative; }
-    .sig .img{ position:absolute; bottom:0; left:8px; height:54px; opacity:.95; }
-    .sig .meta{ margin-top:6px; font-weight:800; }
-    .sig .role{ color:var(--muted); margin-top:2px; }
-    .seal{ flex:0 0 auto; border:2px dashed var(--gold); color:var(--gold); border-radius:10px; padding:10px 14px; font-weight:900; }
-    /* Footer buttons */
-    .actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:16px auto 6px; }
-    @media print{
-      body{ background:#fff; }
-      .actions, .footer-links{ display:none !important; }
-      .sheet{ box-shadow:none; margin:0; border-color:#c9a53b; }
+    .cert-inner {
+      position:relative;
+      z-index:1;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
-    .footer-links{ text-align:center; color:var(--muted); margin:8px 0 2rem; }
-    .footer-links a{ color:inherit; }
+    .cert-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+    }
+    .cert-logo {
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .cert-logo img {
+      max-height:64px;
+      width:auto;
+      border-radius:12px;
+    }
+    .cert-title-block {
+      text-align:right;
+      font-size:.9rem;
+      color:#475569;
+    }
+    .cert-main {
+      text-align:center;
+      margin-top:16px;
+      padding:0 40px;
+    }
+    .cert-main h1 {
+      font-size:1.8rem;
+      margin:.25rem 0 .5rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#0f172a;
+    }
+    .muted { color:#64748b; }
+    .name {
+      font-weight:800;
+      font-size:1.6rem;
+      margin:.5rem 0 .35rem;
+      color:#0f172a;
+    }
+    .cert-meta {
+      margin-top:12px;
+      font-size:.98rem;
+      color:#1e293b;
+    }
+    .cert-meta span {
+      font-weight:600;
+    }
+    .cert-bottom {
+      margin-top:24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:16px;
+    }
+    .sign-block {
+      text-align:center;
+      flex:1;
+    }
+    .sign-line {
+      border-top:1px solid #cbd5f5;
+      margin-bottom:4px;
+      margin-top:32px;
+    }
+    .sign-name {
+      font-weight:700;
+      color:#0f172a;
+    }
+    .sign-title {
+      font-size:.9rem;
+      color:#64748b;
+    }
+    .id-block {
+      text-align:right;
+      font-size:.9rem;
+      color:#64748b;
+      flex:1;
+    }
+    .id-pill {
+      display:inline-block;
+      border-radius:999px;
+      border:1px solid #e2e8f0;
+      padding:4px 10px;
+      font-family:ui-monospace,Consolas,monospace;
+      font-size:.85rem;
+      color:#0f172a;
+      background:#f8fafc;
+    }
+    .no-print-controls {
+      margin-top:14px;
+      text-align:center;
+    }
+    @media (max-width:900px){
+      .cert-page {
+        aspect-ratio:auto;
+        padding:20px;
+      }
+      .cert-main {
+        padding:0 10px;
+      }
+      .cert-bottom {
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .id-block {
+        text-align:left;
+      }
+    }
+    @media print {
+      body {
+        margin:0;
+        padding:0;
+        background:#ffffff;
+      }
+      .cert-page {
+        margin:0;
+        box-shadow:none;
+        border-radius:0;
+        max-width:none;
+        width:100%;
+      }
+      .no-print { display:none !important; }
+      @page {
+        size: A4 landscape;
+        margin:10mm;
+      }
+    }
   </style>
+
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-  <script>(function(){try{window.plausible&&window.plausible('CertificateViewed')}catch(e){}})();</script>
+  <script>
+    (function(){
+      try { window.plausible && window.plausible('CertificateViewed'); } catch(e){}
+    })();
+  </script>
 </head>
 <body>
-  <header style="background:#22c55e;color:#fff;padding:10px 14px;font-weight:900;text-align:center;">🧠 SpeakOut MindCheck Nigeria</header>
-
-  <main>
-    <div class="sheet">
-      <div class="wm">SPEAKOUT</div>
-
-      <div class="brand">
-        <!-- Replace with your real logo path -->
-        <img src="icons/logo.png" alt="SpeakOut Logo"/>
-      </div>
-
-      <h1 class="title">Certificate of Volunteer Training</h1>
-      <p class="subtitle">This certifies that</p>
-
-      <div class="rule" aria-hidden="true"><span class="bar"></span><span class="dot"></span><span class="bar"></span></div>
-
-      <section class="cert-body">
-        
-        <div class="muted" style="margin-top:6px">
-  Verify at <a href="verify.html" target="_blank" rel="noopener">
-    speakoutmentalhealth.github.io/MindCheck/verify.html
-  </a>
-</div>
-
-        <div id="cName" class="name">—</div>
-        <p class="muted">has successfully completed the SpeakOut MindCheck Volunteer Training Programme<br/>covering safe listening, red-flag triage, referral pathways, and privacy-first logging.</p>
-
-        <div class="badges">
-          <span class="pill">Volunteer Trained</span>
-          <span class="pill">Ethics & Safeguarding</span>
-          <span class="pill">Community First Aid (Mental Health)</span>
-        </div>
-
-        <div class="kv">
-          <div class="item"><div class="label">Score</div><div id="cScore" class="val">—</div></div>
-          <div class="item"><div class="label">Date</div><div id="cDate" class="val">—</div></div>
-          <div class="item"><div class="label">Certificate ID</div><div id="cId" class="val">—</div></div>
-        </div>
-      </section>
-
-      <div class="sig-row">
-        <div class="sig">
-          <div class="line">
-            <!-- Optional signature image -->
-            <img class="img" src="img/signature-offorka.png" alt="Signature of Offorka Jerry" onerror="this.style.display='none'"/>
+  <div class="cert-page">
+    <div class="cert-border"></div>
+    <div class="cert-inner">
+      <div class="cert-top">
+        <div class="cert-logo">
+          <!-- Replace src with your real logo path -->
+          <img src="images/logo-speakout.png" alt="SpeakOut Logo"/>
+          <div>
+            <div style="font-weight:800;color:#0f172a;">SpeakOut Mental Health Outreach</div>
+            <div class="muted" style="font-size:.88rem;">MindCheck Volunteer Programme</div>
           </div>
-          <div class="meta">Offorka Jerry</div>
-          <div class="role">Founder & Executive Director, SpeakOut Mental Health Outreach</div>
         </div>
-        <div class="seal">OFFICIAL<br/>SEAL</div>
+        <div class="cert-title-block">
+          <div style="font-weight:700;color:#0f172a;">MindCheck Nigeria</div>
+          <div>Community Mental Health &amp; Early Support</div>
+        </div>
       </div>
 
-      <div class="actions">
-        <button class="btn btn-primary" onclick="window.print()">Download / Print PDF</button>
-        <a class="btn btn-ghost" href="training-hub.html">← Back to Training</a>
-        <a class="btn btn-ghost" href="index.html">Home</a>
+      <div class="cert-main">
+        <p class="muted" style="text-transform:uppercase;letter-spacing:.2em;font-size:.82rem;margin-bottom:.35rem;">
+          Certificate of Completion
+        </p>
+        <h1>Volunteer Training</h1>
+        <p class="muted">This certifies that</p>
+        <p id="cName" class="name">—</p>
+        <p class="muted">
+          has successfully completed the SpeakOut MindCheck volunteer training in safe listening, red-flag triage,
+          ethical referral, privacy-first logging, and cultural sensitivity.
+        </p>
+
+        <div class="cert-meta">
+          <p>
+            <b>Score:</b> <span id="cScore">—</span>% &nbsp;•&nbsp;
+            <b>Date:</b> <span id="cDate">—</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="cert-bottom">
+        <div class="sign-block">
+          <div class="sign-line"></div>
+          <div class="sign-name">Offorka Jerry</div>
+          <div class="sign-title">Founder / Executive Director, SpeakOut</div>
+        </div>
+        <div class="id-block">
+          <div>Certificate ID:</div>
+          <div class="id-pill" id="cId">—</div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="footer-links">
-      🔒 <a href="privacy.html">Privacy</a> •
-      📄 <a href="terms.html">Terms</a> •
-      🏥 <a href="resources.html">Clinics & Resources</a> •
-      ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-    </div>
-  </main>
+  <!-- Buttons + verify text (below download button) -->
+  <div class="no-print no-print-controls">
+    <button class="btn btn-primary" onclick="window.print()">Download / Print PDF</button>
+    <a class="btn btn-ghost" href="training-hub.html">← Back to Training</a>
+    <a class="btn btn-ghost" href="index.html">Home</a>
+
+    <p class="muted" style="margin-top:8px;">
+      To confirm this certificate, <a href="verify.html" target="_blank" rel="noopener">verify here</a>.
+    </p>
+  </div>
+
+  <footer class="no-print" style="margin-top:10px;text-align:center;">
+    🔒 <a href="privacy.html">Privacy</a> •
+    📄 <a href="terms.html">Terms</a> •
+    🏥 <a href="resources.html">Clinics & Resources</a> •
+    ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+  </footer>
 
   <script>
-    // Parse query: ?name=...&score=...&date=...
+    // Parse ?name=...&score=...&date=...&cid=...
     const params = new URLSearchParams(location.search);
-    const name = params.get('name') || '';
-    const score = params.get('score') || '';
-    const dt = params.get('date') ? new Date(decodeURIComponent(params.get('date'))) : new Date();
+    const name = params.get('name') || 'Volunteer';
+    const score = params.get('score') || '100';
+    const rawDateParam = params.get('date');
+    const cidParam = params.get('cid');
 
-    // Fill fields
-    document.getElementById('cName').textContent = name || 'Volunteer';
-    document.getElementById('cScore').textContent = score ? `${score}%` : '—';
+    const dt = rawDateParam ? new Date(decodeURIComponent(rawDateParam)) : new Date();
+
+    document.getElementById('cName').textContent = name;
+    document.getElementById('cScore').textContent = score;
     document.getElementById('cDate').textContent = dt.toLocaleDateString();
 
-    // Build a deterministic Certificate ID using local UID if present (fallback to date hash)
-    function getUID(){
-      try { return localStorage.getItem('mc_uid') || ''; } catch(e){ return ''; }
+    // Build / populate Certificate ID
+    function generateFallbackId() {
+      const y = dt.getFullYear();
+      const m = String(dt.getMonth()+1).padStart(2,'0');
+      const d = String(dt.getDate()).padStart(2,'0');
+      const rand = Math.random().toString(36).slice(-6).toUpperCase();
+      return `MC-CERT-${y}${m}${d}-${rand}`;
     }
-    function shortId(str){
-      let h=0; for(let i=0;i<str.length;i++){ h=(h*31 + str.charCodeAt(i))>>>0; }
-      return ('00000000'+h.toString(16)).slice(-8).toUpperCase();
-    }
-    const base = `${getUID()}|${name}|${score}|${dt.toISOString().slice(0,10)}`;
-    const certId = `MC-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${shortId(base)}`;
-    document.getElementById('cId').textContent = certId;
 
-    // Friendly fallback if opened directly without params
-    if (!name || !score){
+    const cid = cidParam || generateFallbackId();
+    document.getElementById('cId').textContent = cid;
+
+    // Friendly fallback if opened directly with no URL params
+    if (!params.get('name')) {
       try {
         const t = JSON.parse(localStorage.getItem('mc_training') || '{}');
-        if (t.pct){
-          document.getElementById('cScore').textContent = `${Math.round(t.pct*100)}%`;
+        if (t.pct) {
+          document.getElementById('cScore').textContent = Math.round(t.pct * 100);
           document.getElementById('cDate').textContent = new Date(t.date || Date.now()).toLocaleDateString();
         }
       } catch(e){}
