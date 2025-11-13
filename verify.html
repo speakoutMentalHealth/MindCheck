@@ -9,82 +9,78 @@
   <meta name="theme-color" content="#22c55e"/>
 
   <style>
-    .card{background:#fff;border:1px solid #e8eef5;border-radius:14px;padding:16px;}
-    .muted{color:#52606d}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-    .ok{color:#166534;font-weight:800}
-    .warn{color:#854d0e;font-weight:800}
-    .bad{color:#7f1d1d;font-weight:800}
-    .pill{border:1px solid #e8eef5;background:#fff;border-radius:999px;padding:6px 10px;font-weight:700}
-    label{font-weight:700;margin-top:6px;display:block}
-    input,select{width:100%;padding:10px;border:1px solid #e8eef5;border-radius:10px;margin-top:6px}
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}
-    code.k{background:#f6f7f9;border:1px solid #e8eef5;border-radius:6px;padding:2px 6px}
+    .muted { color:#52606d; }
+    .verify-card {
+      max-width:480px;
+      margin:0 auto;
+      text-align:left;
+    }
+    .info-card {
+      max-width:480px;
+      margin:14px auto;
+      font-size:.9rem;
+      text-align:left;
+    }
+    .status-good { color:#166534; font-weight:600; }
+    .status-warn { color:#854d0e; font-weight:600; }
+    .status-bad  { color:#7f1d1d; font-weight:600; }
   </style>
 
-  <!-- Plausible analytics (custom events below) -->
+  <!-- Plausible analytics -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-  <script>(function(){try{window.plausible&&window.plausible('VerifyViewed')}catch(e){}})();</script>
+
+  <!-- Optional: page-view event -->
+  <script>
+    (function(){
+      try { window.plausible && window.plausible('VerifyPageViewed'); } catch(e){}
+    })();
+  </script>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
   <main>
-    <h2>Verify a Volunteer Certificate</h2>
-    <p class="muted">Enter the Certificate ID to check its format. Optionally, if you’re on the volunteer’s device, you can also confirm it matches this device’s training record.</p>
+    <h2>Verify Certificate</h2>
+    <p class="muted" style="max-width:780px;margin:0 auto 10px;">
+      Enter the Certificate ID exactly as it appears on the certificate
+      (for example: <code>MCV-1A2B3C4D</code>).
+    </p>
 
-    <!-- Quick verify by ID -->
-    <section class="card">
-      <h3>Step 1 — Check ID format</h3>
-      <p class="muted">Valid IDs look like <code class="k">MC-20251112-8F2C9A01</code> (prefix + date + 8-char checksum).</p>
+    <section class="card verify-card">
+      <label for="certInput" style="display:block;margin-bottom:6px;font-weight:700;">Certificate ID</label>
+      <input
+        id="certInput"
+        class="btn btn-ghost"
+        style="width:100%;text-align:left"
+        placeholder="MCV-XXXXXXXX"
+      />
 
-      <label for="cid">Certificate ID</label>
-      <input id="cid" placeholder="MC-YYYYMMDD-XXXXXXXX" autocomplete="off" spellcheck="false"/>
-
-      <div class="toolbar">
-        <button id="btnCheck" class="btn btn-primary" type="button">Verify Format</button>
-        <a class="btn btn-ghost" href="index.html">← Home</a>
+      <div class="toolbar" style="justify-content:flex-start;margin-top:10px;">
+        <button id="verifyBtn" class="btn btn-primary" type="button">Check</button>
+        <button id="clearBtn" class="btn btn-ghost" type="button">Clear</button>
+        <a class="btn btn-ghost" href="certificate.html" target="_blank" rel="noopener">View Sample Certificate</a>
       </div>
 
-      <p id="cidStatus" style="margin-top:8px"></p>
+      <p id="verifyResult" class="muted" style="margin-top:10px;"></p>
     </section>
 
-    <!-- Deep verify (same device) -->
-    <section class="card" style="margin-top:12px">
-      <h3>Step 2 — Confirm on this device (optional)</h3>
-      <p class="muted">If the volunteer is using the same phone/tablet they trained on, we can recompute the expected ID from the device’s anonymous <code class="k">mc_uid</code> and the details below.</p>
-
-      <div class="grid">
-        <div>
-          <label for="fullName">Volunteer name (as on certificate)</label>
-          <input id="fullName" placeholder="e.g., Ada Obi"/>
-        </div>
-        <div>
-          <label for="score">Score (%)</label>
-          <input id="score" type="number" min="0" max="100" inputmode="numeric" placeholder="e.g., 84"/>
-        </div>
-        <div>
-          <label for="date">Training date</label>
-          <input id="date" type="date"/>
-        </div>
-      </div>
-
-      <div class="toolbar">
-        <button id="btnRecompute" class="btn btn-primary" type="button">Recompute & Compare</button>
-        <button id="btnShowUid" class="btn btn-ghost" type="button">Show device UID</button>
-      </div>
-
-      <p id="deepStatus" style="margin-top:8px"></p>
-      <p id="uidLine" class="muted" style="display:none;margin-top:8px"></p>
-    </section>
-
-    <section class="card" style="margin-top:12px">
-      <h3>What this verifies</h3>
-      <ul style="text-align:left;margin:0;padding-left:18px">
-        <li><b>Step 1</b> confirms the ID is well-formed (<code class="k">MC-YYYYMMDD-HEX8</code>).</li>
-        <li><b>Step 2</b> (optional) confirms the ID could have been generated on <i>this device</i> given the provided name, score, and date — helpful for on-site checks.</li>
+    <section class="card info-card">
+      <b>What this check does</b>
+      <ul>
+        <li>Confirms the ID matches the format used by SpeakOut MindCheck (e.g., <code>MCV-1A2B3C4D</code>).</li>
+        <li>Helps schools, partners, or volunteers quickly pre-screen a certificate.</li>
+        <li>For full confirmation, cross-check the name, date and score on the certificate or contact SpeakOut.</li>
       </ul>
+      <p class="muted">
+        For formal verification or concerns about misuse, email
+        <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>.
+      </p>
     </section>
+
+    <p class="toolbar" style="margin-top:10px;">
+      <a class="btn btn-ghost" href="training-hub.html">← Back to Training Hub</a>
+      <a class="btn btn-ghost" href="index.html">Home</a>
+    </p>
   </main>
 
   <footer style="margin-top:20px;">
@@ -95,88 +91,80 @@
   </footer>
 
   <script>
-    // ---------- Helpers ----------
-    const $ = (id)=>document.getElementById(id);
-    const FORMAT = /^MC-(\d{8})-([0-9A-F]{8})$/; // MC-YYYYMMDD-HEX8
+    const input  = document.getElementById('certInput');
+    const result = document.getElementById('verifyResult');
+    const btn    = document.getElementById('verifyBtn');
+    const clear  = document.getElementById('clearBtn');
 
-    function getUID(){
-      try{ return localStorage.getItem('mc_uid') || ''; }catch(e){ return ''; }
-    }
-    function shortId(str){
-      let h=0; for(let i=0;i<str.length;i++){ h=(h*31 + str.charCodeAt(i))>>>0; }
-      return ('00000000'+h.toString(16)).slice(-8).toUpperCase();
-    }
-    function recomputeId(name, score, dateISO){
-      const base = `${getUID()}|${(name||'').trim()}|${String(score||'').trim()}|${dateISO}`;
-      return `MC-${dateISO.replace(/-/g,'')}-${shortId(base)}`;
+    function normalizeId(raw){
+      return (raw || '')
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g, ''); // remove internal spaces
     }
 
-    // ---------- Step 1: format check ----------
-    $('btnCheck').addEventListener('click', ()=>{
-      const id = ($('cid').value||'').trim().toUpperCase();
-      const out = $('cidStatus');
-      if(!id){
-        out.innerHTML = '<span class="bad">Enter a Certificate ID to verify.</span>';
+    function checkFormat() {
+      const raw = input.value;
+      const id  = normalizeId(raw);
+
+      if (!id) {
+        result.className = 'muted';
+        result.textContent = 'Please type a Certificate ID to check.';
         return;
       }
-      const m = id.match(FORMAT);
-      if(!m){
-        out.innerHTML = '<span class="bad">Invalid format.</span> Expect <code class="k">MC-YYYYMMDD-XXXXXXXX</code>.';
-        try{ window.plausible && window.plausible('VerifyFailed',{props:{reason:'format'}});}catch(e){}
-        return;
+
+      // Expected pattern from certificate.html: MCV- + 8 hex characters
+      const fullPattern   = /^MCV-[A-F0-9]{8}$/;
+      const almostPattern = /^MCV-/;
+
+      let statusClass = 'status-bad';
+      let msg         = '';
+
+      if (fullPattern.test(id)) {
+        statusClass = 'status-good';
+        msg = '✅ Format OK. This looks like a valid SpeakOut MindCheck certificate ID. '
+            + 'To fully confirm, please cross-check the name, date and score on the certificate '
+            + 'or contact SpeakOut if you have any doubt.';
+        try {
+          window.plausible && window.plausible('CertificateVerifyValidFormat', { props:{ idPattern:'MCV-XXXXXXXX' }});
+        } catch(e){}
+      } else if (almostPattern.test(id)) {
+        statusClass = 'status-warn';
+        msg = '⚠ The ID starts correctly with “MCV-” but does not match the expected format '
+            + '(MCV-XXXXXXXX using numbers 0–9 and letters A–F). Please check for typos.';
+        try {
+          window.plausible && window.plausible('CertificateVerifyAlmostFormat', { props:{ raw:id }});
+        } catch(e){}
+      } else {
+        statusClass = 'status-bad';
+        msg = '❌ Not recognized. The ID does not match the format used by SpeakOut MindCheck '
+            + '(for example, MCV-1A2B3C4D). Please confirm you copied it correctly or contact SpeakOut.';
+        try {
+          window.plausible && window.plausible('CertificateVerifyInvalidFormat', { props:{ raw:id }});
+        } catch(e){}
       }
-      const y = m[1].slice(0,4), mm = m[1].slice(4,6), dd = m[1].slice(6,8);
-      const dateOk = !isNaN(new Date(`${y}-${mm}-${dd}`).getTime());
-      if(!dateOk){
-        out.innerHTML = '<span class="bad">Date part looks invalid.</span>';
-        try{ window.plausible && window.plausible('VerifyFailed',{props:{reason:'date'}});}catch(e){}
-        return;
-      }
-      out.innerHTML = '<span class="ok">Format looks valid.</span>';
-      try{ window.plausible && window.plausible('VerifySearched'); }catch(e){}
+
+      result.className = statusClass;
+      result.textContent = msg;
+
+      try {
+        window.plausible && window.plausible('CertificateVerifyAttempt', { props:{ outcome:statusClass }});
+      } catch(e){}
+    }
+
+    btn.addEventListener('click', checkFormat);
+    clear.addEventListener('click', ()=>{
+      input.value = '';
+      result.className = 'muted';
+      result.textContent = '';
     });
 
-    // ---------- Step 2: same-device deep check ----------
-    $('btnRecompute').addEventListener('click', ()=>{
-      const id = ($('cid').value||'').trim().toUpperCase();
-      const m = id.match(FORMAT);
-      const out = $('deepStatus');
-      const uid = getUID();
-
-      if(!m){
-        out.innerHTML = '<span class="bad">Enter a valid ID above first (Step 1).</span>';
-        return;
+    // Allow Enter key to trigger check
+    input.addEventListener('keydown', (ev)=>{
+      if (ev.key === 'Enter') {
+        ev.preventDefault();
+        checkFormat();
       }
-      if(!uid){
-        out.innerHTML = '<span class="warn">This device has no <code class="k">mc_uid</code>. Open the MindCheck app (index) once on this device, then try again.</span>';
-        return;
-      }
-
-      const name = $('fullName').value.trim();
-      const score = $('score').value.trim();
-      const d = $('date').value;
-      if(!name || !score || !d){
-        out.innerHTML = '<span class="bad">Provide name, score, and date to confirm.</span>';
-        return;
-      }
-
-      const expected = recomputeId(name, score, d);
-      if(expected === id){
-        out.innerHTML = '<span class="ok">✔ This ID matches what this device would generate for the provided details.</span>';
-        try{ window.plausible && window.plausible('VerifyMatched'); }catch(e){}
-      }else{
-        out.innerHTML = '<span class="bad">✖ This ID does not match this device’s computed ID for the provided details.</span>';
-        try{ window.plausible && window.plausible('VerifyFailed',{props:{reason:'mismatch'}});}catch(e){}
-      }
-    });
-
-    $('btnShowUid').addEventListener('click', ()=>{
-      const uid = getUID();
-      const line = $('uidLine');
-      line.style.display = 'block';
-      line.innerHTML = uid
-        ? `Device UID: <code class="k">${uid}</code>`
-        : 'No device UID found. Open MindCheck home page once on this device to generate it.';
     });
   </script>
 </body>
