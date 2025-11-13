@@ -9,60 +9,64 @@
   <meta name="theme-color" content="#22c55e"/>
 
   <style>
-    .verify-card {
-      max-width:640px;
-      margin:18px auto;
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:14px;
-      padding:16px;
-      text-align:left;
-      box-shadow:0 8px 24px rgba(15,23,42,.06);
-    }
+    main { max-width:780px; margin:0 auto; padding:16px; text-align:left; }
     .muted { color:#64748b; }
     .status-ok { color:#166534; font-weight:700; }
     .status-bad { color:#b91c1c; font-weight:700; }
-    .status-warn { color:#854d0e; font-weight:700; }
-    .field { margin:10px 0; }
-    input[type=text] {
-      width:100%;
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid #e5e7eb;
-      font-size:1rem;
-      box-sizing:border-box;
-    }
+    .status-warn { color:#854d0e; font-weight:600; }
+    .pill { border-radius:999px; border:1px solid #e5e7eb; padding:4px 10px; background:#f9fafb; font-size:.85rem; }
+    .field-label { font-weight:700; margin:8px 0 4px; display:block; }
+    .input-like { width:100%; padding:10px 12px; border-radius:12px; border:1px solid #d1d5db; font-size:1rem; }
+    .input-like:focus { outline:none; border-color:#22c55e; box-shadow:0 0 0 1px #22c55e33; }
+    .result-box { margin-top:12px; padding:12px; border-radius:12px; border:1px solid #e5e7eb; background:#ffffff; }
+    .small-meta { font-size:.88rem; color:#4b5563; }
   </style>
 
+  <!-- Plausible -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+  <script>
+    (function(){
+      try { window.plausible && window.plausible('VerifyViewed'); } catch(e){}
+    })();
+  </script>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
   <main>
-    <div class="verify-card">
-      <h2>Verify Certificate</h2>
-      <p class="muted">
-        Enter the <b>Certificate ID</b> shown on the document (format: <code>MCV-XXXXXXXX</code>).
-        This tool checks if the ID matches an official SpeakOut MindCheck training record.
-      </p>
+    <h2>Verify Volunteer Training Certificate</h2>
+    <p class="muted">
+      Enter the <b>Certificate ID</b> exactly as it appears on the document
+      (for example: <code>MC-CERT-20251113-ABC123</code>). We’ll check if it
+      matches our official records.
+    </p>
 
-      <div class="field">
-        <label for="certId" class="muted" style="font-weight:600;">Certificate ID</label>
-        <input id="certId" type="text" placeholder="e.g. MCV-1A2B3C4D"/>
+    <div class="card" style="margin-top:12px;">
+      <label for="certIdInput" class="field-label">Certificate ID</label>
+      <input id="certIdInput" class="input-like" placeholder="MC-CERT-YYYYMMDD-XXXXXX"/>
+
+      <div style="margin-top:8px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+        <span id="formatStatus" class="muted">Waiting for ID…</span>
+        <span class="pill">Format: MC-CERT-YYYYMMDD-XXXXXX</span>
       </div>
 
-      <div class="toolbar" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
-        <button id="checkBtn" class="btn btn-primary" type="button">Verify</button>
-        <button id="clearBtn" class="btn btn-ghost" type="button">Clear</button>
+      <div class="toolbar" style="margin-top:12px;">
+        <button id="checkBtn" class="btn btn-primary" type="button">Check Certificate</button>
         <a class="btn btn-ghost" href="training-hub.html">← Back to Training Hub</a>
+        <a class="btn btn-ghost" href="index.html">Home</a>
       </div>
 
-      <div id="statusBox" style="margin-top:14px;"></div>
+      <div id="verifyResult" class="result-box" style="display:none;"></div>
     </div>
+
+    <p class="muted" style="margin-top:14px;font-size:.9rem;">
+      Data is checked securely against SpeakOut MindCheck records. For questions about
+      data protection or manual verification, email
+      <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>.
+    </p>
   </main>
 
-  <footer style="margin-top:20px;">
+  <footer style="margin-top:16px;">
     🔒 <a href="privacy.html">Privacy</a> •
     📄 <a href="terms.html">Terms</a> •
     🏥 <a href="resources.html">Clinics & Resources</a> •
@@ -70,86 +74,142 @@
   </footer>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
-    const input = document.getElementById('certId');
-    const statusBox = document.getElementById('statusBox');
-    const checkBtn = document.getElementById('checkBtn');
-    const clearBtn = document.getElementById('clearBtn');
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123';
 
-    function showStatus(html, cls) {
-      statusBox.innerHTML = `<div class="${cls}">${html}</div>`;
+    const certInput   = document.getElementById('certIdInput');
+    const checkBtn    = document.getElementById('checkBtn');
+    const formatLabel = document.getElementById('formatStatus');
+    const resultBox   = document.getElementById('verifyResult');
+
+    // Simple front-end pattern check: MC-CERT-YYYYMMDD-XXXXXX
+    const CERT_PATTERN = /^MC-CERT-\d{8}-[A-Z0-9]{6}$/;
+
+    function updateFormatStatus() {
+      const raw = (certInput.value || '').trim().toUpperCase();
+      if (!raw) {
+        formatLabel.textContent = 'Waiting for ID…';
+        formatLabel.className = 'muted';
+        return;
+      }
+      if (CERT_PATTERN.test(raw)) {
+        formatLabel.textContent = 'Format OK — you can check this ID.';
+        formatLabel.className = 'status-ok';
+      } else {
+        formatLabel.textContent = 'Format does not look correct.';
+        formatLabel.className = 'status-bad';
+      }
     }
 
-    function normalizeId(raw) {
-      return raw.trim().toUpperCase();
-    }
+    certInput.addEventListener('input', () => {
+      certInput.value = certInput.value.toUpperCase();
+      updateFormatStatus();
+    });
 
-    function isFormatOk(id) {
-      // MCV- + 8 hex characters
-      return /^MCV-[0-9A-F]{8}$/.test(id);
-    }
+    async function verifyCertificate() {
+      const certId = (certInput.value || '').trim().toUpperCase();
+      resultBox.style.display = 'block';
 
-    async function verify() {
-      const raw = input.value;
-      const id = normalizeId(raw);
-      if (!id) {
-        showStatus('Please enter a Certificate ID.', 'status-warn');
+      if (!certId) {
+        resultBox.innerHTML = '<p class="status-bad">Please enter a Certificate ID.</p>';
         return;
       }
 
-      if (!isFormatOk(id)) {
-        showStatus('Format not recognized. Expected something like <code>MCV-1A2B3C4D</code>.', 'status-bad');
+      // Front-end format check
+      if (!CERT_PATTERN.test(certId)) {
+        resultBox.innerHTML = '<p class="status-bad">❌ The ID format is not recognised. Please check and try again.</p>';
         return;
       }
 
-      // Front-end format OK
-      showStatus('Checking our records…', 'muted');
+      resultBox.innerHTML = '<p class="status-warn">Checking certificate with SpeakOut MindCheck records…</p>';
+
+      // Plausible event (attempt)
+      try { window.plausible && window.plausible('VerifyAttempt', { props: { certIdPrefix: certId.slice(0, 12) }}); } catch(e){}
 
       try {
-        const url = `${API_URL}?auth=speakout123&type=verify_cert&id=${encodeURIComponent(id)}`;
-        const res = await fetch(url);
-        const data = await res.json().catch(() => ({}));
+        const payload = {
+          type: 'verify_cert',
+          cert_id: certId,
+          app_version: 'v1.0.0'
+        };
 
-        if (data.ok) {
-          const name = data.name || '—';
-          const score = data.score != null ? data.score : '—';
-          const date = data.date ? new Date(data.date).toLocaleDateString() : '—';
-          showStatus(`
-            ✅ <span class="status-ok">Valid SpeakOut MindCheck certificate.</span><br/>
-            <b>Certificate ID:</b> ${id}<br/>
-            <b>Name:</b> ${name}<br/>
-            <b>Score:</b> ${score}%<br/>
-            <b>Date issued:</b> ${date}
-          `, '');
-          try { window.plausible && window.plausible('CertificateVerified', {props:{status:'ok'}}); } catch(e){}
+        const resp = await fetch(GAS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' }, // no CORS preflight
+          body: JSON.stringify(payload)
+        });
+
+        const text = await resp.text();
+        let data;
+        try { data = JSON.parse(text); } catch(e) { data = null; }
+
+        if (!resp.ok || !data) {
+          resultBox.innerHTML = `
+            <p class="status-bad">❌ We could not contact the verification service right now.</p>
+            <p class="small-meta">If this persists, please email <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a> with the Certificate ID.</p>
+          `;
+          return;
+        }
+
+        // Expected shape from backend (you can match this in Apps Script):
+        // { ok:true, valid:true/false, cert:{ name, score, date_iso, uid } }
+        if (data.valid && data.cert) {
+          const c = data.cert;
+          const name  = c.name  || 'Volunteer';
+          const score = c.score || '—';
+          const date  = c.date_iso ? new Date(c.date_iso).toLocaleDateString() : '—';
+
+          resultBox.innerHTML = `
+            <p class="status-ok">✅ Valid certificate issued by SpeakOut MindCheck.</p>
+            <p class="small-meta">
+              <b>Name:</b> ${name}<br/>
+              <b>Score:</b> ${score}%<br/>
+              <b>Date issued:</b> ${date}<br/>
+              <b>Certificate ID:</b> <code>${certId}</code>
+            </p>
+          `;
+
+          try { window.plausible && window.plausible('VerifySuccess'); } catch(e){}
         } else {
-          const reason = data.reason || 'not_found';
-          showStatus(`
-            ❌ <span class="status-bad">Not recognized in our official records.</span><br/>
-            Please check the ID formatting or contact <a href="mailto:speaaakout@gmail.com">SpeakOut</a> if you believe this is an error.
-          `, '');
-          try { window.plausible && window.plausible('CertificateVerified', {props:{status:reason}}); } catch(e){}
+          resultBox.innerHTML = `
+            <p class="status-bad">❌ Certificate ID not recognised in SpeakOut MindCheck records.</p>
+            <p class="small-meta">
+              Please confirm the ID on the certificate. If you believe this is an error,
+              contact <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a> with a copy of the document.
+            </p>
+          `;
+          try { window.plausible && window.plausible('VerifyNotRecognised'); } catch(e){}
         }
       } catch (err) {
-        console.warn('Verify error', err);
-        showStatus('Network error while verifying. Please try again.', 'status-bad');
+        console.warn('Verify error:', err);
+        resultBox.innerHTML = `
+          <p class="status-bad">❌ A network or server error occurred while verifying.</p>
+          <p class="small-meta">
+            Please try again later or email <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>.
+          </p>
+        `;
       }
     }
 
-    checkBtn.addEventListener('click', verify);
-    clearBtn.addEventListener('click', () => {
-      input.value = '';
-      statusBox.innerHTML = '';
-    });
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        verify();
-      }
+    checkBtn.addEventListener('click', verifyCertificate);
+
+    // Submit on Enter
+    certInput.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') verifyCertificate();
     });
 
-    // Plausible page view
-    try { window.plausible && window.plausible('VerifyViewed'); } catch(e){}
+    // If ?certId= is present, auto-fill and check
+    (function prefillFromQuery(){
+      const params = new URLSearchParams(location.search);
+      const id = params.get('certId');
+      if (id) {
+        certInput.value = id.toUpperCase();
+        updateFormatStatus();
+        // small delay so UI draws before fetch
+        setTimeout(verifyCertificate, 150);
+      } else {
+        updateFormatStatus();
+      }
+    })();
   </script>
 </body>
 </html>
