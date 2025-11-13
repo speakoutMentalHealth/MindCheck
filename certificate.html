@@ -72,9 +72,9 @@
     }
     .watermark{
       position:absolute;
-      inset:14% 10%;
-      background:url("icons/logo.png") center/260px auto no-repeat;
-      opacity:0.04;
+      inset:10% 5%;
+      background:url("icons/logo.png") center/360px auto no-repeat;
+      opacity:0.06;
       pointer-events:none;
     }
     .cert-header{
@@ -90,7 +90,7 @@
       gap:12px;
     }
     .brand-logo{
-      width:70px;
+      width:140px;
       height:auto;
     }
     .brand-title{
@@ -169,25 +169,35 @@
       z-index:1;
     }
     .sig-block{
-      flex:1.2;
-    }
-    .sig-img{
-      height:42px;
-      width:auto;
-      display:block;
-      margin-bottom:2px;
-    }
-    .sig-line{
-      border-top:1px solid #111827;
-      margin-bottom:3px;
-    }
-    .sig-name{
-      font-weight:800;
-      font-size:.9rem;
-    }
-    .sig-role{
-      font-size:.78rem;
-    }
+  flex:1.2;
+  margin-top:10px;
+}
+
+.sig-img{
+  height:90px;     /* increased from 42px → 80px */
+  width:auto;
+  display:block;
+  margin-bottom:0px;   /* reduces gap above signature line */
+  margin-top:-10px;     /* pulls signature closer to line */
+}
+
+.sig-line{
+  border-top:2px solid #111827;  /* darker, thicker line */
+  margin:0;
+  margin-top:-8px; /* tighter spacing */
+}
+
+.sig-name{
+  font-weight:900;
+  font-size:1rem;
+  margin-top:2px;
+}
+
+.sig-role{
+  font-size:.85rem;
+  color:#374151;
+}
+
 
     .qr-block{
       flex:1;
