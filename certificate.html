@@ -7,174 +7,314 @@
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="mc-theme.css"/>
   <meta name="theme-color" content="#22c55e"/>
+
   <style>
-    body{background:#0f172a;margin:0;padding:0;}
-    .cert-wrapper{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
+    body {
+      background:#e5f7ed;
     }
-    .cert{
-      background:#ffffff;
-      border-radius:18px;
-      border:4px solid #22c55e;
-      box-shadow:0 18px 45px rgba(15,23,42,.45);
+    .cert-wrap {
       max-width:1100px;
-      width:100%;
-      aspect-ratio:11/8.5; /* horizontal certificate shape */
-      padding:32px 40px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+      margin:24px auto 16px;
+      padding:0 10px;
     }
-    .cert-header{
+    .cert-main {
+      background:#ffffff;
+      border-radius:22px;
+      border:4px solid #22c55e;
+      box-shadow:0 12px 30px rgba(15,23,42,.12);
+      padding:28px 32px;
+      text-align:center;
+      position:relative;
+    }
+    /* subtle inner frame */
+    .cert-main::before {
+      content:"";
+      position:absolute;
+      inset:14px;
+      border:1px solid #c4e9d3;
+      border-radius:18px;
+      pointer-events:none;
+    }
+    .cert-inner {
+      position:relative;
+      z-index:1;
+    }
+
+    .cert-top {
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:16px;
-      border-bottom:2px solid #e5e7eb;
-      padding-bottom:12px;
+      margin-bottom:10px;
     }
-    .cert-logo{
+    .cert-logo {
+      width:140px;
+      height:80px;
       display:flex;
       align-items:center;
-      gap:10px;
+      justify-content:center;
     }
-    .cert-logo img{
-      width:64px;
-      height:64px;
-      border-radius:16px;
-      object-fit:contain;
-    }
-    .cert-title-block{
+    .cert-brand {
       text-align:right;
-    }
-    .cert-title-block h1{
-      font-size:1.6rem;
-      margin:0;
-    }
-    .cert-title-block .tagline{
       font-size:.9rem;
+      color:#064e3b;
+    }
+    .cert-brand b {
+      display:block;
+      font-size:1rem;
+    }
+
+    .seal {
+      font-size:52px;
+      margin-top:4px;
+    }
+    .cert-title {
+      font-size:1.7rem;
+      font-weight:800;
+      margin:.35rem 0 .15rem;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:#062436;
+    }
+    .cert-sub {
+      font-size:.95rem;
       color:#64748b;
+      margin-bottom:18px;
     }
-    .muted { color:#52606d; }
-    .name { font-weight:800; font-size:1.6rem; }
-    .cert-body{
-      text-align:center;
-      padding:14px 8px;
+    .muted { color:#64748b; }
+
+    .name-label {
+      font-size:.95rem;
+      text-transform:uppercase;
+      letter-spacing:.2em;
+      color:#6b7280;
+      margin-top:10px;
     }
-    .cert-body p{margin:.35rem 0;}
-    .meta-row{
+    .name {
+      font-weight:900;
+      font-size:1.5rem;
+      margin:6px 0 4px;
+      color:#022c22;
+    }
+    .body-text {
+      margin-top:4px;
+      margin-bottom:16px;
+      font-size:.98rem;
+      color:#334155;
+    }
+
+    .meta-row {
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
-      gap:18px;
-      margin-top:8px;
-      font-size:.95rem;
+      gap:12px;
+      margin:10px 0 4px;
+      font-size:.9rem;
+      color:#0f172a;
     }
-    .meta-pill{
+    .meta-pill {
       border-radius:999px;
-      border:1px solid #e5e7eb;
-      padding:6px 12px;
-      background:#f9fafb;
+      border:1px solid #cbd5e1;
+      padding:4px 10px;
+      background:#f8fafc;
     }
-    .cert-footer{
+
+    .who-footnote {
+      font-size:.8rem;
+      color:#94a3b8;
+      margin-top:6px;
+    }
+
+    .sig-row {
       display:flex;
+      flex-wrap:wrap;
       justify-content:space-between;
       align-items:flex-end;
-      flex-wrap:wrap;
-      gap:18px;
-      margin-top:12px;
+      gap:16px;
+      margin-top:24px;
     }
-    .sig-block{
-      min-width:220px;
+    .sig-block {
       text-align:left;
     }
-    .sig-line{
-      border-bottom:2px solid #0f172a;
-      height:24px;
-      margin-bottom:4px;
-      width:220px;
+    .sig-image {
+      max-width:200px;
+      height:auto;
+      display:block;
+      margin:0 0 4px;
     }
-    .sig-name{font-weight:700;}
-    .sig-role{font-size:.9rem;color:#64748b;}
-    .id-block{
+    .sig-name {
+      font-weight:800;
+      color:#0f172a;
+    }
+    .sig-title {
+      font-size:.85rem;
+      color:#64748b;
+    }
+    .sig-label {
+      font-size:.8rem;
+      color:#9ca3af;
+      margin-top:2px;
+    }
+
+    .date-block {
       text-align:right;
-      font-size:.95rem;
+      font-size:.9rem;
+      color:#0f172a;
     }
-    .id-block div{margin:.1rem 0;}
+
+    .cert-id {
+      margin-top:10px;
+      font-size:.9rem;
+      color:#0f172a;
+    }
+    .cert-id-code {
+      font-family:ui-monospace,Consolas,monospace;
+      background:#f1f5f9;
+      border-radius:999px;
+      padding:3px 8px;
+      border:1px solid #cbd5e1;
+    }
+
+    .toolbar {
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    @media (max-width:768px) {
+      .cert-main {
+        padding:20px 16px;
+      }
+      .cert-top {
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .cert-brand {
+        text-align:left;
+      }
+      .sig-row {
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+
     @media print {
-      body{background:#ffffff;}
-      .no-print{display:none !important;}
-      .cert-wrapper{padding:0;}
-      .cert{box-shadow:none;border-width:2px;}
+      body {
+        background:#ffffff;
+      }
+      .no-print {
+        display:none !important;
+      }
+      @page {
+        size: A4 landscape;
+        margin:15mm;
+      }
+      .cert-wrap {
+        max-width:none;
+        margin:0;
+        padding:0;
+      }
+      .cert-main {
+        box-shadow:none;
+        border-width:3px;
+      }
     }
   </style>
+
+  <!-- Plausible analytics (optional event) -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
   <script>
-    (function(){ try{ window.plausible && window.plausible('CertificateViewed'); }catch(e){} })();
+    (function(){
+      try { window.plausible && window.plausible('CertificateViewed'); } catch(e){}
+    })();
   </script>
 </head>
 <body>
   <header class="no-print">🧠 SpeakOut MindCheck Nigeria</header>
 
-  <main class="cert-wrapper">
-    <div class="cert">
-      <div class="cert-header">
-        <div class="cert-logo">
-          <!-- Replace logo.png with your real logo -->
-          <img src="logo.png" alt="SpeakOut MindCheck logo">
-          <div>
-            <div style="font-weight:800;font-size:1.05rem;color:#0f172a;">SpeakOut Mental Health Outreach</div>
-            <div class="muted" style="font-size:.9rem;">MindCheck Volunteer Training Programme</div>
+  <main class="cert-wrap">
+    <div class="cert-main">
+      <div class="cert-inner">
+
+        <div class="cert-top">
+          <!-- Logo -->
+          <div class="cert-logo">
+            <img src="icon/logo.png" alt="SpeakOut Mental Health Logo"
+                 style="max-width:100%;max-height:100%;border-radius:16px;"/>
+          </div>
+
+          <div class="cert-brand">
+            <b>SpeakOut Mental Health Outreach</b>
+            MindCheck Volunteer Training Programme<br/>
+            Nigeria (Abuja • Keffi • Owerri)
           </div>
         </div>
-        <div class="cert-title-block">
-          <h1>Certificate of Volunteer Training</h1>
-          <div class="tagline">Building safe listeners and referral champions across communities.</div>
-        </div>
-      </div>
 
-      <div class="cert-body">
-        <p class="muted">This certifies that</p>
+        <div class="seal">🏅</div>
+        <div class="cert-title">Certificate of Volunteer Training</div>
+        <p class="cert-sub">
+          This certificate recognises successful completion of community mental-health volunteer training,
+          aligned with WHO-style community support and referral principles.
+        </p>
+
+        <p class="name-label">Awarded to</p>
         <p id="cName" class="name">—</p>
-        <p class="muted">
-          has successfully completed the SpeakOut MindCheck volunteer training, demonstrating understanding of
-          safe listening, red-flag detection, ethical referral, privacy-first logging, and cultural sensitivity.
+        <p class="body-text">
+          has completed the SpeakOut MindCheck volunteer training modules on safe listening, red-flag
+          recognition, ethical referral, privacy-first logging, and cultural sensitivity / self-care.
         </p>
 
         <div class="meta-row">
-          <div class="meta-pill"><b>Score:</b> <span id="cScore">—</span>%</div>
-          <div class="meta-pill"><b>Date:</b> <span id="cDate">—</span></div>
-          <div class="meta-pill"><b>Certificate ID:</b> <span id="cId">—</span></div>
-        </div>
-      </div>
-
-      <div class="cert-footer">
-        <div class="sig-block">
-          <div class="sig-line"></div>
-          <div class="sig-name">Offorka Jerry</div>
-          <div class="sig-role">Founder / Executive Director<br>SpeakOut Mental Health Outreach</div>
+          <span class="meta-pill">
+            <b>Score:</b> <span id="cScore">—</span>%
+          </span>
+          <span class="meta-pill">
+            <b>Date:</b> <span id="cDate">—</span>
+          </span>
         </div>
 
-        <div class="id-block">
-          <div class="muted" style="font-size:.9rem;">
-            This certificate is valid only when issued via the official MindCheck training hub.
+        <p class="who-footnote">
+          Monitoring and quality aligned with WHO Comprehensive Mental Health Action Plan 2013–2030
+          (community support, detection, referral, and follow-up).
+        </p>
+
+        <div class="sig-row">
+          <div class="sig-block">
+            <!-- Signature image above name -->
+            <img src="icon/signature.png" alt="Signature of Offorka Jerry" class="sig-image"/>
+            <div class="sig-name">Offorka Jerry</div>
+            <div class="sig-title">Founder / Executive Director, SpeakOut Mental Health Outreach</div>
+            <div class="sig-label">Authorised signatory</div>
           </div>
-          <div class="no-print" style="margin-top:6px;">
-            <button class="btn btn-primary" onclick="window.print()">Download / Print PDF</button>
-          </div>
-          <div class="muted no-print" style="margin-top:4px;">
-            To confirm this certificate, <a href="verify.html" target="_blank" rel="noopener">verify here</a>.
+
+          <div class="date-block">
+            <div><b>Issued:</b> <span id="cDate2">—</span></div>
+            <div class="cert-id">
+              <span>Certificate ID:</span>
+              <span id="cId" class="cert-id-code">—</span>
+            </div>
           </div>
         </div>
+
       </div>
+    </div>
+
+    <!-- Actions (not printed) -->
+    <div class="toolbar no-print">
+      <button class="btn btn-primary" onclick="window.print()">Download / Print PDF</button>
+      <a class="btn btn-ghost" href="training-hub.html">← Back to Training</a>
+      <a class="btn btn-ghost" href="index.html">Home</a>
+    </div>
+
+    <div class="no-print" style="margin-top:10px;text-align:center;font-size:.9rem;color:#4b5563;">
+      To verify this certificate,
+      <a id="verifyLink" href="verify.html" target="_blank" rel="noopener">verify here</a>.
     </div>
   </main>
 
-  <footer class="no-print" style="margin-top:10px;text-align:center;">
+  <footer class="no-print" style="margin-top:16px;">
     🔒 <a href="privacy.html">Privacy</a> •
     📄 <a href="terms.html">Terms</a> •
     🏥 <a href="resources.html">Clinics & Resources</a> •
@@ -182,44 +322,90 @@
   </footer>
 
   <script>
-    // Parse ?name=...&score=...&date=...
-    const params = new URLSearchParams(location.search);
-    const name = params.get('name') || 'Volunteer';
-    const score = params.get('score') || '100';
-    const dt = params.get('date') ? new Date(decodeURIComponent(params.get('date'))) : new Date();
+    // -------- Shared keys (match index/training) --------
+    const KEY_TRAINING = 'mc_training';
+    const KEY_UID      = 'mc_uid';
 
-    document.getElementById('cName').textContent = name;
-    document.getElementById('cScore').textContent = score;
-    document.getElementById('cDate').textContent = dt.toLocaleDateString();
-
-    // Generate a stable-ish certificate ID from name + score + date
-    function makeCertId(n, s, dateObj){
-      try{
-        const raw = `${n}|${s}|${dateObj.toISOString().slice(0,10)}`;
-        let hash = btoa(unescape(encodeURIComponent(raw))).replace(/=+/g,'').slice(-8).toUpperCase();
-        return `MC-VOL-${hash}`;
-      }catch(e){
-        const y=dateObj.getFullYear();
-        const m=String(dateObj.getMonth()+1).padStart(2,'0');
-        const d=String(dateObj.getDate()).padStart(2,'0');
-        return `MC-VOL-${y}${m}${d}`;
+    // Create / get browser UID (same logic as MindCheck)
+    function getUID() {
+      let uid = localStorage.getItem(KEY_UID);
+      if (!uid) {
+        try { uid = crypto.randomUUID(); }
+        catch { uid = 'mc_' + Math.random().toString(36).slice(2); }
+        localStorage.setItem(KEY_UID, uid);
       }
+      return uid;
+    }
+    const UID = getUID();
+
+    // Build a deterministic certificate ID
+    function buildCertId(dateIso, uid) {
+      const d = dateIso ? new Date(dateIso) : new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      const tail = (uid || '').replace(/[^A-Za-z0-9]/g,'').slice(-6).toUpperCase() || 'VOL001';
+      return `MC-CERT-${y}${m}${day}-${tail}`;
     }
 
-    const certId = makeCertId(name, score, dt);
-    const idEl = document.getElementById('cId');
-    if(idEl){ idEl.textContent = certId; }
+    // Parse URL params
+    const params = new URLSearchParams(location.search);
+    const nameParam  = params.get('name') || '';
+    const scoreParam = params.get('score') || '';
+    const dateParam  = params.get('date') || '';
 
-    // Friendly fallback if opened directly (no query params)
-    if (!params.get('name')) {
+    // Load from localStorage if needed
+    let training = null;
+    try { training = JSON.parse(localStorage.getItem(KEY_TRAINING) || '{}'); }
+    catch(e){ training = {}; }
+
+    const name   = nameParam || 'Volunteer';
+    const score  = scoreParam || (training.pct ? Math.round(training.pct * 100) : '100');
+    const dateISO = dateParam ? decodeURIComponent(dateParam) : (training.date || new Date().toISOString());
+    const dateObj = new Date(dateISO);
+
+    const dateStr = dateObj.toLocaleDateString();
+
+    document.getElementById('cName').textContent  = name;
+    document.getElementById('cScore').textContent = score;
+    document.getElementById('cDate').textContent  = dateStr;
+    document.getElementById('cDate2').textContent = dateStr;
+
+    // Compute Certificate ID
+    const certId = buildCertId(dateISO, UID);
+    document.getElementById('cId').textContent = certId;
+
+    // Update verify link to carry the certId
+    const vLink = document.getElementById('verifyLink');
+    if (vLink) {
+      vLink.href = `verify.html?certId=${encodeURIComponent(certId)}`;
+    }
+
+    // -------- Register certificate in backend (for verification) --------
+    (function registerCertificate(){
       try {
-        const t = JSON.parse(localStorage.getItem('mc_training') || '{}');
-        if (t.pct) {
-          document.getElementById('cScore').textContent = Math.round(t.pct * 100);
-          document.getElementById('cDate').textContent = new Date(t.date || Date.now()).toLocaleDateString();
-        }
-      } catch(e){}
-    }
+        const payload = {
+          type: 'register_cert',
+          cert_id: certId,
+          name: name,
+          score: score,
+          date_iso: dateISO,
+          uid: UID,
+          app_version: 'v1.0.0'
+        };
+
+        fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' }, // simple (no CORS preflight)
+          body: JSON.stringify(payload)
+        })
+        .then(r => r.text())
+        .then(t => { console.log('Cert register response:', t); })
+        .catch(e => console.warn('Cert register failed:', e));
+      } catch(e) {
+        console.warn('Cert register block error:', e);
+      }
+    })();
   </script>
 </body>
 </html>
