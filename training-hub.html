@@ -385,7 +385,6 @@
     if(prevLessonBtn && nextLessonBtn && lessons.length){
       // Initial lesson on load
       if(completedLessonsCount >= 1){
-        // Go to last completed or final lesson (but still allow navigation)
         const idx = Math.min(completedLessonsCount-1, totalLessons-1);
         showLesson(idx);
       } else {
@@ -405,7 +404,6 @@
 
       nextLessonBtn.addEventListener('click', ()=>{
         if(currentLessonIndex < totalLessons-1){
-          // Mark current as completed
           if(completedLessonsCount < currentLessonIndex+1){
             completedLessonsCount = currentLessonIndex+1;
             localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessonsCount));
@@ -461,12 +459,11 @@
     function fmt(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
 
     function startTimer(){
-      // store a start timestamp so refreshes don’t reset the clock
       const now=Date.now();
       if(!localStorage.getItem(KEY_TIMER_START)){
         localStorage.setItem(KEY_TIMER_START,String(now));
       }
-      tickTimer(); // immediate paint
+      tickTimer();
       timerId=setInterval(tickTimer,1000);
       try{ window.plausible && window.plausible('TrainingTimerStarted'); }catch(e){}
     }
@@ -481,7 +478,7 @@
     function tickTimer(){
       const r=remainingSeconds();
       timeLeftEl.textContent=fmt(r);
-      if(r<=60) timeLeftEl.classList.add('warn'); // last minute styling
+      if(r<=60) timeLeftEl.classList.add('warn');
       if(r<=0){
         clearInterval(timerId);
         timeLeftEl.textContent='00:00';
@@ -496,7 +493,7 @@
 
     function autoSubmitOnTimeout(){
       try{ window.plausible && window.plausible('TrainingTimerExpired'); }catch(e){}
-      gradeQuiz(true); // true = timed out
+      gradeQuiz(true);
       disableQuiz();
     }
 
@@ -518,14 +515,11 @@
     document.getElementById('submitQuiz').onclick=()=>gradeQuiz(false);
 
     document.getElementById('resetQuiz').onclick=()=>{
-      // reset current attempt (not lessons)
       form.reset();
       result.style.display='none'; post.style.display='none';
-      // reset timer
       localStorage.removeItem(KEY_TIMER_START);
       timeLeftEl.classList.remove('warn');
       timeLeftEl.textContent=fmt(QUIZ_SECONDS);
-      // allow a fresh attempt
       clearInterval(timerId);
       form.style.display='none';
       quizBtns.style.display='none';
@@ -534,8 +528,7 @@
 
     // ---------- Grading ----------
     function gradeQuiz(timedOut){
-      if(form.style.display==='none'){ return; } // nothing to grade yet
-      // Ensure required validation unless timed out
+      if(form.style.display==='none'){ return; }
       if(!timedOut && !form.checkValidity()){form.reportValidity();return;}
 
       let correct=0;
@@ -565,19 +558,59 @@
       }
     }
 
-    // ---------- Certificate ----------
+    // ---------- Certificate (with cert_id + backend logging) ----------
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
+
+    function generateCertId() {
+      const t = new Date();
+      const y = t.getFullYear();
+      const m = String(t.getMonth()+1).padStart(2,'0');
+      const d = String(t.getDate()).padStart(2,'0');
+      const rand = Math.random().toString(36).slice(-4).toUpperCase();
+      return `MC-CERT-${y}${m}${d}-${rand}`;
+    }
+
     const makeBtn=document.getElementById('makeCert'),
           certInput=document.getElementById('certName'),
           hint=document.getElementById('certHint');
 
     if(makeBtn){
       makeBtn.onclick=()=>{
-        const name=(certInput.value||'').trim();if(!name){alert('Enter your name');return;}
+        const name=(certInput.value||'').trim();
+        if(!name){
+          alert('Enter your name');
+          return;
+        }
         const t=getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
-        const score=Math.round(t.pct*100),d=encodeURIComponent(t.date);
-        const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${d}`;
+        const score=Math.round(t.pct*100);
+        const dateIso=t.date || new Date().toISOString();
+        const certId = generateCertId();
+
+        const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${encodeURIComponent(dateIso)}&cert_id=${encodeURIComponent(certId)}`;
+
         hint.style.display='block';
         hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
+
+        // Log to backend
+        try{
+          fetch(GAS_URL + '?auth=speakout123', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+              type:'certificate_issue',
+              cert_id: certId,
+              name,
+              score,
+              date: dateIso
+            })
+          }).then(r=>r.text()).then(txt=>{
+            try { console.log('Cert logged:', JSON.parse(txt)); }
+            catch { console.log('Cert logged raw:', txt); }
+          }).catch(e=>console.warn('Cert logging failed:', e));
+        }catch(e){
+          console.warn('Cert fetch block failed:', e);
+        }
+
         try{ window.plausible && window.plausible('VolunteerCertificateOpen',{props:{score}});}catch(e){}
       };
     }
