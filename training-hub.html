@@ -9,19 +9,11 @@
   <meta name="theme-color" content="#22c55e"/>
 
   <style>
-    /* Layout + theming helpers (keeps your site look consistent) */
-    .muted { color:#52606d; }
-    .pill { border:1px solid #e8eef5; background:#fff; border-radius:999px; padding:6px 10px; font-weight:700; }
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
-
-    /* Lessons */
-    .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; text-align:left; display:none; }
-    .lesson.active { display:block; animation:fadeIn .25s ease-in-out; }
+    .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; text-align:left; }
     .lesson h3 { margin:.25rem 0 .35rem; font-size:1.08rem; }
     .lesson ul { margin:.4rem 0 .25rem; padding-left:18px; }
     .lesson li { margin:.25rem 0; }
-
-    /* Quiz */
+    .muted { color:#52606d; }
     .quiz-card { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:16px; }
     .q { margin:12px 0; text-align:left; }
     .q legend { font-weight:700; margin-bottom:6px; }
@@ -30,20 +22,10 @@
     .result { display:none; margin-top:12px; font-weight:700; }
     .good { color:#166534; }
     .bad { color:#7f1d1d; }
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;}
+    .pill { border:1px solid #e8eef5; background:#fff; border-radius:999px; padding:6px 10px; font-weight:700; }
     .timer { font-weight:800; }
     .warn { color:#854d0e; }
-
-    /* Pager / progress */
-    .progress-wrap{position:relative;background:#f1f5f9;border:1px solid #e8eef5;border-radius:12px;height:10px;overflow:hidden}
-    .progress-bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#16a34a)}
-    .pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:12px 0}
-    .pager .side{display:flex;gap:10px;align-items:center}
-    .pager .center{font-weight:800;color:#062436}
-    .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;}
-    .btn-primary{background:#22c55e;color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
-    .btn-primary:hover{background:#16a34a;}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
   </style>
 
   <!-- Plausible (already used across your site) -->
@@ -66,21 +48,7 @@
       <b>Volunteer Trained</b> badge, gain +50 points, and download your certificate.
     </p>
 
-    <!-- Progress + Pager -->
-    <div class="pager" aria-label="Lesson navigation">
-      <div class="side">
-        <button id="prevLesson" class="btn btn-ghost" type="button">← Previous</button>
-      </div>
-      <div class="center" id="lessonCounter" aria-live="polite">Lesson 1 of 5</div>
-      <div class="side">
-        <button id="nextLesson" class="btn btn-primary" type="button">Next →</button>
-      </div>
-    </div>
-    <div class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0% complete">
-      <div id="lessonProgress" class="progress-bar"></div>
-    </div>
-
-    <!-- Lessons -->
+    <!-- LESSONS -->
     <section class="lesson">
       <h3>Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h3>
       <img src="images/listen.png" alt="Safe Listening Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
@@ -285,6 +253,13 @@
       <p class="muted"><b>Reflection:</b> What boundaries help <i>you</i> stay compassionate without burning out?</p>
     </section>
 
+    <!-- LESSON NAVIGATION (below lessons) -->
+    <div class="toolbar" id="lessonNav">
+      <button class="btn btn-ghost" id="prevLesson" type="button">Previous</button>
+      <span class="muted" id="lessonProgress">Lesson 1 of 5</span>
+      <button class="btn btn-primary" id="nextLesson" type="button">Next</button>
+    </div>
+
     <!-- Quiz -->
     <section class="quiz-card">
       <h3>Volunteer Quiz</h3>
@@ -341,104 +316,52 @@
   </footer>
 
   <script>
-    /* ---------- LESSONS: pager + progress + quiz lock ---------- */
-    (function(){
-      const lessons = Array.from(document.querySelectorAll('.lesson'));
-      if (!lessons.length) return;
+    // ---------- LESSON NAVIGATION ----------
+    const lessons = Array.from(document.querySelectorAll('.lesson'));
+    const prevLessonBtn = document.getElementById('prevLesson');
+    const nextLessonBtn = document.getElementById('nextLesson');
+    const lessonProgress = document.getElementById('lessonProgress');
+    let currentLesson = 0;
 
-      const prevBtn  = document.getElementById('prevLesson');
-      const nextBtn  = document.getElementById('nextLesson');
-      const counter  = document.getElementById('lessonCounter');
-      const bar      = document.getElementById('lessonProgress');
-      const progressWrap = document.querySelector('.progress-wrap');
-
-      let quizCard = document.querySelector('section.quiz-card');
-      if (quizCard && !quizCard.id) quizCard.id = 'quizCard';
-      if (quizCard && !quizCard.hasAttribute('data-locked')) quizCard.setAttribute('data-locked','1');
-      if (quizCard && !quizCard.querySelector('#quizLock')) {
-        const lockP = document.createElement('p');
-        lockP.id = 'quizLock';
-        lockP.className = 'muted';
-        lockP.textContent = 'Please complete all lessons to unlock the quiz.';
-        quizCard.insertBefore(lockP, quizCard.firstChild);
-      }
-
-      const KEY_IDX  = 'mc_lesson_ix';
-      const KEY_DONE = 'mc_lessons_done';
-
-      let idx = parseInt(localStorage.getItem(KEY_IDX)||'0',10);
-      if (isNaN(idx) || idx < 0) idx = 0;
-      if (idx > lessons.length - 1) idx = lessons.length - 1;
-
-      function saveIdx(i){ localStorage.setItem(KEY_IDX, String(i)); }
-      function percent(i){ return Math.round(((i+1) / lessons.length) * 100); }
-
-      function updateCounter(){
-        if (counter) counter.textContent = `Lesson ${idx+1} of ${lessons.length}`;
-        if (prevBtn) prevBtn.disabled = (idx === 0);
-        if (nextBtn) nextBtn.textContent = (idx === lessons.length - 1) ? 'Start Quiz →' : 'Next →';
-        const p = percent(idx);
-        if (bar){ bar.style.width = p + '%'; }
-        if (progressWrap){
-          progressWrap.setAttribute('aria-valuenow', String(p));
-          progressWrap.setAttribute('aria-valuetext', `${p}% complete`);
-        }
-      }
-
-      function showLesson(i){
-        lessons.forEach((s, n) => s.classList.toggle('active', n === i));
-        updateCounter();
-        saveIdx(i);
-        try { lessons[i].scrollIntoView({ behavior:'smooth', block:'start' }); } catch(e){}
-        if (i === lessons.length - 1) {
-          localStorage.setItem(KEY_DONE, '1');
-        }
-      }
-
-      function unlockQuiz(){
-        if (!quizCard) return;
-        quizCard.setAttribute('data-locked','0');
-        const lock = document.getElementById('quizLock');
-        if (lock) lock.remove();
-      }
-
-      // Init
-      lessons.forEach(s => s.classList.remove('active'));
-      showLesson(idx);
-      if (localStorage.getItem(KEY_DONE) === '1') unlockQuiz();
-
-      // Clicks
-      prevBtn?.addEventListener('click', () => {
-        if (idx > 0) { idx--; showLesson(idx); }
-        try { window.plausible && window.plausible('LessonPrev', { props:{ to: idx+1 } }); } catch(e){}
+    function applyLessonVisibility() {
+      lessons.forEach((el, idx) => {
+        el.style.display = idx === currentLesson ? 'block' : 'none';
       });
-      nextBtn?.addEventListener('click', () => {
-        if (idx < lessons.length - 1) {
-          idx++; showLesson(idx);
-          try { window.plausible && window.plausible('LessonNext', { props:{ to: idx+1 } }); } catch(e){}
+      if (prevLessonBtn) {
+        prevLessonBtn.disabled = currentLesson === 0;
+      }
+      if (nextLessonBtn) {
+        nextLessonBtn.textContent = (currentLesson === lessons.length - 1) ? 'Go to Quiz' : 'Next';
+      }
+      if (lessonProgress) {
+        lessonProgress.textContent = `Lesson ${currentLesson + 1} of ${lessons.length}`;
+      }
+    }
+
+    if (prevLessonBtn && nextLessonBtn) {
+      prevLessonBtn.onclick = () => {
+        if (currentLesson > 0) {
+          currentLesson--;
+          applyLessonVisibility();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      };
+
+      nextLessonBtn.onclick = () => {
+        if (currentLesson < lessons.length - 1) {
+          currentLesson++;
+          applyLessonVisibility();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          localStorage.setItem(KEY_DONE, '1');
-          unlockQuiz();
-          // Scroll to quiz
-          try { document.getElementById('quizCard').scrollIntoView({ behavior:'smooth' }); } catch(e){}
+          // Last lesson -> scroll to quiz
+          document.querySelector('.quiz-card')?.scrollIntoView({ behavior: 'smooth' });
         }
-      });
+      };
+    }
 
-      // Keyboard shortcuts (ignore when typing in inputs)
-      document.addEventListener('keydown', (e) => {
-        const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
-        if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
-        if (e.key === 'ArrowRight') { e.preventDefault(); nextBtn?.click(); }
-        else if (e.key === 'ArrowLeft') { e.preventDefault(); prevBtn?.click(); }
-        else if (e.key === 'Enter') {
-          if (document.activeElement !== prevBtn) nextBtn?.click();
-        }
-      });
-    })();
-  </script>
+    applyLessonVisibility();
 
-  <script>
-    /* ---------- Storage & constants (quiz/timer) ---------- */
+    // ---------- Storage & constants ----------
     const KEY_POINTS='mc_points', KEY_BADGES='mc_badges', KEY_TRAINING='mc_training', KEY_TRAINING_LOG='mc_training_log', KEY_TIMER_START='mc_training_timer_start';
     const PASS_MARK=0.8, BONUS=50, QUIZ_SECONDS=10*60; // 10 minutes
 
@@ -497,7 +420,7 @@
       if(!localStorage.getItem(KEY_TIMER_START)){
         localStorage.setItem(KEY_TIMER_START,String(now));
       }
-      tickTimer(); // immediate paint
+      tickTimer();
       timerId=setInterval(tickTimer,1000);
       try{ window.plausible && window.plausible('TrainingTimerStarted'); }catch(e){}
     }
@@ -512,7 +435,7 @@
     function tickTimer(){
       const r=remainingSeconds();
       timeLeftEl.textContent=fmt(r);
-      if(r<=60) timeLeftEl.classList.add('warn'); // last minute styling
+      if(r<=60) timeLeftEl.classList.add('warn');
       if(r<=0){
         clearInterval(timerId);
         timeLeftEl.textContent='00:00';
@@ -522,25 +445,17 @@
 
     function disableQuiz(){
       form.querySelectorAll('input[type=radio]').forEach(el=>el.disabled=true);
-      const sbtn=document.getElementById('submitQuiz');
-      if (sbtn) sbtn.disabled=true;
+      document.getElementById('submitQuiz').disabled=true;
     }
 
     function autoSubmitOnTimeout(){
       try{ window.plausible && window.plausible('TrainingTimerExpired'); }catch(e){}
-      gradeQuiz(true); // true = timed out
+      gradeQuiz(true);
       disableQuiz();
     }
 
     // ---------- Events ----------
     document.getElementById('startQuiz').onclick=()=>{
-      // Block quiz until lessons done
-      const locked = (document.querySelector('.quiz-card')?.getAttribute('data-locked') === '1');
-      if (locked){
-        alert('Please complete all lessons first.');
-        try { document.querySelector('.lesson:last-of-type').scrollIntoView({behavior:'smooth'}); } catch(e){}
-        return;
-      }
       preQuizBar.style.display='none';
       form.style.display='block';
       quizBtns.style.display='flex';
@@ -551,14 +466,11 @@
     document.getElementById('submitQuiz').onclick=()=>gradeQuiz(false);
 
     document.getElementById('resetQuiz').onclick=()=>{
-      // reset current attempt (not lessons)
       form.reset();
-      result.style.display='none'; post.style.display='none';
-      // reset timer
+      result.style.display='none';post.style.display='none';
       localStorage.removeItem(KEY_TIMER_START);
       timeLeftEl.classList.remove('warn');
       timeLeftEl.textContent=fmt(QUIZ_SECONDS);
-      // allow a fresh attempt
       clearInterval(timerId);
       form.style.display='none';
       quizBtns.style.display='none';
@@ -567,7 +479,7 @@
 
     // ---------- Grading ----------
     function gradeQuiz(timedOut){
-      if(form.style.display==='none'){ return; } // nothing to grade yet
+      if(form.style.display==='none'){ return; }
       if(!timedOut && !form.checkValidity()){form.reportValidity();return;}
 
       let correct=0;
@@ -599,7 +511,7 @@
 
     // ---------- Certificate ----------
     const makeBtn=document.getElementById('makeCert'),certInput=document.getElementById('certName'),hint=document.getElementById('certHint');
-    if (makeBtn) makeBtn.onclick=()=>{
+    makeBtn.onclick=()=>{
       const name=(certInput.value||'').trim();if(!name){alert('Enter your name');return;}
       const t=getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
       const score=Math.round(t.pct*100),d=encodeURIComponent(t.date);
@@ -609,7 +521,6 @@
       try{ window.plausible && window.plausible('VolunteerCertificateOpen',{props:{score}});}catch(e){}
     };
 
-    // Initialize timer display for first load
     timeLeftEl.textContent = '10:00';
   </script>
 </body>
