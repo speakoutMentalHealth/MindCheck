@@ -28,7 +28,6 @@
       min-height:100vh;
     }
 
-    /* Hide the normal site header on the certificate page */
     header{display:none !important;}
 
     main {
@@ -64,7 +63,6 @@
       justify-content:space-between;
     }
 
-    /* blue outer + gold inner border */
     .cert-paper::before,
     .cert-paper::after{
       content:"";
@@ -84,7 +82,6 @@
       box-shadow:0 0 0 1px rgba(255,255,255,.5) inset;
     }
 
-    /* watermark */
     .cert-watermark{
       position:absolute;
       inset:0;
@@ -105,7 +102,7 @@
       justify-content:space-between;
     }
 
-    /* Top: logo + title + text */
+    /* TOP */
     .top-block{
       text-align:center;
       padding-top:6px;
@@ -118,7 +115,7 @@
       margin-bottom:6px;
     }
     .org-logo{
-      height:100px;
+      height:90px;
       width:auto;
       object-fit:contain;
     }
@@ -147,30 +144,35 @@
       line-height:1.4;
     }
 
-    .awarded{
-      margin-top:16px;
-      font-size:.9rem;
-      color:#6b7280;
+    /* Awarded to block (centered vertically feel) */
+    .awarded-block{
+      margin:40px auto 24px;
+      max-width:760px;
+      text-align:center;
+    }
+    .awarded-label{
+      font-weight:700;
+      font-size:1.05rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#374151;
     }
     .cert-name{
-      margin-top:4px;
+      margin-top:10px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.8rem;
+      font-size:2.1rem;
       font-weight:700;
       color:var(--ink);
     }
-
     .skills-text{
-      margin-top:8px;
+      margin-top:10px;
       font-size:.95rem;
       color:var(--ink-soft);
-      max-width:760px;
-      margin-left:auto;
-      margin-right:auto;
+      line-height:1.4;
     }
 
     .score-row{
-      margin-top:12px;
+      margin-top:10px;
       font-size:.9rem;
       font-weight:600;
       color:var(--ink);
@@ -187,32 +189,47 @@
       flex-wrap:wrap;
     }
 
+    /* Signature + logo */
     .sign-block{
-      min-width:270px;
+      min-width:320px;
     }
 
     .sign-top-row{
       display:flex;
       align-items:flex-end;
-      gap:12px;
-      margin-bottom:4px;
+      gap:10px;
+      margin-bottom:2px;
     }
 
-   .sign-signature{
-  height: 200px;
-  width: auto;
-  object-fit: contain;
-  margin-bottom: -8px;   /* pulls signature down to touch the line */
-}
+    .sign-signature-wrap{
+      display:flex;
+      align-items:flex-end;
+      gap:8px;
+    }
 
-.sign-line{
-  border-bottom: 2px solid var(--ink);
-  width: 260px;
-  margin: 0;
-}
+    .sign-signature{
+      height:85px;
+      width:auto;
+      object-fit:contain;
+      margin-bottom:-32px; /* pulls signature down onto the line */
+    }
 
+    .sign-logo-small{
+      height:46px;
+      width:auto;
+      object-fit:contain;
+      margin-left:6px;
+      margin-bottom:-26px; /* pulls logo down close to the line */
+    }
+
+    .sign-line{
+      border-bottom:2px solid var(--ink);
+      width:260px;
+      margin:0;
+    }
 
     .sign-name{
+      margin-top:6px;
       font-weight:800;
       font-size:1rem;
       color:var(--ink);
@@ -363,16 +380,17 @@
               <p class="cert-text-main">
                 This certifies that the volunteer named below has successfully completed the
                 <b>SpeakOut MindCheck Volunteer Training</b> covering safe listening, risk recognition,
-                privacy-first logging, and ethical referral.
+                privacy-first logging and ethical referral.
               </p>
 
-              <div class="awarded">Awarded to</div>
-              <div id="cName" class="cert-name">—</div>
-
-              <p class="skills-text">
-                By achieving the required pass mark, this volunteer has demonstrated readiness to support
-                peers and community members in line with WHO-style community mental-health action.
-              </p>
+              <div class="awarded-block">
+                <div class="awarded-label">Awarded to</div>
+                <div id="cName" class="cert-name">—</div>
+                <p class="skills-text">
+                  By achieving the required pass mark, this volunteer is recognised as a trained
+                  SpeakOut MindCheck community supporter in line with WHO-style community mental-health action.
+                </p>
+              </div>
 
               <div class="score-row">
                 <span>Score: <span id="cScore">—</span>%</span>
@@ -382,10 +400,13 @@
 
             <!-- BOTTOM -->
             <div class="bottom-row">
-              <!-- signature -->
+              <!-- signature + logo -->
               <div class="sign-block">
                 <div class="sign-top-row">
-                  <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
+                  <div class="sign-signature-wrap">
+                    <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
+                    <img src="icons/logo.png" alt="SpeakOut logo" class="sign-logo-small">
+                  </div>
                 </div>
                 <div class="sign-line"></div>
                 <div class="sign-name">Offorka Jerry</div>
@@ -451,11 +472,9 @@
     if (cidParam) {
       idEl.textContent = cidParam;
 
-      // verify link
       const verifyUrl = 'verify.html?id=' + encodeURIComponent(cidParam);
       verifyLink.href = verifyUrl;
 
-      // full URL for QR
       const fullVerify =
         location.origin +
         location.pathname.replace('certificate.html','verify.html') +
