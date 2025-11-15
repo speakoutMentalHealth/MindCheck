@@ -53,7 +53,7 @@
       margin:0 auto;
       background:var(--paper);
       border-radius:20px;
-      padding:26px 38px 22px;
+      padding:22px 34px 20px;
       max-width:1120px;
       aspect-ratio: 11 / 8.5; /* landscape */
       box-sizing:border-box;
@@ -76,7 +76,7 @@
       box-shadow:0 0 0 1px rgba(15,23,42,.5);
     }
     .cert-paper::after{
-      inset:20px;
+      inset:18px;
       border-radius:16px;
       border:2px dashed var(--gold);
       box-shadow:0 0 0 1px rgba(255,255,255,.5) inset;
@@ -90,7 +90,7 @@
       justify-content:center;
       opacity:.06;
       pointer-events:none;
-      background:url("icons/logo.png") center center / 340px 340px no-repeat;
+      background:url("icons/logo.png") center center / 320px 320px no-repeat;
     }
 
     .cert-content{
@@ -105,33 +105,33 @@
     /* TOP */
     .top-block{
       text-align:center;
-      padding-top:6px;
+      padding-top:4px;
     }
     .org-row{
       display:flex;
       justify-content:center;
       align-items:center;
-      gap:12px;
-      margin-bottom:6px;
+      gap:10px;
+      margin-bottom:4px;
     }
     .org-logo{
-      height:90px;
+      height:80px;
       width:auto;
       object-fit:contain;
     }
     .org-name{
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.6rem;
+      font-size:1.55rem;
       font-weight:700;
       color:var(--ink);
       letter-spacing:.03em;
     }
 
     .cert-title{
-      margin:8px 0 10px;
+      margin:6px 0 8px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.4rem;
-      letter-spacing:.22em;
+      font-size:1.3rem;
+      letter-spacing:.20em;
       text-transform:uppercase;
       color:var(--ink);
     }
@@ -139,49 +139,49 @@
     .cert-text-main{
       max-width:760px;
       margin:0 auto;
-      font-size:.98rem;
+      font-size:.95rem;
       color:var(--ink-soft);
-      line-height:1.4;
+      line-height:1.35;
     }
 
-    /* Awarded to block (centered vertically feel) */
+    /* Awarded block – visually centred */
     .awarded-block{
-      margin:40px auto 24px;
+      margin:26px auto 18px;
       max-width:760px;
       text-align:center;
     }
     .awarded-label{
       font-weight:700;
-      font-size:1.05rem;
-      letter-spacing:.08em;
+      font-size:1.02rem;
+      letter-spacing:.1em;
       text-transform:uppercase;
       color:#374151;
     }
     .cert-name{
-      margin-top:10px;
+      margin-top:8px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:2.1rem;
+      font-size:2rem;
       font-weight:700;
       color:var(--ink);
     }
     .skills-text{
-      margin-top:10px;
-      font-size:.95rem;
+      margin-top:8px;
+      font-size:.92rem;
       color:var(--ink-soft);
-      line-height:1.4;
+      line-height:1.35;
     }
 
     .score-row{
-      margin-top:10px;
+      margin-top:8px;
       font-size:.9rem;
       font-weight:600;
       color:var(--ink);
     }
-    .score-row span{margin-right:22px;}
+    .score-row span{margin-right:18px;}
 
     /* bottom row */
     .bottom-row{
-      margin-top:10px;
+      margin-top:8px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -189,7 +189,6 @@
       flex-wrap:wrap;
     }
 
-    /* Signature + logo */
     .sign-block{
       min-width:320px;
     }
@@ -198,7 +197,7 @@
       display:flex;
       align-items:flex-end;
       gap:10px;
-      margin-bottom:2px;
+      margin-bottom:0;
     }
 
     .sign-signature-wrap{
@@ -208,18 +207,18 @@
     }
 
     .sign-signature{
-      height:85px;
+      height:80px;
       width:auto;
       object-fit:contain;
-      margin-bottom:-32px; /* pulls signature down onto the line */
+      margin-bottom:-30px; /* pulls signature down to almost touch the line */
     }
 
     .sign-logo-small{
-      height:46px;
+      height:44px;
       width:auto;
       object-fit:contain;
-      margin-left:6px;
-      margin-bottom:-26px; /* pulls logo down close to the line */
+      margin-left:4px;
+      margin-bottom:-24px; /* pulls logo close to the line */
     }
 
     .sign-line{
@@ -229,14 +228,14 @@
     }
 
     .sign-name{
-      margin-top:6px;
+      margin-top:4px;
       font-weight:800;
       font-size:1rem;
       color:var(--ink);
     }
 
     .sign-role{
-      font-size:.86rem;
+      font-size:.84rem;
       color:var(--ink-soft);
     }
 
@@ -254,19 +253,19 @@
 
     .qr-id{
       display:inline-block;
-      margin:4px 0 8px;
+      margin:4px 0 6px;
       padding:4px 12px;
       border-radius:999px;
       border:1px dashed var(--gold);
       background:#fffbeb;
-      font-size:.85rem;
+      font-size:.83rem;
       font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;
     }
 
     .qr-img{
       display:block;
-      width:96px;
-      height:96px;
+      width:92px;
+      height:92px;
       border-radius:14px;
       margin-left:auto;
       object-fit:contain;
@@ -275,8 +274,8 @@
     }
 
     .qr-text{
-      margin-top:6px;
-      font-size:.8rem;
+      margin-top:4px;
+      font-size:.78rem;
       color:var(--ink-soft);
     }
     .qr-text a{
@@ -288,7 +287,7 @@
 
     .actions{
       text-align:center;
-      margin-top:12px;
+      margin-top:10px;
     }
 
     .btn-print{
@@ -316,13 +315,58 @@
       color:#9ca3af;
     }
 
-    @media (max-width: 900px){
+    /* ---------- MOBILE RESPONSIVE ---------- */
+    @media (max-width: 768px){
+      body{
+        align-items:flex-start;   /* avoid vertical cropping */
+      }
+      .cert-wrapper{
+        max-width:100%;
+      }
+      .cert-frame{
+        border-radius:0;
+        padding:8px 0;
+        box-shadow:none;
+      }
       .cert-paper{
-        aspect-ratio:auto;
-        padding:20px 18px 18px;
+        aspect-ratio:auto;        /* allow natural height on phones */
+        padding:14px 12px 14px;
+        border-radius:0;
+      }
+      .cert-paper::before,
+      .cert-paper::after{
+        inset:6px;
+      }
+      .cert-paper::after{
+        inset:12px;
+      }
+      .org-logo{
+        height:54px;
+      }
+      .org-name{
+        font-size:1.25rem;
+      }
+      .cert-title{
+        font-size:1.05rem;
+        letter-spacing:.16em;
+      }
+      .cert-text-main,
+      .skills-text{
+        font-size:.85rem;
+      }
+      .awarded-block{
+        margin:18px auto 12px;
+      }
+      .cert-name{
+        font-size:1.5rem;
+      }
+      .score-row{
+        font-size:.84rem;
       }
       .bottom-row{
+        flex-direction:column;
         align-items:flex-start;
+        gap:10px;
       }
       .qr-block{
         text-align:left;
@@ -332,6 +376,7 @@
       }
     }
 
+    /* ---------- PRINT (A4 landscape, one page) ---------- */
     @media print{
       body{
         background:#ffffff !important;
