@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SpeakOut MindCheck — Certificate</title>
+  <link rel="icon" href="favicon.png"/>
+  <link rel="stylesheet" href="mc-theme.css"/>
+  <meta name="theme-color" content="#22c55e"/>
+
   <style>
     :root{
       --blue-deep:#020617;
@@ -18,7 +28,7 @@
       min-height:100vh;
     }
 
-    /* hide site header on this page */
+    /* hide normal site header on this page */
     header{display:none!important;}
 
     main{
@@ -44,8 +54,7 @@
       margin:0 auto;
       background:var(--paper);
       border-radius:22px;
-      /* slightly tighter padding so it fits nicer on print */
-      padding:30px 60px 24px;
+      padding:30px 60px 24px; /* compact so it fits nicely */
       max-width:1120px;
       aspect-ratio:11/8.5;   /* landscape */
       box-sizing:border-box;
@@ -186,7 +195,6 @@
       min-width:280px;
     }
 
-    /* bigger signature, sitting on the line */
     .sign-top-row{
       display:flex;
       align-items:flex-end;
@@ -194,11 +202,12 @@
       margin-bottom:2px;
     }
 
+    /* bigger signature sitting ON the line */
     .sign-signature{
       height:64px;
       width:auto;
       object-fit:contain;
-      margin-bottom:-20px; /* pull it down onto the line */
+      margin-bottom:-20px; /* pull it down */
     }
 
     .sign-line{
@@ -337,7 +346,6 @@
       }
       .cert-paper{
         box-shadow:none;
-        /* scale down slightly so nothing spills onto a second page */
         transform:scale(0.92);
         transform-origin:top left;
       }
@@ -346,3 +354,140 @@
       }
     }
   </style>
+
+  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
+  <script>
+    (function(){
+      try{ window.plausible && window.plausible('CertificateViewed'); }catch(e){}
+    })();
+  </script>
+</head>
+<body>
+  <main>
+    <div class="cert-wrapper">
+      <div class="cert-frame">
+        <div class="cert-paper">
+          <div class="cert-watermark"></div>
+
+          <div class="cert-content">
+            <!-- TOP -->
+            <div class="top-block">
+              <div class="org-row">
+                <img src="icons/logo.png" alt="SpeakOut MindCheck Logo" class="org-logo">
+                <div class="org-name">SpeakOut MindCheck Nigeria</div>
+              </div>
+
+              <div class="cert-title">Certificate of Volunteer Training</div>
+
+              <p class="cert-text-main">
+                This certifies that the volunteer named below has successfully completed the
+                <b>SpeakOut MindCheck Volunteer Training</b> covering safe listening, risk recognition,
+                privacy-first logging and ethical referral.
+              </p>
+
+              <div class="awarded">Awarded to</div>
+              <div id="cName" class="cert-name">—</div>
+
+              <p class="skills-text">
+                By achieving the required pass mark, this volunteer is recognised as a trained SpeakOut MindCheck
+                community supporter in line with WHO-style community mental-health action.
+              </p>
+
+              <div class="score-row">
+                <span>Score: <span id="cScore">—</span> %</span>
+                <span>Date: <span id="cDate">—</span></span>
+              </div>
+            </div>
+
+            <!-- BOTTOM -->
+            <div class="bottom-row">
+              <!-- signature -->
+              <div class="sign-block">
+                <div class="sign-top-row">
+                  <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
+                </div>
+                <div class="sign-line"></div>
+                <div class="sign-name">Offorka Jerry</div>
+                <div class="sign-role">
+                  Founder / Executive Director<br>
+                  SpeakOut Mental Health Outreach
+                </div>
+              </div>
+
+              <!-- ID + QR -->
+              <div class="qr-block">
+                <div class="qr-label">Certificate ID</div>
+                <div id="cId" class="qr-id">UNREGISTERED</div>
+                <img id="qrImg" class="qr-img" alt="QR code for certificate verification">
+                <p class="qr-text">
+                  Scan to confirm this certificate with SpeakOut MindCheck’s verification service.
+                  To confirm authenticity, please <a id="verifyLink" href="verify.html">verify here</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn-print" onclick="window.print()">Download / Print PDF</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="no-print">
+    🔒 <a href="privacy.html">Privacy</a> •
+    📄 <a href="terms.html">Terms</a> •
+    🏥 <a href="resources.html">Clinics & Resources</a> •
+    ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+  </footer>
+
+  <script>
+    // Parse URL params
+    const params    = new URLSearchParams(location.search);
+    const nameParam = params.get('name') || 'Volunteer';
+    const scoreParam= params.get('score') || '100';
+    const dateParam = params.get('date');
+    const cidParam  = params.get('cid') || params.get('cert_id') || '';
+
+    const nameEl  = document.getElementById('cName');
+    const scoreEl = document.getElementById('cScore');
+    const dateEl  = document.getElementById('cDate');
+    const idEl    = document.getElementById('cId');
+    const qrImg   = document.getElementById('qrImg');
+    const verifyLink = document.getElementById('verifyLink');
+
+    nameEl.textContent = nameParam;
+    scoreEl.textContent = scoreParam;
+
+    let dt = new Date();
+    if (dateParam) {
+      try { dt = new Date(decodeURIComponent(dateParam)); } catch(e){}
+    }
+    dateEl.textContent = dt.toLocaleDateString();
+
+    if (cidParam) {
+      idEl.textContent = cidParam;
+
+      // verify link
+      const verifyUrl = 'verify.html?id=' + encodeURIComponent(cidParam);
+      verifyLink.href = verifyUrl;
+
+      // full URL for QR
+      const fullVerify =
+        location.origin +
+        location.pathname.replace('certificate.html','verify.html') +
+        '?id=' + encodeURIComponent(cidParam);
+
+      qrImg.src =
+        'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' +
+        encodeURIComponent(fullVerify);
+    } else {
+      idEl.textContent = 'UNREGISTERED';
+      qrImg.style.display = 'none';
+      verifyLink.href = 'verify.html';
+    }
+  </script>
+</body>
+</html>
