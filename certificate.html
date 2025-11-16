@@ -9,16 +9,16 @@
   <meta name="theme-color" content="#22c55e"/>
 
   <style>
-    :root {
-      --blue-deep:#0b2540;
-      --blue-border:#134e8a;
+    :root{
+      --blue-deep:#020617;
+      --blue-border:#1f3a5f;
       --gold:#e2b653;
       --paper:#fdf8ec;
       --ink:#111827;
       --ink-soft:#4b5563;
     }
 
-    body {
+    body{
       margin:0;
       background:#020617;
       font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
@@ -28,11 +28,12 @@
       min-height:100vh;
     }
 
-    header{display:none !important;}
+    /* hide site header on this page */
+    header{display:none!important;}
 
-    main {
+    main{
       width:100%;
-      padding:10px;
+      padding:12px;
       box-sizing:border-box;
     }
 
@@ -42,20 +43,20 @@
     }
 
     .cert-frame{
-      background:radial-gradient(circle at top left,#0f172a 0,#020617 60%);
-      padding:18px;
-      border-radius:28px;
-      box-shadow:0 22px 50px rgba(0,0,0,.55);
+      background:radial-gradient(circle at top left,#020617 0,#000 65%);
+      padding:22px;
+      border-radius:30px;
+      box-shadow:0 24px 60px rgba(0,0,0,.65);
     }
 
     .cert-paper{
       position:relative;
       margin:0 auto;
       background:var(--paper);
-      border-radius:20px;
-      padding:22px 34px 20px;
+      border-radius:22px;
+      padding:38px 70px 30px;
       max-width:1120px;
-      aspect-ratio: 11 / 8.5; /* landscape */
+      aspect-ratio:11/8.5;   /* landscape */
       box-sizing:border-box;
       overflow:hidden;
       display:flex;
@@ -63,34 +64,34 @@
       justify-content:space-between;
     }
 
+    /* outer blue + inner gold */
     .cert-paper::before,
     .cert-paper::after{
       content:"";
       position:absolute;
-      inset:10px;
-      border-radius:18px;
+      inset:12px;
+      border-radius:20px;
       pointer-events:none;
     }
     .cert-paper::before{
       border:3px solid var(--blue-border);
-      box-shadow:0 0 0 1px rgba(15,23,42,.5);
     }
     .cert-paper::after{
-      inset:18px;
-      border-radius:16px;
+      inset:22px;
+      border-radius:17px;
       border:2px dashed var(--gold);
-      box-shadow:0 0 0 1px rgba(255,255,255,.5) inset;
     }
 
+    /* watermark */
     .cert-watermark{
       position:absolute;
       inset:0;
       display:flex;
       align-items:center;
       justify-content:center;
-      opacity:.06;
+      opacity:.05;
       pointer-events:none;
-      background:url("icons/logo.png") center center / 320px 320px no-repeat;
+      background:url("icons/logo.png") center center / 360px 360px no-repeat;
     }
 
     .cert-content{
@@ -102,36 +103,39 @@
       justify-content:space-between;
     }
 
-    /* TOP */
+    /* top content */
     .top-block{
       text-align:center;
       padding-top:4px;
     }
+
     .org-row{
       display:flex;
       justify-content:center;
       align-items:center;
-      gap:10px;
-      margin-bottom:4px;
+      gap:14px;
+      margin-bottom:8px;
     }
+
     .org-logo{
-      height:80px;
+      height:70px;
       width:auto;
       object-fit:contain;
     }
+
     .org-name{
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.55rem;
+      font-size:1.7rem;
       font-weight:700;
+      letter-spacing:.04em;
       color:var(--ink);
-      letter-spacing:.03em;
     }
 
     .cert-title{
-      margin:6px 0 8px;
+      margin:8px 0 16px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.3rem;
-      letter-spacing:.20em;
+      font-size:1.4rem;
+      letter-spacing:.24em;
       text-transform:uppercase;
       color:var(--ink);
     }
@@ -139,109 +143,95 @@
     .cert-text-main{
       max-width:760px;
       margin:0 auto;
-      font-size:.95rem;
+      font-size:.98rem;
       color:var(--ink-soft);
-      line-height:1.35;
+      line-height:1.45;
     }
 
-    /* Awarded block – visually centred */
-    .awarded-block{
-      margin:26px auto 18px;
-      max-width:760px;
-      text-align:center;
-    }
-    .awarded-label{
-      font-weight:700;
-      font-size:1.02rem;
-      letter-spacing:.1em;
+    .awarded{
+      margin-top:22px;
+      font-size:.95rem;
+      letter-spacing:.18em;
       text-transform:uppercase;
-      color:#374151;
+      color:#4b5563;
     }
+
     .cert-name{
-      margin-top:8px;
+      margin-top:6px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:2rem;
+      font-size:2.1rem;
       font-weight:700;
       color:var(--ink);
     }
+
     .skills-text{
-      margin-top:8px;
-      font-size:.92rem;
+      margin-top:10px;
+      font-size:.95rem;
       color:var(--ink-soft);
-      line-height:1.35;
+      max-width:760px;
+      margin-left:auto;
+      margin-right:auto;
     }
 
     .score-row{
-      margin-top:8px;
+      margin-top:14px;
       font-size:.9rem;
       font-weight:600;
       color:var(--ink);
     }
-    .score-row span{margin-right:18px;}
+    .score-row span{margin-right:24px;}
 
     /* bottom row */
     .bottom-row{
-      margin-top:8px;
+      margin-top:12px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
-      gap:24px;
+      gap:40px;
       flex-wrap:wrap;
     }
 
     .sign-block{
-      min-width:320px;
+      min-width:280px;
     }
 
+    /* bigger signature, sitting on the line */
     .sign-top-row{
       display:flex;
       align-items:flex-end;
       gap:10px;
-      margin-bottom:0;
-    }
-
-    .sign-signature-wrap{
-      display:flex;
-      align-items:flex-end;
-      gap:8px;
+      margin-bottom:2px;
     }
 
     .sign-signature{
-      height:80px;
+      height:64px;
       width:auto;
       object-fit:contain;
-      margin-bottom:-30px; /* pulls signature down to almost touch the line */
-    }
-
-    .sign-logo-small{
-      height:44px;
-      width:auto;
-      object-fit:contain;
-      margin-left:4px;
-      margin-bottom:-24px; /* pulls logo close to the line */
+      margin-bottom:-20px; /* pull it down */
     }
 
     .sign-line{
       border-bottom:2px solid var(--ink);
-      width:260px;
+      width:280px;
       margin:0;
     }
 
     .sign-name{
-      margin-top:4px;
       font-weight:800;
       font-size:1rem;
       color:var(--ink);
+      margin-top:4px;
     }
 
     .sign-role{
-      font-size:.84rem;
+      font-size:.86rem;
       color:var(--ink-soft);
+      line-height:1.3;
     }
 
     .qr-block{
-      min-width:230px;
-      max-width:280px;
+      min-width:240px;
+      max-width:290px;
       text-align:right;
     }
 
@@ -253,19 +243,19 @@
 
     .qr-id{
       display:inline-block;
-      margin:4px 0 6px;
+      margin:4px 0 8px;
       padding:4px 12px;
       border-radius:999px;
       border:1px dashed var(--gold);
       background:#fffbeb;
-      font-size:.83rem;
+      font-size:.85rem;
       font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;
     }
 
     .qr-img{
       display:block;
-      width:92px;
-      height:92px;
+      width:110px;
+      height:110px;
       border-radius:14px;
       margin-left:auto;
       object-fit:contain;
@@ -274,8 +264,8 @@
     }
 
     .qr-text{
-      margin-top:4px;
-      font-size:.78rem;
+      margin-top:6px;
+      font-size:.8rem;
       color:var(--ink-soft);
     }
     .qr-text a{
@@ -287,7 +277,7 @@
 
     .actions{
       text-align:center;
-      margin-top:10px;
+      margin-top:14px;
     }
 
     .btn-print{
@@ -302,7 +292,6 @@
       color:#ecfdf5;
       box-shadow:0 12px 28px rgba(5,150,105,.45);
     }
-
     .btn-print:active{
       transform:translateY(1px);
       box-shadow:0 7px 18px rgba(5,150,105,.6);
@@ -315,86 +304,44 @@
       color:#9ca3af;
     }
 
-    /* ---------- MOBILE RESPONSIVE ---------- */
-    @media (max-width: 768px){
-      body{
-        align-items:flex-start;   /* avoid vertical cropping */
-      }
-      .cert-wrapper{
-        max-width:100%;
-      }
-      .cert-frame{
-        border-radius:0;
-        padding:8px 0;
-        box-shadow:none;
-      }
+    /* mobile tweaks */
+    @media (max-width:900px){
+      .cert-frame{padding:10px;}
       .cert-paper{
-        aspect-ratio:auto;        /* allow natural height on phones */
-        padding:14px 12px 14px;
-        border-radius:0;
+        aspect-ratio:auto;
+        padding:24px 18px 20px;
       }
-      .cert-paper::before,
-      .cert-paper::after{
-        inset:6px;
-      }
-      .cert-paper::after{
-        inset:12px;
-      }
-      .org-logo{
-        height:54px;
-      }
-      .org-name{
-        font-size:1.25rem;
-      }
-      .cert-title{
-        font-size:1.05rem;
-        letter-spacing:.16em;
-      }
-      .cert-text-main,
-      .skills-text{
-        font-size:.85rem;
-      }
-      .awarded-block{
-        margin:18px auto 12px;
-      }
-      .cert-name{
-        font-size:1.5rem;
-      }
-      .score-row{
-        font-size:.84rem;
-      }
+      .org-name{font-size:1.3rem;}
+      .cert-title{font-size:1.1rem;letter-spacing:.16em;}
+      .cert-name{font-size:1.7rem;}
+      .skills-text,.cert-text-main{font-size:.9rem;}
       .bottom-row{
-        flex-direction:column;
         align-items:flex-start;
-        gap:10px;
+        gap:24px;
       }
       .qr-block{
         text-align:left;
       }
       .qr-img{
         margin-left:0;
+        width:96px;
+        height:96px;
+      }
+      .sign-signature{
+        height:52px;
+        margin-bottom:-16px;
       }
     }
 
-    /* ---------- PRINT (A4 landscape, one page) ---------- */
     @media print{
-      body{
-        background:#ffffff !important;
-      }
+      body{background:#ffffff!important;}
       @page{
         size:A4 landscape;
         margin:10mm;
       }
-      .cert-frame{
-        box-shadow:none;
-        padding:0;
-      }
-      .cert-paper{
-        box-shadow:none;
-      }
-      .no-print{
-        display:none !important;
-      }
+      .cert-frame{box-shadow:none;padding:0;}
+      .cert-paper{box-shadow:none;}
+      .no-print{display:none!important;}
     }
   </style>
 
@@ -424,18 +371,17 @@
 
               <p class="cert-text-main">
                 This certifies that the volunteer named below has successfully completed the
-                <b>SpeakOut MindCheck Volunteer Training</b> covering safe listening, risk recognition,
+                <b>SpeakOut MindCheck Volunteer Training</b>, covering safe listening, risk recognition,
                 privacy-first logging and ethical referral.
               </p>
 
-              <div class="awarded-block">
-                <div class="awarded-label">Awarded to</div>
-                <div id="cName" class="cert-name">—</div>
-                <p class="skills-text">
-                  By achieving the required pass mark, this volunteer is recognised as a trained
-                  SpeakOut MindCheck community supporter in line with WHO-style community mental-health action.
-                </p>
-              </div>
+              <div class="awarded">Awarded to</div>
+              <div id="cName" class="cert-name">—</div>
+
+              <p class="skills-text">
+                By achieving the required pass mark, this volunteer is recognised as a trained SpeakOut MindCheck
+                community supporter in line with WHO-style community mental-health action.
+              </p>
 
               <div class="score-row">
                 <span>Score: <span id="cScore">—</span>%</span>
@@ -445,29 +391,26 @@
 
             <!-- BOTTOM -->
             <div class="bottom-row">
-              <!-- signature + logo -->
+              <!-- signature block -->
               <div class="sign-block">
                 <div class="sign-top-row">
-                  <div class="sign-signature-wrap">
-                    <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
-                    <img src="icons/logo.png" alt="SpeakOut logo" class="sign-logo-small">
-                  </div>
+                  <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
                 </div>
                 <div class="sign-line"></div>
                 <div class="sign-name">Offorka Jerry</div>
                 <div class="sign-role">
-                  Founder / Executive Director<br>
+                  Founder / Executive Director<br/>
                   SpeakOut Mental Health Outreach
                 </div>
               </div>
 
-              <!-- ID + QR -->
+              <!-- certificate ID + QR -->
               <div class="qr-block">
                 <div class="qr-label">Certificate ID</div>
                 <div id="cId" class="qr-id">UNREGISTERED</div>
                 <img id="qrImg" class="qr-img" alt="QR code for certificate verification">
                 <p class="qr-text">
-                  Scan to confirm this certificate with SpeakOut MindCheck’s verification service.
+                  Scan to confirm this certificate with SpeakOut MindCheck&rsquo;s verification service.
                   To confirm authenticity, please <a id="verifyLink" href="verify.html">verify here</a>.
                 </p>
               </div>
@@ -491,7 +434,7 @@
   </footer>
 
   <script>
-    // Parse URL params
+    // Read URL params
     const params    = new URLSearchParams(location.search);
     const nameParam = params.get('name') || 'Volunteer';
     const scoreParam= params.get('score') || '100';
@@ -517,9 +460,11 @@
     if (cidParam) {
       idEl.textContent = cidParam;
 
+      // verify link for this specific certificate
       const verifyUrl = 'verify.html?id=' + encodeURIComponent(cidParam);
       verifyLink.href = verifyUrl;
 
+      // full URL encoded inside the QR
       const fullVerify =
         location.origin +
         location.pathname.replace('certificate.html','verify.html') +
