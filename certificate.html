@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>SpeakOut MindCheck — Certificate</title>
-  <link rel="icon" href="favicon.png"/>
-  <link rel="stylesheet" href="mc-theme.css"/>
-  <meta name="theme-color" content="#22c55e"/>
-
   <style>
     :root{
       --blue-deep:#020617;
@@ -54,7 +44,8 @@
       margin:0 auto;
       background:var(--paper);
       border-radius:22px;
-      padding:38px 70px 30px;
+      /* slightly tighter padding so it fits nicer on print */
+      padding:30px 60px 24px;
       max-width:1120px;
       aspect-ratio:11/8.5;   /* landscape */
       box-sizing:border-box;
@@ -106,7 +97,7 @@
     /* top content */
     .top-block{
       text-align:center;
-      padding-top:4px;
+      padding-top:2px;
     }
 
     .org-row{
@@ -114,11 +105,11 @@
       justify-content:center;
       align-items:center;
       gap:14px;
-      margin-bottom:8px;
+      margin-bottom:6px;
     }
 
     .org-logo{
-      height:200px;
+      height:70px;
       width:auto;
       object-fit:contain;
     }
@@ -132,9 +123,9 @@
     }
 
     .cert-title{
-      margin:8px 0 16px;
+      margin:6px 0 12px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.4rem;
+      font-size:1.35rem;
       letter-spacing:.24em;
       text-transform:uppercase;
       color:var(--ink);
@@ -143,13 +134,13 @@
     .cert-text-main{
       max-width:760px;
       margin:0 auto;
-      font-size:.98rem;
+      font-size:.96rem;
       color:var(--ink-soft);
-      line-height:1.45;
+      line-height:1.4;
     }
 
     .awarded{
-      margin-top:22px;
+      margin-top:18px;
       font-size:.95rem;
       letter-spacing:.18em;
       text-transform:uppercase;
@@ -159,14 +150,14 @@
     .cert-name{
       margin-top:6px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:2.1rem;
+      font-size:2.05rem;
       font-weight:700;
       color:var(--ink);
     }
 
     .skills-text{
-      margin-top:10px;
-      font-size:.95rem;
+      margin-top:8px;
+      font-size:.94rem;
       color:var(--ink-soft);
       max-width:760px;
       margin-left:auto;
@@ -174,7 +165,7 @@
     }
 
     .score-row{
-      margin-top:14px;
+      margin-top:10px;
       font-size:.9rem;
       font-weight:600;
       color:var(--ink);
@@ -183,7 +174,7 @@
 
     /* bottom row */
     .bottom-row{
-      margin-top:12px;
+      margin-top:8px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -204,10 +195,10 @@
     }
 
     .sign-signature{
-      height:190px;
+      height:64px;
       width:auto;
       object-fit:contain;
-      margin-bottom:-5px; /* pull it down */
+      margin-bottom:-20px; /* pull it down onto the line */
     }
 
     .sign-line{
@@ -309,10 +300,10 @@
       .cert-frame{padding:10px;}
       .cert-paper{
         aspect-ratio:auto;
-        padding:24px 18px 20px;
+        padding:22px 16px 18px;
       }
       .org-name{font-size:1.3rem;}
-      .cert-title{font-size:1.1rem;letter-spacing:.16em;}
+      .cert-title{font-size:1.05rem;letter-spacing:.16em;}
       .cert-name{font-size:1.7rem;}
       .skills-text,.cert-text-main{font-size:.9rem;}
       .bottom-row{
@@ -333,151 +324,25 @@
       }
     }
 
+    /* print: force everything onto ONE landscape A4 page */
     @media print{
       body{background:#ffffff!important;}
       @page{
         size:A4 landscape;
         margin:10mm;
       }
-      .cert-frame{box-shadow:none;padding:0;}
-      .cert-paper{box-shadow:none;}
-      .no-print{display:none!important;}
+      .cert-frame{
+        box-shadow:none;
+        padding:0;
+      }
+      .cert-paper{
+        box-shadow:none;
+        /* scale down slightly so nothing spills onto a second page */
+        transform:scale(0.92);
+        transform-origin:top left;
+      }
+      .no-print{
+        display:none!important;
+      }
     }
   </style>
-
-  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-  <script>
-    (function(){
-      try{ window.plausible && window.plausible('CertificateViewed'); }catch(e){}
-    })();
-  </script>
-</head>
-<body>
-  <main>
-    <div class="cert-wrapper">
-      <div class="cert-frame">
-        <div class="cert-paper">
-          <div class="cert-watermark"></div>
-
-          <div class="cert-content">
-            <!-- TOP -->
-            <div class="top-block">
-              <div class="org-row">
-                <img src="icons/logo.png" alt="SpeakOut MindCheck Logo" class="org-logo">
-                <div class="org-name">SpeakOut MindCheck Nigeria</div>
-              </div>
-
-              <div class="cert-title">Certificate of Volunteer Training</div>
-
-              <p class="cert-text-main">
-                This certifies that the volunteer named below has successfully completed the
-                <b>SpeakOut MindCheck Volunteer Training</b>, covering safe listening, risk recognition,
-                privacy-first logging and ethical referral.
-              </p>
-
-              <div class="awarded">Awarded to</div>
-              <div id="cName" class="cert-name">—</div>
-
-              <p class="skills-text">
-                By achieving the required pass mark, this volunteer is recognised as a trained SpeakOut MindCheck
-                community supporter in line with WHO-style community mental-health action.
-              </p>
-
-              <div class="score-row">
-                <span>Score: <span id="cScore">—</span>%</span>
-                <span>Date: <span id="cDate">—</span></span>
-              </div>
-            </div>
-
-            <!-- BOTTOM -->
-            <div class="bottom-row">
-              <!-- signature block -->
-              <div class="sign-block">
-                <div class="sign-top-row">
-                  <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
-                </div>
-                <div class="sign-line"></div>
-                <div class="sign-name">Offorka Jerry</div>
-                <div class="sign-role">
-                  Founder / Executive Director<br/>
-                  SpeakOut Mental Health Outreach
-                </div>
-              </div>
-
-              <!-- certificate ID + QR -->
-              <div class="qr-block">
-                <div class="qr-label">Certificate ID</div>
-                <div id="cId" class="qr-id">UNREGISTERED</div>
-                <img id="qrImg" class="qr-img" alt="QR code for certificate verification">
-                <p class="qr-text">
-                  Scan to confirm this certificate with SpeakOut MindCheck&rsquo;s verification service.
-                  To confirm authenticity, please <a id="verifyLink" href="verify.html">verify here</a>.
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="actions no-print">
-        <button class="btn-print" onclick="window.print()">Download / Print PDF</button>
-      </div>
-    </div>
-  </main>
-
-  <footer class="no-print">
-    🔒 <a href="privacy.html">Privacy</a> •
-    📄 <a href="terms.html">Terms</a> •
-    🏥 <a href="resources.html">Clinics & Resources</a> •
-    ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-  </footer>
-
-  <script>
-    // Read URL params
-    const params    = new URLSearchParams(location.search);
-    const nameParam = params.get('name') || 'Volunteer';
-    const scoreParam= params.get('score') || '100';
-    const dateParam = params.get('date');
-    const cidParam  = params.get('cid') || params.get('cert_id') || '';
-
-    const nameEl  = document.getElementById('cName');
-    const scoreEl = document.getElementById('cScore');
-    const dateEl  = document.getElementById('cDate');
-    const idEl    = document.getElementById('cId');
-    const qrImg   = document.getElementById('qrImg');
-    const verifyLink = document.getElementById('verifyLink');
-
-    nameEl.textContent = nameParam;
-    scoreEl.textContent = scoreParam;
-
-    let dt = new Date();
-    if (dateParam) {
-      try { dt = new Date(decodeURIComponent(dateParam)); } catch(e){}
-    }
-    dateEl.textContent = dt.toLocaleDateString();
-
-    if (cidParam) {
-      idEl.textContent = cidParam;
-
-      // verify link for this specific certificate
-      const verifyUrl = 'verify.html?id=' + encodeURIComponent(cidParam);
-      verifyLink.href = verifyUrl;
-
-      // full URL encoded inside the QR
-      const fullVerify =
-        location.origin +
-        location.pathname.replace('certificate.html','verify.html') +
-        '?id=' + encodeURIComponent(cidParam);
-
-      qrImg.src =
-        'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' +
-        encodeURIComponent(fullVerify);
-    } else {
-      idEl.textContent = 'UNREGISTERED';
-      qrImg.style.display = 'none';
-      verifyLink.href = 'verify.html';
-    }
-  </script>
-</body>
-</html>
