@@ -1,15 +1,16 @@
 <script>
-  // ---------- CONFIG ----------
+  // ---------- CONFIG: API + storage keys ----------
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
+  const BEARER  = 'speakout123';
 
-  const KEY_POINTS           = 'mc_points';
-  const KEY_BADGES           = 'mc_badges';
-  const KEY_TRAINING         = 'mc_training';
-  const KEY_TRAINING_LOG     = 'mc_training_log';
-  const KEY_TIMER_START      = 'mc_training_timer_start';
-  const KEY_LESSON_PROGRESS  = 'mc_training_lessons_done';
-  const KEY_TRAINING_ATTEMPTS= 'mc_training_attempts';   // attempts per month
-  const KEY_UID              = 'mc_uid';                 // anonymous user id (if you later need it)
+  const KEY_POINTS            = 'mc_points';
+  const KEY_BADGES            = 'mc_badges';
+  const KEY_TRAINING          = 'mc_training';
+  const KEY_TRAINING_LOG      = 'mc_training_log';
+  const KEY_TIMER_START       = 'mc_training_timer_start';
+  const KEY_LESSON_PROGRESS   = 'mc_training_lessons_done';
+  const KEY_TRAINING_ATTEMPTS = 'mc_training_attempts';   // attempts per month
+  const KEY_UID               = 'mc_uid';                 // anonymous browser id
 
   const PASS_MARK    = 0.8;
   const BONUS        = 50;
@@ -23,62 +24,50 @@
   const addPoints = n=>setPoints(getPoints()+n);
   const getBadges = ()=>getJSON(KEY_BADGES,[]);
   const setBadges = a=>setJSON(KEY_BADGES,a);
-  const awardBadge = id=>{
-    const b=getBadges();
-    if(!b.includes(id)){b.push(id);setBadges(b);return true;}
-    return false;
-  };
-  const logPass = pct=>{
-    const log=getJSON(KEY_TRAINING_LOG,[]);
-    log.push({date:new Date().toISOString(),pct});
-    setJSON(KEY_TRAINING_LOG,log);
-  };
+  const awardBadge = id=>{const b=getBadges();if(!b.includes(id)){b.push(id);setBadges(b);return true}return false};
+  const logPassLocal = pct=>{const log=getJSON(KEY_TRAINING_LOG,[]);log.push({date:new Date().toISOString(),pct});setJSON(KEY_TRAINING_LOG,log);};
 
-  // ---------- anonymous uid (future-proofing) ----------
+  // ---------- anonymous UID ----------
   function getUid(){
     let u = localStorage.getItem(KEY_UID);
     if(!u){
       u = 'mc_' + Math.random().toString(36).slice(2);
-      localStorage.setItem(KEY_UID,u);
+      localStorage.setItem(KEY_UID, u);
     }
     return u;
   }
 
-  // ---------- monthly attempt limit (max 2 / month) ----------
-  function currentMonthKey(){
-    const d=new Date();
-    const m=String(d.getMonth()+1).padStart(2,'0');
-    return d.getFullYear()+'-'+m; // e.g. 2025-11
+  // ---------- monthly attempt limit ----------
+  function monthKey(){
+    const d = new Date();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    return `${d.getFullYear()}-${m}`; // e.g. 2025-11
   }
-  function getAttemptMap(){
-    return getJSON(KEY_TRAINING_ATTEMPTS,{});
-  }
+  function getAttemptMap(){ return getJSON(KEY_TRAINING_ATTEMPTS,{}); }
   function attemptsThisMonth(){
-    const map=getAttemptMap();
-    return map[currentMonthKey()] || 0;
+    const map = getAttemptMap();
+    return map[monthKey()] || 0;
   }
   function recordAttempt(){
-    const map=getAttemptMap();
-    const mk=currentMonthKey();
-    map[mk]=(map[mk]||0)+1;
-    setJSON(KEY_TRAINING_ATTEMPTS,map);
+    const map = getAttemptMap();
+    const mk  = monthKey();
+    map[mk] = (map[mk] || 0) + 1;
+    setJSON(KEY_TRAINING_ATTEMPTS, map);
     return map[mk];
   }
-  function canTakeQuiz(){
-    return attemptsThisMonth() < 2;
-  }
+  function canTakeQuiz(){ return attemptsThisMonth() < 2; }
 
   // ---------- Lesson navigation ----------
-  const lessons        = Array.from(document.querySelectorAll('.lesson'));
-  const totalLessons   = lessons.length;
-  const prevLessonBtn  = document.getElementById('prevLesson');
-  const nextLessonBtn  = document.getElementById('nextLesson');
-  const lessonStatus   = document.getElementById('lessonStatus');
-  const lessonHint     = document.getElementById('lessonHint');
-  const startQuizBtn   = document.getElementById('startQuiz');
+  const lessons = Array.from(document.querySelectorAll('.lesson'));
+  const totalLessons = lessons.length;
+  const prevLessonBtn = document.getElementById('prevLesson');
+  const nextLessonBtn = document.getElementById('nextLesson');
+  const lessonStatus  = document.getElementById('lessonStatus');
+  const lessonHint    = document.getElementById('lessonHint');
+  const startQuizBtn  = document.getElementById('startQuiz');
 
-  let currentLessonIndex   = 0;
-  let completedLessonsCount= parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10);
+  let currentLessonIndex = 0;
+  let completedLessonsCount = parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10);
   if (completedLessonsCount < 0) completedLessonsCount = 0;
   if (completedLessonsCount > totalLessons) completedLessonsCount = totalLessons;
 
@@ -114,7 +103,6 @@
     } else {
       showLesson(0);
     }
-
     if(completedLessonsCount >= totalLessons){
       unlockQuiz();
     }
@@ -178,6 +166,8 @@
 
   // ---------- Timer ----------
   let timerId=null;
+  let quizActive=false;   // guard double grading
+
   function fmt(sec){ const m=Math.floor(sec/60), s=sec%60; return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
 
   function remainingSeconds(){
@@ -208,19 +198,39 @@
 
   function disableQuiz(){
     form.querySelectorAll('input[type=radio]').forEach(el=>el.disabled=true);
-    const sBtn=document.getElementById('submitQuiz');
+    const sBtn = document.getElementById('submitQuiz');
     if(sBtn) sBtn.disabled=true;
   }
 
   function autoSubmitOnTimeout(){
+    quizActive=false;
     try{ window.plausible && window.plausible('TrainingTimerExpired'); }catch(e){}
     gradeQuiz(true);
     disableQuiz();
   }
 
-  // ---------- Events ----------
-  let gradedAlready = false; // prevent double-counting attempts
+  // ---------- log passes to Google Sheet ----------
+  async function logTrainingPassToSheet(name, score, dateIso, certId){
+    try{
+      await fetch(GAS_URL + '?auth=' + encodeURIComponent(BEARER), {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          auth: BEARER,
+          type: 'training_pass',
+          uid:  getUid(),
+          name,
+          score,
+          date: dateIso,
+          cert_id: certId || ''
+        })
+      });
+    }catch(err){
+      console.error('training_pass error', err);
+    }
+  }
 
+  // ---------- Events ----------
   if(startQuizBtn){
     startQuizBtn.onclick=()=>{
       if(startQuizBtn.disabled){
@@ -231,13 +241,20 @@
         alert('You have already used your two quiz attempts for this month. Please try again next month.');
         return;
       }
-      gradedAlready = false;
+      // record this attempt as one of the two
+      const used = recordAttempt();
+
       preQuizBar.style.display='none';
       form.style.display='block';
       quizBtns.style.display='flex';
       renderQuiz();
-      localStorage.removeItem(KEY_TIMER_START);
+
+      quizActive=true;
+      clearInterval(timerId);
+      timeLeftEl.classList.remove('warn');
       startTimer();
+
+      console.log('Training attempt', used, 'this month');
     };
   }
 
@@ -250,24 +267,23 @@
     timeLeftEl.classList.remove('warn');
     timeLeftEl.textContent=fmt(QUIZ_SECONDS);
     clearInterval(timerId);
+    quizActive=false;
     form.style.display='none';
     quizBtns.style.display='none';
     preQuizBar.style.display='flex';
-    gradedAlready = false;
   };
 
   // ---------- Grading ----------
   function gradeQuiz(timedOut){
+    if(!quizActive && !timedOut){ return; } // avoid double submit after timeout
     if(form.style.display==='none'){ return; }
-    if(gradedAlready){ return; }              // avoid double record
-    if(!timedOut && !form.checkValidity()){   // normal validation
+
+    if(!timedOut && !form.checkValidity()){
       form.reportValidity();
       return;
     }
-    gradedAlready = true;
 
-    // count this attempt
-    const attemptCount = recordAttempt();
+    quizActive=false;
 
     let correct=0;
     QUESTIONS.forEach((Q,i)=>{
@@ -282,9 +298,9 @@
     result.style.display='block';
     result.className='result '+(pass?'good':'bad');
     const tag = timedOut ? ' (time up)' : '';
-    let msg=`You scored ${correct}/${QUESTIONS.length} (${Math.round(pct*100)}%). ${pass?'You passed!':'Try again.'}${tag}`;
+    let msg = `You scored ${correct}/${QUESTIONS.length} (${Math.round(pct*100)}%). ${pass?'You passed!':'Try again.'}${tag}`;
 
-    if(!pass && attemptCount >= 2){
+    if(!pass && attemptsThisMonth() >= 2){
       msg += ' You have reached your two attempts for this month. Please try again next month.';
     }
     result.textContent = msg;
@@ -292,7 +308,7 @@
     if(pass){
       awardBadge('volunteer_trained');
       addPoints(BONUS);
-      logPass(pct);
+      logPassLocal(pct);
       post.style.display='block';
       try{ window.plausible && window.plausible('VolunteerQuizPassed',{props:{score:Math.round(pct*100)}});}catch(e){}
     }else{
@@ -311,51 +327,54 @@
     return `MC-CERT-${y}${m}${d}-${rand}`;
   }
 
-  const makeBtn   = document.getElementById('makeCert'),
-        certInput = document.getElementById('certName'),
-        hint      = document.getElementById('certHint');
+  const makeBtn   = document.getElementById('makeCert');
+  const certInput = document.getElementById('certName');
+  const hint      = document.getElementById('certHint');
 
   if(makeBtn){
-    makeBtn.onclick=()=>{
+    makeBtn.onclick=async ()=>{
       const name=(certInput.value||'').trim();
       if(!name){
         alert('Enter your name');
         return;
       }
-      const t      = getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
-      const score  = Math.round(t.pct*100);
-      const dateIso= t.date || new Date().toISOString();
-      const certId = generateCertId();
+      const t     = getJSON(KEY_TRAINING,{pct:1,date:new Date().toISOString()});
+      const score = Math.round(t.pct*100);
+      const dateIso = t.date || new Date().toISOString();
+      const certId  = generateCertId();
 
       const url=`certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${encodeURIComponent(dateIso)}&cert_id=${encodeURIComponent(certId)}`;
 
       hint.style.display='block';
       hint.innerHTML=`Your certificate is ready: <a href="${url}" target="_blank" rel="noopener" class="btn btn-ghost">Open Certificate</a>`;
 
-      // Log pass + cert details into your Certificates sheet
+      // 1) log certificate issue (Certificates sheet)
       try{
-        fetch(GAS_URL + '?auth=speakout123', {
+        fetch(GAS_URL + '?auth=' + encodeURIComponent(BEARER), {
           method:'POST',
           headers:{'Content-Type':'application/json'},
           body: JSON.stringify({
-            type:   'certificate_issue',
+            auth: BEARER,
+            type:'certificate_issue',
             cert_id: certId,
             name,
             score,
-            date:   dateIso
+            date: dateIso
           })
         }).then(r=>r.text()).then(txt=>{
-          try{ console.log('Cert logged:', JSON.parse(txt)); }
-          catch{ console.log('Cert logged raw:', txt); }
+          console.log('Cert logged:', txt);
         }).catch(e=>console.warn('Cert logging failed:', e));
       }catch(e){
         console.warn('Cert fetch block failed:', e);
       }
+
+      // 2) log training pass (Training sheet)
+      await logTrainingPassToSheet(name, score, dateIso, certId);
 
       try{ window.plausible && window.plausible('VolunteerCertificateOpen',{props:{score}});}catch(e){}
     };
   }
 
   // Initialize timer display for first load
-  timeLeftEl.textContent = '10:00';
+  timeLeftEl.textContent = fmt(QUIZ_SECONDS);
 </script>
