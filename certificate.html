@@ -64,7 +64,7 @@
       justify-content:space-between;
     }
 
-    /* single elegant border, closer to sample */
+    /* single elegant border */
     .cert-paper::before{
       content:"";
       position:absolute;
@@ -96,7 +96,7 @@
       justify-content:space-between;
     }
 
-    /* TOP AREA — organized like the sample */
+    /* TOP AREA */
     .top-block{
       text-align:center;
       padding-top:4px;
@@ -125,28 +125,36 @@
       text-transform:uppercase;
     }
 
-    /* subtle label above the main heading */
+    /* smaller label above main heading */
     .cert-title{
-      margin:8px 0 4px;
+      margin:12px 0 6px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:.95rem;
+      font-size:.9rem;
       letter-spacing:.22em;
       text-transform:uppercase;
       color:var(--ink-soft);
     }
 
-    /* main explanatory line – stays your wording */
+    /* main heading like the sample */
+    .cert-main-heading{
+      font-family:"Georgia","Times New Roman",serif;
+      font-size:1.7rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin:4px 0 10px;
+      color:var(--ink);
+    }
+
     .cert-text-main{
       max-width:780px;
-      margin:12px auto 0;
+      margin:10px auto 0;
       font-size:.98rem;
       color:var(--ink-soft);
       line-height:1.5;
     }
 
-    /* “THIS CERTIFICATE IS PRESENTED TO” style */
     .awarded{
-      margin-top:28px;
+      margin-top:26px;
       font-size:.9rem;
       letter-spacing:.28em;
       text-transform:uppercase;
@@ -184,7 +192,7 @@
       font-weight:700;
     }
 
-    /* BOTTOM AREA — similar to sample footer row */
+    /* BOTTOM AREA */
     .bottom-row{
       margin-top:34px;
       display:flex;
@@ -204,11 +212,14 @@
       margin-bottom:0;
     }
 
+    /* use transparent PNG for signature for no background */
     .sign-signature{
       height:64px;
       width:auto;
       object-fit:contain;
       margin-bottom:-6px; /* sits on the line */
+      background:transparent;
+      mix-blend-mode:multiply;
     }
 
     .sign-line{
@@ -314,10 +325,10 @@
       }
       .org-logo{height:52px;}
       .org-name{font-size:1.3rem;}
-      .cert-title{font-size:.9rem;letter-spacing:.18em;}
-      .cert-name{font-size:1.9rem;}
+      .cert-main-heading{font-size:1.4rem;}
       .cert-text-main,
       .skills-text{font-size:.9rem;}
+      .cert-name{font-size:2rem;}
       .bottom-row{
         align-items:flex-start;
         gap:26px;
@@ -336,7 +347,7 @@
       }
     }
 
-    /* print: force everything onto ONE landscape A4 page */
+    /* print: keep on one landscape A4 page */
     @media print{
       body{background:#ffffff!important;}
       @page{
@@ -380,8 +391,9 @@
                 <div class="org-name">SpeakOut MindCheck Nigeria</div>
               </div>
 
-              <!-- your existing title text, just styled cleaner -->
+              <!-- layout similar to sample: small label + main heading -->
               <div class="cert-title">Certificate of Volunteer Training</div>
+              <div class="cert-main-heading">Certificate of Volunteer Training</div>
 
               <p class="cert-text-main">
                 This certifies that the volunteer named below has successfully completed the
@@ -389,7 +401,7 @@
                 privacy-first logging and ethical referral.
               </p>
 
-              <div class="awarded">Awarded to</div>
+              <div class="awarded">This certificate is proudly presented to</div>
               <div id="cName" class="cert-name">—</div>
 
               <p class="skills-text">
@@ -408,7 +420,8 @@
               <!-- signature -->
               <div class="sign-block">
                 <div class="sign-top-row">
-                  <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
+                  <!-- IMPORTANT: use a transparent PNG here -->
+                  <img src="icons/signature-no-bg.png" alt="Signature of Offorka Jerry" class="sign-signature">
                 </div>
                 <div class="sign-line"></div>
                 <div class="sign-name">Offorka Jerry</div>
@@ -448,7 +461,7 @@
   </footer>
 
   <script>
-    // Parse URL params (unchanged)
+    // Parse URL params
     const params    = new URLSearchParams(location.search);
     const nameParam = params.get('name') || 'Volunteer';
     const scoreParam= params.get('score') || '100';
