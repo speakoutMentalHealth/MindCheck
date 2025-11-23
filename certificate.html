@@ -21,7 +21,7 @@
     body{
       margin:0;
       background:#020617;
-      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       display:flex;
       justify-content:center;
       align-items:center;
@@ -44,7 +44,7 @@
 
     .cert-frame{
       background:radial-gradient(circle at top left,#020617 0,#000 65%);
-      padding:22px;
+      padding:20px;
       border-radius:30px;
       box-shadow:0 24px 60px rgba(0,0,0,.65);
     }
@@ -54,9 +54,9 @@
       margin:0 auto;
       background:var(--paper);
       border-radius:22px;
-      padding:30px 60px 24px; /* compact so it fits nicely */
+      padding:40px 70px 28px;
       max-width:1120px;
-      aspect-ratio:11/8.5;   /* landscape */
+      aspect-ratio:11/8.5; /* landscape */
       box-sizing:border-box;
       overflow:hidden;
       display:flex;
@@ -64,32 +64,25 @@
       justify-content:space-between;
     }
 
-    /* outer blue + inner gold */
-    .cert-paper::before,
-    .cert-paper::after{
+    /* single elegant border, closer to sample */
+    .cert-paper::before{
       content:"";
       position:absolute;
-      inset:12px;
-      border-radius:20px;
+      inset:18px;
+      border-radius:18px;
+      border:2px solid var(--blue-border);
+      box-shadow:0 0 0 1px rgba(15,23,42,.06);
       pointer-events:none;
     }
-    .cert-paper::before{
-      border:3px solid var(--blue-border);
-    }
-    .cert-paper::after{
-      inset:22px;
-      border-radius:17px;
-      border:2px dashed var(--gold);
-    }
 
-    /* watermark */
+    /* very soft watermark */
     .cert-watermark{
       position:absolute;
       inset:0;
       display:flex;
       align-items:center;
       justify-content:center;
-      opacity:.05;
+      opacity:.035;
       pointer-events:none;
       background:url("icons/logo.png") center center / 360px 360px no-repeat;
     }
@@ -103,87 +96,97 @@
       justify-content:space-between;
     }
 
-    /* top content */
+    /* TOP AREA — organized like the sample */
     .top-block{
       text-align:center;
-      padding-top:2px;
+      padding-top:4px;
     }
 
     .org-row{
       display:flex;
       justify-content:center;
       align-items:center;
-      gap:14px;
-      margin-bottom:6px;
+      gap:12px;
+      margin-bottom:4px;
     }
 
     .org-logo{
-      height:70px;
+      height:64px;
       width:auto;
       object-fit:contain;
     }
 
     .org-name{
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.7rem;
+      font-size:1.6rem;
       font-weight:700;
-      letter-spacing:.04em;
+      letter-spacing:.05em;
       color:var(--ink);
+      text-transform:uppercase;
     }
 
+    /* subtle label above the main heading */
     .cert-title{
-      margin:6px 0 12px;
+      margin:8px 0 4px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.35rem;
-      letter-spacing:.24em;
-      text-transform:uppercase;
-      color:var(--ink);
-    }
-
-    .cert-text-main{
-      max-width:760px;
-      margin:0 auto;
-      font-size:.96rem;
-      color:var(--ink-soft);
-      line-height:1.4;
-    }
-
-    .awarded{
-      margin-top:18px;
       font-size:.95rem;
-      letter-spacing:.18em;
+      letter-spacing:.22em;
       text-transform:uppercase;
-      color:#4b5563;
+      color:var(--ink-soft);
+    }
+
+    /* main explanatory line – stays your wording */
+    .cert-text-main{
+      max-width:780px;
+      margin:12px auto 0;
+      font-size:.98rem;
+      color:var(--ink-soft);
+      line-height:1.5;
+    }
+
+    /* “THIS CERTIFICATE IS PRESENTED TO” style */
+    .awarded{
+      margin-top:28px;
+      font-size:.9rem;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      color:#6b7280;
     }
 
     .cert-name{
-      margin-top:6px;
+      margin-top:10px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:2.05rem;
+      font-size:2.4rem;
       font-weight:700;
       color:var(--ink);
     }
 
     .skills-text{
-      margin-top:8px;
-      font-size:.94rem;
+      margin-top:14px;
+      font-size:.95rem;
       color:var(--ink-soft);
-      max-width:760px;
+      max-width:780px;
       margin-left:auto;
       margin-right:auto;
     }
 
     .score-row{
-      margin-top:10px;
+      margin-top:18px;
       font-size:.9rem;
-      font-weight:600;
+      font-weight:500;
       color:var(--ink);
+      display:flex;
+      justify-content:center;
+      gap:32px;
     }
-    .score-row span{margin-right:24px;}
 
-    /* bottom row */
+    .score-row span span{
+      font-weight:700;
+    }
+
+    /* BOTTOM AREA — similar to sample footer row */
     .bottom-row{
-      margin-top:8px;
+      margin-top:34px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -192,27 +195,25 @@
     }
 
     .sign-block{
-      min-width:280px;
+      min-width:260px;
     }
 
     .sign-top-row{
       display:flex;
       align-items:flex-end;
-      gap:10px;
-      margin-bottom:2px;
+      margin-bottom:0;
     }
 
-    /* bigger signature sitting ON the line */
     .sign-signature{
-      height:70px;
+      height:64px;
       width:auto;
       object-fit:contain;
-      margin-bottom:-1px; /* pull it down */
+      margin-bottom:-6px; /* sits on the line */
     }
 
     .sign-line{
       border-bottom:2px solid var(--ink);
-      width:280px;
+      width:260px;
       margin:0;
     }
 
@@ -220,7 +221,7 @@
       font-weight:800;
       font-size:1rem;
       color:var(--ink);
-      margin-top:4px;
+      margin-top:6px;
     }
 
     .sign-role{
@@ -230,8 +231,8 @@
     }
 
     .qr-block{
-      min-width:240px;
-      max-width:290px;
+      min-width:230px;
+      max-width:280px;
       text-align:right;
     }
 
@@ -243,19 +244,19 @@
 
     .qr-id{
       display:inline-block;
-      margin:4px 0 8px;
+      margin:6px 0 10px;
       padding:4px 12px;
       border-radius:999px;
       border:1px dashed var(--gold);
       background:#fffbeb;
-      font-size:.85rem;
+      font-size:.84rem;
       font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;
     }
 
     .qr-img{
       display:block;
-      width:110px;
-      height:110px;
+      width:105px;
+      height:105px;
       border-radius:14px;
       margin-left:auto;
       object-fit:contain;
@@ -264,7 +265,7 @@
     }
 
     .qr-text{
-      margin-top:6px;
+      margin-top:8px;
       font-size:.8rem;
       color:var(--ink-soft);
     }
@@ -309,15 +310,17 @@
       .cert-frame{padding:10px;}
       .cert-paper{
         aspect-ratio:auto;
-        padding:22px 16px 18px;
+        padding:26px 18px 20px;
       }
+      .org-logo{height:52px;}
       .org-name{font-size:1.3rem;}
-      .cert-title{font-size:1.05rem;letter-spacing:.16em;}
-      .cert-name{font-size:1.7rem;}
-      .skills-text,.cert-text-main{font-size:.9rem;}
+      .cert-title{font-size:.9rem;letter-spacing:.18em;}
+      .cert-name{font-size:1.9rem;}
+      .cert-text-main,
+      .skills-text{font-size:.9rem;}
       .bottom-row{
         align-items:flex-start;
-        gap:24px;
+        gap:26px;
       }
       .qr-block{
         text-align:left;
@@ -329,7 +332,7 @@
       }
       .sign-signature{
         height:52px;
-        margin-bottom:-16px;
+        margin-bottom:-10px;
       }
     }
 
@@ -346,7 +349,7 @@
       }
       .cert-paper{
         box-shadow:none;
-        transform:scale(0.92);
+        transform:scale(0.9);
         transform-origin:top left;
       }
       .no-print{
@@ -377,6 +380,7 @@
                 <div class="org-name">SpeakOut MindCheck Nigeria</div>
               </div>
 
+              <!-- your existing title text, just styled cleaner -->
               <div class="cert-title">Certificate of Volunteer Training</div>
 
               <p class="cert-text-main">
@@ -394,7 +398,7 @@
               </p>
 
               <div class="score-row">
-                <span>Score: <span id="cScore">—</span> %</span>
+                <span>Score: <span id="cScore">—</span>%</span>
                 <span>Date: <span id="cDate">—</span></span>
               </div>
             </div>
@@ -444,7 +448,7 @@
   </footer>
 
   <script>
-    // Parse URL params
+    // Parse URL params (unchanged)
     const params    = new URLSearchParams(location.search);
     const nameParam = params.get('name') || 'Volunteer';
     const scoreParam= params.get('score') || '100';
