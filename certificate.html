@@ -54,7 +54,7 @@
       margin:0 auto;
       background:var(--paper);
       border-radius:22px;
-      padding:34px 60px 46px; /* extra bottom padding so signature stays inside */
+      padding:40px 80px 70px; /* extra bottom padding so signature is well inside */
       max-width:1120px;
       aspect-ratio:11/8.5; /* landscape */
       box-sizing:border-box;
@@ -64,18 +64,18 @@
       justify-content:space-between;
     }
 
-    /* single elegant border */
+    /* inner border */
     .cert-paper::before{
       content:"";
       position:absolute;
-      inset:20px; /* moves inner border slightly inward for more breathing room */
+      inset:26px;           /* decent gap from edge on all sides */
       border-radius:18px;
       border:2px solid var(--blue-border);
       box-shadow:0 0 0 1px rgba(15,23,42,.06);
       pointer-events:none;
     }
 
-    /* very soft watermark */
+    /* watermark */
     .cert-watermark{
       position:absolute;
       inset:0;
@@ -105,13 +105,13 @@
     .org-row{
       display:flex;
       justify-content:center;
-      align-items:flex-end;  /* bottom-align so logo doesn’t drop below the text line */
-      gap:12px;
+      align-items:flex-end; /* logo and text baseline together */
+      gap:14px;
       margin-bottom:4px;
     }
 
     .org-logo{
-      height:86px;           /* larger logo */
+      height:100px;       /* BIGGER logo */
       width:auto;
       object-fit:contain;
       display:block;
@@ -119,16 +119,15 @@
 
     .org-name{
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.8rem;
+      font-size:1.9rem;
       font-weight:700;
       letter-spacing:.05em;
       color:var(--ink);
       text-transform:uppercase;
     }
 
-    /* smaller label above main heading */
     .cert-title{
-      margin:10px 0 4px;
+      margin:12px 0 4px;
       font-family:"Georgia","Times New Roman",serif;
       font-size:.9rem;
       letter-spacing:.22em;
@@ -136,7 +135,6 @@
       color:var(--ink-soft);
     }
 
-    /* main heading like the sample */
     .cert-main-heading{
       font-family:"Georgia","Times New Roman",serif;
       font-size:1.7rem;
@@ -195,7 +193,7 @@
 
     /* BOTTOM AREA */
     .bottom-row{
-      margin-top:28px;
+      margin-top:30px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -204,28 +202,30 @@
     }
 
     .sign-block{
-      min-width:300px;
+      min-width:320px;
     }
 
+    /* bigger signature fully inside border */
     .sign-top-row{
-      display:flex;
-      align-items:flex-end;
-      margin-bottom:0;
+      position:relative;
+      height:110px;  /* space reserved for large signature */
+      margin-bottom:6px;
     }
 
-    /* big signature, still above the inner border */
     .sign-signature{
-      height:90px;
+      position:absolute;
+      left:0;
+      bottom:0;
+      height:100%;     /* ~110px tall */
       width:auto;
       object-fit:contain;
-      margin-bottom:-10px;  /* sits neatly on the line, not below */
       background:transparent;
       mix-blend-mode:multiply;
     }
 
     .sign-line{
       border-bottom:2px solid var(--ink);
-      width:300px;
+      width:320px;
       margin:0;
     }
 
@@ -322,9 +322,9 @@
       .cert-frame{padding:10px;}
       .cert-paper{
         aspect-ratio:auto;
-        padding:24px 18px 30px;
+        padding:24px 18px 40px;
       }
-      .org-logo{height:72px;}
+      .org-logo{height:80px;}
       .org-name{font-size:1.5rem;}
       .cert-main-heading{font-size:1.4rem;}
       .cert-text-main,
@@ -342,27 +342,34 @@
         width:96px;
         height:96px;
       }
-      .sign-signature{
-        height:72px;
-        margin-bottom:-8px;
+      .sign-top-row{
+        height:90px;
       }
     }
 
-    /* print: one landscape A4 page */
+    /* PRINT: force single A4 landscape page, no scaling overflow */
     @media print{
-      body{background:#ffffff!important;}
+      html,body{
+        margin:0;
+        padding:0;
+        background:#ffffff!important;
+      }
       @page{
         size:A4 landscape;
-        margin:6mm;
+        margin:8mm;
       }
       .cert-frame{
         box-shadow:none;
         padding:0;
       }
       .cert-paper{
-        box-shadow:none;
-        transform:scale(0.92);
-        transform-origin:top left;
+        max-width:none;
+        width:100%;
+        height:auto;
+        aspect-ratio:auto;
+        margin:0;
+        padding:32px 60px 56px;
+        transform:none;
       }
       .no-print{
         display:none!important;
@@ -420,7 +427,6 @@
               <!-- signature -->
               <div class="sign-block">
                 <div class="sign-top-row">
-                  <!-- use transparent PNG for best result -->
                   <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
                 </div>
                 <div class="sign-line"></div>
