@@ -52,7 +52,11 @@
   <section class="card">
     <div class="field">
       <label for="certInput">Certificate ID</label>
-      <input id="certInput" placeholder="e.g. MC-ABC123-XYZ9" autocomplete="off"/>
+      <input
+        id="certInput"
+        placeholder="e.g. MC-CERT-20251122-ABCD"
+        autocomplete="off"
+      />
     </div>
 
     <div class="toolbar">
@@ -79,7 +83,8 @@
 </footer>
 
 <script>
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec'; // same as in certificate.html
+  // IMPORTANT: use the SAME Apps Script web-app URL as training-hub / certificate issue
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
   const AUTH_TOKEN = 'speakout123';
 
   const input  = document.getElementById('certInput');
@@ -90,10 +95,16 @@
 
   function setStatus(ok, msg, extra){
     status.style.display='block';
-    detail.style.display= extra ? 'block' : 'none';
     status.className = 'status ' + (ok?'ok':'bad');
     status.textContent = msg;
-    detail.innerHTML = extra || '';
+
+    if(extra){
+      detail.style.display='block';
+      detail.innerHTML = extra;
+    } else {
+      detail.style.display='none';
+      detail.innerHTML = '';
+    }
   }
 
   async function doVerify(){
@@ -103,6 +114,7 @@
       return;
     }
     setStatus(false, 'Checking… please wait.');
+
     try{
       const url = SCRIPT_URL +
         '?type=verify_cert&auth=' + encodeURIComponent(AUTH_TOKEN) +
@@ -138,6 +150,13 @@
     input.value='';
     status.style.display='none';
     detail.style.display='none';
+  });
+
+  // Allow Enter key to trigger verification
+  input.addEventListener('keyup', (e)=>{
+    if(e.key === 'Enter'){
+      doVerify();
+    }
   });
 
   // If verify.html was opened via QR with ?id=...
