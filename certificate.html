@@ -54,7 +54,7 @@
       margin:0 auto;
       background:var(--paper);
       border-radius:22px;
-      padding:36px 60px 26px; /* slightly tighter so it fits better */
+      padding:34px 60px 46px; /* extra bottom padding so signature stays inside */
       max-width:1120px;
       aspect-ratio:11/8.5; /* landscape */
       box-sizing:border-box;
@@ -68,7 +68,7 @@
     .cert-paper::before{
       content:"";
       position:absolute;
-      inset:16px; /* a little closer to the edge */
+      inset:20px; /* moves inner border slightly inward for more breathing room */
       border-radius:18px;
       border:2px solid var(--blue-border);
       box-shadow:0 0 0 1px rgba(15,23,42,.06);
@@ -105,20 +105,21 @@
     .org-row{
       display:flex;
       justify-content:center;
-      align-items:center;
+      align-items:flex-end;  /* bottom-align so logo doesn’t drop below the text line */
       gap:12px;
       margin-bottom:4px;
     }
 
     .org-logo{
-      height:64px;
+      height:86px;           /* larger logo */
       width:auto;
       object-fit:contain;
+      display:block;
     }
 
     .org-name{
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.6rem;
+      font-size:1.8rem;
       font-weight:700;
       letter-spacing:.05em;
       color:var(--ink);
@@ -127,7 +128,7 @@
 
     /* smaller label above main heading */
     .cert-title{
-      margin:12px 0 4px;
+      margin:10px 0 4px;
       font-family:"Georgia","Times New Roman",serif;
       font-size:.9rem;
       letter-spacing:.22em;
@@ -194,7 +195,7 @@
 
     /* BOTTOM AREA */
     .bottom-row{
-      margin-top:30px;
+      margin-top:28px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -203,7 +204,7 @@
     }
 
     .sign-block{
-      min-width:280px;
+      min-width:300px;
     }
 
     .sign-top-row{
@@ -212,19 +213,19 @@
       margin-bottom:0;
     }
 
-    /* bigger signature, still sitting nicely on the line */
+    /* big signature, still above the inner border */
     .sign-signature{
-      height:90px;          /* made noticeably larger */
+      height:90px;
       width:auto;
       object-fit:contain;
-      margin-bottom:-12px;  /* so it sits on the line */
+      margin-bottom:-10px;  /* sits neatly on the line, not below */
       background:transparent;
       mix-blend-mode:multiply;
     }
 
     .sign-line{
       border-bottom:2px solid var(--ink);
-      width:280px;
+      width:300px;
       margin:0;
     }
 
@@ -321,17 +322,17 @@
       .cert-frame{padding:10px;}
       .cert-paper{
         aspect-ratio:auto;
-        padding:24px 18px 18px;
+        padding:24px 18px 30px;
       }
-      .org-logo{height:52px;}
-      .org-name{font-size:1.3rem;}
+      .org-logo{height:72px;}
+      .org-name{font-size:1.5rem;}
       .cert-main-heading{font-size:1.4rem;}
       .cert-text-main,
       .skills-text{font-size:.9rem;}
       .cert-name{font-size:2rem;}
       .bottom-row{
         align-items:flex-start;
-        gap:26px;
+        gap:24px;
       }
       .qr-block{
         text-align:left;
@@ -342,17 +343,17 @@
         height:96px;
       }
       .sign-signature{
-        height:70px;       /* still big on mobile */
-        margin-bottom:-10px;
+        height:72px;
+        margin-bottom:-8px;
       }
     }
 
-    /* print: keep it clean on ONE landscape A4 page */
+    /* print: one landscape A4 page */
     @media print{
       body{background:#ffffff!important;}
       @page{
         size:A4 landscape;
-        margin:6mm; /* smaller margin so it fills more of the page */
+        margin:6mm;
       }
       .cert-frame{
         box-shadow:none;
@@ -360,7 +361,7 @@
       }
       .cert-paper{
         box-shadow:none;
-        transform:scale(0.94);  /* slightly larger but still safe for one page */
+        transform:scale(0.92);
         transform-origin:top left;
       }
       .no-print{
@@ -391,7 +392,6 @@
                 <div class="org-name">SpeakOut MindCheck Nigeria</div>
               </div>
 
-              <!-- layout similar to sample: small label + main heading -->
               <div class="cert-title">Certificate of Volunteer Training</div>
               <div class="cert-main-heading">Certificate of Volunteer Training</div>
 
@@ -420,7 +420,7 @@
               <!-- signature -->
               <div class="sign-block">
                 <div class="sign-top-row">
-                  <!-- use transparent PNG if possible for no background -->
+                  <!-- use transparent PNG for best result -->
                   <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
                 </div>
                 <div class="sign-line"></div>
@@ -508,5 +508,3 @@
   </script>
 </body>
 </html>
-
-
