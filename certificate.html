@@ -43,39 +43,28 @@
     }
 
     .cert-frame{
-      background:radial-gradient(circle at top left,#020617 0,#000 65%);
-      padding:20px;
+      background:#020617;
+      padding:18px;
       border-radius:30px;
       box-shadow:0 24px 60px rgba(0,0,0,.65);
     }
 
+    /* MAIN CERT BOX – single border like your sample */
     .cert-paper{
       position:relative;
       margin:0 auto;
       background:var(--paper);
       border-radius:22px;
-      padding:40px 80px 70px; /* extra bottom padding so signature is well inside */
+      border:2.5px solid var(--blue-border);
       max-width:1120px;
-      aspect-ratio:11/8.5; /* landscape */
       box-sizing:border-box;
-      overflow:hidden;
+      padding:40px 70px 42px; /* top / sides / bottom */
       display:flex;
       flex-direction:column;
       justify-content:space-between;
     }
 
-    /* inner border */
-    .cert-paper::before{
-      content:"";
-      position:absolute;
-      inset:26px;           /* decent gap from edge on all sides */
-      border-radius:18px;
-      border:2px solid var(--blue-border);
-      box-shadow:0 0 0 1px rgba(15,23,42,.06);
-      pointer-events:none;
-    }
-
-    /* watermark */
+    /* soft watermark */
     .cert-watermark{
       position:absolute;
       inset:0;
@@ -90,28 +79,28 @@
     .cert-content{
       position:relative;
       z-index:1;
-      height:100%;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
+      min-height:460px; /* gives room but keeps everything on one page */
     }
 
-    /* TOP AREA */
+    /* TOP AREA – copied style from sample: logo above title, all centred */
     .top-block{
       text-align:center;
-      padding-top:4px;
     }
 
     .org-row{
       display:flex;
+      flex-direction:column;
+      align-items:center;
       justify-content:center;
-      align-items:flex-end; /* logo and text baseline together */
-      gap:14px;
+      gap:8px;
       margin-bottom:4px;
     }
 
     .org-logo{
-      height:100px;       /* BIGGER logo */
+      height:82px; /* bigger logo */
       width:auto;
       object-fit:contain;
       display:block;
@@ -119,43 +108,44 @@
 
     .org-name{
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.9rem;
+      font-size:1.6rem;
       font-weight:700;
-      letter-spacing:.05em;
+      letter-spacing:.08em;
       color:var(--ink);
       text-transform:uppercase;
     }
 
-    .cert-title{
-      margin:12px 0 4px;
+    /* line like in the Ma’aya certificate */
+    .cert-subtitle{
+      margin-top:14px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:.9rem;
-      letter-spacing:.22em;
+      font-size:.78rem;
+      letter-spacing:.28em;
       text-transform:uppercase;
       color:var(--ink-soft);
     }
 
     .cert-main-heading{
+      margin-top:6px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:1.7rem;
-      letter-spacing:.16em;
+      font-size:1.6rem;
+      letter-spacing:.18em;
       text-transform:uppercase;
-      margin:4px 0 10px;
       color:var(--ink);
     }
 
     .cert-text-main{
       max-width:780px;
-      margin:10px auto 0;
-      font-size:.98rem;
+      margin:14px auto 0;
+      font-size:.96rem;
       color:var(--ink-soft);
       line-height:1.5;
     }
 
     .awarded{
-      margin-top:24px;
-      font-size:.9rem;
-      letter-spacing:.28em;
+      margin-top:26px;
+      font-size:.85rem;
+      letter-spacing:.32em;
       text-transform:uppercase;
       color:#6b7280;
     }
@@ -163,14 +153,14 @@
     .cert-name{
       margin-top:10px;
       font-family:"Georgia","Times New Roman",serif;
-      font-size:2.4rem;
+      font-size:2.3rem;
       font-weight:700;
       color:var(--ink);
     }
 
     .skills-text{
       margin-top:14px;
-      font-size:.95rem;
+      font-size:.93rem;
       color:var(--ink-soft);
       max-width:780px;
       margin-left:auto;
@@ -179,21 +169,20 @@
 
     .score-row{
       margin-top:18px;
-      font-size:.9rem;
+      font-size:.86rem;
       font-weight:500;
       color:var(--ink);
       display:flex;
       justify-content:center;
       gap:32px;
     }
-
     .score-row span span{
       font-weight:700;
     }
 
-    /* BOTTOM AREA */
+    /* BOTTOM AREA – signature left, certificate ID + QR right */
     .bottom-row{
-      margin-top:30px;
+      margin-top:34px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -202,21 +191,21 @@
     }
 
     .sign-block{
-      min-width:320px;
+      min-width:260px;
     }
 
-    /* bigger signature fully inside border */
+    /* big signature, clearly inside border */
     .sign-top-row{
+      height:90px;            /* reserved height for signature */
+      margin-bottom:4px;
       position:relative;
-      height:110px;  /* space reserved for large signature */
-      margin-bottom:6px;
     }
 
     .sign-signature{
       position:absolute;
       left:0;
       bottom:0;
-      height:100%;     /* ~110px tall */
+      height:90px;           /* adjust up/down if needed */
       width:auto;
       object-fit:contain;
       background:transparent;
@@ -224,20 +213,20 @@
     }
 
     .sign-line{
-      border-bottom:2px solid var(--ink);
-      width:320px;
+      border-bottom:1.8px solid var(--ink);
+      width:260px;
       margin:0;
     }
 
     .sign-name{
       font-weight:800;
-      font-size:1rem;
+      font-size:.95rem;
       color:var(--ink);
-      margin-top:6px;
+      margin-top:4px;
     }
 
     .sign-role{
-      font-size:.86rem;
+      font-size:.82rem;
       color:var(--ink-soft);
       line-height:1.3;
     }
@@ -249,7 +238,7 @@
     }
 
     .qr-label{
-      font-size:.86rem;
+      font-size:.8rem;
       font-weight:700;
       color:var(--ink);
     }
@@ -257,18 +246,18 @@
     .qr-id{
       display:inline-block;
       margin:6px 0 10px;
-      padding:4px 12px;
+      padding:3px 10px;
       border-radius:999px;
       border:1px dashed var(--gold);
       background:#fffbeb;
-      font-size:.84rem;
+      font-size:.8rem;
       font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New",monospace;
     }
 
     .qr-img{
       display:block;
-      width:105px;
-      height:105px;
+      width:95px;
+      height:95px;
       border-radius:14px;
       margin-left:auto;
       object-fit:contain;
@@ -277,8 +266,8 @@
     }
 
     .qr-text{
-      margin-top:8px;
-      font-size:.8rem;
+      margin-top:6px;
+      font-size:.78rem;
       color:var(--ink-soft);
     }
     .qr-text a{
@@ -317,16 +306,15 @@
       color:#9ca3af;
     }
 
-    /* mobile tweaks */
+    /* MOBILE */
     @media (max-width:900px){
-      .cert-frame{padding:10px;}
+      .cert-frame{padding:8px;}
       .cert-paper{
-        aspect-ratio:auto;
-        padding:24px 18px 40px;
+        padding:22px 16px 28px;
       }
-      .org-logo{height:80px;}
-      .org-name{font-size:1.5rem;}
-      .cert-main-heading{font-size:1.4rem;}
+      .org-logo{height:64px;}
+      .org-name{font-size:1.3rem;}
+      .cert-main-heading{font-size:1.3rem;}
       .cert-text-main,
       .skills-text{font-size:.9rem;}
       .cert-name{font-size:2rem;}
@@ -339,15 +327,18 @@
       }
       .qr-img{
         margin-left:0;
-        width:96px;
-        height:96px;
+        width:88px;
+        height:88px;
       }
       .sign-top-row{
-        height:90px;
+        height:80px;
+      }
+      .sign-line{
+        width:220px;
       }
     }
 
-    /* PRINT: force single A4 landscape page, no scaling overflow */
+    /* PRINT – force clean single-page A4 landscape */
     @media print{
       html,body{
         margin:0;
@@ -356,20 +347,17 @@
       }
       @page{
         size:A4 landscape;
-        margin:8mm;
+        margin:10mm;
       }
       .cert-frame{
         box-shadow:none;
         padding:0;
       }
       .cert-paper{
+        margin:0 auto;
         max-width:none;
         width:100%;
-        height:auto;
-        aspect-ratio:auto;
-        margin:0;
-        padding:32px 60px 56px;
-        transform:none;
+        padding:26px 40px 30px;
       }
       .no-print{
         display:none!important;
@@ -399,7 +387,7 @@
                 <div class="org-name">SpeakOut MindCheck Nigeria</div>
               </div>
 
-              <div class="cert-title">Certificate of Volunteer Training</div>
+              <div class="cert-subtitle">Certificate of Volunteer Training</div>
               <div class="cert-main-heading">Certificate of Volunteer Training</div>
 
               <p class="cert-text-main">
@@ -427,6 +415,7 @@
               <!-- signature -->
               <div class="sign-block">
                 <div class="sign-top-row">
+                  <!-- use a transparent PNG for best look -->
                   <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
                 </div>
                 <div class="sign-line"></div>
