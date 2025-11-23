@@ -54,7 +54,7 @@
       margin:0 auto;
       background:var(--paper);
       border-radius:22px;
-      padding:40px 70px 28px;
+      padding:36px 60px 26px; /* slightly tighter so it fits better */
       max-width:1120px;
       aspect-ratio:11/8.5; /* landscape */
       box-sizing:border-box;
@@ -68,7 +68,7 @@
     .cert-paper::before{
       content:"";
       position:absolute;
-      inset:18px;
+      inset:16px; /* a little closer to the edge */
       border-radius:18px;
       border:2px solid var(--blue-border);
       box-shadow:0 0 0 1px rgba(15,23,42,.06);
@@ -127,7 +127,7 @@
 
     /* smaller label above main heading */
     .cert-title{
-      margin:12px 0 6px;
+      margin:12px 0 4px;
       font-family:"Georgia","Times New Roman",serif;
       font-size:.9rem;
       letter-spacing:.22em;
@@ -154,7 +154,7 @@
     }
 
     .awarded{
-      margin-top:26px;
+      margin-top:24px;
       font-size:.9rem;
       letter-spacing:.28em;
       text-transform:uppercase;
@@ -194,7 +194,7 @@
 
     /* BOTTOM AREA */
     .bottom-row{
-      margin-top:34px;
+      margin-top:30px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
@@ -203,7 +203,7 @@
     }
 
     .sign-block{
-      min-width:260px;
+      min-width:280px;
     }
 
     .sign-top-row{
@@ -212,19 +212,19 @@
       margin-bottom:0;
     }
 
-    /* use transparent PNG for signature for no background */
+    /* bigger signature, still sitting nicely on the line */
     .sign-signature{
-      height:64px;
+      height:90px;          /* made noticeably larger */
       width:auto;
       object-fit:contain;
-      margin-bottom:-6px; /* sits on the line */
+      margin-bottom:-12px;  /* so it sits on the line */
       background:transparent;
       mix-blend-mode:multiply;
     }
 
     .sign-line{
       border-bottom:2px solid var(--ink);
-      width:260px;
+      width:280px;
       margin:0;
     }
 
@@ -321,7 +321,7 @@
       .cert-frame{padding:10px;}
       .cert-paper{
         aspect-ratio:auto;
-        padding:26px 18px 20px;
+        padding:24px 18px 18px;
       }
       .org-logo{height:52px;}
       .org-name{font-size:1.3rem;}
@@ -342,17 +342,17 @@
         height:96px;
       }
       .sign-signature{
-        height:50px;
+        height:70px;       /* still big on mobile */
         margin-bottom:-10px;
       }
     }
 
-    /* print: keep on one landscape A4 page */
+    /* print: keep it clean on ONE landscape A4 page */
     @media print{
       body{background:#ffffff!important;}
       @page{
         size:A4 landscape;
-        margin:10mm;
+        margin:6mm; /* smaller margin so it fills more of the page */
       }
       .cert-frame{
         box-shadow:none;
@@ -360,7 +360,7 @@
       }
       .cert-paper{
         box-shadow:none;
-        transform:scale(0.9);
+        transform:scale(0.94);  /* slightly larger but still safe for one page */
         transform-origin:top left;
       }
       .no-print{
@@ -420,7 +420,7 @@
               <!-- signature -->
               <div class="sign-block">
                 <div class="sign-top-row">
-                  <!-- IMPORTANT: use a transparent PNG here -->
+                  <!-- use transparent PNG if possible for no background -->
                   <img src="icons/signature.png" alt="Signature of Offorka Jerry" class="sign-signature">
                 </div>
                 <div class="sign-line"></div>
