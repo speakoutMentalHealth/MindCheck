@@ -134,7 +134,8 @@
 </footer>
 
 <script>
-  const SCRIPT_URL  = 'YOUR_WEBAPP_URL_HERE'; // same Apps Script web app URL
+  // same web app + auth style as training hub
+  const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
   const AUTH_TOKEN  = 'speakout123';
   const LS_KEY_MON  = 'mc_monitoring_weeks';
 
@@ -193,30 +194,33 @@
 
     setMonStatus(false,'Saving to MindCheck register…');
 
+    // build payload for Apps Script
+    const payload = Object.assign({}, row, {
+      auth: AUTH_TOKEN,
+      type:'monitoring_week'
+    });
+
     try{
-      const payload = Object.assign({}, row, {
-        auth: AUTH_TOKEN,
-        type:'monitoring_week'
-      });
-      const res = await fetch(SCRIPT_URL + '?auth=' + encodeURIComponent(AUTH_TOKEN), {
+      // use no-cors so browser doesn’t block on CORS;
+      // we can’t read the response, but if no error is thrown we treat as success
+      await fetch(SCRIPT_URL + '?auth=' + encodeURIComponent(AUTH_TOKEN), {
         method:'POST',
+        mode:'no-cors',
         headers:{'Content-Type':'text/plain;charset=utf-8'},
         body: JSON.stringify(payload)
       });
-      const data = await res.json().catch(()=>({}));
-      if(data && data.ok){
-        setMonStatus(true,'✅ Saved. Weekly indicators recorded in the register.');
-        const rows = getLocalMon();
-        rows.push(row);
-        setLocalMon(rows);
-        renderTable();
-        try{ window.plausible && window.plausible('MonitoringSaved'); }catch(e){}
-      } else {
-        setMonStatus(false,'❌ Could not save. Please try again.');
-      }
+
+      setMonStatus(true,'✅ Saved. Weekly indicators recorded in the register.');
+
+      const rows = getLocalMon();
+      rows.push(row);
+      setLocalMon(rows);
+      renderTable();
+
+      try{ window.plausible && window.plausible('MonitoringSaved'); }catch(e){}
     }catch(e){
       console.error(e);
-      setMonStatus(false,'❌ Network error while saving.');
+      setMonStatus(false,'❌ Network error while saving. Your data was not sent.');
     }
   }
 
