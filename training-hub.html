@@ -87,41 +87,6 @@
       Complete the lessons and take the quiz. You have <b>10 minutes</b>. Score at least <b>80%</b> to earn your
       <b>Volunteer Trained</b> badge, gain +50 points, and download your certificate.
     </p>
-    
-    <!-- Volunteer info is HIDDEN until all 5 lessons are completed -->
-    <div class="info-card" id="infoCard" style="display:none;">
-      <b>Volunteer details (required before quiz)</b>
-      <div class="info-row">
-        <div class="info-field">
-          <label class="info-label" for="candName">Full name</label>
-          <input id="candName" class="info-input" type="text" placeholder="Your full name"/>
-        </div>
-        <div class="info-field">
-          <label class="info-label" for="candAge">Age</label>
-          <input id="candAge" class="info-input" type="number" min="10" max="120" placeholder="Age"/>
-        </div>
-      </div>
-      <div class="info-row">
-        <div class="info-field">
-          <label class="info-label" for="candLocation">Location (city / state)</label>
-          <input id="candLocation" class="info-input" type="text" placeholder="e.g. Abuja, Nasarawa"/>
-        </div>
-        <div class="info-field">
-          <label class="info-label" for="candRole">Preferred volunteer role</label>
-          <select id="candRole" class="info-select">
-            <option value="">Select an option</option>
-            <option value="Campus volunteer">Campus volunteer</option>
-            <option value="Community volunteer">Community volunteer</option>
-            <option value="Online support volunteer">Online support volunteer</option>
-            <option value="Clinic / hospital liaison">Clinic / hospital liaison</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-      </div>
-      <p class="info-hint">
-        This information is only saved if you <b>pass</b> the quiz. It helps the SpeakOut team confirm and place you in the right group.
-      </p>
-    </div>
 
     <!-- Lessons (one-at-a-time navigation) -->
     <section class="lesson" data-lesson="1">
@@ -351,6 +316,41 @@
         <span class="pill">Time: <span id="timeLeft" class="timer">10:00</span></span>
         <span class="pill" id="attemptInfo">Attempts this month: 0 / 2</span>
       </p>
+
+      <!-- Volunteer details BLOCK NOW LIVES HERE, just above Start Quiz -->
+      <div class="info-card" id="infoCard" style="display:none;">
+        <b>Volunteer details (required before quiz)</b>
+        <div class="info-row">
+          <div class="info-field">
+            <label class="info-label" for="candName">Full name</label>
+            <input id="candName" class="info-input" type="text" placeholder="Your full name"/>
+          </div>
+          <div class="info-field">
+            <label class="info-label" for="candAge">Age</label>
+            <input id="candAge" class="info-input" type="number" min="10" max="120" placeholder="Age"/>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-field">
+            <label class="info-label" for="candLocation">Location (city / state)</label>
+            <input id="candLocation" class="info-input" type="text" placeholder="e.g. Abuja, Nasarawa"/>
+          </div>
+          <div class="info-field">
+            <label class="info-label" for="candRole">Preferred volunteer role</label>
+            <select id="candRole" class="info-select">
+              <option value="">Select an option</option>
+              <option value="Campus volunteer">Campus volunteer</option>
+              <option value="Community volunteer">Community volunteer</option>
+              <option value="Online support volunteer">Online support volunteer</option>
+              <option value="Clinic / hospital liaison">Clinic / hospital liaison</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <p class="info-hint">
+          This information is only saved if you <b>pass</b> the quiz. It helps the SpeakOut team confirm and place you in the right group.
+        </p>
+      </div>
 
       <div class="toolbar" id="preQuizBar">
         <button id="startQuiz" class="btn btn-primary" type="button" disabled>Start Quiz</button>
