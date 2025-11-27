@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>SpeakOut MindCheck — Training Hub</title>
+  <title>MindCheck Joint Volunteer Training — SpeakOut, Synia Aid Foundation & AfriHud</title>
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="mc-theme.css"/>
   <meta name="theme-color" content="#22c55e"/>
-
 
   <style>
     .lesson { background:#fff; border:1px solid #e8eef5; border-radius:14px; padding:14px; margin:12px 0; text-align:left; }
@@ -80,14 +79,47 @@
   </script>
 </head>
 <body>
-  <header>🧠 SpeakOut MindCheck Nigeria</header>
+  <header>🧠 MindCheck Nigeria — SpeakOut • Synia Aid Foundation • AfriHud</header>
 
   <main>
     <h2>Start Your Certified Training</h2>
+    <p class="muted" style="max-width:780px;margin:0 auto 0.35rem;">
+      This joint training is designed for volunteers serving with <b>SpeakOut Mental Health Outreach</b>,
+      <b>Synia Aid Foundation</b>, and <b>AfriHud (Africa Initiative for Humanitarian Development)</b>.
+      It prepares you to support people in schools, communities, humanitarian projects and outreach activities
+      across Nigeria.
+    </p>
     <p class="muted" style="max-width:780px;margin:0 auto;">
       Complete the lessons and take the quiz. You have <b>10 minutes</b>. Score at least <b>80%</b> to earn your
       <b>Volunteer Trained</b> badge, gain +50 points, and download your certificate.
     </p>
+
+    <!-- About this partnership -->
+    <div class="card" id="partnerCard" style="max-width:820px;margin:12px auto;text-align:left;">
+      <b>About this partnership</b>
+      <p class="muted" style="margin:.35rem 0;">
+        MindCheck training is a joint initiative of three Nigerian NGOs working together to support young people,
+        families and communities:
+      </p>
+      <ul style="margin:.35rem 0 .2rem;padding-left:18px;">
+        <li>
+          <b>SpeakOut Mental Health Outreach</b> – focuses on campus and community mental health education,
+          helping students and volunteers learn safe listening and referral skills.
+        </li>
+        <li>
+          <b>Synia Aid Foundation</b> – a nonprofit committed to fighting poverty by <i>“putting smiles on every face”</i>
+          through educational sponsorships, support for vulnerable families and community relief projects.
+        </li>
+        <li>
+          <b>AfriHud (Africa Initiative for Humanitarian Development)</b> – a humanitarian and development organisation
+          that leads community and social development projects, including digital literacy, youth empowerment and
+          climate-aware initiatives.
+        </li>
+      </ul>
+      <p class="muted" style="margin:.2rem 0 0;">
+        Your certificate confirms that you completed <b>joint training by SpeakOut Mental Health Outreach, Synia Aid Foundation & AfriHud</b>.
+      </p>
+    </div>
 
     <!-- Lessons (one-at-a-time navigation) -->
     <section class="lesson" data-lesson="1">
@@ -105,9 +137,9 @@
         <b>Why safe listening matters</b>
         <p>
           When people feel heard, their stress often reduces enough to make safer choices and accept help. In many
-          Nigerian contexts—campus life, church/mosque groups, hostels, busy homes—people may fear judgment or
-          gossip. A calm volunteer who listens well can make a huge difference in a few minutes. You’re not fixing
-          everything; you’re opening a door.
+          Nigerian contexts—campus life, church/mosque groups, hostels, busy homes, and humanitarian outreach
+          settings—people may fear judgment or gossip. A calm volunteer who listens well can make a huge difference
+          in a few minutes. You’re not fixing everything; you’re opening a door.
         </p>
       </div>
 
@@ -265,8 +297,8 @@
       <img src="icons/culture.png" alt="Cultural Sensitivity and Self-Care Illustration" style="max-width:100%;border-radius:12px;margin:.35rem 0"/>
       <p class="muted">
         Nigeria (and Africa at large) is rich with different languages, beliefs, and customs. Cultural sensitivity means you
-        respect how people understand mental health, family roles, and faith. At the same time, you must also care for yourself:
-        listening can be emotionally heavy, and your wellbeing matters.
+        respect how people understand mental health, family roles, faith, and community support. At the same time, you must also
+        care for yourself: listening can be emotionally heavy, and your wellbeing matters.
       </p>
 
       <div class="card" style="text-align:left">
@@ -318,9 +350,10 @@
         <span class="pill" id="attemptInfo">Attempts this month: 0 / 2</span>
       </p>
 
-      <!-- Volunteer details BLOCK NOW LIVES HERE, just above Start Quiz -->
+      <!-- Volunteer details BLOCK -->
       <div class="info-card" id="infoCard" style="display:none;">
         <b>Volunteer details (required before quiz)</b>
+
         <div class="info-row">
           <div class="info-field">
             <label class="info-label" for="candName">Full name</label>
@@ -331,6 +364,7 @@
             <input id="candAge" class="info-input" type="number" min="10" max="120" placeholder="Age"/>
           </div>
         </div>
+
         <div class="info-row">
           <div class="info-field">
             <label class="info-label" for="candLocation">Location (city / state)</label>
@@ -348,19 +382,23 @@
             </select>
           </div>
         </div>
-        <div class="info-field">
-            <label class="info-label" for="candRole">NGO Of Choice</label>
-            <select id="candRole" class="info-select">
+
+        <div class="info-row">
+          <div class="info-field">
+            <label class="info-label" for="candNgo">NGO of choice</label>
+            <select id="candNgo" class="info-select">
               <option value="">Select an option</option>
-              <option value="Speakout">Speakout Mental Health Outreach</option>
-              <option value="Synia">Synia Aid Foundation</option>
-              <option value="Afrihud">Afrihud</option>
+              <option value="SpeakOut Mental Health Outreach">SpeakOut Mental Health Outreach</option>
+              <option value="Synia Aid Foundation">Synia Aid Foundation</option>
+              <option value="AfriHud (Africa Initiative for Humanitarian Development)">AfriHud (Africa Initiative for Humanitarian Development)</option>
               <option value="Other">Other</option>
             </select>
           </div>
         </div>
+
         <p class="info-hint">
-          This information is only saved if you <b>pass</b> the quiz. It helps the SpeakOut team confirm and place you in the right group.
+          This information is only saved if you <b>pass</b> the quiz. It helps the
+          <b>SpeakOut / Synia Aid Foundation / AfriHud</b> teams confirm your details and place you in the right group.
         </p>
       </div>
 
@@ -377,12 +415,15 @@
         <a class="btn btn-ghost" href="volunteers.html">← Back to Volunteer Zone</a>
       </div>
 
-      <div id="quizResult" class="result"></div>
+      <div id="quizResult" class="result" aria-live="polite"></div>
 
       <!-- Certificate and completion block -->
       <div id="postPass" class="card" style="display:none;margin-top:12px;text-align:left;">
         <h3>✅ You passed!</h3>
-        <p class="muted">Your <b>Volunteer Trained</b> badge is unlocked (+50 points).</p>
+        <p class="muted">
+          Your <b>Volunteer Trained</b> badge is unlocked (+50 points) for completing
+          <b>joint training by SpeakOut Mental Health Outreach, Synia Aid Foundation & AfriHud</b>.
+        </p>
 
         <label style="display:block;margin:10px 0 6px;font-weight:700;">Your full name (for certificate)</label>
         <input id="certName" class="btn btn-ghost" style="width:100%;text-align:left" placeholder="Type your name as it should appear"/>
@@ -394,6 +435,8 @@
         </div>
 
         <p class="muted" style="margin-top:10px">
+          Your certificate will state that you completed <b>MindCheck Joint Volunteer Training</b>
+          delivered by <b>SpeakOut Mental Health Outreach, Synia Aid Foundation & AfriHud</b>.<br/>
           Need to verify a certificate later? Use <a href="verify.html" target="_blank" rel="noopener">Verify Certificate</a>.
         </p>
 
@@ -533,13 +576,15 @@
     const candAgeInput      = document.getElementById('candAge');
     const candLocationInput = document.getElementById('candLocation');
     const candRoleSelect    = document.getElementById('candRole');
+    const candNgoSelect     = document.getElementById('candNgo');
 
     function loadCandidateInfo(){
-      const data = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:''});
+      const data = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:'', ngo:''});
       if(candNameInput)     candNameInput.value     = data.name || '';
       if(candAgeInput)      candAgeInput.value      = data.age || '';
       if(candLocationInput) candLocationInput.value = data.location || '';
       if(candRoleSelect)    candRoleSelect.value    = data.role || '';
+      if(candNgoSelect)     candNgoSelect.value     = data.ngo || '';
     }
 
     function getCandidateInfoFromInputs(){
@@ -547,7 +592,8 @@
         name: (candNameInput?.value || '').trim(),
         age: (candAgeInput?.value || '').trim(),
         location: (candLocationInput?.value || '').trim(),
-        role: (candRoleSelect?.value || '').trim()
+        role: (candRoleSelect?.value || '').trim(),
+        ngo:  (candNgoSelect?.value || '').trim()
       };
     }
 
@@ -563,6 +609,7 @@
       if(!info.age || isNaN(parseInt(info.age,10))) return false;
       if(!info.location) return false;
       if(!info.role) return false;
+      if(!info.ngo) return false;
       return true;
     }
 
@@ -577,7 +624,7 @@
         if(!lessonsDone){
           lessonHint.textContent = 'Read each lesson fully, then click Next lesson. The quiz will unlock after Lesson 5.';
         }else if(!infoOk){
-          lessonHint.textContent = 'All lessons completed. Please fill in your volunteer details above to unlock the quiz.';
+          lessonHint.textContent = 'All lessons completed. Please fill in your volunteer details above (including NGO of choice) to unlock the quiz.';
         }else if(!attemptsOk){
           lessonHint.textContent = 'All lessons completed, but you have used your two quiz attempts for this month.';
         }else{
@@ -587,7 +634,7 @@
     }
 
     // Attach listeners to candidate fields
-    [candNameInput, candAgeInput, candLocationInput, candRoleSelect].forEach(el=>{
+    [candNameInput, candAgeInput, candLocationInput, candRoleSelect, candNgoSelect].forEach(el=>{
       if(!el) return;
       el.addEventListener('input', () => {
         saveCandidateInfo();
@@ -728,7 +775,7 @@
 
     // ---------- log passes to Google Sheet (with candidate info) ----------
     async function logTrainingPassToSheet(pct){
-      const candidate = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:''});
+      const candidate = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:'', ngo:''});
       const dateIso = new Date().toISOString();
       await postToGas({
         auth: BEARER,
@@ -738,6 +785,7 @@
         age:  candidate.age || '',
         location: candidate.location || '',
         role: candidate.role || '',
+        ngo:  candidate.ngo || '',
         score: Math.round(pct*100),
         date: dateIso
       });
@@ -752,7 +800,7 @@
           return;
         }
         if(!isCandidateInfoComplete()){
-          alert('Please fill in your volunteer details (name, age, location, role) before starting the quiz.');
+          alert('Please fill in your volunteer details (name, age, location, role, NGO) before starting the quiz.');
           return;
         }
         if(!canTakeQuiz()){
@@ -834,7 +882,7 @@
         post.style.display='block';
 
         // prefill certificate name from candidate info if empty
-        const cand = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:''});
+        const cand = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:'', ngo:''});
         const certInput = document.getElementById('certName');
         if(certInput && !certInput.value && cand.name){
           certInput.value = cand.name;
