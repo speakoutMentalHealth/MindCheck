@@ -394,6 +394,11 @@
               <option value="Other">Other</option>
             </select>
           </div>
+
+          <div class="info-field">
+            <label class="info-label" for="candWhatsApp">WhatsApp number</label>
+            <input id="candWhatsApp" class="info-input" type="tel" placeholder="+234 80 0000 0000"/>
+          </div>
         </div>
 
         <p class="info-hint">
@@ -572,28 +577,33 @@
     }
 
     // ---------- Candidate info handling ----------
-    const candNameInput     = document.getElementById('candName');
-    const candAgeInput      = document.getElementById('candAge');
-    const candLocationInput = document.getElementById('candLocation');
-    const candRoleSelect    = document.getElementById('candRole');
-    const candNgoSelect     = document.getElementById('candNgo');
+    const candNameInput      = document.getElementById('candName');
+    const candAgeInput       = document.getElementById('candAge');
+    const candLocationInput  = document.getElementById('candLocation');
+    const candRoleSelect     = document.getElementById('candRole');
+    const candNgoSelect      = document.getElementById('candNgo');
+    const candWhatsAppInput  = document.getElementById('candWhatsApp');
 
     function loadCandidateInfo(){
-      const data = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:'', ngo:''});
-      if(candNameInput)     candNameInput.value     = data.name || '';
-      if(candAgeInput)      candAgeInput.value      = data.age || '';
-      if(candLocationInput) candLocationInput.value = data.location || '';
-      if(candRoleSelect)    candRoleSelect.value    = data.role || '';
-      if(candNgoSelect)     candNgoSelect.value     = data.ngo || '';
+      const data = getJSON(KEY_CANDIDATE, {
+        name:'', age:'', location:'', role:'', ngo:'', whatsapp:''
+      });
+      if(candNameInput)      candNameInput.value      = data.name || '';
+      if(candAgeInput)       candAgeInput.value       = data.age || '';
+      if(candLocationInput)  candLocationInput.value  = data.location || '';
+      if(candRoleSelect)     candRoleSelect.value     = data.role || '';
+      if(candNgoSelect)      candNgoSelect.value      = data.ngo || '';
+      if(candWhatsAppInput)  candWhatsAppInput.value  = data.whatsapp || '';
     }
 
     function getCandidateInfoFromInputs(){
       return {
-        name: (candNameInput?.value || '').trim(),
-        age: (candAgeInput?.value || '').trim(),
+        name:     (candNameInput?.value || '').trim(),
+        age:      (candAgeInput?.value || '').trim(),
         location: (candLocationInput?.value || '').trim(),
-        role: (candRoleSelect?.value || '').trim(),
-        ngo:  (candNgoSelect?.value || '').trim()
+        role:     (candRoleSelect?.value || '').trim(),
+        ngo:      (candNgoSelect?.value || '').trim(),
+        whatsapp: (candWhatsAppInput?.value || '').trim()
       };
     }
 
@@ -610,6 +620,7 @@
       if(!info.location) return false;
       if(!info.role) return false;
       if(!info.ngo) return false;
+      if(!info.whatsapp) return false;
       return true;
     }
 
@@ -624,7 +635,7 @@
         if(!lessonsDone){
           lessonHint.textContent = 'Read each lesson fully, then click Next lesson. The quiz will unlock after Lesson 5.';
         }else if(!infoOk){
-          lessonHint.textContent = 'All lessons completed. Please fill in your volunteer details above (including NGO of choice) to unlock the quiz.';
+          lessonHint.textContent = 'All lessons completed. Please fill in your volunteer details above (including NGO of choice and WhatsApp number) to unlock the quiz.';
         }else if(!attemptsOk){
           lessonHint.textContent = 'All lessons completed, but you have used your two quiz attempts for this month.';
         }else{
@@ -634,7 +645,14 @@
     }
 
     // Attach listeners to candidate fields
-    [candNameInput, candAgeInput, candLocationInput, candRoleSelect, candNgoSelect].forEach(el=>{
+    [
+      candNameInput,
+      candAgeInput,
+      candLocationInput,
+      candRoleSelect,
+      candNgoSelect,
+      candWhatsAppInput
+    ].forEach(el=>{
       if(!el) return;
       el.addEventListener('input', () => {
         saveCandidateInfo();
@@ -775,19 +793,22 @@
 
     // ---------- log passes to Google Sheet (with candidate info) ----------
     async function logTrainingPassToSheet(pct){
-      const candidate = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:'', ngo:''});
+      const candidate = getJSON(KEY_CANDIDATE, {
+        name:'', age:'', location:'', role:'', ngo:'', whatsapp:''
+      });
       const dateIso = new Date().toISOString();
       await postToGas({
         auth: BEARER,
         type: 'training_pass',
-        uid:  getUid(),
-        name: candidate.name || '',
-        age:  candidate.age || '',
-        location: candidate.location || '',
-        role: candidate.role || '',
-        ngo:  candidate.ngo || '',
-        score: Math.round(pct*100),
-        date: dateIso
+        uid:       getUid(),
+        name:      candidate.name || '',
+        age:       candidate.age || '',
+        location:  candidate.location || '',
+        role:      candidate.role || '',
+        ngo:       candidate.ngo || '',
+        whatsapp:  candidate.whatsapp || '',
+        score:     Math.round(pct*100),
+        date:      dateIso
       });
     }
 
@@ -800,7 +821,7 @@
           return;
         }
         if(!isCandidateInfoComplete()){
-          alert('Please fill in your volunteer details (name, age, location, role, NGO) before starting the quiz.');
+          alert('Please fill in your volunteer details (name, age, location, role, NGO, WhatsApp number) before starting the quiz.');
           return;
         }
         if(!canTakeQuiz()){
@@ -882,7 +903,9 @@
         post.style.display='block';
 
         // prefill certificate name from candidate info if empty
-        const cand = getJSON(KEY_CANDIDATE, {name:'', age:'', location:'', role:'', ngo:''});
+        const cand = getJSON(KEY_CANDIDATE, {
+          name:'', age:'', location:'', role:'', ngo:'', whatsapp:''
+        });
         const certInput = document.getElementById('certName');
         if(certInput && !certInput.value && cand.name){
           certInput.value = cand.name;
