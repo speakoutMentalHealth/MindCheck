@@ -3,739 +3,238 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SpeakOut MindCheck 💚</title>
-  <meta name="description" content="Check your mental health privately, safely, and in your preferred language. SpeakOut MindCheck Nigeria." />
+  <title>Speak to a Counsellor • MindCheck 💚</title>
+  <meta name="description" content="Find a verified counsellor and speak privately via WhatsApp or chat. Optional payment for maintenance." />
 
-  <!-- Shared theme (matches all pages) -->
+  <!-- Shared theme -->
   <link rel="stylesheet" href="mc-theme.css">
 
   <!-- Privacy-friendly analytics (Plausible) -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
 
-  <!-- PWA manifest + theme -->
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#22c55e">
-
-  <!-- Icons -->
-  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" href="favicon.png">
-
-  <!-- Minimal critical styles unique to this page -->
   <style>
     :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; --bg:#f5fdf8; --card:#ffffff; }
-    body { font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); text-align:center; margin:0; padding:0; }
-    header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;}
-    p{margin:.75rem 0;}
-    .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;}
+    body { font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); margin:0; padding:0; }
+    header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.35rem;font-weight:900;text-align:center;}
+    main{max-width:1050px;margin:0 auto;padding:16px;}
+    .sub{ text-align:center; margin:10px 0 14px; color:#334155; }
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin:10px 0 14px;}
+    .input{
+      width:min(520px, 100%);
+      padding:12px 12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;font-size:1rem;outline:none;
+    }
+    .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;justify-content:center;}
     .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
     .btn-primary:hover{background:var(--greenDark);}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
-    section{display:none;padding:16px;animation:fadeIn .25s ease-in-out;}
-    section.active{display:block;}
-    .twrap{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:10px;}
-    .tbtn{background:var(--green);color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;transition:.2s ease;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 15px rgba(34,197,94,.25);}
-    .tbtn:hover{background:var(--greenDark);transform:translateY(-1px) scale(1.03);}
-    .tbtn.live{animation:pulse 2s infinite;}
-    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
-    .tbtn.soon{background:linear-gradient(145deg,#a7f3d0,#6ee7b7);color:#064e3b;cursor:default;position:relative;}
-    .tbtn.soon::after{content:attr(data-tooltip);position:absolute;bottom:125%;left:50%;transform:translateX(-50%);background:#062436;color:#fff;padding:6px 10px;border-radius:6px;font-size:.8rem;white-space:nowrap;opacity:0;transition:opacity .3s;box-shadow:0 3px 8px rgba(0,0,0,.15);}
-    .tbtn.soon:hover::after{opacity:1;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;text-align:left;}
-    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;color:inherit;text-decoration:none;display:block;}
-    .card:hover{transform:translateY(-2px);}
-    .card .big{font-size:28px;line-height:1;}
-    .card h3{margin:.4rem 0 .25rem;font-size:1.05rem;}
-    .card p{margin:.2rem 0 0;color:#52606d;font-size:.92rem;}
-    .stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto;max-width:960px;}
-    .pill{background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:600;}
-    .crisis{max-width:680px;margin:12px auto;padding:12px;border:1px solid #fecaca;background:#fff1f2;border-radius:12px;color:#7f1d1d;}
-    .crisis .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
-    .badge-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px auto;max-width:900px;}
-    .badge{border:1px solid #e8eef5;border-radius:12px;background:#fff;text-align:left;padding:12px;}
-    .badge.locked{opacity:.55;}
-    .badge .name{font-weight:700;margin:.2rem 0;}
-    .badge .desc{font-size:.9rem;color:#52606d;margin:.1rem 0 .3rem;}
-    .badge .status{font-size:.85rem;color:#0b5;}
-    .award-list{max-width:900px;margin:14px auto;display:grid;gap:12px;}
-    .award{border:1px solid #e8eef5;border-radius:12px;background:#fff;text-align:left;padding:12px;}
-    .award .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
-    .award .id{font-family:ui-monospace,Consolas,monospace;background:#f6f7f9;border:1px solid #e8eef5;border-radius:6px;padding:4px 6px;}
-    iframe{width:100%;height:800px;border:0;border-radius:12px;background:#fff;}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-    footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
-    .toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
-    #savedTipsList li { margin: 6px 0; } #savedTipsList small { color:#64748b; }
+    .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
+    .btn-ghost:hover{transform:translateY(-1px);}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:12px;}
+    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);}
+    .card h3{margin:.2rem 0 .2rem;font-size:1.05rem;}
+    .card p{margin:.25rem 0;color:#52606d;line-height:1.45;}
+    .tag{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;font-weight:700;font-size:.85rem;color:#0f172a;margin-top:8px;}
+    .mini{font-size:.86rem;color:#64748b;}
+    .note{font-size:.92rem;color:#475569;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px;line-height:1.45;max-width:900px;margin:0 auto;}
+    .crisis{max-width:900px;margin:12px auto;padding:12px;border:1px solid #fecaca;background:#fff1f2;border-radius:12px;color:#7f1d1d;}
+    .crisis .r{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
+    footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;text-align:center;}
+    footer a{color:inherit;text-decoration:underline;}
+    .divider{height:1px;background:#e5e7eb;margin:16px 0;}
   </style>
 </head>
+
 <body>
-  <header>🧠 SpeakOut MindCheck Nigeria</header>
+  <header>💬 Speak to a Counsellor</header>
 
-  <p>Check your mental health privately, safely, and in your preferred language.</p>
-  <button id="startBtn" class="btn btn-primary" aria-label="Start MindCheck">Start Now</button>
+  <main>
+    <p class="sub">
+      Choose a counsellor and speak privately. You can message via WhatsApp (or your chat platform), and optionally support maintenance with a small token.
+    </p>
 
-  <!-- Failsafe: ensure Start Now always works -->
-  <script>
-  (function() {
-    function minimalShow(section) {
-      var ids = ["langSection","homeSection","moodSection","formContainer","tipsSection","helpSection","badgesSection"];
-      ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
-      if (section) { section.classList.add('active'); section.scrollIntoView({behavior:'smooth'}); }
-    }
-    function goToLang() {
-      var startBtn = document.getElementById('startBtn');
-      var lang = document.getElementById('langSection');
-      if (startBtn) startBtn.style.display = 'none';
-      if (typeof window.show === 'function') {
-        try { window.show(lang); } catch(e) { console.warn('show() failed, using minimalShow', e); minimalShow(lang); }
-      } else {
-        minimalShow(lang);
-      }
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-      var btn = document.getElementById('startBtn');
-      if (btn) btn.addEventListener('click', function(ev){ ev.preventDefault(); goToLang(); }, { once:true });
-    });
-    var btnEl = document.getElementById('startBtn');
-    if (btnEl && !btnEl.getAttribute('data-onclick-patched')) {
-      btnEl.setAttribute('onclick', '(' + goToLang.toString() + ')();');
-      btnEl.setAttribute('data-onclick-patched','1');
-    }
-  })();
-  </script>
-
-  <!-- Runtime error reporter -->
-  <script>
-  window.addEventListener('error', function(ev){
-    console.error('JS Error:', ev.message, 'at', ev.filename+':'+ev.lineno+':'+ev.colno);
-    if (!window._mcAlerted) { window._mcAlerted = true; alert('A script error stopped the app:\n' + ev.message + '\nCheck DevTools Console for details.'); }
-  });
-  </script>
-
-  <!-- Language -->
-  <section id="langSection" aria-labelledby="langTitle">
-    <p id="langTitle" style="font-weight:700;">🌍 Choose your language:</p>
-    <div class="twrap" role="group" aria-label="Language options">
-      <button class="tbtn live" data-lang="en" aria-label="English">English</button>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Hausa">🕓 Hausa — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Yoruba">🕓 Yoruba — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in French">🕓 French — Coming Soon</span>
-    </div>
-  </section>
-
-  <!-- Home + Stats -->
-  <section id="homeSection" aria-labelledby="homeTitle">
-    <h2 id="homeTitle">Welcome to MindCheck 🌿</h2>
-    <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
-    <div class="stats" role="status" aria-live="polite">
-      <span class="pill">Points: <span id="pointsPill">0</span></span>
-      <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
-      <span class="pill">Tips done (7d): <span id="tipsDonePill">0</span></span>
-      <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
-    </div>
-
-    <div class="grid">
-      <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
-        <div class="big">😊</div>
-        <h3>Check Your Mood</h3>
-        <p>Earn points once daily (+10). 20-day streak wins ₦1000.</p>
-      </div>
-
-      <div class="card" id="goScreenings" role="button" tabindex="0" aria-label="Open mental health screenings">
-        <div class="big">🧠</div>
-        <h3>Mental Health Screenings</h3>
-        <p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p>
-      </div>
-
-      <a class="card" id="goTips" href="#" aria-label="Open wellness tips">
-        <div class="big">🌿</div>
-        <h3>Wellness Tips</h3>
-        <p>Simple habits for calm and focus.</p>
-      </a>
-
-      <a class="card" id="goHelp" href="#" aria-label="Get help and support options">
-        <div class="big">📞</div>
-        <h3>Get Help</h3>
-        <p>Find mental-health support nearby.</p>
-      </a>
-
-      <div class="card" id="goBadges" role="button" tabindex="0" aria-label="Open badges and awards">
-        <div class="big">🏅</div>
-        <h3>Badges & Awards</h3>
-        <p>See unlocked badges & claim awards.</p>
-      </div>
-
-      <!-- Volunteer Zone -->
-      <a class="card" id="goVolunteer" href="volunteers.html" aria-label="Volunteer Zone">
-        <div class="big">🤝</div>
-        <h3>Volunteer Zone</h3>
-        <p>Get certified and join outreach.</p>
-      </a>
-
-      <!-- Clinics & Resources -->
-      <a class="card" id="goResources" href="resources.html" aria-label="Clinics and resources directory">
-        <div class="big">📍</div>
-        <h3>Clinics & Resources</h3>
-        <p>Find services near you (Abuja, Keffi, Owerri).</p>
-      </a>
-
-      <!-- ✅ NEW: Become a Counsellor (HOME MENU ONLY) -->
-      <a class="card" id="goBecomeCounsellor" href="./become-a-counsellor.html" aria-label="Become a Counsellor">
-        <div class="big">🧑‍⚕️</div>
-        <h3>Become a Counsellor</h3>
-        <p>Take the exam, upload your certificate, and get verified to join our counsellor list.</p>
-      </a>
-
-      <!-- ✅ NEW: Speak to a Counsellor (HOME MENU ONLY) -->
-      <a class="card" id="goSpeakCounsellor" href="./speak-to-a-counsellor.html" aria-label="Speak to a Counsellor">
-        <div class="big">💬</div>
-        <h3>Speak to a Counsellor</h3>
-        <p>Choose a counsellor and connect via WhatsApp or chat for support (token payment available).</p>
-      </a>
-
-      <!-- Anonymous Safety Report -->
-      <a class="card" id="goReport" href="report.html" style="border:2px solid #fecaca;" aria-label="Anonymous safety report">
-        <div class="big">🚨</div>
-        <h3>I Need Help (Anonymous)</h3>
-        <p>Tell us safely if you feel hurt, not safe, or worried about a friend. No name needed.</p>
-        <div style="font-size:.8rem;line-height:1.4;color:#7f1d1d;background:#fff1f2;border:1px solid #fecaca;border-radius:8px;padding:6px 8px;margin-top:8px;font-weight:600;">
-          If someone is in danger right now, call 112 or tell a trusted adult immediately.
-        </div>
-      </a>
-    </div>
-
-    <div style="font-size:.8rem;line-height:1.4;color:#666;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px;max-width:680px;margin:16px auto 0;text-align:left;">
-      <strong>Important:</strong><br/>
-      SpeakOut MindCheck is not an emergency service. If you or someone is in danger right now, please call 112 or tell a trusted adult (parent, school counselor, teacher, auntie, pastor/imam) immediately.
-    </div>
-  </section>
-
-  <!-- Mood Check-in -->
-  <section id="moodSection" aria-labelledby="moodTitle">
-    <h2 id="moodTitle">How are you feeling today?</h2>
-    <div class="mood-row" role="group" aria-label="Mood options">
-      <button class="mood" data-val="4" aria-label="Very happy">😄<br><span class="mood-label">Very Happy</span></button>
-      <button class="mood" data-val="3" aria-label="Happy">😊<br><span class="mood-label">Happy</span></button>
-      <button class="mood" data-val="2" aria-label="Okay">😐<br><span class="mood-label">Okay</span></button>
-      <button class="mood" data-val="1" aria-label="Sad">😞<br><span class="mood-label">Sad</span></button>
-      <button class="mood" data-val="0" aria-label="Very sad">😢<br><span class="mood-label">Very Sad</span></button>
-    </div>
-
-    <div id="crisisBanner" class="crisis" style="display:none;" role="alert">
-      <b>We care about you.</b> It looks like things have been tough for a few days.
-      <div class="row">
-        <a class="btn btn-primary" href="tel:112">Call 112 (Emergency)</a>
+    <div class="crisis" role="alert">
+      <b>Not an emergency service.</b> If you or someone is in danger right now, call <b>112</b> or reach a trusted adult immediately.
+      <div class="r">
+        <a class="btn btn-primary" href="tel:112">Call 112</a>
         <a class="btn btn-ghost" href="tel:+2348118103510">SpeakOut Helpline</a>
         <a class="btn btn-ghost" href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp a volunteer</a>
-        <button id="dismissCrisis" class="btn btn-ghost">Dismiss for today</button>
       </div>
     </div>
 
-    <div id="moodResult" class="result" style="display:none;"></div>
-    <div class="toolbar"><button id="moodBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
-
-  <!-- Screenings form -->
-  <section id="formContainer" aria-labelledby="formTitle">
-    <h2 id="formTitle" class="sr-only" style="position:absolute;left:-9999px;">Screening Form</h2>
-    <iframe id="formFrame" src="" title="SpeakOut MindCheck form" loading="lazy" referrerpolicy="no-referrer"></iframe>
-    <div class="toolbar"><button id="formBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
-
-  <!-- Wellness Tips -->
-  <section id="tipsSection" aria-labelledby="tipsTitle">
-    <h2 id="tipsTitle">Wellness Tips 🌿</h2>
-    <p id="tipsGreeting" style="font-weight:600;color:#334155;margin:6px 0;"></p>
-    <div class="toolbar" role="group" aria-label="Filter tips">
-      <button class="btn btn-ghost tip-filter" data-filter="all">All</button>
-      <button class="btn btn-ghost tip-filter" data-filter="calm">Calm</button>
-      <button class="btn btn-ghost tip-filter" data-filter="anxious">Anxious</button>
-      <button class="btn btn-ghost tip-filter" data-filter="low">Low</button>
-      <button class="btn btn-ghost tip-filter" data-filter="neutral">Neutral</button>
-      <button class="btn btn-ghost tip-filter" data-filter="positive">Positive</button>
+    <div class="row" aria-label="Search and actions">
+      <input id="searchBox" class="input" placeholder="Search counsellors by name, specialty (e.g., anxiety, marriage), or language…" />
+      <a class="btn btn-ghost" href="index.html">⬅️ Back to MindCheck</a>
+      <a class="btn btn-primary" href="become-a-counsellor.html">🧑‍⚕️ Become a counsellor</a>
     </div>
 
-    <div class="card" id="tipCard" style="max-width:680px;margin:14px auto;text-align:left;">
-      <div class="big">🌱</div>
-      <h3 id="tipText" style="margin:.5rem 0;"></h3>
-      <p id="tipNote" style="color:#52606d;margin:0;"></p>
-      <div class="toolbar" style="justify-content:flex-start;margin-top:12px;">
-        <button id="tipDoneBtn" class="btn btn-primary">Done ✅</button>
-        <button id="tipSaveBtn" class="btn btn-ghost">Save tip ⭐</button>
+    <div class="note">
+      <b>How it works:</b><br/>
+      1) Pick a counsellor from the list<br/>
+      2) Tap WhatsApp (or Chat) to start counselling<br/>
+      3) If required, make a small payment before or after the session (maintenance)
+    </div>
+
+    <div class="divider"></div>
+
+    <h2 style="text-align:center;margin:0 0 8px;">Available counsellors</h2>
+    <p class="mini" style="text-align:center;margin:0 0 12px;">
+      (Demo list for now — you can replace with your real verified counsellors.)
+    </p>
+
+    <section id="cards" class="grid" aria-label="Counsellor list"></section>
+
+    <div class="divider"></div>
+
+    <section class="card" aria-labelledby="payTitle" style="max-width:900px;margin:0 auto;">
+      <h3 id="payTitle">💳 Counselling support token (payment)</h3>
+      <p>
+        If your counselling requires a small token for maintenance, you can pay using your preferred payment gateway.
+        This page includes placeholders — swap them with your Paystack/Flutterwave payment links.
+      </p>
+
+      <div class="row" style="justify-content:flex-start;">
+        <!-- Replace href with real Paystack/Flutterwave payment links -->
+        <a class="btn btn-primary" href="https://example.com/pay" target="_blank" rel="noopener">Pay now</a>
+        <button class="btn btn-ghost" id="copyRef">Copy payment note</button>
       </div>
-      <p id="tipStatus" style="color:#0b5;font-weight:600;display:none;margin-top:8px;"></p>
-    </div>
 
-    <details style="max-width:680px;margin:10px auto;text-align:left;background:#fff;border:1px solid #eef2f7;border-radius:12px;padding:10px;">
-      <summary style="cursor:pointer;font-weight:700;">⭐ Saved tips</summary>
-      <ul id="savedTipsList" style="padding-left:18px;margin-top:8px;"></ul>
-    </details>
+      <div class="note" style="margin-top:10px;">
+        <b>Payment note:</b> Use your name + date (e.g., “Ngozi • 2025-12-28 • Counselling”).<br/>
+        After payment, send the receipt to the counsellor (WhatsApp) or to SpeakOut support if needed.
+      </div>
 
-    <div class="toolbar">
-      <button id="nextTip" class="btn btn-primary">Show another tip</button>
-      <button id="tipsBackHome" class="btn btn-ghost">Back to Home</button>
-    </div>
-  </section>
+      <p class="mini" style="margin-top:10px;">
+        If you want: I can make this page generate a unique reference ID and open Paystack with the exact amount automatically.
+      </p>
+    </section>
 
-  <!-- Get Help -->
-  <section id="helpSection" aria-labelledby="helpTitle">
-    <h2 id="helpTitle">Get Help 📞</h2>
-    <p style="color:#334155">If you're in immediate danger or feel unsafe, contact your local emergency number.</p>
-    <div class="grid" style="max-width:820px;margin:0 auto;">
-      <a class="card" href="tel:112"><div class="big">🚑</div><h3>Emergency Services</h3><p>Call 112 (or your country emergency number) for urgent help.</p></a>
-      <a class="card" href="tel:+2348118103510"><div class="big">📞</div><h3>SpeakOut Helpline</h3><p>Call us for support and referral options.</p></a>
-      <a class="card" href="https://wa.me/2348118103510" target="_blank" rel="noopener"><div class="big">💬</div><h3>WhatsApp</h3><p>Chat with a SpeakOut volunteer.</p></a>
-      <a class="card" href="resources.html"><div class="big">📍</div><h3>Clinics & Resources</h3><p>Find mental-health services near you.</p></a>
-    </div>
-    <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
-
-  <!-- Badges & Awards -->
-  <section id="badgesSection" aria-labelledby="badgesTitle">
-    <h2 id="badgesTitle">Badges & Awards 🏅</h2>
-    <p style="color:#334155">Daily mood check-ins earn points; 20-day streak wins ₦1000. Claim via WhatsApp with your Award ID.</p>
-    <div id="badgesGrid" class="badge-list"></div>
-    <h3 style="margin-top:18px;">Your Awards</h3>
-    <div id="awardsList" class="award-list"></div>
-    <div class="toolbar"><button id="badgesBackHome" class="btn btn-ghost">Back to Home</button></div>
-  </section>
-
-  <footer style="margin-top:20px;">
-    🔒 <a href="privacy.html">Privacy</a> •
-    📄 <a href="terms.html">Terms</a> •
-    🏥 <a href="resources.html">Clinics & Resources</a> •
-    🤝 <a href="volunteers.html">Volunteer Zone</a> •
-    🧑‍⚕️ <a href="./become-a-counsellor.html">Become a Counsellor</a> •
-    💬 <a href="./speak-to-a-counsellor.html">Speak to a Counsellor</a> •
-    ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-  </footer>
-
-  <!-- App scripts: split for readability -->
-  <script>
-    /* ---------- Element refs & navigation ---------- */
-    const startBtn=document.getElementById('startBtn');
-    const langSection=document.getElementById('langSection');
-    const homeSection=document.getElementById('homeSection');
-    const moodSection=document.getElementById('moodSection');
-    const formContainer=document.getElementById('formContainer');
-    const tipsSection=document.getElementById('tipsSection');
-    const helpSection=document.getElementById('helpSection');
-    const badgesSection=document.getElementById('badgesSection');
-
-    const formFrame=document.getElementById('formFrame');
-    const statsText=document.getElementById('statsText');
-    const pointsPill=document.getElementById('pointsPill');
-    const streakPill=document.getElementById('streakPill');
-    const awardsPill=document.getElementById('awardsPill');
-    const tipsDonePill=document.getElementById('tipsDonePill');
-    const moodResult=document.getElementById('moodResult');
-
-    const tipText=document.getElementById('tipText');
-    const tipNote=document.getElementById('tipNote');
-    const nextTipBtn=document.getElementById('nextTip');
-    const tipsGreeting=document.getElementById('tipsGreeting');
-    const tipSaveBtn=document.getElementById('tipSaveBtn');
-    const tipDoneBtn=document.getElementById('tipDoneBtn');
-    const tipStatus=document.getElementById('tipStatus');
-    const savedTipsList=document.getElementById('savedTipsList');
-
-    const badgesGrid=document.getElementById('badgesGrid');
-    const awardsList=document.getElementById('awardsList');
-
-    const crisisBanner=document.getElementById('crisisBanner');
-    const dismissCrisis=document.getElementById('dismissCrisis');
-    const sparkSVG=document.getElementById('moodSpark');
-
-    function show(section){
-      [langSection,homeSection,moodSection,formContainer,tipsSection,helpSection,badgesSection].forEach(s=>s.classList.remove('active'));
-      section.classList.add('active');
-      section.scrollIntoView({behavior:'smooth'});
-
-      if(section===homeSection){ updateStats(); updateHeaderPills(); renderSparkline(); }
-      if(section===badgesSection){ renderBadges(); renderAwards(); }
-      if(section===tipsSection){ renderSavedTips(); renderTip(); }
-    }
-
-    startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
-    document.querySelectorAll('.tbtn.live').forEach(btn=>{
-      btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); show(homeSection); };
-    });
-
-    document.getElementById('goMood').onclick=()=>show(moodSection);
-    document.getElementById('moodBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goScreenings').onclick=()=>{ formFrame.src='https://tally.so/r/w2QbOV'; show(formContainer); };
-    document.getElementById('formBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goTips').onclick=(e)=>{ e.preventDefault(); currentTipFilter = lastMoodTag(); show(tipsSection); };
-    document.getElementById('tipsBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goHelp').onclick=(e)=>{e.preventDefault(); show(helpSection);};
-    document.getElementById('helpBackHome').onclick=()=>show(homeSection);
-
-    document.getElementById('goBadges').onclick=()=>show(badgesSection);
-    document.getElementById('badgesBackHome').onclick=()=>show(homeSection);
-  </script>
+    <footer>
+      🔒 <a href="privacy.html">Privacy</a> •
+      📄 <a href="terms.html">Terms</a> •
+      🏥 <a href="resources.html">Clinics & Resources</a> •
+      🤝 <a href="volunteers.html">Volunteer Zone</a> •
+      ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+    </footer>
+  </main>
 
   <script>
-    /* ---------- Keys & UID ---------- */
-    const KEY_UID='mc_uid';
-    const KEY_POINTS='mc_points';
-    const KEY_STREAK='mc_streak';
-    const KEY_LAST='mc_lastCheckin';
-    const KEY_HISTORY='mc_mood_history';
-    const KEY_BADGES='mc_badges';
-    const KEY_AWARDS='mc_awards';
-    const KEY_TIPS_SAVED='mc_tips_saved';
-    const KEY_TIPS_DONE ='mc_tips_done';
-    const KEY_CRISIS_DISMISS='mc_crisis_dismiss_date';
+    function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
 
-    function getUID() {
-      let uid = localStorage.getItem(KEY_UID);
-      if (!uid) {
-        try { uid = crypto.randomUUID(); }
-        catch { uid = 'mc_' + Math.random().toString(36).slice(2); }
-        localStorage.setItem(KEY_UID, uid);
+    // Replace this demo list with your verified counsellors later
+    const COUNSELLORS = [
+      {
+        name: "Amina S.",
+        title: "Counsellor (Anxiety & Stress)",
+        languages: ["English", "Hausa (basic)"],
+        mode: ["WhatsApp"],
+        fee: "Token-based",
+        whatsapp: "2348118103510",
+        about: "Support for stress, worry, overthinking, burnout, and coping tools."
+      },
+      {
+        name: "Chidi O.",
+        title: "Counsellor (Relationships & Marriage)",
+        languages: ["English", "Igbo (basic)"],
+        mode: ["WhatsApp"],
+        fee: "Token-based",
+        whatsapp: "2348118103510",
+        about: "Relationship conflicts, communication, boundaries, healing & rebuilding."
+      },
+      {
+        name: "Kemi A.",
+        title: "Counsellor (Youth & School Support)",
+        languages: ["English", "Yoruba (basic)"],
+        mode: ["WhatsApp"],
+        fee: "Token-based",
+        whatsapp: "2348118103510",
+        about: "Teen support, school pressure, self-esteem, and emotional regulation."
       }
-      return uid;
-    }
-    const UID = getUID();
-    window.MC_UID = UID;
-
-    /* ---------- Helpers ---------- */
-    function todayStr(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
-    function isoToDate(iso){ return new Date(iso); }
-    function getJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }catch(e){ return fallback; } }
-    function setJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-    const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
-    const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
-    const addPoints=n=>setPoints(getPoints()+n);
-    const getStreak=()=>parseInt(localStorage.getItem(KEY_STREAK)||'0',10);
-    const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
-    const getLast=()=>localStorage.getItem(KEY_LAST) || '';
-    const setLast=v=>localStorage.setItem(KEY_LAST, v);
-    const getBadges=()=>getJSON(KEY_BADGES, []);
-    const setBadges=arr=>setJSON(KEY_BADGES, arr);
-    function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true;} return false; }
-    const getAwards=()=>getJSON(KEY_AWARDS, []);
-    const setAwards=arr=>setJSON(KEY_AWARDS, arr);
-    function getSavedTips(){ return getJSON(KEY_TIPS_SAVED, []); }
-    function setSavedTips(arr){ setJSON(KEY_TIPS_SAVED, arr); }
-    function getDoneTips(){ return getJSON(KEY_TIPS_DONE, []); }
-    function setDoneTips(arr){ setJSON(KEY_TIPS_DONE, arr); }
-
-    /* ---------- Config ---------- */
-    const AWARD_AMOUNT_NAIRA = 1000;
-    const WHATSAPP_NUMBER = '2348118103510';
-
-    /* ---------- Mood check-in (daily) ---------- */
-    document.querySelectorAll('.mood').forEach(btn=>{
-      btn.onclick=()=>handleCheckin(parseInt(btn.dataset.val,10));
-    });
-
-    async function handleCheckin(moodValue){
-      const today = todayStr();
-      const last = getLast();
-      if(last===today){
-        moodResult.style.display='block';
-        moodResult.innerHTML=`<p>✅ You already checked in today. Come back tomorrow!</p>`;
-        return;
-      }
-
-      addPoints(10);
-      setLast(today);
-      const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
-      if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
-
-      const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
-
-      const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
-      let tip="Take a deep breath for 60 seconds.";
-      if(moodValue>=3) tip="Great mood! Share a smile today 🌻.";
-      if(moodValue===2) tip="Stretch or walk a little to refresh.";
-      if(moodValue<=1) tip="You’re not alone — breathe and reach out if you need help.";
-
-      const newly=[];
-      if(awardBadge('first_checkin')) newly.push('First Check-in');
-      if(getStreak()>=3 && awardBadge('streak_3')) newly.push('3-Day Streak');
-      if(getStreak()>=7 && awardBadge('streak_7')) newly.push('7-Day Streak');
-      const pts=getPoints();
-      if(pts>=100 && awardBadge('points_100')) newly.push('100 Points');
-      if(pts>=300 && awardBadge('points_300')) newly.push('300 Points');
-
-      let awardHTML=''; let created=null;
-      const streak = getStreak();
-      if(streak>0 && streak%20===0){
-        created = createStreakAwardIfNew(streak);
-        if(created){
-          awardHTML = `
-            <p style="font-size:1.05rem;">🎁 <b>Congratulations!</b> You’ve won
-            <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>
-            Use your Award ID to claim on WhatsApp.</p>
-            <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
-            <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener">Claim via WhatsApp</a></p>
-          `;
-        }
-      }
-
-      moodResult.style.display='block';
-      moodResult.innerHTML=`
-        <p>🎉 Thanks for checking in ${emoji} — you earned <b>+10 points</b>.</p>
-        <p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p>
-        <p><b>Tip:</b> ${tip}</p>
-        ${newly.length ? `<p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p>` : ''}
-        ${awardHTML}
-      `;
-      updateHeaderPills();
-      maybeShowCrisis();
-
-      try {
-        fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            type: 'checkin',
-            uid: UID,
-            day: todayStr(),
-            mood_value: moodValue,
-            streak_after: getStreak(),
-            points_after: getPoints(),
-            lang: localStorage.getItem('mc_lang') || 'en',
-            app_version: 'v1.0.0',
-            award_issued: !!created,
-            award_id: created ? created.id : ''
-          })
-        })
-        .then(r=>r.text())
-        .then(t=>{ try{ console.log('GAS response:', JSON.parse(t)); }catch{ console.log('GAS raw:', t); } })
-        .catch(e=>console.warn('Check-in logging failed:', e));
-      } catch(e) { console.warn('Fetch block failed:', e); }
-    }
-
-    function createStreakAwardIfNew(streakCycle){
-      const awards = getAwards();
-      if (awards.find(a => a.streak_cycle === streakCycle)) return null;
-      const today = new Date();
-      const y = today.getFullYear();
-      const m = String(today.getMonth()+1).padStart(2,'0');
-      const d = String(today.getDate()).padStart(2,'0');
-      const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
-      const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
-      const award = { id, amount: AWARD_AMOUNT_NAIRA, issued_at: today.toISOString(), streak_cycle: streakCycle, uid: UID, claimed:false, claimed_at:null };
-      awards.push(award); setAwards(awards); return award;
-    }
-    function whatsAppClaimLink(a){
-      const msg = encodeURIComponent(`Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${a.id}\nAmount: ₦${a.amount}\nUID: ${UID}\n\nThank you!`);
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-    }
-
-    /* ---------- Home stats ---------- */
-    function updateHeaderPills(){
-      pointsPill.textContent=getPoints();
-      streakPill.textContent=getStreak();
-      const pend = getAwards().filter(a=>!a.claimed).length;
-      awardsPill.textContent = pend;
-      if (tipsDonePill) tipsDonePill.textContent = tipsDoneLast7d();
-    }
-    function updateStats(){
-      const arr=getJSON(KEY_HISTORY, []);
-      const now=new Date(); const weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
-      const weekCount=arr.filter(i=>{ const t=isoToDate(i.ts); return t>=weekAgo && t<=now; }).length;
-      statsText.textContent = weekCount>0
-        ? `📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`
-        : `📊 You haven’t checked your mood this week yet — try it now!`;
-    }
-    function tipsDoneLast7d(){
-      const done=getDoneTips(); const now=new Date(); const wk=new Date(now); wk.setDate(now.getDate()-7);
-      return done.filter(i=>{const t=new Date(i.done_at); return t>=wk && t<=now;}).length;
-    }
-    function renderSparkline(){ if(!sparkSVG) return; sparkSVG.innerHTML=''; }
-
-    /* ---------- Badges & Awards rendering ---------- */
-    const BADGE_CATALOG = [
-      { id:'first_checkin', name:'First Check-in', desc:'Your first ever mood check.' },
-      { id:'streak_3', name:'3-Day Streak', desc:'Checked your mood 3 days in a row.' },
-      { id:'streak_7', name:'7-Day Streak', desc:'Checked your mood 7 days in a row.' },
-      { id:'points_100', name:'100 Points', desc:'Reached 100 total points.' },
-      { id:'points_300', name:'300 Points', desc:'Reached 300 total points.' },
     ];
-    function renderBadges(){
-      const owned=new Set(getBadges());
-      badgesGrid.innerHTML = BADGE_CATALOG.map(b=>{
-        const unlocked=owned.has(b.id);
-        return `
-          <div class="badge ${unlocked?'':'locked'}">
-            <div class="name">🏅 ${b.name}</div>
-            <div class="desc">${b.desc}</div>
-            <div class="status">${unlocked ? 'Unlocked ✅' : 'Locked 🔒'}</div>
-          </div>
-        `;
-      }).join('');
+
+    const cards = document.getElementById('cards');
+    const searchBox = document.getElementById('searchBox');
+
+    function waLink(number, counsellorName){
+      const msg = encodeURIComponent(
+        `Hello ${counsellorName},\n\nI found you on SpeakOut MindCheck and I would like to speak with a counsellor.\n\nMy concern: (briefly type here)\nPreferred time: (optional)\n\nThank you.`
+      );
+      return `https://wa.me/${number}?text=${msg}`;
     }
-    function renderAwards(){
-      const awards = getAwards().sort((a,b)=> new Date(b.issued_at) - new Date(a.issued_at));
-      if(!awards.length){
-        awardsList.innerHTML = `<div class="award"><p>No awards yet. Keep your streak to win ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} every 20 days.</p></div>`;
+
+    function render(list){
+      if(!list.length){
+        cards.innerHTML = `<div class="card"><h3>No results</h3><p>Try a different search term (e.g., “stress”, “marriage”, “youth”, “English”).</p></div>`;
         return;
       }
-      awardsList.innerHTML = awards.map(a=>{
-        const when = new Date(a.issued_at).toLocaleString();
-        const status = a.claimed ? `Claimed ✅ (${new Date(a.claimed_at).toLocaleString()})` : 'Pending 🔔';
-        const btns = a.claimed ? '' : `
-          <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a>
-          <button class="btn btn-ghost" data-mark="${a.id}">Mark as Claimed</button>
-        `;
+
+      cards.innerHTML = list.map(c => {
+        const langs = (c.languages || []).join(" • ");
+        const modes = (c.mode || []).join(" • ");
+        const tags = [
+          c.fee ? `💳 ${c.fee}` : '',
+          langs ? `🗣 ${langs}` : '',
+          modes ? `💬 ${modes}` : ''
+        ].filter(Boolean);
+
         return `
-          <div class="award">
-            <div class="row">
-              <div>
-                <div><b>₦${a.amount.toLocaleString()}</b> • Streak: ${a.streak_cycle} days</div>
-                <div>ID: <span class="id">${a.id}</span></div>
-                <div style="color:#52606d">Issued: ${when} • ${status}</div>
-              </div>
-              <div>${btns}</div>
+          <article class="card">
+            <h3>${c.name}</h3>
+            <p style="font-weight:700;color:#0f172a;margin:.2rem 0 .35rem;">${c.title}</p>
+            <p>${c.about || ''}</p>
+            ${tags.map(t => `<span class="tag">${t}</span>`).join(' ')}
+            <div class="row" style="justify-content:flex-start;margin-top:12px;">
+              <a class="btn btn-primary" href="${waLink(c.whatsapp, c.name)}" target="_blank" rel="noopener">WhatsApp</a>
+              <button class="btn btn-ghost" data-chat="${c.name}">Chat (coming soon)</button>
             </div>
-          </div>
+            <p class="mini" style="margin-top:10px;">
+              Tip: If asked, you can pay the token first, then send your receipt screenshot.
+            </p>
+          </article>
         `;
       }).join('');
-      document.querySelectorAll('[data-mark]').forEach(btn=>{
+
+      // Chat coming soon
+      document.querySelectorAll('[data-chat]').forEach(btn=>{
         btn.addEventListener('click', ()=>{
-          const id = btn.getAttribute('data-mark');
-          const list = getAwards();
-          const idx = list.findIndex(x=>x.id===id);
-          if(idx>-1){
-            list[idx].claimed = true;
-            list[idx].claimed_at = new Date().toISOString();
-            setAwards(list);
-            renderAwards();
-            updateHeaderPills();
-            alert('Marked as claimed. Thank you!');
-          }
+          const name = btn.getAttribute('data-chat');
+          track('ClickChatComingSoon', { counsellor: name });
+          alert('Chat is coming soon. For now, please use WhatsApp.');
         });
       });
     }
 
-    /* ---------- Tips engine ---------- */
-    const TIPS = [
-      { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", tags: ["anxious","calm","neutral"], times:["evening","night"] },
-      { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", tags: ["low","neutral","positive"], times:["morning","afternoon"] },
-      { text: "📓 Write three gratitudes. Keep each to one sentence to make it easy.", tags: ["neutral","low","positive"], times:["evening"] },
-      { text: "💧 Drink a full glass of water, then stretch neck, shoulders, and back for one minute.", tags: ["low","neutral","all"], times:["morning","afternoon"] },
-      { text: "📵 Mute non-urgent notifications for 30 minutes and do one tiny task you’ve avoided.", tags: ["anxious","calm","neutral"], times:["afternoon"] },
-      { text: "🎶 Play one uplifting song. Breathe with the rhythm or sing along to release tension.", tags: ["low","neutral","positive"], times:["morning","afternoon","evening"] },
-      { text: "🌤 Get 5 minutes of sunlight. Look at the sky and take 5 deep breaths.", tags: ["low","neutral","positive"], times:["morning"] },
-      { text: "💬 Send a quick check-in: “Thinking of you. How are you today?”", tags: ["anxious","low","positive"], times:["afternoon","evening"] },
-      { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", tags: ["low","neutral","positive"], times:["evening","night"] },
-      { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s (3–4 rounds).", tags: ["anxious","calm","neutral"], times:["any"] }
-    ];
-    let currentTipFilter='all';
-    let currentTipObj=null;
+    function applySearch(){
+      const q = (searchBox.value || '').toLowerCase().trim();
+      if(!q){ render(COUNSELLORS); return; }
+      const filtered = COUNSELLORS.filter(c => {
+        const blob = [
+          c.name, c.title, c.about,
+          (c.languages||[]).join(' '),
+          (c.mode||[]).join(' '),
+          c.fee
+        ].join(' ').toLowerCase();
+        return blob.includes(q);
+      });
+      render(filtered);
+    }
 
-    function lastMoodTag(){
-      const arr=getJSON(KEY_HISTORY, []);
-      if(!arr.length) return 'all';
-      const last=arr[arr.length-1].mood_value;
-      if(last<=1) return 'low';
-      if(last===2) return 'neutral';
-      if(last>=3) return 'positive';
-      return 'all';
-    }
-    function getDaypart(){ const h=new Date().getHours(); if(h>=5&&h<12)return'morning'; if(h>=12&&h<17)return'afternoon'; if(h>=17&&h<21)return'evening'; return'night'; }
-    function greetingFor(d){ return d==='morning'?'Good morning! Try this reset idea…':d==='afternoon'?'Good afternoon! A quick refresh…':d==='evening'?'Good evening! Try this wind-down tip…':'It’s a quiet time — here’s a gentle tip…'; }
-    function pickTip(filter='all'){
-      const day=getDaypart();
-      const fitsFilter=t=>filter==='all'||(t.tags||[]).includes(filter);
-      const fitsTime=t=>!t.times||t.times.includes('any')||t.times.includes(day);
-      const pool=TIPS.filter(fitsFilter);
-      const timed=pool.filter(fitsTime);
-      const src=timed.length?timed:pool;
-      return src[Math.floor(Math.random()*src.length)];
-    }
-    function renderTip(){
-      const day=getDaypart();
-      tipsGreeting.textContent=greetingFor(day);
-      const fallback={text:"Take a slow deep breath — you’ve got this.",tags:["all"]};
-      const tip=pickTip(currentTipFilter) || fallback;
-      currentTipObj=tip;
-      tipText.textContent=tip.text;
-      tipNote.textContent=currentTipFilter==='all'?`Suggested for: ${day}`:`Filter: ${currentTipFilter} • Suggested for: ${day}`;
-      tipStatus.style.display='none';
-    }
-    function renderSavedTips(){
-      const saved=getSavedTips();
-      if(!saved.length){ savedTipsList.innerHTML='<li><em>No saved tips yet.</em></li>'; return; }
-      savedTipsList.innerHTML=saved.slice().reverse().map(t=>`<li>${t.text} <br><small>Saved ${new Date(t.saved_at).toLocaleString()}</small></li>`).join('');
-    }
-    tipSaveBtn.addEventListener('click', ()=>{
-      if(!currentTipObj) return;
-      const saved=getSavedTips();
-      if(!saved.find(s=>s.text===currentTipObj.text)){
-        saved.push({text:currentTipObj.text,saved_at:new Date().toISOString()});
-        setSavedTips(saved); renderSavedTips();
+    searchBox.addEventListener('input', () => {
+      applySearch();
+      track('SearchCounsellors');
+    });
+
+    document.getElementById('copyRef').addEventListener('click', async () => {
+      const note = `MindCheck counselling token • ${new Date().toISOString().slice(0,10)} • (your name)`;
+      try{
+        await navigator.clipboard.writeText(note);
+        track('CopyPaymentNote');
+        alert('Copied!');
+      }catch(e){
+        alert('Copy failed. Please copy manually:\n' + note);
       }
-      tipStatus.textContent='⭐ Saved!'; tipStatus.style.display='block'; updateHeaderPills();
-    });
-    tipDoneBtn.addEventListener('click', ()=>{
-      if(!currentTipObj) return;
-      const done=getDoneTips(); done.push({text:currentTipObj.text,done_at:new Date().toISOString()});
-      setDoneTips(done); tipStatus.textContent='✅ Great job — marked as done!'; tipStatus.style.display='block'; updateHeaderPills();
     });
 
-    document.querySelectorAll('.tip-filter').forEach(btn=>{
-      btn.addEventListener('click', ()=>{ currentTipFilter=btn.dataset.filter||'all'; renderTip(); });
-    });
-    nextTipBtn.addEventListener('click', renderTip);
-
-    /* ---------- Crisis smart-routing ---------- */
-    function verySadStreak3Days(){
-      const hist=getJSON(KEY_HISTORY, []);
-      if(hist.length<3) return false;
-      const days=[]; for(let i=0;i<3;i++){ const d=new Date(); d.setDate(d.getDate()-i); days.push(d.toISOString().slice(0,10)); }
-      return days.every(ds=>{
-        const entries=hist.filter(h=>h.ts.slice(0,10)===ds);
-        if(!entries.length) return false;
-        const last=entries[entries.length-1].mood_value;
-        return last<=1;
-      });
-    }
-    function maybeShowCrisis(){
-      const today=todayStr();
-      const dismissed=localStorage.getItem(KEY_CRISIS_DISMISS);
-      if(dismissed===today){ crisisBanner.style.display='none'; return; }
-      crisisBanner.style.display = verySadStreak3Days() ? 'block' : 'none';
-    }
-    if (dismissCrisis) dismissCrisis.addEventListener('click', ()=>{
-      localStorage.setItem(KEY_CRISIS_DISMISS, todayStr());
-      crisisBanner.style.display='none';
-    });
-
-    /* ---------- Boot ---------- */
-    startBtn.style.display='';
-  </script>
-
-  <script>
-    // Plausible events (safe if not loaded)
-    function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
-    document.getElementById('goMood')?.addEventListener('click', ()=>track('OpenMood'));
-    document.querySelectorAll('.mood')?.forEach(b=> b.addEventListener('click', ()=>track('CheckIn', { mood: b.dataset.val })));
-    document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
-    document.getElementById('goBadges')?.addEventListener('click', ()=>track('OpenBadges'));
-    document.getElementById('goReport')?.addEventListener('click', ()=>track('OpenReport'));
-    document.getElementById('goVolunteer')?.addEventListener('click', ()=>track('OpenVolunteerZone'));
-    document.getElementById('goResources')?.addEventListener('click', ()=>track('OpenResourcesDirect'));
-    // NEW analytics hooks
-    document.getElementById('goBecomeCounsellor')?.addEventListener('click', ()=>track('OpenBecomeCounsellor'));
-    document.getElementById('goSpeakCounsellor')?.addEventListener('click', ()=>track('OpenSpeakCounsellor'));
-  </script>
-
-  <script>
-    // Service worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js', { scope: './' })
-          .catch(err => console.warn('SW registration failed:', err));
-      });
-    }
+    // initial render
+    render(COUNSELLORS);
   </script>
 </body>
 </html>
