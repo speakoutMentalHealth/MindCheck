@@ -41,7 +41,7 @@
     .tbtn.soon::after{content:attr(data-tooltip);position:absolute;bottom:125%;left:50%;transform:translateX(-50%);background:#062436;color:#fff;padding:6px 10px;border-radius:6px;font-size:.8rem;white-space:nowrap;opacity:0;transition:opacity .3s;box-shadow:0 3px 8px rgba(0,0,0,.15);}
     .tbtn.soon:hover::after{opacity:1;}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;text-align:left;}
-    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;}
+    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;color:inherit;text-decoration:none;display:block;}
     .card:hover{transform:translateY(-2px);}
     .card .big{font-size:28px;line-height:1;}
     .card h3{margin:.4rem 0 .25rem;font-size:1.05rem;}
@@ -179,18 +179,18 @@
         <p>Find services near you (Abuja, Keffi, Owerri).</p>
       </a>
 
-      <!-- NEW: Become a Counsellor (HOME ONLY) -->
-      <a class="card" id="goBecomeCounsellor" href="./become-a-counsellor.html" aria-label="Become a counsellor">
-        <div class="big">🎓</div>
+      <!-- ✅ NEW: Become a Counsellor (HOME MENU ONLY) -->
+      <a class="card" id="goBecomeCounsellor" href="./become-a-counsellor.html" aria-label="Become a Counsellor">
+        <div class="big">🧑‍⚕️</div>
         <h3>Become a Counsellor</h3>
-        <p>Take the exam, get certified, upload your certificate for verification, and go live.</p>
+        <p>Take the exam, upload your certificate, and get verified to join our counsellor list.</p>
       </a>
 
-      <!-- NEW: Speak to a Counsellor (HOME ONLY) -->
-      <a class="card" id="goSpeakToCounsellor" href="./speak-to-a-counsellor.html" aria-label="Speak to a counsellor">
+      <!-- ✅ NEW: Speak to a Counsellor (HOME MENU ONLY) -->
+      <a class="card" id="goSpeakCounsellor" href="./speak-to-a-counsellor.html" aria-label="Speak to a Counsellor">
         <div class="big">💬</div>
         <h3>Speak to a Counsellor</h3>
-        <p>Choose a verified counsellor and chat via WhatsApp or your counselling chat platform.</p>
+        <p>Choose a counsellor and connect via WhatsApp or chat for support (token payment available).</p>
       </a>
 
       <!-- Anonymous Safety Report -->
@@ -305,7 +305,7 @@
     📄 <a href="terms.html">Terms</a> •
     🏥 <a href="resources.html">Clinics & Resources</a> •
     🤝 <a href="volunteers.html">Volunteer Zone</a> •
-    🎓 <a href="./become-a-counsellor.html">Become a Counsellor</a> •
+    🧑‍⚕️ <a href="./become-a-counsellor.html">Become a Counsellor</a> •
     💬 <a href="./speak-to-a-counsellor.html">Speak to a Counsellor</a> •
     ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
   </footer>
@@ -489,11 +489,10 @@
       updateHeaderPills();
       maybeShowCrisis();
 
-      /* backend log (Google Apps Script) — IMPORTANT: no extra <script> tags here */
       try {
         fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
           method: 'POST',
-          headers: { 'Content-Type': 'text/plain' }, // simple request; avoids preflight
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify({
             type: 'checkin',
             uid: UID,
@@ -722,12 +721,11 @@
     document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
     document.getElementById('goBadges')?.addEventListener('click', ()=>track('OpenBadges'));
     document.getElementById('goReport')?.addEventListener('click', ()=>track('OpenReport'));
-    // NEW analytics hooks
     document.getElementById('goVolunteer')?.addEventListener('click', ()=>track('OpenVolunteerZone'));
     document.getElementById('goResources')?.addEventListener('click', ()=>track('OpenResourcesDirect'));
-    // NEW: Counsellor sections tracking (optional)
+    // NEW analytics hooks
     document.getElementById('goBecomeCounsellor')?.addEventListener('click', ()=>track('OpenBecomeCounsellor'));
-    document.getElementById('goSpeakToCounsellor')?.addEventListener('click', ()=>track('OpenSpeakToCounsellor'));
+    document.getElementById('goSpeakCounsellor')?.addEventListener('click', ()=>track('OpenSpeakCounsellor'));
   </script>
 
   <script>
