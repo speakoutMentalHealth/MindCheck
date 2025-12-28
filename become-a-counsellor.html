@@ -1,211 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="day">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Become a Counsellor • MindCheck 💚</title>
-  <meta name="description" content="Become a verified counsellor on SpeakOut MindCheck by completing the exam and uploading your certificate for verification." />
+  <title>Become a Counsellor • SpeakOut MindCheck</title>
+  <meta name="description" content="Become a verified counsellor on SpeakOut MindCheck. Take the exam, upload your certificate, and get verified." />
 
-  <!-- Shared theme -->
+  <!-- Your existing site theme -->
   <link rel="stylesheet" href="mc-theme.css">
+  <!-- Gamify UI layer -->
+  <link rel="stylesheet" href="mc-gamify.css">
 
-  <!-- Privacy-friendly analytics (Plausible) -->
-  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-
-  <!-- Minimal page styles aligned to index theme -->
-  <style>
-    :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; --bg:#f5fdf8; --card:#ffffff; }
-    body { font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); margin:0; padding:0; }
-    header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.35rem;font-weight:900;text-align:center;}
-    main{max-width:980px;margin:0 auto;padding:16px;}
-    .sub{ text-align:center; margin:10px 0 14px; color:#334155; }
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:12px;}
-    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);}
-    .card h2{margin:.1rem 0 .4rem;font-size:1.05rem;}
-    .card p{margin:.35rem 0;color:#52606d;line-height:1.45;}
-    .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;justify-content:center;}
-    .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
-    .btn-primary:hover{background:var(--greenDark);}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
-    .btn-ghost:hover{transform:translateY(-1px);}
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
-    .pill{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:700;color:#0f172a;}
-    .note{font-size:.92rem;color:#475569;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px;line-height:1.45;}
-    label{font-weight:700;color:#0f172a;display:block;margin:8px 0 6px;}
-    input[type="text"], input[type="email"], input[type="url"]{
-      width:100%;padding:12px 12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;font-size:1rem;outline:none;
-    }
-    input[type="file"]{width:100%;}
-    .success{display:none;margin-top:10px;background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;padding:10px 12px;border-radius:12px;font-weight:700;}
-    .warn{display:none;margin-top:10px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;padding:10px 12px;border-radius:12px;font-weight:700;}
-    footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;text-align:center;}
-    footer a{color:inherit;text-decoration:underline;}
-    .mini{font-size:.86rem;color:#64748b;}
-  </style>
+  <meta name="theme-color" content="#22c55e">
+  <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
-<body>
-  <header>🧑‍⚕️ Become a Counsellor</header>
+<body class="mc-page">
+  <!-- Subtle background motion (CSS only) -->
+  <div class="mc-motion" aria-hidden="true">
+    <div class="mc-bubble" style="left:-70px; top:80px;"></div>
+    <div class="mc-bubble b2" style="right:-120px; top:240px;"></div>
+    <div class="mc-bubble b3" style="left:10%; bottom:-140px;"></div>
+  </div>
 
-  <main>
-    <p class="sub">
-      Join the MindCheck support network. Complete the exam, upload your certificate, and get verified to appear in “Speak to a Counsellor”.
-    </p>
+  <!-- Keep your familiar green header style by reusing your index header pattern -->
+  <header style="background:#22c55e;color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;text-align:center;">
+    🧠 SpeakOut MindCheck Nigeria
+  </header>
 
-    <div class="grid">
-      <!-- Step 1 -->
-      <section class="card" aria-labelledby="step1">
-        <h2 id="step1">✅ Step 1 — Take the standard exam</h2>
-        <p>
-          Use the official exam link provided by SpeakOut. Once you pass, you’ll receive a certificate.
-        </p>
-        <div class="note">
-          <span class="pill">What you gain</span>
-          <p style="margin:.6rem 0 0;">
-            • You become eligible for verification<br/>
-            • Your counsellor profile can be created after approval<br/>
-            • You can begin receiving counselling requests
-          </p>
-        </div>
+  <div class="mc-wrap">
+    <div class="mc-hero">
+      <h1>✅ Become a Counsellor</h1>
+      <p>
+        Join our support network. Take a standard exam, earn a certificate, upload it for verification,
+        then your counsellor profile becomes visible for people to reach you.
+      </p>
 
-        <div class="toolbar" style="margin-top:12px;">
-          <!-- Replace the href with your real exam link -->
-          <a class="btn btn-primary" href="https://example.com/exam-link" target="_blank" rel="noopener">
-            📝 Open Exam Link
-          </a>
-          <a class="btn btn-ghost" href="index.html">⬅️ Back to MindCheck</a>
-        </div>
+      <!-- Cosmetic gamification indicators (no logic) -->
+      <div class="mc-xp" aria-label="Progress indicators">
+        <span class="mc-pill">🏅 Level: Starter</span>
+        <div class="mc-bar" aria-hidden="true"><span></span></div>
+        <span class="mc-pill">✨ Progress: 62%</span>
+      </div>
 
-        <p class="mini" style="margin-top:10px;">
-          Tip: If your exam is a Google Form, Tally, Typeform, or PDF, this button can open it.
-        </p>
-      </section>
+      <div class="mc-btnrow">
+        <!-- Replace the href with your real exam link -->
+        <a class="mc-btn primary" href="https://example.com/counsellor-exam" target="_blank" rel="noopener">
+          📝 Take Counsellor Exam
+        </a>
+        <a class="mc-btn ghost" href="index.html">⬅️ Back to MindCheck</a>
+      </div>
 
-      <!-- Step 2 -->
-      <section class="card" aria-labelledby="step2">
-        <h2 id="step2">📤 Step 2 — Upload certificate for verification</h2>
-        <p>
-          After you pass the exam, upload your certificate here. We’ll review it and verify you.
-        </p>
-
-        <form id="certForm">
-          <label for="fullName">Full name</label>
-          <input id="fullName" name="fullName" type="text" autocomplete="name" required placeholder="e.g., Jane Doe" />
-
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" autocomplete="email" required placeholder="e.g., janedoe@email.com" />
-
-          <label for="whatsapp">WhatsApp number (include country code)</label>
-          <input id="whatsapp" name="whatsapp" type="text" inputmode="tel" required placeholder="e.g., 2348012345678" />
-
-          <label for="certFile">Certificate file (PDF/JPG/PNG)</label>
-          <input id="certFile" name="certFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
-
-          <label for="portfolio">Optional: profile link (LinkedIn/website)</label>
-          <input id="portfolio" name="portfolio" type="url" placeholder="https://..." />
-
-          <div class="toolbar">
-            <button class="btn btn-primary" type="submit">🔎 Submit for verification</button>
-            <button class="btn btn-ghost" type="button" id="clearBtn">🗑 Clear</button>
-          </div>
-
-          <div class="success" id="successBox">✅ Submitted! We’ll review and contact you on WhatsApp/email.</div>
-          <div class="warn" id="warnBox">⚠️ Please complete all required fields and attach your certificate.</div>
-        </form>
-
-        <p class="mini" style="margin-top:10px;">
-          Note: This page currently saves submissions locally on the device (no server). If you want this to truly “send” to your team,
-          I can wire it to your Google Apps Script endpoint (like you already do for check-ins).
-        </p>
-      </section>
-
-      <!-- Step 3 -->
-      <section class="card" aria-labelledby="step3">
-        <h2 id="step3">🟢 Step 3 — Get verified & go live</h2>
-        <p>
-          Once verified, a counsellor profile is created for you and you can appear in the counsellor list.
-        </p>
-
-        <div class="note">
-          <span class="pill">When you’re live</span>
-          <p style="margin:.6rem 0 0;">
-            • People can find you under “Speak to a Counsellor”<br/>
-            • They can message you via WhatsApp or chat<br/>
-            • You can receive paid counselling requests
-          </p>
-        </div>
-
-        <div class="toolbar" style="margin-top:12px;">
-          <a class="btn btn-primary" href="speak-to-a-counsellor.html">💬 See counsellor directory</a>
-          <a class="btn btn-ghost" href="volunteers.html">🤝 Volunteer Zone</a>
-        </div>
-      </section>
+      <p style="margin-top:10px; font-size:.95rem; opacity:.9;">
+        After passing the exam, come back here and upload your certificate for verification.
+      </p>
     </div>
 
-    <footer>
+    <div class="mc-grid">
+      <div class="mc-card">
+        <div class="mc-big">1️⃣</div>
+        <h3>Take the Exam</h3>
+        <p>Complete the standard counsellor exam using the link above.</p>
+      </div>
+
+      <div class="mc-card">
+        <div class="mc-big">2️⃣</div>
+        <h3>Get Your Certificate</h3>
+        <p>Download your certificate once you meet the pass requirements.</p>
+      </div>
+
+      <div class="mc-card">
+        <div class="mc-big">3️⃣</div>
+        <h3>Upload for Verification</h3>
+        <p>Upload your certificate below. We’ll verify and activate your counsellor profile.</p>
+      </div>
+
+      <div class="mc-card">
+        <div class="mc-big">4️⃣</div>
+        <h3>Go Live</h3>
+        <p>Once verified, you appear under “Speak to a Counsellor” and can start helping.</p>
+      </div>
+    </div>
+
+    <!-- Upload (UI-only). You can wire the actual submission later. -->
+    <div class="mc-hero" style="margin-top:14px;">
+      <h1 style="font-size:1.15rem;">📤 Upload Your Certificate</h1>
+      <p style="margin-bottom:12px;">
+        Upload your certificate for verification. (This page is UI-ready; you can connect the upload endpoint later.)
+      </p>
+
+      <form action="#" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); alert('Upload captured (demo). Connect this to your verification system when ready.');">
+        <div class="mc-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+          <label class="mc-card" style="cursor:default;">
+            <h3 style="margin:0 0 8px;">Full Name</h3>
+            <input required type="text" name="name" placeholder="e.g., Jane Doe"
+              style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(2,23,34,.12);outline:none;background:transparent;color:inherit;">
+          </label>
+
+          <label class="mc-card" style="cursor:default;">
+            <h3 style="margin:0 0 8px;">WhatsApp Number</h3>
+            <input required type="tel" name="phone" placeholder="e.g., +2348012345678"
+              style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(2,23,34,.12);outline:none;background:transparent;color:inherit;">
+          </label>
+
+          <label class="mc-card" style="cursor:default;">
+            <h3 style="margin:0 0 8px;">Certificate File</h3>
+            <input required type="file" name="certificate" accept=".pdf,.png,.jpg,.jpeg"
+              style="width:100%;padding:12px 12px;border-radius:14px;border:1px dashed rgba(2,23,34,.22);outline:none;background:transparent;color:inherit;">
+            <p style="margin-top:8px;opacity:.85;font-size:.92rem;">Accepted: PDF / JPG / PNG</p>
+          </label>
+        </div>
+
+        <div class="mc-btnrow">
+          <button class="mc-btn primary" type="submit">✅ Submit for Verification</button>
+          <a class="mc-btn ghost" href="speak-to-a-counsellor.html">💬 See Counsellors</a>
+        </div>
+
+        <div style="margin-top:10px;font-size:.9rem;opacity:.9;">
+          🔒 We only use your details for verification and support routing.
+        </div>
+      </form>
+    </div>
+
+    <footer class="mc-footer">
       🔒 <a href="privacy.html">Privacy</a> •
       📄 <a href="terms.html">Terms</a> •
       🏥 <a href="resources.html">Clinics & Resources</a> •
       🤝 <a href="volunteers.html">Volunteer Zone</a> •
       ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
     </footer>
-  </main>
+  </div>
 
+  <!-- Optional: simple theme toggle without touching app logic -->
   <script>
-    // Simple local submission (theme-safe). Replace with real backend later if needed.
-    const form = document.getElementById('certForm');
-    const successBox = document.getElementById('successBox');
-    const warnBox = document.getElementById('warnBox');
-    const clearBtn = document.getElementById('clearBtn');
-
-    function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      successBox.style.display = 'none';
-      warnBox.style.display = 'none';
-
-      const fullName = document.getElementById('fullName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const whatsapp = document.getElementById('whatsapp').value.trim();
-      const file = document.getElementById('certFile').files[0];
-      const portfolio = document.getElementById('portfolio').value.trim();
-
-      if (!fullName || !email || !whatsapp || !file) {
-        warnBox.style.display = 'block';
-        return;
-      }
-
-      // Save a lightweight record locally (not the file bytes)
-      const record = {
-        type: 'counsellor_application',
-        fullName,
-        email,
-        whatsapp,
-        portfolio,
-        file_name: file.name,
-        file_type: file.type,
-        submitted_at: new Date().toISOString()
-      };
-
-      const KEY = 'mc_counsellor_applications';
-      const list = JSON.parse(localStorage.getItem(KEY) || '[]');
-      list.push(record);
-      localStorage.setItem(KEY, JSON.stringify(list));
-
-      track('SubmitCounsellorApplication', { file: file.type || 'unknown' });
-
-      successBox.style.display = 'block';
-      form.reset();
-    });
-
-    clearBtn.addEventListener('click', () => {
-      form.reset();
-      successBox.style.display = 'none';
-      warnBox.style.display = 'none';
-      track('ClearCounsellorForm');
-    });
+    // If you want Night Mode – Calm, set localStorage mc_theme = 'night'
+    (function(){
+      try{
+        var t = localStorage.getItem('mc_theme');
+        if(t === 'night') document.documentElement.setAttribute('data-theme','night');
+      }catch(e){}
+    })();
   </script>
 </body>
 </html>
-
