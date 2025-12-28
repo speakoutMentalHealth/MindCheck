@@ -65,6 +65,133 @@
     footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
     .toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
     #savedTipsList li { margin: 6px 0; } #savedTipsList small { color:#64748b; }
+
+    /* ================================
+   GAMIFIED THEME (CALM MODE)
+   ================================ */
+
+:root{
+  --xp-glow: 0 0 0 rgba(34,197,94,0);
+  --card-hover: 0 12px 30px rgba(34,197,94,.18);
+  --soft-radius: 18px;
+}
+
+/* Soft animated background */
+body{
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #dcfce7 0%, transparent 40%),
+    radial-gradient(900px 500px at 90% 10%, #bbf7d0 0%, transparent 45%),
+    var(--bg);
+}
+
+/* Header feels like a game hub */
+header{
+  letter-spacing:.3px;
+  box-shadow:0 6px 25px rgba(0,0,0,.12);
+}
+
+/* Cards become “collectibles” */
+.card{
+  border-radius:var(--soft-radius);
+  position:relative;
+  overflow:hidden;
+}
+
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(34,197,94,.08) 50%,
+    transparent 100%
+  );
+  opacity:0;
+  transition:.3s;
+}
+
+.card:hover::after{
+  opacity:1;
+}
+
+.card:hover{
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:var(--card-hover);
+}
+
+/* Big emoji icons feel like game avatars */
+.card .big{
+  font-size:32px;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.15));
+}
+
+/* Pills = badges */
+.pill{
+  background:linear-gradient(145deg,#ecfdf5,#dcfce7);
+  border:1px solid #bbf7d0;
+  box-shadow:0 4px 10px rgba(34,197,94,.18);
+}
+
+/* Buttons feel tappable & rewarding */
+.btn-primary{
+  background:linear-gradient(145deg,#22c55e,#16a34a);
+  position:relative;
+  overflow:hidden;
+}
+
+.btn-primary::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35),transparent 45%);
+  opacity:.6;
+}
+
+.btn-primary:active{
+  transform:scale(.97);
+}
+
+/* Section transitions feel like game screens */
+section.active{
+  animation:screenEnter .35s cubic-bezier(.2,.7,.2,1);
+}
+
+@keyframes screenEnter{
+  from{opacity:0;transform:translateY(10px) scale(.98);}
+  to{opacity:1;transform:none;}
+}
+
+/* Mood buttons = game choices */
+.mood{
+  transition:.15s ease;
+}
+
+.mood:hover{
+  transform:translateY(-3px) scale(1.05);
+}
+
+.mood:active{
+  transform:scale(.95);
+}
+
+/* Badges look earned */
+.badge{
+  background:
+    linear-gradient(180deg,#ffffff,#f8fafc);
+}
+
+.badge.locked{
+  filter:grayscale(1);
+  opacity:.5;
+}
+
+/* Crisis stays serious (no gamification here) */
+.crisis{
+  animation:none;
+  box-shadow:none;
+}
+
   </style>
 </head>
 <body>
