@@ -1,0 +1,12 @@
+[
+  {
+    "id": "counsellor_001",
+    "name": "Jane A.",
+    "title": "Peer Counsellor",
+    "specialties": ["Anxiety", "Relationships", "Stress"],
+    "languages": ["English", "Pidgin"],
+    "whatsapp": "2348012345678",
+    "status": "live",
+    "tokenPaymentUrl": "https://YOUR-PAYMENT-LINK-HERE"
+  }
+]
