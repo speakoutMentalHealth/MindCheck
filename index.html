@@ -41,7 +41,7 @@
     .tbtn.soon::after{content:attr(data-tooltip);position:absolute;bottom:125%;left:50%;transform:translateX(-50%);background:#062436;color:#fff;padding:6px 10px;border-radius:6px;font-size:.8rem;white-space:nowrap;opacity:0;transition:opacity .3s;box-shadow:0 3px 8px rgba(0,0,0,.15);}
     .tbtn.soon:hover::after{opacity:1;}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px;text-align:left;}
-    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;text-decoration:none;color:inherit;}
+    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);cursor:pointer;transition:transform .12s;}
     .card:hover{transform:translateY(-2px);}
     .card .big{font-size:28px;line-height:1;}
     .card h3{margin:.4rem 0 .25rem;font-size:1.05rem;}
@@ -65,30 +65,12 @@
     footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;} footer a{color:inherit;}
     .toolbar{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
     #savedTipsList li { margin: 6px 0; } #savedTipsList small { color:#64748b; }
-
-    /* NEW: Quick links bar */
-    .quicklinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px auto 0;padding:0 16px;}
-    .quicklinks a{
-      display:inline-flex; align-items:center; gap:8px;
-      background:#fff; border:1px solid #e5e7eb; border-radius:999px;
-      padding:10px 14px; font-weight:700; color:var(--ink); text-decoration:none;
-      box-shadow:0 6px 18px rgba(2,23,34,.05);
-      transition:.15s;
-    }
-    .quicklinks a:hover{transform:translateY(-1px); border-color:#cbd5e1;}
   </style>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
   <p>Check your mental health privately, safely, and in your preferred language.</p>
-
-  <!-- NEW: Top quick links (always visible) -->
-  <nav class="quicklinks" aria-label="Quick links">
-    <a href="./become-a-counsellor.html" aria-label="Become a Counsellor">🧑‍🏫 Become a Counsellor</a>
-    <a href="./speak-to-a-counsellor.html" aria-label="Speak to a Counsellor">💬 Speak to a Counsellor</a>
-  </nav>
-
   <button id="startBtn" class="btn btn-primary" aria-label="Start MindCheck">Start Now</button>
 
   <!-- Failsafe: ensure Start Now always works -->
@@ -197,18 +179,18 @@
         <p>Find services near you (Abuja, Keffi, Owerri).</p>
       </a>
 
-      <!-- NEW: Become a Counsellor -->
+      <!-- NEW: Become a Counsellor (HOME ONLY) -->
       <a class="card" id="goBecomeCounsellor" href="./become-a-counsellor.html" aria-label="Become a counsellor">
-        <div class="big">🧑‍🏫</div>
+        <div class="big">🎓</div>
         <h3>Become a Counsellor</h3>
-        <p>Take the exam, upload your certificate, and get verified to join the counsellor directory.</p>
+        <p>Take the exam, get certified, upload your certificate for verification, and go live.</p>
       </a>
 
-      <!-- NEW: Speak to a Counsellor -->
-      <a class="card" id="goSpeakCounsellor" href="./speak-to-a-counsellor.html" aria-label="Speak to a counsellor">
+      <!-- NEW: Speak to a Counsellor (HOME ONLY) -->
+      <a class="card" id="goSpeakToCounsellor" href="./speak-to-a-counsellor.html" aria-label="Speak to a counsellor">
         <div class="big">💬</div>
         <h3>Speak to a Counsellor</h3>
-        <p>Pick a verified counsellor and chat on WhatsApp or in-app chat. Pay a small token for support.</p>
+        <p>Choose a verified counsellor and chat via WhatsApp or your counselling chat platform.</p>
       </a>
 
       <!-- Anonymous Safety Report -->
@@ -321,10 +303,10 @@
   <footer style="margin-top:20px;">
     🔒 <a href="privacy.html">Privacy</a> •
     📄 <a href="terms.html">Terms</a> •
-    🧑‍🏫 <a href="./become-a-counsellor.html">Become a Counsellor</a> •
-    💬 <a href="./speak-to-a-counsellor.html">Speak to a Counsellor</a> •
     🏥 <a href="resources.html">Clinics & Resources</a> •
     🤝 <a href="volunteers.html">Volunteer Zone</a> •
+    🎓 <a href="./become-a-counsellor.html">Become a Counsellor</a> •
+    💬 <a href="./speak-to-a-counsellor.html">Speak to a Counsellor</a> •
     ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
   </footer>
 
@@ -511,7 +493,7 @@
       try {
         fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
           method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
+          headers: { 'Content-Type': 'text/plain' }, // simple request; avoids preflight
           body: JSON.stringify({
             type: 'checkin',
             uid: UID,
@@ -740,11 +722,12 @@
     document.getElementById('goTips')?.addEventListener('click', ()=>track('OpenTips'));
     document.getElementById('goBadges')?.addEventListener('click', ()=>track('OpenBadges'));
     document.getElementById('goReport')?.addEventListener('click', ()=>track('OpenReport'));
+    // NEW analytics hooks
     document.getElementById('goVolunteer')?.addEventListener('click', ()=>track('OpenVolunteerZone'));
     document.getElementById('goResources')?.addEventListener('click', ()=>track('OpenResourcesDirect'));
-    // NEW analytics hooks
+    // NEW: Counsellor sections tracking (optional)
     document.getElementById('goBecomeCounsellor')?.addEventListener('click', ()=>track('OpenBecomeCounsellor'));
-    document.getElementById('goSpeakCounsellor')?.addEventListener('click', ()=>track('OpenSpeakToCounsellor'));
+    document.getElementById('goSpeakToCounsellor')?.addEventListener('click', ()=>track('OpenSpeakToCounsellor'));
   </script>
 
   <script>
