@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Speak to a Counsellor • MindCheck 💚</title>
-  <meta name="description" content="Find a verified counsellor and speak privately via WhatsApp or chat. Optional payment for maintenance." />
+  <title>Become a Counsellor • MindCheck 💚</title>
+  <meta name="description" content="Become a verified counsellor on SpeakOut MindCheck by completing the exam and uploading your certificate for verification." />
 
   <!-- Shared theme -->
   <link rel="stylesheet" href="mc-theme.css">
@@ -12,100 +12,135 @@
   <!-- Privacy-friendly analytics (Plausible) -->
   <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
 
+  <!-- Minimal page styles aligned to index theme -->
   <style>
     :root { --green:#22c55e; --greenDark:#16a34a; --ink:#062436; --bg:#f5fdf8; --card:#ffffff; }
     body { font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--ink); margin:0; padding:0; }
     header{background:var(--green);color:#fff;padding:1.2rem;font-size:1.35rem;font-weight:900;text-align:center;}
-    main{max-width:1050px;margin:0 auto;padding:16px;}
+    main{max-width:980px;margin:0 auto;padding:16px;}
     .sub{ text-align:center; margin:10px 0 14px; color:#334155; }
-    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin:10px 0 14px;}
-    .input{
-      width:min(520px, 100%);
-      padding:12px 12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;font-size:1rem;outline:none;
-    }
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:12px;}
+    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);}
+    .card h2{margin:.1rem 0 .4rem;font-size:1.05rem;}
+    .card p{margin:.35rem 0;color:#52606d;line-height:1.45;}
     .btn{border:none;padding:12px 16px;border-radius:14px;font-size:1rem;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;justify-content:center;}
     .btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 20px rgba(34,197,94,.3);}
     .btn-primary:hover{background:var(--greenDark);}
     .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
     .btn-ghost:hover{transform:translateY(-1px);}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:12px;}
-    .card{background:var(--card);border:1px solid #eef2f7;border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05);}
-    .card h3{margin:.2rem 0 .2rem;font-size:1.05rem;}
-    .card p{margin:.25rem 0;color:#52606d;line-height:1.45;}
-    .tag{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:6px 10px;font-weight:700;font-size:.85rem;color:#0f172a;margin-top:8px;}
-    .mini{font-size:.86rem;color:#64748b;}
-    .note{font-size:.92rem;color:#475569;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px;line-height:1.45;max-width:900px;margin:0 auto;}
-    .crisis{max-width:900px;margin:12px auto;padding:12px;border:1px solid #fecaca;background:#fff1f2;border-radius:12px;color:#7f1d1d;}
-    .crisis .r{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+    .pill{display:inline-block;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:8px 12px;font-weight:700;color:#0f172a;}
+    .note{font-size:.92rem;color:#475569;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px;line-height:1.45;}
+    label{font-weight:700;color:#0f172a;display:block;margin:8px 0 6px;}
+    input[type="text"], input[type="email"], input[type="url"]{
+      width:100%;padding:12px 12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;font-size:1rem;outline:none;
+    }
+    input[type="file"]{width:100%;}
+    .success{display:none;margin-top:10px;background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;padding:10px 12px;border-radius:12px;font-weight:700;}
+    .warn{display:none;margin-top:10px;background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;padding:10px 12px;border-radius:12px;font-weight:700;}
     footer{margin:28px 0 40px;font-size:.95rem;opacity:.9;text-align:center;}
     footer a{color:inherit;text-decoration:underline;}
-    .divider{height:1px;background:#e5e7eb;margin:16px 0;}
+    .mini{font-size:.86rem;color:#64748b;}
   </style>
 </head>
 
 <body>
-  <header>💬 Speak to a Counsellor</header>
+  <header>🧑‍⚕️ Become a Counsellor</header>
 
   <main>
     <p class="sub">
-      Choose a counsellor and speak privately. You can message via WhatsApp (or your chat platform), and optionally support maintenance with a small token.
+      Join the MindCheck support network. Complete the exam, upload your certificate, and get verified to appear in “Speak to a Counsellor”.
     </p>
 
-    <div class="crisis" role="alert">
-      <b>Not an emergency service.</b> If you or someone is in danger right now, call <b>112</b> or reach a trusted adult immediately.
-      <div class="r">
-        <a class="btn btn-primary" href="tel:112">Call 112</a>
-        <a class="btn btn-ghost" href="tel:+2348118103510">SpeakOut Helpline</a>
-        <a class="btn btn-ghost" href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp a volunteer</a>
-      </div>
+    <div class="grid">
+      <!-- Step 1 -->
+      <section class="card" aria-labelledby="step1">
+        <h2 id="step1">✅ Step 1 — Take the standard exam</h2>
+        <p>
+          Use the official exam link provided by SpeakOut. Once you pass, you’ll receive a certificate.
+        </p>
+        <div class="note">
+          <span class="pill">What you gain</span>
+          <p style="margin:.6rem 0 0;">
+            • You become eligible for verification<br/>
+            • Your counsellor profile can be created after approval<br/>
+            • You can begin receiving counselling requests
+          </p>
+        </div>
+
+        <div class="toolbar" style="margin-top:12px;">
+          <!-- Replace the href with your real exam link -->
+          <a class="btn btn-primary" href="https://example.com/exam-link" target="_blank" rel="noopener">
+            📝 Open Exam Link
+          </a>
+          <a class="btn btn-ghost" href="index.html">⬅️ Back to MindCheck</a>
+        </div>
+
+        <p class="mini" style="margin-top:10px;">
+          Tip: If your exam is a Google Form, Tally, Typeform, or PDF, this button can open it.
+        </p>
+      </section>
+
+      <!-- Step 2 -->
+      <section class="card" aria-labelledby="step2">
+        <h2 id="step2">📤 Step 2 — Upload certificate for verification</h2>
+        <p>
+          After you pass the exam, upload your certificate here. We’ll review it and verify you.
+        </p>
+
+        <form id="certForm">
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text" autocomplete="name" required placeholder="e.g., Jane Doe" />
+
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" required placeholder="e.g., janedoe@email.com" />
+
+          <label for="whatsapp">WhatsApp number (include country code)</label>
+          <input id="whatsapp" name="whatsapp" type="text" inputmode="tel" required placeholder="e.g., 2348012345678" />
+
+          <label for="certFile">Certificate file (PDF/JPG/PNG)</label>
+          <input id="certFile" name="certFile" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+          <label for="portfolio">Optional: profile link (LinkedIn/website)</label>
+          <input id="portfolio" name="portfolio" type="url" placeholder="https://..." />
+
+          <div class="toolbar">
+            <button class="btn btn-primary" type="submit">🔎 Submit for verification</button>
+            <button class="btn btn-ghost" type="button" id="clearBtn">🗑 Clear</button>
+          </div>
+
+          <div class="success" id="successBox">✅ Submitted! We’ll review and contact you on WhatsApp/email.</div>
+          <div class="warn" id="warnBox">⚠️ Please complete all required fields and attach your certificate.</div>
+        </form>
+
+        <p class="mini" style="margin-top:10px;">
+          Note: This page currently saves submissions locally on the device (no server). If you want this to truly “send” to your team,
+          I can wire it to your Google Apps Script endpoint (like you already do for check-ins).
+        </p>
+      </section>
+
+      <!-- Step 3 -->
+      <section class="card" aria-labelledby="step3">
+        <h2 id="step3">🟢 Step 3 — Get verified & go live</h2>
+        <p>
+          Once verified, a counsellor profile is created for you and you can appear in the counsellor list.
+        </p>
+
+        <div class="note">
+          <span class="pill">When you’re live</span>
+          <p style="margin:.6rem 0 0;">
+            • People can find you under “Speak to a Counsellor”<br/>
+            • They can message you via WhatsApp or chat<br/>
+            • You can receive paid counselling requests
+          </p>
+        </div>
+
+        <div class="toolbar" style="margin-top:12px;">
+          <a class="btn btn-primary" href="speak-to-a-counsellor.html">💬 See counsellor directory</a>
+          <a class="btn btn-ghost" href="volunteers.html">🤝 Volunteer Zone</a>
+        </div>
+      </section>
     </div>
-
-    <div class="row" aria-label="Search and actions">
-      <input id="searchBox" class="input" placeholder="Search counsellors by name, specialty (e.g., anxiety, marriage), or language…" />
-      <a class="btn btn-ghost" href="index.html">⬅️ Back to MindCheck</a>
-      <a class="btn btn-primary" href="become-a-counsellor.html">🧑‍⚕️ Become a counsellor</a>
-    </div>
-
-    <div class="note">
-      <b>How it works:</b><br/>
-      1) Pick a counsellor from the list<br/>
-      2) Tap WhatsApp (or Chat) to start counselling<br/>
-      3) If required, make a small payment before or after the session (maintenance)
-    </div>
-
-    <div class="divider"></div>
-
-    <h2 style="text-align:center;margin:0 0 8px;">Available counsellors</h2>
-    <p class="mini" style="text-align:center;margin:0 0 12px;">
-      (Demo list for now — you can replace with your real verified counsellors.)
-    </p>
-
-    <section id="cards" class="grid" aria-label="Counsellor list"></section>
-
-    <div class="divider"></div>
-
-    <section class="card" aria-labelledby="payTitle" style="max-width:900px;margin:0 auto;">
-      <h3 id="payTitle">💳 Counselling support token (payment)</h3>
-      <p>
-        If your counselling requires a small token for maintenance, you can pay using your preferred payment gateway.
-        This page includes placeholders — swap them with your Paystack/Flutterwave payment links.
-      </p>
-
-      <div class="row" style="justify-content:flex-start;">
-        <!-- Replace href with real Paystack/Flutterwave payment links -->
-        <a class="btn btn-primary" href="https://example.com/pay" target="_blank" rel="noopener">Pay now</a>
-        <button class="btn btn-ghost" id="copyRef">Copy payment note</button>
-      </div>
-
-      <div class="note" style="margin-top:10px;">
-        <b>Payment note:</b> Use your name + date (e.g., “Ngozi • 2025-12-28 • Counselling”).<br/>
-        After payment, send the receipt to the counsellor (WhatsApp) or to SpeakOut support if needed.
-      </div>
-
-      <p class="mini" style="margin-top:10px;">
-        If you want: I can make this page generate a unique reference ID and open Paystack with the exact amount automatically.
-      </p>
-    </section>
 
     <footer>
       🔒 <a href="privacy.html">Privacy</a> •
@@ -117,124 +152,59 @@
   </main>
 
   <script>
+    // Simple local submission (theme-safe). Replace with real backend later if needed.
+    const form = document.getElementById('certForm');
+    const successBox = document.getElementById('successBox');
+    const warnBox = document.getElementById('warnBox');
+    const clearBtn = document.getElementById('clearBtn');
+
     function track(name, props){ try{ window.plausible && window.plausible(name, { props }); }catch(e){} }
 
-    // Replace this demo list with your verified counsellors later
-    const COUNSELLORS = [
-      {
-        name: "Amina S.",
-        title: "Counsellor (Anxiety & Stress)",
-        languages: ["English", "Hausa (basic)"],
-        mode: ["WhatsApp"],
-        fee: "Token-based",
-        whatsapp: "2348118103510",
-        about: "Support for stress, worry, overthinking, burnout, and coping tools."
-      },
-      {
-        name: "Chidi O.",
-        title: "Counsellor (Relationships & Marriage)",
-        languages: ["English", "Igbo (basic)"],
-        mode: ["WhatsApp"],
-        fee: "Token-based",
-        whatsapp: "2348118103510",
-        about: "Relationship conflicts, communication, boundaries, healing & rebuilding."
-      },
-      {
-        name: "Kemi A.",
-        title: "Counsellor (Youth & School Support)",
-        languages: ["English", "Yoruba (basic)"],
-        mode: ["WhatsApp"],
-        fee: "Token-based",
-        whatsapp: "2348118103510",
-        about: "Teen support, school pressure, self-esteem, and emotional regulation."
-      }
-    ];
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      successBox.style.display = 'none';
+      warnBox.style.display = 'none';
 
-    const cards = document.getElementById('cards');
-    const searchBox = document.getElementById('searchBox');
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const file = document.getElementById('certFile').files[0];
+      const portfolio = document.getElementById('portfolio').value.trim();
 
-    function waLink(number, counsellorName){
-      const msg = encodeURIComponent(
-        `Hello ${counsellorName},\n\nI found you on SpeakOut MindCheck and I would like to speak with a counsellor.\n\nMy concern: (briefly type here)\nPreferred time: (optional)\n\nThank you.`
-      );
-      return `https://wa.me/${number}?text=${msg}`;
-    }
-
-    function render(list){
-      if(!list.length){
-        cards.innerHTML = `<div class="card"><h3>No results</h3><p>Try a different search term (e.g., “stress”, “marriage”, “youth”, “English”).</p></div>`;
+      if (!fullName || !email || !whatsapp || !file) {
+        warnBox.style.display = 'block';
         return;
       }
 
-      cards.innerHTML = list.map(c => {
-        const langs = (c.languages || []).join(" • ");
-        const modes = (c.mode || []).join(" • ");
-        const tags = [
-          c.fee ? `💳 ${c.fee}` : '',
-          langs ? `🗣 ${langs}` : '',
-          modes ? `💬 ${modes}` : ''
-        ].filter(Boolean);
+      // Save a lightweight record locally (not the file bytes)
+      const record = {
+        type: 'counsellor_application',
+        fullName,
+        email,
+        whatsapp,
+        portfolio,
+        file_name: file.name,
+        file_type: file.type,
+        submitted_at: new Date().toISOString()
+      };
 
-        return `
-          <article class="card">
-            <h3>${c.name}</h3>
-            <p style="font-weight:700;color:#0f172a;margin:.2rem 0 .35rem;">${c.title}</p>
-            <p>${c.about || ''}</p>
-            ${tags.map(t => `<span class="tag">${t}</span>`).join(' ')}
-            <div class="row" style="justify-content:flex-start;margin-top:12px;">
-              <a class="btn btn-primary" href="${waLink(c.whatsapp, c.name)}" target="_blank" rel="noopener">WhatsApp</a>
-              <button class="btn btn-ghost" data-chat="${c.name}">Chat (coming soon)</button>
-            </div>
-            <p class="mini" style="margin-top:10px;">
-              Tip: If asked, you can pay the token first, then send your receipt screenshot.
-            </p>
-          </article>
-        `;
-      }).join('');
+      const KEY = 'mc_counsellor_applications';
+      const list = JSON.parse(localStorage.getItem(KEY) || '[]');
+      list.push(record);
+      localStorage.setItem(KEY, JSON.stringify(list));
 
-      // Chat coming soon
-      document.querySelectorAll('[data-chat]').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const name = btn.getAttribute('data-chat');
-          track('ClickChatComingSoon', { counsellor: name });
-          alert('Chat is coming soon. For now, please use WhatsApp.');
-        });
-      });
-    }
+      track('SubmitCounsellorApplication', { file: file.type || 'unknown' });
 
-    function applySearch(){
-      const q = (searchBox.value || '').toLowerCase().trim();
-      if(!q){ render(COUNSELLORS); return; }
-      const filtered = COUNSELLORS.filter(c => {
-        const blob = [
-          c.name, c.title, c.about,
-          (c.languages||[]).join(' '),
-          (c.mode||[]).join(' '),
-          c.fee
-        ].join(' ').toLowerCase();
-        return blob.includes(q);
-      });
-      render(filtered);
-    }
-
-    searchBox.addEventListener('input', () => {
-      applySearch();
-      track('SearchCounsellors');
+      successBox.style.display = 'block';
+      form.reset();
     });
 
-    document.getElementById('copyRef').addEventListener('click', async () => {
-      const note = `MindCheck counselling token • ${new Date().toISOString().slice(0,10)} • (your name)`;
-      try{
-        await navigator.clipboard.writeText(note);
-        track('CopyPaymentNote');
-        alert('Copied!');
-      }catch(e){
-        alert('Copy failed. Please copy manually:\n' + note);
-      }
+    clearBtn.addEventListener('click', () => {
+      form.reset();
+      successBox.style.display = 'none';
+      warnBox.style.display = 'none';
+      track('ClearCounsellorForm');
     });
-
-    // initial render
-    render(COUNSELLORS);
   </script>
 </body>
 </html>
