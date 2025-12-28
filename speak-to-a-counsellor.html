@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Speak to a Counsellor — MindCheck</title>
+</head>
+<body>
+  <main style="max-width:900px;margin:24px auto;padding:0 16px;font-family:system-ui;">
+    <h1>Speak to a Counsellor</h1>
+    <p>Choose a verified counsellor to chat on WhatsApp (or pay a small token first if required).</p>
+
+    <div id="list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;"></div>
+
+    <p style="margin-top:18px;">
+      <a href="./index.html">← Back to Home</a>
+    </p>
+
+    <hr />
+    <small>
+      MindCheck is not an emergency service. If someone is in immediate danger in Nigeria, call 112.
+    </small>
+  </main>
+
+  <script>
+    async function loadCounsellors() {
+      const res = await fetch('./counsellors.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Could not load counsellors.json');
+      return res.json();
+    }
+
+    function waLink(msisdn, prefillText) {
+      // WhatsApp “click to chat” format: https://wa.me/<number>
+      // (number must be international format, no +, no spaces)
+      const base = 'https://wa.me/' + encodeURIComponent(msisdn);
+      if (!prefillText) return base;
+      return base + '?text=' + encodeURIComponent(prefillText);
+    }
+
+    function pill(text) {
+      return `<span style="display:inline-block;padding:2px 8px;border:1px solid #ddd;border-radius:999px;font-size:12px;margin:2px 4px 0 0;">${text}</span>`;
+    }
+
+    function renderCard(c) {
+      const isLive = (c.status || '').toLowerCase() === 'live';
+      const prefill = `Hi ${c.name}, I found you on MindCheck. I’d like to talk.`;
+      const chatUrl = waLink(c.whatsapp, prefill);
+
+      return `
+        <section style="border:1px solid #e6e6e6;border-radius:14px;padding:14px;">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;">
+            <div>
+              <h3 style="margin:0 0 4px 0;">${c.name}</h3>
+              <div style="color:#444;font-size:14px;">${c.title || 'Counsellor'}</div>
+            </div>
+            <div style="font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid #ddd;">
+              ${isLive ? '🟢 Live' : '⚪ Offline'}
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <div style="font-size:12px;color:#666;">Specialties</div>
+            <div>${(c.specialties || []).map(pill).join('') || '<span style="color:#999;">—</span>'}</div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <div style="font-size:12px;color:#666;">Languages</div>
+            <div>${(c.languages || []).map(pill).join('') || '<span style="color:#999;">—</span>'}</div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="${chatUrl}" target="_blank" rel="noreferrer"
+               style="text-decoration:none;border:1px solid #111;border-radius:12px;padding:10px 12px;">
+              Chat on WhatsApp
+            </a>
+
+            ${c.tokenPaymentUrl ? `
+              <a href="${c.tokenPaymentUrl}" target="_blank" rel="noreferrer"
+                 style="text-decoration:none;border:1px solid #111;border-radius:12px;padding:10px 12px;">
+                Pay token
+              </a>
+            ` : ''}
+          </div>
+
+          <div style="margin-top:10px;font-size:12px;color:#777;">
+            If this is an emergency, call 112 (Nigeria).
+          </div>
+        </section>
+      `;
+    }
+
+    (async () => {
+      try {
+        const counsellors = await loadCounsellors();
+        const container = document.getElementById('list');
+        container.innerHTML = counsellors.map(renderCard).join('');
+      } catch (e) {
+        document.getElementById('list').innerHTML =
+          `<div style="padding:14px;border:1px solid #e6e6e6;border-radius:14px;">
+            Unable to load counsellors right now.
+           </div>`;
+        console.error(e);
+      }
+    })();
+  </script>
+</body>
+</html>
