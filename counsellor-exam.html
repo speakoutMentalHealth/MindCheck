@@ -4,28 +4,30 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Counsellor Exam • MindCheck</title>
-  <meta name="description" content="MindCheck Counsellor Exam. Pass to download your certificate." />
+  <meta name="description" content="MindCheck Counsellor Exam. Pass to receive your certificate." />
 
   <link rel="stylesheet" href="mc-theme.css">
-
-  <!-- jsPDF (client-side PDF generator) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
   <style>
     :root{
       --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
       --bg:#f5fdf8; --card:#ffffff; --muted:#52606d;
       --border:#eef2f7;
+      --shadow:rgba(2,23,34,.06);
     }
+
     body{
       margin:0;
       font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
       color:var(--ink);
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
+        var(--bg);
       overflow-x:hidden;
     }
+
+    /* subtle background motion (CSS only) */
     body::before{
       content:"";
       position:fixed; inset:-40vh -40vw;
@@ -53,11 +55,23 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
+      position:sticky;
+      top:0;
+      z-index:10;
+      box-shadow:0 10px 25px rgba(2,23,34,.08);
     }
     header a{color:#fff;text-decoration:none;font-weight:900;}
     .wrap{max-width:980px;margin:18px auto 40px;padding:0 14px;}
 
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:12px 0;}
+    .toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin:12px 0;
+    }
+
     .pill{
       background:#fff;
       border:1px solid #e5e7eb;
@@ -65,7 +79,9 @@
       padding:8px 12px;
       font-weight:800;
       font-size:.95rem;
+      box-shadow:0 6px 18px rgba(2,23,34,.04);
     }
+
     .btn{
       border:none;
       padding:12px 16px;
@@ -74,10 +90,14 @@
       cursor:pointer;
       transition:.15s;
       font-weight:900;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
     }
     .btn-primary{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(34,197,94,.25);}
     .btn-primary:hover{background:var(--greenDark);transform:translateY(-1px);}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
+    .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
     .btn-ghost:hover{transform:translateY(-1px);}
     .btn-danger{background:#ef4444;color:#fff;}
     .btn-danger:hover{transform:translateY(-1px);}
@@ -87,7 +107,7 @@
       border:1px solid var(--border);
       border-radius:16px;
       padding:16px;
-      box-shadow:0 10px 25px rgba(2,23,34,.06);
+      box-shadow:0 10px 25px var(--shadow);
       margin-top:12px;
     }
     .muted{color:var(--muted);}
@@ -97,7 +117,7 @@
       border-radius:14px;
       padding:12px;
       margin:12px 0;
-      background:rgba(255,255,255,.65);
+      background:rgba(255,255,255,.70);
       backdrop-filter: blur(4px);
     }
     .q h3{margin:.1rem 0 .55rem;font-size:1.05rem;}
@@ -109,9 +129,10 @@
       padding:12px;
       border:1px solid rgba(148,163,184,.25);
       margin-top:12px;
+      background:rgba(255,255,255,.70);
     }
 
-    /* Avatar frame preview (gamified feel) */
+    /* Gamified avatar frame preview */
     .frameRow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:10px;}
     .avatar{
       width:52px;height:52px;border-radius:999px;
@@ -131,17 +152,23 @@
       --ink:#e9fff3;
       --muted:#b9e7cf;
       --border:rgba(255,255,255,.08);
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.10), transparent 55%),
-                  var(--bg);
+      --shadow:rgba(0,0,0,.35);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.10), transparent 55%),
+        var(--bg);
     }
-    body.night .pill, body.night .btn-ghost, body.night .card, body.night .q{
+    body.night .pill,
+    body.night .btn-ghost,
+    body.night .card,
+    body.night .q,
+    body.night .result{
       background: rgba(255,255,255,.04);
       border-color: rgba(255,255,255,.10);
       color: var(--ink);
     }
     body.night header{ background: linear-gradient(90deg, #16a34a, #22c55e); }
-    body.night .q{background: rgba(255,255,255,.03);}
+    body.night .q, body.night .result{background: rgba(255,255,255,.03);}
 
     footer{
       margin-top:18px;
@@ -151,6 +178,7 @@
       color:var(--muted);
     }
     footer a{color:inherit;}
+
     input[type="text"]{
       width:100%;
       padding:12px 12px;
@@ -160,6 +188,7 @@
       font-size:1rem;
       font-weight:700;
       color:var(--ink);
+      box-sizing:border-box;
     }
     body.night input[type="text"]{
       background: rgba(255,255,255,.04);
@@ -188,7 +217,7 @@
         <div class="avatar" title="Avatar frame preview">MC</div>
         <div>
           <div class="frameLabel">Counsellor Path</div>
-          <div class="tag">Earn your certificate + unlock “Verified Frame” after review</div>
+          <div class="tag">Pass exam → get certificate → upload for verification → go live</div>
         </div>
       </div>
     </div>
@@ -206,15 +235,16 @@
       <div id="questions"></div>
 
       <div class="toolbar" style="margin-top:14px;">
-        <button id="submitBtn" class="btn btn-primary" type="button">Submit Exam</button>
-        <button id="resetBtn" class="btn btn-ghost" type="button">Reset Answers</button>
-        <a class="btn btn-ghost" href="./become-a-counsellor.html">Back</a>
+        <button id="submitBtn" class="btn btn-primary" type="button">✅ Submit Exam</button>
+        <button id="resetBtn" class="btn btn-ghost" type="button">🔁 Reset Answers</button>
+        <a class="btn btn-ghost" href="./become-a-counsellor.html">← Back</a>
       </div>
 
       <div id="resultBox" class="result" style="display:none;"></div>
+
       <div class="toolbar" id="afterPass" style="display:none;">
-        <a id="downloadCert" class="btn btn-primary" href="#">Download Certificate (PDF)</a>
-        <a class="btn btn-ghost" href="./become-a-counsellor.html">Upload for Verification</a>
+        <a id="viewCert" class="btn btn-primary" href="#">🎓 View / Download Certificate</a>
+        <a class="btn btn-ghost" href="./become-a-counsellor.html">📤 Upload for Verification</a>
       </div>
     </div>
 
@@ -235,16 +265,17 @@
     applyNight(localStorage.getItem(NIGHT_KEY) === '1');
     nightToggle.addEventListener('click', () => applyNight(!document.body.classList.contains('night')));
 
-    // Question bank (replace/edit anytime)
+    // Exam config
     const PASS_MARK = 70; // %
     const DURATION_SECS = 20 * 60;
 
+    // You can edit/expand these anytime
     const QUESTION_BANK = [
       {
-        q: "A counsellor’s primary role in MindCheck is to:",
+        q: "A MindCheck counsellor’s primary role is to:",
         options: [
           "Diagnose mental illnesses and prescribe medication",
-          "Provide supportive listening, guidance, and safe referral when needed",
+          "Provide supportive listening, basic guidance, and safe referral when needed",
           "Replace emergency services during crisis",
           "Guarantee solutions to every problem"
         ],
@@ -264,7 +295,7 @@
         q: "Confidentiality means:",
         options: [
           "You never share anything under any circumstance",
-          "You keep information private, except when safety is at risk or required by law/policy",
+          "You keep information private, except when safety is at risk or required by policy/law",
           "You can post stories anonymously on social media",
           "You only share with friends for advice"
         ],
@@ -381,7 +412,7 @@
         if (remaining <= 0){
           clearInterval(timer);
           timer = null;
-          autoSubmit(true);
+          finalize({ forced:true });
         }
       }, 1000);
     }
@@ -392,7 +423,7 @@
     const resetBtn = document.getElementById('resetBtn');
     const resultBox = document.getElementById('resultBox');
     const afterPass = document.getElementById('afterPass');
-    const downloadCert = document.getElementById('downloadCert');
+    const viewCert = document.getElementById('viewCert');
 
     function getAnswers(){
       return QUESTION_BANK.map((_, idx) => {
@@ -410,73 +441,21 @@
     }
 
     function uniqueId(){
-      // Uses Web Crypto when available (MDN reference) https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID
+      // Uses Web Crypto when available: https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID
       try { return crypto.randomUUID(); } catch { return 'mc_' + Math.random().toString(36).slice(2); }
     }
 
-    async function generateCertificatePDF({ name, scorePct, issuedAt, certId }){
-      const jspdf = window.jspdf;
-      if (!jspdf) throw new Error('jsPDF not loaded yet.');
-      const { jsPDF } = jspdf;
-      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-
-      // Simple MindCheck-themed certificate layout
-      const w = doc.internal.pageSize.getWidth();
-      const h = doc.internal.pageSize.getHeight();
-
-      // Header bar
-      doc.setFillColor(34,197,94);
-      doc.rect(0, 0, w, 92, 'F');
-
-      doc.setTextColor(255,255,255);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(20);
-      doc.text('MindCheck • Counsellor Certificate', 48, 58);
-
-      // Body
-      doc.setTextColor(6,36,54);
-      doc.setFontSize(14);
-      doc.setFont('helvetica','normal');
-      doc.text('This certifies that', 48, 150);
-
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(22);
-      doc.text(name || 'Candidate', 48, 186);
-
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(14);
-      doc.text('has successfully passed the MindCheck Counsellor Exam.', 48, 220);
-
-      doc.setFont('helvetica','bold');
-      doc.text(`Score: ${scorePct}%`, 48, 255);
-
-      doc.setFont('helvetica','normal');
-      doc.text(`Issued: ${new Date(issuedAt).toLocaleString()}`, 48, 292);
-
-      doc.setFont('courier','normal');
-      doc.setFontSize(12);
-      doc.text(`Certificate ID: ${certId}`, 48, 330);
-
-      // Footer note
-      doc.setFont('helvetica','normal');
-      doc.setTextColor(82,96,109);
-      doc.setFontSize(11);
-      doc.text('Verification required before counsellor profile goes live in MindCheck.', 48, h - 70);
-      doc.text('SpeakOut MindCheck Nigeria • speaaakout@gmail.com', 48, h - 52);
-
-      // Decorative badge
-      doc.setDrawColor(34,197,94);
-      doc.setLineWidth(2);
-      doc.circle(w - 96, 210, 40, 'S');
-      doc.setTextColor(34,197,94);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(12);
-      doc.text('PASSED', w - 112, 214);
-
-      return doc;
+    function buildCertUrl({ name, scorePct, certId }){
+      const dt = new Date();
+      const params = new URLSearchParams();
+      params.set('name', name || 'Candidate');
+      params.set('score', String(scorePct));
+      params.set('date', dt.toISOString());
+      params.set('cid', certId);
+      return `./counsellor-certificate.html?${params.toString()}`;
     }
 
-    async function finalize({ forced=false }={}){
+    function finalize({ forced=false }={}){
       if (timer) { clearInterval(timer); timer = null; }
 
       const name = document.getElementById('candidateName').value.trim();
@@ -492,47 +471,45 @@
 
       const { correct, total, pct } = scoreExam(ans);
       const passed = pct >= PASS_MARK;
-      const issuedAt = new Date().toISOString();
-      const certId = `MC-CE-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${uniqueId().slice(0,8).toUpperCase()}`;
+      const certId = `MC-CO-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${uniqueId().slice(0,8).toUpperCase()}`;
 
       resultBox.style.display = 'block';
       resultBox.innerHTML = passed
-        ? `🎉 <b>PASSED ✅</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Next: download your certificate.`
+        ? `🎉 <b>PASSED ✅</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Next: open your certificate page and print/download.`
         : `❌ <b>NOT PASSED</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Tip: reset and try again.`;
 
       afterPass.style.display = passed ? 'flex' : 'none';
 
-      // If passed, generate PDF and attach download link (Data URI)
-      let certDataUri = '';
-      let certFileName = '';
       if (passed){
-        try{
-          const pdf = await generateCertificatePDF({ name: name || 'Candidate', scorePct: pct, issuedAt, certId });
-          const blob = pdf.output('blob');
-          certFileName = `MindCheck-Counsellor-Certificate-${certId}.pdf`;
-          certDataUri = URL.createObjectURL(blob);
-          downloadCert.href = certDataUri;
-          downloadCert.download = certFileName;
-        }catch(e){
-          resultBox.innerHTML += `<br><span class="muted">⚠️ Certificate generator failed: ${e.message}</span>`;
-        }
+        const url = buildCertUrl({ name: name || 'Candidate', scorePct: pct, certId });
+        viewCert.href = url;
+        viewCert.addEventListener('click', (e) => {
+          // allow normal navigation
+        }, { once:true });
+
+        // Save last pass (useful for your "Become a Counsellor" page to show status)
+        localStorage.setItem('mc_counsellor_exam_last', JSON.stringify({
+          name: name || 'Candidate',
+          scorePct: pct,
+          correct,
+          total,
+          passed: true,
+          issuedAt: new Date().toISOString(),
+          certId,
+          certUrl: url
+        }));
+      } else {
+        localStorage.setItem('mc_counsellor_exam_last', JSON.stringify({
+          name: name || 'Candidate',
+          scorePct: pct,
+          correct,
+          total,
+          passed: false,
+          issuedAt: new Date().toISOString(),
+          certId: '',
+          certUrl: ''
+        }));
       }
-
-      // Save last result so become-a-counsellor page can show it
-      localStorage.setItem('mc_counsellor_exam_last', JSON.stringify({
-        scorePct: pct,
-        correct,
-        total,
-        passed,
-        issuedAt,
-        certId,
-        certDataUri,
-        certFileName
-      }));
-    }
-
-    function autoSubmit(forced){
-      finalize({ forced });
     }
 
     submitBtn.addEventListener('click', () => finalize({ forced:false }));
