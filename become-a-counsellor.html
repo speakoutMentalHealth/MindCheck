@@ -1,145 +1,283 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="day">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Become a Counsellor • SpeakOut MindCheck</title>
-  <meta name="description" content="Become a verified counsellor on SpeakOut MindCheck. Take the exam, upload your certificate, and get verified." />
+  <title>Become a Counsellor • MindCheck</title>
+  <meta name="description" content="Become a verified MindCheck counsellor. Take the exam, pass, download your certificate, and upload for verification." />
 
-  <!-- Your existing site theme -->
+  <!-- Your existing shared theme -->
   <link rel="stylesheet" href="mc-theme.css">
-  <!-- Gamify UI layer -->
-  <link rel="stylesheet" href="mc-gamify.css">
 
-  <meta name="theme-color" content="#22c55e">
-  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    :root{
+      --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
+      --bg:#f5fdf8; --card:#ffffff; --muted:#52606d;
+      --border:#eef2f7;
+    }
+
+    /* Calm animated background (CSS-only) */
+    body{
+      margin:0;
+      font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      color:var(--ink);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
+                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
+                  var(--bg);
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:-40vh -40vw;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(34,197,94,.10), transparent 35%),
+        radial-gradient(circle at 70% 40%, rgba(34,197,94,.08), transparent 38%),
+        radial-gradient(circle at 45% 70%, rgba(34,197,94,.06), transparent 40%);
+      filter: blur(10px);
+      animation: floaty 18s ease-in-out infinite;
+      pointer-events:none;
+      z-index:-1;
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translate3d(0,0,0) scale(1); }
+      50%{ transform: translate3d(2vw, -2vh, 0) scale(1.02); }
+    }
+
+    header{
+      background:var(--green);
+      color:#fff;
+      padding:1.1rem 1rem;
+      font-size:1.35rem;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    header .left{display:flex;align-items:center;gap:10px;}
+    header a{color:#fff;text-decoration:none;font-weight:800;}
+    .wrap{max-width:980px;margin:18px auto 40px;padding:0 14px;}
+
+    .topbar{
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;
+      margin:14px 0 10px;
+    }
+    .pill{
+      background:#fff;
+      border:1px solid #e5e7eb;
+      border-radius:999px;
+      padding:8px 12px;
+      font-weight:700;
+      font-size:.95rem;
+    }
+    .btn{
+      border:none;
+      padding:12px 16px;
+      border-radius:14px;
+      font-size:1rem;
+      cursor:pointer;
+      transition:.15s;
+      font-weight:800;
+    }
+    .btn-primary{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(34,197,94,.25);}
+    .btn-primary:hover{background:var(--greenDark);transform:translateY(-1px);}
+    .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
+    .btn-ghost:hover{transform:translateY(-1px);}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:0 10px 25px rgba(2,23,34,.06);
+    }
+    .card h2,.card h3{margin:.15rem 0 .35rem;}
+    .muted{color:var(--muted);}
+
+    .steps{margin:0;padding-left:18px;line-height:1.6;color:var(--muted);}
+    .callout{
+      background:#fff;
+      border:1px solid #d1fae5;
+      border-radius:14px;
+      padding:12px;
+      color:#065f46;
+      font-weight:700;
+    }
+
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    input[type="file"]{
+      width:100%;
+      padding:12px;
+      border:1px dashed #cbd5e1;
+      border-radius:14px;
+      background:#fff;
+    }
+    small{color:#64748b;}
+
+    /* Night Mode – Calm */
+    body.night{
+      --bg:#071a14;
+      --card:#071f18;
+      --ink:#e9fff3;
+      --muted:#b9e7cf;
+      --border:rgba(255,255,255,.08);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
+                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.10), transparent 55%),
+                  var(--bg);
+    }
+    body.night .pill, body.night .btn-ghost, body.night .card, body.night input[type="file"]{
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.10);
+      color: var(--ink);
+    }
+    body.night header{ background: linear-gradient(90deg, #16a34a, #22c55e); }
+
+    footer{
+      margin-top:18px;
+      text-align:center;
+      opacity:.9;
+      font-size:.95rem;
+      color:var(--muted);
+    }
+    footer a{color:inherit;}
+  </style>
 </head>
 
-<body class="mc-page">
-  <!-- Subtle background motion (CSS only) -->
-  <div class="mc-motion" aria-hidden="true">
-    <div class="mc-bubble" style="left:-70px; top:80px;"></div>
-    <div class="mc-bubble b2" style="right:-120px; top:240px;"></div>
-    <div class="mc-bubble b3" style="left:10%; bottom:-140px;"></div>
-  </div>
+<body>
+  <header>
+    <div class="left">
+      <span>🧠</span>
+      <a href="./index.html">MindCheck</a>
+      <span style="opacity:.85;">• Become a Counsellor</span>
+    </div>
 
-  <!-- Keep your familiar green header style by reusing your index header pattern -->
-  <header style="background:#22c55e;color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;text-align:center;">
-    🧠 SpeakOut MindCheck Nigeria
+    <button id="nightToggle" class="btn btn-ghost" type="button" aria-label="Toggle night mode">
+      🌙 Night Mode
+    </button>
   </header>
 
-  <div class="mc-wrap">
-    <div class="mc-hero">
-      <h1>✅ Become a Counsellor</h1>
-      <p>
-        Join our support network. Take a standard exam, earn a certificate, upload it for verification,
-        then your counsellor profile becomes visible for people to reach you.
-      </p>
-
-      <!-- Cosmetic gamification indicators (no logic) -->
-      <div class="mc-xp" aria-label="Progress indicators">
-        <span class="mc-pill">🏅 Level: Starter</span>
-        <div class="mc-bar" aria-hidden="true"><span></span></div>
-        <span class="mc-pill">✨ Progress: 62%</span>
-      </div>
-
-      <div class="mc-btnrow">
-        <!-- Replace the href with your real exam link -->
-        <a class="mc-btn primary" href="https://example.com/counsellor-exam" target="_blank" rel="noopener">
-          📝 Take Counsellor Exam
-        </a>
-        <a class="mc-btn ghost" href="index.html">⬅️ Back to MindCheck</a>
-      </div>
-
-      <p style="margin-top:10px; font-size:.95rem; opacity:.9;">
-        After passing the exam, come back here and upload your certificate for verification.
-      </p>
+  <div class="wrap">
+    <div class="topbar">
+      <span class="pill">✅ Step-by-step • Exam → Certificate → Verification</span>
+      <span class="pill">🔒 Your certificate is reviewed before you go “Live”</span>
     </div>
 
-    <div class="mc-grid">
-      <div class="mc-card">
-        <div class="mc-big">1️⃣</div>
-        <h3>Take the Exam</h3>
-        <p>Complete the standard counsellor exam using the link above.</p>
-      </div>
+    <div class="grid">
+      <section class="card">
+        <h2>Become a Verified Counsellor</h2>
+        <p class="muted">
+          Take the MindCheck Counsellor Exam. If you pass, you’ll instantly download your certificate (PDF).
+          Then upload it here for verification.
+        </p>
 
-      <div class="mc-card">
-        <div class="mc-big">2️⃣</div>
-        <h3>Get Your Certificate</h3>
-        <p>Download your certificate once you meet the pass requirements.</p>
-      </div>
+        <div class="callout">
+          💡 Reminder: MindCheck counsellors provide supportive listening + guidance, not emergency response.
+          If someone is in danger, they should call emergency services.
+        </div>
 
-      <div class="mc-card">
-        <div class="mc-big">3️⃣</div>
-        <h3>Upload for Verification</h3>
-        <p>Upload your certificate below. We’ll verify and activate your counsellor profile.</p>
-      </div>
+        <h3 style="margin-top:14px;">How it works</h3>
+        <ol class="steps">
+          <li>Start the exam (timed, multiple choice).</li>
+          <li>Score at least <b>70%</b> to pass.</li>
+          <li>Download your certificate (PDF) instantly.</li>
+          <li>Upload the certificate for verification.</li>
+          <li>After approval, your counsellor profile goes live.</li>
+        </ol>
 
-      <div class="mc-card">
-        <div class="mc-big">4️⃣</div>
-        <h3>Go Live</h3>
-        <p>Once verified, you appear under “Speak to a Counsellor” and can start helping.</p>
-      </div>
+        <div class="row" style="margin-top:14px;">
+          <a class="btn btn-primary" href="./counsellor-exam.html">Start Counsellor Exam</a>
+          <a class="btn btn-ghost" href="./index.html">Back to MindCheck</a>
+        </div>
+
+        <p class="muted" style="margin-top:10px;">
+          Tip: Use your real name exactly as you want it to appear on your certificate.
+        </p>
+      </section>
+
+      <section class="card">
+        <h3>Upload Certificate for Verification</h3>
+        <p class="muted">
+          After passing, upload the certificate PDF here. We’ll review and activate your counsellor profile.
+        </p>
+
+        <input id="certFile" type="file" accept="application/pdf,image/*" />
+        <p><small>Accepted: PDF preferred. You can also upload an image if needed.</small></p>
+
+        <div class="row" style="margin-top:8px;">
+          <button id="saveUpload" class="btn btn-primary" type="button">Submit for Verification</button>
+          <button id="clearUpload" class="btn btn-ghost" type="button">Clear</button>
+        </div>
+
+        <p id="uploadStatus" class="muted" style="margin-top:10px;"></p>
+
+        <hr style="border:none;border-top:1px solid rgba(148,163,184,.35);margin:16px 0;">
+
+        <h3>Your last exam result</h3>
+        <p class="muted" id="lastResult">No exam taken yet.</p>
+        <div class="row">
+          <a id="downloadCertBtn" class="btn btn-ghost" href="#" style="display:none;">Download last certificate</a>
+        </div>
+      </section>
     </div>
 
-    <!-- Upload (UI-only). You can wire the actual submission later. -->
-    <div class="mc-hero" style="margin-top:14px;">
-      <h1 style="font-size:1.15rem;">📤 Upload Your Certificate</h1>
-      <p style="margin-bottom:12px;">
-        Upload your certificate for verification. (This page is UI-ready; you can connect the upload endpoint later.)
-      </p>
-
-      <form action="#" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); alert('Upload captured (demo). Connect this to your verification system when ready.');">
-        <div class="mc-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
-          <label class="mc-card" style="cursor:default;">
-            <h3 style="margin:0 0 8px;">Full Name</h3>
-            <input required type="text" name="name" placeholder="e.g., Jane Doe"
-              style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(2,23,34,.12);outline:none;background:transparent;color:inherit;">
-          </label>
-
-          <label class="mc-card" style="cursor:default;">
-            <h3 style="margin:0 0 8px;">WhatsApp Number</h3>
-            <input required type="tel" name="phone" placeholder="e.g., +2348012345678"
-              style="width:100%;padding:12px 12px;border-radius:14px;border:1px solid rgba(2,23,34,.12);outline:none;background:transparent;color:inherit;">
-          </label>
-
-          <label class="mc-card" style="cursor:default;">
-            <h3 style="margin:0 0 8px;">Certificate File</h3>
-            <input required type="file" name="certificate" accept=".pdf,.png,.jpg,.jpeg"
-              style="width:100%;padding:12px 12px;border-radius:14px;border:1px dashed rgba(2,23,34,.22);outline:none;background:transparent;color:inherit;">
-            <p style="margin-top:8px;opacity:.85;font-size:.92rem;">Accepted: PDF / JPG / PNG</p>
-          </label>
-        </div>
-
-        <div class="mc-btnrow">
-          <button class="mc-btn primary" type="submit">✅ Submit for Verification</button>
-          <a class="mc-btn ghost" href="speak-to-a-counsellor.html">💬 See Counsellors</a>
-        </div>
-
-        <div style="margin-top:10px;font-size:.9rem;opacity:.9;">
-          🔒 We only use your details for verification and support routing.
-        </div>
-      </form>
-    </div>
-
-    <footer class="mc-footer">
-      🔒 <a href="privacy.html">Privacy</a> •
-      📄 <a href="terms.html">Terms</a> •
-      🏥 <a href="resources.html">Clinics & Resources</a> •
-      🤝 <a href="volunteers.html">Volunteer Zone</a> •
-      ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+    <footer>
+      🔒 <a href="privacy.html">Privacy</a> • 📄 <a href="terms.html">Terms</a> • ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
     </footer>
   </div>
 
-  <!-- Optional: simple theme toggle without touching app logic -->
   <script>
-    // If you want Night Mode – Calm, set localStorage mc_theme = 'night'
-    (function(){
-      try{
-        var t = localStorage.getItem('mc_theme');
-        if(t === 'night') document.documentElement.setAttribute('data-theme','night');
-      }catch(e){}
-    })();
+    // Night mode toggle (persists)
+    const nightToggle = document.getElementById('nightToggle');
+    const NIGHT_KEY = 'mc_night_mode';
+    function applyNight(on){
+      document.body.classList.toggle('night', !!on);
+      nightToggle.textContent = on ? '☀️ Day Mode' : '🌙 Night Mode';
+      localStorage.setItem(NIGHT_KEY, on ? '1' : '0');
+    }
+    applyNight(localStorage.getItem(NIGHT_KEY) === '1');
+    nightToggle.addEventListener('click', () => applyNight(!document.body.classList.contains('night')));
+
+    // Upload placeholder (static site): store "submitted" locally + give instructions
+    const certFile = document.getElementById('certFile');
+    const uploadStatus = document.getElementById('uploadStatus');
+    document.getElementById('saveUpload').addEventListener('click', () => {
+      if (!certFile.files || !certFile.files[0]) {
+        uploadStatus.textContent = '⚠️ Please select your certificate file first.';
+        return;
+      }
+      // Static demo: save filename locally (real verification can be via email/WhatsApp or a backend later)
+      localStorage.setItem('mc_cert_uploaded_name', certFile.files[0].name);
+      uploadStatus.innerHTML =
+        '✅ Submitted (saved on this device).<br>' +
+        'Next step: send the certificate to SpeakOut for verification via email: <b>speaaakout@gmail.com</b> ' +
+        'or WhatsApp (if you prefer).';
+    });
+    document.getElementById('clearUpload').addEventListener('click', () => {
+      certFile.value = '';
+      uploadStatus.textContent = '';
+      localStorage.removeItem('mc_cert_uploaded_name');
+    });
+
+    // Show last exam result (saved from exam page)
+    const lastResultEl = document.getElementById('lastResult');
+    const downloadBtn = document.getElementById('downloadCertBtn');
+    const last = JSON.parse(localStorage.getItem('mc_counsellor_exam_last') || 'null');
+
+    if (last) {
+      lastResultEl.innerHTML =
+        `Score: <b>${last.scorePct}%</b> • Result: <b>${last.passed ? 'PASSED ✅' : 'NOT PASSED ❌'}</b> • Date: ${new Date(last.issuedAt).toLocaleString()}`;
+      if (last.passed && last.certDataUri) {
+        downloadBtn.style.display = 'inline-block';
+        downloadBtn.href = last.certDataUri;
+        downloadBtn.download = last.certFileName || 'MindCheck-Counsellor-Certificate.pdf';
+      }
+    }
   </script>
 </body>
 </html>
