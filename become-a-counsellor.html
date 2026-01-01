@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Become a Counsellor • MindCheck</title>
-  <meta name="description" content="Become a verified MindCheck counsellor. Take the exam, pass, download your certificate, and upload for verification." />
+  <meta name="description" content="Become a verified MindCheck counsellor. Take a free certified course, pass the exam, download your certificate, and upload for verification." />
 
-  <!-- Your existing shared theme -->
+  <!-- Shared theme -->
   <link rel="stylesheet" href="mc-theme.css">
 
   <style>
     :root{
       --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
       --bg:#f5fdf8; --card:#ffffff; --muted:#52606d;
-      --border:#eef2f7;
+      --border:#eef2f7; --danger:#ef4444; --warn:#f59e0b;
     }
 
     /* Calm animated background (CSS-only) */
@@ -67,9 +67,21 @@
       border:1px solid #e5e7eb;
       border-radius:999px;
       padding:8px 12px;
-      font-weight:700;
+      font-weight:800;
       font-size:.95rem;
+      display:flex; align-items:center; gap:8px;
     }
+    .pill b{font-weight:900}
+    .xpbar{
+      width:160px; height:10px; border-radius:999px; overflow:hidden;
+      background: rgba(2,23,34,.08);
+    }
+    .xpbar > span{
+      display:block; height:100%; width:0%;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      transition: width .25s ease;
+    }
+
     .btn{
       border:none;
       padding:12px 16px;
@@ -77,12 +89,21 @@
       font-size:1rem;
       cursor:pointer;
       transition:.15s;
-      font-weight:800;
+      font-weight:900;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      text-decoration:none;
+      user-select:none;
     }
     .btn-primary{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(34,197,94,.25);}
     .btn-primary:hover{background:var(--greenDark);transform:translateY(-1px);}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;}
+    .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
     .btn-ghost:hover{transform:translateY(-1px);}
+    .btn-warn{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.35);color:#7c4a00;}
+    .btn-warn:hover{transform:translateY(-1px);}
+    .btn-danger{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#7f1d1d;}
 
     .grid{
       display:grid;
@@ -96,19 +117,41 @@
       border-radius:16px;
       padding:16px;
       box-shadow:0 10px 25px rgba(2,23,34,.06);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute; inset:auto -80px -80px auto;
+      width:180px; height:180px;
+      background: radial-gradient(circle at 30% 30%, rgba(34,197,94,.18), transparent 60%);
+      transform: rotate(15deg);
+      pointer-events:none;
     }
     .card h2,.card h3{margin:.15rem 0 .35rem;}
     .muted{color:var(--muted);}
 
-    .steps{margin:0;padding-left:18px;line-height:1.6;color:var(--muted);}
+    .steps{margin:0;padding-left:18px;line-height:1.6;color:var(--muted);font-weight:600}
     .callout{
       background:#fff;
       border:1px solid #d1fae5;
       border-radius:14px;
       padding:12px;
       color:#065f46;
-      font-weight:700;
+      font-weight:900;
     }
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .badge{
+      border-radius:999px;
+      padding:8px 10px;
+      background:rgba(34,197,94,.12);
+      border:1px solid rgba(34,197,94,.22);
+      font-weight:900;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .badge.lock{background:rgba(2,23,34,.06);border-color:rgba(2,23,34,.10);font-weight:900}
+    .badge.done{background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.28)}
+    .badge.warn{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.35)}
 
     .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
     input[type="file"]{
@@ -117,8 +160,29 @@
       border:1px dashed #cbd5e1;
       border-radius:14px;
       background:#fff;
+      font-weight:700;
     }
-    small{color:#64748b;}
+    small{color:#64748b; font-weight:600;}
+
+    /* Mini toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(2,23,34,.92);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:.95rem;
+      display:none;
+      z-index:9999;
+      max-width:min(92vw, 720px);
+      text-align:center;
+    }
+    .toast.show{display:block; animation:pop .2s ease;}
+    @keyframes pop{from{transform:translateX(-50%) scale(.98); opacity:.6} to{transform:translateX(-50%) scale(1); opacity:1}}
 
     /* Night Mode – Calm */
     body.night{
@@ -137,6 +201,7 @@
       color: var(--ink);
     }
     body.night header{ background: linear-gradient(90deg, #16a34a, #22c55e); }
+    body.night .xpbar{ background: rgba(255,255,255,.12); }
 
     footer{
       margin-top:18px;
@@ -144,6 +209,7 @@
       opacity:.9;
       font-size:.95rem;
       color:var(--muted);
+      font-weight:700;
     }
     footer a{color:inherit;}
   </style>
@@ -152,7 +218,7 @@
 <body>
   <header>
     <div class="left">
-      <span>🧠</span>
+      <span aria-hidden="true">🧠</span>
       <a href="./index.html">MindCheck</a>
       <span style="opacity:.85;">• Become a Counsellor</span>
     </div>
@@ -164,35 +230,66 @@
 
   <div class="wrap">
     <div class="topbar">
-      <span class="pill">✅ Step-by-step • Exam → Certificate → Verification</span>
-      <span class="pill">🔒 Your certificate is reviewed before you go “Live”</span>
+      <span class="pill">
+        🎮 Counsellor Quest
+        <span class="xpbar" aria-label="Progress"><span id="xpFill"></span></span>
+        <b id="xpText">0%</b>
+      </span>
+      <span class="pill">🔒 You go “Live” only after verification</span>
     </div>
 
     <div class="grid">
-      <section class="card">
-        <h2>Become a Verified Counsellor</h2>
+      <!-- LEFT: Quest / Course + Exam -->
+      <section class="card" aria-labelledby="title1">
+        <h2 id="title1">Become a Verified Counsellor</h2>
         <p class="muted">
-          Take the MindCheck Counsellor Exam. If you pass, you’ll instantly download your certificate (PDF).
+          Complete a <b>free certified course</b>, take the exam, and if you pass you’ll download your certificate (PDF).
           Then upload it here for verification.
         </p>
 
         <div class="callout">
-          💡 Reminder: MindCheck counsellors provide supportive listening + guidance, not emergency response.
-          If someone is in danger, they should call emergency services.
+          💡 MindCheck counsellors provide supportive listening + guidance, not emergency response.
+          If someone is in danger, they should call emergency services (Nigeria: <b>112</b>).
+        </div>
+
+        <div class="badges" role="list" aria-label="Quest steps">
+          <span class="badge lock" id="bCourse" role="listitem">📘 Course: <span>Not started</span></span>
+          <span class="badge lock" id="bExam" role="listitem">🧪 Exam: <span>Locked</span></span>
+          <span class="badge lock" id="bCert" role="listitem">🏅 Certificate: <span>Locked</span></span>
+          <span class="badge lock" id="bUpload" role="listitem">📤 Upload: <span>Locked</span></span>
         </div>
 
         <h3 style="margin-top:14px;">How it works</h3>
         <ol class="steps">
-          <li>Start the exam (timed, multiple choice).</li>
-          <li>Score at least <b>70%</b> to pass.</li>
-          <li>Download your certificate (PDF) instantly.</li>
+          <li>Start the free course.</li>
+          <li>Mark the course as completed.</li>
+          <li>Unlock the exam link and pass (target: <b>70%</b>).</li>
+          <li>Download your certificate (PDF).</li>
           <li>Upload the certificate for verification.</li>
-          <li>After approval, your counsellor profile goes live.</li>
         </ol>
 
         <div class="row" style="margin-top:14px;">
-          <a class="btn btn-primary" href="https://www.betherecertificate.org">Start Counsellor Exam</a>
-          <a class="btn btn-ghost" href="./index.html">Back to MindCheck</a>
+          <!-- FREE COURSE (external) -->
+          <a id="courseBtn" class="btn btn-primary"
+             href="https://www.betherecertificate.org/"
+             target="_blank" rel="noopener noreferrer">
+            📘 Start free course
+          </a>
+
+          <button id="markCourseDone" class="btn btn-warn" type="button">
+            ✅ I finished the course
+          </button>
+
+          <!-- EXAM (external) - locked until course done -->
+          <a id="examBtn" class="btn btn-ghost"
+             href="https://www.betherecertificate.org/"
+             target="_blank" rel="noopener noreferrer"
+             aria-disabled="true"
+             style="opacity:.65; pointer-events:none;">
+            🧪 Start counsellor exam
+          </a>
+
+          <a class="btn btn-ghost" href="./index.html">← Back</a>
         </div>
 
         <p class="muted" style="margin-top:10px;">
@@ -200,8 +297,9 @@
         </p>
       </section>
 
-      <section class="card">
-        <h3>Upload Certificate for Verification</h3>
+      <!-- RIGHT: Upload + status -->
+      <section class="card" aria-labelledby="title2">
+        <h3 id="title2">Upload Certificate for Verification</h3>
         <p class="muted">
           After passing, upload the certificate PDF here. We’ll review and activate your counsellor profile.
         </p>
@@ -210,8 +308,9 @@
         <p><small>Accepted: PDF preferred. You can also upload an image if needed.</small></p>
 
         <div class="row" style="margin-top:8px;">
-          <button id="saveUpload" class="btn btn-primary" type="button">Submit for Verification</button>
+          <button id="saveUpload" class="btn btn-primary" type="button">📤 Submit for Verification</button>
           <button id="clearUpload" class="btn btn-ghost" type="button">Clear</button>
+          <button id="resetQuest" class="btn btn-danger" type="button" title="Reset your local progress on this device">Reset progress</button>
         </div>
 
         <p id="uploadStatus" class="muted" style="margin-top:10px;"></p>
@@ -221,7 +320,12 @@
         <h3>Your last exam result</h3>
         <p class="muted" id="lastResult">No exam taken yet.</p>
         <div class="row">
-          <a id="downloadCertBtn" class="btn btn-ghost" href="#" style="display:none;">Download last certificate</a>
+          <a id="downloadCertBtn" class="btn btn-ghost" href="#" style="display:none;">⬇️ Download last certificate</a>
+        </div>
+
+        <div class="callout" style="margin-top:14px;">
+          ✅ Fast verification option: email your certificate to <b>speaaakout@gmail.com</b>
+          (or WhatsApp your local SpeakOut coordinator).
         </div>
       </section>
     </div>
@@ -231,8 +335,12 @@
     </footer>
   </div>
 
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
   <script>
-    // Night mode toggle (persists)
+    /***************
+     * Night mode toggle (persists)
+     ***************/
     const nightToggle = document.getElementById('nightToggle');
     const NIGHT_KEY = 'mc_night_mode';
     function applyNight(on){
@@ -243,41 +351,162 @@
     applyNight(localStorage.getItem(NIGHT_KEY) === '1');
     nightToggle.addEventListener('click', () => applyNight(!document.body.classList.contains('night')));
 
-    // Upload placeholder (static site): store "submitted" locally + give instructions
+    /***************
+     * Gamified quest state (local only)
+     ***************/
+    const toastEl = document.getElementById('toast');
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastEl._t);
+      toastEl._t = setTimeout(() => toastEl.classList.remove('show'), 2600);
+    }
+
+    const KEY = {
+      courseDone: 'mc_counsellor_course_done',
+      certUploadedName: 'mc_cert_uploaded_name',
+      examLast: 'mc_counsellor_exam_last'
+    };
+
+    const bCourse = document.getElementById('bCourse');
+    const bExam   = document.getElementById('bExam');
+    const bCert   = document.getElementById('bCert');
+    const bUpload = document.getElementById('bUpload');
+    const xpFill  = document.getElementById('xpFill');
+    const xpText  = document.getElementById('xpText');
+
+    const markCourseDoneBtn = document.getElementById('markCourseDone');
+    const examBtn = document.getElementById('examBtn');
+
+    // Step completion calculation (4 steps)
+    function computeProgress(){
+      const courseDone = localStorage.getItem(KEY.courseDone) === '1';
+      const last = JSON.parse(localStorage.getItem(KEY.examLast) || 'null');
+      const passed = !!(last && last.passed);
+      const uploaded = !!localStorage.getItem(KEY.certUploadedName);
+
+      const doneCount = (courseDone?1:0) + (passed?1:0) + (passed?1:0) + (uploaded?1:0);
+      // Note: Cert step follows "passed"
+      const pct = Math.round((doneCount/4)*100);
+
+      // badges
+      setBadge(bCourse, courseDone ? 'done' : 'lock', courseDone ? 'Completed ✅' : 'Not started');
+      setBadge(bExam, courseDone ? 'warn' : 'lock', courseDone ? 'Unlocked 🔓' : 'Locked');
+      setBadge(bCert, passed ? 'done' : (courseDone ? 'warn' : 'lock'), passed ? 'Ready ✅' : (courseDone ? 'Pending exam' : 'Locked'));
+      setBadge(bUpload, uploaded ? 'done' : (passed ? 'warn' : 'lock'), uploaded ? 'Submitted ✅' : (passed ? 'Upload needed' : 'Locked'));
+
+      // exam link unlock
+      if (courseDone){
+        examBtn.style.opacity = '1';
+        examBtn.style.pointerEvents = 'auto';
+        examBtn.setAttribute('aria-disabled', 'false');
+      } else {
+        examBtn.style.opacity = '.65';
+        examBtn.style.pointerEvents = 'none';
+        examBtn.setAttribute('aria-disabled', 'true');
+      }
+
+      // xp bar
+      xpFill.style.width = pct + '%';
+      xpText.textContent = pct + '%';
+
+      return {courseDone, passed, uploaded, pct};
+    }
+
+    function setBadge(el, type, text){
+      el.classList.remove('lock','done','warn');
+      el.classList.add(type);
+      const span = el.querySelector('span');
+      if (span) span.textContent = text;
+    }
+
+    markCourseDoneBtn.addEventListener('click', () => {
+      localStorage.setItem(KEY.courseDone, '1');
+      toast('Course marked as completed ✅ Exam unlocked!');
+      computeProgress();
+    });
+
+    /***************
+     * Upload placeholder (static site): store "submitted" locally + give instructions
+     ***************/
     const certFile = document.getElementById('certFile');
     const uploadStatus = document.getElementById('uploadStatus');
+
     document.getElementById('saveUpload').addEventListener('click', () => {
-      if (!certFile.files || !certFile.files[0]) {
-        uploadStatus.textContent = '⚠️ Please select your certificate file first.';
+      const { passed } = computeProgress();
+      if (!passed) {
+        uploadStatus.textContent = '⚠️ Please pass the exam first before uploading (certificate is required).';
+        toast('Pass the exam first 🧪');
         return;
       }
-      // Static demo: save filename locally (real verification can be via email/WhatsApp or a backend later)
-      localStorage.setItem('mc_cert_uploaded_name', certFile.files[0].name);
+      if (!certFile.files || !certFile.files[0]) {
+        uploadStatus.textContent = '⚠️ Please select your certificate file first.';
+        toast('Select a file first 📄');
+        return;
+      }
+
+      localStorage.setItem(KEY.certUploadedName, certFile.files[0].name);
       uploadStatus.innerHTML =
         '✅ Submitted (saved on this device).<br>' +
         'Next step: send the certificate to SpeakOut for verification via email: <b>speaaakout@gmail.com</b> ' +
         'or WhatsApp (if you prefer).';
+      toast('Certificate submitted ✅');
+      computeProgress();
     });
+
     document.getElementById('clearUpload').addEventListener('click', () => {
       certFile.value = '';
       uploadStatus.textContent = '';
-      localStorage.removeItem('mc_cert_uploaded_name');
+      localStorage.removeItem(KEY.certUploadedName);
+      toast('Cleared.');
+      computeProgress();
     });
 
-    // Show last exam result (saved from exam page)
+    document.getElementById('resetQuest').addEventListener('click', () => {
+      localStorage.removeItem(KEY.courseDone);
+      localStorage.removeItem(KEY.certUploadedName);
+      // Don’t delete exam history unless you want:
+      // localStorage.removeItem(KEY.examLast);
+      toast('Progress reset on this device.');
+      uploadStatus.textContent = '';
+      certFile.value = '';
+      computeProgress();
+      renderLastExam();
+    });
+
+    /***************
+     * Show last exam result (saved from exam page, if you implement it later)
+     ***************/
     const lastResultEl = document.getElementById('lastResult');
     const downloadBtn = document.getElementById('downloadCertBtn');
-    const last = JSON.parse(localStorage.getItem('mc_counsellor_exam_last') || 'null');
 
-    if (last) {
-      lastResultEl.innerHTML =
-        `Score: <b>${last.scorePct}%</b> • Result: <b>${last.passed ? 'PASSED ✅' : 'NOT PASSED ❌'}</b> • Date: ${new Date(last.issuedAt).toLocaleString()}`;
-      if (last.passed && last.certDataUri) {
-        downloadBtn.style.display = 'inline-block';
-        downloadBtn.href = last.certDataUri;
-        downloadBtn.download = last.certFileName || 'MindCheck-Counsellor-Certificate.pdf';
+    function renderLastExam(){
+      const last = JSON.parse(localStorage.getItem(KEY.examLast) || 'null');
+
+      if (last) {
+        const dateStr = new Date(last.issuedAt || Date.now()).toLocaleString();
+        lastResultEl.innerHTML =
+          `Score: <b>${last.scorePct}%</b> • Result: <b>${last.passed ? 'PASSED ✅' : 'NOT PASSED ❌'}</b> • Date: ${dateStr}`;
+
+        if (last.passed && last.certDataUri) {
+          downloadBtn.style.display = 'inline-flex';
+          downloadBtn.href = last.certDataUri;
+          downloadBtn.download = last.certFileName || 'MindCheck-Counsellor-Certificate.pdf';
+          toast('Certificate ready 🏅');
+        } else {
+          downloadBtn.style.display = 'none';
+          downloadBtn.href = '#';
+        }
+      } else {
+        lastResultEl.textContent = 'No exam taken yet.';
+        downloadBtn.style.display = 'none';
+        downloadBtn.href = '#';
       }
     }
+
+    // Initial render
+    renderLastExam();
+    computeProgress();
   </script>
 </body>
 </html>
