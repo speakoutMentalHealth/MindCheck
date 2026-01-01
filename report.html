@@ -1,211 +1,569 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SpeakOut Anonymous Report 💚</title>
+
   <style>
-    body {
-      font-family: "Inter", system-ui, sans-serif;
-      background: #f5fdf8;
-      color: #062436;
-      text-align: center;
-      padding: 0;
-      margin: 0;
+    :root{
+      --bg:#f5fdf8;
+      --card:#ffffff;
+      --text:#062436;
+      --muted:#64748b;
+      --green:#22c55e;
+      --green2:#16a34a;
+      --ring:rgba(34,197,94,.25);
+      --shadow:0 10px 28px rgba(2, 44, 22, .10);
+      --radius:18px;
     }
-    header {
-      background: #22c55e;
-      color: #fff;
-      padding: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    body.dark{
+      --bg:#07130d;
+      --card:#0b1f15;
+      --text:#e8fff2;
+      --muted:#a9c5b5;
+      --ring:rgba(34,197,94,.22);
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin:0;
+    }
+
+    header{
+      position: sticky; top:0; z-index:5;
+      background: linear-gradient(90deg, var(--green), var(--green2));
+      color:#fff;
+      padding: 14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      box-shadow: 0 10px 24px rgba(34,197,94,.18);
+    }
+    header img{
+      height:40px;width:40px;border-radius:50%;
+      object-fit:cover;background:#fff;
+      outline: 3px solid rgba(255,255,255,.25);
+    }
+    header .title{
+      display:flex; flex-direction:column; line-height:1.05;
+    }
+    header h1{font-size:18px;margin:0}
+    header small{opacity:.9}
+
+    .wrap{
+      max-width: 720px;
+      margin: 18px auto 42px;
+      padding: 0 14px;
+    }
+
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; margin: 10px 0 14px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      background: var(--card);
+      border: 1px solid rgba(148,163,184,.35);
+      border-radius: 999px;
+      padding: 10px 12px;
+      box-shadow: 0 6px 18px rgba(2,44,22,.06);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .toggle{
+      cursor:pointer; user-select:none;
+    }
+
+    .card{
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(148,163,184,.25);
+    }
+
+    .banner{
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: rgba(34,197,94,.10);
+      border: 1px solid rgba(34,197,94,.25);
+      margin-bottom: 14px;
+    }
+    .banner b{color: var(--green2)}
+    .banner .row{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
+    }
+    .btnmini{
+      appearance:none; border:1px solid rgba(34,197,94,.35);
+      background: rgba(34,197,94,.12);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-weight:700;
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btnmini:hover{outline: 4px solid var(--ring)}
+
+    h2{
+      text-align:center;
+      color: var(--green2);
+      margin: 6px 0 2px;
+      font-size: 20px;
+    }
+    p.sub{
+      text-align:center;
+      color: var(--muted);
+      margin: 0 0 14px;
+      font-size: 14px;
+    }
+
+    .progress{
+      height: 10px;
+      background: rgba(148,163,184,.28);
+      border-radius: 999px;
+      overflow:hidden;
+      margin: 10px 0 16px;
+    }
+    .bar{
+      height:100%;
+      width: 20%;
+      background: linear-gradient(90deg, var(--green), var(--green2));
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+
+    .steps{
+      display:flex; justify-content:space-between; gap:8px;
+      margin: 0 0 14px;
+    }
+    .step{
+      flex:1;
+      padding: 10px 10px;
+      border-radius: 14px;
+      background: rgba(148,163,184,.16);
+      border: 1px dashed rgba(148,163,184,.35);
+      color: var(--muted);
+      font-size: 12px;
+      text-align:center;
+      font-weight:700;
+    }
+    .step.on{
+      background: rgba(34,197,94,.12);
+      border: 1px solid rgba(34,197,94,.30);
+      color: var(--text);
+    }
+
+    label{
+      font-weight: 700;
+      margin-top: 14px;
+      display:block;
+      font-size: 14px;
+    }
+    input, select, textarea{
+      width:100%;
+      padding: 11px 12px;
+      margin-top: 6px;
+      border: 1px solid rgba(148,163,184,.45);
+      border-radius: 14px;
+      font-size: 15px;
+      background: transparent;
+      color: var(--text);
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus{
+      outline: 4px solid var(--ring);
+      border-color: rgba(34,197,94,.65);
+    }
+    textarea{resize:vertical; min-height: 110px;}
+
+    .row2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
-    header img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      object-fit: cover;
+    @media (max-width: 640px){
+      .row2{grid-template-columns:1fr}
     }
-    form {
-      background: #fff;
-      max-width: 550px;
-      margin: 20px auto;
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 8px 25px rgba(34,197,94,0.15);
-      text-align: left;
+
+    .actions{
+      margin-top: 16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    h2 {
-      text-align: center;
-      color: #16a34a;
+    button{
+      flex:1;
+      border:none;
+      padding: 14px 14px;
+      border-radius: 14px;
+      font-size: 15px;
+      cursor:pointer;
+      font-weight: 800;
+      transition: transform .12s ease, opacity .12s ease;
     }
-    label {
-      font-weight: 600;
-      margin-top: 14px;
-      display: block;
+    button:active{transform: scale(.99)}
+    .primary{
+      background: linear-gradient(90deg, var(--green), var(--green2));
+      color:#fff;
     }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 4px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      font-size: 1rem;
+    .secondary{
+      background: transparent;
+      border: 1px solid rgba(34,197,94,.65);
+      color: var(--green2);
     }
-    textarea {
-      resize: vertical;
+    button[disabled]{opacity:.65; cursor:not-allowed}
+
+    .fine{
+      color: var(--muted);
+      font-size: 12.5px;
+      margin-top: 12px;
+      line-height: 1.4;
     }
-    button {
-      display: block;
-      width: 100%;
-      background: #22c55e;
-      color: white;
-      border: none;
-      padding: 14px;
-      margin-top: 18px;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
+
+    .hide{display:none !important;}
+
+    .toast{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,.35);
+      background: rgba(148,163,184,.10);
+      color: var(--text);
     }
-    button:hover {
-      background: #16a34a;
+
+    /* Simple confetti (CSS only) */
+    .confetti{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index: 50;
     }
-    .back-btn {
-      background: #fff;
-      color: #22c55e;
-      border: 1px solid #22c55e;
+    .confetti i{
+      position:absolute;
+      top:-10px;
+      width:10px; height:14px;
+      background: var(--green);
+      opacity:.9;
+      border-radius:3px;
+      animation: fall 1.3s linear forwards;
     }
-    .back-btn:hover {
-      background: #f0fdf4;
-    }
-    small {
-      color: #64748b;
-      font-size: 0.85rem;
+    @keyframes fall{
+      to{ transform: translateY(110vh) rotate(360deg); opacity:.95; }
     }
   </style>
 </head>
-<body>
 
+<body>
   <header>
     <img src="https://speakoutmentalhealth.github.io/MindCheck/icons/apple-touch-icon.png" alt="SpeakOut Logo">
-    <h1>SpeakOut MindCheck 💚</h1>
+    <div class="title">
+      <h1>SpeakOut MindCheck 💚</h1>
+      <small>Anonymous Reporting • Safe • Supportive</small>
+    </div>
   </header>
 
-  <form id="reportForm">
-    <h2>Anonymous Reporting Form</h2>
-    <p style="text-align:center;">If you or someone you know is in danger, please tell a trusted adult or call <b>112</b> immediately.</p>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="chip">🛡️ Privacy-first: no names required</div>
+      <div class="chip toggle" id="modeToggle" role="button" tabindex="0" aria-label="Toggle calm dark mode">🌙 Calm Mode</div>
+    </div>
 
-    <label>Who is this about?</label>
-    <select name="who" required>
-      <option value="">-- choose one --</option>
-      <option value="myself">Myself</option>
-      <option value="friend">A friend</option>
-      <option value="someone_else">Someone else</option>
-    </select>
+    <div class="card">
+      <div class="banner">
+        <div><b>Urgent safety note:</b> If you are in immediate danger, call <b>112</b> now or tell a trusted adult.</div>
+        <div class="row">
+          <a class="btnmini" href="tel:112">📞 Call 112</a>
+          <a class="btnmini" href="https://wa.me/2348130191085?text=Hi%20SpeakOut%2C%20I%20need%20help%20now." target="_blank" rel="noopener">💬 WhatsApp Support</a>
+          <a class="btnmini" href="https://speakoutmentalhealth.github.io/MindCheck/">🏠 Back to Home</a>
+        </div>
+      </div>
 
-    <label>Type of concern</label>
-    <select name="concernType" required>
-      <option value="">-- choose one --</option>
-      <option value="self_harm">I feel like hurting myself</option>
-      <option value="being_hurt">Someone is hurting me (bullying, abuse, threats)</option>
-      <option value="not_safe_home">I don’t feel safe at home</option>
-      <option value="worried_for_friend">I’m worried about a friend</option>
-      <option value="other">Something else</option>
-    </select>
+      <h2>Anonymous Reporting Form</h2>
+      <p class="sub">You’re doing a brave thing. Share only what you can.</p>
 
-    <label>What happened? (please describe briefly)</label>
-    <textarea name="details" rows="4" placeholder="Write what’s going on..." required></textarea>
+      <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+      <div class="steps" aria-hidden="true">
+        <div class="step on" id="s1">1 • About</div>
+        <div class="step" id="s2">2 • Concern</div>
+        <div class="step" id="s3">3 • Details</div>
+        <div class="step" id="s4">4 • Contact</div>
+        <div class="step" id="s5">5 • Submit</div>
+      </div>
 
-    <label>Where are you (school / community)?</label>
-    <input type="text" name="locationContext" placeholder="e.g. SpeakOut Secondary School, Lugbe" />
+      <form id="reportForm" novalidate>
+        <!-- Honeypot -->
+        <input class="hide" type="text" name="website" tabindex="-1" autocomplete="off" />
 
-    <label>How old are you?</label>
-    <select name="ageBand">
-      <option value="">Prefer not to say</option>
-      <option value="Under 13">Under 13</option>
-      <option value="13-15">13–15</option>
-      <option value="16-18">16–18</option>
-      <option value="18+">18+</option>
-    </select>
+        <label for="who">Who is this about?</label>
+        <select id="who" name="who" required>
+          <option value="">-- choose one --</option>
+          <option value="myself">Myself</option>
+          <option value="friend">A friend</option>
+          <option value="someone_else">Someone else</option>
+        </select>
 
-    <label>Do you want someone to contact you to help?</label>
-    <select name="allowContact" required>
-      <option value="">-- choose one --</option>
-      <option value="yes">Yes, please reach me</option>
-      <option value="no">No, keep me anonymous</option>
-    </select>
+        <label for="concernType">Type of concern</label>
+        <select id="concernType" name="concernType" required>
+          <option value="">-- choose one --</option>
+          <option value="self_harm">I feel like hurting myself</option>
+          <option value="being_hurt">Someone is hurting me (bullying, abuse, threats)</option>
+          <option value="not_safe_home">I don’t feel safe at home</option>
+          <option value="worried_for_friend">I’m worried about a friend</option>
+          <option value="other">Something else</option>
+        </select>
 
-    <label>How can we reach you safely? (optional)</label>
-    <input type="text" name="contactInfo" placeholder="Phone or WhatsApp (optional)" />
+        <label for="details">What happened? (briefly)</label>
+        <textarea id="details" name="details" placeholder="Write what’s going on..." required></textarea>
 
-    <label>Safe adult (optional)</label>
-    <input type="text" name="safeAdult" placeholder="e.g. Mrs. Grace, Guidance Counselor, SS2 Block" />
+        <div class="row2">
+          <div>
+            <label for="locationContext">Where are you (school / community)?</label>
+            <input id="locationContext" type="text" name="locationContext" placeholder="e.g. School, street, community" />
+          </div>
 
-    <small>
-      By submitting, you agree we may share this information with a trusted adult or school contact if someone’s life or safety is in danger.
-    </small>
+          <div>
+            <label for="ageBand">How old are you?</label>
+            <select id="ageBand" name="ageBand">
+              <option value="">Prefer not to say</option>
+              <option value="Under 13">Under 13</option>
+              <option value="13-15">13–15</option>
+              <option value="16-18">16–18</option>
+              <option value="18+">18+</option>
+            </select>
+          </div>
+        </div>
 
-    <button type="submit">Submit Report ✅</button>
-    <button type="button" class="back-btn" onclick="goHomeNow()">← Back to Home</button>
+        <label for="allowContact">Do you want someone to contact you to help?</label>
+        <select id="allowContact" name="allowContact" required>
+          <option value="">-- choose one --</option>
+          <option value="yes">Yes, please reach me</option>
+          <option value="no">No, keep me anonymous</option>
+        </select>
 
-  </form>
+        <div id="contactWrap" class="hide">
+          <label for="contactInfo">How can we reach you safely? (required if you chose “Yes”)</label>
+          <input id="contactInfo" type="text" name="contactInfo" placeholder="Phone or WhatsApp (safe contact)" />
+          <p class="fine" style="margin-top:8px;">Tip: If it’s not safe to share your number, pick “No, keep me anonymous”.</p>
+        </div>
 
-<script>
-  const endpoint = "https://script.google.com/macros/s/AKfycbza254e2igg06ApsJc1_b3wIHFBIuwb6Bq6M9WyLHE8as-UaYJsRbFH7uvs9zJ_LOhhvQ/exec";
-  function goHomeNow() {
-    window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
-  }
+        <label for="safeAdult">Safe adult (optional)</label>
+        <input id="safeAdult" type="text" name="safeAdult" placeholder="e.g. Teacher, counsellor, aunt/uncle" />
 
-  document.getElementById("reportForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+        <div class="fine">
+          By submitting, you agree we may share this information with a trusted adult or school contact if someone’s life or safety is in danger.
+        </div>
 
-    // Grab all form fields
-    const formData = new FormData(e.target);
+        <div class="actions">
+          <button class="primary" type="submit" id="submitBtn">Submit Report ✅</button>
+          <button class="secondary" type="button" onclick="goHomeNow()">← Back</button>
+        </div>
 
-    // Add UID from localStorage
-    const uid = localStorage.getItem("mc_uid") || "anonymous";
-    formData.append("uid", uid);
+        <div id="msg" class="toast hide" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
 
-    // Convert to URL-encoded body
-    const bodyParams = new URLSearchParams();
-    for (const [key, value] of formData.entries()) {
-      bodyParams.append(key, value);
+  <div class="confetti hide" id="confetti" aria-hidden="true"></div>
+
+  <script>
+    const endpoint = "https://script.google.com/macros/s/AKfycbza254e2igg06ApsJc1_b3wIHFBIuwb6Bq6M9WyLHE8as-UaYJsRbFH7uvs9zJ_LOhhvQ/exec";
+
+    function goHomeNow() {
+      window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
     }
 
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          // This is KEY: we send as x-www-form-urlencoded,
-          // which Apps Script reads reliably via e.postData.contents
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-        },
-        body: bodyParams.toString()
+    // Calm mode toggle (persist)
+    const toggle = document.getElementById("modeToggle");
+    const savedMode = localStorage.getItem("mc_mode");
+    if (savedMode === "dark") document.body.classList.add("dark");
+
+    function flipMode(){
+      document.body.classList.toggle("dark");
+      localStorage.setItem("mc_mode", document.body.classList.contains("dark") ? "dark" : "light");
+    }
+    toggle.addEventListener("click", flipMode);
+    toggle.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); flipMode(); } });
+
+    // Conditional contact required
+    const allowContact = document.getElementById("allowContact");
+    const contactWrap  = document.getElementById("contactWrap");
+    const contactInfo  = document.getElementById("contactInfo");
+
+    function syncContactUI(){
+      const yes = allowContact.value === "yes";
+      contactWrap.classList.toggle("hide", !yes);
+      contactInfo.required = yes;
+      if (!yes) contactInfo.value = "";
+      updateProgress();
+    }
+    allowContact.addEventListener("change", syncContactUI);
+
+    // Progress + step highlight (simple heuristic)
+    const bar = document.getElementById("bar");
+    const steps = [
+      document.getElementById("s1"),
+      document.getElementById("s2"),
+      document.getElementById("s3"),
+      document.getElementById("s4"),
+      document.getElementById("s5"),
+    ];
+
+    const fields = ["who","concernType","details","allowContact"];
+    function filled(id){
+      const el = document.getElementById(id);
+      return el && String(el.value||"").trim().length > 0;
+    }
+
+    function updateProgress(){
+      let score = 0;
+      if (filled("who")) score++;
+      if (filled("concernType")) score++;
+      if (filled("details")) score++;
+      if (filled("allowContact")) score++;
+      if (allowContact.value === "yes" && String(contactInfo.value||"").trim()) score++; // bonus step
+      const pct = Math.min(100, Math.round((score / 5) * 100));
+      bar.style.width = pct + "%";
+
+      steps.forEach(s=>s.classList.remove("on"));
+      // map to steps
+      if (!filled("who")) steps[0].classList.add("on");
+      else if (!filled("concernType")) steps[1].classList.add("on");
+      else if (!filled("details")) steps[2].classList.add("on");
+      else if (!filled("allowContact") || (allowContact.value==="yes" && !String(contactInfo.value||"").trim())) steps[3].classList.add("on");
+      else steps[4].classList.add("on");
+    }
+
+    ["who","concernType","details","allowContact","contactInfo","locationContext","ageBand","safeAdult"]
+      .forEach(id=>{
+        const el=document.getElementById(id);
+        if(el) el.addEventListener("input", updateProgress);
+        if(el) el.addEventListener("change", updateProgress);
       });
 
-      const text = await res.text();
-      let data = {};
-      try { data = JSON.parse(text); } catch (_) {}
+    syncContactUI();
+    updateProgress();
 
-      if (res.ok && data.ok) {
-        alert("✅ Thank you for speaking up. You did the right thing.");
-        e.target.reset();
-        setTimeout(goHomeNow, 1500);
-      } else {
-        console.warn("Unexpected response:", text);
-        alert("⚠ We could not confirm send. Please tell a trusted adult or call 112.");
+    // Confetti + badge
+    const confetti = document.getElementById("confetti");
+    function popConfetti(){
+      confetti.innerHTML = "";
+      confetti.classList.remove("hide");
+      const n = 28;
+      for(let i=0;i<n;i++){
+        const p = document.createElement("i");
+        p.style.left = Math.random()*100 + "vw";
+        p.style.animationDelay = (Math.random()*0.25) + "s";
+        p.style.transform = `translateY(-10px) rotate(${Math.random()*360}deg)`;
+        p.style.opacity = 0.65 + Math.random()*0.35;
+        p.style.width = (8 + Math.random()*10) + "px";
+        p.style.height = (10 + Math.random()*14) + "px";
+        confetti.appendChild(p);
+      }
+      setTimeout(()=>confetti.classList.add("hide"), 1600);
+    }
+
+    function awardBadge(){
+      const badges = JSON.parse(localStorage.getItem("mc_badges") || "[]");
+      if (!badges.includes("Bravery Badge")) badges.push("Bravery Badge");
+      localStorage.setItem("mc_badges", JSON.stringify(badges));
+    }
+
+    // Submit with timeout + UI feedback
+    const form = document.getElementById("reportForm");
+    const msg  = document.getElementById("msg");
+    const btn  = document.getElementById("submitBtn");
+
+    function showMsg(text){
+      msg.textContent = text;
+      msg.classList.remove("hide");
+    }
+    function hideMsg(){
+      msg.classList.add("hide");
+      msg.textContent = "";
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      hideMsg();
+
+      // Basic validation
+      if (!form.checkValidity()){
+        showMsg("⚠ Please complete the required fields before submitting.");
+        return;
       }
 
-    } catch (err) {
-      console.error("Network error:", err);
-      alert("⚠ Network issue. Please tell a trusted adult or call 112.");
-    }
-  });
-</script>
+      // Honeypot
+      const honey = form.querySelector('input[name="website"]').value;
+      if (honey && honey.trim().length) {
+        showMsg("⚠ Could not submit. Please try again.");
+        return;
+      }
 
+      btn.disabled = true;
+      btn.textContent = "Submitting... ⏳";
 
+      const formData = new FormData(form);
+
+      // Add UID from localStorage
+      const uid = localStorage.getItem("mc_uid") || "anonymous";
+      formData.append("uid", uid);
+
+      // Convert to URL-encoded body
+      const bodyParams = new URLSearchParams();
+      for (const [key, value] of formData.entries()) bodyParams.append(key, value);
+
+      // Timeout
+      const controller = new AbortController();
+      const t = setTimeout(() => controller.abort(), 15000);
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body: bodyParams.toString(),
+          signal: controller.signal
+        });
+
+        clearTimeout(t);
+
+        const text = await res.text();
+        let data = {};
+        try { data = JSON.parse(text); } catch (_) {}
+
+        if (res.ok && data.ok) {
+          awardBadge();
+          popConfetti();
+          showMsg("✅ Thank you for speaking up. Bravery Badge unlocked 💚 We’ll respond as soon as we can.");
+          form.reset();
+          syncContactUI();
+          updateProgress();
+          setTimeout(goHomeNow, 1600);
+        } else {
+          console.warn("Unexpected response:", text);
+          showMsg("⚠ We could not confirm submission. If this is urgent, call 112 or tell a trusted adult now.");
+        }
+      } catch (err) {
+        const isAbort = (err && err.name === "AbortError");
+        console.error("Network error:", err);
+        showMsg(isAbort
+          ? "⚠ Network timeout. Please try again, or call 112 if urgent."
+          : "⚠ Network issue. Please try again, or call 112 if urgent."
+        );
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Submit Report ✅";
+      }
+    });
+  </script>
 </body>
 </html>
