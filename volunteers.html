@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>MindCheck Joint Volunteer Training — SpeakOut • Synia Aid Foundation • AfriHud</title>
+  <title>MindCheck Joint Volunteer Training — SpeakOut, Synia Aid Foundation & AfriHud</title>
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="mc-theme.css"/>
   <meta name="theme-color" content="#22c55e"/>
-  <meta name="description" content="Joint volunteer training for safe listening, referrals, and community support. Complete modules, quiz, and unlock badge + certificate." />
 
   <style>
     :root{
       --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
       --bg:#f5fdf8; --card:#ffffff; --muted:#52606d;
-      --border:#eef2f7; --shadow:0 10px 25px rgba(2,23,34,.06);
-      --chip:#f0fdf4;
+      --border:#eef2f7;
+      --shadow:0 10px 25px rgba(2,23,34,.06);
     }
 
     body{
       margin:0;
-      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
       color:var(--ink);
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
+        var(--bg);
       overflow-x:hidden;
     }
     body::before{
@@ -47,13 +47,14 @@
       background:var(--green);
       color:#fff;
       padding:1.1rem 1rem;
+      font-size:1.15rem;
+      font-weight:900;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      font-weight:900;
     }
-    header .left{display:flex;align-items:center;gap:10px;}
+    header .left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     header a{color:#fff;text-decoration:none;font-weight:900;}
     .wrap{max-width:980px;margin:18px auto 40px;padding:0 14px;}
 
@@ -68,24 +69,8 @@
       padding:8px 12px;
       font-weight:800;
       font-size:.95rem;
-      display:flex;align-items:center;gap:8px;
+      box-shadow:0 6px 18px rgba(2,23,34,.05);
     }
-    .pill .dot{width:10px;height:10px;border-radius:50%;background:var(--green);}
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:14px;
-      margin-top:12px;
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-      box-shadow:var(--shadow);
-    }
-    .muted{color:var(--muted);}
 
     .btn{
       border:none;
@@ -95,51 +80,74 @@
       cursor:pointer;
       transition:.15s;
       font-weight:900;
-      text-decoration:none;
       display:inline-flex;
+      gap:10px;
       align-items:center;
       justify-content:center;
-      gap:10px;
+      text-decoration:none;
     }
-    .btn-primary{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(34,197,94,.25);}
+    .btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 22px rgba(34,197,94,.25);}
     .btn-primary:hover{background:var(--greenDark);transform:translateY(-1px);}
     .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
     .btn-ghost:hover{transform:translateY(-1px);}
 
-    .badgeRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
-    .chip{
-      background:var(--chip);
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+      box-shadow:var(--shadow);
+      text-align:left;
+    }
+    .card h2,.card h3{margin:.15rem 0 .35rem;}
+    .muted{color:var(--muted);}
+
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(34,197,94,.10);
       border:1px solid rgba(34,197,94,.25);
       color:#065f46;
-      padding:8px 10px;
       border-radius:999px;
+      padding:7px 10px;
       font-weight:900;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
       font-size:.92rem;
+      margin:6px 0 10px;
     }
 
-    .list{margin:.35rem 0 .2rem;padding-left:18px;line-height:1.65;color:var(--muted);}
+    .callout{
+      background:#fff;
+      border:1px solid #d1fae5;
+      border-radius:14px;
+      padding:12px;
+      color:#065f46;
+      font-weight:800;
+    }
 
-    /* Night Mode */
+    /* Night Mode – Calm */
     body.night{
       --bg:#071a14;
       --card:#071f18;
       --ink:#e9fff3;
       --muted:#b9e7cf;
       --border:rgba(255,255,255,.08);
-      --chip:rgba(255,255,255,.04);
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.10), transparent 55%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.10), transparent 55%),
+        var(--bg);
     }
-    body.night .pill, body.night .btn-ghost, body.night .card, body.night .chip{
+    body.night .pill, body.night .btn-ghost, body.night .card{
       background: rgba(255,255,255,.04);
       border-color: rgba(255,255,255,.10);
       color: var(--ink);
     }
     body.night header{ background: linear-gradient(90deg, #16a34a, #22c55e); }
+    body.night .badge{ background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.22); color: #d1fae5; }
 
     footer{
       margin-top:18px;
@@ -149,122 +157,89 @@
       color:var(--muted);
     }
     footer a{color:inherit;}
-
-    .divider{border:none;border-top:1px solid rgba(148,163,184,.35);margin:14px 0;}
   </style>
 </head>
-
 <body>
   <header>
     <div class="left">
-      <span aria-hidden="true">🧠</span>
-      <a href="index.html">MindCheck Nigeria</a>
-      <span style="opacity:.85;">• Joint Volunteer Training</span>
+      <span>🧠</span>
+      <a href="index.html">MindCheck</a>
+      <span style="opacity:.9;">• Volunteer Zone</span>
     </div>
-    <button id="nightToggle" class="btn btn-ghost" type="button" aria-label="Toggle night mode">🌙 Night Mode</button>
+
+    <button id="nightToggle" class="btn btn-ghost" type="button" aria-label="Toggle night mode">
+      🌙 Night Mode
+    </button>
   </header>
 
   <div class="wrap">
     <div class="topbar">
-      <span class="pill"><span class="dot"></span>SpeakOut • Synia Aid Foundation • AfriHud</span>
-      <span class="pill"><span class="dot"></span>Badge + Certificate unlock</span>
+      <span class="pill">🏅 Badge + Certificate • Pass quiz to unlock</span>
+      <span class="pill" id="progressPill">🎯 Training progress: 0%</span>
     </div>
 
-    <section class="card">
-      <h2>Get Trained. Make a Difference.</h2>
-      <p class="muted">
-        This <b>joint volunteer training</b> prepares you to support people safely across Nigerian campuses,
-        communities and humanitarian projects. Complete the modules, take a short quiz, and unlock your in-app
-        <b>“Volunteer Trained”</b> badge plus a digital certificate issued by
-        <b>SpeakOut Mental Health Outreach, Synia Aid Foundation & AfriHud</b>.
-      </p>
+    <div class="grid">
+      <section class="card">
+        <h2>Get Trained. Make a Difference.</h2>
 
-      <div class="badgeRow">
-        <span class="chip" id="xpChip">⭐ XP: 0</span>
-        <span class="chip" id="moduleChip">📚 Modules: 0/4</span>
-        <span class="chip" id="badgeChip">🏅 Badge: Locked</span>
-      </div>
+        <div class="badge">✅ Reward: “Volunteer Trained” +50 points</div>
 
-      <hr class="divider">
+        <p class="muted">
+          This <b>joint volunteer training</b> prepares you to support people safely across Nigerian
+          campuses, communities, outreach and humanitarian projects. Complete the lessons, pass the quiz,
+          and unlock your in-app <b>Volunteer Trained</b> badge plus a digital certificate issued by
+          <b>SpeakOut Mental Health Outreach, Synia Aid Foundation & AfriHud</b>.
+        </p>
 
-      <div class="grid">
-        <div class="card">
-          <h3>What you’ll gain</h3>
-          <ul class="list">
-            <li>Confidence to receive someone in distress respectfully and safely.</li>
-            <li>Clear steps for emergency and non-emergency referrals.</li>
-            <li>Simple, privacy-first logging for impact reporting.</li>
-            <li>Digital certificate + in-app badge recognised by all three partner NGOs.</li>
-          </ul>
-
-          <h3 style="margin-top:12px;">Who this is for</h3>
-          <ul class="list">
-            <li>Campus and community volunteers serving with SpeakOut, Synia Aid Foundation or AfriHud.</li>
-            <li>Students, youth leaders and peer supporters interested in mental health advocacy.</li>
-            <li>Field volunteers involved in outreach, education, or humanitarian projects.</li>
-          </ul>
+        <div class="callout">
+          💡 Volunteers provide supportive listening + safe referral. If someone is in immediate danger,
+          call emergency services (Nigeria: <b>112</b>).
         </div>
 
-        <div class="card">
-          <h3>Training missions (gamified)</h3>
-          <p class="muted">Tap each mission as you complete it. Progress is saved on this device.</p>
+        <h3 style="margin-top:14px;">What you’ll gain</h3>
+        <ul class="muted" style="margin:.5rem 0 0;padding-left:18px;line-height:1.6;">
+          <li>Confidence to respond respectfully and safely.</li>
+          <li>Clear steps for emergency and non-emergency referrals.</li>
+          <li>Privacy-first logging (minimum necessary).</li>
+          <li>Digital certificate + badge recognised by all three partner NGOs.</li>
+        </ul>
 
-          <div style="display:grid;gap:10px;margin-top:10px;">
-            <label class="chip" style="justify-content:space-between;">
-              <span>🧩 Mission 1: Safe Listening Basics</span>
-              <input id="m1" type="checkbox" style="transform:scale(1.2);" />
-            </label>
-
-            <label class="chip" style="justify-content:space-between;">
-              <span>🧭 Mission 2: Referrals & Boundaries</span>
-              <input id="m2" type="checkbox" style="transform:scale(1.2);" />
-            </label>
-
-            <label class="chip" style="justify-content:space-between;">
-              <span>🧯 Mission 3: Crisis Response (What to do)</span>
-              <input id="m3" type="checkbox" style="transform:scale(1.2);" />
-            </label>
-
-            <label class="chip" style="justify-content:space-between;">
-              <span>📝 Mission 4: Privacy-first Logging</span>
-              <input id="m4" type="checkbox" style="transform:scale(1.2);" />
-            </label>
-          </div>
-
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-            <button id="claimBtn" class="btn btn-primary" type="button">🎉 Claim Badge</button>
-            <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
-          </div>
-
-          <p id="status" class="muted" style="margin-top:10px;"></p>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn btn-primary" href="training-hub.html">🚀 Start Joint Training Hub</a>
+          <a class="btn btn-ghost" href="resources.html">🏥 Clinics & Resources</a>
+          <a class="btn btn-ghost" href="index.html">← Back to Home</a>
         </div>
-      </div>
+      </section>
 
-      <div class="card" style="margin-top:12px;text-align:left;">
-        <b>About this partnership</b>
+      <section class="card">
+        <h3>About this partnership</h3>
         <p class="muted" style="margin:.35rem 0;">
           MindCheck training is a joint initiative of three Nigerian NGOs working together to support young
           people, families and communities:
         </p>
-        <ul class="list">
-          <li><b>SpeakOut Mental Health Outreach</b> – campus and community mental health education, teaching safe listening and referral skills.</li>
-          <li><b>Synia Aid Foundation</b> – education and poverty-relief initiatives providing support for vulnerable families and learners.</li>
-          <li><b>AfriHud (Africa Initiative for Humanitarian Development)</b> – humanitarian and development projects focused on youth empowerment and community development.</li>
+        <ul class="muted" style="margin:.35rem 0 .2rem;padding-left:18px;line-height:1.6;">
+          <li><b>SpeakOut Mental Health Outreach</b> – campus and community mental health education, safe listening + referral skills.</li>
+          <li><b>Synia Aid Foundation</b> – education and poverty-relief support for vulnerable families and learners.</li>
+          <li><b>AfriHud</b> – humanitarian development work focused on youth empowerment and community projects.</li>
         </ul>
 
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-          <a class="btn btn-primary" href="training-hub.html">🚀 Access Joint Training Hub</a>
-          <a class="btn btn-ghost" href="resources.html">🏥 Clinics & Resources</a>
-          <a class="btn btn-ghost" href="index.html">← Back to Home</a>
+        <hr style="border:none;border-top:1px solid rgba(148,163,184,.25);margin:14px 0;">
+
+        <h3>Your rewards</h3>
+        <p class="muted" id="rewardStatus">No badge yet. Complete training to unlock rewards.</p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;">
+          <button class="btn btn-ghost" type="button" id="resetProgressBtn">🔄 Reset training progress</button>
         </div>
-      </div>
-    </section>
+
+        <p class="muted" style="margin-top:10px;font-size:.95rem;">
+          Tip: Use the same device/browser to keep your progress and badges.
+        </p>
+      </section>
+    </div>
 
     <footer>
-      🔒 <a href="privacy.html">Privacy</a> •
-      📄 <a href="terms.html">Terms</a> •
-      🏥 <a href="resources.html">Clinics & Resources</a> •
-      ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+      🔒 <a href="privacy.html">Privacy</a> • 📄 <a href="terms.html">Terms</a> • 🏥 <a href="resources.html">Clinics & Resources</a> • ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
     </footer>
   </div>
 
@@ -280,80 +255,43 @@
     applyNight(localStorage.getItem(NIGHT_KEY) === '1');
     nightToggle.addEventListener('click', () => applyNight(!document.body.classList.contains('night')));
 
-    // Gamified missions
-    const KEY = 'mc_joint_training_prog_v1';
-    const xpChip = document.getElementById('xpChip');
-    const moduleChip = document.getElementById('moduleChip');
-    const badgeChip = document.getElementById('badgeChip');
-    const status = document.getElementById('status');
-    const boxes = [m1,m2,m3,m4];
+    // Gamified progress (reads from training hub storage)
+    const KEY_LESSON_PROGRESS = 'mc_training_lessons_done';
+    const KEY_BADGES = 'mc_badges';
+    const KEY_POINTS = 'mc_points';
 
-    function load(){
-      try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e){ return null; }
+    const progressPill = document.getElementById('progressPill');
+    const rewardStatus = document.getElementById('rewardStatus');
+    const resetBtn = document.getElementById('resetProgressBtn');
+
+    function getJSON(k, fallback){
+      try { return JSON.parse(localStorage.getItem(k) || JSON.stringify(fallback)); }
+      catch(e){ return fallback; }
     }
-    function save(p){ localStorage.setItem(KEY, JSON.stringify(p)); render(); }
-    function init(){
-      return { xp:0, missions:[false,false,false,false], badge:false, updatedAt: Date.now() };
-    }
-    function doneCount(m){ return m.filter(Boolean).length; }
+    function getBadges(){ return getJSON(KEY_BADGES, []); }
+    function getPoints(){ return parseInt(localStorage.getItem(KEY_POINTS) || '0', 10); }
 
-    function render(){
-      const p = load() || init();
-      // sync checkboxes
-      p.missions.forEach((v,i)=> boxes[i].checked = !!v);
+    function updateUI(){
+      const done = parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10);
+      const total = 5; // keep in sync with training hub lessons
+      const pct = Math.max(0, Math.min(100, Math.round((done/total)*100)));
+      progressPill.textContent = `🎯 Training progress: ${pct}%`;
 
-      const done = doneCount(p.missions);
-      xpChip.textContent = `⭐ XP: ${p.xp}`;
-      moduleChip.textContent = `📚 Modules: ${done}/4`;
-      badgeChip.textContent = p.badge ? '🏅 Badge: Unlocked ✅' : '🏅 Badge: Locked';
-
-      const when = new Date(p.updatedAt).toLocaleString();
-      status.innerHTML = `Progress saved. <small>Last updated: ${when}</small>`;
+      const badges = getBadges();
+      const points = getPoints();
+      const has = badges.includes('volunteer_trained');
+      rewardStatus.innerHTML = has
+        ? `✅ Badge unlocked: <b>Volunteer Trained</b> • Points: <b>${points}</b>`
+        : `No badge yet. Complete training to unlock rewards. Points: <b>${points}</b>`;
     }
 
-    if (!load()) save(init());
-    render();
-
-    boxes.forEach((box, idx) => {
-      box.addEventListener('change', () => {
-        const p = load() || init();
-        const was = !!p.missions[idx];
-        p.missions[idx] = box.checked;
-
-        // XP rules
-        if (!was && box.checked) p.xp += 20;
-        if (was && !box.checked) p.xp = Math.max(0, p.xp - 20);
-
-        // badge state recalculated
-        const done = doneCount(p.missions);
-        if (done < 4) p.badge = false;
-
-        p.updatedAt = Date.now();
-        save(p);
-      });
+    resetBtn.addEventListener('click', ()=>{
+      if(!confirm('Reset training progress on this device?')) return;
+      localStorage.removeItem(KEY_LESSON_PROGRESS);
+      updateUI();
     });
 
-    document.getElementById('claimBtn').addEventListener('click', () => {
-      const p = load() || init();
-      const done = doneCount(p.missions);
-      if (done < 4){
-        status.innerHTML = '⚠️ Complete all 4 missions to unlock your badge.';
-        return;
-      }
-      if (!p.badge){
-        p.badge = true;
-        p.xp += 50; // bonus
-        p.updatedAt = Date.now();
-        save(p);
-      }
-      status.innerHTML = '🎉 Badge unlocked! You can now proceed to the Training Hub for your quiz/certificate.';
-    });
-
-    document.getElementById('resetBtn').addEventListener('click', () => {
-      localStorage.removeItem(KEY);
-      save(init());
-      status.textContent = 'Progress reset.';
-    });
+    updateUI();
   </script>
 </body>
 </html>
