@@ -7,156 +7,841 @@
   <link rel="icon" href="favicon.png"/>
   <link rel="stylesheet" href="mc-theme.css"/>
   <meta name="theme-color" content="#22c55e"/>
+
+  <style>
+    :root{
+      --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
+      --bg:#f5fdf8; --card:#ffffff; --muted:#52606d;
+      --border:#eef2f7; --shadow:0 10px 25px rgba(2,23,34,.06);
+    }
+    body{
+      margin:0;
+      font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* Header */
+    header{
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      color:#fff;
+      padding: 14px 14px;
+    }
+    .header-inner{
+      max-width: 980px;
+      margin: 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .brand span{ font-size: 1.1rem; }
+    .header-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+    .hbtn{
+      border:none;
+      border-radius:999px;
+      padding:10px 12px;
+      font-weight:800;
+      cursor:pointer;
+      background: rgba(255,255,255,.18);
+      color:#fff;
+      backdrop-filter: blur(6px);
+      transition:.15s;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+    }
+    .hbtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.24); }
+
+    /* Layout */
+    main{ max-width:980px; margin: 14px auto 40px; padding: 0 14px; }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+    .muted{ color: var(--muted); }
+
+    /* Top UI */
+    .top-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+      margin-top: 12px;
+    }
+    .pillbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .pills{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .pill{
+      border:1px solid rgba(255,255,255,.55);
+      background: rgba(255,255,255,.14);
+      color:#fff;
+      border-radius:999px;
+      padding:8px 12px;
+      font-weight:900;
+      font-size:.92rem;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .pill.light{
+      background:#fff;
+      color:var(--ink);
+      border:1px solid #e8eef5;
+      box-shadow: 0 6px 16px rgba(2,23,34,.06);
+    }
+    .progress{
+      height:10px;
+      background: #eaf7ef;
+      border-radius:999px;
+      overflow:hidden;
+      border: 1px solid #d1fae5;
+    }
+    .progress > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      border-radius:999px;
+      transition: width .25s ease;
+    }
+
+    /* Search */
+    .search-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 12px;
+    }
+    .search{
+      flex: 1 1 240px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      background:#fff;
+      border:1px solid #e8eef5;
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    .search input{
+      border:none;
+      outline:none;
+      width:100%;
+      font-size: 1rem;
+      background: transparent;
+      color: var(--ink);
+    }
+    .sbtn{
+      border:none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight:900;
+      cursor:pointer;
+      background: var(--green);
+      color:#fff;
+      box-shadow: 0 10px 22px rgba(34,197,94,.22);
+      transition:.15s;
+    }
+    .sbtn:hover{ background: var(--greenDark); transform: translateY(-1px); }
+    .gbtn{
+      border:1px solid #e8eef5;
+      background:#fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.15s;
+    }
+    .gbtn:hover{ transform: translateY(-1px); }
+
+    /* Accordions */
+    details.accord{
+      margin-top: 12px;
+      border: 1px solid #e8eef5;
+      border-radius: 16px;
+      background:#fff;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+    }
+    details.accord summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 14px 14px;
+      font-weight: 1000;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    details.accord summary::-webkit-details-marker{ display:none; }
+    .sum-left{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .tag{
+      font-weight:900;
+      font-size:.85rem;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid #e8eef5;
+      background:#f9fafb;
+      color: var(--ink);
+    }
+    .content{
+      border-top: 1px solid #eef2f7;
+      padding: 12px 14px 14px;
+    }
+
+    /* Resource rows */
+    .res{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .item{
+      border:1px solid #eef2f7;
+      border-radius: 14px;
+      padding: 12px;
+      background:#fff;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .item-title{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .item-title b{ font-size:1.02rem; }
+    .meta{ font-size:.92rem; color: var(--muted); line-height:1.35; }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:none;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.15s;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .btn-primary{ background: var(--green); color:#fff; box-shadow:0 10px 22px rgba(34,197,94,.22); }
+    .btn-primary:hover{ background: var(--greenDark); transform: translateY(-1px); }
+    .btn-ghost{ background:#fff; border:1px solid #e8eef5; color: var(--ink); }
+    .btn-ghost:hover{ transform: translateY(-1px); }
+    .star{
+      border:1px solid #e8eef5;
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      cursor:pointer;
+      font-weight:1000;
+    }
+    .star.on{
+      border-color:#fde68a;
+      background:#fffbeb;
+    }
+
+    /* Sticky emergency CTA (mobile-friendly) */
+    .sticky-emergency{
+      position: sticky;
+      top: 10px;
+      z-index: 5;
+      margin-top: 12px;
+    }
+    .emergency{
+      border:1px solid #fecaca;
+      background:#fff1f2;
+      color:#7f1d1d;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .emergency a{ color:#7f1d1d; font-weight:1000; }
+
+    /* Footer */
+    footer{
+      max-width:980px;
+      margin: 0 auto 24px;
+      padding: 0 14px;
+      text-align:center;
+      color: var(--muted);
+      font-size:.95rem;
+    }
+    footer a{ color:inherit; }
+
+    /* Night mode */
+    body.night{
+      --bg:#071a14;
+      --card:#071f18;
+      --ink:#e9fff3;
+      --muted:#b9e7cf;
+      --border:rgba(255,255,255,.10);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.10), transparent 55%),
+        var(--bg);
+    }
+    body.night .card,
+    body.night .search,
+    body.night details.accord,
+    body.night .item,
+    body.night .gbtn,
+    body.night .btn-ghost{
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.10);
+      color: var(--ink);
+    }
+    body.night .tag{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.10); color: var(--ink); }
+    body.night .meta{ color: var(--muted); }
+    body.night .search input{ color: var(--ink); }
+    body.night .star{ background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.10); color: var(--ink); }
+    body.night .star.on{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.20); }
+
+    /* Mobile tightening */
+    @media (max-width:520px){
+      .brand span{ font-size:1.02rem; }
+      .pill{ font-size:.88rem; padding:7px 10px; }
+      details.accord summary{ padding: 12px; }
+      .content{ padding: 12px; }
+    }
+  </style>
 </head>
+
 <body>
-  <header>🧠 SpeakOut MindCheck Nigeria</header>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span>🧠 SpeakOut MindCheck Nigeria</span>
+      </div>
+
+      <div class="header-actions">
+        <a class="hbtn" href="index.html">🏠 Home</a>
+        <a class="hbtn" href="volunteers.html">🤝 Volunteer Zone</a>
+        <button id="nightToggle" class="hbtn" type="button" aria-label="Toggle night mode">🌙 Night</button>
+      </div>
+
+      <div class="pillbar" style="width:100%;">
+        <div class="pills">
+          <span class="pill">⭐ XP: <span id="xpText">0</span></span>
+          <span class="pill">🏅 Badge: <span id="badgeText">Locked</span></span>
+          <span class="pill">💾 Saved: <span id="savedCount">0</span></span>
+        </div>
+        <span class="pill light">🔎 Find help fast • Save contacts • Share with a friend</span>
+      </div>
+    </div>
+  </header>
 
   <main>
-    <h2>Clinics & Resources</h2>
+    <div class="sticky-emergency">
+      <div class="card emergency">
+        <div>
+          <b>Emergency? Call <a href="tel:112" data-xp="3" data-action="call112">112</a> immediately.</b>
+          <div class="muted" style="margin-top:6px;font-size:.9rem;">
+            If you’re outside Nigeria, use your local emergency number (e.g., 911, 999, 112).
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="tel:112" data-xp="3" data-action="call112b">📞 Call 112</a>
+          <button class="btn btn-ghost" id="shareBtn" type="button">🔗 Share</button>
+        </div>
+      </div>
+    </div>
 
-    <!-- Emergency notice -->
-    <div class="card" style="color:#7f1d1d;background:#fff1f2;border:1px solid #fecaca">
-      <b>If this is an emergency, call <a href="tel:112">112</a> immediately.</b>
-      <p style="margin-top:6px;font-size:.85rem;">
-        If you are outside Nigeria, use your local emergency number (for example 911, 999, or 112).
+    <div class="top-grid">
+      <div class="card">
+        <h2 style="margin:.15rem 0 .35rem;">Clinics & Resources</h2>
+        <p class="muted" style="margin:.25rem 0 0;">
+          Search, save, and share trusted support options. Open any section to earn XP. Save contacts you may need later.
+        </p>
+
+        <div style="margin-top:12px;">
+          <div class="progress" aria-label="Resource progress">
+            <div id="progressBar"></div>
+          </div>
+          <div class="muted" style="margin-top:8px;font-weight:800;">
+            Progress: <span id="progressText">0%</span> complete • <span id="progressHint">Open sections to unlock your badge.</span>
+          </div>
+        </div>
+
+        <div class="search-row">
+          <div class="search" role="search">
+            <span style="font-weight:1000;">🔎</span>
+            <input id="searchInput" type="search" placeholder="Search: Abuja, Yaba, Keffi, hotline, WhatsApp..." />
+          </div>
+          <button class="gbtn" id="clearSearch" type="button">🧹 Clear</button>
+          <button class="sbtn" id="openSaved" type="button">⭐ Saved</button>
+        </div>
+      </div>
+
+      <!-- IMPORTANT: Info shows ONCE (not repeated in every section) -->
+      <div class="card">
+        <b>How to use this page (quick guide)</b>
+        <ul class="muted" style="margin:.5rem 0 0;padding-left:18px;line-height:1.55;">
+          <li><b>If danger is happening now:</b> call <b>112</b> immediately.</li>
+          <li><b>Not an emergency:</b> open your region and choose an option that fits (public hospital, private clinic, volunteer WhatsApp).</li>
+          <li><b>Save</b> useful contacts using ⭐ so you can find them quickly later.</li>
+          <li><b>Share</b> this page to help someone else access care safely.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Federal Neuro-Psychiatric Hospitals (Official directory) -->
+    <details class="accord" data-section="fnph">
+      <summary>
+        <div class="sum-left">
+          🏥 Federal Neuro-Psychiatric Hospitals (Nigeria)
+          <span class="tag">Official directory</span>
+          <span class="tag">Calls + emails</span>
+        </div>
+        <span class="tag">Tap to open</span>
+      </summary>
+
+      <div class="content">
+        <p class="muted" style="margin:.1rem 0 .8rem;">
+          Listed from the Federal Ministry of Health “Specialty Hospitals” directory. Phone numbers can change—if a line fails, try the email or check the directory again.
+        </p>
+
+        <div class="res" id="fnphList">
+          <!-- Items injected by JS -->
+        </div>
+
+        <div class="muted" style="margin-top:10px;font-size:.85rem;">
+          Source directory: <a href="https://health.gov.ng/specialty-hospitals/" target="_blank" rel="noopener">health.gov.ng/specialty-hospitals</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- Abuja -->
+    <details class="accord" data-section="abuja">
+      <summary>
+        <div class="sum-left">📍 Abuja (FCT) <span class="tag">Local options</span></div>
+        <span class="tag">Tap to open</span>
+      </summary>
+      <div class="content">
+        <div class="res">
+          <div class="item" data-key="fmc-jabi">
+            <div class="item-title">
+              <div>
+                <b>Federal Medical Centre, Jabi (FCT)</b>
+                <div class="meta">General services; may refer to specialist mental-health services as needed.</div>
+              </div>
+              <button class="star" data-save="fmc-jabi" aria-label="Save">⭐</button>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="tel:+2348038722744" data-xp="2" data-action="call">📞 Call</a>
+              <button class="btn btn-ghost" data-copy="+2348038722744">📋 Copy</button>
+              <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Federal%20Medical%20Centre%20Jabi%20Abuja" target="_blank" rel="noopener" data-xp="1">🗺️ Map</a>
+            </div>
+          </div>
+
+          <div class="item" data-key="speakout-volunteer-whatsapp">
+            <div class="item-title">
+              <div>
+                <b>SpeakOut Volunteer (WhatsApp)</b>
+                <div class="meta">Support + guidance + referral (not emergency response).</div>
+              </div>
+              <button class="star" data-save="speakout-volunteer-whatsapp" aria-label="Save">⭐</button>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="https://wa.me/2348118103510" target="_blank" rel="noopener" data-xp="2" data-action="whatsapp">💬 WhatsApp</a>
+              <button class="btn btn-ghost" data-copy="+2348118103510">📋 Copy</button>
+            </div>
+          </div>
+
+          <div class="item" data-key="jayzane">
+            <div class="item-title">
+              <div>
+                <b>Jayzane Hospital, Nyanya</b>
+                <div class="meta">Private hospital (general care; mental-health friendly).</div>
+              </div>
+              <button class="star" data-save="jayzane" aria-label="Save">⭐</button>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="tel:+2349072000006" data-xp="2" data-action="call">📞 Call</a>
+              <button class="btn btn-ghost" data-copy="+2349072000006">📋 Copy</button>
+              <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Jayzane%20Hospital%20Nyanya" target="_blank" rel="noopener" data-xp="1">🗺️ Map</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Keffi/Nasarawa -->
+    <details class="accord" data-section="keffi">
+      <summary>
+        <div class="sum-left">📍 Keffi / Nasarawa <span class="tag">Local options</span></div>
+        <span class="tag">Tap to open</span>
+      </summary>
+      <div class="content">
+        <div class="res">
+          <div class="item" data-key="fmc-keffi">
+            <div class="item-title">
+              <div>
+                <b>Federal Medical Centre (FMC) Keffi</b>
+                <div class="meta">Ask for Psychiatry / Mental Health Unit (via switchboard).</div>
+              </div>
+              <button class="star" data-save="fmc-keffi" aria-label="Save">⭐</button>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="tel:+2348062517662" data-xp="2" data-action="call">📞 Call</a>
+              <button class="btn btn-ghost" data-copy="+2348062517662">📋 Copy</button>
+              <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Federal%20Medical%20Centre%20Keffi" target="_blank" rel="noopener" data-xp="1">🗺️ Map</a>
+            </div>
+            <div class="meta">Email (as provided): <a href="mailto:yahayababaadamu@gmail.com">yahayababaadamu@gmail.com</a></div>
+          </div>
+
+          <div class="item" data-key="nagari">
+            <div class="item-title">
+              <div>
+                <b>Nagari Hospital, Keffi</b>
+                <div class="meta">Private hospital with general and specialist care.</div>
+              </div>
+              <button class="star" data-save="nagari" aria-label="Save">⭐</button>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="tel:+2348052677816" data-xp="2" data-action="call">📞 Call</a>
+              <button class="btn btn-ghost" data-copy="+2348052677816">📋 Copy</button>
+              <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Nagari%20Hospital%20Keffi" target="_blank" rel="noopener" data-xp="1">🗺️ Map</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Owerri -->
+    <details class="accord" data-section="owerri">
+      <summary>
+        <div class="sum-left">📍 Owerri / Imo State <span class="tag">Local option</span></div>
+        <span class="tag">Tap to open</span>
+      </summary>
+      <div class="content">
+        <div class="res">
+          <div class="item" data-key="stevenson">
+            <div class="item-title">
+              <div>
+                <b>Stevenson Medicare Hospital, Owerri</b>
+                <div class="meta">Address: No. 7 Ezeogueri Close, Works Layout, Owerri, Imo State.</div>
+              </div>
+              <button class="star" data-save="stevenson" aria-label="Save">⭐</button>
+            </div>
+            <div class="actions">
+              <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=7%20Ezeogueri%20Close%20Works%20Layout%20Owerri" target="_blank" rel="noopener" data-xp="1">🗺️ Map</a>
+              <button class="btn btn-ghost" data-copy="No. 7 Ezeogueri Close, Works Layout, Owerri, Imo State">📋 Copy address</button>
+            </div>
+            <div class="meta">Phone line not listed here — call ahead using local directory/referral details.</div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- International / Training & Tele-support -->
+    <details class="accord" data-section="intl">
+      <summary>
+        <div class="sum-left">🌍 International / Training & Tele-support <span class="tag">Capacity building</span></div>
+        <span class="tag">Tap to open</span>
+      </summary>
+      <div class="content">
+        <div class="res">
+          <div class="item" data-key="cnu">
+            <div class="item-title">
+              <div>
+                <b>CNU Medical Institute (USA)</b>
+                <div class="meta">Healthcare training & certification (international partner).</div>
+              </div>
+              <button class="star" data-save="cnu" aria-label="Save">⭐</button>
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="tel:+18174225041" data-xp="2" data-action="call">📞 Call</a>
+              <a class="btn btn-ghost" href="https://cnumedical.org" target="_blank" rel="noopener" data-xp="1">🌐 Website</a>
+              <button class="btn btn-ghost" data-copy="+1 (817) 422-5041">📋 Copy</button>
+            </div>
+            <div class="meta">Email: <a href="mailto:info@cnumedical.org">info@cnumedical.org</a></div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <div class="card" style="margin-top:12px;">
+      <p class="muted" style="margin:0;">
+        ✅ <b>Goal:</b> Open at least <b>3 sections</b> to unlock your <b>Resource Scout</b> badge.
+        Saved contacts stay on this device (privacy-first).
       </p>
+      <div class="actions" style="margin-top:10px;">
+        <a class="btn btn-ghost" href="index.html">← Back to Home</a>
+        <a class="btn btn-ghost" href="volunteers.html">Volunteer Zone</a>
+      </div>
     </div>
 
-    <!-- Federal Neuro-Psychiatric Hospitals -->
-    <h3>Federal Neuro-Psychiatric Hospitals (Nigeria)</h3>
-    <div class="card">
-      <p class="muted" style="font-size:.9rem;">
-        These are specialist Federal neuro-psychiatric hospitals across Nigeria, based on the
-        Federal Ministry of Health and Social Welfare directory.
-      </p>
-      <ul>
-        <li>
-          Neuropsychiatric Hospital, Aro &ndash; Abeokuta, Ogun State —
-          <a href="tel:+2348033443562">0803 344 3562</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Budo-Egba &ndash; Kwara State —
-          <a href="tel:+2347038460480">0703 846 0480</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Calabar &ndash; Cross River State —
-          <a href="tel:+2348035512325">0803 551 2325</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Dawanau &ndash; Kano State —
-          <a href="tel:+2348039423063">0803 942 3063</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Enugu &ndash; Enugu State —
-          <a href="tel:+2348037764712">0803 776 4712</a>,
-          <a href="tel:+2348037764718">0803 776 4718</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Kaduna &ndash; Kaduna State —
-          <a href="tel:+2348036020460">0803 602 0460</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Maiduguri &ndash; Borno State —
-          <a href="tel:+2348023665063">0802 366 5063</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Kware &ndash; Sokoto State —
-          <a href="tel:+2348035948152">0803 594 8152</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Uselu &ndash; Benin City, Edo State —
-          <a href="tel:+2348032231189">0803 223 1189</a>,
-          <a href="tel:+2348151130304">0815 113 0304</a>
-        </li>
-        <li>
-          Federal Neuro-Psychiatric Hospital, Yaba &ndash; Lagos State —
-          <a href="tel:+2348165769059">0816 576 9059</a>
-        </li>
-      </ul>
-      <p class="muted" style="font-size:.8rem;margin-top:6px;">
-        Phone numbers can occasionally change. If a line is not going through, please
-        check the hospital&rsquo;s website or the Federal Ministry of Health directory for updates:
-        <a href="https://health.gov.ng" target="_blank" rel="noopener">health.gov.ng</a>.
-      </p>
-    </div>
-
-    <h3>Abuja (FCT)</h3>
-    <div class="card">
-      <ul>
-        <li>
-          Federal Medical Centre, Jabi (FCT) &mdash; General / mental-health services<br/>
-          Phone: <a href="tel:+2348038722744">0803 872 2744</a>
-        </li>
-        <li>
-          Federal Neuro-psychiatric support (FCT) &mdash; you may also be referred from FMC Jabi
-          to specialist services as needed.
-        </li>
-        <li>
-          Jayzane Hospital, Nyanya &mdash; Private hospital (general + mental health friendly)<br/>
-          Phone: <a href="tel:+2349072000006">0907 200 0006</a>
-        </li>
-        <li>
-          SpeakOut Volunteer (WhatsApp): 
-          <a href="https://wa.me/2348118103510" target="_blank" rel="noopener">Chat now</a>
-        </li>
-      </ul>
-    </div>
-
-    <h3>Keffi / Nasarawa</h3>
-    <div class="card">
-      <ul>
-        <li>
-          Federal Medical Centre (FMC) Keffi &mdash; Psychiatry / Mental Health Unit<br/>
-          Phone (switchboard): <a href="tel:+2348062517662">0806 251 7662</a><br/>
-          Email: <a href="mailto:yahayababaadamu@gmail.com">yahayababaadamu@gmail.com</a>
-        </li>
-        <li>
-          Nagari Hospital, Keffi &mdash; Private hospital with general and specialist care<br/>
-          Phone: <a href="tel:+2348052677816">0805 267 7816</a>
-        </li>
-      </ul>
-    </div>
-
-    <h3>Owerri / Imo State</h3>
-    <div class="card">
-      <ul>
-        <li>
-          Stevenson Medicare Hospital, Owerri &mdash; Multi-specialty hospital<br/>
-          Address: No. 7 Ezeogueri Close, Works Layout, Owerri, Imo State<br/>
-          <span class="muted" style="font-size:.85rem;">
-            (Phone line to be confirmed. Please call ahead using local directories or referral information.)
-          </span>
-        </li>
-      </ul>
-    </div>
-
-    <h3>International / Training & Tele-support</h3>
-    <div class="card">
-      <ul>
-        <li>
-          CNU Medical Institute (USA) &mdash; Healthcare training &amp; certification<br/>
-          Phone (US): <a href="tel:+18174225041">+1 (817) 422-5041</a><br/>
-          Website: <a href="https://cnumedical.org" target="_blank" rel="noopener">cnumedical.org</a><br/>
-          Email: <a href="mailto:info@cnumedical.org">info@cnumedical.org</a>
-        </li>
-      </ul>
-      <p class="muted" style="font-size:.85rem;margin-top:6px;">
-        International partners focus on training, capacity building, and pathways to licensed care
-        in their respective countries.
-      </p>
-    </div>
-
-    <p class="grid" style="margin-top:10px">
-      <a class="btn btn-ghost" href="index.html">← Back to Home</a>
-      <a class="btn btn-ghost" href="volunteers.html">Volunteer Zone</a>
-    </p>
   </main>
 
-  <footer style="margin-top:20px;">
+  <footer>
     🔒 <a href="privacy.html">Privacy</a> •
     📄 <a href="terms.html">Terms</a> •
     🤝 <a href="volunteers.html">Volunteer Zone</a> •
     ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
   </footer>
+
+  <script>
+    /***********************
+     * Gamification + UX
+     ***********************/
+    const KEY_POINTS   = 'mc_points';
+    const KEY_BADGES   = 'mc_badges';
+    const KEY_SAVED    = 'mc_saved_resources';
+    const KEY_OPENED   = 'mc_resources_opened_sections';
+    const NIGHT_KEY    = 'mc_night_mode';
+
+    const badgeId = 'resource_scout';
+
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+    const getJSON = (k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
+    const setJSON = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+    const getPoints = ()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
+    const setPoints = (v)=>localStorage.setItem(KEY_POINTS,String(v));
+    const addPoints = (n)=>setPoints(getPoints()+n);
+
+    const getBadges = ()=>getJSON(KEY_BADGES,[]);
+    const setBadges = (a)=>setJSON(KEY_BADGES,a);
+    const awardBadge = (id)=>{
+      const b=getBadges();
+      if(!b.includes(id)){ b.push(id); setBadges(b); return true; }
+      return false;
+    };
+
+    const getSaved = ()=>getJSON(KEY_SAVED,[]);
+    const setSaved = (a)=>setJSON(KEY_SAVED,a);
+
+    function setNight(on){
+      document.body.classList.toggle('night', !!on);
+      $('#nightToggle').textContent = on ? '☀️ Day' : '🌙 Night';
+      localStorage.setItem(NIGHT_KEY, on ? '1' : '0');
+    }
+    setNight(localStorage.getItem(NIGHT_KEY)==='1');
+    $('#nightToggle').addEventListener('click', ()=> setNight(!document.body.classList.contains('night')));
+
+    // Header counters
+    function refreshHeader(){
+      $('#xpText').textContent = getPoints();
+      const badges = getBadges();
+      $('#badgeText').textContent = badges.includes(badgeId) ? 'Resource Scout ✅' : 'Locked';
+      $('#savedCount').textContent = getSaved().length;
+    }
+
+    // Progress based on opened sections
+    function getOpenedMap(){ return getJSON(KEY_OPENED, {}); }
+    function setOpenedMap(m){ setJSON(KEY_OPENED, m); }
+
+    function sectionProgress(){
+      const opened = getOpenedMap();
+      const total = $$('details.accord').length;
+      const done  = Object.values(opened).filter(Boolean).length;
+      const pct = total ? Math.round((done/total)*100) : 0;
+      $('#progressBar').style.width = pct + '%';
+      $('#progressText').textContent = pct + '%';
+      if(done >= 3){
+        const unlocked = awardBadge(badgeId);
+        if(unlocked){
+          addPoints(10);
+          $('#progressHint').textContent = 'Badge unlocked! (+10 XP)';
+        }else{
+          $('#progressHint').textContent = 'Badge already unlocked.';
+        }
+      }else{
+        $('#progressHint').textContent = `Open ${Math.max(0,3-done)} more section(s) to unlock your badge.`;
+      }
+      refreshHeader();
+    }
+
+    // Share
+    $('#shareBtn').addEventListener('click', async ()=>{
+      const url = location.href;
+      try{
+        if(navigator.share){
+          await navigator.share({ title: document.title, url });
+        }else{
+          await navigator.clipboard.writeText(url);
+          alert('🔗 Link copied!');
+        }
+        addPoints(1);
+        refreshHeader();
+      }catch(e){
+        // ignore
+      }
+    });
+
+    // Copy helper
+    document.addEventListener('click', async (e)=>{
+      const btn = e.target.closest('[data-copy]');
+      if(!btn) return;
+      const text = btn.getAttribute('data-copy');
+      try{
+        await navigator.clipboard.writeText(text);
+        btn.textContent = '✅ Copied';
+        setTimeout(()=>btn.textContent='📋 Copy', 900);
+        addPoints(1);
+        refreshHeader();
+      }catch(err){
+        alert('Copy failed. Long-press to copy manually.');
+      }
+    });
+
+    // Award XP for actions
+    document.addEventListener('click', (e)=>{
+      const a = e.target.closest('[data-xp]');
+      if(!a) return;
+      const xp = parseInt(a.getAttribute('data-xp')||'0',10);
+      if(xp>0){ addPoints(xp); refreshHeader(); }
+    });
+
+    // Sections open tracking
+    $$('details.accord').forEach(d=>{
+      d.addEventListener('toggle', ()=>{
+        if(d.open){
+          const key = d.getAttribute('data-section') || d.querySelector('summary')?.textContent?.slice(0,24) || 'section';
+          const opened = getOpenedMap();
+          if(!opened[key]){
+            opened[key] = true;
+            setOpenedMap(opened);
+            addPoints(2); // reward first open
+          }
+          sectionProgress();
+        }
+      });
+    });
+
+    // Save favourites
+    function setStarStates(){
+      const saved = getSaved();
+      $$('button.star').forEach(b=>{
+        const key = b.getAttribute('data-save');
+        const on = saved.includes(key);
+        b.classList.toggle('on', on);
+        b.textContent = on ? '⭐ Saved' : '⭐';
+      });
+      $('#savedCount').textContent = saved.length;
+    }
+
+    document.addEventListener('click', (e)=>{
+      const star = e.target.closest('button.star');
+      if(!star) return;
+      const key = star.getAttribute('data-save');
+      const saved = getSaved();
+      const idx = saved.indexOf(key);
+      if(idx>=0){ saved.splice(idx,1); }
+      else { saved.push(key); addPoints(1); }
+      setSaved(saved);
+      setStarStates();
+      refreshHeader();
+    });
+
+    // Saved modal (simple)
+    $('#openSaved').addEventListener('click', ()=>{
+      const saved = getSaved();
+      if(!saved.length){
+        alert('No saved contacts yet. Tap ⭐ on any item to save it.');
+        return;
+      }
+      alert('Saved items on this device:\\n\\n' + saved.map(s=>'• '+s).join('\\n'));
+    });
+
+    // Search filter (covers summaries + items)
+    const searchInput = $('#searchInput');
+    function applySearch(){
+      const q = (searchInput.value||'').trim().toLowerCase();
+      const accordions = $$('details.accord');
+
+      accordions.forEach(d=>{
+        const text = d.textContent.toLowerCase();
+        const show = !q || text.includes(q);
+        d.style.display = show ? '' : 'none';
+      });
+    }
+    searchInput.addEventListener('input', applySearch);
+    $('#clearSearch').addEventListener('click', ()=>{
+      searchInput.value = '';
+      applySearch();
+    });
+
+    /***********************
+     * FNPH official list injection
+     ***********************/
+    const FNPH = [
+      { key:'fnph-aro',  name:'Federal Neuro-Psychiatric Hospital, Aro – Abeokuta', phone:'08037048540', email:'paulagboola@yahoo.com' },
+      { key:'fnph-budo', name:'Federal Neuro-Psychiatric Hospital, Budo-Egba (Kwara)', phone:'08033559293', email:'issababa2002@gmail.com' },
+      { key:'fnph-calabar', name:'Federal Neuro-Psychiatric Hospital, Calabar', phone:'08037049507', email:'' },
+      { key:'fnph-dawanau', name:'Federal Neuro-Psychiatric Hospital, Dawanau (Kano)', phone:'08036092822', email:'auwal01@yahoo.com' },
+      { key:'fnph-enugu', name:'Federal Neuro-Psychiatric Hospital, Enugu', phone:'08033116952', email:'mondayigwe@yahoo.com' },
+      { key:'fnph-kaduna', name:'Federal Neuro-Psychiatric Hospital, Kaduna', phone:'08035899338', email:'aarmiyau@gmail.com' },
+      { key:'fnph-maiduguri', name:'Federal Neuro-Psychiatric Hospital, Maiduguri', phone:'08066787941', email:'ibrahimabdu55@gmail.com' },
+      { key:'fnph-kware', name:'Federal Neuro-Psychiatric Hospital, Kware (Sokoto)', phone:'07034631928', email:'shehusale@yahoo.com' },
+      { key:'fnph-uselu', name:'Federal Neuro-Psychiatric Hospital, Uselu-Benin', phone:'08060364812', email:'unival2002@yahoo.com' },
+      { key:'fnph-yaba', name:'Federal Neuro-Psychiatric Hospital, Yaba (Lagos)', phone:'08037196624', email:'drowoeye@yahoo.com' }
+    ];
+
+    function renderFnph(){
+      const wrap = $('#fnphList');
+      wrap.innerHTML = FNPH.map(h=>`
+        <div class="item" data-key="${h.key}">
+          <div class="item-title">
+            <div>
+              <b>${h.name}</b>
+              <div class="meta">
+                Phone: <a href="tel:+234${h.phone.startsWith('0') ? h.phone.slice(1) : h.phone}" data-xp="2" data-action="call">${h.phone}</a>
+                ${h.email ? ` • Email: <a href="mailto:${h.email}">${h.email}</a>` : ''}
+              </div>
+            </div>
+            <button class="star" data-save="${h.key}" aria-label="Save">⭐</button>
+          </div>
+          <div class="actions">
+            <a class="btn btn-primary" href="tel:+234${h.phone.startsWith('0') ? h.phone.slice(1) : h.phone}" data-xp="2" data-action="call">📞 Call</a>
+            <button class="btn btn-ghost" data-copy="${h.phone}">📋 Copy</button>
+            <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name)}" target="_blank" rel="noopener" data-xp="1">🗺️ Map</a>
+          </div>
+        </div>
+      `).join('');
+      setStarStates();
+    }
+
+    // Init
+    renderFnph();
+    refreshHeader();
+    setStarStates();
+    sectionProgress();
+    applySearch();
+  </script>
 </body>
 </html>
