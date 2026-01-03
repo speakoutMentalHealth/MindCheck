@@ -9,7 +9,6 @@
     :root{
       --ink:#0b1f2a;
       --muted:#5b6b79;
-      --border:#1f2a37;
       --green:#16a34a;
     }
 
@@ -20,14 +19,13 @@
       color:var(--ink);
     }
 
-    /* Screen preview wrapper */
     .screenWrap{
       max-width: 1200px;
       margin: 14px auto;
       padding: 12px;
     }
 
-    /* A4 Landscape certificate canvas */
+    /* A4 Landscape */
     .page{
       width: 297mm;
       height: 210mm;
@@ -36,7 +34,7 @@
       border: 1px solid rgba(0,0,0,.12);
       border-radius: 10px;
       position: relative;
-      overflow: hidden; /* prevents spill */
+      overflow: hidden;
       box-sizing:border-box;
     }
 
@@ -45,11 +43,11 @@
       inset: 10mm;
       border: 2px solid rgba(17,24,39,.65);
       border-radius: 10px;
-      padding: 10mm 10mm 16mm; /* extra bottom padding so footer never collides */
+      padding: 10mm 10mm 18mm; /* extra bottom space for footer */
       box-sizing:border-box;
     }
 
-    /* Top bar with 3 logos */
+    /* Top logos row */
     .topBar{
       display:flex;
       align-items:center;
@@ -58,11 +56,11 @@
       margin-bottom: 4mm;
     }
     .logo{
+      width: 46mm;
+      height: 24mm;
       display:flex;
       align-items:center;
       justify-content:center;
-      width: 46mm;
-      height: 24mm;
     }
     .logo img{
       max-height: 24mm;
@@ -127,7 +125,7 @@
       font-size: 10pt;
     }
 
-    /* Footer row locked to bottom */
+    /* Footer: fixed bottom, never overlaps content */
     .footerRow{
       position:absolute;
       left: 10mm;
@@ -139,49 +137,38 @@
       gap: 8mm;
     }
 
-    /* Signature block */
+    /* Signature column (LEFT) */
     .sig{
-  min-width: 95mm;
-  max-width: 95mm;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  gap: 0;
-}
-
-.sigLine{
-  border-top: 2px solid rgba(17,24,39,.65);
-  width: 90mm;
-  margin: 0;
-}
-
-/* Signature: keep size, fix position, and bold it */
-.sigImg{
-  display:block;
-
-  /* keep your “big” size */
-  height: 56mm;
-  width: auto;
-  max-width: 90mm;
-  object-fit: contain;
-
-  /* move it DOWN so it sits close to the line */
-  margin: 0 0 -6mm 0;
-
-  /* make it look bolder/inked */
-  filter:
-    contrast(1.35)
-    saturate(1.15)
-    drop-shadow(0 0 0.45px rgba(0,0,0,0.75));
-}
-
+      width: 95mm;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      justify-content:flex-end;
     }
+
+    /* Signature image: big, bold, and near the line */
+    .sigImg{
+      height: 56mm;          /* BIG */
+      width: auto;
+      max-width: 90mm;
+      object-fit: contain;
+
+      /* pull signature DOWN closer to the line */
+      margin: 0 0 -10mm 0;
+
+      /* make it look bolder/inked */
+      filter:
+        contrast(1.45)
+        saturate(1.2)
+        drop-shadow(0 0 0.9px rgba(0,0,0,.85));
+    }
+
     .sigLine{
       border-top: 2px solid rgba(17,24,39,.65);
-      margin-top: 1mm;
-      width: 40mm;
+      width: 90mm;
+      margin: 0 0 2mm 0;
     }
+
     .sig small{
       display:block;
       color:var(--muted);
@@ -189,7 +176,7 @@
       line-height:1.25;
     }
 
-    /* CERT ID block: wider + fixed so no spill */
+    /* Certificate ID box (RIGHT) */
     .certBox{
       width: 92mm;
       min-width: 92mm;
@@ -200,6 +187,7 @@
       text-align:left;
       background: linear-gradient(180deg, rgba(22,163,74,.06), transparent 55%);
     }
+
     .certBox b{
       display:block;
       font-size: 10.5pt;
@@ -212,6 +200,7 @@
       margin-bottom: 3mm;
       word-break: break-word;
     }
+
     .qrRow{
       display:flex;
       gap: 5mm;
@@ -239,7 +228,7 @@
     .verifyTxt a{ color: var(--green); font-weight: 950; text-decoration:none; }
     .verifyTxt a:hover{ text-decoration:underline; }
 
-    /* PRINT: exact A4 landscape, one page only */
+    /* Print exactly one A4 landscape page */
     @page { size: A4 landscape; margin: 0; }
     @media print{
       body{ background:#fff; }
@@ -247,14 +236,10 @@
       .page{ border:none; border-radius:0; width: 297mm; height: 210mm; }
     }
 
-    /* Mobile preview scaling (doesn't affect print) */
+    /* Mobile preview scaling only (doesn't affect print) */
     @media (max-width: 900px){
       .screenWrap{ padding: 8px; }
-      .page{
-        width: 100%;
-        height: auto;
-        aspect-ratio: 297 / 210;
-      }
+      .page{ width:100%; height:auto; aspect-ratio: 297 / 210; }
     }
   </style>
 </head>
@@ -264,21 +249,14 @@
     <div class="page" id="page">
       <div class="inner">
 
-        <!-- 3 logos row -->
+        <!-- Logos -->
         <div class="topBar">
-          <!-- SpeakOut/MindCheck logo -->
           <div class="logo">
-            <!-- change this to your preferred main logo -->
             <img src="icons/apple-touch-icon.png" alt="SpeakOut / MindCheck Logo">
-            <!-- Example: <img src="icons/speakout-logo.png" alt="SpeakOut Logo"> -->
           </div>
-
-          <!-- Synia logo -->
           <div class="logo">
             <img src="icons/synia-logo.png" alt="Synia Aid Foundation Logo">
           </div>
-
-          <!-- AfriHud logo -->
           <div class="logo">
             <img src="icons/afrihud-logo.png" alt="AfriHud Logo">
           </div>
@@ -305,30 +283,27 @@
           <div>Date: <span id="date">—</span></div>
         </div>
 
-        <!-- Footer locked -->
+        <!-- Footer -->
         <div class="footerRow">
+
+          <!-- Signature side -->
           <div class="sig">
-            <div class="sigTop">
-              <!-- YOUR SIGNATURE IMAGE (icons folder) -->
-              <img class="sigImg" src="icons/signature.png" alt="Signature">
-              <div class="sig">
-  <img class="sigImg" src="icons/signature.png" alt="Signature of Offorka Jerry">
-  <div class="sigLine"></div>
+            <img class="sigImg" src="icons/signature.png" alt="Signature of Offorka Jerry">
+            <div class="sigLine"></div>
 
-  <small><b>Offorka Jerry</b></small>
-  <small>Founder / Executive Director</small>
-  <small>SpeakOut Mental Health Outreach</small>
-  <small>(Lead partner — MindCheck Joint Volunteer Training)</small>
-</div>
+            <small><b>Offorka Jerry</b></small>
+            <small>Founder / Executive Director</small>
+            <small>SpeakOut Mental Health Outreach</small>
+            <small>(Lead partner — MindCheck Joint Volunteer Training)</small>
+          </div>
 
-
+          <!-- Certificate box -->
           <div class="certBox">
             <b>Certificate ID</b>
             <div class="certId" id="certId">MC-CERT-YYYYMMDD-XXXX</div>
 
             <div class="qrRow">
               <div class="qr">
-                <!-- optional: swap to a real QR generator output image -->
                 <img id="qrImg" src="icons/qr-placeholder.png" alt="QR code"/>
               </div>
               <div class="verifyTxt">
@@ -338,17 +313,15 @@
               </div>
             </div>
           </div>
-        </div>
 
-      </div>
-    </div>
-  </div>
+        </div><!-- /footerRow -->
+
+      </div><!-- /inner -->
+    </div><!-- /page -->
+  </div><!-- /screenWrap -->
 
 <script>
-  /***************
-   * Reads URL params:
-   * certificate.html?name=...&score=...&date=...&cert_id=...&uid=...&ngo=...&whatsapp=...
-   ***************/
+  // URL params: certificate.html?name=...&score=...&date=...&cert_id=...&uid=...
   const p = new URLSearchParams(location.search);
   const name   = p.get('name') || 'Volunteer';
   const score  = p.get('score') || '0';
@@ -365,17 +338,13 @@
 
   // Verify link carries cert_id
   const verifyUrl = `verify.html?cert_id=${encodeURIComponent(certId)}`;
-  const a = document.getElementById('verifyLink');
-  a.href = verifyUrl;
+  document.getElementById('verifyLink').href = verifyUrl;
 
-  // OPTIONAL: If you later generate a QR image URL, set it here
-  // document.getElementById('qrImg').src = `https://your-qr-service/?data=${encodeURIComponent(location.origin + '/' + verifyUrl)}`;
+  // Optional: QR generator later (uncomment when ready)
+  // document.getElementById('qrImg').src =
+  //   `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(location.origin + '/' + verifyUrl)}`;
 
-  /***************
-   * OPTIONAL: Log certificate view to Google Sheet
-   * - Uses no-cors to avoid CORS issues on GitHub Pages.
-   * - If you already log certificate issue from training-hub.html, keep this as "certificate_view".
-   ***************/
+  // Log certificate view to Google Sheet (no-cors for GitHub Pages)
   const GAS_URL = "https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec";
   const BEARER  = "speakout123";
 
@@ -392,7 +361,6 @@
     }
   }
 
-  // Fire once
   logToSheet({
     auth: BEARER,
     type: "certificate_view",
