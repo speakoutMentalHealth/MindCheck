@@ -20,7 +20,6 @@
       --radius:16px;
     }
 
-    /* Mobile-safe layout */
     body{
       margin:0;
       background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
@@ -43,7 +42,7 @@
     .wrap{
       max-width: 900px;
       margin: 0 auto;
-      padding: 14px 12px 120px; /* bottom space for sticky nav */
+      padding: 14px 12px 120px;
       box-sizing:border-box;
     }
 
@@ -64,11 +63,7 @@
       flex-wrap:wrap;
     }
 
-    .heroTitle{
-      flex:1 1 260px;
-      min-width: 240px;
-    }
-
+    .heroTitle{ flex:1 1 260px; min-width: 240px; }
     .heroTitle h1{
       margin:0;
       font-size: clamp(1.15rem, 3.8vw, 1.8rem);
@@ -76,7 +71,6 @@
       font-weight: 950;
       color:#083a28;
     }
-
     .heroTitle p{
       margin:.5rem 0 0;
       color: var(--muted);
@@ -85,12 +79,7 @@
       font-size: .98rem;
     }
 
-    .heroBtns{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-    }
+    .heroBtns{ display:flex; gap:10px; flex-wrap:wrap; }
 
     .btn{
       border:none;
@@ -109,19 +98,11 @@
       white-space:nowrap;
     }
     .btn:active{ transform: translateY(1px); }
-
     .btn-primary{ background: var(--green); color:#fff; box-shadow: 0 10px 20px rgba(34,197,94,.22); }
     .btn-primary:hover{ background: var(--greenDark); }
     .btn-ghost{ background:#fff; color: var(--ink); border:1px solid rgba(0,0,0,.08); }
 
-    .pillRow{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-      align-items:center;
-    }
-
+    .pillRow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; align-items:center; }
     .pill{
       background:#fff;
       border:1px solid rgba(0,0,0,.08);
@@ -185,14 +166,8 @@
       margin-top: 12px;
       text-align:left;
     }
-    .lesson h2{
-      margin:.2rem 0 .3rem;
-      font-size: 1.15rem;
-    }
-    .lesson h3{
-      margin: 14px 0 6px;
-      font-size: 1.05rem;
-    }
+    .lesson h2{ margin:.2rem 0 .3rem; font-size: 1.15rem; }
+    .lesson h3{ margin: 14px 0 6px; font-size: 1.05rem; }
     .lesson p, .lesson li{
       line-height: 1.65;
       color: #243b53;
@@ -225,7 +200,7 @@
       color:#065f46;
     }
 
-    /* Sticky lesson nav (mobile-first) */
+    /* Sticky lesson nav */
     .stickyNav{
       position: fixed;
       left:0; right:0; bottom:0;
@@ -244,17 +219,8 @@
       justify-content:space-between;
       flex-wrap:wrap;
     }
-    .navLeft{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .navRight{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
+    .navLeft{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .navRight{ display:flex; gap:10px; align-items:center; }
     .mini{
       font-weight: 950;
       border-radius: 999px;
@@ -266,20 +232,10 @@
       align-items:center;
     }
 
-    /* Quiz area */
-    .quiz-card{
-      display:none; /* unlocked after lesson 5 */
-    }
-
-    .q{
-      margin: 12px 0;
-      text-align:left;
-    }
-    .q legend{
-      font-weight: 950;
-      margin-bottom: 8px;
-      color:#0b3a2a;
-    }
+    /* Quiz */
+    .quiz-card{ display:none; }
+    .q{ margin: 12px 0; text-align:left; }
+    .q legend{ font-weight: 950; margin-bottom: 8px; color:#0b3a2a; }
     .q label{
       display:block;
       padding: 10px 10px;
@@ -332,7 +288,7 @@
 
   <div class="wrap">
 
-    <!-- ONE-TIME INFO (shows once, not inside lessons) -->
+    <!-- ONE-TIME INFO -->
     <section class="hero" id="introCard">
       <div class="heroTop">
         <div class="heroTitle">
@@ -355,9 +311,7 @@
       </div>
 
       <div class="progressWrap">
-        <div class="bar" aria-label="Lesson progress bar">
-          <div id="barFill"></div>
-        </div>
+        <div class="bar"><div id="barFill"></div></div>
         <div class="barMeta">
           <span><span id="pctText">0%</span> complete</span>
           <span id="saveText">Saved</span>
@@ -375,9 +329,7 @@
 
       <div class="card" style="text-align:left;">
         <b>About this partnership</b>
-        <p class="muted" style="margin:.5rem 0;">
-          This training is jointly delivered by:
-        </p>
+        <p class="muted" style="margin:.5rem 0;">This training is jointly delivered by:</p>
         <ul style="margin:.2rem 0 0;padding-left:18px;">
           <li><b>SpeakOut Mental Health Outreach</b> — campus/community education, safe listening, referrals.</li>
           <li><b>Synia Aid Foundation</b> — education + poverty relief; support for vulnerable learners & families.</li>
@@ -386,164 +338,96 @@
       </div>
     </section>
 
-    <!-- LESSONS (one at a time) -->
+    <!-- LESSONS -->
     <section class="lesson" data-lesson="1">
       <h2>Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h2>
       <img class="lessonImg" src="icons/listen.png" alt="Safe Listening"/>
-      <p class="muted">
-        Safe listening is a simple skill that helps someone feel calm enough to choose safer next steps.
-        You are not “fixing” them — you are creating safety, clarity, and connection.
-      </p>
-
+      <p class="muted">Safe listening helps someone feel calm enough to choose safer next steps. You’re not “fixing” them — you’re creating safety, clarity, and connection.</p>
       <h3>The L-I-S-T-E-N method</h3>
       <ul>
-        <li><b>L — Listen:</b> Full attention. Phone down. Soft voice. Allow silence.</li>
-        <li><b>I — Inquire:</b> Ask open questions: “What has been hardest?” “When did it start?”</li>
-        <li><b>S — Summarize:</b> Repeat key points: “So school pressure + money worries are affecting sleep.”</li>
+        <li><b>L — Listen:</b> Full attention. Allow silence.</li>
+        <li><b>I — Inquire:</b> Open questions: “What has been hardest?”</li>
+        <li><b>S — Summarize:</b> “So school pressure + money worries are affecting sleep.”</li>
         <li><b>T — Thank:</b> “Thank you for trusting me.”</li>
-        <li><b>E — Empathize:</b> Validate feelings: “That sounds heavy.” “Anyone would feel overwhelmed.”</li>
-        <li><b>N — Next step:</b> Choose one small step for <i>today</i> (breathing, water, clinic options, trusted adult).</li>
+        <li><b>E — Empathize:</b> “That sounds heavy.”</li>
+        <li><b>N — Next step:</b> One small step for today.</li>
       </ul>
-
-      <div class="callout">
-        Example: <br/>
-        Person: “I’m tired of everything.” <br/>
-        You: “I’m glad you told me. What has today felt like?” → summarize → empathize → “Would you like a quick breathing exercise or to see support options?”
-      </div>
-
-      <h3>Do / Don’t</h3>
-      <ul>
-        <li><b>Do:</b> Ask permission before sensitive questions; keep tone calm; use short supportive phrases.</li>
-        <li><b>Don’t:</b> Preach, shame, compare (“others have it worse”), or rush into advice.</li>
-      </ul>
+      <div class="callout">Example: “I’m tired of everything.” → “I’m glad you told me. What has today felt like?” → summarize → empathize → choose a small next step.</div>
     </section>
 
     <section class="lesson" data-lesson="2">
       <h2>Lesson 2 — Red Flags & Immediate Danger</h2>
       <img class="lessonImg" src="icons/red-flags.png" alt="Red Flags"/>
-      <p class="muted">
-        Your first responsibility is safety. Most chats are not emergencies — but some require immediate escalation.
-      </p>
-
-      <h3>Immediate red flags (act now)</h3>
+      <p class="muted">Most chats are not emergencies — but some require immediate escalation.</p>
+      <h3>Immediate red flags</h3>
       <ul>
-        <li>Self-harm plan or intent: “I will take pills tonight.”</li>
-        <li>Ongoing violence/abuse/threats right now.</li>
-        <li>Child/vulnerable person at risk (safeguarding).</li>
-        <li>Severe confusion, hallucinations commanding harm, or extreme agitation.</li>
+        <li>Self-harm plan or intent</li>
+        <li>Violence/abuse happening now</li>
+        <li>Child/vulnerable person at risk</li>
+        <li>Severe confusion/hallucinations commanding harm</li>
       </ul>
-
-      <h3>What to do (simple steps)</h3>
+      <h3>What to do</h3>
       <ul>
-        <li>Stay present: “Your safety matters. I’m here.”</li>
-        <li>Call <b>112</b> (or the local emergency response) immediately.</li>
-        <li>Escalate to your supervisor/safeguarding lead.</li>
-        <li>Log only minimum facts: date + concern + action taken.</li>
+        <li>Stay present: “Your safety matters.”</li>
+        <li>Call <b>112</b></li>
+        <li>Escalate to safeguarding lead</li>
+        <li>Log minimum facts + actions taken</li>
       </ul>
-
-      <div class="callout">
-        Example: <br/>
-        Person: “I bought pills.” <br/>
-        You: “Thank you for telling me. Are you alone? I’m calling 112 now so help can reach you. Stay with me.”
-      </div>
+      <div class="callout">Example: “I bought pills.” → “Are you alone? I’m calling 112 now. Stay with me.”</div>
     </section>
 
     <section class="lesson" data-lesson="3">
       <h2>Lesson 3 — Boundaries & Ethical Referral</h2>
       <img class="lessonImg" src="icons/referral.png" alt="Referral"/>
-      <p class="muted">
-        Boundaries protect you and the person. Ethical referral means offering choices, consent, and dignity.
-      </p>
-
-      <h3>Your scope (what you can do)</h3>
+      <p class="muted">Boundaries protect you and the person. Ethical referral means choices, consent, and dignity.</p>
+      <h3>Scope</h3>
       <ul>
-        <li>Supportive listening, calming strategies, and information.</li>
-        <li>Help them choose an option: clinic, counsellor, trusted adult, helpline.</li>
+        <li>Supportive listening + calming strategies</li>
+        <li>Offer options: clinic, counsellor, trusted adult</li>
       </ul>
-
-      <h3>What you should NOT do</h3>
+      <h3>Do not</h3>
       <ul>
-        <li>Diagnose, prescribe, or promise outcomes.</li>
-        <li>Become a 24/7 personal hotline.</li>
+        <li>Diagnose/prescribe</li>
+        <li>Promise outcomes</li>
+        <li>Become a 24/7 hotline</li>
       </ul>
-
-      <h3>Ethical referral (step-by-step)</h3>
-      <ul>
-        <li><b>Ask consent:</b> “Would you like support options?”</li>
-        <li><b>Offer 2–3 choices:</b> based on cost/location/comfort.</li>
-        <li><b>Plan follow-up:</b> “Can I check in tomorrow?”</li>
-      </ul>
-
-      <div class="callout">
-        Example: <br/>
-        Person: “I’m scared to go alone.” <br/>
-        You: “Would a WhatsApp/phone option help first? We can plan one small step for today.”
-      </div>
+      <div class="callout">Referral script: “Would you like 2–3 support options? You can choose what feels safest.”</div>
     </section>
 
     <section class="lesson" data-lesson="4">
-      <h2>Lesson 4 — Privacy-First Logging (Minimum Necessary)</h2>
+      <h2>Lesson 4 — Privacy-First Logging</h2>
       <img class="lessonImg" src="icons/privacy.png" alt="Privacy"/>
-      <p class="muted">
-        Notes help improve support — but privacy must come first. Record only what is needed for safety + learning.
-      </p>
-
-      <h3>Log this</h3>
-      <ul>
-        <li>Date/time</li>
-        <li>General concern (stress, anxiety, sleep, bullying)</li>
-        <li>Action taken (breathing tip, referral options, escalated to supervisor)</li>
-      </ul>
-
-      <h3>Do NOT log</h3>
-      <ul>
-        <li>Full names, phone numbers, hostel addresses</li>
-        <li>Screenshots, photos, long transcripts</li>
-        <li>Judgments (“dramatic”, “attention seeker”)</li>
-      </ul>
-
-      <div class="callout">
-        Good example log: <br/>
-        “2026-01-02 • exam stress + poor sleep • taught 4-7-8 breathing • offered clinic list • person chose WhatsApp support.”
-      </div>
+      <p class="muted">Record only what is needed for safety + learning.</p>
+      <h3>Log</h3>
+      <ul><li>Date/time</li><li>General concern</li><li>Action taken</li></ul>
+      <h3>Do not log</h3>
+      <ul><li>Full names/addresses</li><li>Screenshots</li><li>Judgments</li></ul>
+      <div class="callout">Good log: “2026-01-02 • exam stress + poor sleep • taught breathing • offered clinic list • person chose WhatsApp support.”</div>
     </section>
 
     <section class="lesson" data-lesson="5">
       <h2>Lesson 5 — Cultural Sensitivity & Volunteer Self-Care</h2>
       <img class="lessonImg" src="icons/culture.png" alt="Culture"/>
-      <p class="muted">
-        People describe distress through culture, faith, and family expectations. Respect improves trust and outcomes.
-        Also: your wellbeing matters — burnout helps nobody.
-      </p>
-
+      <p class="muted">Respect improves trust and outcomes. Your wellbeing matters too.</p>
       <h3>Cultural sensitivity</h3>
       <ul>
-        <li>Ask preferences: “What language/name should we use?”</li>
-        <li>Respect faith: validate prayer + offer additional options.</li>
-        <li>Avoid labels; use “going through a hard time”.</li>
+        <li>Ask preferences: language/name</li>
+        <li>Respect faith + offer additional options</li>
+        <li>Avoid labels; use neutral language</li>
       </ul>
-
       <h3>Self-care</h3>
       <ul>
-        <li>Debrief after tough chats with a supervisor.</li>
-        <li>Hydrate, rest, set limits on heavy conversations per day.</li>
-        <li>If overwhelmed: pause and escalate — that’s professional, not failure.</li>
+        <li>Debrief with supervisor</li>
+        <li>Set limits</li>
+        <li>Escalate when overwhelmed</li>
       </ul>
-
-      <div class="callout">
-        Example: <br/>
-        Person: “My family says counselling is shameful.” <br/>
-        You: “I understand. Many people combine faith + family support + counselling. Would you like options you can choose from privately?”
-      </div>
+      <div class="callout">Example: “Counselling is shameful.” → “Many people combine faith + family support + counselling. Would you like private options?”</div>
     </section>
 
-    <!-- QUIZ (unlocks after lesson 5) -->
+    <!-- QUIZ -->
     <section class="card quiz-card" id="quizCard">
       <h2>Volunteer Quiz (Unlocked after Lesson 5)</h2>
-      <p class="muted">
-        Time: <b>10 minutes</b> • Pass mark: <b>80%</b> • Attempts: <b>2 per month</b>
-        (<span id="attemptInfo">0 / 2</span>)
-      </p>
+      <p class="muted">Time: <b>10 minutes</b> • Pass mark: <b>80%</b> • Attempts: <b>2 per month</b> (<span id="attemptInfo">0 / 2</span>)</p>
 
       <div class="card" style="text-align:left;">
         <b>Volunteer details (required)</b>
@@ -593,9 +477,7 @@
           </div>
         </div>
 
-        <p class="muted" style="margin:.7rem 0 0;">
-          This info is saved to the sheet only if you <b>pass</b>.
-        </p>
+        <p class="muted" style="margin:.7rem 0 0;">This info is saved to the sheet only if you <b>pass</b>.</p>
       </div>
 
       <div class="row" style="margin-top:12px;">
@@ -603,9 +485,7 @@
         <button class="btn btn-ghost" id="resetQuiz" type="button" style="display:none;">Reset</button>
       </div>
 
-      <p class="muted" style="margin-top:10px;">
-        Time left: <b><span id="timeLeft">10:00</span></b>
-      </p>
+      <p class="muted" style="margin-top:10px;">Time left: <b><span id="timeLeft">10:00</span></b></p>
 
       <form id="quizForm" style="display:none;"></form>
 
@@ -617,9 +497,7 @@
 
       <div id="postPass" class="card" style="display:none; text-align:left; margin-top:12px;">
         <h3>✅ You passed!</h3>
-        <p class="muted">
-          Your <b>Volunteer Trained</b> badge is unlocked (+50 XP). You can now generate your certificate.
-        </p>
+        <p class="muted">Your <b>Volunteer Trained</b> badge is unlocked (+50 XP). You can now generate your certificate.</p>
 
         <label style="display:block;margin:10px 0 6px;font-weight:900;">Name to appear on certificate</label>
         <input id="certName" type="text" placeholder="Type your name exactly"/>
@@ -638,7 +516,7 @@
     </footer>
   </div>
 
-  <!-- Sticky bottom lesson nav -->
+  <!-- Sticky bottom nav -->
   <div class="stickyNav" id="stickyNav">
     <div class="stickyInner">
       <div class="navLeft">
@@ -667,6 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const KEY_TIMER_START = 'mc_training_timer_start';
   const KEY_CANDIDATE = 'mc_training_candidate';
   const KEY_TRAINING = 'mc_training';
+  const KEY_LAST_CERT_ID = 'mc_last_cert_id';
 
   const PASS_MARK = 0.8;
   const BONUS = 50;
@@ -676,9 +555,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = (id) => document.getElementById(id);
   const getJSON = (k,f)=>{ try{ return JSON.parse(localStorage.getItem(k) || JSON.stringify(f)); } catch(e){ return f; } };
   const setJSON = (k,v)=> localStorage.setItem(k, JSON.stringify(v));
+
   const getPoints = ()=> parseInt(localStorage.getItem(KEY_POINTS) || '0', 10);
   const setPoints = (v)=> localStorage.setItem(KEY_POINTS, String(v));
   const addPoints = (n)=> setPoints(getPoints() + n);
+
   const getBadges = ()=> getJSON(KEY_BADGES, []);
   const setBadges = (a)=> setJSON(KEY_BADGES, a);
   const awardBadge = (id)=>{ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true; } return false; };
@@ -692,6 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return u;
   }
 
+  // Best-effort logging (GitHub Pages friendly)
   async function postToGas(payload){
     try{
       await fetch(GAS_URL + '?auth=' + encodeURIComponent(BEARER), {
@@ -721,17 +603,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   function canTakeQuiz(){ return attemptsThisMonth() < 2; }
 
-  /********* TOP UI PULLS *********/
-  function refreshTopPills(completed, total){
+  function refreshTopPills(){
+    const total = lessons.length;
+    const completed = Math.min(parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10) || 0, total);
+
     $('xpPill').textContent = getPoints();
-    const b = getBadges();
-    $('badgePill').textContent = b.includes('volunteer_trained') ? 'Volunteer Trained' : 'Locked';
+    $('badgePill').textContent = getBadges().includes('volunteer_trained') ? 'Volunteer Trained' : 'Locked';
     $('lessonPill').textContent = `${Math.min(completed+1, total)} / ${total}`;
 
     const pct = Math.round((completed / total) * 100);
     $('pctText').textContent = `${pct}%`;
     $('barFill').style.width = `${pct}%`;
-
     $('doneLabel').textContent = completed;
   }
 
@@ -739,10 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lessons = Array.from(document.querySelectorAll('.lesson'));
   const totalLessons = lessons.length;
 
-  let completedLessons = parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10);
-  if(!Number.isFinite(completedLessons) || completedLessons < 0) completedLessons = 0;
-  if(completedLessons > totalLessons) completedLessons = totalLessons;
-
+  let completedLessons = Math.min(parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10) || 0, totalLessons);
   let currentLessonIndex = Math.min(Math.max(completedLessons, 0), totalLessons-1);
 
   function showLesson(index){
@@ -751,15 +630,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $('lessonLabel').textContent = `Lesson ${index+1}`;
     $('prevLesson').disabled = index === 0;
-
     $('nextLesson').textContent = (index === totalLessons-1) ? 'Finish Lessons ✅' : 'Next ➜';
 
-    // update pills/progress (completed is "how many finished", not current index)
-    refreshTopPills(completedLessons, totalLessons);
+    refreshTopPills();
 
-    // scroll to top of lesson area (nice on mobile)
-    const top = document.querySelector('.wrap');
-    if(top) top.scrollIntoView({behavior:'smooth', block:'start'});
+    // gentle scroll (no huge jump on desktop)
+    const target = lessons[index];
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
   }
 
   function markCurrentCompleted(){
@@ -775,7 +652,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $('nextLesson').addEventListener('click', () => {
-    // mark this lesson as completed
     markCurrentCompleted();
 
     if(currentLessonIndex < totalLessons-1){
@@ -783,21 +659,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // finished all lessons
+    // finished all lessons -> unlock quiz
     completedLessons = totalLessons;
     localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessons));
-    refreshTopPills(completedLessons, totalLessons);
+    refreshTopPills();
 
-    // unlock quiz section
     $('quizCard').style.display = 'block';
     $('stickyNav').style.display = 'none';
-
-    // jump to quiz
     $('quizCard').scrollIntoView({behavior:'smooth', block:'start'});
     updateStartQuizState();
   });
 
-  // initial render
+  // Initial render
   showLesson(currentLessonIndex);
 
   /********* QUIZ *********/
@@ -856,9 +729,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  function updateAttemptInfo(){
-    $('attemptInfo').textContent = `${attemptsThisMonth()} / 2`;
-  }
+  function updateAttemptInfo(){ $('attemptInfo').textContent = `${attemptsThisMonth()} / 2`; }
 
   function updateStartQuizState(){
     const lessonsDone = (parseInt(localStorage.getItem(KEY_LESSON_PROGRESS)||'0',10) >= totalLessons);
@@ -926,23 +797,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  $('startQuiz').addEventListener('click', async () => {
-    // hard guard
-    if(!canTakeQuiz()){ lockOutIfNeeded(); return; }
-    if(!candidateComplete()){
-      alert('Please complete your volunteer details first.');
-      return;
-    }
+  function generateCertId(){
+    const t=new Date();
+    const y=t.getFullYear();
+    const m=String(t.getMonth()+1).padStart(2,'0');
+    const d=String(t.getDate()).padStart(2,'0');
+    const rand=Math.random().toString(36).slice(-4).toUpperCase();
+    return `MC-CERT-${y}${m}${d}-${rand}`;
+  }
 
-    // record attempt (counts even if they fail)
+  $('startQuiz').addEventListener('click', () => {
+    if(!canTakeQuiz()){ lockOutIfNeeded(); return; }
+    if(!candidateComplete()){ alert('Please complete your volunteer details first.'); return; }
+
     const used = recordAttempt();
     updateAttemptInfo();
 
-    // log attempt start
-    const c = saveCandidate();
-    postToGas({ auth: BEARER, type:'training_attempt_start', uid:getUid(), month:monthKey(), attempt:used, candidate:c, ts:new Date().toISOString() });
-
-    // UI
     $('startQuiz').style.display = 'none';
     $('resetQuiz').style.display = 'inline-flex';
     $('quizForm').style.display = 'block';
@@ -989,85 +859,89 @@ document.addEventListener('DOMContentLoaded', () => {
     const pass = pct >= PASS_MARK;
     const scorePct = Math.round(pct*100);
 
-    setJSON(KEY_TRAINING, { pct, date: new Date().toISOString() });
-
-    // log pass/fail to sheet
     const candidate = saveCandidate();
-    postToGas({
-      auth: BEARER,
-      type: pass ? 'training_pass' : 'training_fail',
-      uid: getUid(),
-      month: monthKey(),
-      score: scorePct,
-      timedOut: !!timedOut,
-      candidate,
-      ts: new Date().toISOString()
-    });
+    const dateIso = new Date().toISOString();
+
+    setJSON(KEY_TRAINING, { pct, date: dateIso });
 
     $('quizResult').style.display = 'block';
     $('quizResult').className = 'result ' + (pass ? 'good' : 'bad');
 
     if(pass){
+      // IMPORTANT: generate cert_id ON PASS and keep it
+      const certId = generateCertId();
+      localStorage.setItem(KEY_LAST_CERT_ID, certId);
+
       awardBadge('volunteer_trained');
       addPoints(BONUS);
+
       $('quizResult').textContent = `✅ You scored ${correct}/${QUESTIONS.length} (${scorePct}%). You passed!`;
 
-      // show certificate block
+      // log TRAINING PASS with FLAT fields (matches your backend _handleTrainingPass)
+      postToGas({
+        auth: BEARER,
+        type: 'training_pass',
+        uid: getUid(),
+        name: candidate.name,
+        age: candidate.age,
+        location: candidate.location,
+        role: candidate.role,
+        ngo: candidate.ngo,
+        whatsapp: candidate.whatsapp,
+        score: scorePct,
+        date: dateIso,
+        cert_id: certId
+      });
+
       $('postPass').style.display = 'block';
       $('certName').value = $('certName').value || candidate.name || '';
     }else{
-      const used = attemptsThisMonth();
-      const remaining = Math.max(0, 2-used);
+      $('quizResult').textContent = `❌ You scored ${correct}/${QUESTIONS.length} (${scorePct}%). Try again.`;
       $('postPass').style.display = 'none';
-
-      let msg = `❌ You scored ${correct}/${QUESTIONS.length} (${scorePct}%). Try again.`;
-      if(remaining === 0){
-        msg += ' You have reached your 2 attempts for this month. Please try again next month.';
-      }
-      $('quizResult').textContent = msg;
       lockOutIfNeeded();
+
+      // optional fail logging (kept but lightweight)
+      postToGas({
+        auth: BEARER,
+        type: 'training_fail',
+        uid: getUid(),
+        score: scorePct,
+        date: dateIso,
+        timedOut: !!timedOut
+      });
     }
 
-    // refresh top pills (XP/badge)
-    refreshTopPills(parseInt(localStorage.getItem(KEY_LESSON_PROGRESS)||'0',10), totalLessons);
+    refreshTopPills();
+    try{ window.plausible && window.plausible(pass ? 'VolunteerQuizPassed':'VolunteerQuizFailed',{props:{score:scorePct}}); }catch(e){}
   }
 
-  function generateCertId(){
-    const t=new Date();
-    const y=t.getFullYear();
-    const m=String(t.getMonth()+1).padStart(2,'0');
-    const d=String(t.getDate()).padStart(2,'0');
-    const rand=Math.random().toString(36).slice(-4).toUpperCase();
-    return `MC-CERT-${y}${m}${d}-${rand}`;
-  }
-
-  $('makeCert').addEventListener('click', async () => {
+  $('makeCert').addEventListener('click', () => {
     const name = ($('certName').value || '').trim();
     if(!name){ alert('Enter your name for the certificate.'); return; }
 
     const t = getJSON(KEY_TRAINING, {pct:1, date:new Date().toISOString()});
-    const score = Math.round(t.pct*100);
+    const score = Math.round((t.pct || 0) * 100);
     const dateIso = t.date || new Date().toISOString();
-    const certId = generateCertId();
 
-    // Certificate URL
-    const url = `certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${encodeURIComponent(dateIso)}&cert_id=${encodeURIComponent(certId)}`;
+    // Use the SAME cert_id created at PASS time (critical)
+    const certId = localStorage.getItem(KEY_LAST_CERT_ID) || generateCertId();
+    localStorage.setItem(KEY_LAST_CERT_ID, certId);
+
+    const url = `certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${encodeURIComponent(dateIso)}&cert_id=${encodeURIComponent(certId)}&uid=${encodeURIComponent(getUid())}`;
 
     $('certHint').style.display = 'block';
     $('certHint').innerHTML = `✅ Your certificate is ready: <a class="btn btn-ghost" target="_blank" rel="noopener" href="${url}">Open Certificate</a>`;
 
-    // log certificate issue (sheet)
-    const candidate = saveCandidate();
+    // log certificate issue (backend stores in Certificates sheet)
     postToGas({
       auth: BEARER,
       type:'certificate_issue',
-      uid:getUid(),
       cert_id: certId,
       name,
       score,
       date: dateIso,
-      candidate,
-      ts: new Date().toISOString()
+      uid: getUid(),
+      meta_json: JSON.stringify(getJSON(KEY_CANDIDATE, {}))
     });
 
     try{ window.plausible && window.plausible('VolunteerCertificateIssued',{props:{score}}); }catch(e){}
@@ -1081,8 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadCandidate();
   updateStartQuizState();
-  refreshTopPills(completedLessons, totalLessons);
-
+  refreshTopPills();
   try{ window.plausible && window.plausible('TrainingHubViewed'); }catch(e){}
 });
 </script>
