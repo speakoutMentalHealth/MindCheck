@@ -141,32 +141,40 @@
 
     /* Signature block */
     .sig{
-      width: 50mm; /* give signature more room so right side never wraps down */
-      min-width: 40mm;
-    }
-    .sigTop{
-      display:flex;
-      flex-direction:column;
-      gap: 2mm;
-      margin-bottom: 2mm;
-    }
-    
-    .sigImg{
-  height: 56mm;          /* keep size */
-  width: 140mm;
-  object-fit: contain;
-  display: block;
-
-  /* bring signature MUCH closer to the line */
-  margin-bottom: -3mm;
-
-  /* make signature look bold / inked */
-  filter: 
-    contrast(1.35)
-    saturate(1.2)
-    drop-shadow(0 0 0.4px rgba(0,0,0,0.65));
+  min-width: 95mm;
+  max-width: 95mm;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0;
 }
 
+.sigLine{
+  border-top: 2px solid rgba(17,24,39,.65);
+  width: 90mm;
+  margin: 0;
+}
+
+/* Signature: keep size, fix position, and bold it */
+.sigImg{
+  display:block;
+
+  /* keep your “big” size */
+  height: 56mm;
+  width: auto;
+  max-width: 90mm;
+  object-fit: contain;
+
+  /* move it DOWN so it sits close to the line */
+  margin: 0 0 -6mm 0;
+
+  /* make it look bolder/inked */
+  filter:
+    contrast(1.35)
+    saturate(1.15)
+    drop-shadow(0 0 0.45px rgba(0,0,0,0.75));
+}
 
     }
     .sigLine{
@@ -303,13 +311,16 @@
             <div class="sigTop">
               <!-- YOUR SIGNATURE IMAGE (icons folder) -->
               <img class="sigImg" src="icons/signature.png" alt="Signature">
-              <div class="sigLine"></div>
-            </div>
-            <small><b id="signName">Offorka Jerry</b></small>
-            <small>Founder / Executive Director</small>
-            <small>SpeakOut Mental Health Outreach</small>
-            <small>(Lead partner — MindCheck Joint Volunteer Training)</small>
-          </div>
+              <div class="sig">
+  <img class="sigImg" src="icons/signature.png" alt="Signature of Offorka Jerry">
+  <div class="sigLine"></div>
+
+  <small><b>Offorka Jerry</b></small>
+  <small>Founder / Executive Director</small>
+  <small>SpeakOut Mental Health Outreach</small>
+  <small>(Lead partner — MindCheck Joint Volunteer Training)</small>
+</div>
+
 
           <div class="certBox">
             <b>Certificate ID</b>
