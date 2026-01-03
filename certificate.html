@@ -150,15 +150,23 @@
       gap: 2mm;
       margin-bottom: 2mm;
     }
+    
     .sigImg{
-  height: 56mm;          /* 4x bigger than 14mm */
-  width: 140mm;          /* proportional scaling */
+  height: 56mm;          /* keep size */
+  width: 140mm;
   object-fit: contain;
   display: block;
 
-  /* position tweak */
-  margin-bottom: -10mm;  /* pulls signature UP above the line */
+  /* bring signature MUCH closer to the line */
+  margin-bottom: -3mm;
+
+  /* make signature look bold / inked */
+  filter: 
+    contrast(1.35)
+    saturate(1.2)
+    drop-shadow(0 0 0.4px rgba(0,0,0,0.65));
 }
+
 
     }
     .sigLine{
