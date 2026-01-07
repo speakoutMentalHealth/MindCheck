@@ -2,14 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <title>MindCheck Certificate</title>
+
+  <!-- html2canvas + jsPDF (for A4 landscape PDF download) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
   <style>
     :root{
       --ink:#0b1f2a;
       --muted:#5b6b79;
       --green:#16a34a;
+
+      /* 1mm ≈ 3.7795px at 96dpi (good practical screen baseline) */
+      --mm: 3.7795px;
+
+      /* Scale factor for mobile fit (set by JS) */
+      --scale: 1;
     }
 
     body{
@@ -17,54 +27,113 @@
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       background:#f3f4f6;
       color:var(--ink);
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
+    /* Download bar */
+    .actionsBar{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(243,244,246,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      padding: 10px 12px;
+      display:flex;
+      justify-content:center;
+      gap: 10px;
+    }
+    .btn{
+      appearance:none;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 900;
+      cursor:pointer;
+      background: var(--green);
+      color:#fff;
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .btn:disabled{
+      opacity:.65;
+      cursor:not-allowed;
+    }
+    .btnSecondary{
+      background:#111827;
+    }
+    .hint{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+
+    /* Center + safe padding for phones */
     .screenWrap{
       max-width: 1200px;
-      margin: 14px auto;
-      padding: 12px;
+      margin: 0 auto;
+      padding: calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));
+      display:flex;
+      justify-content:center;
     }
 
-    /* A4 Landscape */
+    /* Holder gives the scaled element proper layout space */
+    .pageHolder{
+      width: calc(297 * var(--mm) * var(--scale));
+      height: calc(210 * var(--mm) * var(--scale));
+      position: relative;
+    }
+
+    /* A4 Landscape canvas (screen uses px-mm, print uses true mm) */
     .page{
-      width: 297mm;
-      height: 210mm;
+      width: calc(297 * var(--mm));
+      height: calc(210 * var(--mm));
       background:#fff;
-      margin: 0 auto;
       border: 1px solid rgba(0,0,0,.12);
       border-radius: 10px;
-      position: relative;
+      position: absolute;
+      inset: 0;
       overflow: hidden;
       box-sizing:border-box;
+
+      transform-origin: top left;
+      transform: scale(var(--scale));
+      will-change: transform;
     }
 
     .inner{
       position:absolute;
-      inset: 10mm;
+      inset: calc(10 * var(--mm));
       border: 2px solid rgba(17,24,39,.65);
       border-radius: 10px;
-      padding: 10mm 10mm 18mm; /* extra bottom space for footer */
+      padding: calc(10 * var(--mm)) calc(10 * var(--mm)) calc(18 * var(--mm));
       box-sizing:border-box;
     }
 
-    /* Top logos row */
     .topBar{
       display:flex;
       align-items:center;
       justify-content:center;
-      gap: 14mm;
-      margin-bottom: 4mm;
+      gap: calc(14 * var(--mm));
+      margin-bottom: calc(4 * var(--mm));
+      flex-wrap: nowrap;
     }
     .logo{
-      width: 46mm;
-      height: 24mm;
+      width: calc(46 * var(--mm));
+      height: calc(24 * var(--mm));
       display:flex;
       align-items:center;
       justify-content:center;
     }
     .logo img{
-      max-height: 24mm;
-      max-width: 46mm;
+      max-height: calc(24 * var(--mm));
+      max-width: calc(46 * var(--mm));
       width:auto;
       height:auto;
       object-fit:contain;
@@ -76,7 +145,7 @@
       font-weight: 950;
       letter-spacing: .11em;
       font-size: 16pt;
-      margin: 2mm 0 3mm;
+      margin: calc(2 * var(--mm)) 0 calc(3 * var(--mm));
     }
 
     .sub{
@@ -85,13 +154,13 @@
       font-weight: 700;
       font-size: 10.3pt;
       line-height:1.35;
-      max-width: 245mm;
-      margin: 0 auto 5mm;
+      max-width: calc(245 * var(--mm));
+      margin: 0 auto calc(5 * var(--mm));
     }
 
     .presented{
       text-align:center;
-      margin-top: 4mm;
+      margin-top: calc(4 * var(--mm));
       color: var(--muted);
       font-weight: 950;
       letter-spacing: .18em;
@@ -102,7 +171,7 @@
       text-align:center;
       font-size: 26pt;
       font-weight: 950;
-      margin: 3mm 0 3mm;
+      margin: calc(3 * var(--mm)) 0 calc(3 * var(--mm));
     }
 
     .bodyText{
@@ -111,64 +180,56 @@
       font-weight: 650;
       color:#22303c;
       line-height:1.45;
-      max-width: 245mm;
+      max-width: calc(245 * var(--mm));
       margin: 0 auto;
     }
 
     .metaRow{
       display:flex;
       justify-content:center;
-      gap: 22mm;
-      margin-top: 5mm;
+      gap: calc(22 * var(--mm));
+      margin-top: calc(5 * var(--mm));
       font-weight: 950;
       color:#1f2937;
       font-size: 10pt;
+      flex-wrap: wrap;
     }
 
-    /* Footer: fixed bottom, never overlaps content */
     .footerRow{
       position:absolute;
-      left: 10mm;
-      right: 10mm;
-      bottom: 8mm;
+      left: calc(10 * var(--mm));
+      right: calc(10 * var(--mm));
+      bottom: calc(8 * var(--mm));
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
-      gap: 8mm;
+      gap: calc(8 * var(--mm));
     }
 
-    /* Signature column (LEFT) */
     .sig{
-      width: 95mm;
+      width: calc(95 * var(--mm));
       display:flex;
       flex-direction:column;
       align-items:flex-start;
       justify-content:flex-end;
+      min-width: 0;
     }
-
-    /* Signature image: big, bold, and near the line */
     .sigImg{
-      height: 56mm;          /* BIG */
+      height: calc(56 * var(--mm));
       width: auto;
-      max-width: 90mm;
+      max-width: calc(90 * var(--mm));
       object-fit: contain;
-
-      /* pull signature DOWN closer to the line */
-      margin: 0 0 -1mm 0;
-
-      /* make it look bolder/inked */
+      margin: 0 0 calc(-1 * var(--mm)) 0;
       filter:
         contrast(1.45)
         saturate(1.2)
         drop-shadow(0 0 0.9px rgba(0,0,0,.85));
     }
-
     .sigLine{
       border-top: 2px solid rgba(17,24,39,.65);
-      width: 90mm;
-      margin: 0 0 2mm 0;
+      width: calc(90 * var(--mm));
+      margin: 0 0 calc(2 * var(--mm)) 0;
     }
-
     .sig small{
       display:block;
       color:var(--muted);
@@ -176,39 +237,37 @@
       line-height:1.25;
     }
 
-    /* Certificate ID box (RIGHT) */
     .certBox{
-      width: 92mm;
-      min-width: 92mm;
+      width: calc(92 * var(--mm));
+      min-width: calc(92 * var(--mm));
       border: 2px dashed rgba(17,24,39,.55);
       border-radius: 10px;
-      padding: 5mm;
+      padding: calc(5 * var(--mm));
       box-sizing:border-box;
       text-align:left;
       background: linear-gradient(180deg, rgba(22,163,74,.06), transparent 55%);
+      min-width: 0;
     }
-
     .certBox b{
       display:block;
       font-size: 10.5pt;
-      margin-bottom: 2mm;
+      margin-bottom: calc(2 * var(--mm));
     }
     .certId{
       font-weight: 950;
       letter-spacing: .04em;
       font-size: 10pt;
-      margin-bottom: 3mm;
+      margin-bottom: calc(3 * var(--mm));
       word-break: break-word;
     }
-
     .qrRow{
       display:flex;
-      gap: 5mm;
+      gap: calc(5 * var(--mm));
       align-items:center;
     }
     .qr{
-      width: 26mm;
-      height: 26mm;
+      width: calc(26 * var(--mm));
+      height: calc(26 * var(--mm));
       border:1px solid rgba(0,0,0,.12);
       border-radius:6px;
       display:flex;
@@ -216,14 +275,15 @@
       justify-content:center;
       overflow:hidden;
       background:#fff;
+      flex: 0 0 auto;
     }
     .qr img{ width:100%; height:100%; object-fit:cover; }
-
     .verifyTxt{
       color:var(--muted);
       font-weight: 800;
       font-size: 9.3pt;
       line-height:1.25;
+      min-width: 0;
     }
     .verifyTxt a{ color: var(--green); font-weight: 950; text-decoration:none; }
     .verifyTxt a:hover{ text-decoration:underline; }
@@ -231,97 +291,119 @@
     /* Print exactly one A4 landscape page */
     @page { size: A4 landscape; margin: 0; }
     @media print{
+      :root{ --mm: 1mm; --scale: 1; }
       body{ background:#fff; }
-      .screenWrap{ margin:0; padding:0; }
-      .page{ border:none; border-radius:0; width: 297mm; height: 210mm; }
-    }
-
-    /* Mobile preview scaling only (doesn't affect print) */
-    @media (max-width: 900px){
-      .screenWrap{ padding: 8px; }
-      .page{ width:100%; height:auto; aspect-ratio: 297 / 210; }
+      .actionsBar{ display:none !important; }
+      .screenWrap{ margin:0; padding:0; max-width:none; }
+      .pageHolder{ width: 297mm; height: 210mm; }
+      .page{
+        border:none;
+        border-radius:0;
+        width: 297mm;
+        height: 210mm;
+        transform: none;
+        position: relative;
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Top action bar -->
+  <div class="actionsBar">
+    <button class="btn" id="downloadBtn" type="button">⬇️ Download (A4 Landscape PDF)</button>
+    <button class="btn btnSecondary" id="printBtn" type="button">🖨️ Print</button>
+    <div class="hint" id="dlHint" aria-live="polite"></div>
+  </div>
+
   <div class="screenWrap">
-    <div class="page" id="page">
-      <div class="inner">
+    <div class="pageHolder" id="pageHolder">
+      <div class="page" id="page">
+        <div class="inner">
 
-        <!-- Logos -->
-        <div class="topBar">
-          <div class="logo">
-            <img src="icons/apple-touch-icon.png" alt="SpeakOut / MindCheck Logo">
-          </div>
-          <div class="logo">
-            <img src="icons/synia-logo.png" alt="Synia Aid Foundation Logo">
-          </div>
-          <div class="logo">
-            <img src="icons/afrihud-logo.png" alt="AfriHud Logo">
-          </div>
-        </div>
-
-        <div class="title">CERTIFICATE OF JOINT VOLUNTEER TRAINING</div>
-
-        <div class="sub">
-          This certifies that the volunteer named below has successfully completed the <b>MindCheck Joint Volunteer Training</b>
-          delivered by <b>SpeakOut Mental Health Outreach</b>, in partnership with <b>Synia Aid Foundation</b> & <b>AfriHud</b>,
-          covering safe listening, risk recognition, privacy-first logging, and ethical referral for community & humanitarian settings.
-        </div>
-
-        <div class="presented">THIS CERTIFICATE IS PROUDLY PRESENTED TO</div>
-        <div class="name" id="name">Volunteer Name</div>
-
-        <div class="bodyText">
-          By achieving the required pass mark, this volunteer is recognised as a trained MindCheck community supporter,
-          equipped to offer basic psychosocial support in a safe, respectful way and connect people to appropriate help.
-        </div>
-
-        <div class="metaRow">
-          <div>Score: <span id="score">0</span>%</div>
-          <div>Date: <span id="date">—</span></div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footerRow">
-
-          <!-- Signature side -->
-          <div class="sig">
-            <img class="sigImg" src="icons/signature.png" alt="Signature of Offorka Jerry">
-            <div class="sigLine"></div>
-
-            <small><b>Offorka Jerry</b></small>
-            <small>Founder / Executive Director</small>
-            <small>SpeakOut Mental Health Outreach</small>
-            <small>(Lead partner — MindCheck Joint Volunteer Training)</small>
+          <div class="topBar">
+            <div class="logo"><img src="icons/apple-touch-icon.png" alt="SpeakOut / MindCheck Logo"></div>
+            <div class="logo"><img src="icons/synia-logo.png" alt="Synia Aid Foundation Logo"></div>
+            <div class="logo"><img src="icons/afrihud-logo.png" alt="AfriHud Logo"></div>
           </div>
 
-          <!-- Certificate box -->
-          <div class="certBox">
-            <b>Certificate ID</b>
-            <div class="certId" id="certId">MC-CERT-YYYYMMDD-XXXX</div>
+          <div class="title">CERTIFICATE OF JOINT VOLUNTEER TRAINING</div>
 
-            <div class="qrRow">
-              <div class="qr">
-                <img id="qrImg" src="icons/qr-placeholder.png" alt="QR code"/>
-              </div>
-              <div class="verifyTxt">
-                Scan to confirm.<br/>
-                Or verify online:<br/>
-                <a id="verifyLink" href="verify.html" target="_blank" rel="noopener">verify here</a>
+          <div class="sub">
+            This certifies that the volunteer named below has successfully completed the <b>MindCheck Joint Volunteer Training</b>
+            delivered by <b>SpeakOut Mental Health Outreach</b>, in partnership with <b>Synia Aid Foundation</b> & <b>AfriHud</b>,
+            covering safe listening, risk recognition, privacy-first logging, and ethical referral for community & humanitarian settings.
+          </div>
+
+          <div class="presented">THIS CERTIFICATE IS PROUDLY PRESENTED TO</div>
+          <div class="name" id="name">Volunteer Name</div>
+
+          <div class="bodyText">
+            By achieving the required pass mark, this volunteer is recognised as a trained MindCheck community supporter,
+            equipped to offer basic psychosocial support in a safe, respectful way and connect people to appropriate help.
+          </div>
+
+          <div class="metaRow">
+            <div>Score: <span id="score">0</span>%</div>
+            <div>Date: <span id="date">—</span></div>
+          </div>
+
+          <div class="footerRow">
+            <div class="sig">
+              <img class="sigImg" src="icons/signature.png" alt="Signature of Offorka Jerry">
+              <div class="sigLine"></div>
+              <small><b>Offorka Jerry</b></small>
+              <small>Founder / Executive Director</small>
+              <small>SpeakOut Mental Health Outreach</small>
+              <small>(Lead partner — MindCheck Joint Volunteer Training)</small>
+            </div>
+
+            <div class="certBox">
+              <b>Certificate ID</b>
+              <div class="certId" id="certId">MC-CERT-YYYYMMDD-XXXX</div>
+
+              <div class="qrRow">
+                <div class="qr"><img id="qrImg" src="icons/qr-placeholder.png" alt="QR code"/></div>
+                <div class="verifyTxt">
+                  Scan to confirm.<br/>
+                  Or verify online:<br/>
+                  <a id="verifyLink" href="verify.html" target="_blank" rel="noopener">verify here</a>
+                </div>
               </div>
             </div>
           </div>
 
-        </div><!-- /footerRow -->
-
-      </div><!-- /inner -->
-    </div><!-- /page -->
-  </div><!-- /screenWrap -->
+        </div>
+      </div>
+    </div>
+  </div>
 
 <script>
-  // URL params: certificate.html?name=...&score=...&date=...&cert_id=...&uid=...
+  // --- Fit A4 canvas to any screen (iOS/Android) ---
+  function fitToScreen(){
+    const holder = document.getElementById("pageHolder");
+
+    const mmPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--mm"));
+    const baseW = 297 * mmPx;
+    const baseH = 210 * mmPx;
+
+    const vw = Math.max(320, window.innerWidth - 24);
+    const vh = Math.max(480, window.innerHeight - 140); // account for action bar
+
+    let s = Math.min(vw / baseW, vh / baseH);
+    s = Math.max(0.22, Math.min(1, s));
+
+    document.documentElement.style.setProperty("--scale", s.toFixed(4));
+    holder.style.width  = (baseW * s) + "px";
+    holder.style.height = (baseH * s) + "px";
+  }
+  window.addEventListener("resize", fitToScreen);
+  window.addEventListener("orientationchange", fitToScreen);
+  window.addEventListener("load", fitToScreen);
+
+  // --- URL param logic ---
+  // certificate.html?name=...&score=...&date=...&cert_id=...&uid=...
   const p = new URLSearchParams(location.search);
   const name   = p.get('name') || 'Volunteer';
   const score  = p.get('score') || '0';
@@ -336,15 +418,91 @@
 
   document.getElementById('certId').textContent = certId;
 
-  // Verify link carries cert_id
   const verifyUrl = `verify.html?cert_id=${encodeURIComponent(certId)}`;
   document.getElementById('verifyLink').href = verifyUrl;
 
-  // Optional: QR generator later (uncomment when ready)
-  // document.getElementById('qrImg').src =
-  //   `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(location.origin + '/' + verifyUrl)}`;
+  // --- Download A4 Landscape PDF (well aligned) ---
+  const dlBtn = document.getElementById("downloadBtn");
+  const prBtn = document.getElementById("printBtn");
+  const hint  = document.getElementById("dlHint");
 
-  // Log certificate view to Google Sheet (no-cors for GitHub Pages)
+  prBtn.addEventListener("click", () => window.print());
+
+  function safeFileName(str){
+    return String(str || "")
+      .replace(/[\\/:*?"<>|]+/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 60);
+  }
+
+  async function downloadA4Landscape(){
+    if (!window.html2canvas || !window.jspdf){
+      alert("PDF tools not loaded yet. Please wait a moment and try again.");
+      return;
+    }
+
+    dlBtn.disabled = true;
+    prBtn.disabled = true;
+    hint.textContent = "Generating PDF… please wait";
+
+    const page = document.getElementById("page");
+    const root = document.documentElement;
+
+    // Save current scale (mobile-fit)
+    const oldScale = getComputedStyle(root).getPropertyValue("--scale").trim() || "1";
+
+    // Force scale to 1 for perfect A4 capture
+    root.style.setProperty("--scale", "1");
+    // Ensure transform applied before capture
+    await new Promise(r => setTimeout(r, 60));
+
+    // Use higher DPR for crisp text (cap to prevent huge memory)
+    const dpr = Math.min(2.5, window.devicePixelRatio || 2);
+
+    // Capture the EXACT A4 canvas area (no extra margins)
+    const canvas = await html2canvas(page, {
+      backgroundColor: "#ffffff",
+      scale: dpr,
+      useCORS: true,
+      allowTaint: true,
+      logging: false
+    });
+
+    // Restore original scale
+    root.style.setProperty("--scale", oldScale);
+    fitToScreen();
+
+    // Create A4 landscape PDF and fit image exactly
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: "landscape",
+      unit: "mm",
+      format: "a4",
+      compress: true
+    });
+
+    const imgData = canvas.toDataURL("image/jpeg", 0.98);
+
+    const pageW = pdf.internal.pageSize.getWidth();   // 297mm
+    const pageH = pdf.internal.pageSize.getHeight();  // 210mm
+
+    // Add full-page image, aligned perfectly
+    pdf.addImage(imgData, "JPEG", 0, 0, pageW, pageH, undefined, "FAST");
+
+    const file = `MindCheck Certificate - ${safeFileName(name)} - ${safeFileName(certId)}.pdf`;
+    pdf.save(file);
+
+    hint.textContent = "Download complete ✅";
+    dlBtn.disabled = false;
+    prBtn.disabled = false;
+
+    setTimeout(() => (hint.textContent = ""), 2500);
+  }
+
+  dlBtn.addEventListener("click", downloadA4Landscape);
+
+  // --- Log certificate view to Google Sheet (your existing logic) ---
   const GAS_URL = "https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec";
   const BEARER  = "speakout123";
 
