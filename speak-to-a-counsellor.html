@@ -4,13 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Speak to a Counsellor • SpeakOut MindCheck</title>
-  <meta name="description" content="Speak to a verified counsellor via WhatsApp or chat. A small token supports the service." />
+  <meta name="description" content="Speak to a verified counsellor via WhatsApp or chat. A consultation fee is required to unlock access." />
 
   <link rel="stylesheet" href="mc-theme.css">
   <link rel="stylesheet" href="mc-gamify.css">
 
   <meta name="theme-color" content="#22c55e">
   <link rel="icon" type="image/png" href="favicon.png">
+
+  <style>
+    /* Paywall lock styles */
+    .mc-card.is-locked {
+      opacity: 0.35;
+      filter: grayscale(100%);
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    .mc-locknote {
+      margin: 10px 0 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(34,197,94,.08);
+      border: 1px solid rgba(34,197,94,.25);
+      font-size: .95rem;
+      opacity: .95;
+    }
+    .mc-mini {
+      font-size: .92rem;
+      opacity: .9;
+      margin-top: 8px;
+    }
+    .mc-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.9);
+      outline: none;
+      margin-top: 6px;
+      margin-bottom: 10px;
+    }
+    html[data-theme="night"] .mc-input{
+      background: rgba(0,0,0,.25);
+      border-color: rgba(255,255,255,.18);
+      color: #fff;
+    }
+    .mc-paybox p { margin: 6px 0; }
+    .mc-btn[disabled] { opacity: .55; pointer-events:none; }
+  </style>
 </head>
 
 <body class="mc-page">
@@ -28,7 +69,7 @@
     <div class="mc-hero">
       <h1>💬 Speak to a Counsellor</h1>
       <p>
-        Choose a counsellor and start a private conversation. A small token helps us maintain the platform and support verification.
+        To protect our counsellors and keep this service running, you must pay the consultation fee before unlocking the counsellor list.
       </p>
 
       <div class="mc-xp" aria-label="User journey indicators">
@@ -43,28 +84,61 @@
       </div>
     </div>
 
-    <!-- Payment panel (UI-only placeholders; swap links later) -->
+    <!-- PAYWALL PANEL -->
     <div class="mc-hero" style="margin-top:14px;">
-      <h1 style="font-size:1.15rem;">💳 Support Token (Optional but Recommended)</h1>
-      <p style="margin-bottom:12px;">
-        This small token supports counsellor verification, platform upkeep, and outreach. You can pay before or after your session.
+      <h1 style="font-size:1.15rem;">💳 Consultation Fee (Required)</h1>
+
+      <p style="margin-bottom:10px;">
+        All counsellors will remain locked until you pay and click <b>Verify</b>.
+        After you open WhatsApp, the first message will ask you to upload your receipt before the counsellor proceeds.
       </p>
+
       <div class="mc-btnrow">
-        <!-- Replace these with Paystack/Flutterwave links when ready -->
-        <a class="mc-btn primary" href="https://example.com/pay" target="_blank" rel="noopener">Pay Token</a>
-        <a class="mc-btn ghost" href="#counsellors">Choose a Counsellor</a>
+        <button id="btnPay" class="mc-btn primary">Pay Consultation Fee</button>
+        <button id="btnVerify" class="mc-btn ghost" disabled>Verify Payment</button>
+        <button id="btnEnd" class="mc-btn ghost" style="display:none;">End Session (Lock Counsellors)</button>
       </div>
+
+      <div id="payDetails" class="mc-locknote mc-paybox" style="display:none;">
+        <div style="font-weight:800;margin-bottom:6px;">Bank Transfer Details</div>
+
+        <!-- EDIT THESE -->
+        <p><b>Bank:</b> ________</p>
+        <p><b>Account Name:</b> ________</p>
+        <p><b>Account Number:</b> ________</p>
+        <p><b>Amount:</b> ₦<span id="feeAmount">_____</span></p>
+        <p><b>Narration:</b> MindCheck - Full Name - Phone</p>
+
+        <div class="mc-mini">
+          After payment, enter your details below and click <b>Verify Payment</b> to unlock counsellors.
+        </div>
+
+        <label for="payerName"><b>Your Full Name</b></label>
+        <input id="payerName" class="mc-input" type="text" placeholder="e.g. Ngozi Offorka" />
+
+        <label for="payerPhone"><b>Your Phone Number</b></label>
+        <input id="payerPhone" class="mc-input" type="tel" placeholder="e.g. 080..." />
+
+        <label for="payerNote"><b>Optional Note (Bank / Time Paid)</b></label>
+        <input id="payerNote" class="mc-input" type="text" placeholder="e.g. GTBank, 10 Jan 2026 6:15pm" />
+      </div>
+
       <div style="margin-top:10px;font-size:.9rem;opacity:.9;">
         If you’re in immediate danger, call <b>112</b> or contact a trusted adult right away.
       </div>
     </div>
 
     <h2 id="counsellors" style="margin:16px 0 8px;">Available Counsellors</h2>
-    <p style="margin-top:0;opacity:.9;">Tap a counsellor to start WhatsApp or view their profile details.</p>
+    <p style="margin-top:0;opacity:.9;">Counsellors unlock after verification. Tap one to start WhatsApp.</p>
 
-    <div class="mc-grid">
-      <!-- Example card 1 -->
-      <a class="mc-card" href="https://wa.me/2348118103510?text=Hello%20SpeakOut%2C%20I%20want%20to%20speak%20to%20a%20counsellor.%20My%20name%20is%20____.%20" target="_blank" rel="noopener">
+    <div class="mc-grid" id="counsellorGrid">
+      <!-- NOTE: change href="#" and add data-wa only. JS will build the WhatsApp link. -->
+
+      <!-- Counsellor 1 -->
+      <a class="mc-card is-locked counsellor-card"
+         href="#"
+         data-wa="2348118103510"
+         data-counsellor="Offorka Jerry">
         <div class="mc-profile">
           <div class="mc-avatar frame-gold" aria-hidden="true">🧑‍⚕️</div>
           <div>
@@ -73,14 +147,17 @@
             <div class="mc-chips">
               <span class="mc-chip live">🟢 Live</span>
               <span class="mc-chip star">⭐ Verified</span>
-              <span class="mc-chip">⏱️ 15–30 mins</span>
+              <span class="mc-chip">⏱️ 1 hour</span>
             </div>
           </div>
         </div>
       </a>
 
-      <!-- Example card 2 -->
-      <a class="mc-card" href="https://wa.me/2348118103510?text=Hello%20SpeakOut%2C%20please%20connect%20me%20to%20Counsellor%20B.%20My%20name%20is%20____.%20" target="_blank" rel="noopener">
+      <!-- Counsellor 2 -->
+      <a class="mc-card is-locked counsellor-card"
+         href="#"
+         data-wa="2348118103510"
+         data-counsellor="Adedu Feyintola">
         <div class="mc-profile">
           <div class="mc-avatar frame-sky" aria-hidden="true">👩🏽‍💼</div>
           <div>
@@ -95,8 +172,11 @@
         </div>
       </a>
 
-      <!-- Example card 3 -->
-      <a class="mc-card" href="https://wa.me/2348118103510?text=Hello%20SpeakOut%2C%20I%20need%20someone%20to%20talk%20to.%20My%20name%20is%20____.%20" target="_blank" rel="noopener">
+      <!-- Counsellor 3 -->
+      <a class="mc-card is-locked counsellor-card"
+         href="#"
+         data-wa="2348118103510"
+         data-counsellor="Aisha Musa">
         <div class="mc-profile">
           <div class="mc-avatar frame-violet" aria-hidden="true">🧠</div>
           <div>
@@ -117,18 +197,18 @@
       <div class="mc-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
         <div class="mc-card" style="cursor:default;">
           <div class="mc-big">①</div>
-          <h3>Choose a counsellor</h3>
-          <p>Pick someone available and start a private chat.</p>
+          <h3>Pay & verify</h3>
+          <p>Pay the consultation fee and unlock counsellors on this page.</p>
         </div>
         <div class="mc-card" style="cursor:default;">
           <div class="mc-big">②</div>
-          <h3>Talk privately</h3>
-          <p>Your conversation should be respectful and supportive.</p>
+          <h3>Upload receipt on WhatsApp</h3>
+          <p>Your first message will request your payment receipt before counselling starts.</p>
         </div>
         <div class="mc-card" style="cursor:default;">
           <div class="mc-big">③</div>
-          <h3>Support token</h3>
-          <p>Small payment helps maintain verification and operations.</p>
+          <h3>1-hour session</h3>
+          <p>Your 1-hour session starts after the counsellor confirms payment.</p>
         </div>
       </div>
 
@@ -154,7 +234,102 @@
         if(t === 'night') document.documentElement.setAttribute('data-theme','night');
       }catch(e){}
     })();
+
+    // ===== Paywall Logic (manual verify) =====
+    (function(){
+      const btnPay = document.getElementById('btnPay');
+      const btnVerify = document.getElementById('btnVerify');
+      const btnEnd = document.getElementById('btnEnd');
+      const payDetails = document.getElementById('payDetails');
+
+      const payerName = document.getElementById('payerName');
+      const payerPhone = document.getElementById('payerPhone');
+      const payerNote = document.getElementById('payerNote');
+
+      const cards = Array.from(document.querySelectorAll('.counsellor-card'));
+
+      function lockAll(){
+        cards.forEach(c => c.classList.add('is-locked'));
+        btnEnd.style.display = 'none';
+        // optional: clear verified flag
+        try { localStorage.removeItem('mc_paid_verified'); } catch(e){}
+      }
+
+      function unlockAll(){
+        cards.forEach(c => c.classList.remove('is-locked'));
+        btnEnd.style.display = 'inline-flex';
+        try { localStorage.setItem('mc_paid_verified','1'); } catch(e){}
+      }
+
+      // Start locked
+      lockAll();
+
+      // If you want unlock to persist after refresh, keep this:
+      try {
+        if(localStorage.getItem('mc_paid_verified') === '1') unlockAll();
+      } catch(e){}
+
+      btnPay.addEventListener('click', function(){
+        payDetails.style.display = 'block';
+        btnVerify.disabled = false;
+        // small UX: scroll to details
+        payDetails.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+
+      btnVerify.addEventListener('click', function(){
+        // "Manual verify" = user confirms they've paid.
+        // Unlock counsellors so they can choose. Enforcement is in WhatsApp receipt request.
+        unlockAll();
+        // scroll to counsellors
+        document.getElementById('counsellors').scrollIntoView({behavior:'smooth', block:'start'});
+      });
+
+      btnEnd.addEventListener('click', function(){
+        lockAll();
+        // optional: also clear payer fields
+        payerName.value = '';
+        payerPhone.value = '';
+        payerNote.value = '';
+      });
+
+      // Build WhatsApp links with forced receipt request
+      function buildWhatsAppLink(phone, counsellor){
+        const name = (payerName.value || '____').trim();
+        const userPhone = (payerPhone.value || '____').trim();
+        const note = (payerNote.value || '').trim();
+
+        const msg =
+`Hello ${counsellor},
+I want to start a counselling session via SpeakOut MindCheck.
+
+⚠️ BEFORE WE PROCEED: Please, I will upload my payment receipt here now as required.
+
+Name: ${name}
+Phone: ${userPhone}
+Consultation fee paid: ₦____
+Payment note (optional): ${note || '____'}
+
+Kindly confirm payment. Once confirmed, please start the 1-hour session timer.`;
+
+        return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      }
+
+      // Attach click behavior to each counsellor
+      cards.forEach(card => {
+        card.addEventListener('click', function(e){
+          e.preventDefault();
+
+          // If locked, do nothing (paywall)
+          if(card.classList.contains('is-locked')) return;
+
+          const phone = card.getAttribute('data-wa');
+          const counsellor = card.getAttribute('data-counsellor') || 'Counsellor';
+
+          const url = buildWhatsAppLink(phone, counsellor);
+          window.open(url, '_blank', 'noopener');
+        });
+      });
+    })();
   </script>
 </body>
 </html>
-
