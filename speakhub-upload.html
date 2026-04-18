@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SpeakHub — Upload Certificate</title>
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="mc-theme.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="speakhub.html">← Back to SpeakHub</a>
 
+    <div class="card">
+      <h1>Upload Your ICT Certificate</h1>
+      <p>Complete a free external ICT course, then upload your certificate here for SpeakOut review and recognition.</p>
+
+      <form action="YOUR_GOOGLE_FORM_OR_FORMSPREE_LINK" method="POST" enctype="multipart/form-data">
+        <label>Full Name</label>
+        <input type="text" name="full_name" required>
+
+        <label>Email</label>
+        <input type="email" name="email" required>
+
+        <label>WhatsApp Number</label>
+        <input type="text" name="whatsapp" required>
+
+        <label>Course Track</label>
+        <select name="track" required>
+          <option value="">Select one</option>
+          <option>Web Development</option>
+          <option>UI/UX Design</option>
+          <option>Digital Marketing</option>
+        </select>
+
+        <label>Training Provider</label>
+        <input type="text" name="provider" placeholder="e.g. freeCodeCamp, Google, Coursera" required>
+
+        <label>Certificate File</label>
+        <input type="file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png" required>
+
+        <button class="btn btn-primary" type="submit">Submit for Verification</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
