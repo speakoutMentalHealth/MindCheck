@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SpeakHub — Free ICT Courses</title>
+  <title>SpeakHub Quest — Free ICT Courses</title>
   <link rel="icon" href="favicon.png" />
   <link rel="stylesheet" href="mc-theme.css" />
 </head>
@@ -11,37 +11,244 @@
   <div class="container">
     <a href="index.html">← Back to Home</a>
 
+    <!-- HERO / QUEST HEADER -->
     <div class="card">
-      <h1>SpeakHub</h1>
-      <p>Learn practical ICT skills through trusted free external courses. After completion, return here to upload your certificate for SpeakOut verification and recognition.</p>
+      <div class="badge">💻 SpeakHub Quest</div>
+      <h1>Learn. Upload. Get Recognized.</h1>
+      <p>
+        Start a free ICT course from a trusted external provider, complete it,
+        return to upload your certificate, and unlock SpeakOut recognition.
+      </p>
+
+      <div class="stats-grid" style="margin-top:16px;">
+        <div class="stat-card">
+          <div class="stat-label">Progress</div>
+          <div class="stat-value" id="questProgress">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Status</div>
+          <div class="stat-value" id="questStatus">Not started</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Reward</div>
+          <div class="stat-value">+50 pts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Badge</div>
+          <div class="stat-value" id="badgeStatus">Locked</div>
+        </div>
+      </div>
     </div>
 
+    <!-- HOW IT WORKS -->
+    <div class="card">
+      <h2>How this quest works</h2>
+      <ol class="clean-list">
+        <li>Pick a free ICT course below</li>
+        <li>Complete the course on the external platform</li>
+        <li>Come back and mark it as completed</li>
+        <li>Upload your certificate for verification</li>
+        <li>Unlock SpeakOut recognition after approval</li>
+      </ol>
+    </div>
+
+    <!-- QUEST STATUS -->
+    <div class="card">
+      <h2>Your Quest Steps</h2>
+      <div class="grid">
+        <div class="mini-card" id="stepCourse">
+          <h3>1. Course</h3>
+          <p>Not started</p>
+        </div>
+        <div class="mini-card" id="stepUpload">
+          <h3>2. Upload</h3>
+          <p>Locked</p>
+        </div>
+        <div class="mini-card" id="stepVerify">
+          <h3>3. Verification</h3>
+          <p>Locked</p>
+        </div>
+        <div class="mini-card" id="stepBadge">
+          <h3>4. Badge</h3>
+          <p>Locked</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- COURSES -->
     <div class="grid">
       <div class="card">
+        <div class="badge">🌐 Beginner Track</div>
         <h3>Web Development</h3>
         <p>Learn how websites work, from HTML and CSS to JavaScript basics.</p>
-        <a class="btn btn-primary" href="https://www.freecodecamp.org/" target="_blank" rel="noopener">Start External Course</a>
+        <p><strong>Reward:</strong> Start this course to begin your quest.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="https://www.freecodecamp.org/" target="_blank" rel="noopener">
+            Start External Course
+          </a>
+          <button class="btn btn-ghost" onclick="markCourseDone('Web Development')">
+            ✅ I Finished This Course
+          </button>
+        </div>
       </div>
 
       <div class="card">
+        <div class="badge">🎨 Creative Track</div>
         <h3>UI/UX Design</h3>
         <p>Learn design thinking, wireframing, and user-friendly interface design.</p>
-        <a class="btn btn-primary" href="https://www.coursera.org/" target="_blank" rel="noopener">Start External Course</a>
+        <p><strong>Reward:</strong> Complete and upload your certificate to qualify for recognition.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="https://www.coursera.org/" target="_blank" rel="noopener">
+            Start External Course
+          </a>
+          <button class="btn btn-ghost" onclick="markCourseDone('UI/UX Design')">
+            ✅ I Finished This Course
+          </button>
+        </div>
       </div>
 
       <div class="card">
+        <div class="badge">📣 Growth Track</div>
         <h3>Digital Marketing</h3>
         <p>Learn online branding, content strategy, and digital growth basics.</p>
-        <a class="btn btn-primary" href="https://learndigital.withgoogle.com/" target="_blank" rel="noopener">Start External Course</a>
+        <p><strong>Reward:</strong> Finish the course and return to unlock the upload step.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="https://learndigital.withgoogle.com/" target="_blank" rel="noopener">
+            Start External Course
+          </a>
+          <button class="btn btn-ghost" onclick="markCourseDone('Digital Marketing')">
+            ✅ I Finished This Course
+          </button>
+        </div>
       </div>
     </div>
 
+    <!-- UPLOAD SECTION -->
     <div class="card" style="margin-top:16px;">
       <h2>After You Finish</h2>
-      <p>When you complete any course, download your certificate and come back here to upload it for verification.</p>
-      <a class="btn btn-ghost" href="speakhub-upload.html">Upload Certificate</a>
+      <p id="uploadMessage">
+        Complete any course first. Once done, your certificate upload will unlock.
+      </p>
+      <a class="btn btn-ghost" id="uploadBtn" href="speakhub-upload.html" style="pointer-events:none; opacity:.5;">
+        Upload Certificate
+      </a>
+    </div>
+
+    <!-- REWARD BOX -->
+    <div class="card">
+      <h2>Your SpeakHub Rewards</h2>
+      <p id="rewardText">No rewards unlocked yet. Start a course to begin your journey.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-ghost" onclick="resetSpeakHubProgress()">Reset Progress</button>
+      </div>
     </div>
   </div>
+
+  <script>
+    function getSpeakHubState() {
+      return JSON.parse(localStorage.getItem("speakhubState") || JSON.stringify({
+        started: false,
+        completed: false,
+        uploadUnlocked: false,
+        verified: false,
+        badgeUnlocked: false,
+        selectedCourse: ""
+      }));
+    }
+
+    function saveSpeakHubState(state) {
+      localStorage.setItem("speakhubState", JSON.stringify(state));
+    }
+
+    function markCourseDone(courseName) {
+      const state = getSpeakHubState();
+      state.started = true;
+      state.completed = true;
+      state.uploadUnlocked = true;
+      state.selectedCourse = courseName;
+      saveSpeakHubState(state);
+      renderSpeakHubState();
+
+      alert(courseName + " completed! Certificate upload is now unlocked.");
+    }
+
+    function resetSpeakHubProgress() {
+      localStorage.removeItem("speakhubState");
+      renderSpeakHubState();
+    }
+
+    function renderSpeakHubState() {
+      const state = getSpeakHubState();
+
+      const progressEl = document.getElementById("questProgress");
+      const statusEl = document.getElementById("questStatus");
+      const badgeEl = document.getElementById("badgeStatus");
+      const uploadBtn = document.getElementById("uploadBtn");
+      const uploadMessage = document.getElementById("uploadMessage");
+      const rewardText = document.getElementById("rewardText");
+
+      const stepCourse = document.getElementById("stepCourse").querySelector("p");
+      const stepUpload = document.getElementById("stepUpload").querySelector("p");
+      const stepVerify = document.getElementById("stepVerify").querySelector("p");
+      const stepBadge = document.getElementById("stepBadge").querySelector("p");
+
+      let progress = 0;
+      let status = "Not started";
+
+      if (state.started) {
+        progress = 25;
+        status = "Started";
+        stepCourse.textContent = "In progress";
+      } else {
+        stepCourse.textContent = "Not started";
+      }
+
+      if (state.completed) {
+        progress = 50;
+        status = "Course completed";
+        stepCourse.textContent = "Completed";
+        stepUpload.textContent = "Unlocked";
+        uploadBtn.style.pointerEvents = "auto";
+        uploadBtn.style.opacity = "1";
+        uploadMessage.textContent =
+          "Nice work! Your upload step is now unlocked. Upload your certificate for verification.";
+        rewardText.textContent =
+          "Quest active: Course completed. Upload your certificate to move to the next level.";
+      } else {
+        stepUpload.textContent = "Locked";
+        uploadBtn.style.pointerEvents = "none";
+        uploadBtn.style.opacity = ".5";
+        uploadMessage.textContent =
+          "Complete any course first. Once done, your certificate upload will unlock.";
+        rewardText.textContent =
+          "No rewards unlocked yet. Start a course to begin your journey.";
+      }
+
+      if (state.verified) {
+        progress = 75;
+        status = "Verified";
+        stepVerify.textContent = "Approved";
+      } else {
+        stepVerify.textContent = state.completed ? "Pending review" : "Locked";
+      }
+
+      if (state.badgeUnlocked) {
+        progress = 100;
+        status = "Badge unlocked";
+        badgeEl.textContent = "Unlocked";
+        stepBadge.textContent = "Earned";
+        rewardText.textContent =
+          "Congratulations! You unlocked your SpeakHub badge and earned recognition.";
+      } else {
+        badgeEl.textContent = "Locked";
+        stepBadge.textContent = state.verified ? "Ready to unlock" : "Locked";
+      }
+
+      progressEl.textContent = progress + "%";
+      statusEl.textContent = status;
+    }
+
+    renderSpeakHubState();
+  </script>
 </body>
 </html>
-
