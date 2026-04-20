@@ -217,7 +217,6 @@
   <div class="container">
     <a href="index.html">← Back to Home</a>
 
-    <!-- HERO -->
     <div class="hero-card">
       <span class="hero-badge">🚀 SpeakHub</span>
       <h1 class="hero-title">Learn skills. Access opportunities. Build your future.</h1>
@@ -246,7 +245,6 @@
       </p>
     </div>
 
-    <!-- INTRO -->
     <div class="card">
       <h2 class="section-title">Choose your skill track</h2>
       <p class="section-text">
@@ -255,9 +253,7 @@
       </p>
     </div>
 
-    <!-- COURSES -->
     <div class="course-grid" id="courses">
-      <!-- Web Development -->
       <div class="course-card">
         <span class="track-pill">🌐 Beginner Track</span>
         <h3>Web Development</h3>
@@ -285,7 +281,6 @@
         </div>
       </div>
 
-      <!-- UI/UX -->
       <div class="course-card">
         <span class="track-pill">🎨 Creative Track</span>
         <h3>UI/UX Design</h3>
@@ -313,7 +308,6 @@
         </div>
       </div>
 
-      <!-- Digital Marketing -->
       <div class="course-card">
         <span class="track-pill">📣 Growth Track</span>
         <h3>Digital Marketing</h3>
@@ -342,7 +336,6 @@
       </div>
     </div>
 
-    <!-- CAREER AND EMPOWERMENT OPPORTUNITIES -->
     <div class="card" style="margin-top:22px;">
       <h2 class="section-title">Career and Empowerment Opportunities</h2>
       <p class="section-text">
@@ -371,7 +364,14 @@
         <h3>Scholarships & Grants</h3>
         <p>Discover scholarships, grants, fellowships, and education support opportunities.</p>
         <div class="course-meta">Helpful for students looking for funding and academic support.</div>
-        <div class="status-box">Coming soon</div>
+
+        <div class="action-stack">
+          <a class="btn btn-primary" href="scholarships-grants.html">
+            Explore Scholarships & Grants
+          </a>
+        </div>
+
+        <div class="status-box">Now open</div>
       </div>
 
       <div class="course-card">
@@ -379,11 +379,17 @@
         <h3>Youth Empowerment Opportunities</h3>
         <p>Access empowerment programs, ambassador roles, volunteering opportunities, and income pathways.</p>
         <div class="course-meta">Designed to help students build confidence, exposure, and earning potential.</div>
-        <div class="status-box">Coming soon</div>
+
+        <div class="action-stack">
+          <a class="btn btn-primary" href="youth-empowerment.html">
+            Explore Youth Empowerment
+          </a>
+        </div>
+
+        <div class="status-box">Now open</div>
       </div>
     </div>
 
-    <!-- CERTIFICATE -->
     <div class="certificate-card" id="certificate-section">
       <h2>SpeakHub Certificate and Recognition</h2>
       <p>
@@ -428,7 +434,6 @@
     function renderSpeakHubState() {
       const state = getSpeakHubState();
       const tracks = ["Web Development", "UI/UX Design", "Digital Marketing"];
-
       let completedCount = 0;
 
       tracks.forEach(track => {
