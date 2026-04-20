@@ -6,42 +6,269 @@
   <title>SpeakHub — Upload Certificate</title>
   <link rel="icon" href="favicon.png" />
   <link rel="stylesheet" href="mc-theme.css" />
+  <style>
+    .hero-card {
+      padding: 28px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,153,255,.10), rgba(0,200,120,.08));
+      border: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 18px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      margin: 0 0 12px;
+    }
+
+    .hero-text {
+      font-size: 1.05rem;
+      opacity: .92;
+      max-width: 760px;
+      margin-bottom: 18px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .form-card,
+    .info-card {
+      padding: 24px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    .form-card h2,
+    .info-card h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .form-card p,
+    .info-card p {
+      opacity: .92;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field-group label {
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: inherit;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .field-group input[type="file"] {
+      padding: 12px;
+    }
+
+    .field-group textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .helper-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      font-size: .95rem;
+    }
+
+    .steps-list {
+      margin: 14px 0 0;
+      padding-left: 18px;
+      line-height: 1.7;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: rgba(0,153,255,.12);
+    }
+
+    .submit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .note {
+      font-size: .92rem;
+      opacity: .8;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-card,
+      .form-card,
+      .info-card {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <a href="speakhub.html">← Back to SpeakHub</a>
 
-    <div class="card">
-      <h1>Upload Your ICT Certificate</h1>
-      <p>Complete a free external ICT course, then upload your certificate here for SpeakOut review and recognition.</p>
+    <!-- HERO -->
+    <div class="hero-card">
+      <span class="hero-badge">📤 Certificate Upload</span>
+      <h1 class="hero-title">Upload your course certificate for verification</h1>
+      <p class="hero-text">
+        Complete your external ICT course, return to SpeakHub, and upload your certificate here for review.
+        Once approved, you can qualify for SpeakHub recognition and certification.
+      </p>
+    </div>
 
-      <form action="YOUR_GOOGLE_FORM_OR_FORMSPREE_LINK" method="POST" enctype="multipart/form-data">
-        <label>Full Name</label>
-        <input type="text" name="full_name" required>
+    <div class="page-grid">
+      <!-- FORM -->
+      <div class="form-card">
+        <h2>Submit Your Certificate</h2>
+        <p>Please fill in your details carefully and upload a clear copy of your certificate.</p>
 
-        <label>Email</label>
-        <input type="email" name="email" required>
+        <form action="YOUR_GOOGLE_FORM_OR_FORMSPREE_LINK" method="POST" enctype="multipart/form-data" class="form-grid">
+          <div class="field-group">
+            <label for="full_name">Full Name</label>
+            <input id="full_name" type="text" name="full_name" placeholder="Enter your full name" required>
+          </div>
 
-        <label>WhatsApp Number</label>
-        <input type="text" name="whatsapp" required>
+          <div class="field-group">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" name="email" placeholder="Enter your email" required>
+          </div>
 
-        <label>Course Track</label>
-        <select name="track" required>
-          <option value="">Select one</option>
-          <option>Web Development</option>
-          <option>UI/UX Design</option>
-          <option>Digital Marketing</option>
-        </select>
+          <div class="field-group">
+            <label for="whatsapp">WhatsApp Number</label>
+            <input id="whatsapp" type="text" name="whatsapp" placeholder="Enter your WhatsApp number" required>
+          </div>
 
-        <label>Training Provider</label>
-        <input type="text" name="provider" placeholder="e.g. freeCodeCamp, Google, Coursera" required>
+          <div class="field-group">
+            <label for="track">Course Track</label>
+            <select id="track" name="track" required>
+              <option value="">Select one</option>
+              <option>Web Development</option>
+              <option>UI/UX Design</option>
+              <option>Digital Marketing</option>
+            </select>
+          </div>
 
-        <label>Certificate File</label>
-        <input type="file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png" required>
+          <div class="field-group">
+            <label for="provider">Training Provider</label>
+            <input id="provider" type="text" name="provider" placeholder="e.g. freeCodeCamp, Google, Coursera" required>
+          </div>
 
-        <button class="btn btn-primary" type="submit">Submit for Verification</button>
-      </form>
+          <div class="field-group">
+            <label for="certificate_file">Certificate File</label>
+            <input id="certificate_file" type="file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png" required>
+          </div>
+
+          <div class="field-group">
+            <label for="notes">Optional Note</label>
+            <textarea id="notes" name="notes" placeholder="Add any extra note if needed"></textarea>
+          </div>
+
+          <div class="submit-row">
+            <button class="btn btn-primary" type="submit">Submit for Verification</button>
+            <a class="btn btn-ghost" href="speakhub.html">Back to SpeakHub</a>
+          </div>
+
+          <div class="note">
+            Accepted formats: PDF, JPG, JPEG, PNG
+          </div>
+        </form>
+      </div>
+
+      <!-- SIDE INFO -->
+      <div class="info-card">
+        <span class="status-pill">✅ What happens next?</span>
+        <h2>Verification Process</h2>
+        <p>
+          After submission, your certificate will be reviewed to confirm your course completion
+          and training provider details.
+        </p>
+
+        <ol class="steps-list">
+          <li>Complete your external course</li>
+          <li>Download your course certificate</li>
+          <li>Upload it here for review</li>
+          <li>Wait for verification</li>
+          <li>Unlock SpeakHub recognition and certificate eligibility</li>
+        </ol>
+
+        <div class="helper-box">
+          <strong>Tip:</strong> Make sure the name on your certificate matches the name you enter in this form.
+        </div>
+
+        <div class="helper-box">
+          <strong>Selected Track:</strong>
+          <span id="selectedTrackText">No track selected yet</span>
+        </div>
+      </div>
     </div>
   </div>
+
+  <script>
+    // Prefill course track from URL, e.g. speakhub-upload.html?track=Web%20Development
+    const params = new URLSearchParams(window.location.search);
+    const track = params.get("track");
+
+    if (track) {
+      const trackField = document.getElementById("track");
+      const trackText = document.getElementById("selectedTrackText");
+
+      trackField.value = track;
+      trackText.textContent = track;
+    }
+  </script>
 </body>
 </html>
