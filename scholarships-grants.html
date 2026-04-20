@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scholarships & Grants — SpeakHub</title>
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="mc-theme.css" />
+  <style>
+    .hero-card {
+      padding: 28px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,153,255,.10), rgba(0,200,120,.08));
+      border: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 18px;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,.08);
+    }
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      margin: 0 0 12px;
+    }
+    .hero-text {
+      font-size: 1.05rem;
+      opacity: .92;
+      max-width: 760px;
+      margin-bottom: 18px;
+    }
+    .opportunity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .opportunity-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+    .track-pill {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: rgba(0,153,255,.12);
+    }
+    .opportunity-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+    .opportunity-card p {
+      margin: 0 0 12px;
+      opacity: .92;
+    }
+    .opportunity-meta {
+      font-size: .93rem;
+      opacity: .82;
+      margin-bottom: 16px;
+    }
+    .status-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: .95rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    @media (max-width: 640px) {
+      .hero-card,
+      .opportunity-card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="speakhub.html">← Back to SpeakHub</a>
+
+    <div class="hero-card">
+      <span class="hero-badge">🎓 Scholarships & Grants</span>
+      <h1 class="hero-title">Funding opportunities to support your growth</h1>
+      <p class="hero-text">
+        Explore scholarships, grants, fellowships, and funding opportunities that can help students
+        and young people continue learning and reduce financial pressure.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Funding Sources</h2>
+      <p>Choose a source below to explore scholarships and grant opportunities.</p>
+    </div>
+
+    <div class="opportunity-grid">
+      <div class="opportunity-card">
+        <span class="track-pill">🌍 Scholarship</span>
+        <h3>International Scholarships</h3>
+        <p>Find global scholarship opportunities for undergraduate and postgraduate learners.</p>
+        <div class="opportunity-meta">Helpful for students seeking broad education funding options.</div>
+        <a class="btn btn-primary" href="https://www.scholarships.com/" target="_blank" rel="noopener">Explore Scholarships</a>
+        <div class="status-box">Live opportunity source</div>
+      </div>
+
+      <div class="opportunity-card">
+        <span class="track-pill">💰 Grant</span>
+        <h3>Student Grants</h3>
+        <p>Discover grants and support opportunities that may help with education and project growth.</p>
+        <div class="opportunity-meta">Useful for students and young people seeking financial support.</div>
+        <a class="btn btn-primary" href="https://www.opportunitydesk.org/" target="_blank" rel="noopener">Explore Grants</a>
+        <div class="status-box">Live opportunity source</div>
+      </div>
+
+      <div class="opportunity-card">
+        <span class="track-pill">🚀 Fellowship</span>
+        <h3>Fellowships & Academic Opportunities</h3>
+        <p>Explore fellowships and academic development opportunities for young leaders and learners.</p>
+        <div class="opportunity-meta">Ideal for ambitious students and early-career changemakers.</div>
+        <a class="btn btn-primary" href="https://www.opportunitiesforafricans.com/" target="_blank" rel="noopener">Explore Fellowships</a>
+        <div class="status-box">Live opportunity source</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
