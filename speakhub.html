@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SpeakHub Quest — Free ICT Courses</title>
+  <title>SpeakHub — Skills, Opportunities, and Recognition</title>
   <link rel="icon" href="favicon.png" />
   <link rel="stylesheet" href="mc-theme.css" />
   <style>
@@ -219,11 +219,11 @@
 
     <!-- HERO -->
     <div class="hero-card">
-      <span class="hero-badge">💻 SpeakHub Quest</span>
-      <h1 class="hero-title">Grow your digital skills. Get recognized. Build your future.</h1>
+      <span class="hero-badge">🚀 SpeakHub</span>
+      <h1 class="hero-title">Learn skills. Access opportunities. Build your future.</h1>
       <p class="hero-text">
-        Start a free ICT course from trusted learning platforms, complete it at your own pace,
-        upload your certificate for verification, and unlock your SpeakHub skill certificate.
+        SpeakHub helps students and young people learn digital skills, discover career and empowerment opportunities,
+        and grow through verified recognition.
       </p>
 
       <div class="hero-actions">
@@ -342,16 +342,50 @@
       </div>
     </div>
 
+    <!-- CAREER AND EMPOWERMENT OPPORTUNITIES -->
+    <div class="card" style="margin-top:22px;">
+      <h2 class="section-title">Career and Empowerment Opportunities</h2>
+      <p class="section-text">
+        Explore opportunities designed to help students and young people grow, earn, and succeed while in school and beyond.
+      </p>
+    </div>
+
+    <div class="course-grid">
+      <div class="course-card">
+        <span class="track-pill">💼 Career</span>
+        <h3>Jobs & Internships</h3>
+        <p>Find internships, entry-level roles, and student-friendly job opportunities.</p>
+        <div class="course-meta">Useful for students preparing for work experience and career growth.</div>
+        <div class="status-box">Coming soon</div>
+      </div>
+
+      <div class="course-card">
+        <span class="track-pill">🎓 Growth</span>
+        <h3>Scholarships & Grants</h3>
+        <p>Discover scholarships, grants, fellowships, and education support opportunities.</p>
+        <div class="course-meta">Helpful for students looking for funding and academic support.</div>
+        <div class="status-box">Coming soon</div>
+      </div>
+
+      <div class="course-card">
+        <span class="track-pill">🌱 Empowerment</span>
+        <h3>Youth Empowerment Opportunities</h3>
+        <p>Access empowerment programs, ambassador roles, volunteering opportunities, and income pathways.</p>
+        <div class="course-meta">Designed to help students build confidence, exposure, and earning potential.</div>
+        <div class="status-box">Coming soon</div>
+      </div>
+    </div>
+
     <!-- CERTIFICATE -->
     <div class="certificate-card" id="certificate-section">
-      <h2>Download Your SpeakHub Skill Certificate</h2>
+      <h2>SpeakHub Certificate and Recognition</h2>
       <p>
         After your uploaded course certificate is reviewed and verified, you will become eligible
-        for your SpeakHub skill certificate as recognition for your learning journey.
+        for SpeakHub recognition and your downloadable certificate.
       </p>
 
       <a class="btn btn-primary" id="downloadCertificateBtn" href="certificate.html" style="pointer-events:none; opacity:.5;">
-        Download SpeakHub Skill Certificate
+        Download SpeakHub Certificate
       </a>
 
       <div class="locked-note" id="certificateNote">
@@ -424,7 +458,7 @@
       if (state.certificateUnlocked) {
         downloadBtn.style.pointerEvents = "auto";
         downloadBtn.style.opacity = "1";
-        note.textContent = "Your SpeakHub skill certificate is ready for download.";
+        note.textContent = "Your SpeakHub certificate is ready for download.";
       } else {
         downloadBtn.style.pointerEvents = "none";
         downloadBtn.style.opacity = ".5";
