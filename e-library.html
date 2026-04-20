@@ -55,13 +55,49 @@
       opacity: .9;
     }
 
-    .library-grid {
+    .controls-card,
+    .contributors-card,
+    .recognition-card,
+    .intro-card {
+      margin-top: 22px;
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1.4fr .8fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .search-input,
+    .filter-select {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: inherit;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    .library-grid,
+    .contributors-grid,
+    .recognition-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 18px;
+      margin-top: 18px;
     }
 
-    .library-card {
+    .library-card,
+    .contributor-card,
+    .recognition-item {
       padding: 22px;
       border-radius: 22px;
       background: rgba(255,255,255,.03);
@@ -70,7 +106,8 @@
       transition: transform .2s ease, box-shadow .2s ease;
     }
 
-    .library-card:hover {
+    .library-card:hover,
+    .contributor-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 16px 34px rgba(0,0,0,.12);
     }
@@ -85,20 +122,45 @@
       background: rgba(0,153,255,.12);
     }
 
-    .library-card h3 {
+    .price-pill {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(0,200,120,.12);
+    }
+
+    .paid-pill {
+      background: rgba(255,180,0,.14);
+    }
+
+    .library-card h3,
+    .contributor-card h3 {
       margin: 0 0 10px;
       font-size: 1.2rem;
     }
 
-    .library-card p {
+    .library-card p,
+    .contributor-card p,
+    .recognition-card p {
       margin: 0 0 12px;
       opacity: .92;
     }
 
-    .library-meta {
+    .library-meta,
+    .contributor-meta {
       font-size: .93rem;
       opacity: .82;
       margin-bottom: 16px;
+    }
+
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
     }
 
     .status-box {
@@ -110,44 +172,9 @@
       border: 1px solid rgba(255,255,255,.06);
     }
 
-    .action-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
     .recognition-card {
-      margin-top: 22px;
-      padding: 24px;
-      border-radius: 24px;
       background: linear-gradient(135deg, rgba(0,200,120,.10), rgba(0,153,255,.08));
       border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .recognition-card h2 {
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    .recognition-card p {
-      margin-bottom: 16px;
-      opacity: .92;
-      max-width: 820px;
-    }
-
-    .recognition-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .recognition-item {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.06);
     }
 
     .recognition-item strong {
@@ -155,10 +182,34 @@
       margin-bottom: 6px;
     }
 
+    .hidden-card {
+      display: none !important;
+    }
+
+    .empty-state {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+      display: none;
+    }
+
+    @media (max-width: 760px) {
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 640px) {
       .hero-card,
+      .controls-card,
+      .contributors-card,
+      .recognition-card,
+      .intro-card,
       .library-card,
-      .recognition-card {
+      .contributor-card,
+      .recognition-item {
         padding: 18px;
       }
     }
@@ -185,7 +236,7 @@
     </div>
 
     <!-- INTRO -->
-    <div class="card">
+    <div class="intro-card">
       <h2 class="section-title">Explore the library</h2>
       <p class="section-text">
         Browse featured books, academic resources, awareness materials, and expert contributions designed to support
@@ -193,10 +244,73 @@
       </p>
     </div>
 
+    <!-- SEARCH + FILTER -->
+    <div class="controls-card">
+      <h2 class="section-title">Search and filter resources</h2>
+      <p class="section-text">
+        Use the search bar to find a resource quickly, and use the filter to view free materials, paid materials, or all shelves.
+      </p>
+
+      <div class="controls-grid">
+        <input
+          type="text"
+          id="librarySearch"
+          class="search-input"
+          placeholder="Search shelves, topics, or resource types..."
+        />
+
+        <select id="priceFilter" class="filter-select">
+          <option value="all">Show All</option>
+          <option value="free">Free Materials</option>
+          <option value="paid">Paid Materials</option>
+          <option value="mixed">Mixed Free + Paid</option>
+        </select>
+      </div>
+
+      <div class="empty-state" id="emptyState">
+        No matching shelves found. Try another keyword or change the filter.
+      </div>
+    </div>
+
+    <!-- FEATURED CONTRIBUTORS -->
+    <div class="contributors-card">
+      <h2 class="section-title">Featured Contributors</h2>
+      <p class="section-text">
+        This section highlights the type of experts and institutions whose work can be showcased through the SpeakOut E-Library.
+      </p>
+
+      <div class="contributors-grid">
+        <div class="contributor-card">
+          <span class="track-pill">👨‍⚕️ Clinical Contributor</span>
+          <h3>Doctors & Mental Health Professionals</h3>
+          <p>Feature expert books, educational resources, public awareness materials, and clinical knowledge tools.</p>
+          <div class="contributor-meta">For psychiatrists, psychologists, counsellors, therapists, and clinicians.</div>
+          <div class="status-box">Open for feature submissions</div>
+        </div>
+
+        <div class="contributor-card">
+          <span class="track-pill">🎓 Academic Contributor</span>
+          <h3>Professors & Researchers</h3>
+          <p>Spotlight scholarly books, papers, mental health teaching resources, and research-based materials.</p>
+          <div class="contributor-meta">For universities, researchers, faculty members, and academic authors.</div>
+          <div class="status-box">Open for feature submissions</div>
+        </div>
+
+        <div class="contributor-card">
+          <span class="track-pill">✍️ Author Spotlight</span>
+          <h3>Authors & Public Educators</h3>
+          <p>Showcase books, articles, thought pieces, and educational materials that improve mental health literacy.</p>
+          <div class="contributor-meta">For authors, public educators, NGOs, and institutional contributors.</div>
+          <div class="status-box">Open for feature submissions</div>
+        </div>
+      </div>
+    </div>
+
     <!-- FEATURED SHELVES -->
     <div class="library-grid" id="featured-shelves">
-      <div class="library-card">
+      <div class="library-card filter-card" data-type="mixed" data-search="mental health basics books foundational guides free paid beginner awareness">
         <span class="track-pill">🧠 Mental Health Basics</span>
+        <span class="price-pill">Free + Paid</span>
         <h3>Books & Foundational Guides</h3>
         <p>Discover beginner-friendly books and materials that explain mental health, emotional wellbeing, and care.</p>
         <div class="library-meta">Helpful for students, volunteers, and first-time readers.</div>
@@ -206,8 +320,9 @@
         <div class="status-box">Featured shelf</div>
       </div>
 
-      <div class="library-card">
+      <div class="library-card filter-card" data-type="mixed" data-search="research academic scholarly journals university professor papers free paid educational resources">
         <span class="track-pill">🎓 Academic</span>
+        <span class="price-pill">Free + Paid</span>
         <h3>Research & Academic Resources</h3>
         <p>Access research-driven materials, educational writeups, and scholarly mental health resources.</p>
         <div class="library-meta">Best for professors, researchers, medical students, and health professionals.</div>
@@ -217,8 +332,9 @@
         <div class="status-box">Featured shelf</div>
       </div>
 
-      <div class="library-card">
+      <div class="library-card filter-card" data-type="free" data-search="community awareness outreach education flyers guides public campaigns free materials">
         <span class="track-pill">🌍 Community</span>
+        <span class="price-pill">Free</span>
         <h3>Community Awareness Materials</h3>
         <p>Explore flyers, guides, awareness materials, and practical resources for outreach and education.</p>
         <div class="library-meta">Great for NGOs, community workers, and campus outreach teams.</div>
@@ -229,53 +345,9 @@
       </div>
     </div>
 
-    <!-- EXPERT SHOWCASE -->
-    <div class="card" style="margin-top:22px;">
-      <h2 class="section-title">Expert Showcase</h2>
-      <p class="section-text">
-        This space highlights doctors, professors, authors, clinicians, and institutions whose books,
-        articles, guides, and materials are featured within the SpeakOut E-Library.
-      </p>
-    </div>
-
-    <div class="library-grid">
-      <div class="library-card">
-        <span class="track-pill">👨‍⚕️ Clinical Expert</span>
-        <h3>Doctors & Clinicians</h3>
-        <p>Feature books, public education materials, and expert resources that improve mental health literacy.</p>
-        <div class="library-meta">Recognition pathway for psychiatrists, psychologists, counsellors, and clinicians.</div>
-        <div class="action-stack">
-          <a class="btn btn-primary" href="expert-submit.html">Showcase Clinical Work</a>
-        </div>
-        <div class="status-box">Open for submissions</div>
-      </div>
-
-      <div class="library-card">
-        <span class="track-pill">🏛️ Academic Expert</span>
-        <h3>Professors & Researchers</h3>
-        <p>Spotlight academic books, research materials, lecture guides, and educational mental health resources.</p>
-        <div class="library-meta">Built for universities, scholars, and contributors to mental health knowledge.</div>
-        <div class="action-stack">
-          <a class="btn btn-primary" href="expert-submit.html">Showcase Academic Work</a>
-        </div>
-        <div class="status-box">Open for submissions</div>
-      </div>
-
-      <div class="library-card">
-        <span class="track-pill">✍️ Author Spotlight</span>
-        <h3>Authors & Thought Leaders</h3>
-        <p>Feature published books, articles, personal development resources, and public education materials.</p>
-        <div class="library-meta">Ideal for authors and public voices shaping conversations around mental health.</div>
-        <div class="action-stack">
-          <a class="btn btn-primary" href="expert-submit.html">Showcase Published Work</a>
-        </div>
-        <div class="status-box">Open for submissions</div>
-      </div>
-    </div>
-
     <!-- RECOGNITION -->
     <div class="recognition-card">
-      <h2>Recognition through the SpeakOut E-Library</h2>
+      <h2 class="section-title">Recognition through the SpeakOut E-Library</h2>
       <p>
         Contributors featured in the E-Library can gain visibility, credibility, and recognition through
         their association with a growing mental health platform built for education, awareness, and impact.
@@ -301,5 +373,40 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const searchInput = document.getElementById("librarySearch");
+    const priceFilter = document.getElementById("priceFilter");
+    const cards = document.querySelectorAll(".filter-card");
+    const emptyState = document.getElementById("emptyState");
+
+    function filterLibrary() {
+      const searchValue = searchInput.value.toLowerCase().trim();
+      const filterValue = priceFilter.value;
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardType = card.dataset.type;
+        const cardSearch = card.dataset.search.toLowerCase();
+
+        const matchesSearch = cardSearch.includes(searchValue);
+        const matchesFilter =
+          filterValue === "all" ||
+          cardType === filterValue;
+
+        if (matchesSearch && matchesFilter) {
+          card.classList.remove("hidden-card");
+          visibleCount++;
+        } else {
+          card.classList.add("hidden-card");
+        }
+      });
+
+      emptyState.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    searchInput.addEventListener("input", filterLibrary);
+    priceFilter.addEventListener("change", filterLibrary);
+  </script>
 </body>
 </html>
