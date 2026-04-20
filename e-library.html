@@ -1,1 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SpeakOut E-Library — Expert Showcase</title>
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="mc-theme.css" />
+  <style>
+    .hero-card {
+      padding: 28px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,153,255,.10), rgba(0,200,120,.08));
+      border: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 18px;
+    }
 
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      margin: 0 0 12px;
+    }
+
+    .hero-text {
+      font-size: 1.05rem;
+      opacity: .92;
+      max-width: 820px;
+      margin-bottom: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .section-title {
+      margin: 10px 0 6px;
+      font-size: 1.4rem;
+    }
+
+    .section-text {
+      margin-bottom: 18px;
+      opacity: .9;
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .library-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .library-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 34px rgba(0,0,0,.12);
+    }
+
+    .track-pill {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: rgba(0,153,255,.12);
+    }
+
+    .library-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .library-card p {
+      margin: 0 0 12px;
+      opacity: .92;
+    }
+
+    .library-meta {
+      font-size: .93rem;
+      opacity: .82;
+      margin-bottom: 16px;
+    }
+
+    .status-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: .95rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .recognition-card {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,200,120,.10), rgba(0,153,255,.08));
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .recognition-card h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .recognition-card p {
+      margin-bottom: 16px;
+      opacity: .92;
+      max-width: 820px;
+    }
+
+    .recognition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .recognition-item {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .recognition-item strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 640px) {
+      .hero-card,
+      .library-card,
+      .recognition-card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html">← Back to Home</a>
+
+    <!-- HERO -->
+    <div class="hero-card">
+      <span class="hero-badge">📚 SpeakOut E-Library</span>
+      <h1 class="hero-title">Trusted mental health knowledge, resources, and expert showcase</h1>
+      <p class="hero-text">
+        The SpeakOut E-Library is a curated space where students, professionals, and the public can discover
+        mental health books, articles, guides, and educational materials from doctors, professors, authors,
+        and institutions. It is also a platform for experts to showcase their work and gain visibility.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#featured-shelves">Explore Library</a>
+        <a class="btn btn-ghost" href="expert-submit.html">Submit Your Work</a>
+      </div>
+    </div>
+
+    <!-- INTRO -->
+    <div class="card">
+      <h2 class="section-title">Explore the library</h2>
+      <p class="section-text">
+        Browse featured books, academic resources, awareness materials, and expert contributions designed to support
+        learning, mental health awareness, and professional visibility.
+      </p>
+    </div>
+
+    <!-- FEATURED SHELVES -->
+    <div class="library-grid" id="featured-shelves">
+      <div class="library-card">
+        <span class="track-pill">🧠 Mental Health Basics</span>
+        <h3>Books & Foundational Guides</h3>
+        <p>Discover beginner-friendly books and materials that explain mental health, emotional wellbeing, and care.</p>
+        <div class="library-meta">Helpful for students, volunteers, and first-time readers.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="mental-health-basics.html">Open Shelf</a>
+        </div>
+        <div class="status-box">Featured shelf</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">🎓 Academic</span>
+        <h3>Research & Academic Resources</h3>
+        <p>Access research-driven materials, educational writeups, and scholarly mental health resources.</p>
+        <div class="library-meta">Best for professors, researchers, medical students, and health professionals.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="research-academic.html">Open Shelf</a>
+        </div>
+        <div class="status-box">Featured shelf</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">🌍 Community</span>
+        <h3>Community Awareness Materials</h3>
+        <p>Explore flyers, guides, awareness materials, and practical resources for outreach and education.</p>
+        <div class="library-meta">Great for NGOs, community workers, and campus outreach teams.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="community-awareness.html">Open Shelf</a>
+        </div>
+        <div class="status-box">Featured shelf</div>
+      </div>
+    </div>
+
+    <!-- EXPERT SHOWCASE -->
+    <div class="card" style="margin-top:22px;">
+      <h2 class="section-title">Expert Showcase</h2>
+      <p class="section-text">
+        This space highlights doctors, professors, authors, clinicians, and institutions whose books,
+        articles, guides, and materials are featured within the SpeakOut E-Library.
+      </p>
+    </div>
+
+    <div class="library-grid">
+      <div class="library-card">
+        <span class="track-pill">👨‍⚕️ Clinical Expert</span>
+        <h3>Doctors & Clinicians</h3>
+        <p>Feature books, public education materials, and expert resources that improve mental health literacy.</p>
+        <div class="library-meta">Recognition pathway for psychiatrists, psychologists, counsellors, and clinicians.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="expert-submit.html">Showcase Clinical Work</a>
+        </div>
+        <div class="status-box">Open for submissions</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">🏛️ Academic Expert</span>
+        <h3>Professors & Researchers</h3>
+        <p>Spotlight academic books, research materials, lecture guides, and educational mental health resources.</p>
+        <div class="library-meta">Built for universities, scholars, and contributors to mental health knowledge.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="expert-submit.html">Showcase Academic Work</a>
+        </div>
+        <div class="status-box">Open for submissions</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">✍️ Author Spotlight</span>
+        <h3>Authors & Thought Leaders</h3>
+        <p>Feature published books, articles, personal development resources, and public education materials.</p>
+        <div class="library-meta">Ideal for authors and public voices shaping conversations around mental health.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="expert-submit.html">Showcase Published Work</a>
+        </div>
+        <div class="status-box">Open for submissions</div>
+      </div>
+    </div>
+
+    <!-- RECOGNITION -->
+    <div class="recognition-card">
+      <h2>Recognition through the SpeakOut E-Library</h2>
+      <p>
+        Contributors featured in the E-Library can gain visibility, credibility, and recognition through
+        their association with a growing mental health platform built for education, awareness, and impact.
+      </p>
+
+      <div class="recognition-grid">
+        <div class="recognition-item">
+          <strong>Featured Author</strong>
+          Recognizes authors whose books or published materials are showcased in the library.
+        </div>
+        <div class="recognition-item">
+          <strong>Academic Contributor</strong>
+          Highlights professors and researchers whose academic resources are featured.
+        </div>
+        <div class="recognition-item">
+          <strong>Clinical Knowledge Partner</strong>
+          Showcases doctors and mental health professionals contributing trusted resources.
+        </div>
+        <div class="recognition-item">
+          <strong>Community Education Contributor</strong>
+          Recognizes public education materials and outreach-friendly mental health content.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
