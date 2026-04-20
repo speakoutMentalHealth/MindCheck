@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mental Health Basics — SpeakOut E-Library</title>
+  <link rel="icon" href="favicon.png" />
+  <link rel="stylesheet" href="mc-theme.css" />
+  <style>
+    .hero-card {
+      padding: 28px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,153,255,.10), rgba(0,200,120,.08));
+      border: 1px solid rgba(255,255,255,.08);
+      margin-bottom: 18px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.08;
+      margin: 0 0 12px;
+    }
+
+    .hero-text {
+      font-size: 1.05rem;
+      opacity: .92;
+      max-width: 820px;
+      margin-bottom: 18px;
+    }
+
+    .section-card {
+      margin-top: 22px;
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 1.45rem;
+    }
+
+    .section-text {
+      margin: 0;
+      opacity: .9;
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .library-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .library-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 34px rgba(0,0,0,.12);
+    }
+
+    .track-pill {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: rgba(0,153,255,.12);
+    }
+
+    .price-pill {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(0,200,120,.12);
+    }
+
+    .paid-pill {
+      background: rgba(255,180,0,.14);
+    }
+
+    .library-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .library-card p {
+      margin: 0 0 12px;
+      opacity: .92;
+    }
+
+    .library-meta {
+      font-size: .93rem;
+      opacity: .82;
+      margin-bottom: 16px;
+    }
+
+    .action-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .status-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: .95rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .note-card {
+      margin-top: 22px;
+      padding: 24px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(0,200,120,.10), rgba(0,153,255,.08));
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .note-card h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .note-card p {
+      margin-bottom: 0;
+      opacity: .92;
+      max-width: 820px;
+    }
+
+    @media (max-width: 640px) {
+      .hero-card,
+      .section-card,
+      .library-card,
+      .note-card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="e-library.html">← Back to E-Library</a>
+
+    <!-- HERO -->
+    <div class="hero-card">
+      <span class="hero-badge">🧠 Mental Health Basics</span>
+      <h1 class="hero-title">Foundational mental health materials for learning and awareness</h1>
+      <p class="hero-text">
+        This shelf includes both free and paid mental health resources to help students, volunteers,
+        community workers, and the public understand emotional wellbeing, stress, anxiety, depression,
+        and other core mental health topics.
+      </p>
+    </div>
+
+    <!-- INTRO -->
+    <div class="section-card">
+      <h2 class="section-title">About this shelf</h2>
+      <p class="section-text">
+        Browse trusted introductory resources, practical guides, public education materials, and books
+        that support learning and awareness. Some resources are freely accessible, while others are paid materials
+        available through official stores or publishers.
+      </p>
+    </div>
+
+    <!-- FREE MATERIALS -->
+    <div class="section-card">
+      <h2 class="section-title">Free Materials</h2>
+      <p class="section-text">
+        Open-access mental health resources, public education materials, and trusted introductory content.
+      </p>
+    </div>
+
+    <div class="library-grid">
+      <div class="library-card">
+        <span class="track-pill">🌍 Public Resource</span>
+        <span class="price-pill">Free</span>
+        <h3>WHO Mental Health Resources</h3>
+        <p>Explore foundational information and public mental health resources from the World Health Organization.</p>
+        <div class="library-meta">Good for beginners, students, and public education.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="https://www.who.int/health-topics/mental-health" target="_blank" rel="noopener">
+            Open Resource
+          </a>
+        </div>
+        <div class="status-box">Free official resource</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">📘 Educational Guide</span>
+        <span class="price-pill">Free</span>
+        <h3>NIMH Mental Health Information</h3>
+        <p>Access mental health basics, condition overviews, and public education content from NIMH.</p>
+        <div class="library-meta">Useful for awareness, teaching, and personal learning.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="https://www.nimh.nih.gov/health/topics" target="_blank" rel="noopener">
+            Open Resource
+          </a>
+        </div>
+        <div class="status-box">Free official resource</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">💬 Awareness</span>
+        <span class="price-pill">Free</span>
+        <h3>Mental Health Foundation Resources</h3>
+        <p>Browse practical mental health tips, awareness materials, and wellbeing information.</p>
+        <div class="library-meta">Helpful for outreach teams and everyday readers.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="https://www.mentalhealth.org.uk/explore-mental-health" target="_blank" rel="noopener">
+            Open Resource
+          </a>
+        </div>
+        <div class="status-box">Free public education resource</div>
+      </div>
+    </div>
+
+    <!-- PAID MATERIALS -->
+    <div class="section-card">
+      <h2 class="section-title">Paid Materials</h2>
+      <p class="section-text">
+        Books and materials available through official bookstores, publishers, or trusted commercial platforms.
+      </p>
+    </div>
+
+    <div class="library-grid">
+      <div class="library-card">
+        <span class="track-pill">📚 Book Shelf</span>
+        <span class="price-pill paid-pill">Paid</span>
+        <h3>Mental Health Books on Amazon</h3>
+        <p>Browse a wide range of books on mental health, emotional wellbeing, psychology, and self-help.</p>
+        <div class="library-meta">Useful for readers looking to buy books from a major online bookstore.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="https://www.amazon.com/s?k=mental+health+books" target="_blank" rel="noopener">
+            View Books
+          </a>
+        </div>
+        <div class="status-box">Paid materials via official store</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">🛒 Bookstore</span>
+        <span class="price-pill paid-pill">Paid</span>
+        <h3>Mental Health Titles on Google Books</h3>
+        <p>Search for previewable and purchasable mental health books from authors and publishers.</p>
+        <div class="library-meta">Good for book previews, summaries, and paid access options.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="https://books.google.com/" target="_blank" rel="noopener">
+            Search Books
+          </a>
+        </div>
+        <div class="status-box">Free previews / paid books</div>
+      </div>
+
+      <div class="library-card">
+        <span class="track-pill">🏪 Publisher Access</span>
+        <span class="price-pill paid-pill">Paid</span>
+        <h3>Wiley Mental Health Titles</h3>
+        <p>Explore professional and academic mental health books and resources from a major publisher.</p>
+        <div class="library-meta">Best for deeper reading and professional materials.</div>
+        <div class="action-stack">
+          <a class="btn btn-primary" href="https://www.wiley.com/" target="_blank" rel="noopener">
+            Visit Publisher
+          </a>
+        </div>
+        <div class="status-box">Paid publisher materials</div>
+      </div>
+    </div>
+
+    <!-- NOTE -->
+    <div class="note-card">
+      <h2>Want your material featured here?</h2>
+      <p>
+        Doctors, professors, authors, and institutions can submit books, guides, articles, and educational materials
+        for possible inclusion in the SpeakOut E-Library. Free and paid materials can both be featured, as long as
+        proper permission and official links are provided.
+      </p>
+      <div class="action-stack" style="margin-top:16px;">
+        <a class="btn btn-primary" href="expert-submit.html">Submit Your Work</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
