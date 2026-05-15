@@ -183,5 +183,3 @@ async function generateCertificate(name) {
 
   doc.save(name.replaceAll(" ", "_") + "_Leadership_Summit_2026_Certificate.pdf");
 }
-
-
