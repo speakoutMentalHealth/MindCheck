@@ -66,8 +66,9 @@ async function generateCertificate(name) {
   doc.rect(0, 18, pageWidth, 3, "F");
 
   // Logos
-  await addImageToPDF(doc, "Synia.png", 20, 25, 30, 30);
-  await addImageToPDF(doc, "speakout.png", 230, 25, 42, 28);
+  await addImageToPDF(doc, "Synia.PNG", 20, 25, 30, 30);
+  await addImageToPDF(doc, "speakout.PNG", 230, 25, 42, 28);
+  await addImageToPDF(doc, "bds.PNG", 230, 25, 42, 28);
 
   // Organization line
   doc.setFont("helvetica", "bold");
