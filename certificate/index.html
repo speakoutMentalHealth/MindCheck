@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+  <title>Leadership Summit Certificate Portal</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="top-box">
+      <h1>Leadership Development Summit 2026</h1>
+
+      <p>
+        Certificate Download Portal
+      </p>
+
+      <p>
+        Senior Aid Foundation in partnership with
+        SpeakOut Mental Health Outreach
+      </p>
+    </div>
+
+    <div class="form-box">
+
+      <h2>Download Your Certificate</h2>
+
+      <input
+        type="text"
+        id="fullname"
+        placeholder="Enter Full Name"
+      >
+
+      <input
+        type="text"
+        id="phone"
+        placeholder="Enter Phone Number"
+      >
+
+      <button onclick="verifyUser()">
+        Verify & Download
+      </button>
+
+      <p id="message"></p>
+
+    </div>
+
+  </div>
+
+  <script src="attendee-data.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
