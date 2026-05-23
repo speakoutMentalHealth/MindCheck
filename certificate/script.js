@@ -94,13 +94,10 @@ async function generateCertificate(name) {
   doc.setFillColor(202, 145, 38);
   doc.triangle(140, 13, 157, 13, 148.5, 24, "F");
 
-  await addImageToPDF(doc, baseUrl + "synia.PNG", 103, 24, 36, 32);
+  // Centered Logos
+await addImageToPDF(doc, baseUrl + "synia.PNG", 92, 22, 42, 36);
 
-  doc.setDrawColor(202, 145, 38);
-  doc.setLineWidth(0.5);
-  doc.line(148.5, 27, 148.5, 56);
-
-  await addImageToPDF(doc, baseUrl + "speakout.PNG", 158, 24, 42, 32);
+await addImageToPDF(doc, baseUrl + "speakout.PNG", 160, 23, 44, 34);
 
   doc.setFont("times", "bold");
   doc.setFontSize(41);
@@ -142,19 +139,19 @@ async function generateCertificate(name) {
 
   doc.setDrawColor(3, 39, 90);
   doc.setLineWidth(0.6);
-  doc.line(35, 188, 100, 188);
-  doc.line(197, 188, 262, 188);
+  doc.line(35, 182, 100, 182);
+  doc.line(197, 182, 262, 182);
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(9.5);
   doc.setTextColor(3, 39, 90);
-  doc.text("Authorized Signatory", 67.5, 194, { align: "center" });
-  doc.text("Program Coordinator", 229.5, 194, { align: "center" });
+  doc.text("Authorized Signatory", 67.5, 188, { align: "center" });
+  doc.text("Program Coordinator", 229.5, 188, { align: "center" });
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(8.5);
   doc.setTextColor(3, 39, 90);
-  doc.text("Certificate ID: " + certId, 18, 196);
+  doc.text("Certificate ID: " + certId, 18, 192);
 
   doc.save(name.replaceAll(" ", "_") + "_Leadership_Summit_2026_Certificate.pdf");
 }
