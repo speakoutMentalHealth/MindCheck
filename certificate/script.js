@@ -37,6 +37,7 @@ async function verifyUser() {
 async function addImageToPDF(doc, imagePath, x, y, width, height) {
   return new Promise((resolve) => {
     const img = new Image();
+
     img.crossOrigin = "Anonymous";
 
     img.onload = function () {
@@ -47,13 +48,17 @@ async function addImageToPDF(doc, imagePath, x, y, width, height) {
       const ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
 
-      const dataURL = canvas.toDataURL("image/png");
-      doc.addImage(dataURL, "PNG", x, y, width, height);
+      // Convert image to JPEG format
+      const base64data = canvas.toDataURL("image/jpeg");
+
+      // Add image into PDF
+      doc.addImage(base64data, "JPEG", x, y, width, height);
+
       resolve();
     };
 
     img.onerror = function () {
-      console.log("Image failed:", imagePath);
+      console.log("Failed to load image:", imagePath);
       resolve();
     };
 
