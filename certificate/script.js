@@ -35,35 +35,43 @@ async function verifyUser() {
 }
 
 async function addImageToPDF(doc, imagePath, x, y, width, height) {
-  return new Promise((resolve) => {
-    const img = new Image();
+  try {
+    const response = await fetch(imagePath + "?v=" + Date.now());
 
-    img.crossOrigin = "Anonymous";
+    if (!response.ok) {
+      console.log("Image response failed:", imagePath);
+      return;
+    }
 
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
+    const blob = await response.blob();
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
+    return new Promise((resolve) => {
+      const reader = new FileReader();
 
-      // Convert image to JPEG format
-      const base64data = canvas.toDataURL("image/jpeg");
+      reader.onloadend = function () {
+        const base64data = reader.result;
 
-      // Add image into PDF
-      doc.addImage(base64data, "JPEG", x, y, width, height);
+        let imageType = "PNG";
 
-      resolve();
-    };
+        if (base64data.includes("image/jpeg") || base64data.includes("image/jpg")) {
+          imageType = "JPEG";
+        }
 
-    img.onerror = function () {
-      console.log("Failed to load image:", imagePath);
-      resolve();
-    };
+        doc.addImage(base64data, imageType, x, y, width, height);
+        resolve();
+      };
 
-    img.src = imagePath;
-  });
+      reader.onerror = function () {
+        console.log("FileReader failed:", imagePath);
+        resolve();
+      };
+
+      reader.readAsDataURL(blob);
+    });
+
+  } catch (error) {
+    console.log("Logo failed to load:", imagePath, error);
+  }
 }
 
 async function generateCertificate(name) {
@@ -99,28 +107,14 @@ async function generateCertificate(name) {
   doc.setFillColor(202, 145, 38);
   doc.triangle(140, 13, 157, 13, 148.5, 24, "F");
 
-  // Centered Logos (fixed positioning)
-await addImageToPDF(
-  doc,
-  baseUrl + "synia.png",
-  88,
-  26,
-  46,
-  38
-);
+  // LOGOS
+  await addImageToPDF(doc, baseUrl + "synia.png", 90, 26, 45, 38);
 
-doc.setDrawColor(202, 145, 38);
-doc.setLineWidth(0.5);
-doc.line(148.5, 30, 148.5, 62);
+  doc.setDrawColor(202, 145, 38);
+  doc.setLineWidth(0.5);
+  doc.line(148.5, 30, 148.5, 62);
 
-await addImageToPDF(
-  doc,
-  baseUrl + "speakout.png",
-  158,
-  26,
-  48,
-  38
-);
+  await addImageToPDF(doc, baseUrl + "speakout.png", 160, 26, 48, 38);
 
   doc.setFont("times", "bold");
   doc.setFontSize(41);
@@ -135,7 +129,7 @@ await addImageToPDF(
   doc.setDrawColor(202, 145, 38);
   doc.setLineWidth(0.8);
   doc.line(78, 99, 118, 99);
-doc.line(179, 99, 219, 99);
+  doc.line(179, 99, 219, 99);
 
   doc.setFont("times", "italic");
   doc.setFontSize(14);
