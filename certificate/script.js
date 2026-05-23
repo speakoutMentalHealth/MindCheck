@@ -100,9 +100,9 @@ async function generateCertificate(name) {
   doc.triangle(140, 13, 157, 13, 148.5, 24, "F");
 
   // Centered Logos
-await addImageToPDF(doc, baseUrl + "synia.PNG", 92, 22, 42, 36);
+await addImageToPDF(doc, baseUrl + "synia.png", 92, 22, 42, 36);
 
-await addImageToPDF(doc, baseUrl + "speakout.PNG", 160, 23, 44, 34);
+await addImageToPDF(doc, baseUrl + "speakout.png", 160, 23, 44, 34);
 
   doc.setFont("times", "bold");
   doc.setFontSize(41);
