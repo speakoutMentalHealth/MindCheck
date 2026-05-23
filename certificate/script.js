@@ -3,7 +3,7 @@ async function verifyUser() {
   const phone = document.getElementById("phone").value.trim();
   const message = document.getElementById("message");
 
-  const apiURL = "PASTE_YOUR_SHEETDB_API_LINK_HERE";
+  const apiURL = "https://sheetdb.io/api/v1/6qum95yhsyqxs";
 
   try {
     const response = await fetch(apiURL);
