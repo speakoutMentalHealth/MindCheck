@@ -99,25 +99,43 @@ async function generateCertificate(name) {
   doc.setFillColor(202, 145, 38);
   doc.triangle(140, 13, 157, 13, 148.5, 24, "F");
 
-  // Centered Logos
-await addImageToPDF(doc, baseUrl + "synia.png", 92, 22, 42, 36);
+  // Centered Logos (fixed positioning)
+await addImageToPDF(
+  doc,
+  baseUrl + "synia.png",
+  88,
+  26,
+  46,
+  38
+);
 
-await addImageToPDF(doc, baseUrl + "speakout.png", 160, 23, 44, 34);
+doc.setDrawColor(202, 145, 38);
+doc.setLineWidth(0.5);
+doc.line(148.5, 30, 148.5, 62);
+
+await addImageToPDF(
+  doc,
+  baseUrl + "speakout.png",
+  158,
+  26,
+  48,
+  38
+);
 
   doc.setFont("times", "bold");
   doc.setFontSize(41);
   doc.setTextColor(170, 113, 18);
-  doc.text("CERTIFICATE", pageWidth / 2, 82, { align: "center" });
+  doc.text("CERTIFICATE", pageWidth / 2, 88, { align: "center" });
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(15);
   doc.setTextColor(3, 39, 90);
-  doc.text("OF PARTICIPATION", pageWidth / 2, 94, { align: "center" });
+  doc.text("OF PARTICIPATION", pageWidth / 2, 101, { align: "center" });
 
   doc.setDrawColor(202, 145, 38);
   doc.setLineWidth(0.8);
-  doc.line(78, 92, 118, 92);
-  doc.line(179, 92, 219, 92);
+  doc.line(78, 99, 118, 99);
+doc.line(179, 99, 219, 99);
 
   doc.setFont("times", "italic");
   doc.setFontSize(14);
