@@ -1,711 +1,776 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>SpeakOut Ambassador Program — MindCheck</title>
-  <link rel="icon" href="favicon.png"/>
-  <link rel="stylesheet" href="mc-theme.css"/>
-  <meta name="theme-color" content="#22c55e"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeakOut Ambassador Program</title>
+  <meta name="description" content="Apply to become a SpeakOut Ambassador and champion mental health awareness in schools, campuses and communities." />
+  <link rel="icon" href="favicon.png" />
 
   <style>
-    :root{
-      --green:#22c55e;
-      --greenDark:#16a34a;
-      --ink:#062436;
-      --bg:#f5fdf8;
-      --card:#ffffff;
-      --muted:#52606d;
-      --border:#eef2f7;
-      --shadow:0 10px 25px rgba(2,23,34,.06);
-      --gold:#f59e0b;
-      --blue:#0ea5e9;
-      --danger:#ef4444;
+    :root {
+      --primary: #0f8f4f;
+      --primary-dark: #066636;
+      --secondary: #0f3d5e;
+      --accent: #f2b705;
+      --bg: #f7faf8;
+      --white: #ffffff;
+      --text: #123024;
+      --muted: #5f6f66;
+      --border: #e4ece7;
+      --shadow: 0 18px 45px rgba(15, 61, 94, 0.08);
+      --radius: 22px;
     }
 
-    *{box-sizing:border-box;}
+    * {
+      box-sizing: border-box;
+    }
 
-    body{
-      margin:0;
-      font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-      color:var(--ink);
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-dark);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 20px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: 0 12px 24px rgba(15, 143, 79, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: var(--white);
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
       background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
-        radial-gradient(900px 500px at 90% 20%, rgba(14,165,233,.10), transparent 55%),
-        var(--bg);
-      overflow-x:hidden;
+        radial-gradient(circle at 12% 18%, rgba(15, 143, 79, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 10%, rgba(15, 61, 94, 0.16), transparent 28%),
+        linear-gradient(135deg, #eefaf3, #ffffff 55%, #eef6fb);
+      padding: 86px 0 70px;
+      border-bottom: 1px solid var(--border);
     }
 
-    body::before{
-      content:"";
-      position:fixed;
-      inset:-40vh -40vw;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(34,197,94,.10), transparent 35%),
-        radial-gradient(circle at 70% 40%, rgba(14,165,233,.09), transparent 38%),
-        radial-gradient(circle at 45% 70%, rgba(245,158,11,.08), transparent 40%);
-      filter:blur(10px);
-      animation:floaty 18s ease-in-out infinite;
-      pointer-events:none;
-      z-index:-1;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 46px;
     }
 
-    @keyframes floaty{
-      0%,100%{transform:translate3d(0,0,0) scale(1);}
-      50%{transform:translate3d(2vw,-2vh,0) scale(1.02);}
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 143, 79, 0.1);
+      color: var(--primary-dark);
+      border: 1px solid rgba(15, 143, 79, 0.16);
+      border-radius: 999px;
+      padding: 8px 13px;
+      font-size: 0.88rem;
+      font-weight: 900;
+      margin-bottom: 18px;
     }
 
-    header{
-      background:linear-gradient(90deg,var(--greenDark),var(--green));
-      color:#fff;
-      padding:1.1rem 1rem;
-      font-size:1.05rem;
-      font-weight:900;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      position:sticky;
-      top:0;
-      z-index:20;
-      box-shadow:0 8px 20px rgba(2,23,34,.08);
+    h1, h2, h3 {
+      line-height: 1.15;
+      margin-top: 0;
+      letter-spacing: -0.03em;
     }
 
-    header .left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-    header a{color:#fff;text-decoration:none;font-weight:900;}
-
-    .wrap{max-width:1080px;margin:18px auto 44px;padding:0 14px;}
-
-    .topbar{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      align-items:center;
-      margin:14px 0 10px;
+    h1 {
+      font-size: clamp(2.65rem, 5vw, 5rem);
+      margin-bottom: 18px;
+      color: #082719;
     }
 
-    .pill{
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:999px;
-      padding:8px 12px;
-      font-weight:800;
-      font-size:.94rem;
-      box-shadow:0 6px 18px rgba(2,23,34,.05);
+    h2 {
+      font-size: clamp(1.85rem, 3vw, 2.65rem);
+      margin-bottom: 14px;
+      color: #082719;
     }
 
-    .btn{
-      border:none;
-      padding:12px 16px;
-      border-radius:14px;
-      font-size:1rem;
-      cursor:pointer;
-      transition:.15s;
-      font-weight:900;
-      display:inline-flex;
-      gap:9px;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      min-height:44px;
+    h3 {
+      font-size: 1.22rem;
+      margin-bottom: 8px;
+      color: #102f22;
     }
 
-    .btn-primary{background:var(--green);color:#fff;box-shadow:0 10px 22px rgba(34,197,94,.25);}
-    .btn-primary:hover{background:var(--greenDark);transform:translateY(-1px);}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
-    .btn-ghost:hover{transform:translateY(-1px);}
-    .btn-gold{background:var(--gold);color:#fff;box-shadow:0 10px 22px rgba(245,158,11,.22);}
-    .btn-blue{background:var(--blue);color:#fff;box-shadow:0 10px 22px rgba(14,165,233,.22);}
-
-    .hero{
-      background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(255,255,255,.82));
-      border:1px solid var(--border);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-      display:grid;
-      grid-template-columns:1.3fr .7fr;
-      gap:18px;
-      align-items:center;
-      margin-top:14px;
+    .lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 740px;
+      margin-bottom: 26px;
     }
 
-    .hero h1{
-      font-size:clamp(2rem,5vw,4rem);
-      line-height:1.02;
-      margin:.3rem 0 .5rem;
-      letter-spacing:-1.5px;
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 26px;
     }
 
-    .hero p{font-size:1.05rem;line-height:1.65;margin:.4rem 0;color:var(--muted);}
-
-    .hero-card{
-      background:#062436;
-      color:#fff;
-      border-radius:22px;
-      padding:18px;
-      box-shadow:0 14px 30px rgba(2,23,34,.18);
+    .hero-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
     }
 
-    .hero-card h2{margin:.2rem 0 .5rem;font-size:1.3rem;}
-    .hero-card p{color:#dbeafe;font-size:.98rem;}
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:14px;
-      margin-top:14px;
+    .status {
+      display: inline-block;
+      background: rgba(242, 183, 5, 0.15);
+      color: #7a5200;
+      border: 1px solid rgba(242, 183, 5, 0.25);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-weight: 900;
+      font-size: 0.86rem;
+      margin-bottom: 16px;
     }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:16px;
-      box-shadow:var(--shadow);
-      text-align:left;
+    .hero-card ul,
+    .content-card ul {
+      padding-left: 20px;
+      margin: 12px 0 0;
+      color: var(--muted);
     }
 
-    .card h2,.card h3{margin:.15rem 0 .45rem;}
-    .muted{color:var(--muted);}
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      background:rgba(34,197,94,.10);
-      border:1px solid rgba(34,197,94,.25);
-      color:#065f46;
-      border-radius:999px;
-      padding:7px 10px;
-      font-weight:900;
-      font-size:.92rem;
-      margin:6px 0 10px;
+    .hero-card li,
+    .content-card li {
+      margin-bottom: 8px;
     }
 
-    .badge.gold{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.30);color:#92400e;}
-    .badge.blue{background:rgba(14,165,233,.11);border-color:rgba(14,165,233,.28);color:#075985;}
-
-    .callout{
-      background:#fff;
-      border:1px solid #d1fae5;
-      border-radius:14px;
-      padding:12px;
-      color:#065f46;
-      font-weight:800;
-      line-height:1.5;
+    section {
+      padding: 72px 0;
     }
 
-    .steps{
-      counter-reset:step;
-      display:grid;
-      gap:10px;
-      margin-top:10px;
+    .section-intro {
+      max-width: 760px;
+      margin-bottom: 28px;
+      color: var(--muted);
     }
 
-    .step{
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.72);
-      border-radius:16px;
-      padding:13px;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
     }
 
-    .step::before{
-      counter-increment:step;
-      content:counter(step);
-      width:30px;
-      height:30px;
-      flex:0 0 30px;
-      border-radius:50%;
-      background:var(--green);
-      color:#fff;
-      display:grid;
-      place-items:center;
-      font-weight:900;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
     }
 
-    .progress-shell{
-      width:100%;
-      height:12px;
-      background:#e5e7eb;
-      border-radius:999px;
-      overflow:hidden;
-      margin:10px 0 6px;
+    .content-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+      height: 100%;
     }
 
-    .progress-bar{
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,var(--green),var(--blue));
-      border-radius:999px;
-      transition:.25s ease;
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      background: rgba(15, 143, 79, 0.1);
+      color: var(--primary-dark);
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      margin-bottom: 16px;
     }
 
-    .lesson-list{
-      display:grid;
-      gap:10px;
-      margin-top:12px;
+    .process {
+      counter-reset: stage;
+      display: grid;
+      gap: 16px;
+      margin-top: 28px;
     }
 
-    .lesson{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px;
-      background:#fff;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
+    .stage {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      box-shadow: var(--shadow);
     }
 
-    .lesson strong{display:block;margin-bottom:3px;}
-    .lesson small{color:var(--muted);}
-
-    .mini{
-      padding:8px 10px;
-      min-height:auto;
-      border-radius:10px;
-      font-size:.9rem;
-      white-space:nowrap;
+    .stage::before {
+      counter-increment: stage;
+      content: counter(stage);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--secondary);
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 1.1rem;
     }
 
-    .form-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-      gap:10px;
-      margin-top:10px;
+    .stage p {
+      margin: 0;
+      color: var(--muted);
     }
 
-    label{font-weight:900;font-size:.93rem;}
-
-    input,select,textarea{
-      width:100%;
-      margin-top:5px;
-      padding:12px;
-      border:1px solid #dbe3ea;
-      border-radius:12px;
-      font:inherit;
-      color:var(--ink);
-      background:#fff;
-      outline:none;
+    .highlight {
+      background: linear-gradient(135deg, var(--secondary), var(--primary-dark));
+      color: var(--white);
+      border-radius: 30px;
+      padding: 48px;
+      box-shadow: 0 22px 50px rgba(15, 61, 94, 0.22);
     }
 
-    textarea{min-height:110px;resize:vertical;}
-    input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(34,197,94,.12);}
-
-    .notice{
-      display:none;
-      margin-top:12px;
-      border-radius:14px;
-      padding:12px;
-      font-weight:800;
-      line-height:1.5;
+    .highlight h2,
+    .highlight h3 {
+      color: var(--white);
     }
 
-    .notice.show{display:block;}
-    .notice.ok{background:#ecfdf5;color:#065f46;border:1px solid #bbf7d0;}
-    .notice.warn{background:#fffbeb;color:#92400e;border:1px solid #fde68a;}
-
-    footer{
-      margin-top:18px;
-      text-align:center;
-      opacity:.9;
-      font-size:.95rem;
-      color:var(--muted);
+    .highlight p,
+    .highlight li {
+      color: rgba(255, 255, 255, 0.84);
     }
 
-    footer a{color:inherit;}
-
-    body.night{
-      --bg:#071a14;
-      --card:#071f18;
-      --ink:#e9fff3;
-      --muted:#b9e7cf;
-      --border:rgba(255,255,255,.08);
-      background:
-        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
-        radial-gradient(900px 500px at 90% 20%, rgba(14,165,233,.12), transparent 55%),
-        var(--bg);
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      align-items: start;
     }
 
-    body.night .pill,
-    body.night .btn-ghost,
-    body.night .card,
-    body.night .hero,
-    body.night .lesson,
-    body.night .step{
-      background:rgba(255,255,255,.04);
-      border-color:rgba(255,255,255,.10);
-      color:var(--ink);
+    .notice {
+      background: #fff9e7;
+      border: 1px solid #f6df94;
+      color: #6e4a00;
+      border-radius: 18px;
+      padding: 18px;
+      font-weight: 700;
+      margin-top: 18px;
     }
 
-    body.night input,
-    body.night select,
-    body.night textarea{
-      background:rgba(255,255,255,.06);
-      border-color:rgba(255,255,255,.12);
-      color:var(--ink);
+    .cta {
+      text-align: center;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
-    body.night .badge{background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.22);color:#d1fae5;}
-    body.night .badge.gold{background:rgba(245,158,11,.16);border-color:rgba(245,158,11,.26);color:#fde68a;}
-    body.night .badge.blue{background:rgba(14,165,233,.16);border-color:rgba(14,165,233,.26);color:#bae6fd;}
-    body.night .callout{background:rgba(34,197,94,.09);border-color:rgba(34,197,94,.18);color:#d1fae5;}
-    body.night .hero-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);}
+    .cta p {
+      color: var(--muted);
+      max-width: 720px;
+      margin: 0 auto 26px;
+      font-size: 1.08rem;
+    }
 
-    @media(max-width:760px){
-      header{align-items:flex-start;}
-      .hero{grid-template-columns:1fr;padding:18px;}
-      .hero h1{font-size:2.35rem;}
-      .btn{width:100%;}
-      .lesson{align-items:flex-start;flex-direction:column;}
-      .mini{width:100%;}
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: 0;
+    }
+
+    .faq-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      background: #082719;
+      color: rgba(255, 255, 255, 0.78);
+      padding: 32px 0;
+      font-size: 0.95rem;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-row a {
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .grid-3,
+      .grid-2,
+      .highlight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 64px 0 52px;
+      }
+
+      .highlight {
+        padding: 30px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav {
+        min-height: 66px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+      }
+
+      h1 {
+        font-size: 2.55rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .stage {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 54px 0;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <div class="left">
-      <span>🧠</span>
-      <a href="index.html">MindCheck</a>
-      <span style="opacity:.9;">• SpeakOut Ambassador Program</span>
-    </div>
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="SpeakOut Home">
+        <span class="brand-mark">SO</span>
+        <span>SpeakOut Mental Health Outreach</span>
+      </a>
 
-    <button id="nightToggle" class="btn btn-ghost" type="button" aria-label="Toggle night mode">
-      🌙 Night Mode
-    </button>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#process">Selection Process</a>
+        <a href="#responsibilities">Responsibilities</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <a class="btn btn-primary" href="https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM_LINK" target="_blank" rel="noopener">
+        Apply Now
+      </a>
+    </div>
   </header>
 
-  <main class="wrap">
-    <div class="topbar">
-      <span class="pill">🏅 Ambassador Badge + Certificate</span>
-      <span class="pill" id="progressPill">🎯 Ambassador progress: 0%</span>
-    </div>
-
+  <main>
     <section class="hero">
-      <div>
-        <span class="badge gold">🌍 Campus • Community • Digital Advocacy</span>
-        <h1>Become a SpeakOut Ambassador</h1>
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Mental Health Leadership • Advocacy • Community Impact</span>
+          <h1>Become a SpeakOut Ambassador</h1>
+          <p class="lead">
+            The SpeakOut Ambassador Program is a selective leadership and advocacy initiative designed to identify,
+            train and empower passionate young people to champion mental health awareness across schools, campuses,
+            workplaces and communities.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM_LINK" target="_blank" rel="noopener">
+              Fill Application Form
+            </a>
+            <a class="btn btn-outline" href="#process">View Selection Process</a>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <span class="status">Applications Open</span>
+          <h3>Program Pathway</h3>
+          <ul>
+            <li>Complete the official Google Form.</li>
+            <li>Applications are reviewed by the NGO team.</li>
+            <li>Shortlisted applicants are booked for interview.</li>
+            <li>Successful candidates receive ambassador approval.</li>
+            <li>Approved ambassadors can print their certificate.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <h2>Developing Mental Health Leaders Across Nigeria</h2>
+        <p class="section-intro">
+          SpeakOut Ambassadors serve as credible representatives of SpeakOut Mental Health Outreach. They lead awareness,
+          reduce stigma, support outreach campaigns and help people access appropriate mental health resources.
+        </p>
+
+        <div class="grid-3">
+          <article class="content-card">
+            <div class="icon-box">01</div>
+            <h3>Advocacy</h3>
+            <p class="section-intro">
+              Promote accurate mental health awareness and encourage early help-seeking within your community.
+            </p>
+          </article>
+
+          <article class="content-card">
+            <div class="icon-box">02</div>
+            <h3>Leadership</h3>
+            <p class="section-intro">
+              Build leadership, communication, public speaking and community engagement experience.
+            </p>
+          </article>
+
+          <article class="content-card">
+            <div class="icon-box">03</div>
+            <h3>Impact</h3>
+            <p class="section-intro">
+              Support campaigns, outreach projects, school programs and digital mental health initiatives.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="eligibility" style="background:#ffffff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+      <div class="container grid-2">
+        <div>
+          <h2>Who Can Apply?</h2>
+          <p class="section-intro">
+            The program is open to individuals who are passionate about mental health advocacy, service and responsible leadership.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <h3>Eligibility Criteria</h3>
+          <ul>
+            <li>Must demonstrate interest in mental health advocacy.</li>
+            <li>Must show leadership potential and integrity.</li>
+            <li>Must be willing to commit time to ambassador activities.</li>
+            <li>Must be able to represent SpeakOut professionally.</li>
+            <li>Open to students, young professionals, youth volunteers and community leaders.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="container">
+        <h2>Selection Process</h2>
+        <p class="section-intro">
+          Ambassador status is not automatic. Every applicant must complete the official application process and receive approval from SpeakOut.
+        </p>
+
+        <div class="process">
+          <article class="stage">
+            <div>
+              <h3>Online Application</h3>
+              <p>
+                Interested candidates must complete the official SpeakOut Ambassador Google Form. Applications are reviewed based on motivation,
+                leadership potential, communication skills and commitment to service.
+              </p>
+            </div>
+          </article>
+
+          <article class="stage">
+            <div>
+              <h3>Screening & Review</h3>
+              <p>
+                The SpeakOut team reviews applications and shortlists candidates who meet the program requirements. Not all applicants will proceed to interview.
+              </p>
+            </div>
+          </article>
+
+          <article class="stage">
+            <div>
+              <h3>Interview Booking</h3>
+              <p>
+                Shortlisted applicants will be contacted and booked for a virtual or physical interview with the NGO team.
+              </p>
+            </div>
+          </article>
+
+          <article class="stage">
+            <div>
+              <h3>Approval & Certification</h3>
+              <p>
+                Only successful applicants who pass the interview and complete onboarding will be approved as SpeakOut Ambassadors and allowed to print their certificate.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="notice">
+          Replace the Google Form placeholder link with your official form link before publishing this page.
+        </div>
+      </div>
+    </section>
+
+    <section id="training" style="background:#ffffff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+      <div class="container highlight">
+        <div class="highlight-grid">
+          <div>
+            <h2>Orientation & Training</h2>
+            <p>
+              Successful candidates participate in the official Ambassador Orientation Program before receiving final confirmation.
+            </p>
+          </div>
+
+          <div>
+            <h3>Training Areas</h3>
+            <ul>
+              <li>Mental health awareness fundamentals</li>
+              <li>Advocacy and community engagement</li>
+              <li>Public speaking and communication</li>
+              <li>Ethical conduct, safeguarding and confidentiality</li>
+              <li>Referral pathways and emergency escalation</li>
+              <li>Campaign reporting and impact documentation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="responsibilities">
+      <div class="container">
+        <h2>Ambassador Responsibilities</h2>
+        <p class="section-intro">
+          SpeakOut Ambassadors are expected to uphold the values, policies and standards of SpeakOut Mental Health Outreach.
+        </p>
+
+        <div class="grid-3">
+          <article class="content-card">
+            <h3>Representation</h3>
+            <p>Represent SpeakOut professionally at events, schools, campuses, community programs and online platforms.</p>
+          </article>
+
+          <article class="content-card">
+            <h3>Awareness</h3>
+            <p>Promote positive mental health education and reduce stigma through approved campaigns and resources.</p>
+          </article>
+
+          <article class="content-card">
+            <h3>Outreach Support</h3>
+            <p>Support SpeakOut campaigns, outreach events, school programs and community initiatives.</p>
+          </article>
+
+          <article class="content-card">
+            <h3>Reporting</h3>
+            <p>Submit periodic activity reports, campaign updates and impact records when required.</p>
+          </article>
+
+          <article class="content-card">
+            <h3>Confidentiality</h3>
+            <p>Respect privacy and follow safeguarding rules when interacting with vulnerable individuals or communities.</p>
+          </article>
+
+          <article class="content-card">
+            <h3>Referral</h3>
+            <p>Guide people to appropriate support channels without diagnosing, treating or making unsafe promises.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits" style="background:#ffffff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+      <div class="container grid-2">
+        <div>
+          <h2>Program Benefits</h2>
+          <p class="section-intro">
+            The program gives ambassadors practical experience, leadership exposure and recognition for meaningful service.
+          </p>
+        </div>
+
+        <div class="content-card">
+          <ul>
+            <li>Official SpeakOut Ambassador Certificate after approval.</li>
+            <li>Digital Ambassador ID after successful onboarding.</li>
+            <li>Access to the Ambassador Community Network.</li>
+            <li>Leadership and project management experience.</li>
+            <li>Mentorship, volunteering and future leadership opportunities.</li>
+            <li>Recognition for outstanding service and impact.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="conduct">
+      <div class="container highlight">
+        <h2>Ambassador Code of Conduct</h2>
         <p>
-          Join a youth-led mental health advocacy movement helping students, families and communities speak up,
-          seek support early, and connect with safe referral resources.
+          All ambassadors must demonstrate integrity, professionalism, respect, confidentiality and responsible conduct online and offline.
         </p>
+        <ul>
+          <li>Respect diversity and inclusion.</li>
+          <li>Avoid discrimination, harassment or harmful communication.</li>
+          <li>Follow SpeakOut safeguarding policies.</li>
+          <li>Do not present yourself as a therapist or medical professional unless officially licensed.</li>
+          <li>Represent SpeakOut responsibly at all times.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="faq" style="background:#ffffff; border-top:1px solid var(--border);">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+          <h3>Is the program free?</h3>
+          <p>Yes. There is no application fee.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Will I receive a certificate?</h3>
+          <p>Yes, but certificates are issued only to applicants who pass the recruitment, interview and onboarding process.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Is this a paid position?</h3>
+          <p>The Ambassador Program is primarily voluntary. Ambassadors may receive recognition, awards, stipends or sponsored opportunities for specific approved projects where applicable.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Can I apply from any state?</h3>
+          <p>Yes. Applications are open to eligible individuals across Nigeria and beyond.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Apply to Become a SpeakOut Ambassador</h2>
         <p>
-          Ambassadors are not therapists. They are trained advocates who create awareness, support campaigns,
-          identify people who may need help, and guide them toward professional support when necessary.
+          Join a growing network of young leaders committed to creating mentally healthier schools, campuses and communities.
         </p>
-        <p><b>Application flow:</b> Fill the Google Form → attend NGO interview → receive approval → print ambassador certificate.</p>
-        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-          <a class="btn btn-primary" href="https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM_LINK" target="_blank" rel="noopener">🚀 Fill Google Form</a>
-          <a class="btn btn-blue" href="#process">📋 View Process</a>
-          <a class="btn btn-ghost" href="resources.html">🏥 Referral Resources</a>
-        </div>
-      </div>
-
-      <aside class="hero-card">
-        <h2>Ambassador Reward Path</h2>
-        <p>Apply through the Google Form first. After review, shortlisted applicants will be booked for an NGO interview. Only successful applicants can unlock and print the ambassador certificate.</p>
-        <div class="progress-shell" aria-label="Ambassador progress bar">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <p id="rewardStatus">No badge yet. Complete all steps to unlock rewards.</p>
-      </aside>
-    </section>
-
-    <section class="grid" id="process">
-      <article class="card" style="grid-column:1/-1;">
-        <h2>Ambassador Approval Process</h2>
-        <div class="steps">
-          <div class="step"><div><b>Fill Google Form</b><br><span class="muted">Interested applicants must first complete the official SpeakOut Ambassador Google Form.</span></div></div>
-          <div class="step"><div><b>NGO Review</b><br><span class="muted">The SpeakOut team reviews each application and checks basic suitability.</span></div></div>
-          <div class="step"><div><b>Interview Booking</b><br><span class="muted">Shortlisted applicants are booked for an interview with the NGO team.</span></div></div>
-          <div class="step"><div><b>Approval & Certificate</b><br><span class="muted">Only successful applicants can access and print the SpeakOut Ambassador Certificate.</span></div></div>
-        </div>
-      </article>
-
-      <article class="card">
-        <h2>What Ambassadors Do</h2>
-        <div class="badge">✅ Reward: “SpeakOut Ambassador” +100 points</div>
-        <ul class="muted" style="margin:.5rem 0 0;padding-left:18px;line-height:1.7;">
-          <li>Promote mental health awareness on campus and online.</li>
-          <li>Support SpeakOut campaigns, outreaches and school programs.</li>
-          <li>Encourage safe conversations without judging or shaming people.</li>
-          <li>Refer people to MindCheck tools, clinics and trusted support channels.</li>
-          <li>Submit simple activity reports after campaigns or outreach work.</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <h2>Who Can Apply?</h2>
-        <ul class="muted" style="margin:.5rem 0 0;padding-left:18px;line-height:1.7;">
-          <li>Students, young professionals and community volunteers.</li>
-          <li>People passionate about mental health, youth support and service.</li>
-          <li>Applicants willing to complete basic orientation and follow safety rules.</li>
-          <li>People who can represent SpeakOut with respect and confidentiality.</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <h2>Safety Rule</h2>
-        <div class="callout">
-          💡 Ambassadors provide awareness, encouragement and referral only. If someone is in immediate danger,
-          call emergency services. Nigeria emergency number: <b>112</b>.
-        </div>
-        <p class="muted" style="line-height:1.65;">
-          Never promise secrecy where someone may be at risk. Protect privacy, but escalate urgent safety concerns.
-        </p>
-      </article>
-    </section>
-
-    <section class="grid" id="training">
-      <article class="card" style="grid-column:1/-1;">
-        <h2>Ambassador Training Checklist</h2>
-        <p class="muted">Mark each section complete after reading or attending the session.</p>
-
-        <div class="lesson-list" id="lessonList">
-          <div class="lesson" data-lesson="1">
-            <div>
-              <strong>1. SpeakOut Mission & Ambassador Code</strong>
-              <small>Understand SpeakOut values, conduct rules and ambassador expectations.</small>
-            </div>
-            <button class="btn btn-ghost mini lessonBtn" type="button">Mark Complete</button>
-          </div>
-
-          <div class="lesson" data-lesson="2">
-            <div>
-              <strong>2. Mental Health Awareness Basics</strong>
-              <small>Learn common signs of distress, stigma reduction and safe conversation starters.</small>
-            </div>
-            <button class="btn btn-ghost mini lessonBtn" type="button">Mark Complete</button>
-          </div>
-
-          <div class="lesson" data-lesson="3">
-            <div>
-              <strong>3. Supportive Listening & Boundaries</strong>
-              <small>Know how to listen without diagnosing, pressuring or over-promising.</small>
-            </div>
-            <button class="btn btn-ghost mini lessonBtn" type="button">Mark Complete</button>
-          </div>
-
-          <div class="lesson" data-lesson="4">
-            <div>
-              <strong>4. Referral & Emergency Escalation</strong>
-              <small>Use MindCheck tools, clinic resources and emergency pathways safely.</small>
-            </div>
-            <button class="btn btn-ghost mini lessonBtn" type="button">Mark Complete</button>
-          </div>
-
-          <div class="lesson" data-lesson="5">
-            <div>
-              <strong>5. Campaign Reporting & Impact Tracking</strong>
-              <small>Submit clear reports, photos, attendance numbers and community feedback.</small>
-            </div>
-            <button class="btn btn-ghost mini lessonBtn" type="button">Mark Complete</button>
-          </div>
-        </div>
-
-        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-primary" type="button" id="unlockBtn">🏅 Check Badge Status</button>
-          <button class="btn btn-ghost" type="button" id="resetProgressBtn">🔄 Reset Progress</button>
-        </div>
-
-        <div class="notice" id="trainingNotice"></div>
-      </article>
-    </section>
-
-    <section class="grid">
-      <article class="card">
-        <h2>Program Journey</h2>
-        <div class="steps">
-          <div class="step"><div><b>Apply</b><br><span class="muted">Submit your details and area of interest.</span></div></div>
-          <div class="step"><div><b>Get Trained</b><br><span class="muted">Complete the ambassador orientation modules.</span></div></div>
-          <div class="step"><div><b>Join Campaigns</b><br><span class="muted">Support campus, digital and community awareness activities.</span></div></div>
-          <div class="step"><div><b>Report Impact</b><br><span class="muted">Track people reached, referrals shared and activities completed.</span></div></div>
-        </div>
-      </article>
-
-      <article class="card">
-        <h2>Ambassador Levels</h2>
-        <p><span class="badge blue">Starter</span> <span class="muted">Complete training and join first activity.</span></p>
-        <p><span class="badge">Active</span> <span class="muted">Submit monthly campaign or outreach report.</span></p>
-        <p><span class="badge gold">Lead</span> <span class="muted">Coordinate a school, campus or community awareness team.</span></p>
-      </article>
-    </section>
-
-    <section class="card" id="apply" style="margin-top:14px;">
-      <h2>Apply to Become an Ambassador</h2>
-      <p class="muted">
-        Applications must be submitted through the official Google Form. After submission, the SpeakOut team will review your application and contact shortlisted applicants for an interview.
-      </p>
-
-      <div class="callout">
-        🔒 Certificate access is not automatic. Only applicants who pass the NGO interview and receive approval should be allowed to print the SpeakOut Ambassador Certificate.
-      </div>
-
-      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
-        <a class="btn btn-primary" href="https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM_LINK" target="_blank" rel="noopener">📝 Fill Ambassador Google Form</a>
-        <a class="btn btn-ghost" href="mailto:speaaakout@gmail.com?subject=SpeakOut Ambassador Program Application">✉️ Contact SpeakOut</a>
-      </div>
-
-      <div class="notice show warn" style="display:block;">
-        ⚠️ Replace <b>https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM_LINK</b> with your real Google Form link before publishing.
+        <a class="btn btn-primary" href="https://forms.gle/REPLACE_WITH_YOUR_GOOGLE_FORM_LINK" target="_blank" rel="noopener">
+          Fill Ambassador Application Form
+        </a>
       </div>
     </section>
-
-    <footer>
-      🔒 <a href="privacy.html">Privacy</a> • 📄 <a href="terms.html">Terms</a> • 🏥 <a href="resources.html">Clinics & Resources</a> • ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-    </footer>
   </main>
 
-  <script>
-    const nightToggle = document.getElementById('nightToggle');
-    const NIGHT_KEY = 'mc_night_mode';
-
-    function applyNight(on){
-      document.body.classList.toggle('night', !!on);
-      nightToggle.textContent = on ? '☀️ Day Mode' : '🌙 Night Mode';
-      localStorage.setItem(NIGHT_KEY, on ? '1' : '0');
-    }
-
-    applyNight(localStorage.getItem(NIGHT_KEY) === '1');
-    nightToggle.addEventListener('click', () => applyNight(!document.body.classList.contains('night')));
-
-    const KEY_LESSONS = 'speakout_ambassador_lessons_done';
-    const KEY_BADGES = 'mc_badges';
-    const KEY_POINTS = 'mc_points';
-    const KEY_APPLICATIONS = 'speakout_ambassador_applications';
-
-    const totalLessons = 5;
-    const progressPill = document.getElementById('progressPill');
-    const progressBar = document.getElementById('progressBar');
-    const rewardStatus = document.getElementById('rewardStatus');
-    const trainingNotice = document.getElementById('trainingNotice');
-    const lessonBtns = document.querySelectorAll('.lessonBtn');
-    const unlockBtn = document.getElementById('unlockBtn');
-    const resetBtn = document.getElementById('resetProgressBtn');
-    const form = document.getElementById('ambassadorForm');
-    const formNotice = document.getElementById('formNotice');
-
-    function getJSON(key, fallback){
-      try{return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));}
-      catch(e){return fallback;}
-    }
-
-    function setJSON(key, value){
-      localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function getDoneLessons(){
-      return getJSON(KEY_LESSONS, []);
-    }
-
-    function getBadges(){
-      return getJSON(KEY_BADGES, []);
-    }
-
-    function setBadges(badges){
-      setJSON(KEY_BADGES, badges);
-    }
-
-    function getPoints(){
-      return parseInt(localStorage.getItem(KEY_POINTS) || '0', 10);
-    }
-
-    function setPoints(points){
-      localStorage.setItem(KEY_POINTS, String(points));
-    }
-
-    function showNotice(el, type, message){
-      el.className = `notice show ${type}`;
-      el.innerHTML = message;
-    }
-
-    function updateUI(){
-      const done = getDoneLessons();
-      const pct = Math.round((done.length / totalLessons) * 100);
-      const badges = getBadges();
-      const hasBadge = badges.includes('speakout_ambassador');
-      const points = getPoints();
-
-      progressPill.textContent = `🎯 Ambassador progress: ${pct}%`;
-      progressBar.style.width = `${pct}%`;
-
-      rewardStatus.innerHTML = hasBadge
-        ? `✅ Badge unlocked: <b>SpeakOut Ambassador</b><br/>Points: <b>${points}</b>`
-        : `No badge yet. Complete all steps to unlock rewards.<br/>Points: <b>${points}</b>`;
-
-      document.querySelectorAll('.lesson').forEach(item => {
-        const lessonId = item.dataset.lesson;
-        const btn = item.querySelector('.lessonBtn');
-        const completed = done.includes(lessonId);
-        btn.textContent = completed ? '✅ Completed' : 'Mark Complete';
-        btn.className = completed ? 'btn btn-primary mini lessonBtn' : 'btn btn-ghost mini lessonBtn';
-      });
-    }
-
-    lessonBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const lesson = btn.closest('.lesson');
-        const lessonId = lesson.dataset.lesson;
-        const done = getDoneLessons();
-
-        if(!done.includes(lessonId)){
-          done.push(lessonId);
-          setJSON(KEY_LESSONS, done);
-          showNotice(trainingNotice, 'ok', '✅ Lesson marked complete. Keep going.');
-        }
-        updateUI();
-      });
-    });
-
-    unlockBtn.addEventListener('click', () => {
-      const done = getDoneLessons();
-      const badges = getBadges();
-
-      if(done.length < totalLessons){
-        showNotice(trainingNotice, 'warn', `⚠️ Complete all ${totalLessons} training sections first. Current progress: ${done.length}/${totalLessons}.`);
-        return;
-      }
-
-      if(!badges.includes('speakout_ambassador')){
-        badges.push('speakout_ambassador');
-        setBadges(badges);
-        setPoints(getPoints() + 100);
-        showNotice(trainingNotice, 'ok', '🏅 Congratulations. Your SpeakOut Ambassador badge has been unlocked.');
-      }else{
-        showNotice(trainingNotice, 'ok', '✅ Your SpeakOut Ambassador badge is already unlocked.');
-      }
-
-      updateUI();
-    });
-
-    resetBtn.addEventListener('click', () => {
-      if(!confirm('Reset ambassador training progress on this device?')) return;
-      localStorage.removeItem(KEY_LESSONS);
-      showNotice(trainingNotice, 'warn', '🔄 Ambassador training progress has been reset on this device.');
-      updateUI();
-    });
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      const data = Object.fromEntries(new FormData(form).entries());
-      data.submittedAt = new Date().toISOString();
-      data.status = 'Pending Review';
-
-      const applications = getJSON(KEY_APPLICATIONS, []);
-      applications.push(data);
-      setJSON(KEY_APPLICATIONS, applications);
-
-      showNotice(formNotice, 'ok', `✅ Application saved on this device for <b>${data.fullName}</b>. Connect this form to your live backend before public launch.`);
-      form.reset();
-    });
-
-    updateUI();
-  </script>
+  <footer>
+    <div class="container footer-row">
+      <div>
+        <strong>SpeakOut Mental Health Outreach</strong><br />
+        Mental Health Awareness • Youth Leadership • Community Impact
+      </div>
+      <div>
+        <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
