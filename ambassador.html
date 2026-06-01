@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SpeakOut Ambassador Program</title>
   <meta name="description" content="Apply to become a SpeakOut Ambassador and champion mental health awareness in schools, campuses and communities." />
-  <link rel="icon" href="favicon.png" />
+  <link rel="icon" type="image/png" href="assets/images/speakout-logo.png" />
 
   <style>
     :root {
@@ -57,7 +57,7 @@
     }
 
     .nav {
-      min-height: 74px;
+      min-height: 78px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -72,17 +72,21 @@
       color: var(--primary-dark);
       text-decoration: none;
       letter-spacing: -0.3px;
+      min-width: 0;
     }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      display: grid;
-      place-items: center;
-      color: var(--white);
-      font-weight: 900;
+    .logo {
+      height: 56px;
+      width: auto;
+      max-width: 72px;
+      object-fit: contain;
+      flex: 0 0 auto;
+      display: block;
+    }
+
+    .brand-text {
+      display: inline-block;
+      line-height: 1.15;
     }
 
     .nav-links {
@@ -153,6 +157,18 @@
       grid-template-columns: 1.2fr 0.8fr;
       align-items: center;
       gap: 46px;
+    }
+
+    .hero-logo {
+      margin-bottom: 18px;
+    }
+
+    .hero-logo img {
+      height: 118px;
+      width: auto;
+      max-width: 190px;
+      object-fit: contain;
+      display: block;
     }
 
     .eyebrow {
@@ -278,7 +294,8 @@
       color: var(--primary-dark);
       display: grid;
       place-items: center;
-      font-size: 1.35rem;
+      font-size: 1rem;
+      font-weight: 900;
       margin-bottom: 16px;
     }
 
@@ -385,7 +402,7 @@
     footer {
       background: #082719;
       color: rgba(255, 255, 255, 0.78);
-      padding: 32px 0;
+      padding: 34px 0;
       font-size: 0.95rem;
     }
 
@@ -395,6 +412,23 @@
       justify-content: space-between;
       gap: 18px;
       flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-logo {
+      height: 64px;
+      width: auto;
+      max-width: 90px;
+      object-fit: contain;
+      display: block;
+      background: rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 6px;
     }
 
     .footer-row a {
@@ -426,16 +460,27 @@
 
     @media (max-width: 560px) {
       .nav {
-        min-height: 66px;
+        min-height: 70px;
+        gap: 12px;
       }
 
-      .brand-mark {
-        width: 38px;
-        height: 38px;
+      .logo {
+        height: 44px;
+        max-width: 58px;
+      }
+
+      .brand-text {
+        font-size: 0.9rem;
+        max-width: 150px;
       }
 
       h1 {
         font-size: 2.55rem;
+      }
+
+      .hero-logo img {
+        height: 88px;
+        max-width: 150px;
       }
 
       .btn {
@@ -449,6 +494,10 @@
       section {
         padding: 54px 0;
       }
+
+      .footer-brand {
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -456,9 +505,9 @@
 <body>
   <header>
     <div class="container nav">
-      <a href="index.html" class="brand" aria-label="SpeakOut Home">
-        <span class="brand-mark">SO</span>
-        <span>SpeakOut Mental Health Outreach</span>
+      <a href="index.html" class="brand" aria-label="SpeakOut Mental Health Outreach Home">
+        <img src="assets/images/speakout-logo.png" alt="SpeakOut Mental Health Outreach Logo" class="logo" />
+        <span class="brand-text">SpeakOut Mental Health Outreach</span>
       </a>
 
       <nav class="nav-links" aria-label="Primary navigation">
@@ -478,6 +527,9 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
+          <div class="hero-logo">
+            <img src="assets/images/speakout-logo.png" alt="SpeakOut Mental Health Outreach Logo" />
+          </div>
           <span class="eyebrow">Mental Health Leadership • Advocacy • Community Impact</span>
           <h1>Become a SpeakOut Ambassador</h1>
           <p class="lead">
@@ -763,9 +815,12 @@
 
   <footer>
     <div class="container footer-row">
-      <div>
-        <strong>SpeakOut Mental Health Outreach</strong><br />
-        Mental Health Awareness • Youth Leadership • Community Impact
+      <div class="footer-brand">
+        <img src="assets/images/speakout-logo.png" alt="SpeakOut Mental Health Outreach Logo" class="footer-logo" />
+        <div>
+          <strong>SpeakOut Mental Health Outreach</strong><br />
+          Mental Health Awareness • Youth Leadership • Community Impact
+        </div>
       </div>
       <div>
         <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
