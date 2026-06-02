@@ -3,798 +3,548 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SpeakHub — Skills, Opportunities, and Recognition</title>
-  <link rel="icon" href="favicon.png" />
-  <link rel="stylesheet" href="mc-theme.css" />
+  <title>SpeakHub — Skills Development Center</title>
+  <meta name="description" content="SpeakHub is SpeakOut's skills development center for free courses, certificates, leadership training, digital skills and youth opportunities." />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
   <style>
-    .hero-card {
-      padding: 28px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(0,153,255,.10), rgba(0,200,120,.08));
-      border: 1px solid rgba(255,255,255,.08);
-      margin-bottom: 18px;
+    :root{
+      --navy:#07152b;
+      --navy-2:#0b2344;
+      --blue:#0a5fbf;
+      --blue-2:#074f9f;
+      --blue-soft:#eaf3ff;
+      --gold:#f4a21c;
+      --gold-2:#d98200;
+      --gold-soft:#fff4df;
+      --green:#0f8f6f;
+      --ink:#111827;
+      --muted:#637083;
+      --line:#e5edf6;
+      --bg:#f7f9fc;
+      --white:#ffffff;
+      --shadow:0 24px 70px rgba(7,21,43,.12);
+      --shadow-soft:0 16px 44px rgba(7,21,43,.08);
+      --radius:30px;
     }
 
-    .hero-badge {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 14px;
-      background: rgba(255,255,255,.08);
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Outfit",Arial,sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      overflow-x:hidden;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1180px,90%);margin:auto}
+
+    .scrollbar{
+      position:fixed;top:0;left:0;height:4px;
+      background:linear-gradient(90deg,var(--gold),var(--blue));
+      width:0;z-index:3000;
     }
 
-    .hero-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.08;
-      margin: 0 0 12px;
+    .nav{
+      position:sticky;top:0;z-index:1000;min-height:84px;padding:12px 0;
+      background:rgba(255,255,255,.94);backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(7,21,43,.08);
     }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .brand img{width:58px;height:58px;object-fit:contain}
+    .brand h2{margin:0;color:var(--blue);font-size:1.35rem;line-height:1;font-weight:900}
+    .brand p{margin:3px 0 0;color:var(--gold-2);font-size:.74rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+    .nav-links{display:flex;align-items:center;gap:14px;font-weight:800;color:#374151;font-size:.95rem}
+    .nav-links a{padding:10px 12px;border-radius:999px}
+    .nav-links a:hover{background:var(--blue-soft);color:var(--blue)}
+    .menu-toggle{display:none;border:0;background:var(--navy);color:#fff;border-radius:14px;padding:10px 13px;font-size:1.25rem;cursor:pointer}
 
-    .hero-text {
-      font-size: 1.05rem;
-      opacity: .92;
-      max-width: 760px;
-      margin-bottom: 18px;
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      min-height:48px;padding:14px 22px;border-radius:999px;font-weight:900;
+      border:0;cursor:pointer;transition:.25s ease;white-space:nowrap;line-height:1;
     }
+    .btn:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(7,21,43,.14)}
+    .btn-primary{background:var(--blue);color:#fff}
+    .btn-primary:hover{background:var(--blue-2)}
+    .btn-dark{background:var(--navy);color:#fff}
+    .btn-light{background:#fff;color:var(--navy)}
+    .btn-outline{border:1px solid rgba(255,255,255,.45);color:#fff;background:transparent}
+    .btn-soft{background:var(--blue-soft);color:var(--blue)}
+    .btn-gold{background:var(--gold);color:#201100}
+    .btn-small{min-height:42px;padding:11px 15px;font-size:.92rem}
 
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 14px;
+    .hero{
+      position:relative;overflow:hidden;min-height:calc(100vh - 84px);
+      display:grid;align-items:center;
+      background:
+        linear-gradient(90deg,rgba(7,21,43,.88),rgba(7,21,43,.63) 45%,rgba(7,21,43,.24)),
+        url('images/speakhub.jpg') center/cover no-repeat;
+      color:#fff;
     }
-
-    .hero-note {
-      margin-top: 18px;
-      font-size: .95rem;
-      opacity: .85;
+    .hero::before{
+      content:"";position:absolute;inset:0;
+      background:
+        radial-gradient(circle at 15% 20%,rgba(244,162,28,.22),transparent 30%),
+        radial-gradient(circle at 85% 15%,rgba(10,95,191,.30),transparent 35%);
+      pointer-events:none;
     }
-
-    .progress-wrap {
-      margin-top: 18px;
+    .hero .container{position:relative;z-index:2;padding:92px 0}
+    .hero-content{max-width:900px}
+    .kicker,.label{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
+      font-size:.78rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
     }
+    .kicker{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20);color:#fff}
+    .label{background:var(--blue-soft);color:var(--blue);margin-bottom:16px}
+    h1,h2,h3{margin-top:0;line-height:1.05;letter-spacing:-.045em}
+    h1{font-size:clamp(3.2rem,7vw,7.4rem);margin:22px 0;max-width:1040px}
+    .hero p{font-size:1.23rem;line-height:1.75;max-width:770px;color:rgba(255,255,255,.90)}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+    .hero-trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px;color:#fff}
+    .hero-trust span{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-weight:800}
 
-    .progress-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
+    section{padding:94px 0}
+    .section-title{max-width:900px;margin:0 auto 46px;text-align:center}
+    .section-title h2{font-size:clamp(2.25rem,4.5vw,4.5rem);margin:0 0 16px;color:var(--navy)}
+    .section-title p{font-size:1.1rem;line-height:1.75;color:var(--muted);margin:0}
+
+    .progress-section{background:#fff;border-bottom:1px solid var(--line)}
+    .progress-wrap{
+      display:grid;grid-template-columns:1fr 1.1fr;gap:30px;align-items:center;
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:34px;
     }
+    .progress-title h2{font-size:clamp(2rem,4vw,3.6rem);color:var(--navy);margin:0 0 10px}
+    .progress-title p{color:var(--muted);line-height:1.75;margin:0}
+    .progress-top{display:flex;justify-content:space-between;gap:14px;align-items:center;font-weight:900;margin-bottom:10px}
+    .progress-bar{width:100%;height:14px;border-radius:999px;background:#edf3fb;overflow:hidden}
+    .progress-fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--blue));transition:width .35s ease}
+    .progress-note{margin-top:14px;color:var(--muted);font-weight:700}
 
-    .progress-bar {
-      width: 100%;
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      overflow: hidden;
+    .filters{background:var(--bg);border-bottom:1px solid var(--line)}
+    .filter-wrap{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:-22px}
+    .filter-btn{
+      border:1px solid var(--line);background:#fff;color:var(--navy);
+      padding:10px 14px;border-radius:999px;font-weight:900;cursor:pointer;
+      box-shadow:var(--shadow-soft);transition:.2s ease;
     }
+    .filter-btn:hover,.filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+    .search-box{max-width:680px;margin:24px auto 0}
+    .search-box input{width:100%;border:1px solid var(--line);border-radius:999px;padding:16px 20px;font:inherit;box-shadow:var(--shadow-soft);outline:none}
+    .search-box input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #00b894, #0984e3);
-      transition: width .3s ease;
+    .course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .course-card{
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      padding:26px;box-shadow:var(--shadow-soft);transition:.35s ease;display:flex;flex-direction:column;
     }
-
-    .section-title {
-      margin: 10px 0 6px;
-      font-size: 1.4rem;
+    .course-card:hover{transform:translateY(-9px);box-shadow:var(--shadow)}
+    .course-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+    .course-icon{width:50px;height:50px;flex:0 0 auto;border-radius:16px;display:grid;place-items:center;background:var(--blue-soft);font-size:1.45rem}
+    .track-pill{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--gold-soft);color:#8a5200;font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+    .course-card h3{font-size:1.35rem;color:var(--navy);margin:4px 0 10px}
+    .course-card p{color:var(--muted);line-height:1.68;margin:0 0 14px}
+    .course-meta{margin-top:auto;padding-top:8px;color:#334155;font-weight:800;font-size:.93rem}
+    .provider{color:var(--blue);font-weight:900}
+    .action-stack{display:grid;gap:10px;margin-top:18px}
+    .action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .upload-link{
+      display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:42px;
+      border-radius:999px;padding:11px 15px;font-weight:900;background:#f1f5f9;color:#64748b;
+      border:1px solid var(--line);opacity:.55;pointer-events:none;transition:.2s ease;text-align:center;
     }
+    .upload-link.unlocked{opacity:1;pointer-events:auto;background:var(--gold-soft);color:#7a4a00;border-color:#f7d997}
+    .status-box{margin-top:12px;padding:12px 14px;border-radius:18px;font-size:.92rem;background:#fbfdff;border:1px solid var(--line);color:var(--muted);font-weight:700}
 
-    .section-text {
-      margin-bottom: 18px;
-      opacity: .9;
+    .opportunities{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .opportunity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .opportunity-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow-soft);transition:.3s ease}
+    .opportunity-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
+    .opportunity-card h3{color:var(--navy);font-size:1.35rem;margin-bottom:10px}
+    .opportunity-card p{color:var(--muted);line-height:1.7}
+
+    .certificate-section{
+      background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;position:relative;overflow:hidden;
     }
-
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
+    .certificate-section::before{
+      content:"";position:absolute;inset:0;background:
+      radial-gradient(circle at 20% 12%,rgba(244,162,28,.22),transparent 32%),
+      radial-gradient(circle at 92% 20%,rgba(10,95,191,.25),transparent 34%);
     }
+    .certificate-card{position:relative;z-index:2;max-width:960px;margin:auto;text-align:center}
+    .certificate-card h2{font-size:clamp(2.2rem,4vw,4.4rem);color:#fff;margin-bottom:16px}
+    .certificate-card p{color:rgba(255,255,255,.86);font-size:1.1rem;line-height:1.75}
+    .locked-note{margin-top:14px;color:rgba(255,255,255,.72);font-weight:700}
 
-    .course-card {
-      position: relative;
-      padding: 22px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.08);
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
-      transition: transform .2s ease, box-shadow .2s ease;
+    .footer{background:#061126;color:rgba(255,255,255,.74);padding:62px 0 28px}
+    .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+    .footer-brand{display:flex;align-items:center;gap:12px}
+    .footer-brand img{width:60px;height:60px;object-fit:contain;background:#fff;border-radius:14px;padding:4px}
+    .footer h3,.footer h4{color:#fff;margin:0 0 12px}
+    .footer a{display:block;color:rgba(255,255,255,.72);margin:8px 0}
+    .footer-bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55)}
+
+    .reveal{opacity:.12;transform:translateY(52px) scale(.98);transition:opacity .75s ease,transform .75s cubic-bezier(.22,1,.36,1);will-change:transform,opacity}
+    .reveal.active{opacity:1;transform:translateY(0) scale(1)}
+    .reveal.exit{opacity:.35;transform:translateY(-28px) scale(.99)}
+
+    @media(max-width:1000px){
+      .course-grid,.opportunity-grid,.footer-grid{grid-template-columns:repeat(2,1fr)}
+      .progress-wrap{grid-template-columns:1fr}
     }
-
-    .course-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 34px rgba(0,0,0,.12);
+    @media(max-width:760px){
+      .menu-toggle{display:block}
+      .nav-links{display:none;position:fixed;top:84px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:24px 6%;flex-direction:column;align-items:flex-start}
+      body.menu-open .nav-links{display:flex}
+      .brand img{width:48px;height:48px}.brand h2{font-size:1.1rem}.brand p{font-size:.66rem}
+      .hero{min-height:auto;background-position:center}.hero .container{padding:78px 0}
+      .hero-actions{flex-direction:column}.btn{width:100%}
+      .course-grid,.opportunity-grid,.footer-grid{grid-template-columns:1fr}
+      .action-row{grid-template-columns:1fr}
     }
-
-    .track-pill {
-      display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      background: rgba(0,153,255,.12);
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation:none!important;transition:none!important}
+      .reveal,.reveal.active,.reveal.exit{opacity:1;transform:none}
     }
-
-    .course-card h3 {
-      margin: 0 0 10px;
-      font-size: 1.3rem;
-    }
-
-    .course-card p {
-      margin: 0 0 12px;
-      opacity: .92;
-    }
-
-    .course-meta {
-      font-size: .93rem;
-      opacity: .82;
-      margin-bottom: 16px;
-    }
-
-    .action-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .action-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .upload-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      min-height: 44px;
-      border-radius: 12px;
-      padding: 11px 16px;
-      font-weight: 600;
-      border: 1px solid rgba(255,255,255,.12);
-      opacity: .5;
-      pointer-events: none;
-      transition: .2s ease;
-    }
-
-    .upload-link.unlocked {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .status-box {
-      margin-top: 10px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      font-size: .95rem;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.06);
-    }
-
-    .certificate-card {
-      margin-top: 22px;
-      padding: 24px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, rgba(0,200,120,.10), rgba(0,153,255,.08));
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .certificate-card h2 {
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
-
-    .certificate-card p {
-      margin-bottom: 16px;
-      opacity: .92;
-      max-width: 760px;
-    }
-
-    .locked-note {
-      font-size: .92rem;
-      opacity: .8;
-      margin-top: 8px;
-    }
-
-    @media (max-width: 640px) {
-      .hero-card,
-      .course-card,
-      .certificate-card {
-        padding: 18px;
-      }
-    }
-
-    /* NAVBAR */
-.nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-  padding: 12px 16px;
-  border-radius: 16px;
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.08);
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-}
-
-.nav-right {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.nav-link {
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  transition: 0.2s ease;
-}
-
-.nav-link:hover {
-  background: rgba(0,153,255,.15);
-}
-
-.nav-back {
-  text-decoration: none;
-  font-weight: 600;
-  opacity: 0.85;
-}
-
-.nav-back:hover {
-  opacity: 1;
-}
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <!-- NAVBAR -->
-<div class="nav-bar">
-  <div class="nav-left">
-    <a class="nav-back" href="javascript:history.back()">← Back</a>
-  </div>
+  <div class="scrollbar" id="scrollbar"></div>
 
-  <div class="nav-right">
-    <a href="index.html" class="nav-link">Home</a>
-    <a href="speakhub.html" class="nav-link">SpeakHub</a>
-    <a href="e-library.html" class="nav-link">E-Library</a>
-  </div>
-</div>
-
-    <div class="hero-card">
-      <span class="hero-badge">🚀 SpeakHub</span>
-      <h1 class="hero-title">Learn skills. Access opportunities. Build your future.</h1>
-      <p class="hero-text">
-        SpeakHub helps students and young people learn digital skills, discover career and empowerment opportunities,
-        and grow through verified recognition.
-      </p>
-
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#courses">Explore Courses</a>
-        <a class="btn btn-ghost" href="#certificate-section">View Certificate Section</a>
-      </div>
-
-      <div class="progress-wrap">
-        <div class="progress-top">
-          <strong>Your Progress</strong>
-          <span id="progressText">0% Complete</span>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand" aria-label="SpeakOut Home">
+        <img src="logo.png" alt="SpeakOut Logo" />
+        <div>
+          <h2>SpeakOut</h2>
+          <p>Mental Health Outreach</p>
         </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-      </div>
-
-      <p class="hero-note" id="heroStatus">
-        Choose a track below and begin your SpeakHub learning journey.
-      </p>
-    </div>
-
-    <div class="card">
-      <h2 class="section-title">Choose your skill track</h2>
-      <p class="section-text">
-        These courses are free, flexible, and beginner-friendly. Pick one that matches your interest,
-        complete it on the external site, then come back here to upload your certificate.
-      </p>
-    </div>
-
-    <div class="course-grid" id="courses">
-      <div class="course-card">
-        <span class="track-pill">🌐 Beginner Track</span>
-        <h3>Web Development</h3>
-        <p>Learn how websites work, from HTML and CSS to JavaScript basics.</p>
-        <div class="course-meta">Best for beginners who want to start building digital products.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://www.freecodecamp.org/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('Web Development')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-Web Development" href="speakhub-upload.html?track=Web%20Development">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-Web Development">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🎨 Creative Track</span>
-        <h3>UI/UX Design</h3>
-        <p>Learn design thinking, wireframing, and user-friendly interface design.</p>
-        <div class="course-meta">Great for creative minds who want to design digital experiences.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://www.coursera.org/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('UI/UX Design')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-UI/UX Design" href="speakhub-upload.html?track=UI%2FUX%20Design">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-UI/UX Design">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">📣 Growth Track</span>
-        <h3>Digital Marketing</h3>
-        <p>Learn online branding, content strategy, and digital growth basics.</p>
-        <div class="course-meta">Perfect for learners interested in business growth and online visibility.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://learndigital.withgoogle.com/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('Digital Marketing')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-Digital Marketing" href="speakhub-upload.html?track=Digital%20Marketing">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-Digital Marketing">
-          Status: Not started
-        </div>
-      </div>
-
-
-      <div class="course-card">
-        <span class="track-pill">🌍 Leadership Track</span>
-        <h3>YALI Network Leadership</h3>
-        <p>Build civic leadership, public management, entrepreneurship, and community impact skills.</p>
-        <div class="course-meta">Best for African students, youth leaders, volunteers, and community builders.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://yali.state.gov/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('YALI Network Leadership')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-YALI Network Leadership" href="speakhub-upload.html?track=YALI%20Network%20Leadership">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-YALI Network Leadership">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🚀 Leadership Track</span>
-        <h3>HP LIFE Leadership</h3>
-        <p>Learn practical leadership, communication, business, and entrepreneurship skills.</p>
-        <div class="course-meta">Great for students who want confidence, teamwork, and workplace readiness.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://www.life-global.org/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('HP LIFE Leadership')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-HP LIFE Leadership" href="speakhub-upload.html?track=HP%20LIFE%20Leadership">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-HP LIFE Leadership">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🗣️ Leadership Track</span>
-        <h3>Great Learning Leadership</h3>
-        <p>Take free leadership, communication, management, and soft-skills courses.</p>
-        <div class="course-meta">Useful for young professionals preparing for interviews, teams, and workplace growth.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://www.mygreatlearning.com/academy" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('Great Learning Leadership')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-Great Learning Leadership" href="speakhub-upload.html?track=Great%20Learning%20Leadership">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-Great Learning Leadership">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🎓 Leadership Track</span>
-        <h3>MindLuster Leadership</h3>
-        <p>Access free leadership and personal development courses with certificates.</p>
-        <div class="course-meta">Good for learners who want simple, flexible courses with proof of completion.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://www.mindluster.com/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('MindLuster Leadership')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-MindLuster Leadership" href="speakhub-upload.html?track=MindLuster%20Leadership">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-MindLuster Leadership">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🩺 Medical Track</span>
-        <h3>OpenWHO Health Courses</h3>
-        <p>Learn public health, mental health, infection prevention, outbreak response, and health emergencies.</p>
-        <div class="course-meta">Best for health students, peer educators, volunteers, and community health advocates.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://openwho.org/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('OpenWHO Health Courses')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-OpenWHO Health Courses" href="speakhub-upload.html?track=OpenWHO%20Health%20Courses">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-OpenWHO Health Courses">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">👶 Medical Track</span>
-        <h3>UNICEF Agora Health Courses</h3>
-        <p>Study child health, nutrition, humanitarian response, community development, and protection topics.</p>
-        <div class="course-meta">Strong option for learners interested in children, communities, and humanitarian work.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://agora.unicef.org/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('UNICEF Agora Health Courses')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-UNICEF Agora Health Courses" href="speakhub-upload.html?track=UNICEF%20Agora%20Health%20Courses">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-UNICEF Agora Health Courses">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🏥 Medical Track</span>
-        <h3>Alison Healthcare Courses</h3>
-        <p>Learn healthcare basics, caregiving, medical terminology, nursing support, and mental health awareness.</p>
-        <div class="course-meta">Useful for beginners who want employable healthcare and caregiving knowledge.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://alison.com/tag/health" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('Alison Healthcare Courses')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-Alison Healthcare Courses" href="speakhub-upload.html?track=Alison%20Healthcare%20Courses">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-Alison Healthcare Courses">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🧬 Medical Track</span>
-        <h3>CDC TRAIN Learning Network</h3>
-        <p>Access public health, disease prevention, safety, and emergency preparedness learning resources.</p>
-        <div class="course-meta">Recommended for healthcare workers, community health teams, and disease-prevention learners.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://www.train.org/" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('CDC TRAIN Learning Network')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-CDC TRAIN Learning Network" href="speakhub-upload.html?track=CDC%20TRAIN%20Learning%20Network">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-CDC TRAIN Learning Network">
-          Status: Not started
-        </div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">📚 Medical Track</span>
-        <h3>Johns Hopkins Public Health</h3>
-        <p>Explore public health, epidemiology, healthcare systems, and research-based health learning.</p>
-        <div class="course-meta">Good for serious learners who want stronger academic public-health exposure.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="https://www.coursera.org/jhu" target="_blank" rel="noopener">
-            Start External Course
-          </a>
-
-          <div class="action-row">
-            <button class="btn btn-ghost" onclick="markCourseDone('Johns Hopkins Public Health')">
-              ✅ I Have Finished This Course
-            </button>
-
-            <a class="upload-link" id="upload-Johns Hopkins Public Health" href="speakhub-upload.html?track=Johns%20Hopkins%20Public%20Health">
-              Upload Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="status-box" id="status-Johns Hopkins Public Health">
-          Status: Not started
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:22px;">
-      <h2 class="section-title">Career and Empowerment Opportunities</h2>
-      <p class="section-text">
-        Explore opportunities designed to help students and young people grow, earn, and succeed while in school and beyond.
-      </p>
-    </div>
-
-    <div class="course-grid">
-      <div class="course-card">
-        <span class="track-pill">💼 Career</span>
-        <h3>Jobs & Internships</h3>
-        <p>Find internships, entry-level roles, and student-friendly job opportunities.</p>
-        <div class="course-meta">Useful for students preparing for work experience and career growth.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="jobs-internships.html">
-            Explore Jobs & Internships
-          </a>
-        </div>
-
-        <div class="status-box">Now open</div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🎓 Growth</span>
-        <h3>Scholarships & Grants</h3>
-        <p>Discover scholarships, grants, fellowships, and education support opportunities.</p>
-        <div class="course-meta">Helpful for students looking for funding and academic support.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="scholarships-grants.html">
-            Explore Scholarships & Grants
-          </a>
-        </div>
-
-        <div class="status-box">Now open</div>
-      </div>
-
-      <div class="course-card">
-        <span class="track-pill">🌱 Empowerment</span>
-        <h3>Youth Empowerment Opportunities</h3>
-        <p>Access empowerment programs, ambassador roles, volunteering opportunities, and income pathways.</p>
-        <div class="course-meta">Designed to help students build confidence, exposure, and earning potential.</div>
-
-        <div class="action-stack">
-          <a class="btn btn-primary" href="youth-empowerment.html">
-            Explore Youth Empowerment
-          </a>
-        </div>
-
-        <div class="status-box">Now open</div>
-      </div>
-    </div>
-
-    <div class="certificate-card" id="certificate-section">
-      <h2>SpeakHub Certificate and Recognition</h2>
-      <p>
-        After your uploaded course certificate is reviewed and verified, you will become eligible
-        for SpeakHub recognition and your downloadable certificate.
-      </p>
-
-      <a class="btn btn-primary" id="downloadCertificateBtn" href="certificate.html" style="pointer-events:none; opacity:.5;">
-        Download SpeakHub Certificate
       </a>
 
-      <div class="locked-note" id="certificateNote">
-        Certificate download is locked until your submitted course certificate has been verified.
+      <button class="menu-toggle" aria-label="Open menu" onclick="document.body.classList.toggle('menu-open')">☰</button>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html" onclick="document.body.classList.remove('menu-open')">Home</a>
+        <a href="#courses" onclick="document.body.classList.remove('menu-open')">Courses</a>
+        <a href="#opportunities" onclick="document.body.classList.remove('menu-open')">Opportunities</a>
+        <a href="e-library.html" onclick="document.body.classList.remove('menu-open')">E-Library</a>
+        <a href="#certificate-section" onclick="document.body.classList.remove('menu-open')">Certificate</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content reveal">
+          <span class="kicker">Skills • Leadership • Opportunities</span>
+          <h1>Build skills that open doors.</h1>
+          <p>SpeakHub connects young people to free learning pathways, certificate opportunities, career resources and leadership development across technology, health, business, data, marketing, humanitarian work and more.</p>
+
+          <div class="hero-actions">
+            <a href="#courses" class="btn btn-primary">Explore Free Courses</a>
+            <a href="#certificate-section" class="btn btn-light">View Certificate Pathway</a>
+          </div>
+
+          <div class="hero-trust" aria-label="SpeakHub learning areas">
+            <span>Digital skills</span>
+            <span>Career readiness</span>
+            <span>Free certificates & badges</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="progress-section">
+      <div class="container progress-wrap reveal">
+        <div class="progress-title">
+          <span class="label">Your SpeakHub Progress</span>
+          <h2>Track your learning journey.</h2>
+          <p>Mark courses as completed, unlock certificate upload, and build a simple record of your growth. Final SpeakHub recognition is issued after review.</p>
+        </div>
+
+        <div>
+          <div class="progress-top">
+            <strong>Completed Tracks</strong>
+            <span id="progressText">0% Complete</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <p class="progress-note" id="heroStatus">Choose a course below and begin your SpeakHub learning journey.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="filters" id="courses">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="label">Free Learning Pathways</span>
+          <h2>Choose a certified skill track</h2>
+          <p>Start on trusted external learning platforms. After completion, return to SpeakHub to upload your certificate or badge for recognition.</p>
+        </div>
+
+        <div class="filter-wrap reveal" id="filterWrap"></div>
+        <div class="search-box reveal">
+          <input type="search" id="courseSearch" placeholder="Search courses by skill, provider or category..." />
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="course-grid" id="courseGrid"></div>
+      </div>
+    </section>
+
+    <section class="opportunities" id="opportunities">
+      <div class="container">
+        <div class="section-title reveal">
+          <span class="label">Career & Empowerment</span>
+          <h2>Opportunities beyond courses</h2>
+          <p>SpeakHub is not just a course list. It is a growth pathway for young people preparing for work, leadership and service.</p>
+        </div>
+
+        <div class="opportunity-grid">
+          <a class="opportunity-card reveal" href="jobs-internships.html">
+            <span class="label">Career</span>
+            <h3>Jobs & Internships</h3>
+            <p>Find internships, entry-level roles and student-friendly job opportunities.</p>
+            <strong class="provider">Explore →</strong>
+          </a>
+
+          <a class="opportunity-card reveal" href="scholarships-grants.html">
+            <span class="label">Growth</span>
+            <h3>Scholarships & Grants</h3>
+            <p>Discover scholarships, fellowships, grants and education support opportunities.</p>
+            <strong class="provider">Explore →</strong>
+          </a>
+
+          <a class="opportunity-card reveal" href="youth-empowerment.html">
+            <span class="label">Empowerment</span>
+            <h3>Youth Empowerment</h3>
+            <p>Access ambassador roles, volunteering, leadership programs and income pathways.</p>
+            <strong class="provider">Explore →</strong>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="certificate-section" id="certificate-section">
+      <div class="container certificate-card reveal">
+        <span class="kicker">Recognition Pathway</span>
+        <h2>SpeakHub Certificate & Recognition</h2>
+        <p>Complete a listed course on the external platform, mark it completed, upload your certificate or badge, and wait for review. After verification, you become eligible for SpeakHub recognition.</p>
+        <div class="hero-actions" style="justify-content:center">
+          <a class="btn btn-light" id="downloadCertificateBtn" href="certificate.html" style="pointer-events:none; opacity:.55;">Download SpeakHub Certificate</a>
+          <a class="btn btn-outline" href="#courses">Continue Learning</a>
+        </div>
+        <div class="locked-note" id="certificateNote">Certificate download is locked until your submitted course certificate has been verified.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="logo.png" alt="SpeakOut Logo">
+            <div>
+              <h3>SpeakHub</h3>
+              <p>Skills Development Center</p>
+            </div>
+          </div>
+          <p>Helping young people build practical skills, access opportunities and grow through verified learning recognition.</p>
+        </div>
+
+        <div>
+          <h4>Explore</h4>
+          <a href="#courses">Courses</a>
+          <a href="#opportunities">Opportunities</a>
+          <a href="e-library.html">E-Library</a>
+          <a href="index.html">Main Website</a>
+        </div>
+
+        <div>
+          <h4>Learning</h4>
+          <a href="https://speakoutmentalhealth.github.io/MindCheck/" target="_blank" rel="noopener">MindCheck</a>
+          <a href="https://mindcheck.speakoutmentalhealth.org/ambassador.html" target="_blank" rel="noopener">Ambassador Program</a>
+          <a href="certificate.html">Certificate Portal</a>
+        </div>
+
+        <div>
+          <h4>Contact</h4>
+          <a href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp: +234 811 810 3510</a>
+          <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+          <a href="https://instagram.com/speaak_out" target="_blank" rel="noopener">Instagram: @speaaakout</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 SpeakOut Mental Health Outreach. SpeakHub learning links go to external platforms; certificate availability may vary by provider and course.</p>
       </div>
     </div>
-  </div>
+  </footer>
 
-  <script>
-    function getSpeakHubState() {
-      return JSON.parse(localStorage.getItem("speakhubState") || JSON.stringify({
-        courses: {},
-        verified: false,
-        certificateUnlocked: false
-      }));
-    }
+<script>
+  const courses = [{"category": "Technology", "title": "Web Development", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/2022/responsive-web-design/", "description": "HTML, CSS, responsive design and project-based web development.", "recognition": "Free certification", "icon": "🌐"}, {"category": "Technology", "title": "JavaScript", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/", "description": "JavaScript foundations, algorithms and interactive programming projects.", "recognition": "Free certification", "icon": "💻"}, {"category": "Technology", "title": "Python Programming", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/scientific-computing-with-python/", "description": "Python basics, automation thinking and problem-solving for beginners.", "recognition": "Free certification", "icon": "🐍"}, {"category": "Cybersecurity", "title": "Introduction to Cybersecurity", "provider": "Cisco Networking Academy", "url": "https://www.netacad.com/courses/introduction-to-cybersecurity", "description": "Cybersecurity basics, online safety, threats and career awareness.", "recognition": "Free badge/course", "icon": "🛡️"}, {"category": "Networking", "title": "Networking Basics", "provider": "Cisco Networking Academy", "url": "https://www.netacad.com/courses/networking-basics", "description": "Computer networking foundations, devices, protocols and connectivity.", "recognition": "Free badge/course", "icon": "🌐"}, {"category": "Cloud", "title": "AWS Educate Cloud Foundations", "provider": "AWS Educate", "url": "https://aws.amazon.com/education/awseducate/", "description": "Cloud computing basics, AWS services and beginner cloud career readiness.", "recognition": "Free training + badges", "icon": "☁️"}, {"category": "Cloud", "title": "Microsoft Learn Cloud Fundamentals", "provider": "Microsoft Learn", "url": "https://learn.microsoft.com/training/", "description": "Microsoft cloud, Azure fundamentals, productivity and technical learning paths.", "recognition": "Free learning / credentials vary", "icon": "🪟"}, {"category": "Data & AI", "title": "Kaggle Python", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/python", "description": "Hands-on Python for data analysis and beginner data science.", "recognition": "Free certificate", "icon": "📊"}, {"category": "Data & AI", "title": "Kaggle Intro to Machine Learning", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/intro-to-machine-learning", "description": "Build simple machine learning models and understand core ML concepts.", "recognition": "Free certificate", "icon": "🤖"}, {"category": "Data & AI", "title": "IBM SkillsBuild AI Foundations", "provider": "IBM SkillsBuild", "url": "https://skillsbuild.org/learners", "description": "AI, data, cybersecurity, workplace and digital skills pathways.", "recognition": "Free digital credentials", "icon": "🧠"}, {"category": "Data & AI", "title": "HP LIFE AI for Beginners", "provider": "HP LIFE", "url": "https://www.life-global.org/course/391-ai-for-beginners", "description": "Generative AI, machine learning and practical AI concepts for beginners.", "recognition": "Free certificate", "icon": "✨"}, {"category": "Marketing", "title": "Google Fundamentals of Digital Marketing", "provider": "Google Skillshop", "url": "https://skillshop.exceedlms.com/student/collection/1830706-fundamentals-of-digital-marketing", "description": "SEO, online presence, AI tools, content and digital marketing fundamentals.", "recognition": "Free training/certification", "icon": "📣"}, {"category": "Marketing", "title": "Google Analytics Certification", "provider": "Google Skillshop", "url": "https://skillshop.withgoogle.com/", "description": "Google Analytics knowledge for reporting, measurement and campaign insights.", "recognition": "Free certification", "icon": "📈"}, {"category": "Marketing", "title": "HubSpot Digital Marketing", "provider": "HubSpot Academy", "url": "https://academy.hubspot.com/courses/digital-marketing", "description": "SEO, email, social media and inbound digital marketing strategy.", "recognition": "Free certification", "icon": "🎯"}, {"category": "Marketing", "title": "HubSpot Social Media Marketing", "provider": "HubSpot Academy", "url": "https://academy.hubspot.com/courses/social-media", "description": "Social media strategy, engagement, content planning and ROI measurement.", "recognition": "Free certification", "icon": "📱"}, {"category": "Business", "title": "HP LIFE Entrepreneurship", "provider": "HP LIFE", "url": "https://www.life-global.org/categorylist/2-entrepreneurship", "description": "Business ideas, planning, customer understanding and entrepreneurship basics.", "recognition": "Free certificate", "icon": "🚀"}, {"category": "Business", "title": "HP LIFE Finance", "provider": "HP LIFE", "url": "https://www.life-global.org/categorylist/3-finance", "description": "Money management, pricing, profit, cash flow and small business finance.", "recognition": "Free certificate", "icon": "💰"}, {"category": "Business", "title": "HP LIFE Communication", "provider": "HP LIFE", "url": "https://www.life-global.org/categorylist/1-communication", "description": "Professional communication, presentations, storytelling and workplace confidence.", "recognition": "Free certificate", "icon": "🗣️"}, {"category": "Leadership", "title": "YALI Civic Leadership", "provider": "YALI Network", "url": "https://yali.state.gov/courses/", "description": "Civic leadership, public management, entrepreneurship and community impact.", "recognition": "Free certificate", "icon": "🌍"}, {"category": "Leadership", "title": "YALI Public Management", "provider": "YALI Network", "url": "https://yali.state.gov/courses/", "description": "Public leadership, governance, accountability and policy-focused learning.", "recognition": "Free certificate", "icon": "🏛️"}, {"category": "Leadership", "title": "HP LIFE Leadership & Teamwork", "provider": "HP LIFE", "url": "https://www.life-global.org/", "description": "Teamwork, collaboration, leadership behavior and workplace readiness.", "recognition": "Free certificate", "icon": "🤝"}, {"category": "Health", "title": "OpenWHO Public Health Courses", "provider": "OpenWHO", "url": "https://openwho.org/", "description": "Public health, outbreaks, health emergencies and humanitarian learning.", "recognition": "Certificates vary by course", "icon": "🩺"}, {"category": "Health", "title": "WHO EMRO Mental Health Courses", "provider": "WHO EMRO", "url": "https://www.emro.who.int/courses.html", "description": "Mental health in schools, psychosocial support and community health topics.", "recognition": "Certificates vary", "icon": "💚"}, {"category": "Health", "title": "UNICEF Agora Learning", "provider": "UNICEF Agora", "url": "https://agora.unicef.org/", "description": "Child protection, humanitarian response, learning and community development.", "recognition": "Certificates vary", "icon": "👶"}, {"category": "Humanitarian", "title": "DisasterReady Humanitarian Training", "provider": "DisasterReady", "url": "https://www.disasterready.org/", "description": "Humanitarian response, safety, protection, project management and nonprofit skills.", "recognition": "Free certificate courses", "icon": "🕊️"}, {"category": "Project Management", "title": "PM4NGOs Project DPro Intro", "provider": "PM4NGOs", "url": "https://www.pm4ngos.org/project-dpro/", "description": "Project management foundations for NGOs, development and social impact programs.", "recognition": "Learning/certification options vary", "icon": "📋"}, {"category": "Productivity", "title": "Google Workspace Training", "provider": "Google Skillshop", "url": "https://skillshop.withgoogle.com/", "description": "Google Docs, Sheets, Slides, Forms and workplace productivity tools.", "recognition": "Free training/certification", "icon": "📄"}, {"category": "Productivity", "title": "Microsoft Office Skills", "provider": "Microsoft Learn", "url": "https://learn.microsoft.com/training/", "description": "Excel, Word, PowerPoint, Teams, Microsoft 365 and business productivity skills.", "recognition": "Free learning / credentials vary", "icon": "📊"}, {"category": "Career", "title": "LinkedIn Learning Free Trial Courses", "provider": "LinkedIn Learning", "url": "https://www.linkedin.com/learning/", "description": "Career development, job readiness, communication and workplace skills.", "recognition": "Certificate with access/trial", "icon": "💼"}, {"category": "Education", "title": "Commonwealth of Learning Courses", "provider": "COL", "url": "https://www.col.org/", "description": "Open learning, education, skills development and community empowerment resources.", "recognition": "Availability varies", "icon": "🎓"}];
 
-    function saveSpeakHubState(state) {
-      localStorage.setItem("speakhubState", JSON.stringify(state));
-    }
+  const courseGrid = document.getElementById("courseGrid");
+  const filterWrap = document.getElementById("filterWrap");
+  const searchInput = document.getElementById("courseSearch");
 
-    function markCourseDone(courseName) {
-      const state = getSpeakHubState();
-      if (!state.courses[courseName]) {
-        state.courses[courseName] = {};
-      }
-      state.courses[courseName].completed = true;
-      saveSpeakHubState(state);
-      renderSpeakHubState();
-      alert(courseName + " marked as completed. You can now upload your certificate.");
-    }
+  const categories = ["All", ...Array.from(new Set(courses.map(c => c.category)))];
+  let activeCategory = "All";
 
-    function renderSpeakHubState() {
-      const state = getSpeakHubState();
-      const tracks = [
-        "Web Development",
-        "UI/UX Design",
-        "Digital Marketing",
-        "YALI Network Leadership",
-        "HP LIFE Leadership",
-        "Great Learning Leadership",
-        "MindLuster Leadership",
-        "OpenWHO Health Courses",
-        "UNICEF Agora Health Courses",
-        "Alison Healthcare Courses",
-        "CDC TRAIN Learning Network",
-        "Johns Hopkins Public Health"
-      ];
-      let completedCount = 0;
+  function safeId(name){
+    return name.replace(/[^a-zA-Z0-9]/g, "-");
+  }
 
-      tracks.forEach(track => {
-        const courseState = state.courses[track] || {};
-        const uploadBtn = document.getElementById("upload-" + track);
-        const statusBox = document.getElementById("status-" + track);
+  function getSpeakHubState() {
+    return JSON.parse(localStorage.getItem("speakhubState") || JSON.stringify({
+      courses: {},
+      verified: false,
+      certificateUnlocked: false
+    }));
+  }
 
-        if (courseState.completed) {
-          completedCount++;
-          uploadBtn.classList.add("unlocked");
-          statusBox.textContent = "Status: Course completed • Certificate upload unlocked";
-        } else {
-          uploadBtn.classList.remove("unlocked");
-          statusBox.textContent = "Status: Not started";
-        }
-      });
+  function saveSpeakHubState(state) {
+    localStorage.setItem("speakhubState", JSON.stringify(state));
+  }
 
-      const progress = Math.min((completedCount / tracks.length) * 100, 100);
-      document.getElementById("progressFill").style.width = progress + "%";
-      document.getElementById("progressText").textContent = Math.round(progress) + "% Complete";
-
-      const heroStatus = document.getElementById("heroStatus");
-      if (completedCount === 0) {
-        heroStatus.textContent = "Choose a track below and begin your SpeakHub learning journey.";
-      } else if (completedCount < tracks.length) {
-        heroStatus.textContent = "Great start. Complete more tracks and upload your certificate for verification.";
-      } else {
-        heroStatus.textContent = "Excellent work. You have completed all listed tracks. Upload your certificates for verification.";
-      }
-
-      const downloadBtn = document.getElementById("downloadCertificateBtn");
-      const note = document.getElementById("certificateNote");
-
-      if (state.certificateUnlocked) {
-        downloadBtn.style.pointerEvents = "auto";
-        downloadBtn.style.opacity = "1";
-        note.textContent = "Your SpeakHub certificate is ready for download.";
-      } else {
-        downloadBtn.style.pointerEvents = "none";
-        downloadBtn.style.opacity = ".5";
-        note.textContent = "Certificate download is locked until your submitted course certificate has been verified.";
-      }
-    }
-
+  function markCourseDone(courseName) {
+    const state = getSpeakHubState();
+    if (!state.courses[courseName]) state.courses[courseName] = {};
+    state.courses[courseName].completed = true;
+    saveSpeakHubState(state);
+    renderCourses();
     renderSpeakHubState();
-  </script>
+    alert(courseName + " marked as completed. You can now upload your certificate or badge.");
+  }
+
+  function renderFilters(){
+    filterWrap.innerHTML = categories.map(cat => `
+      <button class="filter-btn ${cat === activeCategory ? "active" : ""}" onclick="setFilter('${cat}')">${cat}</button>
+    `).join("");
+  }
+
+  function setFilter(cat){
+    activeCategory = cat;
+    renderFilters();
+    renderCourses();
+  }
+
+  function renderCourses(){
+    const state = getSpeakHubState();
+    const q = searchInput.value.trim().toLowerCase();
+
+    const filtered = courses.filter(course => {
+      const matchesCategory = activeCategory === "All" || course.category === activeCategory;
+      const text = `${course.category} ${course.title} ${course.provider} ${course.description}`.toLowerCase();
+      const matchesSearch = !q || text.includes(q);
+      return matchesCategory && matchesSearch;
+    });
+
+    courseGrid.innerHTML = filtered.map(course => {
+      const id = safeId(course.title);
+      const completed = state.courses[course.title]?.completed;
+      return `
+        <article class="course-card reveal active">
+          <div class="course-top">
+            <div class="course-icon">${course.icon}</div>
+            <div>
+              <span class="track-pill">${course.category}</span>
+              <h3>${course.title}</h3>
+            </div>
+          </div>
+          <p>${course.description}</p>
+          <div class="course-meta">
+            Provider: <span class="provider">${course.provider}</span><br>
+            Recognition: ${course.recognition}
+          </div>
+          <div class="action-stack">
+            <a class="btn btn-primary btn-small" href="${course.url}" target="_blank" rel="noopener">Start External Course</a>
+            <div class="action-row">
+              <button class="btn btn-soft btn-small" onclick="markCourseDone('${course.title.replace(/'/g, "\\'")}')">I Finished</button>
+              <a class="upload-link ${completed ? "unlocked" : ""}" id="upload-${id}" href="speakhub-upload.html?track=${encodeURIComponent(course.title)}">Upload Certificate</a>
+            </div>
+          </div>
+          <div class="status-box" id="status-${id}">
+            Status: ${completed ? "Course completed • Upload unlocked" : "Not started"}
+          </div>
+        </article>
+      `;
+    }).join("") || `<div class="course-card"><h3>No course found</h3><p>Try another category or search term.</p></div>`;
+  }
+
+  function renderSpeakHubState() {
+    const state = getSpeakHubState();
+    const completedCount = courses.filter(course => state.courses[course.title]?.completed).length;
+    const progress = Math.min((completedCount / courses.length) * 100, 100);
+
+    document.getElementById("progressFill").style.width = progress + "%";
+    document.getElementById("progressText").textContent = Math.round(progress) + "% Complete";
+
+    const heroStatus = document.getElementById("heroStatus");
+    if (completedCount === 0) {
+      heroStatus.textContent = "Choose a course below and begin your SpeakHub learning journey.";
+    } else if (completedCount < courses.length) {
+      heroStatus.textContent = completedCount + " course(s) completed. Keep building your skills and upload certificates for review.";
+    } else {
+      heroStatus.textContent = "Excellent work. You have completed all listed tracks. Upload your certificates for verification.";
+    }
+
+    const downloadBtn = document.getElementById("downloadCertificateBtn");
+    const note = document.getElementById("certificateNote");
+
+    if (state.certificateUnlocked) {
+      downloadBtn.style.pointerEvents = "auto";
+      downloadBtn.style.opacity = "1";
+      note.textContent = "Your SpeakHub certificate is ready for download.";
+    } else {
+      downloadBtn.style.pointerEvents = "none";
+      downloadBtn.style.opacity = ".55";
+      note.textContent = "Certificate download is locked until your submitted course certificate has been verified.";
+    }
+  }
+
+  searchInput.addEventListener("input", renderCourses);
+
+  renderFilters();
+  renderCourses();
+  renderSpeakHubState();
+
+  const revealItems = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('active');
+        entry.target.classList.remove('exit');
+      } else {
+        entry.target.classList.remove('active');
+        entry.target.classList.add('exit');
+      }
+    });
+  }, {threshold:.16, rootMargin:'0px 0px -8% 0px'});
+  revealItems.forEach(item => revealObserver.observe(item));
+
+  const bar = document.getElementById('scrollbar');
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    bar.style.width = pct + '%';
+  }, {passive:true});
+</script>
 </body>
 </html>
