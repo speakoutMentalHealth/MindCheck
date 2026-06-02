@@ -131,7 +131,7 @@
       overflow:hidden;
       background:
         linear-gradient(90deg,rgba(7,21,43,.92),rgba(7,21,43,.76) 46%,rgba(7,21,43,.35)),
-        url('icons/speakhub.png') center/cover no-repeat;
+        url('images/speakhub.jpg') center/cover no-repeat;
       color:#fff;
       padding:96px 0 84px;
     }
@@ -437,92 +437,99 @@
               Important: plain GitHub Pages cannot store uploaded files. Use the Google Form button below for real uploads, or connect this form to a secure form service.
             </div>
 
-            <form id="certificateForm" class="form-grid">
-              <div class="field-group">
-                <label for="full_name">Full Name</label>
-                <input id="full_name" type="text" name="Full Name" placeholder="Enter your full name" required>
-              </div>
+            
+<div class="submission-panel">
+  <div class="submission-card primary-submission">
+    <span class="status-pill">Secure Certificate Submission</span>
+    <h2>Submit Your Certificate Through Google Form</h2>
+    <p>
+      For security and proper record keeping, SpeakHub certificate uploads are now handled through
+      the official Google Form. Your uploaded certificate will be stored in Google Drive, while your
+      submission details will be tracked in Google Sheets for admin review.
+    </p>
 
-              <div class="field-group">
-                <label for="email">Email Address</label>
-                <input id="email" type="email" name="Email" placeholder="Enter your email address" required>
-              </div>
+    <div class="submit-actions">
+      <a class="btn btn-primary"
+         href="YOUR_GOOGLE_FORM_LINK_HERE"
+         target="_blank"
+         rel="noopener">
+        Open Certificate Submission Form
+      </a>
 
-              <div class="field-group">
-                <label for="whatsapp">WhatsApp Number</label>
-                <input id="whatsapp" type="tel" name="WhatsApp" placeholder="+234..." required>
-              </div>
+      <a class="btn btn-ghost" href="speakhub.html">
+        Back to SpeakHub
+      </a>
+    </div>
 
-              <div class="field-group">
-                <label for="track">Course Track</label>
-                <select id="track" name="Course Track" required>
-                  <option value="">Select one</option>
-                  <option>Web Development</option>
-                  <option>UI/UX Design</option>
-                  <option>Digital Marketing</option>
-                  <option>Graphic Design</option>
-                  <option>Video Editing</option>
-                  <option>Content Creation</option>
-                  <option>Social Media Management</option>
-                  <option>Cybersecurity</option>
-                  <option>Cloud Computing</option>
-                  <option>Data Analytics</option>
-                  <option>Artificial Intelligence</option>
-                  <option>Project Management</option>
-                  <option>Entrepreneurship</option>
-                  <option>Financial Literacy</option>
-                  <option>Leadership</option>
-                  <option>Public Speaking</option>
-                  <option>Humanitarian Response</option>
-                  <option>Public Health</option>
-                  <option>Mental Health Awareness</option>
-                  <option>Caregiving / Healthcare Support</option>
-                  <option>Education / Teaching Skills</option>
-                  <option>Administrative Skills</option>
-                  <option>Customer Service</option>
-                  <option>Other</option>
-                </select>
-              </div>
+    <p class="note">
+      Replace <strong>YOUR_GOOGLE_FORM_LINK_HERE</strong> with your official Google Form link before publishing.
+    </p>
+  </div>
 
-              <div class="field-group">
-                <label for="provider">Training Provider</label>
-                <input id="provider" type="text" name="Training Provider" placeholder="e.g. freeCodeCamp, Google, HP LIFE, WHO, Alison" required>
-              </div>
+  <div class="submission-card">
+    <span class="status-pill">How It Works</span>
+    <h2>Certificate Approval Workflow</h2>
 
-              <div class="field-group">
-                <label for="course_title">Exact Course Title</label>
-                <input id="course_title" type="text" name="Course Title" placeholder="Enter the course title shown on your certificate" required>
-              </div>
+    <ol class="steps-list">
+      <li>Learner completes an approved external course.</li>
+      <li>Learner opens the SpeakHub Google Form.</li>
+      <li>Learner uploads certificate through the form.</li>
+      <li>Google Form stores the file in Google Drive automatically.</li>
+      <li>Google Sheet records the learner’s details and course information.</li>
+      <li>SpeakHub admin reviews the submission.</li>
+      <li>Approved learners become eligible for SpeakHub recognition and certificate awards.</li>
+    </ol>
+  </div>
+</div>
 
-              <div class="field-group">
-                <label for="certificate_link">Certificate Link</label>
-                <input id="certificate_link" type="url" name="Certificate Link" placeholder="Paste certificate verification link or Google Drive link">
-              </div>
+<div class="admin-workflow">
+  <div class="section-head">
+    <span class="status-pill">Admin Review System</span>
+    <h2>Recommended Admin Setup</h2>
+    <p>
+      Use this structure to keep the process organized, secure and easy to manage.
+    </p>
+  </div>
 
-              <div class="field-group">
-                <label for="certificate_file">Certificate File</label>
-                <input id="certificate_file" type="file" name="Certificate File" accept=".pdf,.jpg,.jpeg,.png">
-              </div>
+  <div class="workflow-grid">
+    <div class="workflow-card">
+      <strong>01</strong>
+      <h3>Google Form</h3>
+      <p>Create a form with fields for full name, email, WhatsApp, course track, provider, certificate link/upload and notes.</p>
+    </div>
 
-              <div class="field-group">
-                <label for="notes">Optional Note</label>
-                <textarea id="notes" name="Note" placeholder="Add anything the reviewer should know..."></textarea>
-              </div>
+    <div class="workflow-card">
+      <strong>02</strong>
+      <h3>Google Drive Folder</h3>
+      <p>Allow Google Form to store uploaded certificates automatically in a dedicated SpeakHub folder.</p>
+    </div>
 
-              <div class="submit-row">
-                <button class="btn btn-primary" type="submit">Prepare Email Submission</button>
-                <a class="btn btn-gold" href="YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" rel="noopener">Upload via Google Form</a>
-                <a class="btn btn-soft" href="speakhub.html">Back to SpeakHub</a>
-              </div>
+    <div class="workflow-card">
+      <strong>03</strong>
+      <h3>Google Sheet Tracker</h3>
+      <p>Connect form responses to a spreadsheet with columns for status, reviewer comment and approval date.</p>
+    </div>
 
-              <div class="note">
-                Accepted formats: PDF, JPG, JPEG, PNG. For GitHub Pages, real file upload requires Google Forms or a backend.
-              </div>
+    <div class="workflow-card">
+      <strong>04</strong>
+      <h3>Admin Review</h3>
+      <p>Admins verify certificate name, course provider, completion evidence and learner details.</p>
+    </div>
 
-              <div class="success" id="successBox">
-                Submission prepared. Your email app should open with your details. Attach your certificate file manually before sending.
-              </div>
-            </form>
+    <div class="workflow-card">
+      <strong>05</strong>
+      <h3>Approval Status</h3>
+      <p>Mark submissions as Pending, Approved, Rejected or Needs Correction.</p>
+    </div>
+
+    <div class="workflow-card">
+      <strong>06</strong>
+      <h3>Certificate Unlock</h3>
+      <p>Only approved learners should receive SpeakHub recognition, badges or certificate access.</p>
+    </div>
+  </div>
+</div>
+
           </div>
 
           <aside class="info-card reveal">
@@ -626,90 +633,16 @@
   </footer>
 
   <script>
-    const revealItems = document.querySelectorAll('.reveal');
-
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add('active');
-          entry.target.classList.remove('exit');
-        } else {
-          entry.target.classList.remove('active');
-          entry.target.classList.add('exit');
-        }
-      });
-    }, {threshold:.16, rootMargin:'0px 0px -8% 0px'});
-
-    revealItems.forEach(item => revealObserver.observe(item));
-
     const params = new URLSearchParams(window.location.search);
     const track = params.get("track");
-    const trackField = document.getElementById("track");
-    const trackText = document.getElementById("selectedTrackText");
 
-    if(track){
-      const matchingOption = Array.from(trackField.options).find(option => option.value === track || option.textContent === track);
-      if(matchingOption){
-        trackField.value = matchingOption.value || matchingOption.textContent;
-      }
-      trackText.textContent = track;
-      updateProgress(45);
+    if (track) {
+      const notice = document.createElement("div");
+      notice.className = "helper-box";
+      notice.innerHTML = "<strong>Selected Track:</strong> " + track + "<br>Please choose this same track inside the Google Form.";
+      const panel = document.querySelector(".primary-submission");
+      if (panel) panel.appendChild(notice);
     }
-
-    trackField.addEventListener("change", () => {
-      trackText.textContent = trackField.value || "No track selected yet";
-      updateProgress(trackField.value ? 45 : 0);
-    });
-
-    function updateProgress(value){
-      document.getElementById("progressFill").style.width = value + "%";
-      document.getElementById("progressText").textContent = value + "% Complete";
-      document.getElementById("heroStatus").textContent = value > 0
-        ? "Track selected. Complete the submission details and attach your certificate."
-        : "Select your course track and upload your certificate for review.";
-    }
-
-    const form = document.getElementById("certificateForm");
-
-    form.addEventListener("input", () => {
-      const requiredFields = ["full_name","email","whatsapp","track","provider","course_title"];
-      const completed = requiredFields.filter(id => document.getElementById(id).value.trim()).length;
-      const progress = Math.min(45 + Math.round((completed / requiredFields.length) * 55), 100);
-      updateProgress(completed ? progress : (trackField.value ? 45 : 0));
-    });
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const data = new FormData(form);
-      const subject = encodeURIComponent("SpeakHub Certificate Verification Submission");
-      const body = encodeURIComponent(
-        "Hello SpeakOut Team,\n\n" +
-        "I would like to submit my course certificate for SpeakHub verification.\n\n" +
-        "Full Name: " + (data.get("Full Name") || "") + "\n" +
-        "Email: " + (data.get("Email") || "") + "\n" +
-        "WhatsApp: " + (data.get("WhatsApp") || "") + "\n" +
-        "Course Track: " + (data.get("Course Track") || "") + "\n" +
-        "Training Provider: " + (data.get("Training Provider") || "") + "\n" +
-        "Course Title: " + (data.get("Course Title") || "") + "\n" +
-        "Certificate Link: " + (data.get("Certificate Link") || "") + "\n" +
-        "Note: " + (data.get("Note") || "") + "\n\n" +
-        "I will attach my certificate file to this email before sending.\n\n" +
-        "Thank you."
-      );
-
-      document.getElementById("successBox").classList.add("show");
-      updateProgress(100);
-      window.location.href = "mailto:speaaakout@gmail.com?subject=" + subject + "&body=" + body;
-    });
-
-    const bar = document.getElementById('scrollbar');
-
-    window.addEventListener('scroll', () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-      bar.style.width = pct + '%';
-    }, {passive:true});
   </script>
 </body>
 </html>
