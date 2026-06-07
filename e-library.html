@@ -3,76 +3,368 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SpeakOut E-Library — Read Books Online</title>
-<meta name="description" content="SpeakOut E-Library with clickable shelves, read-online links, legal PDF/download sources, reading clubs, and free learning resources." />
+<title>SpeakOut E-Library — Free Learning Resources</title>
+<meta name="description" content="SpeakOut E-Library: compact free learning library for mental health, leadership, business, public health, technology and personal development." />
 <link rel="icon" type="image/png" href="icons/logo.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-:root{--navy:#07152b;--navy2:#0b2344;--blue:#0a5fbf;--blue2:#074f9f;--blueSoft:#eaf3ff;--gold:#f4a21c;--gold2:#d98200;--goldSoft:#fff4df;--green:#0f8f6f;--greenSoft:#e9fbf5;--ink:#111827;--muted:#637083;--line:#e5edf6;--bg:#f7f9fc;--shadow:0 24px 70px rgba(7,21,43,.12);--soft:0 16px 44px rgba(7,21,43,.08);--r:30px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;-webkit-text-size-adjust:100%;font-family:Outfit,Arial,sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden}a{text-decoration:none;color:inherit}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid rgba(10,95,191,.35);outline-offset:3px}.container{width:min(1180px,90%);margin:auto}.bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--gold),var(--blue));z-index:3000}.nav{position:sticky;top:0;z-index:1000;min-height:84px;padding:12px 0;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(7,21,43,.08)}.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:flex;align-items:center;gap:12px}.brand img{width:58px;height:58px;object-fit:contain}.brand h2{margin:0;color:var(--blue);font-size:1.35rem;line-height:1;font-weight:900}.brand p{margin:3px 0 0;color:var(--gold2);font-size:.74rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.nav-links{display:flex;align-items:center;gap:10px;font-weight:800;color:#374151;font-size:.9rem;flex-wrap:wrap;justify-content:flex-end}.nav-links a:hover{color:var(--blue)}.menu{display:none;border:0;background:var(--navy);color:#fff;border-radius:14px;padding:10px 13px;font-size:1.25rem}.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:11px 15px;border-radius:999px;font-weight:800;border:0;cursor:pointer;transition:.25s ease;white-space:normal;text-align:center;line-height:1.15;font-size:.9rem;max-width:100%}.btn:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(7,21,43,.14)}.primary{background:var(--blue);color:#fff}.primary:hover{background:var(--blue2)}.light{background:#fff;color:var(--navy)}.soft{background:var(--blueSoft);color:var(--blue)}.outline{border:1px solid rgba(255,255,255,.45);color:#fff;background:transparent}
-.hero{position:relative;overflow:hidden;min-height:calc(100vh - 84px);display:grid;align-items:center;color:#fff;background:linear-gradient(90deg,rgba(7,21,43,.88),rgba(7,21,43,.66) 48%,rgba(7,21,43,.25)),url('icons/elibrary.png') center/cover no-repeat}.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 20%,rgba(244,162,28,.24),transparent 30%),radial-gradient(circle at 85% 15%,rgba(10,95,191,.32),transparent 35%)}.hero .container{position:relative;z-index:2;padding:92px 0}.hero-content{max-width:960px}.kicker,.label{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-size:.78rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.kicker{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20);color:#fff}.label{background:var(--blueSoft);color:var(--blue);margin-bottom:16px}h1,h2,h3{margin-top:0;line-height:1.05;letter-spacing:-.045em}h1{font-size:clamp(2.35rem,7vw,6.7rem);margin:20px 0;max-width:1060px}.hero p{font-size:clamp(1rem,2.3vw,1.18rem);line-height:1.7;max-width:810px;color:rgba(255,255,255,.90)}.actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}.trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}.trust span{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-weight:800}section{padding:92px 0}.title{max-width:920px;margin:0 auto 44px;text-align:center}.title h2{font-size:clamp(2.2rem,4.5vw,4.4rem);margin:0 0 16px;color:var(--navy)}.title p{font-size:1.1rem;line-height:1.75;color:var(--muted);margin:0}
-.stats,.notice,.controls{background:#fff;border-bottom:1px solid var(--line)}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.stat{padding:30px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,#fff,#f8fbff);box-shadow:var(--soft);text-align:center}.stat strong{display:block;color:var(--blue);font-size:clamp(2rem,4vw,3.4rem);letter-spacing:-.05em;line-height:1}.stat span{display:block;margin-top:10px;color:var(--muted);font-weight:800}.notice-box{padding:26px;border-radius:28px;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee);border:1px solid var(--line);box-shadow:var(--soft);display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}.notice-icon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-size:1.5rem;font-weight:900}.notice-box h2{margin:0 0 8px;color:var(--navy);font-size:1.6rem}.notice-box p{margin:0;color:var(--muted);line-height:1.7}.panel{padding:28px;border-radius:30px;background:#fff;border:1px solid var(--line);box-shadow:var(--soft)}.controls-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr;gap:14px;margin-top:18px}.input,.select{width:100%;min-height:52px;border-radius:16px;border:1px solid var(--line);background:#fbfdff;color:var(--ink);padding:14px 16px;outline:none;font:inherit}.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}.empty{margin-top:18px;padding:16px;border-radius:18px;background:var(--goldSoft);color:#704800;font-weight:800;display:none}.tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}.tab{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:10px 13px;font-weight:800;cursor:pointer;transition:.25s ease;box-shadow:var(--soft);font-size:.88rem;line-height:1.15}.tab:hover,.tab.active{background:var(--blue);color:#fff;transform:translateY(-2px)}.grid{display:grid;gap:22px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px;box-shadow:var(--soft);transition:.35s ease;position:relative;overflow:hidden}.card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}.card h3{color:var(--navy);font-size:1.35rem;margin:0 0 10px}.card p{color:var(--muted);line-height:1.7;margin:0 0 14px}.icon{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:var(--blueSoft);color:var(--blue);font-weight:900;font-size:1.45rem;margin-bottom:16px}.pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}.pill{display:inline-flex;padding:7px 11px;border-radius:999px;font-size:.78rem;font-weight:900;background:var(--blueSoft);color:var(--blue)}.pill.free{background:var(--greenSoft);color:var(--green)}.pill.gold{background:var(--goldSoft);color:#8a5600}.pill.dark{background:#eef2ff;color:var(--navy)}.book{min-height:340px;display:flex;flex-direction:column;justify-content:space-between}.cover{height:132px;border-radius:20px;background:radial-gradient(circle at 20% 20%,rgba(244,162,28,.22),transparent 30%),linear-gradient(135deg,var(--navy),var(--blue));padding:18px;display:flex;align-items:flex-end;color:#fff;margin-bottom:18px;position:relative;overflow:hidden}.cover:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;right:-30px;top:-30px;background:rgba(255,255,255,.12)}.cover strong{position:relative;z-index:2;font-size:1.05rem;line-height:1.2;max-width:80%}.book-title{font-size:1.2rem;color:var(--navy);font-weight:900;line-height:1.2;margin-bottom:8px}.author{color:var(--muted);font-weight:800;margin-bottom:12px}.summary{color:var(--muted);line-height:1.65;margin-bottom:16px}.book-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.read{width:100%;min-width:0;font-size:.86rem;padding-left:10px;padding-right:10px}.dark-section{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;position:relative;overflow:hidden}.dark-section .container{position:relative;z-index:2}.dark-section .title h2,.dark-section .title p{color:#fff}.dark-section .title p{opacity:.84}.dark-section .label{background:rgba(255,255,255,.13);color:#fff}.dark-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(12px)}.dark-card h3{color:#fff}.dark-card p{color:rgba(255,255,255,.82)}.learn{color:var(--blue);font-weight:900}.dark-card .learn{color:var(--gold)}.club{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start}.club-mark{width:58px;height:58px;border-radius:20px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-weight:900;font-size:1.4rem}.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.time{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--soft)}.time strong{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:15px;background:var(--blueSoft);color:var(--blue);margin-bottom:14px}.submit{background:#fff}.submit-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.submit-box{padding:34px;border-radius:34px;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee);border:1px solid var(--line);box-shadow:var(--shadow)}.submit-box h2{color:var(--navy);font-size:clamp(2rem,4vw,3.7rem);margin:12px 0 16px}.submit-box p{color:var(--muted);line-height:1.75;font-size:1.08rem}.footer{background:#061126;color:rgba(255,255,255,.74);padding:62px 0 28px}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}.footer-brand{display:flex;align-items:center;gap:12px}.footer-brand img{width:60px;height:60px;object-fit:contain;background:#fff;border-radius:14px;padding:4px}.footer h3,.footer h4{color:#fff;margin:0 0 12px}.footer a{display:block;color:rgba(255,255,255,.72);margin:8px 0}.footer-bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55)}.hidden{display:none!important}.reveal{opacity:.12;transform:translateY(52px) scale(.98);transition:opacity .75s ease,transform .75s cubic-bezier(.22,1,.36,1)}.reveal.active{opacity:1;transform:translateY(0) scale(1)}.reveal.exit{opacity:.35;transform:translateY(-28px) scale(.99)}
-.actions .btn{flex:0 1 auto}
-.card .btn,.book-actions .btn,.submit-box .btn{overflow-wrap:anywhere}
-.nav-links .btn{padding:10px 14px;min-height:40px;font-size:.86rem}
-@media(max-width:1120px){.nav-inner{align-items:flex-start}.nav-links{max-width:700px}}
-@media(max-width:900px){section{padding:72px 0}.hero .container{padding:72px 0}.panel,.notice-box,.card,.submit-box{border-radius:24px}.book-actions{grid-template-columns:1fr}}
-@media(max-width:1000px){.g4,.g3,.stats-grid,.timeline,.footer-grid{grid-template-columns:repeat(2,1fr)}.controls-grid,.submit-wrap{grid-template-columns:1fr}}@media(max-width:760px){
-.menu{display:block}
-.nav{min-height:76px}
-.nav-links{display:none;position:fixed;top:76px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:18px 6%;flex-direction:column;align-items:stretch;gap:10px}
-body.menu-open .nav-links{display:flex}
-.nav-links a{width:100%;padding:12px 14px;border-radius:14px;background:#f8fbff}
-.brand img{width:46px;height:46px}
-.brand h2{font-size:1.06rem}
-.brand p{font-size:.62rem;letter-spacing:.10em}
-.hero{min-height:auto;background-position:center}
-.hero .container{padding:62px 0}
-.kicker,.label{font-size:.68rem;line-height:1.2}
-h1{font-size:clamp(2.15rem,11vw,3.4rem);letter-spacing:-.035em}
-.title h2{font-size:clamp(1.9rem,9vw,2.6rem)}
-.hero p,.title p{font-size:1rem;line-height:1.65}
-.actions{flex-direction:column;gap:10px}
-.btn{width:100%;min-height:42px;padding:11px 13px;font-size:.86rem;border-radius:18px}
-.trust{gap:8px}
-.trust span{font-size:.78rem;padding:8px 10px}
-.g4,.g3,.g2,.stats-grid,.timeline,.footer-grid{grid-template-columns:1fr}
-.club,.notice-box{grid-template-columns:1fr}
-.card,.panel,.submit-box{padding:22px;border-radius:22px}
-.stat{padding:22px}
-.cover{height:112px;border-radius:16px}
-.cover strong{font-size:.95rem;max-width:92%}
-.book-title{font-size:1.08rem}
-.book-actions{grid-template-columns:1fr;gap:8px}
-.read{font-size:.82rem;min-height:40px}
-.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;scroll-snap-type:x mandatory}
-.tab{flex:0 0 auto;scroll-snap-align:start;font-size:.8rem;padding:9px 12px}
-.controls-grid{gap:10px}
-.input,.select{min-height:48px;border-radius:14px;font-size:.92rem}
-.footer{padding-bottom:90px}
+:root{
+  --navy:#07152b;--navy2:#0b2344;--blue:#0a5fbf;--blue2:#074f9f;--blueSoft:#eaf3ff;
+  --gold:#f4a21c;--goldSoft:#fff4df;--green:#0f8f6f;--greenSoft:#e9fbf5;
+  --ink:#111827;--muted:#637083;--line:#e5edf6;--bg:#f7f9fc;--white:#fff;
+  --shadow:0 18px 44px rgba(7,21,43,.10);--soft:0 10px 28px rgba(7,21,43,.07);--r:22px;
+}
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Outfit,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+.container{width:min(1180px,92%);margin:auto}
+.bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--gold),var(--blue));z-index:3000}
+
+/* compact global buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:38px;padding:9px 14px;border-radius:999px;border:0;
+  font-weight:850;font-size:.84rem;line-height:1.1;text-align:center;cursor:pointer;
+  transition:.2s ease;max-width:100%;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(7,21,43,.13)}
+.primary{background:var(--blue);color:#fff}.primary:hover{background:var(--blue2)}
+.gold{background:var(--gold);color:#241300}
+.soft{background:var(--blueSoft);color:var(--blue)}
+.light{background:#fff;color:var(--navy)}
+.outline{border:1px solid rgba(255,255,255,.45);color:#fff;background:transparent}
+.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+
+.nav{position:sticky;top:0;z-index:1000;min-height:72px;background:rgba(255,255,255,.95);backdrop-filter:blur(18px);border-bottom:1px solid rgba(7,21,43,.08)}
+.nav-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{width:46px;height:46px;object-fit:contain;flex:0 0 auto}
+.brand h2{margin:0;color:var(--blue);font-size:1.08rem;line-height:1;font-weight:900}
+.brand p{margin:3px 0 0;color:#d98200;font-size:.62rem;font-weight:900;letter-spacing:.10em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.84rem;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a:not(.btn){padding:8px 10px;border-radius:999px}
+.nav-links a:hover{background:var(--blueSoft);color:var(--blue)}
+.menu{display:none;background:var(--navy);color:#fff;border:0;border-radius:13px;width:42px;height:42px;font-size:1.15rem;font-weight:900}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(90deg,rgba(7,21,43,.90),rgba(7,21,43,.68) 48%,rgba(7,21,43,.22)),url('icons/elibrary.png') center/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 16% 22%,rgba(244,162,28,.24),transparent 28%),radial-gradient(circle at 85% 18%,rgba(10,95,191,.32),transparent 32%)}
+.hero .container{position:relative;z-index:2;padding:64px 0 58px}
+.hero-content{max-width:900px}
+.kicker,.label{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:.7rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.kicker{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20)}
+.label{background:var(--blueSoft);color:var(--blue);margin-bottom:14px}
+h1,h2,h3{margin-top:0;line-height:1.06;letter-spacing:-.04em}
+h1{font-size:clamp(2.35rem,6vw,5.3rem);margin:18px 0}
+.hero p{font-size:clamp(.98rem,2vw,1.12rem);line-height:1.65;max-width:760px;color:rgba(255,255,255,.9)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.trust span{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-size:.82rem;font-weight:800}
+
+/* sections */
+section{padding:58px 0}
+.title{max-width:850px;margin:0 auto 30px;text-align:center}
+.title h2{font-size:clamp(1.85rem,4vw,3.5rem);margin:0 0 12px;color:var(--navy)}
+.title p{font-size:1rem;line-height:1.65;color:var(--muted);margin:0}
+.card,.panel,.notice-box,.submit-box,.modal-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--soft)
+}
+.card{padding:18px;transition:.25s ease;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.card h3{font-size:1.05rem;color:var(--navy);margin:0 0 8px}
+.card p{color:var(--muted);line-height:1.55;margin:0 0 10px;font-size:.9rem}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+
+.stats,.notice,.controls{background:#fff;border-bottom:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{padding:18px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbff);box-shadow:var(--soft);text-align:center}
+.stat strong{display:block;color:var(--blue);font-size:clamp(1.7rem,3vw,2.6rem);letter-spacing:-.04em;line-height:1}
+.stat span{display:block;margin-top:6px;color:var(--muted);font-weight:800;font-size:.88rem}
+
+.notice-box{padding:20px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee)}
+.notice-icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-size:1.2rem;font-weight:900}
+.notice-box h2{margin:0 0 7px;color:var(--navy);font-size:1.25rem}
+.notice-box p{margin:0;color:var(--muted);line-height:1.6;font-size:.95rem}
+
+.panel{padding:20px}
+.controls-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr;gap:10px;margin-top:14px}
+.input,.select{width:100%;min-height:42px;border-radius:14px;border:1px solid var(--line);background:#fbfdff;color:var(--ink);padding:11px 13px;outline:none;font-size:.92rem}
+.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}
+.empty{margin-top:14px;padding:13px;border-radius:16px;background:var(--goldSoft);color:#704800;font-weight:800;display:none;font-size:.9rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.tab{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:8px 11px;font-weight:850;cursor:pointer;transition:.2s ease;box-shadow:var(--soft);font-size:.8rem}
+.tab:hover,.tab.active{background:var(--blue);color:#fff;transform:translateY(-2px)}
+
+.icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--blueSoft);color:var(--blue);font-weight:900;font-size:1.15rem;margin-bottom:12px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.68rem;font-weight:900;background:var(--blueSoft);color:var(--blue);text-transform:capitalize}
+.pill.free{background:var(--greenSoft);color:var(--green)}
+.pill.gold{background:var(--goldSoft);color:#8a5600}
+.pill.dark{background:#eef2ff;color:var(--navy)}
+
+/* compact book cards */
+.book{min-height:310px;display:flex;flex-direction:column;justify-content:space-between}
+.cover{height:116px;border-radius:17px;background:radial-gradient(circle at 20% 20%,rgba(244,162,28,.22),transparent 30%),linear-gradient(135deg,var(--navy),var(--blue));padding:14px;display:flex;align-items:flex-end;color:#fff;margin-bottom:13px;position:relative;overflow:hidden}
+.cover::after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-26px;top:-26px;background:rgba(255,255,255,.12)}
+.cover strong{position:relative;z-index:2;font-size:.92rem;line-height:1.15;max-width:86%}
+.book-title{font-size:1.02rem;color:var(--navy);font-weight:900;line-height:1.18;margin-bottom:5px}
+.author{color:var(--muted);font-weight:800;margin-bottom:8px;font-size:.86rem}
+.summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);line-height:1.5;margin-bottom:12px;font-size:.86rem}
+.book-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.book-actions .btn{min-height:36px;padding:8px 9px;font-size:.78rem;border-radius:14px}
+
+.dark-section{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}
+.dark-section .title h2,.dark-section .title p{color:#fff}.dark-section .title p{opacity:.84}.dark-section .label{background:rgba(255,255,255,.13);color:#fff}
+.dark-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(12px)}
+.dark-card h3{color:#fff}.dark-card p{color:rgba(255,255,255,.82)}.learn{color:var(--blue);font-weight:900;font-size:.9rem}.dark-card .learn{color:var(--gold)}
+.club{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+.club-mark{width:48px;height:48px;border-radius:17px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-weight:900;font-size:1.2rem}
+
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.time{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--soft)}
+.time strong{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:14px;background:var(--blueSoft);color:var(--blue);margin-bottom:10px}
+.time h3{font-size:1rem;margin-bottom:6px}
+
+.submit{background:#fff}
+.submit-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.submit-box{padding:24px;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee)}
+.submit-box h2{color:var(--navy);font-size:clamp(1.7rem,3.5vw,3rem);margin:8px 0 12px}
+.submit-box p{color:var(--muted);line-height:1.65;font-size:.98rem}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(7,21,43,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:5000}
+.modal.open{display:flex}
+.modal-card{width:min(760px,96vw);max-height:88vh;overflow:auto;padding:22px}
+.modal-top{display:flex;justify-content:space-between;gap:14px;align-items:start;margin-bottom:12px}
+.modal-close{border:0;background:var(--blueSoft);color:var(--blue);border-radius:999px;width:36px;height:36px;font-weight:900;cursor:pointer}
+.modal-cover{height:150px;border-radius:18px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;display:flex;align-items:flex-end;padding:18px;margin-bottom:16px}
+.modal-cover strong{font-size:1.2rem}
+.modal-body p{color:var(--muted);line-height:1.65}
+.modal-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+
+/* footer */
+.footer{background:#061126;color:rgba(255,255,255,.74);padding:44px 0 24px}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:26px}
+.footer-brand{display:flex;align-items:center;gap:10px}.footer-brand img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:13px;padding:4px}
+.footer h3,.footer h4{color:#fff;margin:0 0 10px}.footer a{display:block;color:rgba(255,255,255,.72);margin:7px 0;font-size:.92rem}
+.footer-bottom{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);font-size:.9rem}
+.hidden{display:none!important}.reveal{opacity:.12;transform:translateY(38px) scale(.99);transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}.reveal.active{opacity:1;transform:none}.reveal.exit{opacity:.35;transform:translateY(-18px) scale(.995)}
+
+@media(max-width:1000px){
+  .g4,.g3,.stats-grid,.timeline,.footer-grid{grid-template-columns:repeat(2,1fr)}
+  .controls-grid,.submit-wrap{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  section{padding:48px 0}.hero .container{padding:52px 0}
+  .book-actions{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .menu{display:block}
+  .nav{min-height:68px}.nav-inner{min-height:68px}
+  .nav-links{display:none;position:fixed;top:68px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:14px 6%;flex-direction:column;align-items:stretch;gap:8px}
+  body.menu-open .nav-links{display:flex}
+  .nav-links a{width:100%;padding:10px 12px;border-radius:13px;background:#f8fbff;text-align:center}
+  .brand img{width:42px;height:42px}.brand h2{font-size:1rem}.brand p{font-size:.58rem}
+  h1{font-size:clamp(2rem,10vw,3rem)}.hero p,.title p{font-size:.95rem}
+  .actions{gap:8px}.actions .btn{flex:1 1 auto}
+  .hero .actions{display:grid;grid-template-columns:repeat(3,1fr)}
+  .btn{min-height:36px;padding:8px 10px;font-size:.78rem;border-radius:14px}
+  .trust span{font-size:.74rem;padding:7px 9px}
+  .g4,.g3,.g2,.stats-grid,.timeline,.footer-grid{grid-template-columns:1fr}
+  .club,.notice-box{grid-template-columns:1fr}
+  .card,.panel,.submit-box,.modal-card{padding:16px;border-radius:19px}
+  .stat{padding:16px}.cover{height:104px;border-radius:15px}
+  .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;scroll-snap-type:x mandatory}
+  .tab{flex:0 0 auto;scroll-snap-align:start;font-size:.76rem;padding:8px 10px}
+  .input,.select{min-height:40px;font-size:.86rem}
+  .footer{padding-bottom:40px}
+}
+@media(max-width:420px){
+  .hero .actions{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <div class="bar" id="bar"></div>
-<header class="nav"><div class="container nav-inner"><a href="e-library.html" class="brand"><img src="icons/logo.png" alt="SpeakOut Logo"><div><h2>SpeakOut</h2><p>E-Library</p></div></a><button class="menu" onclick="document.body.classList.toggle('menu-open')">☰</button><nav class="nav-links"><a href="#shelves" onclick="document.body.classList.remove('menu-open')">Shelves</a><a href="#books" onclick="document.body.classList.remove('menu-open')">Books</a><a href="#learning" onclick="document.body.classList.remove('menu-open')">Learning</a><a href="#clubs" onclick="document.body.classList.remove('menu-open')">Clubs</a><a href="#submit" class="btn primary" onclick="document.body.classList.remove('menu-open')">Submit Resource</a></nav></div></header>
+
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="e-library.html" class="brand" aria-label="SpeakOut E-Library Home">
+      <img src="icons/logo.png" alt="SpeakOut Logo">
+      <div><h2>SpeakOut</h2><p>E-Library</p></div>
+    </a>
+    <button class="menu" type="button" aria-label="Open menu" onclick="document.body.classList.toggle('menu-open')">☰</button>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="https://speakoutmentalhealth.org/" onclick="document.body.classList.remove('menu-open')">Home</a>
+      <a href="#shelves" onclick="document.body.classList.remove('menu-open')">Shelves</a>
+      <a href="#books" onclick="document.body.classList.remove('menu-open')">Books</a>
+      <a href="#learning" onclick="document.body.classList.remove('menu-open')">Learning</a>
+      <a href="#clubs" onclick="document.body.classList.remove('menu-open')">Clubs</a>
+      <a href="#submit" class="btn primary" onclick="document.body.classList.remove('menu-open')">Submit Resource</a>
+    </nav>
+  </div>
+</header>
+
 <main>
-<section class="hero"><div class="container"><div class="hero-content reveal"><span class="kicker">Read Online • Download Legally • Join Book Clubs</span><h1>A real E-Library where young people can read, learn and grow.</h1><p>Browse curated shelves, open legal book sources, read online through public libraries, access free PDFs where available, and connect each book to a SpeakOut reading club.</p><div class="actions"><a href="#books" class="btn primary">Start Reading</a><a href="#shelves" class="btn light">Browse Shelves</a><a href="#clubs" class="btn outline">Join a Club</a></div><div class="trust"><span>Open Library</span><span>Internet Archive</span><span>Project Gutenberg</span><span>OpenStax</span></div></div></div></section>
-<section class="stats"><div class="container stats-grid"><div class="stat reveal"><strong data-count="150">0</strong><span>Book & Resource Links</span></div><div class="stat reveal"><strong data-count="8">0</strong><span>Clickable Shelves</span></div><div class="stat reveal"><strong data-count="10">0</strong><span>Reading Clubs</span></div><div class="stat reveal"><strong data-count="20">0</strong><span>Free Learning Sources</span></div></div></section>
-<section class="notice"><div class="container"><div class="notice-box reveal"><div class="notice-icon">⚖️</div><div><h2>Copyright-safe E-Library model</h2><p>SpeakOut should not host copyrighted books without permission. This page links readers to legal public sources such as Open Library, Internet Archive, Project Gutenberg, OpenStax, WHO, UNICEF and OpenWHO. Where PDF/download is legally available, users access it directly from the source site.</p></div></div></div></section>
-<section class="controls"><div class="container"><div class="panel reveal"><span class="label">Search the Library</span><h2 style="color:var(--navy);font-size:clamp(1.8rem,3vw,3rem);margin:0 0 10px;">Find books, shelves, courses and clubs</h2><p style="color:var(--muted);line-height:1.7;margin:0;">Search by title, author, subject or platform. Use filters to show books, shelves, clubs or courses.</p><div class="controls-grid"><input type="text" id="librarySearch" class="input" placeholder="Search anxiety, leadership, business, AI, public health..."><select id="categoryFilter" class="select"><option value="all">All Categories</option><option value="mental-health">Mental Health</option><option value="leadership">Leadership</option><option value="business">Business</option><option value="technology">Technology</option><option value="health">Public Health</option><option value="career">Career</option><option value="personal-growth">Personal Growth</option><option value="club">Reading Clubs</option><option value="course">Free Courses</option></select><select id="typeFilter" class="select"><option value="all">All Types</option><option value="shelf">Shelf</option><option value="book">Book</option><option value="free">Free / Open</option><option value="club">Club</option><option value="course">Course</option></select></div><div class="empty" id="emptyState">No matching item found. Try another keyword or filter.</div></div></div></section>
-<section id="shelves"><div class="container"><div class="title reveal"><span class="label">Clickable Shelves</span><h2>Choose a shelf and see real books immediately</h2><p>Each shelf button filters the library and shows relevant books with Read Online and Download/PDF Source buttons.</p></div><div class="tabs reveal"><button class="tab active" data-shelf="all">All Shelves</button><button class="tab" data-shelf="mental-health">Mental Health</button><button class="tab" data-shelf="leadership">Leadership</button><button class="tab" data-shelf="business">Business</button><button class="tab" data-shelf="technology">Technology</button><button class="tab" data-shelf="health">Public Health</button><button class="tab" data-shelf="career">Career</button><button class="tab" data-shelf="personal-growth">Personal Growth</button></div><div class="grid g4" id="shelfGrid"></div></div></section>
-<section id="books"><div class="container"><div class="title reveal"><span class="label">Read Online / Download</span><h2>Featured books and legal reading sources</h2><p>Use Read Online to open the source. Use Download/PDF Source where the source provides downloads.</p></div><div class="grid g3" id="bookGrid"></div></div></section>
-<section class="dark-section" id="learning"><div class="container"><div class="title reveal"><span class="label">Free Certified Learning</span><h2>Courses and learning platforms across all areas</h2><p>Connect reading with action. These platforms offer free courses, certificates, badges or learning records depending on the provider.</p></div><div class="grid g3" id="courseGrid"></div></div></section>
-<section class="recognition"><div class="container"><div class="title reveal"><span class="label">Reader Recognition</span><h2>Reward reading, learning and contribution</h2><p>Use this badge structure to encourage students and volunteers to read, learn and share knowledge.</p></div><div class="timeline"><div class="time reveal"><strong>01</strong><h3>Bronze Reader</h3><p>Complete 5 books/resources and submit a reflection.</p></div><div class="time reveal"><strong>02</strong><h3>Silver Reader</h3><p>Complete 15 resources and join one reading club session.</p></div><div class="time reveal"><strong>03</strong><h3>Gold Reader</h3><p>Complete 30 resources and lead a group discussion.</p></div><div class="time reveal"><strong>04</strong><h3>Platinum Scholar</h3><p>Complete 50 resources and become eligible for recognition.</p></div></div></div></section>
-<section id="clubs"><div class="container"><div class="title reveal"><span class="label">Reading Clubs</span><h2>Turn books into conversations</h2><p>Reading clubs help young people discuss mental health, leadership, career growth, technology and public health.</p></div><div class="grid g2" id="clubGrid"></div></div></section>
-<section class="dark-section"><div class="container"><div class="title reveal"><span class="label">Expert Showcase</span><h2>Feature doctors, authors, educators and researchers</h2><p>Highlight trusted professionals and contributors whose books, articles or resources support public education.</p></div><div class="grid g3"><article class="card dark-card reveal"><div class="pills"><span class="pill gold">Expert</span><span class="pill">Clinical</span></div><h3>Featured Mental Health Professional</h3><p>Showcase psychiatrists, psychologists, counsellors or therapists contributing public education resources.</p><span class="learn">Open for submissions →</span></article><article class="card dark-card reveal"><div class="pills"><span class="pill gold">Academic</span><span class="pill">Research</span></div><h3>Featured Researcher</h3><p>Highlight professors, researchers and academic authors supporting mental health literacy.</p><span class="learn">Open for submissions →</span></article><article class="card dark-card reveal"><div class="pills"><span class="pill gold">Author</span><span class="pill">Education</span></div><h3>Featured Author</h3><p>Spotlight authors and public educators creating books, guides and educational content.</p><span class="learn">Open for submissions →</span></article></div></div></section>
-<section class="submit" id="submit"><div class="container submit-wrap"><div class="submit-box reveal"><span class="label">Resource Submission</span><h2>Submit a book, article, video or learning resource.</h2><p>Authors, doctors, researchers, NGOs, institutions and educators can submit resources for review. Approved resources may be featured in the SpeakOut E-Library.</p><div class="actions"><a href="expert-submit.html" class="btn primary">Submit Your Resource</a><a href="mailto:speaaakout@gmail.com?subject=E-Library Resource Submission" class="btn soft">Email Library Team</a></div></div><div class="card reveal"><span class="label">Submission Types</span><h3 style="font-size:2rem;">What can be submitted?</h3><p>Books, articles, guides, videos, lecture notes, research summaries, community awareness materials, podcasts and public education content.</p><div class="pills"><span class="pill">Books</span><span class="pill">Articles</span><span class="pill">Videos</span><span class="pill">Research</span><span class="pill">Podcasts</span><span class="pill">Guides</span></div></div></div></section>
+<section class="hero">
+  <div class="container">
+    <div class="hero-content reveal">
+      <span class="kicker">Read Online • Download Legally • Join Book Clubs</span>
+      <h1>A compact E-Library where young people can read, learn and grow.</h1>
+      <p>Browse curated shelves, preview book descriptions, open free reading sources, and submit original resources for SpeakOut review.</p>
+      <div class="actions">
+        <a href="#books" class="btn primary">Start Reading</a>
+        <a href="#shelves" class="btn light">Browse Shelves</a>
+        <a href="submit-work.html" class="btn gold">Submit Book</a>
+      </div>
+      <div class="trust"><span>Open Library</span><span>Project Gutenberg</span><span>OpenStax</span><span>WHO / UNICEF</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat reveal"><strong data-count="150">0</strong><span>Resource Links</span></div>
+    <div class="stat reveal"><strong data-count="8">0</strong><span>Clickable Shelves</span></div>
+    <div class="stat reveal"><strong data-count="10">0</strong><span>Reading Clubs</span></div>
+    <div class="stat reveal"><strong data-count="20">0</strong><span>Free Learning Sources</span></div>
+  </div>
+</section>
+
+<section class="notice">
+  <div class="container">
+    <div class="notice-box reveal">
+      <div class="notice-icon">⚖️</div>
+      <div>
+        <h2>Free access, responsible sharing</h2>
+        <p>This library links to free, open, public-domain, open-access, or official learning sources. SpeakOut can also feature books submitted by authors after permission review.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="controls">
+  <div class="container">
+    <div class="panel reveal">
+      <span class="label">Search the Library</span>
+      <h2 style="color:var(--navy);font-size:clamp(1.55rem,3vw,2.6rem);margin:0 0 8px;">Find books, shelves, courses and clubs</h2>
+      <p style="color:var(--muted);line-height:1.6;margin:0;">Search by title, author, subject or platform. Use filters to narrow the library.</p>
+      <div class="controls-grid">
+        <input type="text" id="librarySearch" class="input" placeholder="Search anxiety, leadership, business, AI, public health...">
+        <select id="categoryFilter" class="select">
+          <option value="all">All Categories</option><option value="mental-health">Mental Health</option><option value="leadership">Leadership</option>
+          <option value="business">Business</option><option value="technology">Technology</option><option value="health">Public Health</option>
+          <option value="career">Career</option><option value="personal-growth">Personal Growth</option><option value="club">Reading Clubs</option><option value="course">Free Courses</option>
+        </select>
+        <select id="typeFilter" class="select">
+          <option value="all">All Types</option><option value="shelf">Shelf</option><option value="book">Book</option><option value="free">Free / Open</option><option value="club">Club</option><option value="course">Course</option>
+        </select>
+      </div>
+      <div class="empty" id="emptyState">No matching item found. Try another keyword or filter.</div>
+    </div>
+  </div>
+</section>
+
+<section id="shelves">
+  <div class="container">
+    <div class="title reveal"><span class="label">Clickable Shelves</span><h2>Choose a shelf and see books immediately</h2><p>Cards stay compact. Click Details on any book to view the full description and links.</p></div>
+    <div class="tabs reveal">
+      <button class="tab active" data-shelf="all">All</button><button class="tab" data-shelf="mental-health">Mental Health</button><button class="tab" data-shelf="leadership">Leadership</button><button class="tab" data-shelf="business">Business</button><button class="tab" data-shelf="technology">Technology</button><button class="tab" data-shelf="health">Public Health</button><button class="tab" data-shelf="career">Career</button><button class="tab" data-shelf="personal-growth">Personal Growth</button>
+    </div>
+    <div class="grid g4" id="shelfGrid"></div>
+  </div>
+</section>
+
+<section id="books">
+  <div class="container">
+    <div class="title reveal"><span class="label">Read Online / Download</span><h2>Featured free books and reading sources</h2><p>Three books fit on one row on desktop. Full information opens only when the user asks for details.</p></div>
+    <div class="grid g3" id="bookGrid"></div>
+  </div>
+</section>
+
+<section class="dark-section" id="learning">
+  <div class="container">
+    <div class="title reveal"><span class="label">Free Certified Learning</span><h2>Courses and learning platforms</h2><p>Connect reading with practical learning, badges and certificates where available.</p></div>
+    <div class="grid g3" id="courseGrid"></div>
+  </div>
+</section>
+
+<section class="recognition">
+  <div class="container">
+    <div class="title reveal"><span class="label">Reader Recognition</span><h2>Reward reading and learning</h2><p>Use this badge model to encourage students, volunteers and ambassadors.</p></div>
+    <div class="timeline">
+      <div class="time reveal"><strong>01</strong><h3>Bronze Reader</h3><p>Complete 5 resources and submit a reflection.</p></div>
+      <div class="time reveal"><strong>02</strong><h3>Silver Reader</h3><p>Complete 15 resources and join one reading club.</p></div>
+      <div class="time reveal"><strong>03</strong><h3>Gold Reader</h3><p>Complete 30 resources and lead a discussion.</p></div>
+      <div class="time reveal"><strong>04</strong><h3>Platinum Scholar</h3><p>Complete 50 resources and earn recognition.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="clubs">
+  <div class="container">
+    <div class="title reveal"><span class="label">Reading Clubs</span><h2>Turn books into conversations</h2><p>Clubs help young people discuss mental health, leadership, career, technology and public health.</p></div>
+    <div class="grid g2" id="clubGrid"></div>
+  </div>
+</section>
+
+<section class="submit" id="submit">
+  <div class="container submit-wrap">
+    <div class="submit-box reveal">
+      <span class="label">Author Submission</span>
+      <h2>Submit your book or learning resource.</h2>
+      <p>Authors, doctors, researchers, NGOs, institutions and educators can submit resources for review. Approved materials may be featured publicly in the SpeakOut E-Library.</p>
+      <div class="actions"><a href="submit-work.html" class="btn primary">Apply to Feature Your Book</a><a href="mailto:speaaakout@gmail.com?subject=E-Library Resource Submission" class="btn soft">Email Library Team</a></div>
+    </div>
+    <div class="card reveal">
+      <span class="label">Review Required</span>
+      <h3 style="font-size:1.7rem;">Automation, not auto-publishing</h3>
+      <p>Submissions can be automated through Google Forms/Sheets, but publishing must be reviewed to prevent unsafe, duplicate, copyrighted or low-quality content.</p>
+      <div class="pills"><span class="pill">Books</span><span class="pill">Articles</span><span class="pill">Guides</span><span class="pill">Research</span><span class="pill">Podcasts</span></div>
+    </div>
+  </div>
+</section>
 </main>
-<footer class="footer"><div class="container"><div class="footer-grid"><div><div class="footer-brand"><img src="icons/logo.png" alt="SpeakOut Logo"><div><h3>SpeakOut</h3><p>E-Library</p></div></div><p>Building a digital knowledge hub for mental health, learning, youth leadership and community impact.</p></div><div><h4>Explore</h4><a href="#shelves">Shelves</a><a href="#books">Books</a><a href="#learning">Courses</a><a href="#clubs">Reading Clubs</a></div><div><h4>Ecosystem</h4><a href="index.html">MindCheck Home</a><a href="speakhub.html">SpeakHub</a><a href="ambassador.html">Ambassador Program</a><a href="volunteers.html">Volunteer Program</a></div><div><h4>Contact</h4><a href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp: +234 811 810 3510</a><a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a><a href="https://instagram.com/speaak_out" target="_blank" rel="noopener">Instagram: @speaaakout</a></div></div><div class="footer-bottom"><p>© 2026 SpeakOut Mental Health Outreach. E-Library for learning, healing and leadership.</p></div></div></footer>
+
+<div class="modal" id="bookModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-top">
+      <div><span class="label" id="modalCategory">Book</span><h2 id="modalTitle" style="margin:8px 0 4px;color:var(--navy)">Book Title</h2><div id="modalAuthor" class="author"></div></div>
+      <button class="modal-close" type="button" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-cover"><strong id="modalCoverTitle"></strong></div>
+    <div class="modal-body"><p id="modalSummary"></p></div>
+    <div class="modal-actions">
+      <a id="modalRead" class="btn primary" target="_blank" rel="noopener">Read Online</a>
+      <a id="modalDownload" class="btn soft" target="_blank" rel="noopener">Download / PDF Source</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand"><img src="icons/logo.png" alt="SpeakOut Logo"><div><h3>SpeakOut</h3><p>E-Library</p></div></div><p>Building a digital knowledge hub for mental health, learning, youth leadership and community impact.</p></div>
+      <div><h4>Explore</h4><a href="https://speakoutmentalhealth.org/">Home</a><a href="#shelves">Shelves</a><a href="#books">Books</a><a href="#learning">Courses</a><a href="#clubs">Reading Clubs</a></div>
+      <div><h4>Ecosystem</h4><a href="index.html">MindCheck Home</a><a href="speakhub.html">SpeakHub</a><a href="ambassador.html">Ambassador Program</a><a href="volunteers.html">Volunteer Program</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp: +234 811 810 3510</a><a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a><a href="https://instagram.com/speaak_out" target="_blank" rel="noopener">Instagram: @speaaakout</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 SpeakOut Mental Health Outreach. E-Library for learning, healing and leadership.</p></div>
+  </div>
+</footer>
+
 <script>
-const shelves=[['🧠','Mental Health Books','Stress, anxiety, emotional wellness, trauma, self-care and coping resources.','mental-health'],['🌍','Leadership Books','Leadership, communication, service, public speaking and youth advocacy.','leadership'],['💼','Business & Money','Entrepreneurship, business planning, marketing and financial literacy.','business'],['💻','Technology Books','Programming, data, AI, cybersecurity, cloud and digital skills resources.','technology'],['⚕️','Public Health','Community health, disease prevention, nutrition and humanitarian health resources.','health'],['🎯','Career Development','CVs, interviews, workplace confidence, job readiness and career planning.','career'],['📖','Personal Growth','Habits, productivity, emotional intelligence, mindset and discipline.','personal-growth'],['👥','Reading Clubs','Join book discussions and community learning groups connected to each shelf.','club']];
+const shelves=[['🧠','Mental Health Books','Stress, anxiety, emotional wellness, trauma, self-care and coping resources.','mental-health'],['🌍','Leadership Books','Leadership, communication, service, public speaking and youth advocacy.','leadership'],['💼','Business & Money','Entrepreneurship, business planning, marketing and financial literacy.','business'],['💻','Technology Books','Programming, data, AI, cybersecurity, cloud and digital skills resources.','technology'],['⚕️','Public Health','Community health, disease prevention, nutrition and humanitarian health resources.','health'],['🎯','Career Development','CVs, interviews, workplace confidence and career planning.','career'],['📖','Personal Growth','Habits, productivity, emotional intelligence, mindset and discipline.','personal-growth'],['👥','Reading Clubs','Join book discussions and learning groups connected to each shelf.','club']];
+
 const books=[
 ['WHO Mental Health Resources','World Health Organization','mental-health','WHO','Trusted global mental health factsheets, guides and public education resources.','https://www.who.int/health-topics/mental-health','https://www.who.int/publications'],
 ['Mental Health First Aid Resources','MHFA','mental-health','MHFA','Practical mental health education and support materials for awareness and early help-seeking.','https://www.mentalhealthfirstaid.org/mental-health-resources/','https://www.mentalhealthfirstaid.org/mental-health-resources/'],
@@ -80,34 +372,65 @@ const books=[
 ['Man’s Search for Meaning','Viktor E. Frankl','mental-health','Open Library','A major work on meaning, resilience and psychological survival. Borrow/read where available.','https://openlibrary.org/search?q=Man%27s+Search+for+Meaning+Viktor+Frankl','https://archive.org/search?query=Man%27s%20Search%20for%20Meaning%20Viktor%20Frankl'],
 ['Emotional Intelligence','Daniel Goleman','personal-growth','Open Library','A widely known book on emotions, self-awareness, relationships and social intelligence.','https://openlibrary.org/search?q=Emotional+Intelligence+Daniel+Goleman','https://archive.org/search?query=Emotional%20Intelligence%20Daniel%20Goleman'],
 ['Atomic Habits','James Clear','personal-growth','Open Library','A popular book on habit-building, small improvements and behavior change. Borrow/read where available.','https://openlibrary.org/search?q=Atomic+Habits+James+Clear','https://archive.org/search?query=Atomic%20Habits%20James%20Clear'],
-['Think and Grow Rich','Napoleon Hill','business','Archive','Classic personal success and business mindset book. Check public-domain availability in your region.','https://archive.org/search?query=Think%20and%20Grow%20Rich%20Napoleon%20Hill','https://archive.org/search?query=Think%20and%20Grow%20Rich%20Napoleon%20Hill'],
+['Think and Grow Rich','Napoleon Hill','business','Archive','Classic personal success and business mindset book. Check availability and rights in your region.','https://archive.org/search?query=Think%20and%20Grow%20Rich%20Napoleon%20Hill','https://archive.org/search?query=Think%20and%20Grow%20Rich%20Napoleon%20Hill'],
 ['The Richest Man in Babylon','George S. Clason','business','Open Library','Classic financial literacy lessons on saving, discipline and wealth-building principles.','https://openlibrary.org/search?q=The+Richest+Man+in+Babylon','https://archive.org/search?query=The%20Richest%20Man%20in%20Babylon'],
 ['Business Ethics','OpenStax','business','OpenStax','Free textbook on ethics, business responsibility, leadership and decision-making.','https://openstax.org/details/books/business-ethics','https://openstax.org/details/books/business-ethics'],
 ['Entrepreneurship','OpenStax','business','OpenStax','Free textbook covering entrepreneurship, opportunity recognition and business development.','https://openstax.org/details/books/entrepreneurship','https://openstax.org/details/books/entrepreneurship'],
 ['The Art of Public Speaking','Dale Carnegie & J. Berg Esenwein','leadership','Project Gutenberg','A public-domain classic on speaking, communication and confidence.','https://www.gutenberg.org/ebooks/16317','https://www.gutenberg.org/ebooks/16317'],
 ['How to Win Friends and Influence People','Dale Carnegie','leadership','Open Library','Classic communication and relationship-building book. Borrow/read where available.','https://openlibrary.org/search?q=How+to+Win+Friends+and+Influence+People','https://archive.org/search?query=How%20to%20Win%20Friends%20and%20Influence%20People'],
-['Introduction to Sociology 3e','OpenStax','leadership','OpenStax','Free textbook useful for understanding society, communities, culture and social systems.','https://openstax.org/details/books/introduction-sociology-3e','https://openstax.org/details/books/introduction-sociology-3e'],
-['Computer Science Resources','OpenStax','technology','OpenStax','Free technology and computer science learning resources for students.','https://openstax.org/subjects/computer-science','https://openstax.org/subjects/computer-science'],
+['Introduction to Sociology 3e','OpenStax','leadership','OpenStax','Free textbook useful for understanding society, communities and social systems.','https://openstax.org/details/books/introduction-sociology-3e','https://openstax.org/details/books/introduction-sociology-3e'],
 ['Automate the Boring Stuff with Python','Al Sweigart','technology','Author Website','Free online programming book for practical Python automation.','https://automatetheboringstuff.com/','https://automatetheboringstuff.com/'],
 ['Eloquent JavaScript','Marijn Haverbeke','technology','Author Website','Free online book for learning JavaScript and programming fundamentals.','https://eloquentjavascript.net/','https://eloquentjavascript.net/'],
 ['OpenWHO Public Health Courses','OpenWHO','health','OpenWHO','Public health, outbreak response, health emergencies and community health education.','https://openwho.org/','https://openwho.org/'],
 ['UNICEF Agora Learning Resources','UNICEF Agora','health','UNICEF','Child protection, nutrition, humanitarian response and development learning resources.','https://agora.unicef.org/','https://agora.unicef.org/'],
-['Public Health Textbooks','Open Textbook Library','health','Open Textbook Library','Open textbooks covering public health, healthcare, epidemiology and related topics.','https://open.umn.edu/opentextbooks/subjects/public-health','https://open.umn.edu/opentextbooks/subjects/public-health'],
 ['College Success','OpenStax','career','OpenStax','Free textbook on goal-setting, study skills, career planning and student success.','https://openstax.org/details/books/college-success','https://openstax.org/details/books/college-success'],
 ['Project Gutenberg Library','Project Gutenberg','personal-growth','Project Gutenberg','Thousands of free public-domain books available to read online or download.','https://www.gutenberg.org/','https://www.gutenberg.org/'],
 ['Open Library Search','Internet Archive','personal-growth','Open Library','Search millions of books and borrow/read online where available.','https://openlibrary.org/','https://openlibrary.org/']];
-const courses=[['Microsoft Learn','Cloud, AI, data, security and productivity learning paths.','course','https://learn.microsoft.com/training/'],['AWS Educate','Cloud computing and career resources for students and beginners.','course','https://aws.amazon.com/education/awseducate/'],['Cisco Networking Academy','Networking, cybersecurity, Linux and digital skills programs.','course','https://www.netacad.com/'],['IBM SkillsBuild','AI, cybersecurity, data and workplace learning.','course','https://skillsbuild.org/'],['freeCodeCamp','Web development, coding, data and software engineering.','course','https://www.freecodecamp.org/learn/'],['Kaggle Learn','Python, data visualization, machine learning and analytics.','course','https://www.kaggle.com/learn'],['HubSpot Academy','Marketing, sales, CRM, content and business courses.','course','https://academy.hubspot.com/'],['HP LIFE','Business, entrepreneurship, communication and finance.','course','https://www.life-global.org/'],['Google Digital Skills','Digital marketing, business and career growth learning.','course','https://learndigital.withgoogle.com/'],['OpenWHO','Public health and health emergency learning.','course','https://openwho.org/'],['UNICEF Agora','Humanitarian, child protection and development learning.','course','https://agora.unicef.org/'],['Alison','Free courses across health, business, IT and personal development.','course','https://alison.com/courses']];
+
+const courses=[['Microsoft Learn','Cloud, AI, data, security and productivity learning paths.','course','https://learn.microsoft.com/training/'],['Cisco Networking Academy','Networking, cybersecurity, Linux and digital skills programs.','course','https://www.netacad.com/'],['IBM SkillsBuild','AI, cybersecurity, data and workplace learning.','course','https://skillsbuild.org/'],['freeCodeCamp','Web development, coding, data and software engineering.','course','https://www.freecodecamp.org/learn/'],['Kaggle Learn','Python, data visualization, machine learning and analytics.','course','https://www.kaggle.com/learn'],['HP LIFE','Business, entrepreneurship, communication and finance.','course','https://www.life-global.org/'],['OpenWHO','Public health and health emergency learning.','course','https://openwho.org/'],['UNICEF Agora','Humanitarian, child protection and development learning.','course','https://agora.unicef.org/']];
 const clubs=[['🧠','Mental Wellness Book Club','Monthly readings on stress, self-care, trauma recovery and relationships.','mental-health','mental health club wellness reading discussion'],['🌍','Youth Leadership Reading Club','Books and discussions on leadership, advocacy and community impact.','leadership','leadership club youth public speaking civic engagement'],['⚕️','Medical & Public Health Club','For learners interested in healthcare, public health and community care.','health','medical students public health healthcare club'],['💻','Tech & Digital Skills Club','Focused on web development, AI, cybersecurity, cloud and data analytics.','technology','technology club cybersecurity ai cloud coding'],['💼','Entrepreneurship & Money Club','Books and sessions on business ideas and financial literacy.','business','entrepreneurship business money financial literacy club'],['🎯','Career Growth Club','CVs, interviews, job readiness and workplace confidence.','career','career jobs internship cv interview professional development club']];
-function shelfCard([icon,title,desc,cat]){return `<article class="card filter-card reveal" data-category="${cat}" data-type="shelf" data-search="${(title+' '+desc+' shelf').toLowerCase()}"><div class="icon">${icon}</div><div class="pills"><span class="pill free">Free/Open</span><span class="pill">Shelf</span></div><h3>${title}</h3><p>${desc}</p><button class="btn soft open-shelf" data-shelf="${cat}">Open Shelf</button></article>`}
-function bookCard([title,author,cat,source,summary,read,download]){return `<article class="card book filter-card reveal" data-category="${cat}" data-type="book" data-access="free" data-search="${(title+' '+author+' '+cat+' '+summary+' '+source).toLowerCase()}"><div><div class="cover"><strong>${title}</strong></div><div class="pills"><span class="pill free">Free/Open</span><span class="pill">${cat.replace('-',' ')}</span><span class="pill gold">${source}</span></div><div class="book-title">${title}</div><div class="author">${author}</div><p class="summary">${summary}</p></div><div class="book-actions"><a class="btn primary read" href="${read}" target="_blank" rel="noopener">📖 Read Online</a><a class="btn soft read" href="${download}" target="_blank" rel="noopener">📥 Download / PDF Source</a></div></article>`}
+
+function shelfCard([icon,title,desc,cat]){return `<article class="card filter-card reveal" data-category="${cat}" data-type="shelf" data-search="${(title+' '+desc+' shelf').toLowerCase()}"><div class="icon">${icon}</div><div class="pills"><span class="pill free">Free/Open</span><span class="pill">Shelf</span></div><h3>${title}</h3><p>${desc}</p><button class="btn soft open-shelf" type="button" data-shelf="${cat}">Open Shelf</button></article>`}
+function bookCard(book,i){const [title,author,cat,source,summary]=book;return `<article class="card book filter-card reveal" data-category="${cat}" data-type="book" data-access="free" data-search="${(title+' '+author+' '+cat+' '+summary+' '+source).toLowerCase()}"><div><div class="cover"><strong>${title}</strong></div><div class="pills"><span class="pill free">Free/Open</span><span class="pill">${cat.replace('-',' ')}</span><span class="pill gold">${source}</span></div><div class="book-title">${title}</div><div class="author">${author}</div><p class="summary">${summary}</p></div><div class="book-actions"><button class="btn primary read" type="button" onclick="openBook(${i})">Details</button><a class="btn soft read" href="${book[5]}" target="_blank" rel="noopener">Read</a></div></article>`}
 function courseCard([title,desc,cat,url]){return `<article class="card dark-card filter-card reveal" data-category="${cat}" data-type="course" data-search="${(title+' '+desc+' free certified course').toLowerCase()}"><div class="pills"><span class="pill free">Free Learning</span><span class="pill gold">Certificate/Badge</span></div><h3>${title}</h3><p>${desc}</p><a class="learn" href="${url}" target="_blank" rel="noopener">Start learning →</a></article>`}
 function clubCard([mark,title,desc,cat,search]){return `<article class="card club filter-card reveal" data-category="${cat}" data-type="club" data-search="${search}"><div class="club-mark">${mark}</div><div><div class="pills"><span class="pill dark">Club</span><span class="pill">${cat.replace('-',' ')}</span></div><h3>${title}</h3><p>${desc}</p><a class="learn" href="https://wa.me/2348118103510" target="_blank" rel="noopener">Join club →</a></div></article>`}
-document.getElementById('shelfGrid').innerHTML=shelves.map(shelfCard).join('');document.getElementById('bookGrid').innerHTML=books.map(bookCard).join('');document.getElementById('courseGrid').innerHTML=courses.map(courseCard).join('');document.getElementById('clubGrid').innerHTML=clubs.map(clubCard).join('');
-const revealItems=document.querySelectorAll('.reveal');const revealObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');e.target.classList.remove('exit')}else{e.target.classList.remove('active');e.target.classList.add('exit')}})},{threshold:.16,rootMargin:'0px 0px -8% 0px'});revealItems.forEach(i=>revealObserver.observe(i));
-const counters=document.querySelectorAll('[data-count]');function animateCounter(c){if(c.dataset.animating==='true')return;c.dataset.animating='true';const target=Number(c.dataset.count),duration=1500,start=performance.now();function update(now){const p=Math.min((now-start)/duration,1),e=1-Math.pow(1-p,3),v=Math.floor(e*target);c.textContent=v.toLocaleString()+'+';if(p<1)requestAnimationFrame(update);else{c.textContent=target.toLocaleString()+'+';setTimeout(()=>c.dataset.animating='false',500)}}requestAnimationFrame(update)}const co=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)animateCounter(e.target)}),{threshold:.55});counters.forEach(c=>co.observe(c));
-const bar=document.getElementById('bar');window.addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(max>0?window.scrollY/max*100:0)+'%'},{passive:true});
-const searchInput=document.getElementById('librarySearch'),categoryFilter=document.getElementById('categoryFilter'),typeFilter=document.getElementById('typeFilter'),emptyState=document.getElementById('emptyState');function filterLibrary(){const s=searchInput.value.toLowerCase().trim(),cat=categoryFilter.value,type=typeFilter.value;let count=0;document.querySelectorAll('.filter-card').forEach(card=>{const cc=card.dataset.category||'',ct=card.dataset.type||'',ca=card.dataset.access||'',cs=(card.dataset.search||'').toLowerCase();const okS=!s||cs.includes(s),okC=cat==='all'||cc===cat,okT=type==='all'||ct===type||ca===type;if(okS&&okC&&okT){card.classList.remove('hidden');count++}else card.classList.add('hidden')});emptyState.style.display=count===0?'block':'none'}searchInput.addEventListener('input',filterLibrary);categoryFilter.addEventListener('change',filterLibrary);typeFilter.addEventListener('change',filterLibrary);
-function setShelf(shelf){categoryFilter.value=shelf==='all'?'all':shelf;typeFilter.value='all';searchInput.value='';filterLibrary();document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.shelf===shelf));document.getElementById('books').scrollIntoView({behavior:'smooth',block:'start'})}document.querySelectorAll('.tab,.open-shelf').forEach(btn=>btn.addEventListener('click',()=>setShelf(btn.dataset.shelf)));
+
+document.getElementById('shelfGrid').innerHTML=shelves.map(shelfCard).join('');
+document.getElementById('bookGrid').innerHTML=books.map(bookCard).join('');
+document.getElementById('courseGrid').innerHTML=courses.map(courseCard).join('');
+document.getElementById('clubGrid').innerHTML=clubs.map(clubCard).join('');
+
+function openBook(i){
+  const b=books[i],m=document.getElementById('bookModal');
+  document.getElementById('modalCategory').textContent=b[2].replace('-',' ');
+  document.getElementById('modalTitle').textContent=b[0];
+  document.getElementById('modalCoverTitle').textContent=b[0];
+  document.getElementById('modalAuthor').textContent=b[1]+' • '+b[3];
+  document.getElementById('modalSummary').textContent=b[4];
+  document.getElementById('modalRead').href=b[5];
+  document.getElementById('modalDownload').href=b[6];
+  m.classList.add('open');m.setAttribute('aria-hidden','false');
+}
+function closeModal(){const m=document.getElementById('bookModal');m.classList.remove('open');m.setAttribute('aria-hidden','true')}
+document.getElementById('bookModal').addEventListener('click',e=>{if(e.target.id==='bookModal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();document.body.classList.remove('menu-open')}});
+
+const revealItems=document.querySelectorAll('.reveal');
+const revealObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');e.target.classList.remove('exit')}else{e.target.classList.remove('active');e.target.classList.add('exit')}})},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+revealItems.forEach(i=>revealObserver.observe(i));
+
+const counters=document.querySelectorAll('[data-count]');
+function animateCounter(c){if(c.dataset.animating==='true')return;c.dataset.animating='true';const target=Number(c.dataset.count),duration=1300,start=performance.now();function update(now){const p=Math.min((now-start)/duration,1),e=1-Math.pow(1-p,3),v=Math.floor(e*target);c.textContent=v.toLocaleString()+'+';if(p<1)requestAnimationFrame(update);else{c.textContent=target.toLocaleString()+'+';setTimeout(()=>c.dataset.animating='false',500)}}requestAnimationFrame(update)}
+const co=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)animateCounter(e.target)}),{threshold:.55});counters.forEach(c=>co.observe(c));
+
+const bar=document.getElementById('bar');
+window.addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(max>0?window.scrollY/max*100:0)+'%'},{passive:true});
+
+const searchInput=document.getElementById('librarySearch'),categoryFilter=document.getElementById('categoryFilter'),typeFilter=document.getElementById('typeFilter'),emptyState=document.getElementById('emptyState');
+function filterLibrary(){const s=searchInput.value.toLowerCase().trim(),cat=categoryFilter.value,type=typeFilter.value;let count=0;document.querySelectorAll('.filter-card').forEach(card=>{const cc=card.dataset.category||'',ct=card.dataset.type||'',ca=card.dataset.access||'',cs=(card.dataset.search||'').toLowerCase();const okS=!s||cs.includes(s),okC=cat==='all'||cc===cat,okT=type==='all'||ct===type||ca===type;if(okS&&okC&&okT){card.classList.remove('hidden');count++}else card.classList.add('hidden')});emptyState.style.display=count===0?'block':'none'}
+searchInput.addEventListener('input',filterLibrary);categoryFilter.addEventListener('change',filterLibrary);typeFilter.addEventListener('change',filterLibrary);
+function setShelf(shelf){categoryFilter.value=shelf==='all'?'all':shelf;typeFilter.value='all';searchInput.value='';filterLibrary();document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.shelf===shelf));document.getElementById('books').scrollIntoView({behavior:'smooth',block:'start'})}
+document.querySelectorAll('.tab,.open-shelf').forEach(btn=>btn.addEventListener('click',()=>setShelf(btn.dataset.shelf)));
 </script>
 </body>
 </html>
