@@ -432,5 +432,6 @@ searchInput.addEventListener('input',filterLibrary);categoryFilter.addEventListe
 function setShelf(shelf){categoryFilter.value=shelf==='all'?'all':shelf;typeFilter.value='all';searchInput.value='';filterLibrary();document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.shelf===shelf));document.getElementById('books').scrollIntoView({behavior:'smooth',block:'start'})}
 document.querySelectorAll('.tab,.open-shelf').forEach(btn=>btn.addEventListener('click',()=>setShelf(btn.dataset.shelf)));
 </script>
+<script type="module" src="auth-guard.js"></script>
 </body>
 </html>
