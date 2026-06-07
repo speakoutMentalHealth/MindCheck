@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SpeakHub — Skills Development Center</title>
   <meta name="description" content="SpeakHub is SpeakOut's skills development center for free courses, certificates, leadership training, digital skills and youth opportunities." />
-  <link rel="icon" type="icons/png" href="icons/logo.png" />
+  <link rel="icon" type="image/png" href="icons/logo.png" />
   <link rel="apple-touch-icon" href="icons/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -52,24 +52,24 @@
     }
 
     .nav{
-      position:sticky;top:0;z-index:1000;min-height:84px;padding:12px 0;
+      position:sticky;top:0;z-index:1000;min-height:72px;padding:8px 0;
       background:rgba(255,255,255,.94);backdrop-filter:blur(18px);
       border-bottom:1px solid rgba(7,21,43,.08);
     }
     .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
     .brand{display:flex;align-items:center;gap:12px;min-width:0}
-    .brand img{width:58px;height:58px;object-fit:contain}
-    .brand h2{margin:0;color:var(--blue);font-size:1.35rem;line-height:1;font-weight:900}
-    .brand p{margin:3px 0 0;color:var(--gold-2);font-size:.74rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
-    .nav-links{display:flex;align-items:center;gap:14px;font-weight:800;color:#374151;font-size:.95rem}
-    .nav-links a{padding:10px 12px;border-radius:999px}
+    .brand img{width:48px;height:48px;object-fit:contain}
+    .brand h2{margin:0;color:var(--blue);font-size:1.12rem;line-height:1;font-weight:900}
+    .brand p{margin:3px 0 0;color:var(--gold-2);font-size:.62rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+    .nav-links{display:flex;align-items:center;gap:8px;font-weight:800;color:#374151;font-size:.95rem}
+    .nav-links a{padding:7px 10px;border-radius:999px}
     .nav-links a:hover{background:var(--blue-soft);color:var(--blue)}
     .menu-toggle{display:none;border:0;background:var(--navy);color:#fff;border-radius:14px;padding:10px 13px;font-size:1.25rem;cursor:pointer}
 
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      min-height:48px;padding:14px 22px;border-radius:999px;font-weight:900;
-      border:0;cursor:pointer;transition:.25s ease;white-space:nowrap;line-height:1;
+      min-height:40px;padding:10px 15px;border-radius:999px;font-weight:800;
+      border:0;cursor:pointer;transition:.25s ease;white-space:normal;line-height:1.12;text-align:center;font-size:.88rem;
     }
     .btn:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(7,21,43,.14)}
     .btn-primary{background:var(--blue);color:#fff}
@@ -79,10 +79,10 @@
     .btn-outline{border:1px solid rgba(255,255,255,.45);color:#fff;background:transparent}
     .btn-soft{background:var(--blue-soft);color:var(--blue)}
     .btn-gold{background:var(--gold);color:#201100}
-    .btn-small{min-height:42px;padding:11px 15px;font-size:.92rem}
+    .btn-small{min-height:38px;padding:9px 12px;font-size:.82rem}
 
     .hero{
-      position:relative;overflow:hidden;min-height:calc(100vh - 84px);
+      position:relative;overflow:hidden;min-height:76vh;
       display:grid;align-items:center;
       background:
         linear-gradient(90deg,rgba(7,21,43,.88),rgba(7,21,43,.63) 45%,rgba(7,21,43,.24)),
@@ -96,7 +96,7 @@
         radial-gradient(circle at 85% 15%,rgba(10,95,191,.30),transparent 35%);
       pointer-events:none;
     }
-    .hero .container{position:relative;z-index:2;padding:92px 0}
+    .hero .container{position:relative;z-index:2;padding:68px 0}
     .hero-content{max-width:900px}
     .kicker,.label{
       display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
@@ -105,22 +105,22 @@
     .kicker{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20);color:#fff}
     .label{background:var(--blue-soft);color:var(--blue);margin-bottom:16px}
     h1,h2,h3{margin-top:0;line-height:1.05;letter-spacing:-.045em}
-    h1{font-size:clamp(3.2rem,7vw,7.4rem);margin:22px 0;max-width:1040px}
-    .hero p{font-size:1.23rem;line-height:1.75;max-width:770px;color:rgba(255,255,255,.90)}
-    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
-    .hero-trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px;color:#fff}
-    .hero-trust span{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-weight:800}
+    h1{font-size:clamp(2.55rem,6vw,5.8rem);margin:22px 0;max-width:1040px}
+    .hero p{font-size:1.08rem;line-height:1.75;max-width:770px;color:rgba(255,255,255,.90)}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+    .hero-trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:34px;color:#fff}
+    .hero-trust span{padding:8px 10px;font-size:.84rem;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-weight:800}
 
-    section{padding:94px 0}
-    .section-title{max-width:900px;margin:0 auto 46px;text-align:center}
+    section{padding:64px 0}
+    .section-title{max-width:900px;margin:0 auto 34px;text-align:center}
     .section-title h2{font-size:clamp(2.25rem,4.5vw,4.5rem);margin:0 0 16px;color:var(--navy)}
-    .section-title p{font-size:1.1rem;line-height:1.75;color:var(--muted);margin:0}
+    .section-title p{font-size:1rem;line-height:1.55;color:var(--muted);margin:0}
 
     .progress-section{background:#fff;border-bottom:1px solid var(--line)}
     .progress-wrap{
       display:grid;grid-template-columns:1fr 1.1fr;gap:30px;align-items:center;
       background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-      box-shadow:var(--shadow);padding:34px;
+      box-shadow:var(--shadow);padding:24px;
     }
     .progress-title h2{font-size:clamp(2rem,4vw,3.6rem);color:var(--navy);margin:0 0 10px}
     .progress-title p{color:var(--muted);line-height:1.75;margin:0}
@@ -141,20 +141,20 @@
     .search-box input{width:100%;border:1px solid var(--line);border-radius:999px;padding:16px 20px;font:inherit;box-shadow:var(--shadow-soft);outline:none}
     .search-box input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}
 
-    .course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     .course-card{
       background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-      padding:26px;box-shadow:var(--shadow-soft);transition:.35s ease;display:flex;flex-direction:column;
+      padding:20px;box-shadow:var(--shadow-soft);transition:.35s ease;display:flex;flex-direction:column;
     }
     .course-card:hover{transform:translateY(-9px);box-shadow:var(--shadow)}
     .course-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
-    .course-icon{width:50px;height:50px;flex:0 0 auto;border-radius:16px;display:grid;place-items:center;background:var(--blue-soft);font-size:1.45rem}
+    .course-icon{width:42px;height:42px;flex:0 0 auto;border-radius:16px;display:grid;place-items:center;background:var(--blue-soft);font-size:1.2rem}
     .track-pill{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--gold-soft);color:#8a5200;font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
-    .course-card h3{font-size:1.35rem;color:var(--navy);margin:4px 0 10px}
-    .course-card p{color:var(--muted);line-height:1.68;margin:0 0 14px}
+    .course-card h3{font-size:1.12rem;color:var(--navy);margin:4px 0 10px}
+    .course-card p{color:var(--muted);line-height:1.55;margin:0 0 14px}
     .course-meta{margin-top:auto;padding-top:8px;color:#334155;font-weight:800;font-size:.93rem}
     .provider{color:var(--blue);font-weight:900}
-    .action-stack{display:grid;gap:10px;margin-top:18px}
+    .action-stack{display:grid;gap:8px;margin-top:14px}
     .action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .upload-link{
       display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:42px;
@@ -165,8 +165,8 @@
     .status-box{margin-top:12px;padding:12px 14px;border-radius:18px;font-size:.92rem;background:#fbfdff;border:1px solid var(--line);color:var(--muted);font-weight:700}
 
     .opportunities{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .opportunity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-    .opportunity-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow-soft);transition:.3s ease}
+    .opportunity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .opportunity-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-soft);transition:.3s ease}
     .opportunity-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
     .opportunity-card h3{color:var(--navy);font-size:1.35rem;margin-bottom:10px}
     .opportunity-card p{color:var(--muted);line-height:1.7}
@@ -184,7 +184,7 @@
     .certificate-card p{color:rgba(255,255,255,.86);font-size:1.1rem;line-height:1.75}
     .locked-note{margin-top:14px;color:rgba(255,255,255,.72);font-weight:700}
 
-    .footer{background:#061126;color:rgba(255,255,255,.74);padding:62px 0 28px}
+    .footer{background:#061126;color:rgba(255,255,255,.74);padding:46px 0 22px}
     .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
     .footer-brand{display:flex;align-items:center;gap:12px}
     .footer-brand img{width:60px;height:60px;object-fit:contain;background:#fff;border-radius:14px;padding:4px}
@@ -202,13 +202,28 @@
     }
     @media(max-width:760px){
       .menu-toggle{display:block}
-      .nav-links{display:none;position:fixed;top:84px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:24px 6%;flex-direction:column;align-items:flex-start}
+      .nav-links{display:none;position:fixed;top:72px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:24px 6%;flex-direction:column;align-items:flex-start}
       body.menu-open .nav-links{display:flex}
       .brand img{width:48px;height:48px}.brand h2{font-size:1.1rem}.brand p{font-size:.66rem}
-      .hero{min-height:auto;background-position:center}.hero .container{padding:78px 0}
-      .hero-actions{flex-direction:column}.btn{width:100%}
+      .hero{min-height:auto;background-position:center}.hero .container{padding:56px 0}
+      .hero-actions{flex-direction:row;flex-wrap:wrap}.btn{width:auto}.hero-actions .btn{flex:1 1 150px}
       .course-grid,.opportunity-grid,.footer-grid{grid-template-columns:1fr}
-      .action-row{grid-template-columns:1fr}
+      .action-row{grid-template-columns:1fr 1fr}.action-row .btn,.action-row .upload-link{width:100%}
+    }
+
+    /* Compact platform polish */
+    .filter-btn{padding:8px 11px;font-size:.82rem}
+    .search-box input{min-height:44px;padding:11px 15px}
+    .track-pill{padding:5px 9px;font-size:.68rem}
+    .status-box{padding:10px 12px;font-size:.84rem}
+    .upload-link{min-height:38px;padding:9px 12px;font-size:.82rem}
+    @media(max-width:760px){
+      .nav-inner{gap:12px}
+      .course-grid,.opportunity-grid,.footer-grid{gap:14px}
+      section{padding:48px 0}
+      .progress-wrap,.course-card,.opportunity-card{padding:18px}
+      .filter-wrap{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px}
+      .filter-btn{flex:0 0 auto}
     }
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
@@ -223,7 +238,7 @@
 
   <header class="nav">
     <div class="container nav-inner">
-      <a href="speakhub.html" class="brand" aria-label="SpeakOut Home">
+      <a href="https://speakoutmentalhealth.org/" class="brand" aria-label="SpeakOut Home">
         <img src="icons/logo.png" alt="SpeakOut Logo" />
         <div>
           <h2>SpeakOut</h2>
@@ -234,7 +249,7 @@
       <button class="menu-toggle" aria-label="Open menu" onclick="document.body.classList.toggle('menu-open')">☰</button>
 
       <nav class="nav-links" aria-label="Primary navigation">
-        <a href="speakhub.html" onclick="document.body.classList.remove('menu-open')">Home</a>
+        <a href="https://speakoutmentalhealth.org/" onclick="document.body.classList.remove('menu-open')">Home</a>
         <a href="#courses" onclick="document.body.classList.remove('menu-open')">Courses</a>
         <a href="#opportunities" onclick="document.body.classList.remove('menu-open')">Opportunities</a>
         <a href="e-library.html" onclick="document.body.classList.remove('menu-open')">E-Library</a>
@@ -270,7 +285,7 @@
         <div class="progress-title">
           <span class="label">Your SpeakHub Progress</span>
           <h2>Track your learning journey.</h2>
-          <p>Mark courses as completed, unlock certificate upload, and build a simple record of your growth. Final SpeakHub recognition is issued after review.</p>
+          <p>Save courses to your learning list, upload certificates when completed, and build a simple record of your growth. Final SpeakHub recognition is issued only after admin review.</p>
         </div>
 
         <div>
@@ -349,7 +364,7 @@
           <a class="btn btn-light" id="downloadCertificateBtn" href="certificate.html" style="pointer-events:none; opacity:.55;">Download SpeakHub Certificate</a>
           <a class="btn btn-outline" href="#courses">Continue Learning</a>
         </div>
-        <div class="locked-note" id="certificateNote">Certificate download is locked until your submitted course certificate has been verified.</div>
+        <div class="locked-note" id="certificateNote">SpeakHub recognition remains locked until an admin verifies your submitted certificate.</div>
       </div>
     </section>
   </main>
@@ -373,7 +388,7 @@
           <a href="#courses">Courses</a>
           <a href="#opportunities">Opportunities</a>
           <a href="e-library.html">E-Library</a>
-          <a href="index.html">Main Website</a>
+          <a href="https://speakoutmentalhealth.org/">Main Website</a>
         </div>
 
         <div>
@@ -430,7 +445,7 @@
     saveSpeakHubState(state);
     renderCourses();
     renderSpeakHubState();
-    alert(courseName + " marked as completed. You can now upload your certificate or badge.");
+    alert(courseName + " saved to your learning list. Upload proof when you complete it.");
   }
 
   function renderFilters(){
@@ -481,7 +496,7 @@
             </div>
           </div>
           <div class="status-box" id="status-${id}">
-            Status: ${completed ? "Course completed • Upload unlocked" : "Not started"}
+            Status: ${completed ? "Saved to learning list" : "Not started"}
           </div>
         </article>
       `;
@@ -515,7 +530,7 @@
     } else {
       downloadBtn.style.pointerEvents = "none";
       downloadBtn.style.opacity = ".55";
-      note.textContent = "Certificate download is locked until your submitted course certificate has been verified.";
+      note.textContent = "SpeakHub recognition remains locked until an admin verifies your submitted certificate.";
     }
   }
 
