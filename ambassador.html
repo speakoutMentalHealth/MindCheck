@@ -6,498 +6,287 @@
   <title>SpeakOut Ambassador Program</title>
   <meta name="description" content="Apply to become a SpeakOut Ambassador and champion mental health awareness in schools, campuses and communities." />
   <link rel="icon" type="image/png" href="icons/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
-    :root {
-      --primary: #0f8f4f;
-      --primary-dark: #066636;
-      --secondary: #0f3d5e;
-      --accent: #f2b705;
-      --bg: #f7faf8;
-      --white: #ffffff;
-      --text: #123024;
-      --muted: #5f6f66;
-      --border: #e4ece7;
-      --shadow: 0 18px 45px rgba(15, 61, 94, 0.08);
-      --radius: 22px;
+    :root{
+      --primary:#0f9f5f;
+      --primary-dark:#063f35;
+      --primary-deep:#06251f;
+      --primary-soft:#e7f8ef;
+      --secondary:#0b7fab;
+      --accent:#d9a441;
+      --bg:#f4fbf7;
+      --white:#ffffff;
+      --text:#102a27;
+      --muted:#5c6f69;
+      --border:#e4ece7;
+      --dark:#071c17;
+      --dark-2:#0b2a22;
+      --shadow:0 16px 42px rgba(6,63,53,.09);
+      --shadow-strong:0 28px 70px rgba(6,63,53,.18);
+      --radius:24px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.65;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .container {
-      width: min(1120px, 92%);
-      margin: 0 auto;
-    }
-
-    header {
-      background: rgba(255, 255, 255, 0.96);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-    }
-
-    .nav {
-      min-height: 78px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 900;
-      color: var(--primary-dark);
-      text-decoration: none;
-      letter-spacing: -0.3px;
-      min-width: 0;
-    }
-
-    .logo {
-      height: 56px;
-      width: auto;
-      max-width: 72px;
-      object-fit: contain;
-      flex: 0 0 auto;
-      display: block;
-    }
-
-    .brand-text {
-      display: inline-block;
-      line-height: 1.15;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-size: 0.94rem;
-      font-weight: 700;
-      color: var(--muted);
-    }
-
-    .nav-links a {
-      text-decoration: none;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary-dark);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 0;
-      border-radius: 999px;
-      padding: 13px 20px;
-      font-weight: 800;
-      text-decoration: none;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-      white-space: nowrap;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: var(--white);
-      box-shadow: 0 12px 24px rgba(15, 143, 79, 0.24);
-    }
-
-    .btn-primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .btn-outline {
-      background: var(--white);
-      color: var(--primary-dark);
-      border: 1px solid var(--border);
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;max-width:100%;overflow-x:hidden}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Outfit',Arial,Helvetica,sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(circle at 12% 18%, rgba(15, 143, 79, 0.18), transparent 28%),
-        radial-gradient(circle at 88% 10%, rgba(15, 61, 94, 0.16), transparent 28%),
-        linear-gradient(135deg, #eefaf3, #ffffff 55%, #eef6fb);
-      padding: 86px 0 70px;
-      border-bottom: 1px solid var(--border);
+        radial-gradient(circle at 10% 8%,rgba(15,159,95,.12),transparent 30%),
+        radial-gradient(circle at 95% 10%,rgba(11,127,171,.10),transparent 28%),
+        var(--bg);
+      line-height:1.6;
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1120px,92%);margin:0 auto}
+
+    /* Header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(255,255,255,.94);
+      border-bottom:1px solid rgba(6,63,53,.08);
+      backdrop-filter:blur(16px);
+    }
+    .nav{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:8px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      color:var(--primary-dark);
+      font-weight:900;
+      letter-spacing:-.02em;
+    }
+    .logo{width:50px;height:50px;object-fit:contain;flex:0 0 auto}
+    .brand-text{line-height:1.1;font-size:1rem;max-width:240px}
+    .nav-links{display:flex;align-items:center;gap:10px;font-size:.86rem;font-weight:850;color:var(--muted);margin-left:auto}
+    .nav-links a{padding:7px 4px;white-space:nowrap}
+    .nav-links a:hover{color:var(--primary-dark)}
+    .menu-toggle{display:none;border:0;background:var(--primary-dark);color:#fff;width:42px;height:42px;border-radius:14px;font-size:1.25rem;font-weight:900;cursor:pointer}
+
+    /* Compact buttons - global */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      min-height:40px;
+      padding:10px 16px;
+      border:1px solid transparent;
+      border-radius:999px;
+      font-size:.9rem;
+      font-weight:900;
+      line-height:1;
+      white-space:nowrap;
+      cursor:pointer;
+      transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(6,63,53,.12)}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 12px 24px rgba(15,159,95,.20)}
+    .btn-outline{background:#fff;color:var(--primary-dark);border-color:var(--border)}
+    .btn-dark{background:var(--dark);color:#fff}
+    .btn-gold{background:var(--accent);color:#1f1500}
+
+    /* Hero */
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 12% 18%,rgba(15,159,95,.18),transparent 28%),
+        radial-gradient(circle at 88% 10%,rgba(11,127,171,.14),transparent 28%),
+        linear-gradient(135deg,#effcf5,#ffffff 55%,#eef6fb);
+      padding:56px 0 46px;
+      border-bottom:1px solid var(--border);
+    }
+    .hero-grid{display:grid;grid-template-columns:1.14fr .86fr;gap:34px;align-items:center}
+    .hero-logo{margin-bottom:14px}
+    .hero-logo img{width:92px;height:auto;object-fit:contain}
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      background:rgba(15,159,95,.10);
+      color:var(--primary-dark);
+      border:1px solid rgba(15,159,95,.16);
+      border-radius:999px;
+      padding:7px 12px;
+      font-size:.78rem;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+    h1,h2,h3{line-height:1.08;letter-spacing:-.035em;margin-top:0;color:#082719}
+    h1{font-size:clamp(2.4rem,5vw,4.7rem);margin-bottom:14px;max-width:780px}
+    h2{font-size:clamp(1.75rem,3vw,2.55rem);margin-bottom:12px}
+    h3{font-size:1.15rem;margin-bottom:8px;color:#102f22}
+    .lead{font-size:1.05rem;color:var(--muted);max-width:720px;margin-bottom:20px;line-height:1.72}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+    .hero-card{
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(255,255,255,.78);
+      border-radius:28px;
+      padding:22px;
+      box-shadow:var(--shadow-strong);
+      backdrop-filter:blur(14px);
+    }
+    .status{
+      display:inline-flex;
+      background:rgba(217,164,65,.15);
+      color:#744b00;
+      border:1px solid rgba(217,164,65,.26);
+      border-radius:999px;
+      padding:6px 11px;
+      font-weight:900;
+      font-size:.78rem;
+      margin-bottom:12px;
+    }
+    ul{padding-left:18px;margin:10px 0 0;color:var(--muted)}
+    li{margin-bottom:6px}
+
+    section{padding:52px 0}
+    .section-intro{max-width:760px;margin-bottom:22px;color:var(--muted);font-size:1rem;line-height:1.72}
+    .section-soft{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start}
+    .content-card{
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(255,255,255,.78);
+      border-radius:24px;
+      padding:20px;
+      box-shadow:var(--shadow);
+      height:100%;
+      backdrop-filter:blur(12px);
+    }
+    .content-card p{color:var(--muted);line-height:1.72}
+    .icon-box{
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      background:var(--primary-soft);
+      color:var(--primary-dark);
+      display:grid;
+      place-items:center;
+      font-size:.86rem;
+      font-weight:900;
+      margin-bottom:12px;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      align-items: center;
-      gap: 46px;
+    /* Process */
+    .process{counter-reset:stage;display:grid;gap:14px;margin-top:22px}
+    .stage{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:18px;
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:14px;
+      box-shadow:var(--shadow);
     }
-
-    .hero-logo {
-      margin-bottom: 18px;
+    .stage::before{
+      counter-increment:stage;
+      content:counter(stage);
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--secondary),var(--primary-dark));
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      font-size:.95rem;
     }
+    .stage p{margin:0;color:var(--muted);line-height:1.7}
 
-    .hero-logo img {
-      height: 118px;
-      width: auto;
-      max-width: 190px;
-      object-fit: contain;
-      display: block;
+    /* Highlight */
+    .highlight{
+      background:
+        radial-gradient(circle at 90% 0,rgba(255,255,255,.18),transparent 32%),
+        linear-gradient(145deg,var(--dark),var(--dark-2));
+      color:#fff;
+      border-radius:30px;
+      padding:34px;
+      box-shadow:0 22px 56px rgba(6,63,53,.22);
     }
+    .highlight h2,.highlight h3{color:#fff}
+    .highlight p,.highlight li{color:rgba(255,255,255,.84)}
+    .highlight-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+    .notice{background:#fff9e7;border:1px solid #f6df94;color:#6e4a00;border-radius:16px;padding:14px;font-weight:800;margin-top:14px}
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(15, 143, 79, 0.1);
-      color: var(--primary-dark);
-      border: 1px solid rgba(15, 143, 79, 0.16);
-      border-radius: 999px;
-      padding: 8px 13px;
-      font-size: 0.88rem;
-      font-weight: 900;
-      margin-bottom: 18px;
-    }
+    /* CTA */
+    .cta{text-align:center;background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .cta p{color:var(--muted);max-width:720px;margin:0 auto 20px;font-size:1rem;line-height:1.7}
+    .cta-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-    h1, h2, h3 {
-      line-height: 1.15;
-      margin-top: 0;
-      letter-spacing: -0.03em;
-    }
+    /* FAQ */
+    .faq-item{border-bottom:1px solid var(--border);padding:16px 0}
+    .faq-item:last-child{border-bottom:0}
+    .faq-item p{margin:0;color:var(--muted);line-height:1.72}
 
-    h1 {
-      font-size: clamp(2.65rem, 5vw, 5rem);
-      margin-bottom: 18px;
-      color: #082719;
-    }
+    footer{background:#082719;color:rgba(255,255,255,.78);padding:30px 0;font-size:.92rem}
+    .footer-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .footer-brand{display:flex;align-items:center;gap:12px}
+    .footer-logo{width:54px;height:54px;object-fit:contain;background:rgba(255,255,255,.08);border-radius:14px;padding:5px}
+    .footer-row a{color:rgba(255,255,255,.9);font-weight:800}
 
-    h2 {
-      font-size: clamp(1.85rem, 3vw, 2.65rem);
-      margin-bottom: 14px;
-      color: #082719;
-    }
-
-    h3 {
-      font-size: 1.22rem;
-      margin-bottom: 8px;
-      color: #102f22;
-    }
-
-    .lead {
-      font-size: 1.15rem;
-      color: var(--muted);
-      max-width: 740px;
-      margin-bottom: 26px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 26px;
-    }
-
-    .hero-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: var(--shadow);
-    }
-
-    .status {
-      display: inline-block;
-      background: rgba(242, 183, 5, 0.15);
-      color: #7a5200;
-      border: 1px solid rgba(242, 183, 5, 0.25);
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-weight: 900;
-      font-size: 0.86rem;
-      margin-bottom: 16px;
-    }
-
-    .hero-card ul,
-    .content-card ul {
-      padding-left: 20px;
-      margin: 12px 0 0;
-      color: var(--muted);
-    }
-
-    .hero-card li,
-    .content-card li {
-      margin-bottom: 8px;
-    }
-
-    section {
-      padding: 72px 0;
-    }
-
-    .section-intro {
-      max-width: 760px;
-      margin-bottom: 28px;
-      color: var(--muted);
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .content-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 26px;
-      box-shadow: var(--shadow);
-      height: 100%;
-    }
-
-    .icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 15px;
-      background: rgba(15, 143, 79, 0.1);
-      color: var(--primary-dark);
-      display: grid;
-      place-items: center;
-      font-size: 1rem;
-      font-weight: 900;
-      margin-bottom: 16px;
-    }
-
-    .process {
-      counter-reset: stage;
-      display: grid;
-      gap: 16px;
-      margin-top: 28px;
-    }
-
-    .stage {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .stage::before {
-      counter-increment: stage;
-      content: counter(stage);
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: var(--secondary);
-      color: var(--white);
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-      font-size: 1.1rem;
-    }
-
-    .stage p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .highlight {
-      background: linear-gradient(135deg, var(--secondary), var(--primary-dark));
-      color: var(--white);
-      border-radius: 30px;
-      padding: 48px;
-      box-shadow: 0 22px 50px rgba(15, 61, 94, 0.22);
-    }
-
-    .highlight h2,
-    .highlight h3 {
-      color: var(--white);
-    }
-
-    .highlight p,
-    .highlight li {
-      color: rgba(255, 255, 255, 0.84);
-    }
-
-    .highlight-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 26px;
-      align-items: start;
-    }
-
-    .notice {
-      background: #fff9e7;
-      border: 1px solid #f6df94;
-      color: #6e4a00;
-      border-radius: 18px;
-      padding: 18px;
-      font-weight: 700;
-      margin-top: 18px;
-    }
-
-    .cta {
-      text-align: center;
-      background: var(--white);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .cta p {
-      color: var(--muted);
-      max-width: 720px;
-      margin: 0 auto 26px;
-      font-size: 1.08rem;
-    }
-
-    .faq-item {
-      border-bottom: 1px solid var(--border);
-      padding: 20px 0;
-    }
-
-    .faq-item:last-child {
-      border-bottom: 0;
-    }
-
-    .faq-item p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    footer {
-      background: #082719;
-      color: rgba(255, 255, 255, 0.78);
-      padding: 34px 0;
-      font-size: 0.95rem;
-    }
-
-    .footer-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .footer-logo {
-      height: 64px;
-      width: auto;
-      max-width: 90px;
-      object-fit: contain;
-      display: block;
-      background: rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 6px;
-    }
-
-    .footer-row a {
-      color: rgba(255, 255, 255, 0.88);
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid,
-      .grid-3,
-      .grid-2,
-      .highlight-grid {
-        grid-template-columns: 1fr;
+    @media(max-width:960px){
+      .menu-toggle{display:grid;place-items:center}
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:72px;
+        left:4%;
+        right:4%;
+        background:#fff;
+        border:1px solid var(--border);
+        border-radius:22px;
+        padding:16px;
+        box-shadow:0 24px 58px rgba(6,63,53,.16);
+        flex-direction:column;
+        align-items:stretch;
+        gap:8px;
+        z-index:2000;
       }
-
-      .nav-links {
-        display: none;
-      }
-
-      .hero {
-        padding: 64px 0 52px;
-      }
-
-      .highlight {
-        padding: 30px;
-      }
+      body.menu-open .nav-links{display:flex}
+      .nav-links a{width:100%;padding:10px 12px;border-radius:14px;background:#f8fbf9;color:var(--primary-dark);text-align:center}
+      .nav > .btn{display:none}
+      .hero-grid,.grid-3,.grid-2,.highlight-grid{grid-template-columns:1fr}
+      .hero{padding:44px 0 38px}
+      .hero-card{padding:20px}
+      .highlight{padding:26px}
     }
 
-    @media (max-width: 560px) {
-      .nav {
-        min-height: 70px;
-        gap: 12px;
-      }
-
-      .logo {
-        height: 44px;
-        max-width: 58px;
-      }
-
-      .brand-text {
-        font-size: 0.9rem;
-        max-width: 150px;
-      }
-
-      h1 {
-        font-size: 2.55rem;
-      }
-
-      .hero-logo img {
-        height: 88px;
-        max-width: 150px;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .stage {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        padding: 54px 0;
-      }
-
-      .footer-brand {
-        align-items: flex-start;
-      }
+    @media(max-width:560px){
+      .container{width:92%}
+      .nav{min-height:66px;gap:10px}
+      .logo{width:42px;height:42px}
+      .brand-text{font-size:.88rem;max-width:160px}
+      h1{font-size:2.45rem}
+      .lead{font-size:1rem}
+      .hero-logo img{width:78px}
+      section{padding:42px 0}
+      .hero-actions,.cta-actions{display:flex;flex-direction:row;flex-wrap:wrap;gap:8px}
+      .btn{min-height:38px;padding:9px 13px;font-size:.82rem;width:auto;flex:0 1 auto}
+      .hero-actions .btn,.cta-actions .btn{flex:1 1 30%;white-space:normal;line-height:1.1;text-align:center}
+      .content-card{padding:18px;border-radius:20px}
+      .stage{grid-template-columns:1fr;padding:16px}
+      .stage::before{width:34px;height:34px;font-size:.86rem}
+      .footer-brand{align-items:flex-start}
+      .footer-row{align-items:flex-start}
     }
   </style>
 </head>
@@ -505,21 +294,22 @@
 <body>
   <header>
     <div class="container nav">
-      <a href="index.html" class="brand" aria-label="SpeakOut Mental Health Outreach Home">
+      <a href="https://speakoutmentalhealth.org/" class="brand" aria-label="SpeakOut Mental Health Outreach Home">
         <img src="icons/logo.png" alt="SpeakOut Mental Health Outreach Logo" class="logo" />
         <span class="brand-text">SpeakOut Mental Health Outreach</span>
       </a>
 
       <nav class="nav-links" aria-label="Primary navigation">
+        <a href="https://speakoutmentalhealth.org/">Home</a>
         <a href="#about">About</a>
-        <a href="#process">Selection Process</a>
-        <a href="#responsibilities">Responsibilities</a>
+        <a href="#process">Process</a>
+        <a href="#responsibilities">Roles</a>
         <a href="#faq">FAQ</a>
+        <a href="https://forms.gle/ej4tMr8xBkFauauD7" target="_blank" rel="noopener">Apply</a>
       </nav>
 
-      <a class="btn btn-primary" href="https://forms.gle/ej4tMr8xBkFauauD7" target="_blank" rel="noopener">
-        Apply Now
-      </a>
+      <a class="btn btn-primary" href="https://forms.gle/ej4tMr8xBkFauauD7" target="_blank" rel="noopener">Apply Now</a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     </div>
   </header>
 
@@ -532,17 +322,12 @@
           </div>
           <span class="eyebrow">Mental Health Leadership • Advocacy • Community Impact</span>
           <h1>Become a SpeakOut Ambassador</h1>
-          <p class="lead">
-            The SpeakOut Ambassador Program is a selective leadership and advocacy initiative designed to identify,
-            train and empower passionate young people to champion mental health awareness across schools, campuses,
-            workplaces and communities.
-          </p>
+          <p class="lead">The SpeakOut Ambassador Program is a selective leadership and advocacy initiative designed to identify, train and empower passionate young people to champion mental health awareness across schools, campuses, workplaces and communities.</p>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="https://forms.gle/ej4tMr8xBkFauauD7" target="_blank" rel="noopener">
-              Fill Application Form
-            </a>
-            <a class="btn btn-outline" href="#process">View Selection Process</a>
+            <a class="btn btn-primary" href="https://forms.gle/ej4tMr8xBkFauauD7" target="_blank" rel="noopener">Apply</a>
+            <a class="btn btn-outline" href="#process">Process</a>
+            <a class="btn btn-outline" href="https://speakoutmentalhealth.org/">Home</a>
           </div>
         </div>
 
@@ -563,55 +348,29 @@
     <section id="about">
       <div class="container">
         <h2>Developing Mental Health Leaders Across Nigeria</h2>
-        <p class="section-intro">
-          SpeakOut Ambassadors serve as credible representatives of SpeakOut Mental Health Outreach. They lead awareness,
-          reduce stigma, support outreach campaigns and help people access appropriate mental health resources.
-        </p>
+        <p class="section-intro">SpeakOut Ambassadors serve as credible representatives of SpeakOut Mental Health Outreach. They lead awareness, reduce stigma, support outreach campaigns and help people access appropriate mental health resources.</p>
 
         <div class="grid-3">
-          <article class="content-card">
-            <div class="icon-box">01</div>
-            <h3>Advocacy</h3>
-            <p class="section-intro">
-              Promote accurate mental health awareness and encourage early help-seeking within your community.
-            </p>
-          </article>
-
-          <article class="content-card">
-            <div class="icon-box">02</div>
-            <h3>Leadership</h3>
-            <p class="section-intro">
-              Build leadership, communication, public speaking and community engagement experience.
-            </p>
-          </article>
-
-          <article class="content-card">
-            <div class="icon-box">03</div>
-            <h3>Impact</h3>
-            <p class="section-intro">
-              Support campaigns, outreach projects, school programs and digital mental health initiatives.
-            </p>
-          </article>
+          <article class="content-card"><div class="icon-box">01</div><h3>Advocacy</h3><p>Promote accurate mental health awareness and encourage early help-seeking within your community.</p></article>
+          <article class="content-card"><div class="icon-box">02</div><h3>Leadership</h3><p>Build leadership, communication, public speaking and community engagement experience.</p></article>
+          <article class="content-card"><div class="icon-box">03</div><h3>Impact</h3><p>Support campaigns, outreach projects, school programs and digital mental health initiatives.</p></article>
         </div>
       </div>
     </section>
 
-    <section id="eligibility" style="background:#ffffff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <section id="eligibility" class="section-soft">
       <div class="container grid-2">
         <div>
           <h2>Who Can Apply?</h2>
-          <p class="section-intro">
-            The program is open to individuals who are passionate about mental health advocacy, service and responsible leadership.
-          </p>
+          <p class="section-intro">The program is open to individuals who are passionate about mental health advocacy, service and responsible leadership.</p>
         </div>
-
         <div class="content-card">
           <h3>Eligibility Criteria</h3>
           <ul>
-            <li>Must demonstrate interest in mental health advocacy.</li>
-            <li>Must show leadership potential and integrity.</li>
-            <li>Must be willing to commit time to ambassador activities.</li>
-            <li>Must be able to represent SpeakOut professionally.</li>
+            <li>Demonstrate interest in mental health advocacy.</li>
+            <li>Show leadership potential and integrity.</li>
+            <li>Commit time to ambassador activities.</li>
+            <li>Represent SpeakOut professionally.</li>
             <li>Open to students, young professionals, youth volunteers and community leaders.</li>
           </ul>
         </div>
@@ -621,61 +380,24 @@
     <section id="process">
       <div class="container">
         <h2>Selection Process</h2>
-        <p class="section-intro">
-          Ambassador status is not automatic. Every applicant must complete the official application process and receive approval from SpeakOut.
-        </p>
+        <p class="section-intro">Ambassador status is not automatic. Every applicant must complete the official application process and receive approval from SpeakOut.</p>
 
         <div class="process">
-          <article class="stage">
-            <div>
-              <h3>Online Application</h3>
-              <p>
-                Interested candidates must complete the official SpeakOut Ambassador Google Form. Applications are reviewed based on motivation,
-                leadership potential, communication skills and commitment to service.
-              </p>
-            </div>
-          </article>
-
-          <article class="stage">
-            <div>
-              <h3>Screening & Review</h3>
-              <p>
-                The SpeakOut team reviews applications and shortlists candidates who meet the program requirements. Not all applicants will proceed to interview.
-              </p>
-            </div>
-          </article>
-
-          <article class="stage">
-            <div>
-              <h3>Interview Booking</h3>
-              <p>
-                Shortlisted applicants will be contacted and booked for a virtual or physical interview with the NGO team.
-              </p>
-            </div>
-          </article>
-
-          <article class="stage">
-            <div>
-              <h3>Approval & Certification</h3>
-              <p>
-                Only successful applicants who pass the interview and complete onboarding will be approved as SpeakOut Ambassadors and allowed to print their certificate.
-              </p>
-            </div>
-          </article>
+          <article class="stage"><div><h3>Online Application</h3><p>Interested candidates complete the official SpeakOut Ambassador Google Form. Applications are reviewed based on motivation, leadership potential, communication skills and commitment to service.</p></div></article>
+          <article class="stage"><div><h3>Screening & Review</h3><p>The SpeakOut team reviews applications and shortlists candidates who meet the program requirements. Not all applicants proceed to interview.</p></div></article>
+          <article class="stage"><div><h3>Interview Booking</h3><p>Shortlisted applicants will be contacted and booked for a virtual or physical interview with the NGO team.</p></div></article>
+          <article class="stage"><div><h3>Approval & Certification</h3><p>Only successful applicants who pass interview and onboarding are approved as SpeakOut Ambassadors and allowed to print certificates.</p></div></article>
         </div>
-
+      </div>
     </section>
 
-    <section id="training" style="background:#ffffff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <section id="training" class="section-soft">
       <div class="container highlight">
         <div class="highlight-grid">
           <div>
             <h2>Orientation & Training</h2>
-            <p>
-              Successful candidates participate in the official Ambassador Orientation Program before receiving final confirmation.
-            </p>
+            <p>Successful candidates participate in the official Ambassador Orientation Program before receiving final confirmation.</p>
           </div>
-
           <div>
             <h3>Training Areas</h3>
             <ul>
@@ -694,53 +416,25 @@
     <section id="responsibilities">
       <div class="container">
         <h2>Ambassador Responsibilities</h2>
-        <p class="section-intro">
-          SpeakOut Ambassadors are expected to uphold the values, policies and standards of SpeakOut Mental Health Outreach.
-        </p>
+        <p class="section-intro">SpeakOut Ambassadors are expected to uphold the values, policies and standards of SpeakOut Mental Health Outreach.</p>
 
         <div class="grid-3">
-          <article class="content-card">
-            <h3>Representation</h3>
-            <p>Represent SpeakOut professionally at events, schools, campuses, community programs and online platforms.</p>
-          </article>
-
-          <article class="content-card">
-            <h3>Awareness</h3>
-            <p>Promote positive mental health education and reduce stigma through approved campaigns and resources.</p>
-          </article>
-
-          <article class="content-card">
-            <h3>Outreach Support</h3>
-            <p>Support SpeakOut campaigns, outreach events, school programs and community initiatives.</p>
-          </article>
-
-          <article class="content-card">
-            <h3>Reporting</h3>
-            <p>Submit periodic activity reports, campaign updates and impact records when required.</p>
-          </article>
-
-          <article class="content-card">
-            <h3>Confidentiality</h3>
-            <p>Respect privacy and follow safeguarding rules when interacting with vulnerable individuals or communities.</p>
-          </article>
-
-          <article class="content-card">
-            <h3>Referral</h3>
-            <p>Guide people to appropriate support channels without diagnosing, treating or making unsafe promises.</p>
-          </article>
+          <article class="content-card"><h3>Representation</h3><p>Represent SpeakOut professionally at events, schools, campuses, community programs and online platforms.</p></article>
+          <article class="content-card"><h3>Awareness</h3><p>Promote positive mental health education and reduce stigma through approved campaigns and resources.</p></article>
+          <article class="content-card"><h3>Outreach Support</h3><p>Support SpeakOut campaigns, outreach events, school programs and community initiatives.</p></article>
+          <article class="content-card"><h3>Reporting</h3><p>Submit activity reports, campaign updates and impact records when required.</p></article>
+          <article class="content-card"><h3>Confidentiality</h3><p>Respect privacy and follow safeguarding rules when interacting with vulnerable individuals or communities.</p></article>
+          <article class="content-card"><h3>Referral</h3><p>Guide people to appropriate support channels without diagnosing, treating or making unsafe promises.</p></article>
         </div>
       </div>
     </section>
 
-    <section id="benefits" style="background:#ffffff; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <section id="benefits" class="section-soft">
       <div class="container grid-2">
         <div>
           <h2>Program Benefits</h2>
-          <p class="section-intro">
-            The program gives ambassadors practical experience, leadership exposure and recognition for meaningful service.
-          </p>
+          <p class="section-intro">The program gives ambassadors practical experience, leadership exposure and recognition for meaningful service.</p>
         </div>
-
         <div class="content-card">
           <ul>
             <li>Official SpeakOut Ambassador Certificate after approval.</li>
@@ -757,9 +451,7 @@
     <section id="conduct">
       <div class="container highlight">
         <h2>Ambassador Code of Conduct</h2>
-        <p>
-          All ambassadors must demonstrate integrity, professionalism, respect, confidentiality and responsible conduct online and offline.
-        </p>
+        <p>All ambassadors must demonstrate integrity, professionalism, respect, confidentiality and responsible conduct online and offline.</p>
         <ul>
           <li>Respect diversity and inclusion.</li>
           <li>Avoid discrimination, harassment or harmful communication.</li>
@@ -770,41 +462,24 @@
       </div>
     </section>
 
-    <section id="faq" style="background:#ffffff; border-top:1px solid var(--border);">
+    <section id="faq" class="section-soft">
       <div class="container">
         <h2>Frequently Asked Questions</h2>
-
-        <div class="faq-item">
-          <h3>Is the program free?</h3>
-          <p>Yes. There is no application fee.</p>
-        </div>
-
-        <div class="faq-item">
-          <h3>Will I receive a certificate?</h3>
-          <p>Yes, but certificates are issued only to applicants who pass the recruitment, interview and onboarding process.</p>
-        </div>
-
-        <div class="faq-item">
-          <h3>Is this a paid position?</h3>
-          <p>The Ambassador Program is primarily voluntary. Ambassadors may receive recognition, awards, stipends or sponsored opportunities for specific approved projects where applicable.</p>
-        </div>
-
-        <div class="faq-item">
-          <h3>Can I apply from any state?</h3>
-          <p>Yes. Applications are open to eligible individuals across Nigeria and beyond.</p>
-        </div>
+        <div class="faq-item"><h3>Is the program free?</h3><p>Yes. There is no application fee.</p></div>
+        <div class="faq-item"><h3>Will I receive a certificate?</h3><p>Yes, but certificates are issued only to applicants who pass the recruitment, interview and onboarding process.</p></div>
+        <div class="faq-item"><h3>Is this a paid position?</h3><p>The Ambassador Program is primarily voluntary. Ambassadors may receive recognition, awards, stipends or sponsored opportunities for specific approved projects where applicable.</p></div>
+        <div class="faq-item"><h3>Can I apply from any state?</h3><p>Yes. Applications are open to eligible individuals across Nigeria and beyond.</p></div>
       </div>
     </section>
 
     <section class="cta">
       <div class="container">
         <h2>Apply to Become a SpeakOut Ambassador</h2>
-        <p>
-          Join a growing network of young leaders committed to creating mentally healthier schools, campuses and communities.
-        </p>
-        <a class="btn btn-primary" href="https://forms.gle/ej4tMr8xBkFauauD7" target="_blank" rel="noopener">
-          Fill Ambassador Application Form
-        </a>
+        <p>Join a growing network of young leaders committed to creating mentally healthier schools, campuses and communities.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="https://forms.gle/ej4tMr8xBkFauauD7" target="_blank" rel="noopener">Apply Now</a>
+          <a class="btn btn-outline" href="https://speakoutmentalhealth.org/">Return Home</a>
+        </div>
       </div>
     </section>
   </main>
@@ -813,15 +488,40 @@
     <div class="container footer-row">
       <div class="footer-brand">
         <img src="icons/logo.png" alt="SpeakOut Mental Health Outreach Logo" class="footer-logo" />
-        <div>
-          <strong>SpeakOut Mental Health Outreach</strong><br />
-          Mental Health Awareness • Youth Leadership • Community Impact
-        </div>
+        <div><strong>SpeakOut Mental Health Outreach</strong><br />Mental Health Awareness • Youth Leadership • Community Impact</div>
       </div>
       <div>
+        <a href="https://speakoutmentalhealth.org/">Home</a> &nbsp; • &nbsp;
         <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
       </div>
     </div>
   </footer>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle?.addEventListener('click', () => {
+      const isOpen = document.body.classList.toggle('menu-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.textContent = isOpen ? '×' : '☰';
+    });
+
+    navLinks?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.body.classList.remove('menu-open');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        if(menuToggle) menuToggle.textContent = '☰';
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if(event.key === 'Escape'){
+        document.body.classList.remove('menu-open');
+        menuToggle?.setAttribute('aria-expanded', 'false');
+        if(menuToggle) menuToggle.textContent = '☰';
+      }
+    });
+  </script>
 </body>
 </html>
