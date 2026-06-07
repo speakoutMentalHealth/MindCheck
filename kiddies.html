@@ -2,294 +2,359 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>SpeakOut Kiddies Corner</title>
+<title>SpeakOut Kiddies Corner | Student Learning Portal</title>
+<meta name="description" content="SpeakOut Kiddies Corner provides protected learning resources for approved primary and secondary school students.">
 
-<link rel="stylesheet" href="mc-theme.css">
+<link rel="icon" type="image/png" href="icons/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-
 :root{
---navy:#07152b;
---blue:#0a5fbf;
---gold:#f4a21c;
---bg:#f7f9fc;
---white:#ffffff;
---line:#e5edf6;
+  --navy:#07152b;
+  --blue:#0a5fbf;
+  --blue2:#074f9f;
+  --gold:#f4a21c;
+  --goldSoft:#fff4df;
+  --green:#0f8f6f;
+  --greenSoft:#e9fbf5;
+  --bg:#f7f9fc;
+  --white:#ffffff;
+  --ink:#111827;
+  --muted:#637083;
+  --line:#e5edf6;
+  --shadow:0 18px 44px rgba(7,21,43,.10);
+  --soft:0 10px 28px rgba(7,21,43,.07);
 }
 
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
 body{
-margin:0;
-font-family:'Outfit',sans-serif;
-background:var(--bg);
-color:#111827;
+  margin:0;
+  font-family:Outfit,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
 }
+a{text-decoration:none;color:inherit}
+.container{width:min(1180px,92%);margin:auto}
 
-.hero{
-padding:90px 20px;
-background:linear-gradient(135deg,#07152b,#0a5fbf);
-color:white;
-text-align:center;
+.nav{
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
-
-.hero h1{
-font-size:clamp(2.5rem,6vw,5rem);
-margin-bottom:20px;
+.nav-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
 }
-
-.hero p{
-max-width:850px;
-margin:auto;
-line-height:1.8;
-font-size:1.1rem;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  color:var(--blue);
 }
-
-.section{
-padding:80px 6%;
+.brand img{
+  width:46px;
+  height:46px;
+  object-fit:contain;
 }
-
-.section-title{
-text-align:center;
-margin-bottom:50px;
-}
-
-.section-title h2{
-font-size:2.5rem;
-color:#07152b;
-}
-
-.card-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:24px;
-}
-
-.card{
-background:white;
-padding:25px;
-border-radius:24px;
-border:1px solid var(--line);
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-6px);
-}
-
-.card h3{
-color:#0a5fbf;
-margin-bottom:12px;
-}
-
-.card p{
-line-height:1.7;
-color:#555;
-}
-
-.members-only{
-background:#fff4df;
-padding:30px;
-border-radius:24px;
-text-align:center;
-margin-top:70px;
-}
-
-.members-only h2{
-color:#07152b;
+.nav-links{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 .btn{
-display:inline-block;
-padding:12px 24px;
-background:#0a5fbf;
-color:white;
-border-radius:999px;
-text-decoration:none;
-font-weight:700;
-margin-top:15px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:38px;
+  padding:9px 14px;
+  border-radius:999px;
+  border:0;
+  font-weight:850;
+  font-size:.84rem;
+  cursor:pointer;
 }
+.btn-primary{background:var(--blue);color:#fff}
+.btn-gold{background:var(--gold);color:#201100}
+.btn-soft{background:#eaf3ff;color:var(--blue)}
+.btn-dark{background:var(--navy);color:#fff}
+
+.hero{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(244,162,28,.22),transparent 30%),
+    linear-gradient(135deg,var(--navy),var(--blue));
+  color:#fff;
+  padding:72px 0 62px;
+}
+.hero h1{
+  font-size:clamp(2.25rem,6vw,5rem);
+  line-height:1.05;
+  letter-spacing:-.04em;
+  margin:0 0 16px;
+}
+.hero p{
+  max-width:780px;
+  line-height:1.7;
+  color:rgba(255,255,255,.88);
+  font-size:1.05rem;
+}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+section{padding:58px 0}
+.title{
+  max-width:850px;
+  margin:0 auto 30px;
+  text-align:center;
+}
+.title span{
+  display:inline-flex;
+  padding:7px 12px;
+  border-radius:999px;
+  background:#eaf3ff;
+  color:var(--blue);
+  font-size:.72rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:12px;
+}
+.title h2{
+  color:var(--navy);
+  font-size:clamp(1.85rem,4vw,3.4rem);
+  margin:0 0 10px;
+}
+.title p{
+  color:var(--muted);
+  line-height:1.65;
+  margin:0;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:var(--soft);
+  transition:.22s ease;
+}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.icon{
+  width:44px;
+  height:44px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  background:#eaf3ff;
+  color:var(--blue);
+  font-size:1.25rem;
+  margin-bottom:12px;
+}
+.card h3{
+  color:var(--navy);
+  margin:0 0 8px;
+  font-size:1.05rem;
+}
+.card p{
+  color:var(--muted);
+  line-height:1.55;
+  margin:0 0 12px;
+  font-size:.92rem;
+}
+.pill{
+  display:inline-flex;
+  padding:5px 9px;
+  border-radius:999px;
+  background:var(--greenSoft);
+  color:var(--green);
+  font-size:.7rem;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.dark-section{
+  background:linear-gradient(135deg,var(--navy),#0b2344);
+  color:#fff;
+}
+.dark-section .title h2,
+.dark-section .title p{color:#fff}
+.dark-section .card{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.13);
+  color:#fff;
+}
+.dark-section .card h3{color:#fff}
+.dark-section .card p{color:rgba(255,255,255,.78)}
 
 .footer{
-padding:40px;
-text-align:center;
-background:#07152b;
-color:white;
+  background:#061126;
+  color:rgba(255,255,255,.78);
+  padding:38px 0;
 }
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:22px;
+}
+.footer h3,.footer h4{color:#fff;margin-top:0}
+.footer a{display:block;color:rgba(255,255,255,.78);margin:7px 0}
 
+@media(max-width:950px){
+  .grid,.footer-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .nav-inner{flex-direction:column;align-items:flex-start;padding:12px 0}
+  .nav-links{width:100%}
+  .btn{width:100%;border-radius:14px}
+  .hero{padding:52px 0}
+  section{padding:44px 0}
+  .grid,.footer-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 
 <body>
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="student-dashboard.html">
+      <img src="icons/logo.png" alt="SpeakOut Logo">
+      <span>Kiddies Corner</span>
+    </a>
 
+    <nav class="nav-links">
+      <a class="btn btn-soft" href="student-dashboard.html">Dashboard</a>
+      <a class="btn btn-soft" href="speakhub.html">SpeakHub</a>
+      <a class="btn btn-soft" href="e-library.html">E-Library</a>
+      <a class="btn btn-dark" href="login.html">Logout</a>
+    </nav>
+  </div>
+</header>
+
+<main>
 <section class="hero">
-
-<h1>🧒 SpeakOut Kiddies Corner</h1>
-
-<p>
-A safe learning environment designed for primary and secondary school students.
-Build confidence, leadership skills, emotional intelligence, digital literacy,
-career awareness and personal development through fun and engaging resources.
-</p>
-
+  <div class="container">
+    <h1>SpeakOut Kiddies Corner</h1>
+    <p>A protected learning space for approved primary and secondary school students. Students can learn character, digital skills, emotional wellbeing, study habits, leadership, safety, and career discovery.</p>
+    <div class="actions">
+      <a class="btn btn-gold" href="#primary">Primary Track</a>
+      <a class="btn btn-primary" href="#secondary">Secondary Track</a>
+      <a class="btn btn-soft" href="#digital">Digital Skills</a>
+    </div>
+  </div>
 </section>
 
-<section class="section">
+<section id="primary">
+  <div class="container">
+    <div class="title">
+      <span>Primary School Track</span>
+      <h2>Foundational learning for younger students</h2>
+      <p>Simple, friendly lessons that help children build discipline, confidence, kindness, safety awareness, and early learning skills.</p>
+    </div>
 
-<div class="section-title">
-<h2>📚 Primary School Learning</h2>
-</div>
-
-<div class="card-grid">
-
-<div class="card">
-<h3>Character Building</h3>
-<p>Learn honesty, kindness, respect, empathy and responsibility.</p>
-</div>
-
-<div class="card">
-<h3>Reading Skills</h3>
-<p>Interactive reading materials and story-based learning.</p>
-</div>
-
-<div class="card">
-<h3>Personal Safety</h3>
-<p>Understanding safety at home, school and online.</p>
-</div>
-
-<div class="card">
-<h3>Confidence Building</h3>
-<p>Helping children express themselves and believe in their abilities.</p>
-</div>
-
-</div>
-
+    <div class="grid">
+      <article class="card"><div class="icon">😊</div><span class="pill">Ages 6–12</span><h3>Understanding My Feelings</h3><p>Helps children identify emotions and express themselves in safe and healthy ways.</p><a class="btn btn-soft" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🤝</div><span class="pill">Character</span><h3>Good Manners & Respect</h3><p>Teaches respect, honesty, kindness, gratitude, responsibility, and empathy.</p><a class="btn btn-soft" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">📚</div><span class="pill">Study Skills</span><h3>Reading & Study Habits</h3><p>Builds attention, reading culture, homework discipline, and classroom confidence.</p><a class="btn btn-soft" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🚸</div><span class="pill">Safety</span><h3>Personal Safety</h3><p>Age-appropriate lessons on body safety, stranger awareness, road safety, and online safety.</p><a class="btn btn-soft" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🎤</div><span class="pill">Confidence</span><h3>Speaking With Confidence</h3><p>Introduces children to class presentation, storytelling, and respectful communication.</p><a class="btn btn-soft" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">💻</div><span class="pill">Computer Basics</span><h3>Introduction to Computers</h3><p>Basic computer parts, keyboard use, typing, file safety, and responsible technology use.</p><a class="btn btn-soft" href="#">Coming Soon</a></article>
+    </div>
+  </div>
 </section>
 
-<section class="section">
+<section id="secondary" class="dark-section">
+  <div class="container">
+    <div class="title">
+      <span>Secondary School Track</span>
+      <h2>Life skills and leadership for teenagers</h2>
+      <p>Designed for students preparing for exams, leadership roles, career decisions, and emotional challenges.</p>
+    </div>
 
-<div class="section-title">
-<h2>🎓 Secondary School Academy</h2>
-</div>
-
-<div class="card-grid">
-
-<div class="card">
-<h3>Leadership Development</h3>
-<p>Learn teamwork, communication and leadership skills.</p>
-</div>
-
-<div class="card">
-<h3>Public Speaking</h3>
-<p>Build confidence speaking in class and public settings.</p>
-</div>
-
-<div class="card">
-<h3>Entrepreneurship</h3>
-<p>Introduction to business, innovation and problem solving.</p>
-</div>
-
-<div class="card">
-<h3>Study Skills</h3>
-<p>Learn how to study smarter and prepare for exams effectively.</p>
-</div>
-
-</div>
-
+    <div class="grid">
+      <article class="card"><div class="icon">🧠</div><span class="pill">Mental Health</span><h3>Depression & Anxiety Awareness</h3><p>Helps students understand warning signs, coping strategies, and when to seek support.</p><a class="btn btn-gold" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🎯</div><span class="pill">Study Skills</span><h3>Exam Preparation & Focus</h3><p>Time management, revision planning, avoiding distractions, and managing exam stress.</p><a class="btn btn-gold" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">👑</div><span class="pill">Leadership</span><h3>Student Leadership</h3><p>For prefects, club executives, ambassadors, and emerging school leaders.</p><a class="btn btn-gold" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">💰</div><span class="pill">Money</span><h3>Financial Literacy for Teens</h3><p>Saving, budgeting, needs vs wants, basic entrepreneurship, and money discipline.</p><a class="btn btn-gold" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🗣️</div><span class="pill">Communication</span><h3>Public Speaking</h3><p>Builds confidence in presentations, debates, interviews, and school events.</p><a class="btn btn-gold" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🚀</div><span class="pill">Career</span><h3>Career Discovery</h3><p>Introduces healthcare, technology, law, engineering, business, media, and public service careers.</p><a class="btn btn-gold" href="#">Coming Soon</a></article>
+    </div>
+  </div>
 </section>
 
-<section class="section">
+<section id="digital">
+  <div class="container">
+    <div class="title">
+      <span>Digital Skills</span>
+      <h2>Practical technology training for young learners</h2>
+      <p>Students learn useful digital skills that can support schoolwork, creativity, and future career pathways.</p>
+    </div>
 
-<div class="section-title">
-<h2>💻 Digital Skills</h2>
-</div>
-
-<div class="card-grid">
-
-<div class="card">
-<h3>Computer Basics</h3>
-<p>Introduction to computers and digital literacy.</p>
-</div>
-
-<div class="card">
-<h3>Microsoft Office</h3>
-<p>Word, Excel and PowerPoint essentials.</p>
-</div>
-
-<div class="card">
-<h3>Canva Design</h3>
-<p>Create graphics, presentations and school projects.</p>
-</div>
-
-<div class="card">
-<h3>Introduction to AI</h3>
-<p>Learn how Artificial Intelligence works in everyday life.</p>
-</div>
-
-</div>
-
+    <div class="grid">
+      <article class="card"><div class="icon">⌨️</div><span class="pill">Beginner</span><h3>Typing & Computer Confidence</h3><p>Keyboard practice, mouse skills, file organization, and safe device use.</p><a class="btn btn-primary" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">📊</div><span class="pill">Productivity</span><h3>Microsoft Word & PowerPoint</h3><p>Writing assignments, formatting documents, making slides, and class presentations.</p><a class="btn btn-primary" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🎨</div><span class="pill">Creativity</span><h3>Canva for School Projects</h3><p>Flyers, posters, presentations, certificates, and creative school designs.</p><a class="btn btn-primary" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🤖</div><span class="pill">Future Skills</span><h3>AI for Students</h3><p>Safe, responsible introduction to AI tools for learning, creativity, and research support.</p><a class="btn btn-primary" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🌐</div><span class="pill">Web</span><h3>Website Basics</h3><p>Introductory HTML, simple web pages, online safety, and responsible publishing.</p><a class="btn btn-primary" href="#">Coming Soon</a></article>
+      <article class="card"><div class="icon">🔐</div><span class="pill">Safety</span><h3>Cyber Safety for Kids</h3><p>Password safety, scams, privacy, cyberbullying, and safe internet behavior.</p><a class="btn btn-primary" href="#">Coming Soon</a></article>
+    </div>
+  </div>
 </section>
 
-<section class="section">
+<section>
+  <div class="container">
+    <div class="title">
+      <span>School Program Value</span>
+      <h2>Built for schools, parents, and students</h2>
+      <p>Kiddies Corner helps schools show parents that students are receiving value beyond academics: leadership, safety, digital skills, mental wellbeing, and personal development.</p>
+    </div>
 
-<div class="section-title">
-<h2>🧠 Mental Health & Wellbeing</h2>
-</div>
-
-<div class="card-grid">
-
-<div class="card">
-<h3>Understanding Emotions</h3>
-<p>Recognize and manage feelings in healthy ways.</p>
-</div>
-
-<div class="card">
-<h3>Stress Management</h3>
-<p>Simple techniques to manage school pressure.</p>
-</div>
-
-<div class="card">
-<h3>Bullying Prevention</h3>
-<p>Learn how to identify and respond to bullying.</p>
-</div>
-
-<div class="card">
-<h3>Healthy Relationships</h3>
-<p>Build positive friendships and social skills.</p>
-</div>
-
-</div>
-
-<div class="members-only">
-
-<h2>🔒 Members Only Access</h2>
-
-<p>
-The SpeakOut Kiddies Corner is available to approved students,
-schools and educational partners.
-</p>
-
-<a href="register.html" class="btn">
-Apply for Access
-</a>
-
-</div>
-
+    <div class="grid">
+      <article class="card"><div class="icon">🏫</div><h3>For Schools</h3><p>A protected learning resource to support club activities, wellness programs, and digital development.</p></article>
+      <article class="card"><div class="icon">👨‍👩‍👧</div><h3>For Parents</h3><p>Visible value for the Student Wellness Support Model and better confidence in school development.</p></article>
+      <article class="card"><div class="icon">🌱</div><h3>For Students</h3><p>Practical content that supports confidence, character, safety, learning, and future readiness.</p></article>
+    </div>
+  </div>
 </section>
+</main>
 
 <footer class="footer">
-
-<h3>SpeakOut Mental Health Outreach</h3>
-
-<p>
-Empowering children and young people through education,
-leadership and mental wellbeing.
-</p>
-
+  <div class="container footer-grid">
+    <div>
+      <h3>SpeakOut Kiddies Corner</h3>
+      <p>Protected learning for approved students and schools.</p>
+    </div>
+    <div>
+      <h4>Portal</h4>
+      <a href="student-dashboard.html">Student Dashboard</a>
+      <a href="school-dashboard.html">School Dashboard</a>
+      <a href="speakhub.html">SpeakHub</a>
+      <a href="e-library.html">E-Library</a>
+    </div>
+    <div>
+      <h4>SpeakOut</h4>
+      <a href="https://speakoutmentalhealth.org/">Main Website</a>
+      <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
+    </div>
+  </div>
 </footer>
 
 <script type="module" src="auth-guard.js"></script>
-
 </body>
 </html>
