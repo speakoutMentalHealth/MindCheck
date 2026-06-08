@@ -1,36 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SpeakOut E-Library — Student Learning Resources</title>
-<meta name="description" content="Protected SpeakOut E-Library for students, schools, teachers, parents, authors and youth development programs." />
-<link rel="icon" type="image/png" href="icons/logo.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>SpeakOut E-Library | Protected Learning Resources</title>
+<meta name="description" content="Protected SpeakOut E-Library powered by Firestore books and resources.">
+
+<link rel="icon" type="image/png" href="icons/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --navy:#07152b;
-  --navy2:#0b2344;
-  --blue:#0a5fbf;
-  --blue2:#074f9f;
-  --blueSoft:#eaf3ff;
-  --gold:#f4a21c;
-  --goldSoft:#fff4df;
-  --green:#0f8f6f;
-  --greenSoft:#e9fbf5;
-  --red:#b42318;
-  --redSoft:#fff0ef;
-  --ink:#111827;
-  --muted:#637083;
-  --line:#e5edf6;
-  --bg:#f7f9fc;
-  --white:#fff;
-  --shadow:0 18px 44px rgba(7,21,43,.10);
-  --soft:0 10px 28px rgba(7,21,43,.07);
-  --r:22px;
+  --navy:#07152b;--navy2:#0b2344;--blue:#0a5fbf;--blue2:#074f9f;--blueSoft:#eaf3ff;
+  --gold:#f4a21c;--goldSoft:#fff4df;--green:#0f8f6f;--greenSoft:#e9fbf5;
+  --red:#b42318;--redSoft:#fff1f0;--ink:#111827;--muted:#637083;--line:#e5edf6;
+  --bg:#f7f9fc;--white:#fff;--shadow:0 18px 44px rgba(7,21,43,.10);--soft:0 10px 28px rgba(7,21,43,.07);--r:22px;
 }
 *{box-sizing:border-box}
 html,body{width:100%;max-width:100%;overflow-x:hidden}
@@ -39,191 +26,51 @@ body{margin:0;font-family:Outfit,Arial,sans-serif;color:var(--ink);background:va
 a{text-decoration:none;color:inherit}
 button,input,select{font:inherit}
 .container{width:min(1180px,92%);margin:auto}
-.bar{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--gold),var(--blue));z-index:3000}
-
-/* compact global buttons */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  min-height:38px;padding:9px 14px;border-radius:999px;border:0;
-  font-weight:850;font-size:.84rem;line-height:1.1;text-align:center;cursor:pointer;
-  transition:.2s ease;max-width:100%;
-}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:9px 14px;border-radius:999px;border:0;font-weight:850;font-size:.84rem;line-height:1.1;text-align:center;cursor:pointer;transition:.2s ease}
 .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(7,21,43,.13)}
 .primary{background:var(--blue);color:#fff}.primary:hover{background:var(--blue2)}
-.gold{background:var(--gold);color:#241300}
-.soft{background:var(--blueSoft);color:var(--blue)}
-.light{background:#fff;color:var(--navy)}
-.outline{border:1px solid rgba(255,255,255,.45);color:#fff;background:transparent}
-.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
-.danger{background:var(--redSoft);color:var(--red)}
-
-.nav{position:sticky;top:0;z-index:1000;min-height:72px;background:rgba(255,255,255,.95);backdrop-filter:blur(18px);border-bottom:1px solid rgba(7,21,43,.08)}
+.gold{background:var(--gold);color:#241300}.soft{background:var(--blueSoft);color:var(--blue)}
+.light{background:#fff;color:var(--navy)}.dark{background:var(--navy);color:#fff}.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:1000;min-height:72px;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-bottom:1px solid rgba(7,21,43,.08)}
 .nav-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand img{width:46px;height:46px;object-fit:contain;flex:0 0 auto}
-.brand h2{margin:0;color:var(--blue);font-size:1.08rem;line-height:1;font-weight:900}
-.brand p{margin:3px 0 0;color:#d98200;font-size:.62rem;font-weight:900;letter-spacing:.10em;text-transform:uppercase}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:46px;height:46px;object-fit:contain;flex:0 0 auto}.brand h2{margin:0;color:var(--blue);font-size:1.08rem;line-height:1;font-weight:900}.brand p{margin:3px 0 0;color:#d98200;font-size:.62rem;font-weight:900;letter-spacing:.10em;text-transform:uppercase}
 .nav-links{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.84rem;flex-wrap:wrap;justify-content:flex-end}
-.nav-links a:not(.btn){padding:8px 10px;border-radius:999px}
-.nav-links a:hover{background:var(--blueSoft);color:var(--blue)}
 .menu{display:none;background:var(--navy);color:#fff;border:0;border-radius:13px;width:42px;height:42px;font-size:1.15rem;font-weight:900}
-
-/* hero */
-.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(90deg,rgba(7,21,43,.92),rgba(7,21,43,.70) 48%,rgba(7,21,43,.26)),url('icons/elibrary.png') center/cover no-repeat}
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(90deg,rgba(7,21,43,.92),rgba(7,21,43,.72) 50%,rgba(7,21,43,.35)),linear-gradient(135deg,var(--navy),var(--blue))}
 .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 16% 22%,rgba(244,162,28,.24),transparent 28%),radial-gradient(circle at 85% 18%,rgba(10,95,191,.32),transparent 32%)}
 .hero .container{position:relative;z-index:2;padding:64px 0 58px}
-.hero-content{max-width:930px}
+.hero-content{max-width:900px}
 .kicker,.label{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:.7rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
 .kicker{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20)}
 .label{background:var(--blueSoft);color:var(--blue);margin-bottom:14px}
 h1,h2,h3{margin-top:0;line-height:1.06;letter-spacing:-.04em}
 h1{font-size:clamp(2.35rem,6vw,5.3rem);margin:18px 0}
-.hero p{font-size:clamp(.98rem,2vw,1.12rem);line-height:1.65;max-width:800px;color:rgba(255,255,255,.9)}
+.hero p{font-size:clamp(.98rem,2vw,1.12rem);line-height:1.65;max-width:760px;color:rgba(255,255,255,.9)}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-.trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
-.trust span{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-size:.82rem;font-weight:800}
-
-/* sections */
-section{padding:58px 0}
-.title{max-width:880px;margin:0 auto 30px;text-align:center}
-.title h2{font-size:clamp(1.85rem,4vw,3.5rem);margin:0 0 12px;color:var(--navy)}
-.title p{font-size:1rem;line-height:1.65;color:var(--muted);margin:0}
-.card,.panel,.notice-box,.submit-box,.modal-card,.author-box{
-  background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--soft)
-}
-.card{padding:18px;transition:.25s ease;position:relative;overflow:hidden}
-.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
-.card h3{font-size:1.05rem;color:var(--navy);margin:0 0 8px}
-.card p{color:var(--muted);line-height:1.55;margin:0 0 10px;font-size:.9rem}
-.grid{display:grid;gap:16px}
-.g4{grid-template-columns:repeat(4,1fr)}
-.g3{grid-template-columns:repeat(3,1fr)}
-.g2{grid-template-columns:repeat(2,1fr)}
-
-.stats,.notice,.controls{background:#fff;border-bottom:1px solid var(--line)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.stat{padding:18px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbff);box-shadow:var(--soft);text-align:center}
-.stat strong{display:block;color:var(--blue);font-size:clamp(1.7rem,3vw,2.6rem);letter-spacing:-.04em;line-height:1}
-.stat span{display:block;margin-top:6px;color:var(--muted);font-weight:800;font-size:.88rem}
-
-.notice-box{padding:20px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee)}
-.notice-icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-size:1.2rem;font-weight:900}
-.notice-box h2{margin:0 0 7px;color:var(--navy);font-size:1.25rem}
-.notice-box p{margin:0;color:var(--muted);line-height:1.6;font-size:.95rem}
-
-.panel{padding:20px}
-.controls-grid{display:grid;grid-template-columns:1.1fr .65fr .65fr .65fr;gap:10px;margin-top:14px}
-.input,.select{width:100%;min-height:42px;border-radius:14px;border:1px solid var(--line);background:#fbfdff;color:var(--ink);padding:11px 13px;outline:none;font-size:.92rem}
-.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}
+.trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}.trust span{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-size:.82rem;font-weight:800}
+section{padding:58px 0}.title{max-width:850px;margin:0 auto 30px;text-align:center}.title h2{font-size:clamp(1.85rem,4vw,3.5rem);margin:0 0 12px;color:var(--navy)}.title p{font-size:1rem;line-height:1.65;color:var(--muted);margin:0}
+.card,.panel,.notice-box,.modal-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--soft)}
+.card{padding:18px;transition:.25s ease;position:relative;overflow:hidden}.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.card h3{font-size:1.05rem;color:var(--navy);margin:0 0 8px}.card p{color:var(--muted);line-height:1.55;margin:0 0 10px;font-size:.9rem}
+.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.stats,.notice,.controls{background:#fff;border-bottom:1px solid var(--line)}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat{padding:18px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbff);box-shadow:var(--soft);text-align:center}.stat strong{display:block;color:var(--blue);font-size:clamp(1.7rem,3vw,2.6rem);letter-spacing:-.04em;line-height:1}.stat span{display:block;margin-top:6px;color:var(--muted);font-weight:800;font-size:.88rem}
+.notice-box{padding:20px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee)}.notice-icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-size:1.2rem;font-weight:900}.notice-box h2{margin:0 0 7px;color:var(--navy);font-size:1.25rem}.notice-box p{margin:0;color:var(--muted);line-height:1.6;font-size:.95rem}
+.panel{padding:20px}.controls-grid{display:grid;grid-template-columns:1.2fr .65fr .65fr .65fr;gap:10px;margin-top:14px}.input,.select{width:100%;min-height:42px;border-radius:14px;border:1px solid var(--line);background:#fbfdff;color:var(--ink);padding:11px 13px;outline:none;font-size:.92rem}.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}
 .empty{margin-top:14px;padding:13px;border-radius:16px;background:var(--goldSoft);color:#704800;font-weight:800;display:none;font-size:.9rem}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
-.tab{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:8px 11px;font-weight:850;cursor:pointer;transition:.2s ease;box-shadow:var(--soft);font-size:.8rem}
-.tab:hover,.tab.active{background:var(--blue);color:#fff;transform:translateY(-2px)}
-
-.icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--blueSoft);color:var(--blue);font-weight:900;font-size:1.15rem;margin-bottom:12px}
-.pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
-.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.68rem;font-weight:900;background:var(--blueSoft);color:var(--blue);text-transform:capitalize}
-.pill.free{background:var(--greenSoft);color:var(--green)}
-.pill.gold{background:var(--goldSoft);color:#8a5600}
-.pill.dark{background:#eef2ff;color:var(--navy)}
-.pill.red{background:var(--redSoft);color:var(--red)}
-
-/* compact book cards */
-.book{min-height:332px;display:flex;flex-direction:column;justify-content:space-between}
-.cover{height:120px;border-radius:17px;background:radial-gradient(circle at 20% 20%,rgba(244,162,28,.22),transparent 30%),linear-gradient(135deg,var(--navy),var(--blue));padding:14px;display:flex;align-items:flex-end;color:#fff;margin-bottom:13px;position:relative;overflow:hidden}
-.cover.kids{background:radial-gradient(circle at 20% 20%,rgba(244,162,28,.30),transparent 32%),linear-gradient(135deg,#0f8f6f,#0a5fbf)}
-.cover.school{background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 32%),linear-gradient(135deg,#4b2aad,#07152b)}
-.cover::after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-26px;top:-26px;background:rgba(255,255,255,.12)}
-.cover strong{position:relative;z-index:2;font-size:.92rem;line-height:1.15;max-width:86%}
-.book-title{font-size:1.02rem;color:var(--navy);font-weight:900;line-height:1.18;margin-bottom:5px}
-.author{color:var(--muted);font-weight:800;margin-bottom:8px;font-size:.86rem}
-.summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);line-height:1.5;margin-bottom:12px;font-size:.86rem}
-.book-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.book-actions .btn{min-height:36px;padding:8px 9px;font-size:.78rem;border-radius:14px}
-
-.dark-section{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}
-.dark-section .title h2,.dark-section .title p{color:#fff}.dark-section .title p{opacity:.84}.dark-section .label{background:rgba(255,255,255,.13);color:#fff}
-.dark-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(12px)}
-.dark-card h3{color:#fff}.dark-card p{color:rgba(255,255,255,.82)}.learn{color:var(--blue);font-weight:900;font-size:.9rem}.dark-card .learn{color:var(--gold)}
-.club{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
-.club-mark{width:48px;height:48px;border-radius:17px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-weight:900;font-size:1.2rem}
-
-.author-section{background:#fff}
-.author-box{padding:22px;display:grid;grid-template-columns:1fr .7fr;gap:20px;align-items:center;background:linear-gradient(135deg,#fff,#f8fbff 60%,#fff8ee)}
-.author-box h2{color:var(--navy);font-size:clamp(1.55rem,3vw,2.65rem);margin:8px 0}
-.author-box p{color:var(--muted);line-height:1.65}
-.author-photo{min-height:220px;border-radius:22px;background:linear-gradient(135deg,var(--navy),var(--blue));display:grid;place-items:center;color:#fff;font-size:3.5rem;font-weight:900}
-
-.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.time{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--soft)}
-.time strong{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:14px;background:var(--blueSoft);color:var(--blue);margin-bottom:10px}
-.time h3{font-size:1rem;margin-bottom:6px}
-
-.submit{background:#fff}
-.submit-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-.submit-box{padding:24px;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee)}
-.submit-box h2{color:var(--navy);font-size:clamp(1.7rem,3.5vw,3rem);margin:8px 0 12px}
-.submit-box p{color:var(--muted);line-height:1.65;font-size:.98rem}
-
-/* modal */
-.modal{position:fixed;inset:0;background:rgba(7,21,43,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:5000}
-.modal.open{display:flex}
-.modal-card{width:min(760px,96vw);max-height:88vh;overflow:auto;padding:22px}
-.modal-top{display:flex;justify-content:space-between;gap:14px;align-items:start;margin-bottom:12px}
-.modal-close{border:0;background:var(--blueSoft);color:var(--blue);border-radius:999px;width:36px;height:36px;font-weight:900;cursor:pointer}
-.modal-cover{height:150px;border-radius:18px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;display:flex;align-items:flex-end;padding:18px;margin-bottom:16px}
-.modal-cover strong{font-size:1.2rem}
-.modal-body p{color:var(--muted);line-height:1.65}
-.modal-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
-
-/* footer */
-.footer{background:#061126;color:rgba(255,255,255,.74);padding:44px 0 24px}
-.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:26px}
-.footer-brand{display:flex;align-items:center;gap:10px}.footer-brand img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:13px;padding:4px}
-.footer h3,.footer h4{color:#fff;margin:0 0 10px}.footer a{display:block;color:rgba(255,255,255,.72);margin:7px 0;font-size:.92rem}
-.footer-bottom{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);font-size:.9rem}
-.hidden{display:none!important}.reveal{opacity:.12;transform:translateY(38px) scale(.99);transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}.reveal.active{opacity:1;transform:none}.reveal.exit{opacity:.35;transform:translateY(-18px) scale(.995)}
-
-@media(max-width:1100px){
-  .controls-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:1000px){
-  .g4,.g3,.stats-grid,.timeline,.footer-grid{grid-template-columns:repeat(2,1fr)}
-  .submit-wrap,.author-box{grid-template-columns:1fr}
-}
-@media(max-width:900px){
-  section{padding:48px 0}.hero .container{padding:52px 0}
-  .book-actions{grid-template-columns:1fr}
-}
-@media(max-width:760px){
-  .menu{display:block}
-  .nav{min-height:68px}.nav-inner{min-height:68px}
-  .nav-links{display:none;position:fixed;top:68px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:14px 6%;flex-direction:column;align-items:stretch;gap:8px}
-  body.menu-open .nav-links{display:flex}
-  .nav-links a{width:100%;padding:10px 12px;border-radius:13px;background:#f8fbff;text-align:center}
-  .brand img{width:42px;height:42px}.brand h2{font-size:1rem}.brand p{font-size:.58rem}
-  h1{font-size:clamp(2rem,10vw,3rem)}.hero p,.title p{font-size:.95rem}
-  .actions{gap:8px}.actions .btn{flex:1 1 auto}
-  .hero .actions{display:grid;grid-template-columns:repeat(3,1fr)}
-  .btn{min-height:36px;padding:8px 10px;font-size:.78rem;border-radius:14px}
-  .trust span{font-size:.74rem;padding:7px 9px}
-  .g4,.g3,.g2,.stats-grid,.timeline,.footer-grid,.controls-grid{grid-template-columns:1fr}
-  .club,.notice-box{grid-template-columns:1fr}
-  .card,.panel,.submit-box,.modal-card,.author-box{padding:16px;border-radius:19px}
-  .stat{padding:16px}.cover{height:104px;border-radius:15px}
-  .tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px;scroll-snap-type:x mandatory}
-  .tab{flex:0 0 auto;scroll-snap-align:start;font-size:.76rem;padding:8px 10px}
-  .input,.select{min-height:40px;font-size:.86rem}
-  .footer{padding-bottom:40px}
-}
-@media(max-width:420px){
-  .hero .actions{grid-template-columns:1fr}
-}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}.tab{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:8px 11px;font-weight:850;cursor:pointer;transition:.2s ease;box-shadow:var(--soft);font-size:.8rem}.tab:hover,.tab.active{background:var(--blue);color:#fff;transform:translateY(-2px)}
+.icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--blueSoft);color:var(--blue);font-weight:900;font-size:1.15rem;margin-bottom:12px}.pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.68rem;font-weight:900;background:var(--blueSoft);color:var(--blue);text-transform:capitalize}.pill.free{background:var(--greenSoft);color:var(--green)}.pill.gold{background:var(--goldSoft);color:#8a5600}.pill.dark{background:#eef2ff;color:var(--navy)}
+.book{min-height:330px;display:flex;flex-direction:column;justify-content:space-between}.cover{height:124px;border-radius:17px;background:radial-gradient(circle at 20% 20%,rgba(244,162,28,.22),transparent 30%),linear-gradient(135deg,var(--navy),var(--blue));padding:14px;display:flex;align-items:flex-end;color:#fff;margin-bottom:13px;position:relative;overflow:hidden}.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.cover::after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-26px;top:-26px;background:rgba(255,255,255,.12)}.cover strong{position:relative;z-index:2;font-size:.92rem;line-height:1.15;max-width:86%;text-shadow:0 3px 18px rgba(0,0,0,.35)}
+.book-title{font-size:1.02rem;color:var(--navy);font-weight:900;line-height:1.18;margin-bottom:5px}.author{color:var(--muted);font-weight:800;margin-bottom:8px;font-size:.86rem}.summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);line-height:1.5;margin-bottom:12px;font-size:.86rem}.book-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.book-actions .btn{min-height:36px;padding:8px 9px;font-size:.78rem;border-radius:14px}
+.dark-section{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}.dark-section .title h2,.dark-section .title p{color:#fff}.dark-section .title p{opacity:.84}.dark-section .label{background:rgba(255,255,255,.13);color:#fff}.dark-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(12px)}.dark-card h3{color:#fff}.dark-card p{color:rgba(255,255,255,.82)}
+.modal{position:fixed;inset:0;background:rgba(7,21,43,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:5000}.modal.open{display:flex}.modal-card{width:min(760px,96vw);max-height:88vh;overflow:auto;padding:22px}.modal-top{display:flex;justify-content:space-between;gap:14px;align-items:start;margin-bottom:12px}.modal-close{border:0;background:var(--blueSoft);color:var(--blue);border-radius:999px;width:36px;height:36px;font-weight:900;cursor:pointer}.modal-cover{height:160px;border-radius:18px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;display:flex;align-items:flex-end;padding:18px;margin-bottom:16px;position:relative;overflow:hidden}.modal-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.modal-cover strong{position:relative;z-index:2;font-size:1.2rem;text-shadow:0 3px 18px rgba(0,0,0,.35)}.modal-body p{color:var(--muted);line-height:1.65}.modal-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.footer{background:#061126;color:rgba(255,255,255,.74);padding:44px 0 24px}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:26px}.footer-brand{display:flex;align-items:center;gap:10px}.footer-brand img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:13px;padding:4px}.footer h3,.footer h4{color:#fff;margin:0 0 10px}.footer a{display:block;color:rgba(255,255,255,.72);margin:7px 0;font-size:.92rem}.footer-bottom{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);font-size:.9rem}
+.loading{padding:18px;border-radius:18px;background:var(--blueSoft);color:var(--blue);font-weight:900;text-align:center}
+.hidden{display:none!important}
+@media(max-width:1000px){.g4,.g3,.stats-grid,.footer-grid{grid-template-columns:repeat(2,1fr)}.controls-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.menu{display:block}.nav{min-height:68px}.nav-inner{min-height:68px}.nav-links{display:none;position:fixed;top:68px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:14px 6%;flex-direction:column;align-items:stretch;gap:8px}body.menu-open .nav-links{display:flex}.nav-links a,.nav-links button{width:100%;padding:10px 12px;border-radius:13px;background:#f8fbff;text-align:center}.brand img{width:42px;height:42px}.brand h2{font-size:1rem}.brand p{font-size:.58rem}section{padding:48px 0}.hero .container{padding:52px 0}.book-actions{grid-template-columns:1fr}.g4,.g3,.g2,.stats-grid,.footer-grid{grid-template-columns:1fr}.controls-grid{grid-template-columns:1fr}.card,.panel,.modal-card{padding:16px;border-radius:19px}.cover{height:110px}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px}.tab{flex:0 0 auto;font-size:.76rem;padding:8px 10px}.btn{min-height:36px;padding:8px 10px;font-size:.78rem;border-radius:14px}}
 </style>
 </head>
-<body>
-<div class="bar" id="bar"></div>
 
+<body>
 <header class="nav">
   <div class="container nav-inner">
     <a href="student-dashboard.html" class="brand" aria-label="SpeakOut E-Library Home">
@@ -231,13 +78,12 @@ section{padding:58px 0}
       <div><h2>SpeakOut</h2><p>E-Library</p></div>
     </a>
     <button class="menu" type="button" aria-label="Open menu" onclick="document.body.classList.toggle('menu-open')">☰</button>
-    <nav class="nav-links" aria-label="Primary navigation">
-      <a href="student-dashboard.html" onclick="document.body.classList.remove('menu-open')">Dashboard</a>
-      <a href="#shelves" onclick="document.body.classList.remove('menu-open')">Shelves</a>
-      <a href="#books" onclick="document.body.classList.remove('menu-open')">Books</a>
-      <a href="#school-resources" onclick="document.body.classList.remove('menu-open')">School Resources</a>
-      <a href="kiddies.html" onclick="document.body.classList.remove('menu-open')">Kiddies</a>
-      <a href="#submit" class="btn primary" onclick="document.body.classList.remove('menu-open')">Submit Resource</a>
+    <nav class="nav-links">
+      <a href="student-dashboard.html">Dashboard</a>
+      <a href="speakhub.html">SpeakHub</a>
+      <a href="kiddies.html">Kiddies</a>
+      <a href="school-resources.html">School Resources</a>
+      <a href="submit-work.html" class="btn primary">Submit Resource</a>
     </nav>
   </div>
 </header>
@@ -245,49 +91,49 @@ section{padding:58px 0}
 <main>
 <section class="hero">
   <div class="container">
-    <div class="hero-content reveal">
-      <span class="kicker">Protected Access • Students • Schools • Teachers • Parents</span>
-      <h1>A smarter E-Library for schools, students and youth development.</h1>
-      <p>Browse age-friendly books, school resources, teacher guides, mental health materials, free learning links, and approved author submissions. Built for primary schools, secondary schools, universities, NYSC members and partner schools.</p>
+    <div class="hero-content">
+      <span class="kicker">Protected Access • Firestore Library • Approved Users</span>
+      <h1>Read, learn and grow through curated resources.</h1>
+      <p>This E-Library now loads resources directly from the admin book database. Add books in <strong>admin-books.html</strong> and approved users will see them here automatically.</p>
       <div class="actions">
         <a href="#books" class="btn primary">Start Reading</a>
-        <a href="#shelves" class="btn light">Browse Shelves</a>
-        <a href="#school-resources" class="btn gold">School Toolkit</a>
+        <a href="#filters" class="btn light">Search Library</a>
+        <a href="submit-work.html" class="btn gold">Submit Book</a>
       </div>
-      <div class="trust"><span>Primary</span><span>Secondary</span><span>University</span><span>NYSC</span><span>School Resources</span></div>
+      <div class="trust"><span>Students</span><span>Schools</span><span>Teachers</span><span>Parents</span><span>NYSC</span></div>
     </div>
   </div>
 </section>
 
 <section class="stats">
   <div class="container stats-grid">
-    <div class="stat reveal"><strong data-count="220">0</strong><span>Resource Links</span></div>
-    <div class="stat reveal"><strong data-count="12">0</strong><span>Clickable Shelves</span></div>
-    <div class="stat reveal"><strong data-count="6">0</strong><span>Audience Tracks</span></div>
-    <div class="stat reveal"><strong data-count="20">0</strong><span>School Tools</span></div>
+    <div class="stat"><strong id="totalCount">0</strong><span>Total Active Resources</span></div>
+    <div class="stat"><strong id="featuredCount">0</strong><span>Featured</span></div>
+    <div class="stat"><strong id="schoolCount">0</strong><span>School Resources</span></div>
+    <div class="stat"><strong id="kiddiesCount">0</strong><span>Kiddies / Students</span></div>
   </div>
 </section>
 
 <section class="notice">
   <div class="container">
-    <div class="notice-box reveal">
-      <div class="notice-icon">🔐</div>
+    <div class="notice-box">
+      <div class="notice-icon">⚖️</div>
       <div>
-        <h2>Protected school learning library</h2>
-        <p>This page is for approved students, schools and partners. Public users are redirected to login. Resources include open educational links, school-owned resources, partner materials, and approved author submissions.</p>
+        <h2>Responsible learning library</h2>
+        <p>Only admin-approved active resources appear here. Use official, open, permitted, or author-submitted resources only. Don’t build your platform on stolen PDFs — that is a legal and brand-risk trap.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="controls">
+<section class="controls" id="filters">
   <div class="container">
-    <div class="panel reveal">
+    <div class="panel">
       <span class="label">Search the Library</span>
-      <h2 style="color:var(--navy);font-size:clamp(1.55rem,3vw,2.6rem);margin:0 0 8px;">Find books, tools, courses and school resources</h2>
-      <p style="color:var(--muted);line-height:1.6;margin:0;">Search by title, author, subject, school level or resource type. Use filters to narrow content for primary, secondary, university, NYSC, teachers, parents or schools.</p>
+      <h2 style="color:var(--navy);font-size:clamp(1.55rem,3vw,2.6rem);margin:0 0 8px;">Find resources by title, audience or category</h2>
+      <p style="color:var(--muted);line-height:1.6;margin:0;">Search by title, author, school resources, depression, leadership, technology, primary, secondary, teachers, parents and more.</p>
       <div class="controls-grid">
-        <input type="text" id="librarySearch" class="input" placeholder="Search depression, study skills, leadership, safety, AI, teacher guide...">
+        <input type="text" id="librarySearch" class="input" placeholder="Search depression, leadership, primary, Excel, teacher guide...">
         <select id="categoryFilter" class="select">
           <option value="all">All Categories</option>
           <option value="mental-health">Mental Health</option>
@@ -297,130 +143,71 @@ section{padding:58px 0}
           <option value="health">Public Health</option>
           <option value="career">Career</option>
           <option value="study-skills">Study Skills</option>
-          <option value="kiddies">Kiddies Corner</option>
-          <option value="school-resource">School Resources</option>
           <option value="personal-growth">Personal Growth</option>
-          <option value="club">Reading Clubs</option>
-          <option value="course">Free Courses</option>
+          <option value="kiddies">Kiddies</option>
+          <option value="school-resources">School Resources</option>
+          <option value="parent-resources">Parent Resources</option>
+          <option value="teacher-resources">Teacher Resources</option>
         </select>
         <select id="audienceFilter" class="select">
           <option value="all">All Audiences</option>
-          <option value="primary">Primary School</option>
-          <option value="secondary">Secondary School</option>
+          <option value="primary">Primary</option>
+          <option value="secondary">Secondary</option>
           <option value="university">University</option>
           <option value="nysc">NYSC</option>
-          <option value="teacher">Teachers</option>
-          <option value="parent">Parents</option>
-          <option value="school">Schools</option>
+          <option value="teachers">Teachers</option>
+          <option value="parents">Parents</option>
+          <option value="schools">Schools</option>
+          <option value="general">General</option>
         </select>
         <select id="typeFilter" class="select">
           <option value="all">All Types</option>
-          <option value="shelf">Shelf</option>
           <option value="book">Book</option>
+          <option value="guide">Guide</option>
           <option value="toolkit">Toolkit</option>
-          <option value="free">Free/Open</option>
-          <option value="club">Club</option>
-          <option value="course">Course</option>
+          <option value="worksheet">Worksheet</option>
+          <option value="video">Video</option>
+          <option value="course">Course Link</option>
+          <option value="article">Article</option>
         </select>
       </div>
-      <div class="empty" id="emptyState">No matching item found. Try another keyword or filter.</div>
+      <div class="empty" id="emptyState">No matching resource found. Try another keyword or filter.</div>
     </div>
   </div>
 </section>
 
 <section id="shelves">
   <div class="container">
-    <div class="title reveal"><span class="label">Clickable Shelves</span><h2>Choose a shelf and see resources immediately</h2><p>Cards stay compact. Click Details on any item to view description, audience, source and links.</p></div>
-    <div class="tabs reveal">
-      <button class="tab active" data-shelf="all">All</button>
-      <button class="tab" data-shelf="kiddies">Kiddies</button>
-      <button class="tab" data-shelf="school-resource">School Resources</button>
-      <button class="tab" data-shelf="mental-health">Mental Health</button>
-      <button class="tab" data-shelf="study-skills">Study Skills</button>
-      <button class="tab" data-shelf="leadership">Leadership</button>
-      <button class="tab" data-shelf="business">Business</button>
-      <button class="tab" data-shelf="technology">Technology</button>
-      <button class="tab" data-shelf="health">Public Health</button>
-      <button class="tab" data-shelf="career">Career</button>
-      <button class="tab" data-shelf="personal-growth">Personal Growth</button>
+    <div class="title"><span class="label">Shelves</span><h2>Browse by category</h2><p>These shelves filter the same live database. Add or edit content from the admin book manager.</p></div>
+    <div class="tabs">
+      <button class="tab active" data-category="all">All</button>
+      <button class="tab" data-category="mental-health">Mental Health</button>
+      <button class="tab" data-category="kiddies">Kiddies</button>
+      <button class="tab" data-category="school-resources">School Resources</button>
+      <button class="tab" data-category="teacher-resources">Teachers</button>
+      <button class="tab" data-category="parent-resources">Parents</button>
+      <button class="tab" data-category="leadership">Leadership</button>
+      <button class="tab" data-category="technology">Technology</button>
+      <button class="tab" data-category="career">Career</button>
     </div>
-    <div class="grid g4" id="shelfGrid"></div>
   </div>
 </section>
 
 <section id="books">
   <div class="container">
-    <div class="title reveal"><span class="label">Library Resources</span><h2>Books, guides and learning materials</h2><p>Three items fit on one row on desktop. Full information opens only when the user clicks Details.</p></div>
+    <div class="title"><span class="label">Live Resources</span><h2>Featured books, guides and toolkits</h2><p>Only resources marked <strong>active</strong> in Firestore appear here.</p></div>
+    <div id="loading" class="loading">Loading library resources...</div>
     <div class="grid g3" id="bookGrid"></div>
   </div>
 </section>
 
-<section class="author-section" id="featured-author">
+<section class="dark-section">
   <div class="container">
-    <div class="author-box reveal">
-      <div>
-        <span class="label">Featured Author / Contributor</span>
-        <h2>Highlight authors who support student wellbeing.</h2>
-        <p>This section can feature a doctor, professor, author, counsellor, NGO partner, or school contributor. Use it to promote approved books, encourage submissions, and attract sponsorship.</p>
-        <div class="actions">
-          <a href="submit-work.html" class="btn primary">Submit Your Book</a>
-          <a href="mailto:speaaakout@gmail.com?subject=Featured Author Submission" class="btn soft">Contact Library Team</a>
-        </div>
-      </div>
-      <div class="author-photo">📚</div>
-    </div>
-  </div>
-</section>
-
-<section class="dark-section" id="learning">
-  <div class="container">
-    <div class="title reveal"><span class="label">Free Certified Learning</span><h2>Courses and learning platforms</h2><p>Connect reading with practical learning, badges and certificates where available.</p></div>
-    <div class="grid g3" id="courseGrid"></div>
-  </div>
-</section>
-
-<section id="school-resources">
-  <div class="container">
-    <div class="title reveal"><span class="label">School Resource Center</span><h2>Tools for partner schools</h2><p>Resources that support Mental Health Clubs, teacher sensitization, parent engagement, student ambassadors and program reporting.</p></div>
-    <div class="grid g3" id="schoolGrid"></div>
-  </div>
-</section>
-
-<section class="recognition">
-  <div class="container">
-    <div class="title reveal"><span class="label">Reader Recognition</span><h2>Reward reading and learning</h2><p>Use this badge model to encourage students, volunteers and ambassadors.</p></div>
-    <div class="timeline">
-      <div class="time reveal"><strong>01</strong><h3>Bronze Reader</h3><p>Complete 5 resources and submit a reflection.</p></div>
-      <div class="time reveal"><strong>02</strong><h3>Silver Reader</h3><p>Complete 15 resources and join one reading club.</p></div>
-      <div class="time reveal"><strong>03</strong><h3>Gold Reader</h3><p>Complete 30 resources and lead a discussion.</p></div>
-      <div class="time reveal"><strong>04</strong><h3>Platinum Scholar</h3><p>Complete 50 resources and earn recognition.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="clubs">
-  <div class="container">
-    <div class="title reveal"><span class="label">Reading Clubs</span><h2>Turn books into conversations</h2><p>Clubs help young people discuss mental health, leadership, career, technology and public health.</p></div>
-    <div class="grid g2" id="clubGrid"></div>
-  </div>
-</section>
-
-<section class="submit" id="submit">
-  <div class="container submit-wrap">
-    <div class="submit-box reveal">
-      <span class="label">Author Submission</span>
-      <h2>Submit your book or learning resource.</h2>
-      <p>Authors, doctors, researchers, NGOs, institutions and educators can submit resources for review. Approved materials may be featured in the SpeakOut E-Library.</p>
-      <div class="actions">
-        <a href="submit-work.html" class="btn primary">Apply to Feature Your Book</a>
-        <a href="mailto:speaaakout@gmail.com?subject=E-Library Resource Submission" class="btn soft">Email Library Team</a>
-      </div>
-    </div>
-    <div class="card reveal">
-      <span class="label">Review Required</span>
-      <h3 style="font-size:1.7rem;">Automation, not auto-publishing</h3>
-      <p>Submissions can be automated through Google Forms/Sheets, but publishing must be reviewed to prevent unsafe, duplicate, copyrighted or low-quality content.</p>
-      <div class="pills"><span class="pill">Books</span><span class="pill">Articles</span><span class="pill">Guides</span><span class="pill">Research</span><span class="pill">Podcasts</span></div>
+    <div class="title"><span class="label">Submission Pathway</span><h2>Want to feature a book or guide?</h2><p>Authors, schools, professionals and institutions can submit resources for review before publishing.</p></div>
+    <div class="grid g3">
+      <article class="card dark-card"><div class="icon">📩</div><h3>Submit Resource</h3><p>Use the submission page to send book/resource details for SpeakOut review.</p><a class="btn gold" href="submit-work.html">Submit Work</a></article>
+      <article class="card dark-card"><div class="icon">✅</div><h3>Admin Review</h3><p>Resources must be reviewed for suitability, permission and quality before publishing.</p><a class="btn gold" href="admin-books.html">Admin Books</a></article>
+      <article class="card dark-card"><div class="icon">📚</div><h3>Published to Library</h3><p>Once active in Firestore, the resource appears automatically here.</p><a class="btn gold" href="#books">View Library</a></article>
     </div>
   </div>
 </section>
@@ -429,20 +216,13 @@ section{padding:58px 0}
 <div class="modal" id="bookModal" aria-hidden="true">
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-top">
-      <div>
-        <span class="label" id="modalCategory">Book</span>
-        <h2 id="modalTitle" style="margin:8px 0 4px;color:var(--navy)">Book Title</h2>
-        <div id="modalAuthor" class="author"></div>
-      </div>
+      <div><span class="label" id="modalCategory">Book</span><h2 id="modalTitle" style="margin:8px 0 4px;color:var(--navy)">Book Title</h2><div id="modalAuthor" class="author"></div></div>
       <button class="modal-close" type="button" onclick="closeModal()">×</button>
     </div>
-    <div class="modal-cover"><strong id="modalCoverTitle"></strong></div>
-    <div class="modal-body">
-      <p id="modalSummary"></p>
-      <div class="pills" id="modalPills"></div>
-    </div>
+    <div class="modal-cover" id="modalCover"><strong id="modalCoverTitle"></strong></div>
+    <div class="modal-body"><p id="modalSummary"></p></div>
     <div class="modal-actions">
-      <a id="modalRead" class="btn primary" target="_blank" rel="noopener">Open Resource</a>
+      <a id="modalRead" class="btn primary" target="_blank" rel="noopener">Read Online</a>
       <a id="modalDownload" class="btn soft" target="_blank" rel="noopener">Download / Source</a>
     </div>
   </div>
@@ -451,188 +231,175 @@ section{padding:58px 0}
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
-      <div>
-        <div class="footer-brand"><img src="icons/logo.png" alt="SpeakOut Logo"><div><h3>SpeakOut</h3><p>E-Library</p></div></div>
-        <p>Protected digital knowledge hub for mental health, learning, school clubs, youth leadership and community impact.</p>
-      </div>
-      <div><h4>Explore</h4><a href="student-dashboard.html">Dashboard</a><a href="#shelves">Shelves</a><a href="#books">Books</a><a href="#learning">Courses</a><a href="#school-resources">School Resources</a></div>
-      <div><h4>Ecosystem</h4><a href="speakhub.html">SpeakHub</a><a href="kiddies.html">Kiddies Corner</a><a href="ambassador.html">Ambassador Program</a><a href="volunteers.html">Volunteer Program</a></div>
-      <div><h4>Contact</h4><a href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp: +234 811 810 3510</a><a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a><a href="https://instagram.com/speaak_out" target="_blank" rel="noopener">Instagram: @speaaakout</a></div>
+      <div><div class="footer-brand"><img src="icons/logo.png" alt="SpeakOut Logo"><div><h3>SpeakOut</h3><p>E-Library</p></div></div><p>Protected digital knowledge hub for student wellness, learning, leadership and school support.</p></div>
+      <div><h4>Explore</h4><a href="student-dashboard.html">Student Dashboard</a><a href="school-dashboard.html">School Dashboard</a><a href="#books">Books</a><a href="#shelves">Shelves</a></div>
+      <div><h4>Ecosystem</h4><a href="speakhub.html">SpeakHub</a><a href="kiddies.html">Kiddies Corner</a><a href="school-resources.html">School Resources</a><a href="verify-certificate.html">Verify Certificate</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp: +234 811 810 3510</a><a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a></div>
     </div>
     <div class="footer-bottom"><p>© 2026 SpeakOut Mental Health Outreach. E-Library for learning, healing and leadership.</p></div>
   </div>
 </footer>
 
-<script>
-const shelves=[
-  ['🧒','Kiddies Corner','Age-friendly books, safety, emotions, reading, creativity and basic digital literacy.','kiddies','primary secondary'],
-  ['🏫','School Resource Center','Club guides, teacher training, parent engagement, ambassador handbook and reporting templates.','school-resource','school teacher parent'],
-  ['🧠','Mental Health Books','Stress, anxiety, emotional wellness, depression, trauma, self-care and coping resources.','mental-health','secondary university nysc teacher parent'],
-  ['📚','Study Skills','Reading habits, exam preparation, note-taking, focus, time management and academic confidence.','study-skills','primary secondary university'],
-  ['🌍','Leadership Books','Leadership, communication, service, public speaking and youth advocacy.','leadership','secondary university nysc'],
-  ['💼','Business & Money','Entrepreneurship, business planning, marketing and financial literacy.','business','secondary university nysc'],
-  ['💻','Technology Books','Programming, data, AI, cybersecurity, cloud and digital skills resources.','technology','secondary university nysc'],
-  ['⚕️','Public Health','Community health, disease prevention, nutrition and humanitarian health resources.','health','secondary university nysc teacher'],
-  ['🎯','Career Development','CVs, interviews, workplace confidence and career planning.','career','secondary university nysc'],
-  ['📖','Personal Growth','Habits, productivity, emotional intelligence, mindset and discipline.','personal-growth','secondary university nysc'],
-  ['👥','Reading Clubs','Join book discussions and learning groups connected to each shelf.','club','primary secondary university nysc']
-];
-
-const resources=[
-['WHO Mental Health Resources','World Health Organization','mental-health','WHO','Trusted global mental health factsheets, guides and public education resources.','https://www.who.int/health-topics/mental-health','https://www.who.int/publications','secondary university nysc teacher parent','free'],
-['Mental Health First Aid Resources','MHFA','mental-health','MHFA','Practical mental health education and support materials for awareness and early help-seeking.','https://www.mentalhealthfirstaid.org/mental-health-resources/','https://www.mentalhealthfirstaid.org/mental-health-resources/','secondary university nysc teacher parent','free'],
-['Psychology 2e','OpenStax','mental-health','OpenStax','Free textbook covering psychology, behavior, mental processes and human development.','https://openstax.org/details/books/psychology-2e','https://openstax.org/details/books/psychology-2e','university nysc teacher','free'],
-['Understanding Depression for Students','SpeakOut Resource','mental-health','SpeakOut','Simple student guide explaining depression, warning signs, support options and healthy coping habits.','#','#','secondary university nysc','book'],
-['Managing Exam Stress','SpeakOut Resource','study-skills','SpeakOut','Short guide for students preparing for exams, managing anxiety and building healthy study routines.','#','#','secondary primary','book'],
-['Good Manners & Respect','SpeakOut Kiddies','kiddies','SpeakOut','A child-friendly character guide on respect, honesty, kindness, empathy and responsibility.','#','#','primary','book'],
-['Understanding My Feelings','SpeakOut Kiddies','kiddies','SpeakOut','A simple emotional intelligence resource helping children name feelings and ask for help safely.','#','#','primary','book'],
-['Cyber Safety for Kids','SpeakOut Kiddies','kiddies','SpeakOut','Age-appropriate guide on safe internet use, passwords, privacy and cyberbullying prevention.','#','#','primary secondary','book'],
-['Public Speaking for Teens','SpeakOut Teen Academy','leadership','SpeakOut','Confidence-building guide for presentations, debates, school leadership and student ambassadors.','#','#','secondary','book'],
-['Student Leadership Handbook','SpeakOut Resource','leadership','SpeakOut','A practical guide for prefects, club executives, ambassadors and emerging student leaders.','#','#','secondary university','book'],
-['Financial Literacy for Teens','SpeakOut Teen Academy','business','SpeakOut','Saving, budgeting, needs versus wants, small business thinking and money discipline.','#','#','secondary','book'],
-['Career Discovery Guide','SpeakOut Resource','career','SpeakOut','Introduces healthcare, technology, law, engineering, business, media and public service careers.','#','#','secondary university nysc','book'],
-['College Success','OpenStax','study-skills','OpenStax','Free textbook on goal-setting, study skills, career planning and student success.','https://openstax.org/details/books/college-success','https://openstax.org/details/books/college-success','university nysc','free'],
-['Introduction to Sociology 3e','OpenStax','leadership','OpenStax','Free textbook useful for understanding society, communities and social systems.','https://openstax.org/details/books/introduction-sociology-3e','https://openstax.org/details/books/introduction-sociology-3e','university nysc teacher','free'],
-['Business Ethics','OpenStax','business','OpenStax','Free textbook on ethics, business responsibility, leadership and decision-making.','https://openstax.org/details/books/business-ethics','https://openstax.org/details/books/business-ethics','university nysc','free'],
-['Entrepreneurship','OpenStax','business','OpenStax','Free textbook covering entrepreneurship, opportunity recognition and business development.','https://openstax.org/details/books/entrepreneurship','https://openstax.org/details/books/entrepreneurship','secondary university nysc','free'],
-['The Art of Public Speaking','Dale Carnegie & J. Berg Esenwein','leadership','Project Gutenberg','A public-domain classic on speaking, communication and confidence.','https://www.gutenberg.org/ebooks/16317','https://www.gutenberg.org/ebooks/16317','secondary university nysc','free'],
-['Automate the Boring Stuff with Python','Al Sweigart','technology','Author Website','Free online programming book for practical Python automation.','https://automatetheboringstuff.com/','https://automatetheboringstuff.com/','secondary university nysc','free'],
-['Eloquent JavaScript','Marijn Haverbeke','technology','Author Website','Free online book for learning JavaScript and programming fundamentals.','https://eloquentjavascript.net/','https://eloquentjavascript.net/','secondary university nysc','free'],
-['OpenWHO Public Health Courses','OpenWHO','health','OpenWHO','Public health, outbreak response, health emergencies and community health education.','https://openwho.org/','https://openwho.org/','university nysc teacher','free'],
-['UNICEF Agora Learning Resources','UNICEF Agora','health','UNICEF','Child protection, nutrition, humanitarian response and development learning resources.','https://agora.unicef.org/','https://agora.unicef.org/','teacher parent school','free'],
-['Project Gutenberg Library','Project Gutenberg','personal-growth','Project Gutenberg','Thousands of free public-domain books available to read online or download.','https://www.gutenberg.org/','https://www.gutenberg.org/','secondary university nysc','free'],
-['Open Library Search','Internet Archive','personal-growth','Open Library','Search millions of books and borrow/read online where available.','https://openlibrary.org/','https://openlibrary.org/','secondary university nysc','free']
-];
-
-const courses=[
-['Microsoft Learn','Cloud, AI, data, security and productivity learning paths.','course','https://learn.microsoft.com/training/','secondary university nysc','technology'],
-['Cisco Networking Academy','Networking, cybersecurity, Linux and digital skills programs.','course','https://www.netacad.com/','secondary university nysc','technology'],
-['IBM SkillsBuild','AI, cybersecurity, data and workplace learning.','course','https://skillsbuild.org/','secondary university nysc','technology'],
-['freeCodeCamp','Web development, coding, data and software engineering.','course','https://www.freecodecamp.org/learn/','secondary university nysc','technology'],
-['Kaggle Learn','Python, data visualization, machine learning and analytics.','course','https://www.kaggle.com/learn','university nysc','technology'],
-['HP LIFE','Business, entrepreneurship, communication and finance.','course','https://www.life-global.org/','secondary university nysc','business'],
-['OpenWHO','Public health and health emergency learning.','course','https://openwho.org/','university nysc teacher','health'],
-['UNICEF Agora','Humanitarian, child protection and development learning.','course','https://agora.unicef.org/','teacher parent school','health']
-];
-
-const schoolResources=[
-['Mental Health Club Setup Guide','SpeakOut School Toolkit','school-resource','SpeakOut','Step-by-step guide for starting the Mental Health Club, selecting executives and launching the pilot term.','#','#','school teacher','toolkit'],
-['Teacher Sensitization Manual','SpeakOut School Toolkit','school-resource','SpeakOut','Training resource for teachers on student wellbeing, warning signs, classroom support and referral.','#','#','teacher school','toolkit'],
-['Parent Awareness Toolkit','SpeakOut School Toolkit','school-resource','SpeakOut','Materials to help schools explain student wellness to parents and build parent support.','#','#','parent school','toolkit'],
-['Student Ambassador Handbook','SpeakOut School Toolkit','school-resource','SpeakOut','Guide for student ambassadors, club executives, peer support and campaign planning.','#','#','secondary school','toolkit'],
-['Monthly Club Activity Calendar','SpeakOut School Toolkit','school-resource','SpeakOut','Suggested monthly topics, campaigns and activity structure for club coordinators.','#','#','school teacher','toolkit'],
-['Termly Report Template','SpeakOut School Toolkit','school-resource','SpeakOut','Simple template for reporting activities, attendance, outcomes, photos and next steps.','#','#','school teacher','toolkit']
-];
-
-const clubs=[
-['🧠','Mental Wellness Book Club','Monthly readings on stress, self-care, trauma recovery and relationships.','mental-health','mental health club wellness reading discussion','secondary university nysc'],
-['🌍','Youth Leadership Reading Club','Books and discussions on leadership, advocacy and community impact.','leadership','leadership club youth public speaking civic engagement','secondary university nysc'],
-['🧒','Kiddies Reading Club','Stories, confidence, good manners, safety and creativity for younger learners.','kiddies','kids primary reading stories club','primary'],
-['⚕️','Medical & Public Health Club','For learners interested in healthcare, public health and community care.','health','medical students public health healthcare club','secondary university nysc'],
-['💻','Tech & Digital Skills Club','Focused on web development, AI, cybersecurity, cloud and data analytics.','technology','technology club cybersecurity ai cloud coding','secondary university nysc'],
-['💼','Entrepreneurship & Money Club','Books and sessions on business ideas and financial literacy.','business','entrepreneurship business money financial literacy club','secondary university nysc'],
-['🎯','Career Growth Club','CVs, interviews, job readiness and workplace confidence.','career','career jobs internship cv interview professional development club','secondary university nysc']
-];
-
-function shelfCard([icon,title,desc,cat,audience]){
-  return `<article class="card filter-card reveal" data-category="${cat}" data-audience="${audience}" data-type="shelf" data-search="${(title+' '+desc+' shelf '+audience).toLowerCase()}"><div class="icon">${icon}</div><div class="pills"><span class="pill free">Protected</span><span class="pill">Shelf</span></div><h3>${title}</h3><p>${desc}</p><button class="btn soft open-shelf" type="button" data-shelf="${cat}">Open Shelf</button></article>`;
-}
-
-function coverClass(cat){ return cat==='kiddies'?'kids':(cat==='school-resource'?'school':''); }
-
-function bookCard(book,i,sourceList='resources'){
-  const [title,author,cat,source,summary,read,download,audience,type]=book;
-  return `<article class="card book filter-card reveal" data-category="${cat}" data-audience="${audience}" data-type="${type||'book'}" data-access="${type==='free'?'free':''}" data-search="${(title+' '+author+' '+cat+' '+summary+' '+source+' '+audience+' '+type).toLowerCase()}"><div><div class="cover ${coverClass(cat)}"><strong>${title}</strong></div><div class="pills"><span class="pill free">${type==='toolkit'?'Toolkit':'Resource'}</span><span class="pill">${cat.replace('-',' ')}</span><span class="pill gold">${source}</span></div><div class="book-title">${title}</div><div class="author">${author}</div><p class="summary">${summary}</p></div><div class="book-actions"><button class="btn primary read" type="button" onclick="openResource('${sourceList}',${i})">Details</button><a class="btn soft read" href="${read}" target="_blank" rel="noopener">Open</a></div></article>`;
-}
-
-function courseCard([title,desc,type,url,audience,category]){
-  return `<article class="card dark-card filter-card reveal" data-category="${category}" data-audience="${audience}" data-type="course" data-search="${(title+' '+desc+' free certified course '+audience+' '+category).toLowerCase()}"><div class="pills"><span class="pill free">Free Learning</span><span class="pill gold">Certificate/Badge</span></div><h3>${title}</h3><p>${desc}</p><a class="learn" href="${url}" target="_blank" rel="noopener" onclick="trackLibraryEvent('course_opened','${title.replace(/'/g,"")}')">Start learning →</a></article>`;
-}
-
-function clubCard([mark,title,desc,cat,search,audience]){
-  return `<article class="card club filter-card reveal" data-category="${cat}" data-audience="${audience}" data-type="club" data-search="${search+' '+audience}"><div class="club-mark">${mark}</div><div><div class="pills"><span class="pill dark">Club</span><span class="pill">${cat.replace('-',' ')}</span></div><h3>${title}</h3><p>${desc}</p><a class="learn" href="https://wa.me/2348118103510" target="_blank" rel="noopener">Join club →</a></div></article>`;
-}
-
-document.getElementById('shelfGrid').innerHTML=shelves.map(shelfCard).join('');
-document.getElementById('bookGrid').innerHTML=resources.map((b,i)=>bookCard(b,i,'resources')).join('');
-document.getElementById('courseGrid').innerHTML=courses.map(courseCard).join('');
-document.getElementById('schoolGrid').innerHTML=schoolResources.map((b,i)=>bookCard(b,i,'schoolResources')).join('');
-document.getElementById('clubGrid').innerHTML=clubs.map(clubCard).join('');
-
-function getList(name){ return name==='schoolResources'?schoolResources:resources; }
-
-function openResource(listName,i){
-  const b=getList(listName)[i],m=document.getElementById('bookModal');
-  document.getElementById('modalCategory').textContent=b[2].replace('-',' ');
-  document.getElementById('modalTitle').textContent=b[0];
-  document.getElementById('modalCoverTitle').textContent=b[0];
-  document.getElementById('modalAuthor').textContent=b[1]+' • '+b[3];
-  document.getElementById('modalSummary').textContent=b[4];
-  document.getElementById('modalRead').href=b[5];
-  document.getElementById('modalDownload').href=b[6];
-  document.getElementById('modalPills').innerHTML=`<span class="pill free">${b[8]||'resource'}</span><span class="pill">${b[2].replace('-',' ')}</span><span class="pill gold">${b[7]}</span>`;
-  trackLibraryEvent('resource_details_opened', b[0]);
-  m.classList.add('open');m.setAttribute('aria-hidden','false');
-}
-function closeModal(){const m=document.getElementById('bookModal');m.classList.remove('open');m.setAttribute('aria-hidden','true')}
-document.getElementById('bookModal').addEventListener('click',e=>{if(e.target.id==='bookModal')closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();document.body.classList.remove('menu-open')}});
-
-const revealItems=document.querySelectorAll('.reveal');
-const revealObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');e.target.classList.remove('exit')}else{e.target.classList.remove('active');e.target.classList.add('exit')}})},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
-revealItems.forEach(i=>revealObserver.observe(i));
-
-const counters=document.querySelectorAll('[data-count]');
-function animateCounter(c){if(c.dataset.animating==='true')return;c.dataset.animating='true';const target=Number(c.dataset.count),duration=1300,start=performance.now();function update(now){const p=Math.min((now-start)/duration,1),e=1-Math.pow(1-p,3),v=Math.floor(e*target);c.textContent=v.toLocaleString()+'+';if(p<1)requestAnimationFrame(update);else{c.textContent=target.toLocaleString()+'+';setTimeout(()=>c.dataset.animating='false',500)}}requestAnimationFrame(update)}
-const co=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)animateCounter(e.target)}),{threshold:.55});counters.forEach(c=>co.observe(c));
-
-const bar=document.getElementById('bar');
-window.addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(max>0?window.scrollY/max*100:0)+'%'},{passive:true});
-
-const searchInput=document.getElementById('librarySearch'),categoryFilter=document.getElementById('categoryFilter'),audienceFilter=document.getElementById('audienceFilter'),typeFilter=document.getElementById('typeFilter'),emptyState=document.getElementById('emptyState');
-
-function filterLibrary(){
-  const s=searchInput.value.toLowerCase().trim(),cat=categoryFilter.value,aud=audienceFilter.value,type=typeFilter.value;
-  let count=0;
-  document.querySelectorAll('.filter-card').forEach(card=>{
-    const cc=card.dataset.category||'',ct=card.dataset.type||'',ca=card.dataset.access||'',cu=card.dataset.audience||'',cs=(card.dataset.search||'').toLowerCase();
-    const okS=!s||cs.includes(s);
-    const okC=cat==='all'||cc===cat;
-    const okA=aud==='all'||cu.includes(aud);
-    const okT=type==='all'||ct===type||ca===type;
-    if(okS&&okC&&okA&&okT){card.classList.remove('hidden');count++}else card.classList.add('hidden');
-  });
-  emptyState.style.display=count===0?'block':'none';
-}
-
-searchInput.addEventListener('input',filterLibrary);
-categoryFilter.addEventListener('change',filterLibrary);
-audienceFilter.addEventListener('change',filterLibrary);
-typeFilter.addEventListener('change',filterLibrary);
-
-function setShelf(shelf){
-  categoryFilter.value=shelf==='all'?'all':shelf;
-  typeFilter.value='all';
-  searchInput.value='';
-  filterLibrary();
-  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.shelf===shelf));
-  document.getElementById('books').scrollIntoView({behavior:'smooth',block:'start'});
-}
-document.querySelectorAll('.tab,.open-shelf').forEach(btn=>btn.addEventListener('click',()=>setShelf(btn.dataset.shelf)));
-
-/* Firebase-ready tracking hook.
-   This currently stores basic local activity. Later, connect it to Firestore
-   to save each student's books opened, courses opened, and resources viewed. */
-function trackLibraryEvent(type,title){
-  try{
-    const key='speakoutLibraryActivity';
-    const existing=JSON.parse(localStorage.getItem(key)||'[]');
-    existing.push({type,title,time:new Date().toISOString()});
-    localStorage.setItem(key,JSON.stringify(existing.slice(-100)));
-  }catch(e){}
-}
-</script>
-
 <script type="module" src="auth-guard.js"></script>
+
+<script type="module">
+import { db } from "./firebase-config.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+let allBooks = [];
+
+const bookGrid = document.getElementById("bookGrid");
+const loading = document.getElementById("loading");
+const searchInput = document.getElementById("librarySearch");
+const categoryFilter = document.getElementById("categoryFilter");
+const audienceFilter = document.getElementById("audienceFilter");
+const typeFilter = document.getElementById("typeFilter");
+const emptyState = document.getElementById("emptyState");
+
+function safe(value){ return value || "—"; }
+function pretty(value){ return (value || "—").replaceAll("-", " "); }
+
+function stat(id, value){
+  document.getElementById(id).textContent = Number(value || 0).toLocaleString() + "+";
+}
+
+function updateStats(books){
+  stat("totalCount", books.length);
+  stat("featuredCount", books.filter(b => b.featured === true).length);
+  stat("schoolCount", books.filter(b => b.category === "school-resources" || b.audience === "schools").length);
+  stat("kiddiesCount", books.filter(b => b.category === "kiddies" || b.audience === "primary" || b.audience === "secondary").length);
+}
+
+function bookCard(book, index){
+  const cover = book.coverUrl ? `<img src="${book.coverUrl}" alt="">` : "";
+  return `
+    <article class="card book filter-card" data-category="${book.category || ""}" data-audience="${book.audience || ""}" data-type="${book.type || ""}" data-search="${`${book.title||""} ${book.author||""} ${book.source||""} ${book.category||""} ${book.audience||""} ${book.type||""} ${book.tags||""} ${book.description||""}`.toLowerCase()}">
+      <div>
+        <div class="cover">${cover}<strong>${safe(book.title)}</strong></div>
+        <div class="pills">
+          <span class="pill free">${pretty(book.type || "Resource")}</span>
+          <span class="pill">${pretty(book.category || "General")}</span>
+          <span class="pill gold">${pretty(book.audience || "General")}</span>
+        </div>
+        <div class="book-title">${safe(book.title)}</div>
+        <div class="author">${safe(book.author)} • ${safe(book.source)}</div>
+        <p class="summary">${safe(book.description)}</p>
+      </div>
+      <div class="book-actions">
+        <button class="btn primary" type="button" onclick="openBook(${index})">Details</button>
+        ${book.readUrl ? `<a class="btn soft" href="${book.readUrl}" target="_blank" rel="noopener">Read</a>` : `<button class="btn ghost" disabled>No Link</button>`}
+      </div>
+    </article>
+  `;
+}
+
+async function loadBooks(){
+  try{
+    const snap = await getDocs(collection(db, "books"));
+    allBooks = [];
+    snap.forEach(docSnap => {
+      const book = { id: docSnap.id, ...docSnap.data() };
+      if(book.status === "active") allBooks.push(book);
+    });
+
+    allBooks.sort((a,b) => {
+      if(a.featured && !b.featured) return -1;
+      if(!a.featured && b.featured) return 1;
+      return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+    });
+
+    loading.style.display = "none";
+    updateStats(allBooks);
+    renderBooks();
+  }catch(error){
+    loading.textContent = "Failed to load library resources. Check Firestore rules and admin approval.";
+    console.error(error);
+  }
+}
+
+function renderBooks(){
+  const s = searchInput.value.toLowerCase().trim();
+  const cat = categoryFilter.value;
+  const audience = audienceFilter.value;
+  const type = typeFilter.value;
+
+  const filtered = allBooks.filter(book => {
+    const searchable = `${book.title||""} ${book.author||""} ${book.source||""} ${book.category||""} ${book.audience||""} ${book.type||""} ${book.tags||""} ${book.description||""}`.toLowerCase();
+    const okS = !s || searchable.includes(s);
+    const okC = cat === "all" || book.category === cat;
+    const okA = audience === "all" || book.audience === audience;
+    const okT = type === "all" || book.type === type;
+    return okS && okC && okA && okT;
+  });
+
+  bookGrid.innerHTML = filtered.map(bookCard).join("");
+  emptyState.style.display = filtered.length === 0 ? "block" : "none";
+}
+
+window.openBook = function(index){
+  const b = allBooks[index];
+  const modal = document.getElementById("bookModal");
+  document.getElementById("modalCategory").textContent = pretty(b.category);
+  document.getElementById("modalTitle").textContent = safe(b.title);
+  document.getElementById("modalCoverTitle").textContent = safe(b.title);
+  document.getElementById("modalAuthor").textContent = `${safe(b.author)} • ${safe(b.source)} • ${pretty(b.audience)}`;
+  document.getElementById("modalSummary").textContent = safe(b.description);
+
+  const modalCover = document.getElementById("modalCover");
+  modalCover.querySelectorAll("img").forEach(img => img.remove());
+  if(b.coverUrl){
+    const img = document.createElement("img");
+    img.src = b.coverUrl;
+    img.alt = "";
+    modalCover.prepend(img);
+  }
+
+  const read = document.getElementById("modalRead");
+  const download = document.getElementById("modalDownload");
+  read.href = b.readUrl || b.downloadUrl || "#";
+  download.href = b.downloadUrl || b.readUrl || "#";
+  read.style.display = (b.readUrl || b.downloadUrl) ? "inline-flex" : "none";
+  download.style.display = (b.downloadUrl || b.readUrl) ? "inline-flex" : "none";
+
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden","false");
+};
+
+window.closeModal = function(){
+  const modal = document.getElementById("bookModal");
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden","true");
+};
+
+document.getElementById("bookModal").addEventListener("click", e => {
+  if(e.target.id === "bookModal") closeModal();
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    closeModal();
+    document.body.classList.remove("menu-open");
+  }
+});
+
+searchInput.addEventListener("input", renderBooks);
+categoryFilter.addEventListener("change", renderBooks);
+audienceFilter.addEventListener("change", renderBooks);
+typeFilter.addEventListener("change", renderBooks);
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    categoryFilter.value = btn.dataset.category;
+    searchInput.value = "";
+    audienceFilter.value = "all";
+    typeFilter.value = "all";
+    renderBooks();
+    document.getElementById("books").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+});
+
+loadBooks();
+</script>
 </body>
 </html>
