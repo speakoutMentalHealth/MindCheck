@@ -1,566 +1,400 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SpeakHub — Skills Development Center</title>
-  <meta name="description" content="SpeakHub is SpeakOut's skills development center for free courses, certificates, leadership training, digital skills and youth opportunities." />
-  <link rel="icon" type="image/png" href="icons/logo.png" />
-  <link rel="apple-touch-icon" href="icons/logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    :root{
-      --navy:#07152b;
-      --navy-2:#0b2344;
-      --blue:#0a5fbf;
-      --blue-2:#074f9f;
-      --blue-soft:#eaf3ff;
-      --gold:#f4a21c;
-      --gold-2:#d98200;
-      --gold-soft:#fff4df;
-      --green:#0f8f6f;
-      --ink:#111827;
-      --muted:#637083;
-      --line:#e5edf6;
-      --bg:#f7f9fc;
-      --white:#ffffff;
-      --shadow:0 24px 70px rgba(7,21,43,.12);
-      --shadow-soft:0 16px 44px rgba(7,21,43,.08);
-      --radius:30px;
-    }
+<title>SpeakHub | Protected Training Center</title>
+<meta name="description" content="SpeakHub protected training center powered by Firestore courses.">
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:"Outfit",Arial,sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-      overflow-x:hidden;
-    }
-    img{max-width:100%;display:block}
-    a{text-decoration:none;color:inherit}
-    .container{width:min(1180px,90%);margin:auto}
+<link rel="icon" type="image/png" href="icons/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    .scrollbar{
-      position:fixed;top:0;left:0;height:4px;
-      background:linear-gradient(90deg,var(--gold),var(--blue));
-      width:0;z-index:3000;
-    }
-
-    .nav{
-      position:sticky;top:0;z-index:1000;min-height:72px;padding:8px 0;
-      background:rgba(255,255,255,.94);backdrop-filter:blur(18px);
-      border-bottom:1px solid rgba(7,21,43,.08);
-    }
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:24px}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0}
-    .brand img{width:48px;height:48px;object-fit:contain}
-    .brand h2{margin:0;color:var(--blue);font-size:1.12rem;line-height:1;font-weight:900}
-    .brand p{margin:3px 0 0;color:var(--gold-2);font-size:.62rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
-    .nav-links{display:flex;align-items:center;gap:8px;font-weight:800;color:#374151;font-size:.95rem}
-    .nav-links a{padding:7px 10px;border-radius:999px}
-    .nav-links a:hover{background:var(--blue-soft);color:var(--blue)}
-    .menu-toggle{display:none;border:0;background:var(--navy);color:#fff;border-radius:14px;padding:10px 13px;font-size:1.25rem;cursor:pointer}
-
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      min-height:40px;padding:10px 15px;border-radius:999px;font-weight:800;
-      border:0;cursor:pointer;transition:.25s ease;white-space:normal;line-height:1.12;text-align:center;font-size:.88rem;
-    }
-    .btn:hover{transform:translateY(-3px);box-shadow:0 18px 36px rgba(7,21,43,.14)}
-    .btn-primary{background:var(--blue);color:#fff}
-    .btn-primary:hover{background:var(--blue-2)}
-    .btn-dark{background:var(--navy);color:#fff}
-    .btn-light{background:#fff;color:var(--navy)}
-    .btn-outline{border:1px solid rgba(255,255,255,.45);color:#fff;background:transparent}
-    .btn-soft{background:var(--blue-soft);color:var(--blue)}
-    .btn-gold{background:var(--gold);color:#201100}
-    .btn-small{min-height:38px;padding:9px 12px;font-size:.82rem}
-
-    .hero{
-      position:relative;overflow:hidden;min-height:76vh;
-      display:grid;align-items:center;
-      background:
-        linear-gradient(90deg,rgba(7,21,43,.88),rgba(7,21,43,.63) 45%,rgba(7,21,43,.24)),
-        url('icons/speakhub.jpg') center/cover no-repeat;
-      color:#fff;
-    }
-    .hero::before{
-      content:"";position:absolute;inset:0;
-      background:
-        radial-gradient(circle at 15% 20%,rgba(244,162,28,.22),transparent 30%),
-        radial-gradient(circle at 85% 15%,rgba(10,95,191,.30),transparent 35%);
-      pointer-events:none;
-    }
-    .hero .container{position:relative;z-index:2;padding:68px 0}
-    .hero-content{max-width:900px}
-    .kicker,.label{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
-      font-size:.78rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
-    }
-    .kicker{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20);color:#fff}
-    .label{background:var(--blue-soft);color:var(--blue);margin-bottom:16px}
-    h1,h2,h3{margin-top:0;line-height:1.05;letter-spacing:-.045em}
-    h1{font-size:clamp(2.55rem,6vw,5.8rem);margin:22px 0;max-width:1040px}
-    .hero p{font-size:1.08rem;line-height:1.75;max-width:770px;color:rgba(255,255,255,.90)}
-    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
-    .hero-trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:34px;color:#fff}
-    .hero-trust span{padding:8px 10px;font-size:.84rem;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-weight:800}
-
-    section{padding:64px 0}
-    .section-title{max-width:900px;margin:0 auto 34px;text-align:center}
-    .section-title h2{font-size:clamp(2.25rem,4.5vw,4.5rem);margin:0 0 16px;color:var(--navy)}
-    .section-title p{font-size:1rem;line-height:1.55;color:var(--muted);margin:0}
-
-    .progress-section{background:#fff;border-bottom:1px solid var(--line)}
-    .progress-wrap{
-      display:grid;grid-template-columns:1fr 1.1fr;gap:30px;align-items:center;
-      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-      box-shadow:var(--shadow);padding:24px;
-    }
-    .progress-title h2{font-size:clamp(2rem,4vw,3.6rem);color:var(--navy);margin:0 0 10px}
-    .progress-title p{color:var(--muted);line-height:1.75;margin:0}
-    .progress-top{display:flex;justify-content:space-between;gap:14px;align-items:center;font-weight:900;margin-bottom:10px}
-    .progress-bar{width:100%;height:14px;border-radius:999px;background:#edf3fb;overflow:hidden}
-    .progress-fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--blue));transition:width .35s ease}
-    .progress-note{margin-top:14px;color:var(--muted);font-weight:700}
-
-    .filters{background:var(--bg);border-bottom:1px solid var(--line)}
-    .filter-wrap{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:-22px}
-    .filter-btn{
-      border:1px solid var(--line);background:#fff;color:var(--navy);
-      padding:10px 14px;border-radius:999px;font-weight:900;cursor:pointer;
-      box-shadow:var(--shadow-soft);transition:.2s ease;
-    }
-    .filter-btn:hover,.filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
-    .search-box{max-width:680px;margin:24px auto 0}
-    .search-box input{width:100%;border:1px solid var(--line);border-radius:999px;padding:16px 20px;font:inherit;box-shadow:var(--shadow-soft);outline:none}
-    .search-box input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}
-
-    .course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .course-card{
-      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-      padding:20px;box-shadow:var(--shadow-soft);transition:.35s ease;display:flex;flex-direction:column;
-    }
-    .course-card:hover{transform:translateY(-9px);box-shadow:var(--shadow)}
-    .course-top{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
-    .course-icon{width:42px;height:42px;flex:0 0 auto;border-radius:16px;display:grid;place-items:center;background:var(--blue-soft);font-size:1.2rem}
-    .track-pill{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--gold-soft);color:#8a5200;font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
-    .course-card h3{font-size:1.12rem;color:var(--navy);margin:4px 0 10px}
-    .course-card p{color:var(--muted);line-height:1.55;margin:0 0 14px}
-    .course-meta{margin-top:auto;padding-top:8px;color:#334155;font-weight:800;font-size:.93rem}
-    .provider{color:var(--blue);font-weight:900}
-    .action-stack{display:grid;gap:8px;margin-top:14px}
-    .action-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .upload-link{
-      display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:42px;
-      border-radius:999px;padding:11px 15px;font-weight:900;background:#f1f5f9;color:#64748b;
-      border:1px solid var(--line);opacity:.55;pointer-events:none;transition:.2s ease;text-align:center;
-    }
-    .upload-link.unlocked{opacity:1;pointer-events:auto;background:var(--gold-soft);color:#7a4a00;border-color:#f7d997}
-    .status-box{margin-top:12px;padding:12px 14px;border-radius:18px;font-size:.92rem;background:#fbfdff;border:1px solid var(--line);color:var(--muted);font-weight:700}
-
-    .opportunities{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .opportunity-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .opportunity-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-soft);transition:.3s ease}
-    .opportunity-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}
-    .opportunity-card h3{color:var(--navy);font-size:1.35rem;margin-bottom:10px}
-    .opportunity-card p{color:var(--muted);line-height:1.7}
-
-    .certificate-section{
-      background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;position:relative;overflow:hidden;
-    }
-    .certificate-section::before{
-      content:"";position:absolute;inset:0;background:
-      radial-gradient(circle at 20% 12%,rgba(244,162,28,.22),transparent 32%),
-      radial-gradient(circle at 92% 20%,rgba(10,95,191,.25),transparent 34%);
-    }
-    .certificate-card{position:relative;z-index:2;max-width:960px;margin:auto;text-align:center}
-    .certificate-card h2{font-size:clamp(2.2rem,4vw,4.4rem);color:#fff;margin-bottom:16px}
-    .certificate-card p{color:rgba(255,255,255,.86);font-size:1.1rem;line-height:1.75}
-    .locked-note{margin-top:14px;color:rgba(255,255,255,.72);font-weight:700}
-
-    .footer{background:#061126;color:rgba(255,255,255,.74);padding:46px 0 22px}
-    .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
-    .footer-brand{display:flex;align-items:center;gap:12px}
-    .footer-brand img{width:60px;height:60px;object-fit:contain;background:#fff;border-radius:14px;padding:4px}
-    .footer h3,.footer h4{color:#fff;margin:0 0 12px}
-    .footer a{display:block;color:rgba(255,255,255,.72);margin:8px 0}
-    .footer-bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55)}
-
-    .reveal{opacity:.12;transform:translateY(52px) scale(.98);transition:opacity .75s ease,transform .75s cubic-bezier(.22,1,.36,1);will-change:transform,opacity}
-    .reveal.active{opacity:1;transform:translateY(0) scale(1)}
-    .reveal.exit{opacity:.35;transform:translateY(-28px) scale(.99)}
-
-    @media(max-width:1000px){
-      .course-grid,.opportunity-grid,.footer-grid{grid-template-columns:repeat(2,1fr)}
-      .progress-wrap{grid-template-columns:1fr}
-    }
-    @media(max-width:760px){
-      .menu-toggle{display:block}
-      .nav-links{display:none;position:fixed;top:72px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:24px 6%;flex-direction:column;align-items:flex-start}
-      body.menu-open .nav-links{display:flex}
-      .brand img{width:48px;height:48px}.brand h2{font-size:1.1rem}.brand p{font-size:.66rem}
-      .hero{min-height:auto;background-position:center}.hero .container{padding:56px 0}
-      .hero-actions{flex-direction:row;flex-wrap:wrap}.btn{width:auto}.hero-actions .btn{flex:1 1 150px}
-      .course-grid,.opportunity-grid,.footer-grid{grid-template-columns:1fr}
-      .action-row{grid-template-columns:1fr 1fr}.action-row .btn,.action-row .upload-link{width:100%}
-    }
-
-    /* Compact platform polish */
-    .filter-btn{padding:8px 11px;font-size:.82rem}
-    .search-box input{min-height:44px;padding:11px 15px}
-    .track-pill{padding:5px 9px;font-size:.68rem}
-    .status-box{padding:10px 12px;font-size:.84rem}
-    .upload-link{min-height:38px;padding:9px 12px;font-size:.82rem}
-    @media(max-width:760px){
-      .nav-inner{gap:12px}
-      .course-grid,.opportunity-grid,.footer-grid{gap:14px}
-      section{padding:48px 0}
-      .progress-wrap,.course-card,.opportunity-card{padding:18px}
-      .filter-wrap{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px}
-      .filter-btn{flex:0 0 auto}
-    }
-    @media(prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto}
-      *,*::before,*::after{animation:none!important;transition:none!important}
-      .reveal,.reveal.active,.reveal.exit{opacity:1;transform:none}
-    }
-  </style>
+<style>
+:root{
+  --navy:#07152b;--navy2:#0b2344;--blue:#0a5fbf;--blue2:#074f9f;--blueSoft:#eaf3ff;
+  --gold:#f4a21c;--goldSoft:#fff4df;--green:#0f8f6f;--greenSoft:#e9fbf5;
+  --red:#b42318;--redSoft:#fff1f0;--ink:#111827;--muted:#637083;--line:#e5edf6;
+  --bg:#f7f9fc;--white:#fff;--shadow:0 18px 44px rgba(7,21,43,.10);--soft:0 10px 28px rgba(7,21,43,.07);--r:22px;
+}
+*{box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Outfit,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+.container{width:min(1180px,92%);margin:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:9px 14px;border-radius:999px;border:0;font-weight:850;font-size:.84rem;line-height:1.1;text-align:center;cursor:pointer;transition:.2s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(7,21,43,.13)}
+.primary{background:var(--blue);color:#fff}.gold{background:var(--gold);color:#241300}.soft{background:var(--blueSoft);color:var(--blue)}.light{background:#fff;color:var(--navy)}.dark{background:var(--navy);color:#fff}.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:1000;min-height:72px;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-bottom:1px solid rgba(7,21,43,.08)}
+.nav-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:46px;height:46px;object-fit:contain;flex:0 0 auto}.brand h2{margin:0;color:var(--blue);font-size:1.08rem;line-height:1;font-weight:900}.brand p{margin:3px 0 0;color:#d98200;font-size:.62rem;font-weight:900;letter-spacing:.10em;text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.84rem;flex-wrap:wrap;justify-content:flex-end}
+.menu{display:none;background:var(--navy);color:#fff;border:0;border-radius:13px;width:42px;height:42px;font-size:1.15rem;font-weight:900}
+.hero{position:relative;overflow:hidden;color:#fff;background:linear-gradient(90deg,rgba(7,21,43,.92),rgba(7,21,43,.72) 50%,rgba(7,21,43,.35)),linear-gradient(135deg,var(--navy),var(--blue))}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 16% 22%,rgba(244,162,28,.24),transparent 28%),radial-gradient(circle at 85% 18%,rgba(10,95,191,.32),transparent 32%)}
+.hero .container{position:relative;z-index:2;padding:64px 0 58px}
+.hero-content{max-width:900px}
+.kicker,.label{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;font-size:.7rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.kicker{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20)}
+.label{background:var(--blueSoft);color:var(--blue);margin-bottom:14px}
+h1,h2,h3{margin-top:0;line-height:1.06;letter-spacing:-.04em}
+h1{font-size:clamp(2.35rem,6vw,5.3rem);margin:18px 0}
+.hero p{font-size:clamp(.98rem,2vw,1.12rem);line-height:1.65;max-width:760px;color:rgba(255,255,255,.9)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.trust{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}.trust span{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);font-size:.82rem;font-weight:800}
+section{padding:58px 0}.title{max-width:850px;margin:0 auto 30px;text-align:center}.title h2{font-size:clamp(1.85rem,4vw,3.5rem);margin:0 0 12px;color:var(--navy)}.title p{font-size:1rem;line-height:1.65;color:var(--muted);margin:0}
+.card,.panel,.notice-box,.modal-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--soft)}
+.card{padding:18px;transition:.25s ease;position:relative;overflow:hidden}.card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.card h3{font-size:1.05rem;color:var(--navy);margin:0 0 8px}.card p{color:var(--muted);line-height:1.55;margin:0 0 10px;font-size:.9rem}
+.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+.stats,.notice,.controls{background:#fff;border-bottom:1px solid var(--line)}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat{padding:18px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbff);box-shadow:var(--soft);text-align:center}.stat strong{display:block;color:var(--blue);font-size:clamp(1.7rem,3vw,2.6rem);letter-spacing:-.04em;line-height:1}.stat span{display:block;margin-top:6px;color:var(--muted);font-weight:800;font-size:.88rem}
+.notice-box{padding:20px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:linear-gradient(135deg,#fff,#f8fbff 55%,#fff8ee)}.notice-icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--goldSoft);color:#8a5600;font-size:1.2rem;font-weight:900}.notice-box h2{margin:0 0 7px;color:var(--navy);font-size:1.25rem}.notice-box p{margin:0;color:var(--muted);line-height:1.6;font-size:.95rem}
+.panel{padding:20px}.controls-grid{display:grid;grid-template-columns:1.2fr .65fr .65fr .65fr;gap:10px;margin-top:14px}.input,.select{width:100%;min-height:42px;border-radius:14px;border:1px solid var(--line);background:#fbfdff;color:var(--ink);padding:11px 13px;outline:none;font-size:.92rem}.input:focus,.select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,95,191,.10)}
+.empty{margin-top:14px;padding:13px;border-radius:16px;background:var(--goldSoft);color:#704800;font-weight:800;display:none;font-size:.9rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}.tab{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:8px 11px;font-weight:850;cursor:pointer;transition:.2s ease;box-shadow:var(--soft);font-size:.8rem}.tab:hover,.tab.active{background:var(--blue);color:#fff;transform:translateY(-2px)}
+.icon{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--blueSoft);color:var(--blue);font-weight:900;font-size:1.15rem;margin-bottom:12px}.pills{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.68rem;font-weight:900;background:var(--blueSoft);color:var(--blue);text-transform:capitalize}.pill.free{background:var(--greenSoft);color:var(--green)}.pill.gold{background:var(--goldSoft);color:#8a5600}.pill.dark{background:#eef2ff;color:var(--navy)}
+.course{min-height:330px;display:flex;flex-direction:column;justify-content:space-between}.thumb{height:124px;border-radius:17px;background:radial-gradient(circle at 20% 20%,rgba(244,162,28,.22),transparent 30%),linear-gradient(135deg,var(--navy),var(--blue));padding:14px;display:flex;align-items:flex-end;color:#fff;margin-bottom:13px;position:relative;overflow:hidden}.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.thumb::after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-26px;top:-26px;background:rgba(255,255,255,.12)}.thumb strong{position:relative;z-index:2;font-size:.92rem;line-height:1.15;max-width:86%;text-shadow:0 3px 18px rgba(0,0,0,.35)}
+.course-title{font-size:1.02rem;color:var(--navy);font-weight:900;line-height:1.18;margin-bottom:5px}.meta{color:var(--muted);font-weight:800;margin-bottom:8px;font-size:.86rem}.summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--muted);line-height:1.5;margin-bottom:12px;font-size:.86rem}.course-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.course-actions .btn{min-height:36px;padding:8px 9px;font-size:.78rem;border-radius:14px}
+.dark-section{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff}.dark-section .title h2,.dark-section .title p{color:#fff}.dark-section .title p{opacity:.84}.dark-section .label{background:rgba(255,255,255,.13);color:#fff}.dark-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(12px)}.dark-card h3{color:#fff}.dark-card p{color:rgba(255,255,255,.82)}
+.modal{position:fixed;inset:0;background:rgba(7,21,43,.62);display:none;align-items:center;justify-content:center;padding:18px;z-index:5000}.modal.open{display:flex}.modal-card{width:min(760px,96vw);max-height:88vh;overflow:auto;padding:22px}.modal-top{display:flex;justify-content:space-between;gap:14px;align-items:start;margin-bottom:12px}.modal-close{border:0;background:var(--blueSoft);color:var(--blue);border-radius:999px;width:36px;height:36px;font-weight:900;cursor:pointer}.modal-thumb{height:160px;border-radius:18px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;display:flex;align-items:flex-end;padding:18px;margin-bottom:16px;position:relative;overflow:hidden}.modal-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.modal-thumb strong{position:relative;z-index:2;font-size:1.2rem;text-shadow:0 3px 18px rgba(0,0,0,.35)}.modal-body p{color:var(--muted);line-height:1.65}.modal-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.footer{background:#061126;color:rgba(255,255,255,.74);padding:44px 0 24px}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:26px}.footer-brand{display:flex;align-items:center;gap:10px}.footer-brand img{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:13px;padding:4px}.footer h3,.footer h4{color:#fff;margin:0 0 10px}.footer a{display:block;color:rgba(255,255,255,.72);margin:7px 0;font-size:.92rem}.footer-bottom{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55);font-size:.9rem}
+.loading{padding:18px;border-radius:18px;background:var(--blueSoft);color:var(--blue);font-weight:900;text-align:center}
+.hidden{display:none!important}
+@media(max-width:1000px){.g4,.g3,.stats-grid,.footer-grid{grid-template-columns:repeat(2,1fr)}.controls-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.menu{display:block}.nav{min-height:68px}.nav-inner{min-height:68px}.nav-links{display:none;position:fixed;top:68px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:14px 6%;flex-direction:column;align-items:stretch;gap:8px}body.menu-open .nav-links{display:flex}.nav-links a,.nav-links button{width:100%;padding:10px 12px;border-radius:13px;background:#f8fbff;text-align:center}.brand img{width:42px;height:42px}.brand h2{font-size:1rem}.brand p{font-size:.58rem}section{padding:48px 0}.hero .container{padding:52px 0}.course-actions{grid-template-columns:1fr}.g4,.g3,.g2,.stats-grid,.footer-grid{grid-template-columns:1fr}.controls-grid{grid-template-columns:1fr}.card,.panel,.modal-card{padding:16px;border-radius:19px}.thumb{height:110px}.tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:8px}.tab{flex:0 0 auto;font-size:.76rem;padding:8px 10px}.btn{min-height:36px;padding:8px 10px;font-size:.78rem;border-radius:14px}}
+</style>
 </head>
 
 <body>
-  <div class="scrollbar" id="scrollbar"></div>
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="student-dashboard.html" class="brand" aria-label="SpeakHub Home">
+      <img src="icons/logo.png" alt="SpeakOut Logo">
+      <div><h2>SpeakOut</h2><p>SpeakHub</p></div>
+    </a>
+    <button class="menu" type="button" aria-label="Open menu" onclick="document.body.classList.toggle('menu-open')">☰</button>
+    <nav class="nav-links">
+      <a href="student-dashboard.html">Dashboard</a>
+      <a href="e-library.html">E-Library</a>
+      <a href="kiddies.html">Kiddies</a>
+      <a href="school-resources.html">School Resources</a>
+      <a href="verify-certificate.html" class="btn primary">Verify Certificate</a>
+    </nav>
+  </div>
+</header>
 
-  <header class="nav">
-    <div class="container nav-inner">
-      <a href="https://speakoutmentalhealth.org/" class="brand" aria-label="SpeakOut Home">
-        <img src="icons/logo.png" alt="SpeakOut Logo" />
-        <div>
-          <h2>SpeakOut</h2>
-          <p>Mental Health Outreach</p>
-        </div>
-      </a>
-
-      <button class="menu-toggle" aria-label="Open menu" onclick="document.body.classList.toggle('menu-open')">☰</button>
-
-      <nav class="nav-links" aria-label="Primary navigation">
-        <a href="https://speakoutmentalhealth.org/" onclick="document.body.classList.remove('menu-open')">Home</a>
-        <a href="#courses" onclick="document.body.classList.remove('menu-open')">Courses</a>
-        <a href="#opportunities" onclick="document.body.classList.remove('menu-open')">Opportunities</a>
-        <a href="e-library.html" onclick="document.body.classList.remove('menu-open')">E-Library</a>
-        <a href="#certificate-section" onclick="document.body.classList.remove('menu-open')">Certificate</a>
-      </nav>
+<main>
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <span class="kicker">Protected Access • Firestore Courses • Approved Users</span>
+      <h1>Learn practical skills for school, work and life.</h1>
+      <p>SpeakHub now loads courses directly from the admin course database. Add courses in <strong>admin-courses.html</strong> and approved users will see them here automatically.</p>
+      <div class="actions">
+        <a href="#courses" class="btn primary">Start Learning</a>
+        <a href="#filters" class="btn light">Search Courses</a>
+        <a href="verify-certificate.html" class="btn gold">Verify Certificate</a>
+      </div>
+      <div class="trust"><span>Mental Health</span><span>Leadership</span><span>Digital Skills</span><span>Career</span><span>Teachers</span></div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="container">
-        <div class="hero-content reveal">
-          <span class="kicker">Skills • Leadership • Opportunities</span>
-          <h1>Build skills that open doors.</h1>
-          <p>SpeakHub connects young people to free learning pathways, certificate opportunities, career resources and leadership development across technology, health, business, data, marketing, humanitarian work and more.</p>
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat"><strong id="totalCount">0</strong><span>Total Active Courses</span></div>
+    <div class="stat"><strong id="featuredCount">0</strong><span>Featured</span></div>
+    <div class="stat"><strong id="certCount">0</strong><span>Certificate Eligible</span></div>
+    <div class="stat"><strong id="studentCount">0</strong><span>Student Courses</span></div>
+  </div>
+</section>
 
-          <div class="hero-actions">
-            <a href="#courses" class="btn btn-primary">Explore Free Courses</a>
-            <a href="#certificate-section" class="btn btn-light">View Certificate Pathway</a>
-          </div>
-
-          <div class="hero-trust" aria-label="SpeakHub learning areas">
-            <span>Digital skills</span>
-            <span>Career readiness</span>
-            <span>Free certificates & badges</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="progress-section">
-      <div class="container progress-wrap reveal">
-        <div class="progress-title">
-          <span class="label">Your SpeakHub Progress</span>
-          <h2>Track your learning journey.</h2>
-          <p>Save courses to your learning list, upload certificates when completed, and build a simple record of your growth. Final SpeakHub recognition is issued only after admin review.</p>
-        </div>
-
-        <div>
-          <div class="progress-top">
-            <strong>Completed Tracks</strong>
-            <span id="progressText">0% Complete</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <p class="progress-note" id="heroStatus">Choose a course below and begin your SpeakHub learning journey.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="filters" id="courses">
-      <div class="container">
-        <div class="section-title reveal">
-          <span class="label">Free Learning Pathways</span>
-          <h2>Choose a certified skill track</h2>
-          <p>Start on trusted external learning platforms. After completion, return to SpeakHub to upload your certificate or badge for recognition.</p>
-        </div>
-
-        <div class="filter-wrap reveal" id="filterWrap"></div>
-        <div class="search-box reveal">
-          <input type="search" id="courseSearch" placeholder="Search courses by skill, provider or category..." />
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="course-grid" id="courseGrid"></div>
-      </div>
-    </section>
-
-    <section class="opportunities" id="opportunities">
-      <div class="container">
-        <div class="section-title reveal">
-          <span class="label">Career & Empowerment</span>
-          <h2>Opportunities beyond courses</h2>
-          <p>SpeakHub is not just a course list. It is a growth pathway for young people preparing for work, leadership and service.</p>
-        </div>
-
-        <div class="opportunity-grid">
-          <a class="opportunity-card reveal" href="jobs-internships.html">
-            <span class="label">Career</span>
-            <h3>Jobs & Internships</h3>
-            <p>Find internships, entry-level roles and student-friendly job opportunities.</p>
-            <strong class="provider">Explore →</strong>
-          </a>
-
-          <a class="opportunity-card reveal" href="scholarships-grants.html">
-            <span class="label">Growth</span>
-            <h3>Scholarships & Grants</h3>
-            <p>Discover scholarships, fellowships, grants and education support opportunities.</p>
-            <strong class="provider">Explore →</strong>
-          </a>
-
-          <a class="opportunity-card reveal" href="youth-empowerment.html">
-            <span class="label">Empowerment</span>
-            <h3>Youth Empowerment</h3>
-            <p>Access ambassador roles, volunteering, leadership programs and income pathways.</p>
-            <strong class="provider">Explore →</strong>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="certificate-section" id="certificate-section">
-      <div class="container certificate-card reveal">
-        <span class="kicker">Recognition Pathway</span>
-        <h2>SpeakHub Certificate & Recognition</h2>
-        <p>Complete a listed course on the external platform, mark it completed, upload your certificate or badge, and wait for review. After verification, you become eligible for SpeakHub recognition.</p>
-        <div class="hero-actions" style="justify-content:center">
-          <a class="btn btn-light" id="downloadCertificateBtn" href="certificate.html" style="pointer-events:none; opacity:.55;">Download SpeakHub Certificate</a>
-          <a class="btn btn-outline" href="#courses">Continue Learning</a>
-        </div>
-        <div class="locked-note" id="certificateNote">SpeakHub recognition remains locked until an admin verifies your submitted certificate.</div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand">
-            <img src="logo.png" alt="SpeakOut Logo">
-            <div>
-              <h3>SpeakHub</h3>
-              <p>Skills Development Center</p>
-            </div>
-          </div>
-          <p>Helping young people build practical skills, access opportunities and grow through verified learning recognition.</p>
-        </div>
-
-        <div>
-          <h4>Explore</h4>
-          <a href="#courses">Courses</a>
-          <a href="#opportunities">Opportunities</a>
-          <a href="e-library.html">E-Library</a>
-          <a href="https://speakoutmentalhealth.org/">Main Website</a>
-        </div>
-
-        <div>
-          <h4>Learning</h4>
-          <a href="https://speakoutmentalhealth.github.io/MindCheck/" target="_blank" rel="noopener">MindCheck</a>
-          <a href="https://mindcheck.speakoutmentalhealth.org/ambassador.html" target="_blank" rel="noopener">Ambassador Program</a>
-          <a href="certificate.html">Certificate Portal</a>
-        </div>
-
-        <div>
-          <h4>Contact</h4>
-          <a href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp: +234 811 810 3510</a>
-          <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-          <a href="https://instagram.com/speaak_out" target="_blank" rel="noopener">Instagram: @speaaakout</a>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>© 2026 SpeakOut Mental Health Outreach. SpeakHub learning links go to external platforms; certificate availability may vary by provider and course.</p>
+<section class="notice">
+  <div class="container">
+    <div class="notice-box">
+      <div class="notice-icon">🎓</div>
+      <div>
+        <h2>Training center powered by your admin panel</h2>
+        <p>Only admin-approved active courses appear here. This keeps the training center clean, controlled, and scalable for schools, students, teachers, parents and NYSC groups.</p>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-<script>
-  const courses = [{"category": "Technology", "title": "Web Development", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/2022/responsive-web-design/", "description": "HTML, CSS, responsive design and project-based web development.", "recognition": "Free certification", "icon": "🌐"}, {"category": "Technology", "title": "JavaScript", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/", "description": "JavaScript foundations, algorithms and interactive programming projects.", "recognition": "Free certification", "icon": "💻"}, {"category": "Technology", "title": "Python Programming", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/scientific-computing-with-python/", "description": "Python basics, automation thinking and problem-solving for beginners.", "recognition": "Free certification", "icon": "🐍"}, {"category": "Cybersecurity", "title": "Introduction to Cybersecurity", "provider": "Cisco Networking Academy", "url": "https://www.netacad.com/courses/introduction-to-cybersecurity", "description": "Cybersecurity basics, online safety, threats and career awareness.", "recognition": "Free badge/course", "icon": "🛡️"}, {"category": "Networking", "title": "Networking Basics", "provider": "Cisco Networking Academy", "url": "https://www.netacad.com/courses/networking-basics", "description": "Computer networking foundations, devices, protocols and connectivity.", "recognition": "Free badge/course", "icon": "🌐"}, {"category": "Cloud", "title": "AWS Educate Cloud Foundations", "provider": "AWS Educate", "url": "https://aws.amazon.com/education/awseducate/", "description": "Cloud computing basics, AWS services and beginner cloud career readiness.", "recognition": "Free training + badges", "icon": "☁️"}, {"category": "Cloud", "title": "Microsoft Learn Cloud Fundamentals", "provider": "Microsoft Learn", "url": "https://learn.microsoft.com/training/", "description": "Microsoft cloud, Azure fundamentals, productivity and technical learning paths.", "recognition": "Free learning / credentials vary", "icon": "🪟"}, {"category": "Data & AI", "title": "Kaggle Python", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/python", "description": "Hands-on Python for data analysis and beginner data science.", "recognition": "Free certificate", "icon": "📊"}, {"category": "Data & AI", "title": "Kaggle Intro to Machine Learning", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/intro-to-machine-learning", "description": "Build simple machine learning models and understand core ML concepts.", "recognition": "Free certificate", "icon": "🤖"}, {"category": "Data & AI", "title": "IBM SkillsBuild AI Foundations", "provider": "IBM SkillsBuild", "url": "https://skillsbuild.org/learners", "description": "AI, data, cybersecurity, workplace and digital skills pathways.", "recognition": "Free digital credentials", "icon": "🧠"}, {"category": "Data & AI", "title": "HP LIFE AI for Beginners", "provider": "HP LIFE", "url": "https://www.life-global.org/course/391-ai-for-beginners", "description": "Generative AI, machine learning and practical AI concepts for beginners.", "recognition": "Free certificate", "icon": "✨"}, {"category": "Marketing", "title": "Google Fundamentals of Digital Marketing", "provider": "Google Skillshop", "url": "https://skillshop.exceedlms.com/student/collection/1830706-fundamentals-of-digital-marketing", "description": "SEO, online presence, AI tools, content and digital marketing fundamentals.", "recognition": "Free training/certification", "icon": "📣"}, {"category": "Marketing", "title": "Google Analytics Certification", "provider": "Google Skillshop", "url": "https://skillshop.withgoogle.com/", "description": "Google Analytics knowledge for reporting, measurement and campaign insights.", "recognition": "Free certification", "icon": "📈"}, {"category": "Marketing", "title": "HubSpot Digital Marketing", "provider": "HubSpot Academy", "url": "https://academy.hubspot.com/courses/digital-marketing", "description": "SEO, email, social media and inbound digital marketing strategy.", "recognition": "Free certification", "icon": "🎯"}, {"category": "Marketing", "title": "HubSpot Social Media Marketing", "provider": "HubSpot Academy", "url": "https://academy.hubspot.com/courses/social-media", "description": "Social media strategy, engagement, content planning and ROI measurement.", "recognition": "Free certification", "icon": "📱"}, {"category": "Business", "title": "HP LIFE Entrepreneurship", "provider": "HP LIFE", "url": "https://www.life-global.org/categorylist/2-entrepreneurship", "description": "Business ideas, planning, customer understanding and entrepreneurship basics.", "recognition": "Free certificate", "icon": "🚀"}, {"category": "Business", "title": "HP LIFE Finance", "provider": "HP LIFE", "url": "https://www.life-global.org/categorylist/3-finance", "description": "Money management, pricing, profit, cash flow and small business finance.", "recognition": "Free certificate", "icon": "💰"}, {"category": "Business", "title": "HP LIFE Communication", "provider": "HP LIFE", "url": "https://www.life-global.org/categorylist/1-communication", "description": "Professional communication, presentations, storytelling and workplace confidence.", "recognition": "Free certificate", "icon": "🗣️"}, {"category": "Leadership", "title": "YALI Civic Leadership", "provider": "YALI Network", "url": "https://yali.state.gov/courses/", "description": "Civic leadership, public management, entrepreneurship and community impact.", "recognition": "Free certificate", "icon": "🌍"}, {"category": "Leadership", "title": "YALI Public Management", "provider": "YALI Network", "url": "https://yali.state.gov/courses/", "description": "Public leadership, governance, accountability and policy-focused learning.", "recognition": "Free certificate", "icon": "🏛️"}, {"category": "Leadership", "title": "HP LIFE Leadership & Teamwork", "provider": "HP LIFE", "url": "https://www.life-global.org/", "description": "Teamwork, collaboration, leadership behavior and workplace readiness.", "recognition": "Free certificate", "icon": "🤝"}, {"category": "Health", "title": "OpenWHO Public Health Courses", "provider": "OpenWHO", "url": "https://openwho.org/", "description": "Public health, outbreaks, health emergencies and humanitarian learning.", "recognition": "Certificates vary by course", "icon": "🩺"}, {"category": "Health", "title": "WHO EMRO Mental Health Courses", "provider": "WHO EMRO", "url": "https://www.emro.who.int/courses.html", "description": "Mental health in schools, psychosocial support and community health topics.", "recognition": "Certificates vary", "icon": "💚"}, {"category": "Health", "title": "UNICEF Agora Learning", "provider": "UNICEF Agora", "url": "https://agora.unicef.org/", "description": "Child protection, humanitarian response, learning and community development.", "recognition": "Certificates vary", "icon": "👶"}, {"category": "Humanitarian", "title": "DisasterReady Humanitarian Training", "provider": "DisasterReady", "url": "https://www.disasterready.org/", "description": "Humanitarian response, safety, protection, project management and nonprofit skills.", "recognition": "Free certificate courses", "icon": "🕊️"}, {"category": "Project Management", "title": "PM4NGOs Project DPro Intro", "provider": "PM4NGOs", "url": "https://www.pm4ngos.org/project-dpro/", "description": "Project management foundations for NGOs, development and social impact programs.", "recognition": "Learning/certification options vary", "icon": "📋"}, {"category": "Productivity", "title": "Google Workspace Training", "provider": "Google Skillshop", "url": "https://skillshop.withgoogle.com/", "description": "Google Docs, Sheets, Slides, Forms and workplace productivity tools.", "recognition": "Free training/certification", "icon": "📄"}, {"category": "Productivity", "title": "Microsoft Office Skills", "provider": "Microsoft Learn", "url": "https://learn.microsoft.com/training/", "description": "Excel, Word, PowerPoint, Teams, Microsoft 365 and business productivity skills.", "recognition": "Free learning / credentials vary", "icon": "📊"}, {"category": "Career", "title": "LinkedIn Learning Free Trial Courses", "provider": "LinkedIn Learning", "url": "https://www.linkedin.com/learning/", "description": "Career development, job readiness, communication and workplace skills.", "recognition": "Certificate with access/trial", "icon": "💼"}, {"category": "Education", "title": "Commonwealth of Learning Courses", "provider": "COL", "url": "https://www.col.org/", "description": "Open learning, education, skills development and community empowerment resources.", "recognition": "Availability varies", "icon": "🎓"}];
+<section class="controls" id="filters">
+  <div class="container">
+    <div class="panel">
+      <span class="label">Search SpeakHub</span>
+      <h2 style="color:var(--navy);font-size:clamp(1.55rem,3vw,2.6rem);margin:0 0 8px;">Find courses by skill, audience or category</h2>
+      <p style="color:var(--muted);line-height:1.6;margin:0;">Search by mental health, leadership, Canva, public speaking, teacher training, secondary school, parent training and more.</p>
+      <div class="controls-grid">
+        <input type="text" id="courseSearch" class="input" placeholder="Search depression, Canva, Excel, leadership, teacher training...">
+        <select id="categoryFilter" class="select">
+          <option value="all">All Categories</option>
+          <option value="mental-health">Mental Health</option>
+          <option value="leadership">Leadership</option>
+          <option value="digital-skills">Digital Skills</option>
+          <option value="career">Career</option>
+          <option value="business">Business</option>
+          <option value="study-skills">Study Skills</option>
+          <option value="public-speaking">Public Speaking</option>
+          <option value="financial-literacy">Financial Literacy</option>
+          <option value="safety">Safety</option>
+          <option value="teacher-training">Teacher Training</option>
+          <option value="parent-training">Parent Training</option>
+          <option value="ambassador-training">Ambassador Training</option>
+        </select>
+        <select id="audienceFilter" class="select">
+          <option value="all">All Audiences</option>
+          <option value="primary">Primary</option>
+          <option value="secondary">Secondary</option>
+          <option value="university">University</option>
+          <option value="nysc">NYSC</option>
+          <option value="teachers">Teachers</option>
+          <option value="parents">Parents</option>
+          <option value="schools">Schools</option>
+          <option value="general">General</option>
+        </select>
+        <select id="difficultyFilter" class="select">
+          <option value="all">All Levels</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+          <option value="certificate">Certificate Eligible</option>
+        </select>
+      </div>
+      <div class="empty" id="emptyState">No matching course found. Try another keyword or filter.</div>
+    </div>
+  </div>
+</section>
 
-  const courseGrid = document.getElementById("courseGrid");
-  const filterWrap = document.getElementById("filterWrap");
-  const searchInput = document.getElementById("courseSearch");
+<section id="tracks">
+  <div class="container">
+    <div class="title"><span class="label">Learning Tracks</span><h2>Browse by learning pathway</h2><p>These tracks filter the same live course database.</p></div>
+    <div class="tabs">
+      <button class="tab active" data-category="all">All</button>
+      <button class="tab" data-category="mental-health">Mental Health</button>
+      <button class="tab" data-category="leadership">Leadership</button>
+      <button class="tab" data-category="digital-skills">Digital Skills</button>
+      <button class="tab" data-category="career">Career</button>
+      <button class="tab" data-category="teacher-training">Teachers</button>
+      <button class="tab" data-category="parent-training">Parents</button>
+      <button class="tab" data-category="ambassador-training">Ambassadors</button>
+    </div>
+  </div>
+</section>
 
-  const categories = ["All", ...Array.from(new Set(courses.map(c => c.category)))];
-  let activeCategory = "All";
+<section id="courses">
+  <div class="container">
+    <div class="title"><span class="label">Live Courses</span><h2>Featured trainings and learning paths</h2><p>Only courses marked <strong>active</strong> in Firestore appear here.</p></div>
+    <div id="loading" class="loading">Loading SpeakHub courses...</div>
+    <div class="grid g3" id="courseGrid"></div>
+  </div>
+</section>
 
-  function safeId(name){
-    return name.replace(/[^a-zA-Z0-9]/g, "-");
-  }
+<section class="dark-section">
+  <div class="container">
+    <div class="title"><span class="label">Certification Path</span><h2>Courses can lead to recognition</h2><p>When courses are marked certificate eligible, admins can issue certificates through the certificate management dashboard.</p></div>
+    <div class="grid g3">
+      <article class="card dark-card"><div class="icon">🎓</div><h3>Complete Training</h3><p>Students, teachers or ambassadors complete approved learning activities.</p><a class="btn gold" href="#courses">View Courses</a></article>
+      <article class="card dark-card"><div class="icon">🏆</div><h3>Issue Certificate</h3><p>Admins issue certificates from the certificate management page.</p><a class="btn gold" href="admin-certificates.html">Admin Certificates</a></article>
+      <article class="card dark-card"><div class="icon">✅</div><h3>Verify Publicly</h3><p>Certificates can be verified using the public verification page.</p><a class="btn gold" href="verify-certificate.html">Verify</a></article>
+    </div>
+  </div>
+</section>
+</main>
 
-  function getSpeakHubState() {
-    return JSON.parse(localStorage.getItem("speakhubState") || JSON.stringify({
-      courses: {},
-      verified: false,
-      certificateUnlocked: false
-    }));
-  }
+<div class="modal" id="courseModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-top">
+      <div><span class="label" id="modalCategory">Course</span><h2 id="modalTitle" style="margin:8px 0 4px;color:var(--navy)">Course Title</h2><div id="modalInstructor" class="meta"></div></div>
+      <button class="modal-close" type="button" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-thumb" id="modalThumb"><strong id="modalThumbTitle"></strong></div>
+    <div class="modal-body"><p id="modalSummary"></p></div>
+    <div class="modal-actions">
+      <a id="modalCourse" class="btn primary" target="_blank" rel="noopener">Start Course</a>
+      <a id="modalMaterials" class="btn soft" target="_blank" rel="noopener">Materials</a>
+    </div>
+  </div>
+</div>
 
-  function saveSpeakHubState(state) {
-    localStorage.setItem("speakhubState", JSON.stringify(state));
-  }
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand"><img src="icons/logo.png" alt="SpeakOut Logo"><div><h3>SpeakOut</h3><p>SpeakHub</p></div></div><p>Protected training center for student wellness, digital skills, leadership and school development.</p></div>
+      <div><h4>Explore</h4><a href="student-dashboard.html">Student Dashboard</a><a href="school-dashboard.html">School Dashboard</a><a href="#courses">Courses</a><a href="#tracks">Tracks</a></div>
+      <div><h4>Ecosystem</h4><a href="e-library.html">E-Library</a><a href="kiddies.html">Kiddies Corner</a><a href="school-resources.html">School Resources</a><a href="verify-certificate.html">Verify Certificate</a></div>
+      <div><h4>Contact</h4><a href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp: +234 811 810 3510</a><a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 SpeakOut Mental Health Outreach. SpeakHub for learning, skills and leadership.</p></div>
+  </div>
+</footer>
 
-  function markCourseDone(courseName) {
-    const state = getSpeakHubState();
-    if (!state.courses[courseName]) state.courses[courseName] = {};
-    state.courses[courseName].completed = true;
-    saveSpeakHubState(state);
-    renderCourses();
-    renderSpeakHubState();
-    alert(courseName + " saved to your learning list. Upload proof when you complete it.");
-  }
-
-  function renderFilters(){
-    filterWrap.innerHTML = categories.map(cat => `
-      <button class="filter-btn ${cat === activeCategory ? "active" : ""}" onclick="setFilter('${cat}')">${cat}</button>
-    `).join("");
-  }
-
-  function setFilter(cat){
-    activeCategory = cat;
-    renderFilters();
-    renderCourses();
-  }
-
-  function renderCourses(){
-    const state = getSpeakHubState();
-    const q = searchInput.value.trim().toLowerCase();
-
-    const filtered = courses.filter(course => {
-      const matchesCategory = activeCategory === "All" || course.category === activeCategory;
-      const text = `${course.category} ${course.title} ${course.provider} ${course.description}`.toLowerCase();
-      const matchesSearch = !q || text.includes(q);
-      return matchesCategory && matchesSearch;
-    });
-
-    courseGrid.innerHTML = filtered.map(course => {
-      const id = safeId(course.title);
-      const completed = state.courses[course.title]?.completed;
-      return `
-        <article class="course-card reveal active">
-          <div class="course-top">
-            <div class="course-icon">${course.icon}</div>
-            <div>
-              <span class="track-pill">${course.category}</span>
-              <h3>${course.title}</h3>
-            </div>
-          </div>
-          <p>${course.description}</p>
-          <div class="course-meta">
-            Provider: <span class="provider">${course.provider}</span><br>
-            Recognition: ${course.recognition}
-          </div>
-          <div class="action-stack">
-            <a class="btn btn-primary btn-small" href="${course.url}" target="_blank" rel="noopener">Start External Course</a>
-            <div class="action-row">
-              <button class="btn btn-soft btn-small" onclick="markCourseDone('${course.title.replace(/'/g, "\\'")}')">I Finished</button>
-              <a class="upload-link ${completed ? "unlocked" : ""}" id="upload-${id}" href="speakhub-upload.html?track=${encodeURIComponent(course.title)}">Upload Certificate</a>
-            </div>
-          </div>
-          <div class="status-box" id="status-${id}">
-            Status: ${completed ? "Saved to learning list" : "Not started"}
-          </div>
-        </article>
-      `;
-    }).join("") || `<div class="course-card"><h3>No course found</h3><p>Try another category or search term.</p></div>`;
-  }
-
-  function renderSpeakHubState() {
-    const state = getSpeakHubState();
-    const completedCount = courses.filter(course => state.courses[course.title]?.completed).length;
-    const progress = Math.min((completedCount / courses.length) * 100, 100);
-
-    document.getElementById("progressFill").style.width = progress + "%";
-    document.getElementById("progressText").textContent = Math.round(progress) + "% Complete";
-
-    const heroStatus = document.getElementById("heroStatus");
-    if (completedCount === 0) {
-      heroStatus.textContent = "Choose a course below and begin your SpeakHub learning journey.";
-    } else if (completedCount < courses.length) {
-      heroStatus.textContent = completedCount + " course(s) completed. Keep building your skills and upload certificates for review.";
-    } else {
-      heroStatus.textContent = "Excellent work. You have completed all listed tracks. Upload your certificates for verification.";
-    }
-
-    const downloadBtn = document.getElementById("downloadCertificateBtn");
-    const note = document.getElementById("certificateNote");
-
-    if (state.certificateUnlocked) {
-      downloadBtn.style.pointerEvents = "auto";
-      downloadBtn.style.opacity = "1";
-      note.textContent = "Your SpeakHub certificate is ready for download.";
-    } else {
-      downloadBtn.style.pointerEvents = "none";
-      downloadBtn.style.opacity = ".55";
-      note.textContent = "SpeakHub recognition remains locked until an admin verifies your submitted certificate.";
-    }
-  }
-
-  searchInput.addEventListener("input", renderCourses);
-
-  renderFilters();
-  renderCourses();
-  renderSpeakHubState();
-
-  const revealItems = document.querySelectorAll('.reveal');
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('active');
-        entry.target.classList.remove('exit');
-      } else {
-        entry.target.classList.remove('active');
-        entry.target.classList.add('exit');
-      }
-    });
-  }, {threshold:.16, rootMargin:'0px 0px -8% 0px'});
-  revealItems.forEach(item => revealObserver.observe(item));
-
-  const bar = document.getElementById('scrollbar');
-  window.addEventListener('scroll', () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-    bar.style.width = pct + '%';
-  }, {passive:true});
-</script>
 <script type="module" src="auth-guard.js"></script>
+
+<script type="module">
+import { db } from "./firebase-config.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+let allCourses = [];
+
+const courseGrid = document.getElementById("courseGrid");
+const loading = document.getElementById("loading");
+const searchInput = document.getElementById("courseSearch");
+const categoryFilter = document.getElementById("categoryFilter");
+const audienceFilter = document.getElementById("audienceFilter");
+const difficultyFilter = document.getElementById("difficultyFilter");
+const emptyState = document.getElementById("emptyState");
+
+function safe(value){ return value || "—"; }
+function pretty(value){ return (value || "—").replaceAll("-", " "); }
+
+function stat(id, value){
+  document.getElementById(id).textContent = Number(value || 0).toLocaleString() + "+";
+}
+
+function updateStats(courses){
+  stat("totalCount", courses.length);
+  stat("featuredCount", courses.filter(c => c.featured === true).length);
+  stat("certCount", courses.filter(c => c.certificateEligible === true).length);
+  stat("studentCount", courses.filter(c => ["primary","secondary","university","nysc","general"].includes(c.audience)).length);
+}
+
+function courseCard(course, index){
+  const thumb = course.thumbnailUrl ? `<img src="${course.thumbnailUrl}" alt="">` : "";
+  return `
+    <article class="card course filter-card" data-category="${course.category || ""}" data-audience="${course.audience || ""}" data-difficulty="${course.difficulty || ""}" data-certificate="${course.certificateEligible ? "certificate" : ""}" data-search="${`${course.title||""} ${course.instructor||""} ${course.category||""} ${course.audience||""} ${course.difficulty||""} ${course.tags||""} ${course.description||""}`.toLowerCase()}">
+      <div>
+        <div class="thumb">${thumb}<strong>${safe(course.title)}</strong></div>
+        <div class="pills">
+          <span class="pill free">${pretty(course.difficulty || "Beginner")}</span>
+          <span class="pill">${pretty(course.category || "General")}</span>
+          <span class="pill gold">${pretty(course.audience || "General")}</span>
+          ${course.certificateEligible ? `<span class="pill dark">Certificate</span>` : ""}
+        </div>
+        <div class="course-title">${safe(course.title)}</div>
+        <div class="meta">${safe(course.instructor)} • ${safe(course.duration)}</div>
+        <p class="summary">${safe(course.description)}</p>
+      </div>
+      <div class="course-actions">
+        <button class="btn primary" type="button" onclick="openCourse(${index})">Details</button>
+        ${course.courseUrl ? `<a class="btn soft" href="${course.courseUrl}" target="_blank" rel="noopener">Start</a>` : `<button class="btn ghost" disabled>No Link</button>`}
+      </div>
+    </article>
+  `;
+}
+
+async function loadCourses(){
+  try{
+    const snap = await getDocs(collection(db, "courses"));
+    allCourses = [];
+    snap.forEach(docSnap => {
+      const course = { id: docSnap.id, ...docSnap.data() };
+      if(course.status === "active") allCourses.push(course);
+    });
+
+    allCourses.sort((a,b) => {
+      if(a.featured && !b.featured) return -1;
+      if(!a.featured && b.featured) return 1;
+      return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+    });
+
+    loading.style.display = "none";
+    updateStats(allCourses);
+    renderCourses();
+  }catch(error){
+    loading.textContent = "Failed to load SpeakHub courses. Check Firestore rules and admin approval.";
+    console.error(error);
+  }
+}
+
+function renderCourses(){
+  const s = searchInput.value.toLowerCase().trim();
+  const cat = categoryFilter.value;
+  const audience = audienceFilter.value;
+  const difficulty = difficultyFilter.value;
+
+  const filtered = allCourses.filter(course => {
+    const searchable = `${course.title||""} ${course.instructor||""} ${course.category||""} ${course.audience||""} ${course.difficulty||""} ${course.tags||""} ${course.description||""}`.toLowerCase();
+    const okS = !s || searchable.includes(s);
+    const okC = cat === "all" || course.category === cat;
+    const okA = audience === "all" || course.audience === audience;
+    const okD = difficulty === "all" || course.difficulty === difficulty || (difficulty === "certificate" && course.certificateEligible === true);
+    return okS && okC && okA && okD;
+  });
+
+  courseGrid.innerHTML = filtered.map(courseCard).join("");
+  emptyState.style.display = filtered.length === 0 ? "block" : "none";
+}
+
+window.openCourse = function(index){
+  const c = allCourses[index];
+  const modal = document.getElementById("courseModal");
+  document.getElementById("modalCategory").textContent = pretty(c.category);
+  document.getElementById("modalTitle").textContent = safe(c.title);
+  document.getElementById("modalThumbTitle").textContent = safe(c.title);
+  document.getElementById("modalInstructor").textContent = `${safe(c.instructor)} • ${safe(c.duration)} • ${pretty(c.audience)} • ${pretty(c.difficulty)}`;
+  document.getElementById("modalSummary").textContent = safe(c.description);
+
+  const modalThumb = document.getElementById("modalThumb");
+  modalThumb.querySelectorAll("img").forEach(img => img.remove());
+  if(c.thumbnailUrl){
+    const img = document.createElement("img");
+    img.src = c.thumbnailUrl;
+    img.alt = "";
+    modalThumb.prepend(img);
+  }
+
+  const courseLink = document.getElementById("modalCourse");
+  const materials = document.getElementById("modalMaterials");
+  courseLink.href = c.courseUrl || c.materialUrl || "#";
+  materials.href = c.materialUrl || c.courseUrl || "#";
+  courseLink.style.display = (c.courseUrl || c.materialUrl) ? "inline-flex" : "none";
+  materials.style.display = (c.materialUrl || c.courseUrl) ? "inline-flex" : "none";
+
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden","false");
+};
+
+window.closeModal = function(){
+  const modal = document.getElementById("courseModal");
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden","true");
+};
+
+document.getElementById("courseModal").addEventListener("click", e => {
+  if(e.target.id === "courseModal") closeModal();
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    closeModal();
+    document.body.classList.remove("menu-open");
+  }
+});
+
+searchInput.addEventListener("input", renderCourses);
+categoryFilter.addEventListener("change", renderCourses);
+audienceFilter.addEventListener("change", renderCourses);
+difficultyFilter.addEventListener("change", renderCourses);
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    categoryFilter.value = btn.dataset.category;
+    searchInput.value = "";
+    audienceFilter.value = "all";
+    difficultyFilter.value = "all";
+    renderCourses();
+    document.getElementById("courses").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+});
+
+loadCourses();
+</script>
 </body>
 </html>
