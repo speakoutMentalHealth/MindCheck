@@ -232,25 +232,35 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
 .mindcheck-pro-brand img{width:64px;height:64px;object-fit:contain}
 .mindcheck-pro-brand strong{display:block;font-size:1.5rem;font-weight:900}.mindcheck-pro-brand small{display:block;color:#0f9f5f;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
 @media(max-width:600px){.mindcheck-pro-brand{padding:12px 16px}.mindcheck-pro-brand img{width:48px;height:48px}body>header{border-radius:26px;padding:14px!important}.card{padding:20px!important}}
+</style><style id="premium-training-system">
+:root{--green:#0f9f5f!important;--greenDark:#063f35!important;--ink:#102a27!important;--bg:#f4fbf7!important;--border:rgba(15,159,95,.15)!important}
+body{font-family:Outfit,system-ui,sans-serif!important;background:linear-gradient(180deg,#f4fbf7 0%,#fff 60%,#f4fbf7 100%)!important;color:#102a27!important}
+body::before{display:none!important}
+.mindcheck-pro-brand,.mindcheck-brand-mark{display:flex;align-items:center;gap:14px;width:min(1120px,92%);margin:20px auto 0;padding:16px 26px;background:#fff;border:1px solid #e4efe8;border-radius:26px;box-shadow:0 12px 36px rgba(6,63,53,.07);color:#063f35!important;text-decoration:none}
+.mindcheck-pro-brand img,.mindcheck-brand-mark img{width:60px;height:60px;object-fit:contain}.mindcheck-pro-brand strong,.mindcheck-brand-mark strong{font-size:1.35rem;font-weight:900}.mindcheck-pro-brand small,.mindcheck-brand-mark small{color:#0f9f5f;font-weight:800}
+.training-context-header{width:min(1120px,92%)!important;max-width:1120px;margin:10px auto 0!important;padding:12px 20px!important;background:#063f35!important;color:#fff!important;border-radius:18px!important;box-shadow:none!important;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:1rem!important;font-weight:700!important}
+.training-context-header a{color:#fff!important;text-decoration:underline}
+.training-context-header .btn-ghost{background:#fff!important;color:#063f35!important;border-radius:999px!important}
+.wrap{max-width:1120px!important;margin:28px auto 70px!important;padding:0 18px!important}
+.grid{gap:22px!important;align-items:start}.card,.hero,.lesson,.quizCard{border-radius:26px!important;border:1px solid rgba(15,159,95,.14)!important;background:#fff!important;box-shadow:0 14px 42px rgba(6,63,53,.07)!important;padding:clamp(20px,3vw,34px)!important}
+.card::after{display:none!important}
+h1,h2,h3{color:#063f35;line-height:1.2;letter-spacing:-.025em}
+p,li{line-height:1.7}
+.btn-primary{background:linear-gradient(135deg,#0f9f5f,#063f35)!important;color:#fff!important;border-radius:999px!important}
+.topbar{margin:22px 0!important;gap:12px!important}.pill,.badge{background:#e7f8ef!important;color:#063f35!important;border:1px solid #ccebd9!important;border-radius:999px!important}
+.callout{border-radius:18px!important;background:#eff9f3!important;border:1px solid #d2eadb!important;color:#063f35!important}
+@media(max-width:700px){.training-context-header{border-radius:16px!important;flex-wrap:wrap}.mindcheck-pro-brand,.mindcheck-brand-mark{padding:12px 16px}.mindcheck-pro-brand img,.mindcheck-brand-mark img{width:48px;height:48px}.wrap{padding:0 12px!important}.grid{grid-template-columns:1fr!important}}
 </style></head>
 
 <body><a class="mindcheck-pro-brand" href="index.html"><img src="icons/logo.png" alt="SpeakOut logo"><span><strong>SpeakOut MindCheck</strong><small>Training and professional pathways</small></span></a>
-  <header>
-    <div class="left">
-      <span aria-hidden="true">🧠</span>
-      <a href="./index.html">MindCheck</a>
-      <span style="opacity:.85;">• Become a Counsellor</span>
-    </div>
-
-    <button id="nightToggle" class="btn btn-ghost" type="button" aria-label="Toggle night mode">
+  <header class="training-context-header"><span>Counsellor Development</span><button id="nightToggle" class="btn btn-ghost" type="button" aria-label="Toggle night mode">
       🌙 Night Mode
-    </button>
-  </header>
+    </button></header>
 
   <div class="wrap">
     <div class="topbar">
       <span class="pill">
-        🎮 Counsellor Quest
+        Counsellor training progress
         <span class="xpbar" aria-label="Progress"><span id="xpFill"></span></span>
         <b id="xpText">0%</b>
       </span>
@@ -260,7 +270,7 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
     <div class="grid">
       <!-- LEFT: Quest / Course + Exam -->
       <section class="card" aria-labelledby="title1">
-        <h2 id="title1">Become a Verified Counsellor</h2>
+        <h2 id="title1">Counsellor Development Pathway</h2>
         <p class="muted">
           Complete a <b>free certified course</b>, take the exam, and if you pass you’ll download your certificate (PDF).
           Then upload it here for verification.
