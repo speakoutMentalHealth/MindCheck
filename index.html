@@ -199,13 +199,46 @@ section.active{
   .mc-wellbeing-nav small{display:block;color:#405b52;font-weight:500;margin-top:6px;line-height:1.4}
   .mc-purpose{max-width:750px;margin:16px auto;padding:0 16px;line-height:1.6;color:#25483b}
   @media(max-width:500px){.mc-wellbeing-nav{grid-template-columns:1fr 1fr;gap:9px}.mc-wellbeing-nav a{padding:12px;font-size:.92rem}}
+  
+/* MindCheck 2026: wellbeing-first responsive homepage, scoped to avoid changing assessment logic */
+body{background:linear-gradient(180deg,#eaf8f1 0,#f6fbf8 380px,#fff 100%)!important;color:#12362e}
+body>header{background:#083e37!important;color:#fff!important;text-align:left;padding:18px max(20px,calc((100vw - 1100px)/2));font-size:1.15rem;box-shadow:none}
+.mc-hero{max-width:1100px;margin:24px auto 0;padding:clamp(24px,5vw,54px);border-radius:26px;background:linear-gradient(115deg,#063d35,#126951);color:#fff;text-align:left;position:relative;overflow:hidden;box-shadow:0 18px 48px rgba(7,65,48,.16)}
+.mc-hero:after{content:"";position:absolute;right:-70px;top:-100px;width:340px;height:340px;border:1px solid rgba(255,255,255,.25);border-radius:50%;pointer-events:none}
+.mc-eyebrow{font-size:.85rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#bff5d8}
+.mc-hero h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.12;max-width:700px;margin:14px 0;color:#fff}
+.mc-hero p{font-size:1.07rem;line-height:1.65;color:#e3f7eb;max-width:700px}
+.mc-hero .mc-primary-action{display:inline-flex;margin-top:15px;background:#fff;color:#064336!important;border-radius:13px;padding:13px 21px;font-weight:800;text-decoration:none}
+.mc-hero .mc-primary-action:hover,.mc-hero .mc-primary-action:focus-visible{background:#d6f7e6;outline:3px solid #b5e8ce;outline-offset:3px}
+.mc-hero .mc-trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;font-size:.82rem;color:#e4f7ec}
+.mc-hero .mc-trust span{border:1px solid #7cb8a5;border-radius:99px;padding:6px 10px}
+.mc-wellbeing-nav{margin-top:18px!important}
+.mc-wellbeing-nav a{min-height:112px;transition:transform .15s,box-shadow .15s}
+.mc-wellbeing-nav a:hover{transform:translateY(-3px)}
+.mc-purpose{display:none}
+#startBtn{background:#0b7154;color:#fff;font-weight:800;margin:12px auto 6px;padding:15px 28px}
+#homeSection{max-width:1100px;margin:18px auto;text-align:left}
+#homeSection .grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+#homeSection .card{border:1px solid #dcebe4;border-radius:18px;padding:22px;min-height:148px;box-shadow:0 8px 25px rgba(6,45,36,.06)}
+#homeSection .card:focus-visible{outline:3px solid #127a5b;outline-offset:3px}
+#homeSection .card h3{color:#103e33}
+#homeSection .card p{line-height:1.5}
+#homeSection .stats{justify-content:flex-start}
+#homeSection #homeTitle{font-size:clamp(1.5rem,3vw,2.1rem);color:#073d31}
+#homeSection .grid a[href="https://speakoutmentalhealth.org/pages/join-us.html"],#homeSection .grid a[href="speakhub.html"],#homeSection .grid a[href="e-library.html"],#homeSection .grid a[href="volunteers.html"]{display:none}
+.mc-secondary-links{max-width:1100px;margin:12px auto 30px;padding:0 16px;text-align:left;color:#405b52;font-size:.92rem}
+.mc-secondary-links a{color:#0b6249;font-weight:700;margin-right:16px;display:inline-block;padding:7px 0}
+@media(max-width:740px){.mc-hero{margin:12px 12px 0;border-radius:20px;padding:26px 20px}.mc-wellbeing-nav{grid-template-columns:1fr 1fr}.mc-wellbeing-nav a{min-height:108px}#homeSection{padding:12px}body>header{padding:15px 18px}}
+@media(max-width:390px){.mc-wellbeing-nav{grid-template-columns:1fr}.mc-wellbeing-nav a{min-height:auto}}
+
   </style>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
+  <div class="mc-hero"><div class="mc-eyebrow">SpeakOut Mental Health Outreach</div><h1>A little check-in can make a difference.</h1><p>Understand how you feel, explore self-assessments and find support in a calm, judgement-free space.</p><a class="mc-primary-action" href="#startBtn" onclick="document.getElementById('startBtn').click();return false;">Start your wellbeing check →</a><div class="mc-trust"><span>A space for personal reflection</span><span>Screenings are not diagnoses</span><span>Support when you need it</span></div></div>
   <p class="mc-purpose">A private space to check in with your wellbeing, explore screening tools, find support and report safety concerns. Assessments are informational and do not provide a diagnosis.</p>
-  <nav class="mc-wellbeing-nav" aria-label="MindCheck quick access"><a href="#startBtn">Mood check<small>Begin a personal check-in</small></a><a href="#startBtn">Assessments<small>Explore screening tools after starting</small></a><a href="report.html">Anonymous report<small>Share a safety concern</small></a><a href="resources.html">Find support<small>Browse available resources</small></a></nav>
+  <nav class="mc-wellbeing-nav" aria-label="MindCheck quick access"><a href="#startBtn" onclick="document.getElementById('startBtn').click();return false;">Mood check<small>Begin a personal check-in</small></a><a href="#startBtn" onclick="document.getElementById('startBtn').click();return false;">Assessments<small>Explore screening tools after starting</small></a><a href="report.html">Anonymous report<small>Share a safety concern</small></a><a href="resources.html">Find support<small>Browse available resources</small></a></nav>
   <button id="startBtn" class="btn btn-primary" aria-label="Start MindCheck">Start Now</button>
 
   <!-- Failsafe: ensure Start Now always works -->
@@ -365,6 +398,7 @@ section.active{
     </div>
   </section>
 
+  <div class="mc-secondary-links" aria-label="SpeakOut learning and participation"><strong>Looking to learn or get involved?</strong><p><a href="https://speakoutmentalhealth.org/pages/join-us.html">Join SpeakOut</a><a href="volunteers.html">Volunteer training</a><a href="speakhub.html">SpeakHub courses</a><a href="e-library.html">Learning library</a></p></div>
   <!-- Mood Check-in -->
   <section id="moodSection" aria-labelledby="moodTitle">
     <h2 id="moodTitle">How are you feeling today?</h2>
