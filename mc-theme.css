@@ -21,3 +21,11 @@ a{color:inherit}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(2,23,34,.05)}
 footer{margin:28px 0 40px;text-align:center;font-size:.95rem;opacity:.9}
 footer a{color:inherit}
+
+/* Resources-inspired shared SpeakOut visual system */
+:root{--brand-green:#0f9f5f;--brand-green-dark:#063f35;--brand-green-deep:#06251f;--brand-green-soft:#e7f8ef;--brand-blue:#0b7fab;--brand-gold:#d9a441;--green:#0f9f5f;--greenDark:#063f35;--ink:#102a27;--bg:#f4fbf7;--line:rgba(15,159,95,.14)}
+body{font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(circle at 88% 12%,rgba(15,159,95,.13),transparent 27%),radial-gradient(circle at 8% 16%,rgba(11,127,171,.09),transparent 29%),linear-gradient(180deg,#f4fbf7,#fff 48%,#f4fbf7);color:var(--ink)}
+.btn-primary,.tbtn:not(.soon){background:linear-gradient(135deg,var(--brand-green),var(--brand-green-dark));color:#fff}
+.btn-primary:hover,.tbtn:not(.soon):hover{background:#063f35}
+.card{border-radius:26px;border-color:rgba(15,159,95,.14);box-shadow:0 14px 40px rgba(6,63,53,.08)}
+a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:3px solid #d9a441;outline-offset:3px}
