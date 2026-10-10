@@ -192,12 +192,20 @@ section.active{
   box-shadow:none;
 }
 
+  /* Accessible MindCheck wellbeing-first navigation */
+  .mc-wellbeing-nav{max-width:1050px;margin:20px auto 12px;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;text-align:left}
+  .mc-wellbeing-nav a{display:block;background:#fff;color:#073b31!important;border:2px solid #b5e7ce;border-radius:16px;padding:17px 18px;text-decoration:none;font-weight:800;box-shadow:0 6px 18px rgba(6,36,54,.07)}
+  .mc-wellbeing-nav a:hover,.mc-wellbeing-nav a:focus-visible{border-color:#167447;outline-offset:3px;box-shadow:0 8px 24px rgba(6,36,54,.15)}
+  .mc-wellbeing-nav small{display:block;color:#405b52;font-weight:500;margin-top:6px;line-height:1.4}
+  .mc-purpose{max-width:750px;margin:16px auto;padding:0 16px;line-height:1.6;color:#25483b}
+  @media(max-width:500px){.mc-wellbeing-nav{grid-template-columns:1fr 1fr;gap:9px}.mc-wellbeing-nav a{padding:12px;font-size:.92rem}}
   </style>
 </head>
 <body>
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
-  <p>Check your mental health privately, safely, and in your preferred language.</p>
+  <p class="mc-purpose">A private space to check in with your wellbeing, explore screening tools, find support and report safety concerns. Assessments are informational and do not provide a diagnosis.</p>
+  <nav class="mc-wellbeing-nav" aria-label="MindCheck quick access"><a href="#startBtn">Mood check<small>Begin a personal check-in</small></a><a href="#startBtn">Assessments<small>Explore screening tools after starting</small></a><a href="report.html">Anonymous report<small>Share a safety concern</small></a><a href="resources.html">Find support<small>Browse available resources</small></a></nav>
   <button id="startBtn" class="btn btn-primary" aria-label="Start MindCheck">Start Now</button>
 
   <!-- Failsafe: ensure Start Now always works -->
