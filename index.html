@@ -231,9 +231,17 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 @media(max-width:740px){.mc-hero{margin:12px 12px 0;border-radius:20px;padding:26px 20px}.mc-wellbeing-nav{grid-template-columns:1fr 1fr}.mc-wellbeing-nav a{min-height:108px}#homeSection{padding:12px}body>header{padding:15px 18px}}
 @media(max-width:390px){.mc-wellbeing-nav{grid-template-columns:1fr}.mc-wellbeing-nav a{min-height:auto}}
 
+  /* Single-stage onboarding: welcome → language → dashboard */
+  body.mc-stage-welcome .mc-wellbeing-nav,body.mc-stage-welcome .mc-secondary-links,body.mc-stage-welcome #startBtn{display:none!important}
+  body.mc-stage-language .mc-hero,body.mc-stage-language .mc-wellbeing-nav,body.mc-stage-language .mc-secondary-links,body.mc-stage-language #startBtn{display:none!important}
+  body.mc-stage-dashboard .mc-hero,body.mc-stage-dashboard .mc-wellbeing-nav,body.mc-stage-dashboard #startBtn{display:none!important}
+  body.mc-stage-language #langSection{display:block}
+  body.mc-stage-welcome #langSection{display:none!important}
+  body.mc-stage-language #homeSection,body.mc-stage-language #moodSection,body.mc-stage-language #formContainer,body.mc-stage-language #tipsSection,body.mc-stage-language #helpSection,body.mc-stage-language #badgesSection{display:none!important}
+  body.mc-stage-welcome .mc-hero{margin-bottom:32px}
   </style>
 </head>
-<body>
+<body class="mc-stage-welcome">
   <header>🧠 SpeakOut MindCheck Nigeria</header>
 
   <div class="mc-hero"><div class="mc-eyebrow">SpeakOut Mental Health Outreach</div><h1>A little check-in can make a difference.</h1><p>Understand how you feel, explore self-assessments and find support in a calm, judgement-free space.</p><a class="mc-primary-action" href="#startBtn" onclick="document.getElementById('startBtn').click();return false;">Start your wellbeing check →</a><div class="mc-trust"><span>A space for personal reflection</span><span>Screenings are not diagnoses</span><span>Support when you need it</span></div></div>
@@ -545,7 +553,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       if(section===tipsSection){ renderSavedTips(); renderTip(); }
     }
 
-    startBtn.onclick=()=>{startBtn.style.display='none';show(langSection);};
+    startBtn.onclick=()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');startBtn.style.display='none';show(langSection);};
     document.querySelectorAll('.tbtn.live').forEach(btn=>{
       btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); show(homeSection); };
     });
