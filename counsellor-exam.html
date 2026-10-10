@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Counsellor Exam • MindCheck</title>
-  <meta name="description" content="MindCheck Counsellor Exam. Pass to receive your certificate." />
+  <meta name="description" content="MindCheck counsellor knowledge assessment. Results shown on this page are provisional and require independent verification." />
 
   <link rel="stylesheet" href="mc-theme.css">
 
@@ -217,7 +217,7 @@
         <div class="avatar" title="Avatar frame preview">MC</div>
         <div>
           <div class="frameLabel">Counsellor Path</div>
-          <div class="tag">Pass exam → get certificate → upload for verification → go live</div>
+          <div class="tag">Complete assessment → request independent verification → professional review</div>
         </div>
       </div>
     </div>
@@ -243,7 +243,7 @@
       <div id="resultBox" class="result" style="display:none;"></div>
 
       <div class="toolbar" id="afterPass" style="display:none;">
-        <a id="viewCert" class="btn btn-primary" href="#">🎓 View / Download Certificate</a>
+        <a id="viewCert" class="btn btn-primary" href="#">🎓 View Provisional Completion Document</a>
         <a class="btn btn-ghost" href="./become-a-counsellor.html">📤 Upload for Verification</a>
       </div>
     </div>
@@ -475,7 +475,7 @@
 
       resultBox.style.display = 'block';
       resultBox.innerHTML = passed
-        ? `🎉 <b>PASSED ✅</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Next: open your certificate page and print/download.`
+        ? `🎉 <b>PASSED ✅</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Next: view your provisional completion document. Independent verification and professional approval are required.`
         : `❌ <b>NOT PASSED</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Tip: reset and try again.`;
 
       afterPass.style.display = passed ? 'flex' : 'none';
