@@ -83,8 +83,8 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
       <a href="certificate.html" class="btn-ghost">View sample certificate</a>
     </div>
 
-    <div id="statusBox" class="status" style="display:none"></div>
-    <div id="detailBox" class="detail" style="display:none"></div>
+    <div id="statusBox" role="status" aria-live="polite" class="status" style="display:none"></div>
+    <div id="detailBox" aria-live="polite" class="detail" style="display:none"></div>
   </section>
 
   <p class="muted" style="margin-top:16px;">
@@ -103,7 +103,7 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
 <script>
   // IMPORTANT: use the SAME Apps Script web-app URL as training-hub / certificate issue
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
-  const AUTH_TOKEN = 'speakout123';
+  // Public verification requires a server-side, rate-limited endpoint; never embed a shared secret in this page.
 
   const input  = document.getElementById('certInput');
   const btn    = document.getElementById('verifyBtn');
@@ -118,10 +118,10 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
 
     if(extra){
       detail.style.display='block';
-      detail.innerHTML = extra;
+      detail.textContent = extra;
     } else {
       detail.style.display='none';
-      detail.innerHTML = '';
+      detail.textContent = '';
     }
   }
 
@@ -135,31 +135,21 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
 
     try{
       const url = SCRIPT_URL +
-        '?type=verify_cert&auth=' + encodeURIComponent(AUTH_TOKEN) +
-        '&id=' + encodeURIComponent(id);
+        '?type=verify_cert&id=' + encodeURIComponent(id);
 
       const res  = await fetch(url);
       const data = await res.json().catch(()=>({}));
 
       if(data && data.ok){
-        setStatus(
-          true,
-          '✅ Valid certificate',
-          `
-            <div>Certificate ID: <span class="pill">${data.cert_id}</span></div>
-            <div>Issued to: <b>${data.name || '-'}</b></div>
-            <div>Score: <b>${data.score || '-'}</b>%</div>
-            <div>Issue date (ISO): <b>${data.date || '-'}</b></div>
-          `
-        );
+        setStatus(true, 'Certificate record found', 'Certificate ID: ' + String(data.cert_id || id) + ' | Issued to: ' + String(data.name || 'Not supplied') + ' | Score: ' + String(data.score ?? 'Not supplied') + '% | Issue date: ' + String(data.date || 'Not supplied'));
         try{ window.plausible && window.plausible('CertificateVerifyOK'); }catch(e){}
       } else {
-        setStatus(false, '❌ Not recognised', 'No matching certificate was found in the register.');
+        setStatus(false, 'Certificate not verified', 'No matching certificate was found, or the verification service requires a secure server-side integration.');
         try{ window.plausible && window.plausible('CertificateVerifyFail'); }catch(e){}
       }
     }catch(e){
       console.error(e);
-      setStatus(false, '❌ Verification error', 'Unable to contact verification service right now.');
+      setStatus(false, 'Verification unavailable', 'Unable to verify this certificate. Contact SpeakOut for manual confirmation.');
     }
   }
 
