@@ -555,7 +555,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 
     startBtn.onclick=()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');startBtn.style.display='none';show(langSection);};
     document.querySelectorAll('.tbtn.live').forEach(btn=>{
-      btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); show(homeSection); };
+      btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); document.body.classList.remove('mc-stage-welcome','mc-stage-language'); document.body.classList.add('mc-stage-dashboard'); show(homeSection); };
     });
 
     document.getElementById('goMood').onclick=()=>show(moodSection);
