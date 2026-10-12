@@ -167,9 +167,9 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
     }
   });
 
-  // If verify.html was opened via QR with ?id=...
+  // Accept current certificate links and legacy QR links.
   const params = new URLSearchParams(location.search);
-  const preId  = params.get('id');
+  const preId  = params.get('cert_id') || params.get('id');
   if(preId){
     input.value = preId;
     doVerify();

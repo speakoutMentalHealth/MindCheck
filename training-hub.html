@@ -232,45 +232,7 @@
       align-items:center;
     }
 
-    /* Quiz */
-    .quiz-card{ display:none; }
-    .q{ margin: 12px 0; text-align:left; }
-    .q legend{ font-weight: 950; margin-bottom: 8px; color:#0b3a2a; }
-    .q label{
-      display:block;
-      padding: 10px 10px;
-      border:1px solid var(--border);
-      border-radius: 12px;
-      margin: 8px 0;
-      cursor:pointer;
-      font-weight: 800;
-      background: #fff;
-      transition:.12s;
-    }
-    .q label:hover{ transform: translateY(-1px); }
-
-    .result{
-      display:none;
-      margin-top:12px;
-      font-weight: 950;
-      padding: 12px;
-      border-radius: 14px;
-      border:1px solid rgba(0,0,0,.08);
-    }
-    .good{ background:#ecfdf3; color:#065f46; border-color:#bbf7d0; }
-    .bad{ background:#fef2f2; color:#7f1d1d; border-color:#fecaca; }
-
-    .row{ display:flex; gap:10px; flex-wrap:wrap; }
-    input, select{
-      width:100%;
-      box-sizing:border-box;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(0,0,0,.15);
-      font-weight:700;
-      background:#fff;
-    }
-    .field{ flex: 1 1 200px; min-width: 170px; }
+    .assessment-card{ display:none; }
 
     footer{
       margin: 18px 0 0;
@@ -329,8 +291,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <div class="heroTitle">
           <h1>Volunteer Training Programme</h1>
           <p>
-            Complete <b>5 lessons</b> + a short quiz (10 minutes). Pass mark: <b>80%</b>.
-            If you pass, you’ll unlock your <b>Volunteer Trained</b> badge (+50 XP) and download your certificate.
+            Complete <b>5 lessons</b>, then continue to the official MindCheck assessment.
+            Your assessment result and certificate are handled by the official assessment service.
           </p>
         </div>
         <div class="heroBtns">
@@ -340,8 +302,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       </div>
 
       <div class="pillRow">
-        <span class="pill">⭐ XP: <span id="xpPill">0</span></span>
-        <span class="pill">🏅 Badge: <span id="badgePill">Locked</span></span>
         <span class="pill">📘 Lesson: <span id="lessonPill">1 / 5</span></span>
       </div>
 
@@ -459,91 +419,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <div class="callout">Example: “Counselling is shameful.” → “Many people combine faith + family support + counselling. Would you like private options?”</div>
     </section>
 
-    <!-- QUIZ -->
-    <section class="card quiz-card" id="quizCard">
-      <h2>Volunteer Quiz (Unlocked after Lesson 5)</h2>
-      <p class="muted">Time: <b>10 minutes</b> • Pass mark: <b>80%</b> • Attempts: <b>2 per month</b> (<span id="attemptInfo">0 / 2</span>)</p>
-
-      <div class="card" style="text-align:left;">
-        <b>Volunteer details (required)</b>
-        <div class="row" style="margin-top:10px;">
-          <div class="field">
-            <label><b>Full name</b></label>
-            <input id="candName" type="text" placeholder="Your full name"/>
-          </div>
-          <div class="field">
-            <label><b>Age</b></label>
-            <input id="candAge" type="number" min="10" max="120" placeholder="Age"/>
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:10px;">
-          <div class="field">
-            <label><b>Location (city/state)</b></label>
-            <input id="candLocation" type="text" placeholder="e.g. Abuja, Nasarawa"/>
-          </div>
-          <div class="field">
-            <label><b>Preferred role</b></label>
-            <select id="candRole">
-              <option value="">Select</option>
-              <option>Campus volunteer</option>
-              <option>Community volunteer</option>
-              <option>Online support volunteer</option>
-              <option>Clinic / hospital liaison</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:10px;">
-          <div class="field">
-            <label><b>NGO of choice</b></label>
-            <select id="candNgo">
-              <option value="">Select</option>
-              <option>SpeakOut Mental Health Outreach</option>
-              <option>Synia Aid Foundation</option>
-              <option>CNU Medical Institue</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="field">
-            <label><b>WhatsApp number</b></label>
-            <input id="candWhatsApp" type="tel" placeholder="+234 80 0000 0000"/>
-          </div>
-        </div>
-
-        <p class="muted" style="margin:.7rem 0 0;">This info is saved to the sheet only if you <b>pass</b>.</p>
-      </div>
-
-      <div class="row" style="margin-top:12px;">
-        <button class="btn btn-primary" id="startQuiz" type="button" disabled>Start Quiz</button>
-        <button class="btn btn-ghost" id="resetQuiz" type="button" style="display:none;">Reset</button>
-      </div>
-
-      <p class="muted" style="margin-top:10px;">Time left: <b><span id="timeLeft">10:00</span></b></p>
-
-      <form id="quizForm" style="display:none;"></form>
-
-      <div class="row" style="margin-top:10px; display:none;" id="quizBtns">
-        <button class="btn btn-primary" id="submitQuiz" type="button">Submit Quiz</button>
-      </div>
-
-      <div id="quizResult" class="result" aria-live="polite"></div>
-
-      <div id="postPass" class="card" style="display:none; text-align:left; margin-top:12px;">
-        <h3>✅ You passed!</h3>
-        <p class="muted">Your <b>Volunteer Trained</b> badge is unlocked (+50 XP). You can now generate your certificate.</p>
-
-        <label style="display:block;margin:10px 0 6px;font-weight:900;">Name to appear on certificate</label>
-        <input id="certName" type="text" placeholder="Type your name exactly"/>
-
-        <div class="row" style="margin-top:10px;">
-          <button class="btn btn-primary" id="makeCert" type="button">Generate Certificate</button>
-          <a class="btn btn-ghost" href="verify.html" target="_blank" rel="noopener">Verify Certificate</a>
-        </div>
-
-        <p id="certHint" class="muted" style="display:none;margin-top:10px;"></p>
-      </div>
+    <!-- OFFICIAL ASSESSMENT -->
+    <section class="card assessment-card" id="assessmentCard" aria-labelledby="assessmentTitle">
+      <h2 id="assessmentTitle">Training complete — take the official assessment</h2>
+      <p class="muted">Continue to the official MindCheck assessment to enter your details and answer the questions. The assessment service determines your result and issues your certificate if you pass.</p>
+      <a class="btn btn-primary" href="https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec?type=assessment">Continue to official assessment →</a>
+      <a class="btn btn-ghost" href="verify.html">Verify an existing certificate</a>
+      <p class="muted">Your lesson progress is saved on this device when browser storage is available. You can return here to reopen the assessment.</p>
     </section>
 
     <footer>
@@ -567,430 +449,62 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  /********* CONFIG *********/
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec';
-  const BEARER  = 'speakout123';
-
-  const KEY_POINTS = 'mc_points';
-  const KEY_BADGES = 'mc_badges';
-  const KEY_UID = 'mc_uid';
-
   const KEY_LESSON_PROGRESS = 'mc_training_lessons_done';
-  const KEY_TRAINING_ATTEMPTS = 'mc_training_attempts';
-  const KEY_TIMER_START = 'mc_training_timer_start';
-  const KEY_CANDIDATE = 'mc_training_candidate';
-  const KEY_TRAINING = 'mc_training';
-  const KEY_LAST_CERT_ID = 'mc_last_cert_id';
-
-  const PASS_MARK = 0.8;
-  const BONUS = 50;
-  const QUIZ_SECONDS = 10 * 60;
-
-  /********* UTIL *********/
   const $ = (id) => document.getElementById(id);
-  const getJSON = (k,f)=>{ try{ return JSON.parse(localStorage.getItem(k) || JSON.stringify(f)); } catch(e){ return f; } };
-  const setJSON = (k,v)=> localStorage.setItem(k, JSON.stringify(v));
-
-  const getPoints = ()=> parseInt(localStorage.getItem(KEY_POINTS) || '0', 10);
-  const setPoints = (v)=> localStorage.setItem(KEY_POINTS, String(v));
-  const addPoints = (n)=> setPoints(getPoints() + n);
-
-  const getBadges = ()=> getJSON(KEY_BADGES, []);
-  const setBadges = (a)=> setJSON(KEY_BADGES, a);
-  const awardBadge = (id)=>{ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true; } return false; };
-
-  function getUid(){
-    let u = localStorage.getItem(KEY_UID);
-    if(!u){
-      u = 'mc_' + Math.random().toString(36).slice(2);
-      localStorage.setItem(KEY_UID, u);
-    }
-    return u;
-  }
-
-  // Best-effort logging (GitHub Pages friendly)
-  async function postToGas(payload){
-    try{
-      await fetch(GAS_URL + '?auth=' + encodeURIComponent(BEARER), {
-        method:'POST',
-        mode:'no-cors',
-        headers:{ 'Content-Type':'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
-      });
-    }catch(e){
-      console.error('GAS post error', e);
-    }
-  }
-
-  function monthKey(){
-    const d=new Date();
-    const m=String(d.getMonth()+1).padStart(2,'0');
-    return `${d.getFullYear()}-${m}`;
-  }
-  function getAttemptMap(){ return getJSON(KEY_TRAINING_ATTEMPTS, {}); }
-  function attemptsThisMonth(){ return (getAttemptMap()[monthKey()] || 0); }
-  function recordAttempt(){
-    const map=getAttemptMap();
-    const mk=monthKey();
-    map[mk]=(map[mk]||0)+1;
-    setJSON(KEY_TRAINING_ATTEMPTS, map);
-    return map[mk];
-  }
-  function canTakeQuiz(){ return attemptsThisMonth() < 2; }
-
-  function refreshTopPills(){
-    const total = lessons.length;
-    const completed = Math.min(parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10) || 0, total);
-
-    $('xpPill').textContent = getPoints();
-    $('badgePill').textContent = getBadges().includes('volunteer_trained') ? 'Volunteer Trained' : 'Locked';
-    $('lessonPill').textContent = `${Math.min(completed+1, total)} / ${total}`;
-
-    const pct = Math.round((completed / total) * 100);
-    $('pctText').textContent = `${pct}%`;
-    $('barFill').style.width = `${pct}%`;
-    $('doneLabel').textContent = completed;
-  }
-
-  /********* LESSON NAV *********/
   const lessons = Array.from(document.querySelectorAll('.lesson'));
   const totalLessons = lessons.length;
 
-  let completedLessons = Math.min(parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10) || 0, totalLessons);
-  let currentLessonIndex = Math.min(Math.max(completedLessons, 0), totalLessons-1);
+  // Local progress is a navigation convenience, never proof of assessment success.
+  let savedProgress = 0;
+  try { savedProgress = parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10) || 0; } catch(e) {}
+  let completedLessons = Math.max(0, Math.min(savedProgress, totalLessons));
+  let currentLessonIndex = Math.min(completedLessons, totalLessons - 1);
 
-  function showLesson(index){
-    lessons.forEach((sec,i)=> sec.style.display = (i===index ? 'block' : 'none'));
-    currentLessonIndex = index;
-
-    $('lessonLabel').textContent = `Lesson ${index+1}`;
-    $('prevLesson').disabled = index === 0;
-    $('nextLesson').textContent = (index === totalLessons-1) ? 'Finish Lessons ✅' : 'Next ➜';
-
-    refreshTopPills();
-
-    // gentle scroll (no huge jump on desktop)
-    const target = lessons[index];
-    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  function refreshProgress(){
+    $('lessonPill').textContent = `${currentLessonIndex + 1} / ${totalLessons}`;
+    const pct = Math.round(completedLessons / totalLessons * 100);
+    $('pctText').textContent = `${pct}%`;
+    $('barFill').style.width = `${pct}%`;
+    $('doneLabel').textContent = completedLessons;
   }
 
-  function markCurrentCompleted(){
-    const finishedUpTo = currentLessonIndex + 1;
-    if(finishedUpTo > completedLessons){
-      completedLessons = finishedUpTo;
-      localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessons));
-    }
+  function showLesson(index){
+    lessons.forEach((section, i) => section.style.display = i === index ? 'block' : 'none');
+    currentLessonIndex = index;
+    $('lessonLabel').textContent = `Lesson ${index + 1}`;
+    $('prevLesson').disabled = index === 0;
+    $('nextLesson').textContent = index === totalLessons - 1 ? 'Finish Lessons ✅' : 'Next ➜';
+    refreshProgress();
+    lessons[index].scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function showAssessment(){
+    $('assessmentCard').style.display = 'block';
+    $('stickyNav').style.display = 'none';
   }
 
   $('prevLesson').addEventListener('click', () => {
     if(currentLessonIndex > 0) showLesson(currentLessonIndex - 1);
   });
-
   $('nextLesson').addEventListener('click', () => {
-    markCurrentCompleted();
-
-    if(currentLessonIndex < totalLessons-1){
+    completedLessons = Math.max(completedLessons, currentLessonIndex + 1);
+    try {
+      localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessons));
+      $('saveText').textContent = 'Saved';
+    } catch(e) {
+      $('saveText').textContent = 'Progress saved for this visit only';
+    }
+    refreshProgress();
+    if(currentLessonIndex < totalLessons - 1){
       showLesson(currentLessonIndex + 1);
-      return;
+    } else {
+      showAssessment();
+      $('assessmentCard').scrollIntoView({behavior:'smooth', block:'start'});
     }
-
-    // finished all lessons -> unlock quiz
-    completedLessons = totalLessons;
-    localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessons));
-    refreshTopPills();
-
-    $('quizCard').style.display = 'block';
-    $('stickyNav').style.display = 'none';
-    $('quizCard').scrollIntoView({behavior:'smooth', block:'start'});
-    updateStartQuizState();
   });
 
-  // Initial render
   showLesson(currentLessonIndex);
-
-  /********* QUIZ *********/
-  const QUESTIONS=[
-    {q:"Which response best shows safe listening?",a:["Interrupt to give solutions","Listen, reflect, ask open questions","Tell them others have it worse"],c:1},
-    {q:"Which is an immediate red flag?",a:["Occasional sadness","Active self-harm plan","Feeling tired after work"],c:1},
-    {q:"Volunteers should avoid:",a:["Offering clinic options","Promising limited confidentiality","Giving medical advice/diagnoses"],c:2},
-    {q:"If danger is happening now, what’s the first action?",a:["Keep chatting","Call 112 immediately","Tell them to relax"],c:1},
-    {q:"Privacy-first logging means:",a:["Use minimal facts","Write full name and story","Screenshot the chat"],c:0},
-    {q:"Before making a referral you should:",a:["Get consent and offer choices","Choose one clinic for them","Ask full medical history"],c:0},
-    {q:"Boundaries help because they:",a:["Prevent burnout and role drift","Make you uncaring","Stop you from listening"],c:0},
-    {q:"A good empathic reflection is:",a:["You’re overreacting","It sounds like this is hard for you","Calm down"],c:1},
-    {q:"If unsure what to do:",a:["Do nothing","Escalate to supervisor/safeguarding lead","Post on social media"],c:1},
-    {q:"A small next step might be:",a:["Plan their whole life","Agree they contact support tomorrow","End abruptly"],c:1},
-    {q:"Which is appropriate to log?",a:["Date + concern + action taken","Full name and address","Screenshots"],c:0},
-    {q:"Cultural sensitivity includes:",a:["Respecting beliefs & language","Assuming everyone thinks alike","Correcting their culture"],c:0},
-    {q:"When a child may be at risk, you should:",a:["Keep it secret","Follow safeguarding protocol and escalate","Handle it alone"],c:1},
-    {q:"During listening, silence is:",a:["Useful to give space","A sign you’re failing","To be avoided"],c:0},
-    {q:"Consent in referrals means:",a:["Acting without telling them","Getting informed permission","Telling them they must accept"],c:1}
-  ];
-
-  const candName = $('candName');
-  const candAge = $('candAge');
-  const candLocation = $('candLocation');
-  const candRole = $('candRole');
-  const candNgo = $('candNgo');
-  const candWhatsApp = $('candWhatsApp');
-
-  function loadCandidate(){
-    const data = getJSON(KEY_CANDIDATE, {name:'',age:'',location:'',role:'',ngo:'',whatsapp:''});
-    candName.value = data.name || '';
-    candAge.value = data.age || '';
-    candLocation.value = data.location || '';
-    candRole.value = data.role || '';
-    candNgo.value = data.ngo || '';
-    candWhatsApp.value = data.whatsapp || '';
-  }
-  function saveCandidate(){
-    const data = {
-      name:(candName.value||'').trim(),
-      age:(candAge.value||'').trim(),
-      location:(candLocation.value||'').trim(),
-      role:(candRole.value||'').trim(),
-      ngo:(candNgo.value||'').trim(),
-      whatsapp:(candWhatsApp.value||'').trim()
-    };
-    setJSON(KEY_CANDIDATE, data);
-    return data;
-  }
-  function candidateComplete(){
-    const d = saveCandidate();
-    if(!d.name) return false;
-    const a = parseInt(d.age,10);
-    if(!Number.isFinite(a) || a < 10) return false;
-    if(!d.location || !d.role || !d.ngo || !d.whatsapp) return false;
-    return true;
-  }
-
-  function updateAttemptInfo(){ $('attemptInfo').textContent = `${attemptsThisMonth()} / 2`; }
-
-  function updateStartQuizState(){
-    const lessonsDone = (parseInt(localStorage.getItem(KEY_LESSON_PROGRESS)||'0',10) >= totalLessons);
-    const infoOk = candidateComplete();
-    const attemptsOk = canTakeQuiz();
-    $('startQuiz').disabled = !(lessonsDone && infoOk && attemptsOk);
-    updateAttemptInfo();
-  }
-
-  ['input','change'].forEach(evt=>{
-    [candName,candAge,candLocation,candRole,candNgo,candWhatsApp].forEach(el=>{
-      el.addEventListener(evt, updateStartQuizState);
-    });
-  });
-
-  function renderQuiz(){
-    $('quizForm').innerHTML = QUESTIONS.map((Q,i)=>`
-      <fieldset class="q">
-        <legend>Q${i+1}. ${Q.q}</legend>
-        ${Q.a.map((opt,j)=>`<label><input type="radio" name="q${i}" value="${j}" required> ${opt}</label>`).join('')}
-      </fieldset>
-    `).join('');
-  }
-
-  function fmt(sec){
-    const m = Math.floor(sec/60);
-    const s = sec%60;
-    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  }
-
-  let timerId = null;
-  function remainingSeconds(){
-    const started = parseInt(localStorage.getItem(KEY_TIMER_START)||'0',10);
-    if(!started) return QUIZ_SECONDS;
-    const elapsed = Math.floor((Date.now()-started)/1000);
-    return Math.max(0, QUIZ_SECONDS - elapsed);
-  }
-
-  function tick(){
-    const r = remainingSeconds();
-    $('timeLeft').textContent = fmt(r);
-    if(r <= 0){
-      clearInterval(timerId);
-      gradeQuiz(true);
-    }
-  }
-
-  function startTimer(){
-    localStorage.setItem(KEY_TIMER_START, String(Date.now()));
-    tick();
-    timerId = setInterval(tick, 1000);
-  }
-
-  function resetTimer(){
-    clearInterval(timerId);
-    localStorage.removeItem(KEY_TIMER_START);
-    $('timeLeft').textContent = fmt(QUIZ_SECONDS);
-  }
-
-  function lockOutIfNeeded(){
-    if(!canTakeQuiz()){
-      $('quizResult').style.display = 'block';
-      $('quizResult').className = 'result bad';
-      $('quizResult').textContent = '⚠ You have used your 2 attempts for this month. Please try again next month.';
-    }
-  }
-
-  function generateCertId(){
-    const t=new Date();
-    const y=t.getFullYear();
-    const m=String(t.getMonth()+1).padStart(2,'0');
-    const d=String(t.getDate()).padStart(2,'0');
-    const rand=Math.random().toString(36).slice(-4).toUpperCase();
-    return `MC-CERT-${y}${m}${d}-${rand}`;
-  }
-
-  $('startQuiz').addEventListener('click', () => {
-    if(!canTakeQuiz()){ lockOutIfNeeded(); return; }
-    if(!candidateComplete()){ alert('Please complete your volunteer details first.'); return; }
-
-    const used = recordAttempt();
-    updateAttemptInfo();
-
-    $('startQuiz').style.display = 'none';
-    $('resetQuiz').style.display = 'inline-flex';
-    $('quizForm').style.display = 'block';
-    $('quizBtns').style.display = 'flex';
-
-    renderQuiz();
-    resetTimer();
-    startTimer();
-
-    try{ window.plausible && window.plausible('TrainingQuizStarted'); }catch(e){}
-  });
-
-  $('resetQuiz').addEventListener('click', () => {
-    $('quizForm').reset();
-    $('quizResult').style.display = 'none';
-    $('postPass').style.display = 'none';
-    $('quizForm').style.display = 'none';
-    $('quizBtns').style.display = 'none';
-    $('startQuiz').style.display = 'inline-flex';
-    $('resetQuiz').style.display = 'none';
-    resetTimer();
-    updateStartQuizState();
-  });
-
-  $('submitQuiz').addEventListener('click', () => gradeQuiz(false));
-
-  async function gradeQuiz(timedOut){
-    if($('quizForm').style.display === 'none') return;
-
-    if(!timedOut && !$('quizForm').checkValidity()){
-      $('quizForm').reportValidity();
-      return;
-    }
-
-    clearInterval(timerId);
-
-    let correct = 0;
-    QUESTIONS.forEach((Q,i)=>{
-      const ch = document.querySelector(`input[name=q${i}]:checked`);
-      if(ch && parseInt(ch.value,10) === Q.c) correct++;
-    });
-
-    const pct = correct / QUESTIONS.length;
-    const pass = pct >= PASS_MARK;
-    const scorePct = Math.round(pct*100);
-
-    const candidate = saveCandidate();
-    const dateIso = new Date().toISOString();
-
-    setJSON(KEY_TRAINING, { pct, date: dateIso });
-
-    $('quizResult').style.display = 'block';
-    $('quizResult').className = 'result ' + (pass ? 'good' : 'bad');
-
-    if(pass){
-      // IMPORTANT: generate cert_id ON PASS and keep it
-      const certId = generateCertId();
-      localStorage.setItem(KEY_LAST_CERT_ID, certId);
-
-      awardBadge('volunteer_trained');
-      addPoints(BONUS);
-
-      $('quizResult').textContent = `✅ You scored ${correct}/${QUESTIONS.length} (${scorePct}%). You passed!`;
-
-      // log TRAINING PASS with FLAT fields (matches your backend _handleTrainingPass)
-      postToGas({
-        auth: BEARER,
-        type: 'training_pass',
-        uid: getUid(),
-        name: candidate.name,
-        age: candidate.age,
-        location: candidate.location,
-        role: candidate.role,
-        ngo: candidate.ngo,
-        whatsapp: candidate.whatsapp,
-        score: scorePct,
-        date: dateIso,
-        cert_id: certId
-      });
-
-      $('postPass').style.display = 'block';
-      $('certName').value = $('certName').value || candidate.name || '';
-    }else{
-      $('quizResult').textContent = `❌ You scored ${correct}/${QUESTIONS.length} (${scorePct}%). Try again.`;
-      $('postPass').style.display = 'none';
-      lockOutIfNeeded();
-
-      // optional fail logging (kept but lightweight)
-      postToGas({
-        auth: BEARER,
-        type: 'training_fail',
-        uid: getUid(),
-        score: scorePct,
-        date: dateIso,
-        timedOut: !!timedOut
-      });
-    }
-
-    refreshTopPills();
-    try{ window.plausible && window.plausible(pass ? 'VolunteerQuizPassed':'VolunteerQuizFailed',{props:{score:scorePct}}); }catch(e){}
-  }
-
-  $('makeCert').addEventListener('click', () => {
-    const name = ($('certName').value || '').trim();
-    if(!name){ alert('Enter your name for the certificate.'); return; }
-
-    const t = getJSON(KEY_TRAINING, {pct:1, date:new Date().toISOString()});
-    const score = Math.round((t.pct || 0) * 100);
-    const dateIso = t.date || new Date().toISOString();
-
-    // Use the SAME cert_id created at PASS time (critical)
-    const certId = localStorage.getItem(KEY_LAST_CERT_ID) || generateCertId();
-    localStorage.setItem(KEY_LAST_CERT_ID, certId);
-
-    const url = `certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${encodeURIComponent(dateIso)}&cert_id=${encodeURIComponent(certId)}&uid=${encodeURIComponent(getUid())}`;
-
-    $('certHint').style.display = 'block';
-    $('certHint').innerHTML = `✅ Your certificate is ready: <a class="btn btn-ghost" target="_blank" rel="noopener" href="${url}">Open Certificate</a>`;
-
-    // log certificate issue (backend stores in Certificates sheet)
-    postToGas({
-      auth: BEARER,
-      type:'certificate_issue',
-      cert_id: certId,
-      name,
-      score,
-      date: dateIso,
-      uid: getUid(),
-      meta_json: JSON.stringify(getJSON(KEY_CANDIDATE, {}))
-    });
-
-    try{ window.plausible && window.plausible('VolunteerCertificateIssued',{props:{score}}); }catch(e){}
-  });
-
-  // If lessons already completed, show quiz immediately
-  if(completedLessons >= totalLessons){
-    $('quizCard').style.display = 'block';
-    $('stickyNav').style.display = 'none';
-  }
-
-  loadCandidate();
-  updateStartQuizState();
-  refreshTopPills();
+  if(completedLessons >= totalLessons) showAssessment();
   try{ window.plausible && window.plausible('TrainingHubViewed'); }catch(e){}
 });
 </script>

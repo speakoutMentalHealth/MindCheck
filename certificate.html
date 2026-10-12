@@ -502,32 +502,7 @@
 
   dlBtn.addEventListener("click", downloadA4Landscape);
 
-  // --- Log certificate view to Google Sheet (your existing logic) ---
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec";
-  const BEARER  = "speakout123";
-
-  async function logToSheet(payload){
-    try{
-      await fetch(GAS_URL + "?auth=" + encodeURIComponent(BEARER), {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
-      });
-    }catch(e){
-      console.warn("Sheet log failed:", e);
-    }
-  }
-
-  logToSheet({
-    auth: BEARER,
-    type: "certificate_view",
-    cert_id: certId,
-    name: name,
-    score: Number(score) || score,
-    date: dateIso,
-    uid: p.get("uid") || (localStorage.getItem("mc_uid") || "")
-  });
+  // Display and download only. Certificate issuance belongs to the official assessment.
 </script>
 </body>
 </html>
