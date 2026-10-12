@@ -965,21 +965,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = `certificate.html?name=${encodeURIComponent(name)}&score=${score}&date=${encodeURIComponent(dateIso)}&cert_id=${encodeURIComponent(certId)}&uid=${encodeURIComponent(getUid())}`;
 
     $('certHint').style.display = 'block';
-    $('certHint').innerHTML = `✅ Your certificate is ready: <a class="btn btn-ghost" target="_blank" rel="noopener" href="${url}">Open Certificate</a>`;
+    $('certHint').textContent = 'Your assessment result is saved on this device, but this certificate is not yet registered or verified. Official certificate issuance is temporarily unavailable while the secure registration service is being completed.';
 
-    // log certificate issue (backend stores in Certificates sheet)
-    postToGas({
-      auth: BEARER,
-      type:'certificate_issue',
-      cert_id: certId,
-      name,
-      score,
-      date: dateIso,
-      uid: getUid(),
-      meta_json: JSON.stringify(getJSON(KEY_CANDIDATE, {}))
-    });
-
-    try{ window.plausible && window.plausible('VolunteerCertificateIssued',{props:{score}}); }catch(e){}
+    // Official issuance is disabled until the trusted server-side grading endpoint is ready.
+    try{ window.plausible && window.plausible('VolunteerCertificatePending',{props:{score}}); }catch(e){}
   });
 
   // If lessons already completed, show quiz immediately
