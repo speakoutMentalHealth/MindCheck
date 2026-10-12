@@ -324,15 +324,15 @@
 
           <div class="topBar">
             <div class="logo"><img src="icons/apple-touch-icon.png" alt="SpeakOut / MindCheck Logo"></div>
-            <div class="logo"><img src="icons/synia-logo.png" alt="Synia Aid Foundation Logo"></div>
-            <div class="logo"><img src="icons/afrihud-logo.png" alt="AfriHud Logo"></div>
           </div>
 
-          <div class="title">CERTIFICATE OF JOINT VOLUNTEER TRAINING</div>
+          <div id="approvedPartners" style="display:none;text-align:center;font-size:10pt;margin:6px 0;color:#46566a"></div>
+
+          <div class="title">CERTIFICATE OF VOLUNTEER TRAINING</div>
 
           <div class="sub">
-            This certifies that the volunteer named below has successfully completed the <b>MindCheck Joint Volunteer Training</b>
-            delivered by <b>SpeakOut Mental Health Outreach</b>, in partnership with <b>Synia Aid Foundation</b> & <b>CNU Medical Institue</b>,
+            This certifies that the volunteer named below has successfully completed the <b>SpeakOut MindCheck Volunteer Training</b>
+            delivered by <b>SpeakOut Mental Health Outreach</b>,
             covering safe listening, risk recognition, privacy-first logging, and ethical referral for community & humanitarian settings.
           </div>
 
@@ -356,7 +356,6 @@
               <small><b>Offorka Jerry</b></small>
               <small>Founder / Executive Director</small>
               <small>SpeakOut Mental Health Outreach</small>
-              <small>(Lead partner — MindCheck Joint Volunteer Training)</small>
             </div>
 
             <div class="certBox">
@@ -401,6 +400,15 @@
   window.addEventListener("resize", fitToScreen);
   window.addEventListener("orientationchange", fitToScreen);
   window.addEventListener("load", fitToScreen);
+
+  // Optional partners are centrally approved here; empty means SpeakOut-only.
+  // Future approved partnerships can be added with explicit names, not user-controlled URL parameters.
+  const APPROVED_PARTNERS = [];
+  const partnerSlot = document.getElementById('approvedPartners');
+  if (APPROVED_PARTNERS.length) {
+    partnerSlot.textContent = 'In collaboration with ' + APPROVED_PARTNERS.join(' • ');
+    partnerSlot.style.display = 'block';
+  }
 
   // --- URL param logic ---
   // certificate.html?name=...&score=...&date=...&cert_id=...&uid=...
