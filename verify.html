@@ -102,7 +102,7 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
 
 <script>
   // IMPORTANT: use the SAME Apps Script web-app URL as training-hub / certificate issue
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec';
   // Public verification requires a server-side, rate-limited endpoint; never embed a shared secret in this page.
 
   const input  = document.getElementById('certInput');
@@ -167,9 +167,9 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
     }
   });
 
-  // If verify.html was opened via QR with ?id=...
+  // Accept current certificate links and legacy QR links.
   const params = new URLSearchParams(location.search);
-  const preId  = params.get('id');
+  const preId  = params.get('cert_id') || params.get('id');
   if(preId){
     input.value = preId;
     doVerify();
