@@ -273,7 +273,40 @@ body.mc-stage-welcome .mc-purpose{max-width:850px;margin:0 auto 40px;padding:0 2
 @media(max-width:650px){body.mc-stage-welcome .mc-hero{width:calc(100% - 24px);margin:16px auto;padding:40px 25px 36px;border-radius:28px}body.mc-stage-welcome .mc-hero:after{right:-36%;top:5%;opacity:.55}body.mc-stage-welcome .mc-trust{gap:7px}body.mc-stage-welcome .mc-trust span{font-size:.76rem}body.mc-stage-welcome .mc-primary-action{width:100%;box-sizing:border-box}body.mc-stage-welcome .mc-purpose{font-size:.9rem}}
 @media(prefers-reduced-motion:reduce){body.mc-stage-welcome .mc-primary-action{transition:none}body.mc-stage-welcome .mc-primary-action:hover{transform:none}}
 
-</style>
+
+  /* Premium first-impression layer: progressive enhancement, no changes to flows */
+  :root{--mc-premium-ink:#123b31;--mc-premium-mint:#dcf9e9;--mc-premium-shadow:0 24px 65px rgba(12,58,46,.13)}
+  body{background:radial-gradient(ellipse at 12% 12%,#e6fff0 0,transparent 48%),radial-gradient(ellipse at 95% 25%,#eaf5ff 0,transparent 40%),#f8fcfa}
+  body>header.mc-brand-nav{background:rgba(255,255,255,.88);color:var(--mc-premium-ink);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(13,95,64,.08)}
+  .mc-hero{position:relative;isolation:isolate;overflow:hidden;max-width:1060px;margin:28px auto 18px;padding:clamp(36px,7vw,84px) clamp(22px,6vw,70px);border-radius:36px;background:linear-gradient(125deg,#0b4339 0%,#126c56 57%,#208967 100%);color:#fff;box-shadow:var(--mc-premium-shadow);text-align:left}
+  .mc-hero::before{content:"";position:absolute;z-index:-1;width:min(54vw,450px);aspect-ratio:1;border:1px solid rgba(255,255,255,.23);border-radius:50%;right:-9%;top:-34%;box-shadow:0 0 0 38px rgba(255,255,255,.045),0 0 0 92px rgba(255,255,255,.035),0 0 0 154px rgba(255,255,255,.025);pointer-events:none}
+  .mc-hero::after{content:"";position:absolute;z-index:-1;width:220px;height:220px;right:12%;bottom:-160px;background:#9ff5bc;filter:blur(80px);opacity:.42;pointer-events:none}
+  .mc-hero h1{max-width:690px;font-family:Outfit,Inter,system-ui,sans-serif;font-size:clamp(2.5rem,6vw,4.9rem);font-weight:800;line-height:1.07;letter-spacing:-.045em;margin:18px 0}
+  .mc-hero p{max-width:590px;color:#e5fff1;font-size:clamp(1.05rem,1.8vw,1.22rem);line-height:1.65}
+  .mc-hero .mc-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid rgba(255,255,255,.27);border-radius:999px;background:rgba(255,255,255,.10);font-weight:700;letter-spacing:.04em}
+  .mc-hero .mc-primary-action{display:inline-flex;align-items:center;justify-content:center;min-height:56px;margin-top:22px;padding:14px 25px;border-radius:18px;background:#e9ffed;color:#084332;font-weight:800;text-decoration:none;box-shadow:0 14px 30px rgba(0,0,0,.12);transition:transform .2s,box-shadow .2s}
+  .mc-hero .mc-primary-action:hover{transform:translateY(-2px);box-shadow:0 18px 35px rgba(0,0,0,.18)}
+  .mc-hero .mc-primary-action:focus-visible,.mc-brand-nav a:focus-visible,.btn:focus-visible,.card:focus-visible{outline:3px solid #f9cb58;outline-offset:4px}
+  .mc-hero .mc-trust{display:flex;flex-wrap:wrap;gap:10px;margin-top:27px}
+  .mc-hero .mc-trust span{display:inline-flex;padding:8px 12px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(255,255,255,.09);color:#effff5;font-size:.84rem}
+  #langSection.active,#homeSection.active{max-width:1100px;margin:0 auto}
+  #homeSection .card{border-radius:23px;border:1px solid #e5f0eb;box-shadow:0 12px 34px rgba(10,57,44,.055);padding:22px;transition:transform .2s,box-shadow .2s}
+  #homeSection .card:hover{transform:translateY(-4px);box-shadow:0 20px 44px rgba(10,57,44,.12)}
+  #homeSection .card .big{font-size:34px}
+  .btn-primary{border-radius:16px;min-height:48px;background:#087d58;box-shadow:0 8px 22px rgba(8,125,88,.2)}
+  @media(max-width:740px){.mc-hero{margin:12px 12px 16px;border-radius:27px;padding:40px 24px 34px}.mc-hero::before{right:-35%;top:-12%;width:75vw}.mc-hero h1{font-size:clamp(2.35rem,10vw,3.5rem)}.mc-hero .mc-primary-action{width:100%;box-sizing:border-box}.mc-hero .mc-trust{gap:7px}.mc-hero .mc-trust span{font-size:.74rem}#homeSection .card{padding:18px}}
+  @media(prefers-reduced-motion:reduce){.mc-hero .mc-primary-action,#homeSection .card{transition:none!important}.mc-hero .mc-primary-action:hover,#homeSection .card:hover{transform:none}}
+
+
+/* Premium presentation layer */
+:root{--mc-radius:24px;--mc-shadow:0 18px 55px rgba(6,36,54,.09)}
+body{background:radial-gradient(circle at 85% 4%,rgba(34,197,94,.13),transparent 32%),linear-gradient(160deg,#f5fdf8,#f5f9ff 75%);font-family:Outfit,Inter,system-ui,sans-serif}
+button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3px}
+.card,.tile,.panel{border-radius:var(--mc-radius);box-shadow:var(--mc-shadow)}
+.btn-primary{background:linear-gradient(120deg,#087a52,#16a34a);box-shadow:0 12px 28px rgba(13,128,82,.19);font-weight:700;min-height:48px}
+@media(max-width:600px){.btn{min-height:48px}body{overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
 </head>
 <body class="mc-stage-welcome">
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="resources.html">Resources</a><a href="https://speakoutmentalhealth.org/">SpeakOut website</a></nav></header>
