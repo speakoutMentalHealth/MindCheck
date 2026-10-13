@@ -319,6 +319,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
   <!-- Home + Stats -->
   <section id="homeSection" aria-labelledby="homeTitle">
     <h2 id="homeTitle">Welcome to MindCheck 🌿</h2>
+    <button id="mcChangeLanguage" type="button" style="margin:8px 0;padding:8px 12px;border:1px solid #9ab9ab;border-radius:8px;background:#fff;cursor:pointer">🌍 Change language</button>
     <p id="mcLocaleNotice" role="status" hidden style="margin:8px 0;padding:10px;border:1px solid #b6c9c1;border-radius:8px;font-size:.9rem"></p>
     <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
     <div class="stats" role="status" aria-live="polite">
@@ -575,6 +576,8 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     document.querySelectorAll('.tbtn.live').forEach(btn=>{
       btn.onclick=()=>{ window.MindCheckLocale.apply(btn.dataset.lang || 'en'); document.body.classList.remove('mc-stage-welcome','mc-stage-language'); document.body.classList.add('mc-stage-dashboard'); show(homeSection); };
     });
+
+    document.getElementById('mcChangeLanguage').onclick=()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');show(langSection);};
 
     document.getElementById('goMood').onclick=()=>show(moodSection);
     document.getElementById('moodBackHome').onclick=()=>show(homeSection);
