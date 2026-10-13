@@ -4,6 +4,7 @@
 
 ## Static review
 - [x] Six language choices appear in `index.html`: en, ha, ig, yo, pcm, fr.
+- [x] Five dashboard navigation headings and accessible labels update for each selected language.
 - [x] The selection calls `MindCheckLocale.apply` and persists `mc_lang`.
 - [x] Dashboard includes a way to change language.
 - [x] A prominent notice identifies untranslated clinical and certificate content.
@@ -19,4 +20,4 @@
 - [ ] Confirm no change to certificate issuance, verification, privacy or referrals.
 - [ ] Native-speaker reviewers approve all public Hausa, Igbo, Yoruba, Pidgin and French text.
 
-**Known limitation:** Only the language chooser, welcome heading and untranslated-content notice are localized. Most MindCheck dashboard content remains English. Do not present this preview as a fully translated app or merge as a completed multilingual release.
+**Known limitation:** The language chooser, welcome heading, five navigation headings, and untranslated-content notice are localized. Most dashboard descriptions, assessments, referrals and certificates remain English. All translations require native-speaker review. Do not present this preview as a fully translated app or merge as a completed multilingual release.
