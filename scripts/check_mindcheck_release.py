@@ -21,7 +21,7 @@ def check(name, condition):
 
 for locale in ("en", "ha", "ig", "yo", "pcm", "fr"):
     check("language button " + locale, 'data-lang="' + locale + '"' in html)
-    check("locale dictionary " + locale, bool(re.search(r"\\b" + locale + r"\\s*:\\s*\\{", i18n)))
+    check("locale dictionary " + locale, bool(re.search(r"\b" + locale + r"\s*:\s*\{", i18n)))
 
 for element_id in ("langSection", "homeSection", "moodSection", "formContainer",
                    "tipsSection", "helpSection", "badgesSection", "crisisBanner",
@@ -33,7 +33,7 @@ for mood in range(5):
     check("mood choice " + str(mood), 'data-val="' + str(mood) + '"' in html)
 
 check("no selected mood analytics property",
-      not bool(re.search(r"track\\s*\\(\\s*['\\\"]CheckIn['\\\"]\\s*,\\s*\\{[^}]*\\bmood\\s*:", html)))
+      not bool(re.search(r"track\s*\(\s*['\\"]CheckIn['\\"]\s*,\s*\{[^}]*\bmood\s*:", html)))
 check("privacy notice", 'href="privacy.html"' in html)
 check("emergency support", 'id="crisisBanner"' in html and 'href="tel:112"' in html)
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
@@ -42,6 +42,6 @@ check("service worker cache version rotated", "mc-v8-premium-privacy-20261013" i
 check("reduced motion supported", "prefers-reduced-motion" in css)
 
 if failures:
-    print("\\n" + str(len(failures)) + " static release guard(s) failed.")
+    print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
-print("\\nAll static guards passed. Complete browser and functional QA before release.")
+print("\nAll static guards passed. Complete browser and functional QA before release.")
