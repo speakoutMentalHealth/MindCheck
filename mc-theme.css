@@ -33,3 +33,70 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible{outline:3px s
 /* SpeakOut brand alignment: main website navy / blue / gold; accessible shared controls */
 :root{--green:#0a68d8;--greenDark:#064a9c;--brand-green:#0a68d8;--brand-green-dark:#06152f;--brand-green-deep:#06152f;--ink:#101828;--bg:#f7faff;--brand-bg:#f7faff;--brand-green-soft:#eaf5ff;--line:#e5edf6;--brand-gold:#f5a623;--focus-ring:#f5a623}
 html{scroll-behavior:smooth}body{font-family:Outfit,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55}button,input,textarea,select{font:inherit}img,video{max-width:100%;height:auto}button,a,input,select,textarea{touch-action:manipulation}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--focus-ring)!important;outline-offset:3px!important}button:not(:disabled),[role=button]:not([aria-disabled=true]){cursor:pointer}button:disabled,[aria-disabled=true]{cursor:not-allowed;opacity:.65}p,li{overflow-wrap:break-word}.btn-primary{background:#0a68d8;color:#fff}.btn-primary:hover{background:#064a9c}.mindcheck-pro-brand,.mindcheck-brand-mark{border-color:#e5edf6!important;color:#06152f!important}.mindcheck-pro-brand small,.mindcheck-brand-mark small{color:#064a9c!important}.training-context-header{background:#06152f!important}.training-context-header a{color:#fff!important}.card,.hero,.lesson,.quizCard{border-color:#e5edf6!important}h1,h2,h3{color:#06152f}.pill,.badge{background:#eaf5ff!important;color:#06152f!important;border-color:#d5e9ff!important}.callout{background:#f1f7ff!important;color:#06152f!important;border-color:#d5e9ff!important}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}@media(max-width:700px){button,.btn,input,select{min-height:44px}.wrap,main{max-width:100%}body{overflow-x:hidden}}
+
+
+/* Premium experience foundation — additive, shared and motion-safe */
+:root{
+  --mc-premium-ink:#102a27;
+  --mc-premium-surface:#ffffff;
+  --mc-premium-border:#dbe9e5;
+  --mc-premium-shadow:0 16px 48px rgba(6,38,37,.09);
+  --mc-premium-radius:24px;
+}
+body.mc-stage-welcome{
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body.mc-stage-welcome .mc-hero{
+  isolation:isolate;
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 22px 64px rgba(6,38,37,.17);
+}
+body.mc-stage-welcome .mc-hero h1{
+  text-wrap:balance;
+  letter-spacing:-.035em;
+}
+body.mc-stage-welcome .mc-wellbeing-nav a{
+  min-height:96px;
+  border-radius:var(--mc-premium-radius);
+  transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  body.mc-stage-welcome .mc-wellbeing-nav a:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--mc-premium-shadow);
+  }
+}
+body.mc-stage-welcome :is(a,button,select,input):focus-visible{
+  outline:3px solid #f5a623!important;
+  outline-offset:4px!important;
+}
+body.mc-stage-welcome :is(.btn,.tbtn,.mood){
+  min-height:44px;
+}
+@media(max-width:600px){
+  body.mc-stage-welcome .mc-hero{
+    margin:14px 12px 0;
+    padding:28px 22px;
+    border-radius:24px;
+  }
+  body.mc-stage-welcome .mc-wellbeing-nav{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    padding-inline:12px;
+  }
+  body.mc-stage-welcome .mc-wellbeing-nav a{
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+}
+@media(max-width:360px){
+  body.mc-stage-welcome .mc-wellbeing-nav{
+    grid-template-columns:1fr;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.mc-stage-welcome .mc-wellbeing-nav a{
+    transition:none!important;
+    transform:none!important;
+  }
+}
