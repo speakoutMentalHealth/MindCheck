@@ -44,3 +44,9 @@ Status: **review required**. This document is an audit checklist, not evidence t
 - `privacy.html` describes local storage and certificate data; actual retention and backend practices need verification.
 - `resources.html` lists Nigerian referral options; phone numbers and service availability require independent confirmation.
 - Do not publish test identities, sensitive screening responses, API credentials or certificate secrets in this repository.
+
+### Screening implementation boundary — confirmed in source review
+- The homepage's `goScreenings` click handler sets `formFrame.src` to `https://tally.so/r/w2QbOV`. Questionnaire definitions, scoring, consent and data routing are controlled outside this GitHub repository.
+- **Launch blocker until independently checked:** inspect the actual Tally form, its calculations, consent notice, notification recipients, data exports and self-harm response path. Do not infer these from the four screening names displayed on the homepage.
+- Use synthetic test responses only; do not enter real student health data during acceptance testing.
+- Record the responsible form administrator and clinical/safeguarding reviewer before sign-off. Keep access tokens and respondent records out of GitHub.
