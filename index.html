@@ -577,7 +577,9 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     document.getElementById('goMood').onclick=()=>show(moodSection);
     document.getElementById('moodBackHome').onclick=()=>show(homeSection);
 
-    document.getElementById('goScreenings').onclick=()=>{ formFrame.src='https://tally.so/r/w2QbOV'; show(formContainer); };
+    const screeningsButton = document.getElementById('goScreenings');
+    screeningsButton.onclick=()=>{ formFrame.src='https://tally.so/r/w2QbOV'; show(formContainer); };
+    screeningsButton.addEventListener('keydown', (event)=>{ if(event.key==='Enter' || event.key===' '){ event.preventDefault(); screeningsButton.click(); } });
     document.getElementById('formBackHome').onclick=()=>show(homeSection);
 
     document.getElementById('goTips').onclick=(e)=>{ e.preventDefault(); currentTipFilter = lastMoodTag(); show(tipsSection); };
