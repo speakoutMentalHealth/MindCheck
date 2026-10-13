@@ -32,11 +32,74 @@
       if(card)card.setAttribute('aria-label',words[key]);
     }
   }
+  const dashboard={
+  "en": {
+    "nextStep": "Choose Your Next Step",
+    "nextStepHelp": "Every step helps you understand and care for your mental health.",
+    "mood": "Check Your Mood",
+    "tips": "Wellness Tips",
+    "help": "Get Help",
+    "badges": "Badges & Awards",
+    "volunteer": "Volunteer Zone",
+    "resources": "Clinics & Resources"
+  },
+  "ha": {
+    "nextStep": "Zaɓi matakinka na gaba",
+    "nextStepHelp": "Kowane mataki yana taimaka maka ka fahimci kuma ka kula da lafiyar kwakwalwarka.",
+    "mood": "Duba yanayinka",
+    "tips": "Shawarwarin jin daɗi",
+    "help": "Nemi taimako",
+    "badges": "Lambobin yabo",
+    "volunteer": "Sashen masu sa kai",
+    "resources": "Asibitoci da albarkatu"
+  },
+  "ig": {
+    "nextStep": "Họrọ ihe ị ga-eme ọzọ",
+    "nextStepHelp": "Nzọụkwụ ọ bụla na-enyere gị aka ịghọta ma lekọta ahụike uche gị.",
+    "mood": "Lelee ọnọdụ obi gị",
+    "tips": "Ndụmọdụ maka ọdịmma",
+    "help": "Nweta enyemaka",
+    "badges": "Baajị na onyinye",
+    "volunteer": "Ngalaba ndị ọrụ afọ ofufo",
+    "resources": "Ụlọ ọgwụ na akụrụngwa"
+  },
+  "yo": {
+    "nextStep": "Yan ìgbésẹ̀ tó kàn",
+    "nextStepHelp": "Gbogbo ìgbésẹ̀ ń ràn ọ́ lọ́wọ́ láti lóye àti láti tọ́jú ìlera ọpọlọ rẹ.",
+    "mood": "Ṣàyẹ̀wò bí ọ ṣe ń rí lára",
+    "tips": "Àwọn ìmọ̀ràn ìlera",
+    "help": "Gba ìrànlọ́wọ́",
+    "badges": "Àwọn àmì ẹ̀yẹ àti ẹ̀bùn",
+    "volunteer": "Ẹ̀ka àwọn olùyọ̀ǹda",
+    "resources": "Ilé ìwòsàn àti àwọn ohun èlò"
+  },
+  "pcm": {
+    "nextStep": "Choose wetin you wan do next",
+    "nextStepHelp": "Every small step dey help you understand and take care of your mental health.",
+    "mood": "Check how you dey feel",
+    "tips": "Tips to feel better",
+    "help": "Find help",
+    "badges": "Badges and awards",
+    "volunteer": "Volunteer area",
+    "resources": "Clinics and resources"
+  },
+  "fr": {
+    "nextStep": "Choisissez la prochaine étape",
+    "nextStepHelp": "Chaque étape vous aide à comprendre et à prendre soin de votre santé mentale.",
+    "mood": "Vérifier votre humeur",
+    "tips": "Conseils bien-être",
+    "help": "Obtenir de l’aide",
+    "badges": "Badges et récompenses",
+    "volunteer": "Espace bénévoles",
+    "resources": "Cliniques et ressources"
+  }
+};
   const supported=Object.keys(labels);
   function apply(lang){
     const code=supported.includes(lang)?lang:'en';
     const words=labels[code];
     document.documentElement.lang=code;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(dashboard[code] && dashboard[code][key])el.textContent=dashboard[code][key];});
     updateNavigation(code);
     const title=document.getElementById('langTitle');
     if(title)title.textContent=words.choose;
