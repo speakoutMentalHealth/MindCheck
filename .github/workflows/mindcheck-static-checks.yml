@@ -1,0 +1,27 @@
+name: MindCheck static release checks
+
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'mc-theme.css'
+      - 'sw.js'
+      - 'js/mindcheck-i18n.js'
+      - 'scripts/check_mindcheck_release.py'
+      - '.github/workflows/mindcheck-static-checks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Run dependency-free release guards
+        run: python3 scripts/check_mindcheck_release.py
+      - name: Compile release-check script
+        run: python3 -m py_compile scripts/check_mindcheck_release.py

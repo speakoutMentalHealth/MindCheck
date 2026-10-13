@@ -1,5 +1,5 @@
 // MindCheck service worker: network-first navigation prevents outdated homepage releases.
-const CACHE = 'mc-v7-i18n-preview-20261013';
+const CACHE = 'mc-v8-premium-privacy-20261013';
 const ASSETS = ['./','./index.html','./mc-theme.css','./js/mindcheck-i18n.js','./volunteers.html','./training-hub.html','./certificate.html','./verify.html','./resources.html','./monitoring.html','./privacy.html','./terms.html','./favicon.png','./manifest.webmanifest'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
