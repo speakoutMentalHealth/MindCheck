@@ -297,6 +297,15 @@ body.mc-stage-welcome .mc-purpose{max-width:850px;margin:0 auto 40px;padding:0 2
   @media(max-width:740px){.mc-hero{margin:12px 12px 16px;border-radius:27px;padding:40px 24px 34px}.mc-hero::before{right:-35%;top:-12%;width:75vw}.mc-hero h1{font-size:clamp(2.35rem,10vw,3.5rem)}.mc-hero .mc-primary-action{width:100%;box-sizing:border-box}.mc-hero .mc-trust{gap:7px}.mc-hero .mc-trust span{font-size:.74rem}#homeSection .card{padding:18px}}
   @media(prefers-reduced-motion:reduce){.mc-hero .mc-primary-action,#homeSection .card{transition:none!important}.mc-hero .mc-primary-action:hover,#homeSection .card:hover{transform:none}}
 
+
+/* Premium presentation layer */
+:root{--mc-radius:24px;--mc-shadow:0 18px 55px rgba(6,36,54,.09)}
+body{background:radial-gradient(circle at 85% 4%,rgba(34,197,94,.13),transparent 32%),linear-gradient(160deg,#f5fdf8,#f5f9ff 75%);font-family:Outfit,Inter,system-ui,sans-serif}
+button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3px}
+.card,.tile,.panel{border-radius:var(--mc-radius);box-shadow:var(--mc-shadow)}
+.btn-primary{background:linear-gradient(120deg,#087a52,#16a34a);box-shadow:0 12px 28px rgba(13,128,82,.19);font-weight:700;min-height:48px}
+@media(max-width:600px){.btn{min-height:48px}body{overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
 </head>
 <body class="mc-stage-welcome">
