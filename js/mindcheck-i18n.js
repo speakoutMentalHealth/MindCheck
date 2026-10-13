@@ -128,6 +128,16 @@
     if(home)home.textContent=words.welcome+' 🌿';
     const notice=document.getElementById('mcLocaleNotice');
     if(notice){notice.textContent=words.notice;notice.hidden=code==='en';}
+    const common={
+      en:{nextStep:"Choose Your Next Step",nextStepHelp:"Every step helps you understand and care for your mental health.",mood:"Check Your Mood",change:"Change language"},
+      ha:{nextStep:"Zaɓi mataki na gaba",nextStepHelp:"Kowane mataki yana taimaka maka ka fahimci lafiyar kwakwalwarka.",mood:"Duba yanayin zuciyarka",change:"Canja harshe"},
+      ig:{nextStep:"Họrọ ihe ị ga-eme ọzọ",nextStepHelp:"Nzọụkwụ ọ bụla na-enyere gị aka ilekọta ahụike uche gị.",mood:"Lelee ọnọdụ obi gị",change:"Gbanwee asụsụ"},
+      yo:{nextStep:"Yan ìgbésẹ̀ rẹ tó kàn",nextStepHelp:"Ìgbésẹ̀ kọ̀ọ̀kan ń ràn ọ́ lọ́wọ́ láti tọ́jú ìlera ọpọlọ rẹ.",mood:"Ṣàyẹ̀wò bí ọkàn rẹ ṣe rí",change:"Yí èdè padà"},
+      pcm:{nextStep:"Choose wetin you wan do next",nextStepHelp:"Every small step dey help you care for your mind.",mood:"Check how you dey feel",change:"Change language"},
+      fr:{nextStep:"Choisissez votre prochaine étape",nextStepHelp:"Chaque étape vous aide à prendre soin de votre santé mentale.",mood:"Vérifiez votre humeur",change:"Changer de langue"}
+    };
+    document.querySelectorAll('[data-i18n]').forEach(node=>{const key=node.dataset.i18n;if(common[code][key])node.textContent=common[code][key];});
+    const change=document.getElementById('mcChangeLanguage');if(change)change.textContent='🌍 '+common[code].change;
     document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===code)));
     try{localStorage.setItem('mc_lang',code);}catch(_){}
     return code;
