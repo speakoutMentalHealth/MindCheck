@@ -127,7 +127,6 @@
     document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(additional[code][key])el.textContent=additional[code][key];});
     document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(dashboard[code] && dashboard[code][key])el.textContent=dashboard[code][key];});
     updateNavigation(code);
-    document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(expanded[code][key])el.textContent=expanded[code][key];});
     const title=document.getElementById('langTitle');
     if(title)title.textContent=words.choose;
     const home=document.getElementById('homeTitle');
@@ -143,6 +142,7 @@
       fr:{nextStep:"Choisissez votre prochaine étape",nextStepHelp:"Chaque étape vous aide à prendre soin de votre santé mentale.",mood:"Vérifiez votre humeur",change:"Changer de langue"}
     };
     document.querySelectorAll('[data-i18n]').forEach(node=>{const key=node.dataset.i18n;if(common[code][key])node.textContent=common[code][key];});
+    document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(expanded[code][key])el.textContent=expanded[code][key];});
     const change=document.getElementById('mcChangeLanguage');if(change)change.textContent='🌍 '+common[code].change;
     document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===code)));
     try{localStorage.setItem('mc_lang',code);}catch(_){}
