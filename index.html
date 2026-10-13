@@ -849,16 +849,16 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 
     /* ---------- Tips engine ---------- */
     const TIPS = [
-      { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", tags: ["anxious","calm","neutral"], times:["evening","night"] },
-      { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", tags: ["low","neutral","positive"], times:["morning","afternoon"] },
-      { text: "📓 Write three gratitudes. Keep each to one sentence to make it easy.", tags: ["neutral","low","positive"], times:["evening"] },
-      { text: "💧 Drink a full glass of water, then stretch neck, shoulders, and back for one minute.", tags: ["low","neutral","all"], times:["morning","afternoon"] },
-      { text: "📵 Mute non-urgent notifications for 30 minutes and do one tiny task you’ve avoided.", tags: ["anxious","calm","neutral"], times:["afternoon"] },
-      { text: "🎶 Play one uplifting song. Breathe with the rhythm or sing along to release tension.", tags: ["low","neutral","positive"], times:["morning","afternoon","evening"] },
-      { text: "🌤 Get 5 minutes of sunlight. Look at the sky and take 5 deep breaths.", tags: ["low","neutral","positive"], times:["morning"] },
-      { text: "💬 Send a quick check-in: “Thinking of you. How are you today?”", tags: ["anxious","low","positive"], times:["afternoon","evening"] },
-      { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", tags: ["low","neutral","positive"], times:["evening","night"] },
-      { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s (3–4 rounds).", tags: ["anxious","calm","neutral"], times:["any"] }
+      { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", key:'wellness1', tags: ["anxious","calm","neutral"], times:["evening","night"] },
+      { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", key:'wellness2', tags: ["low","neutral","positive"], times:["morning","afternoon"] },
+      { text: "📓 Write three gratitudes. Keep each to one sentence to make it easy.", key:'wellness3', tags: ["neutral","low","positive"], times:["evening"] },
+      { text: "💧 Drink a full glass of water, then stretch neck, shoulders, and back for one minute.", key:'wellness4', tags: ["low","neutral","all"], times:["morning","afternoon"] },
+      { text: "📵 Mute non-urgent notifications for 30 minutes and do one tiny task you’ve avoided.", key:'wellness5', tags: ["anxious","calm","neutral"], times:["afternoon"] },
+      { text: "🎶 Play one uplifting song. Breathe with the rhythm or sing along to release tension.", key:'wellness6', tags: ["low","neutral","positive"], times:["morning","afternoon","evening"] },
+      { text: "🌤 Get 5 minutes of sunlight. Look at the sky and take 5 deep breaths.", key:'wellness7', tags: ["low","neutral","positive"], times:["morning"] },
+      { text: "💬 Send a quick check-in: “Thinking of you. How are you today?”", key:'wellness8', tags: ["anxious","low","positive"], times:["afternoon","evening"] },
+      { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", key:'wellness9', tags: ["low","neutral","positive"], times:["evening","night"] },
+      { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s (3–4 rounds).", key:'wellness10', tags: ["anxious","calm","neutral"], times:["any"] }
     ];
     let currentTipFilter='all';
     let currentTipObj=null;
@@ -885,12 +885,12 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     }
     function renderTip(){
       const day=getDaypart();
-      tipsGreeting.textContent=greetingFor(day);
+      tipsGreeting.textContent=mcT('greeting'+day);
       const fallback={text:"Take a slow deep breath — you’ve got this.",tags:["all"]};
       const tip=pickTip(currentTipFilter) || fallback;
       currentTipObj=tip;
-      tipText.textContent=tip.text;
-      tipNote.textContent=currentTipFilter==='all'?`Suggested for: ${day}`:`Filter: ${currentTipFilter} • Suggested for: ${day}`;
+      tipText.textContent=tip.key?mcT(tip.key):mcT('tipFallback');
+      tipNote.textContent=currentTipFilter==='all'?`${mcT('suggestedFor')}: ${mcT('day'+day)}`:`${mcT('filter')}: ${mcT('tag'+currentTipFilter)} • ${mcT('suggestedFor')}: ${mcT('day'+day)}`;
       tipStatus.style.display='none';
     }
     function renderSavedTips(){
