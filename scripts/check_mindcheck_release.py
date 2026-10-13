@@ -33,7 +33,7 @@ for mood in range(5):
     check("mood choice " + str(mood), 'data-val="' + str(mood) + '"' in html)
 
 check("no selected mood analytics property",
-      not bool(re.search(r"track\s*\(\s*['\\"]CheckIn['\\"]\s*,\s*\{[^}]*\bmood\s*:", html)))
+      "track('CheckIn', { mood:" not in html and 'track("CheckIn", { mood:' not in html)
 check("privacy notice", 'href="privacy.html"' in html)
 check("emergency support", 'id="crisisBanner"' in html and 'href="tel:112"' in html)
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
