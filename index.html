@@ -341,7 +341,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
         <div class="big">😊</div>
         <h3><span data-i18n="mood">Check Your Mood</span></h3>
-        <p>Earn points once daily (+10). 20-day streak wins ₦1000.</p>
+        <p data-i18n="moodRewardDesc">Earn points once daily (+10). 20-day streak wins ₦1000.</p>
       </div>
 
       <!-- Become a Counsellor -->
@@ -378,42 +378,42 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       <a class="card" id="goTips" href="#" aria-label="Open wellness tips">
         <div class="big">🌿</div>
         <h3><span data-i18n="tips">Wellness Tips</span></h3>
-        <p>Simple habits for calm and focus.</p>
+        <p data-i18n="tipsDesc">Simple habits for calm and focus.</p>
       </a>
 
       <a class="card" id="goHelp" href="#" aria-label="Get help and support options">
         <div class="big">📞</div>
         <h3><span data-i18n="help">Get Help</span></h3>
-        <p>Find mental-health support nearby.</p>
+        <p data-i18n="helpDesc">Find mental-health support nearby.</p>
       </a>
 
       <div class="card" id="goBadges" role="button" tabindex="0" aria-label="Open badges and awards">
         <div class="big">🏅</div>
         <h3><span data-i18n="badges">Badges & Awards</span></h3>
-        <p>See unlocked badges & claim awards.</p>
+        <p data-i18n="badgesDesc">See unlocked badges & claim awards.</p>
       </div>
 
       <!-- Volunteer Zone -->
       <a class="card" id="goVolunteer" href="volunteers.html" aria-label="Volunteer Zone">
         <div class="big">🤝</div>
         <h3><span data-i18n="volunteer">Volunteer Zone</span></h3>
-        <p>Get certified and join outreach.</p>
+        <p data-i18n="volunteerDesc">Get certified and join outreach.</p>
       </a>
 
       <!-- Clinics & Resources -->
       <a class="card" id="goResources" href="resources.html" aria-label="Clinics and resources directory">
         <div class="big">📍</div>
         <h3><span data-i18n="resources">Clinics & Resources</span></h3>
-        <p>Find services near you (Abuja, Keffi, Owerri).</p>
+        <p data-i18n="resourcesDesc">Find services near you (Abuja, Keffi, Owerri).</p>
       </a>
 
    
       <!-- Anonymous Safety Report -->
       <a class="card" id="goReport" href="report.html" style="border:2px solid #fecaca;" aria-label="Anonymous safety report">
         <div class="big">🚨</div>
-        <h3>I Need Help (Anonymous)</h3>
-        <p>Tell us safely if you feel hurt, not safe, or worried about a friend. No name needed.</p>
-        <div style="font-size:.8rem;line-height:1.4;color:#7f1d1d;background:#fff1f2;border:1px solid #fecaca;border-radius:8px;padding:6px 8px;margin-top:8px;font-weight:600;">
+        <h3 data-i18n="anonymousHelp">I Need Help (Anonymous)</h3>
+        <p data-i18n="anonymousHelpDesc">Tell us safely if you feel hurt, not safe, or worried about a friend. No name needed.</p>
+        <div style="font-size:.8rem;line-height:1.4;color:#7f1d1d;background:#fff1f2;border:1px solid #fecaca;border-radius:8px;padding:6px 8px;margin-top:8px;font-weight:600;" data-i18n="emergencyNotice">
           If someone is in danger right now, call 112 or tell a trusted adult immediately.
         </div>
       </a>
@@ -425,7 +425,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     </div>
   </section>
 
-  <div class="mc-secondary-links" aria-label="SpeakOut learning and participation"><strong>Looking to learn or get involved?</strong><p><a href="https://speakoutmentalhealth.org/pages/join-us.html">Join SpeakOut</a><a href="volunteers.html">Volunteer training</a><a href="speakhub.html">SpeakHub courses</a><a href="e-library.html">Learning library</a></p></div>
+  <div class="mc-secondary-links" aria-label="SpeakOut learning and participation"><strong data-i18n="learnTitle">Looking to learn or get involved?</strong><p><a href="https://speakoutmentalhealth.org/pages/join-us.html" data-i18n="joinSpeakOut">Join SpeakOut</a><a href="volunteers.html" data-i18n="volunteerTraining">Volunteer training</a><a href="speakhub.html" data-i18n="speakhubCourses">SpeakHub courses</a><a href="e-library.html" data-i18n="learningLibrary">Learning library</a></p></div>
   <!-- Mood Check-in -->
   <section id="moodSection" aria-labelledby="moodTitle">
     <h2 id="moodTitle" data-i18n="moodQuestion">How are you feeling today?</h2>
@@ -438,11 +438,11 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     </div>
 
     <div id="crisisBanner" class="crisis" style="display:none;" role="alert">
-      <b>We care about you.</b> It looks like things have been tough for a few days.
+      <b data-i18n="weCare">We care about you.</b> It looks like things have been tough for a few days.
       <div class="row">
-        <a class="btn btn-primary" href="tel:112">Call 112 (Emergency)</a>
+        <a class="btn btn-primary" href="tel:112" data-i18n="callEmergency">Call 112 (Emergency)</a>
         <a class="btn btn-ghost" href="tel:+2348118103510">SpeakOut Helpline</a>
-        <a class="btn btn-ghost" href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp a volunteer</a>
+        <a class="btn btn-ghost" href="https://wa.me/2348118103510" target="_blank" rel="noopener" data-i18n="whatsappVolunteer">WhatsApp a volunteer</a>
         <button id="dismissCrisis" class="btn btn-ghost" data-i18n="dismiss">Dismiss for today</button>
       </div>
     </div>
@@ -483,7 +483,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     </div>
 
     <details style="max-width:680px;margin:10px auto;text-align:left;background:#fff;border:1px solid #eef2f7;border-radius:12px;padding:10px;">
-      <summary style="cursor:pointer;font-weight:700;">⭐ Saved tips</summary>
+      <summary style="cursor:pointer;font-weight:700;" data-i18n="savedTips">⭐ Saved tips</summary>
       <ul id="savedTipsList" style="padding-left:18px;margin-top:8px;"></ul>
     </details>
 
@@ -496,12 +496,12 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
   <!-- Get Help -->
   <section id="helpSection" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="helpTitle">Get Help 📞</h2>
-    <p style="color:#334155">If you're in immediate danger or feel unsafe, contact your local emergency number.</p>
+    <p style="color:#334155" data-i18n="helpEmergencyDesc">If you're in immediate danger or feel unsafe, contact your local emergency number.</p>
     <div class="grid" style="max-width:820px;margin:0 auto;">
-      <a class="card" href="tel:112"><div class="big">🚑</div><h3 data-i18n="emergency">Emergency Services</h3><p>Call 112 (or your country emergency number) for urgent help.</p></a>
-      <a class="card" href="tel:+2348118103510"><div class="big">📞</div><h3>SpeakOut Helpline</h3><p>Call us for support and referral options.</p></a>
-      <a class="card" href="https://wa.me/2348118103510" target="_blank" rel="noopener"><div class="big">💬</div><h3>WhatsApp</h3><p>Chat with a SpeakOut volunteer.</p></a>
-      <a class="card" href="resources.html"><div class="big">📍</div><h3>Clinics & Resources</h3><p>Find mental-health services near you.</p></a>
+      <a class="card" href="tel:112"><div class="big">🚑</div><h3 data-i18n="emergency">Emergency Services</h3><p data-i18n="callEmergencyDesc">Call 112 (or your country emergency number) for urgent help.</p></a>
+      <a class="card" href="tel:+2348118103510"><div class="big">📞</div><h3>SpeakOut Helpline</h3><p data-i18n="helplineDesc">Call us for support and referral options.</p></a>
+      <a class="card" href="https://wa.me/2348118103510" target="_blank" rel="noopener"><div class="big">💬</div><h3>WhatsApp</h3><p data-i18n="whatsappDesc">Chat with a SpeakOut volunteer.</p></a>
+      <a class="card" href="resources.html"><div class="big">📍</div><h3>Clinics & Resources</h3><p data-i18n="findServicesDesc">Find mental-health services near you.</p></a>
     </div>
     <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
@@ -509,7 +509,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
   <!-- Badges & Awards -->
   <section id="badgesSection" aria-labelledby="badgesTitle">
     <h2 id="badgesTitle" data-i18n="badgesTitle">Badges & Awards 🏅</h2>
-    <p style="color:#334155">Daily mood check-ins earn points; 20-day streak wins ₦1000. Claim via WhatsApp with your Award ID.</p>
+    <p style="color:#334155" data-i18n="awardsExplainer">Daily mood check-ins earn points; 20-day streak wins ₦1000. Claim via WhatsApp with your Award ID.</p>
     <div id="badgesGrid" class="badge-list"></div>
     <h3 style="margin-top:18px;" data-i18n="yourAwards">Your Awards</h3>
     <div id="awardsList" class="award-list"></div>
