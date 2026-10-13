@@ -94,11 +94,32 @@
     "resources": "Cliniques et ressources"
   }
 };
+  // Non-clinical dashboard navigation; draft translations require native-speaker review.
+  const nav={
+    en:{mood:"Check Your Mood",tips:"Wellness Tips",help:"Get Help",volunteer:"Volunteer Zone",resources:"Clinics & Resources",change:"Change language",back:"Back to Home",screen:"Mental Health Screenings (English)"},
+    ha:{mood:"Duba yanayin zuciyarka",tips:"Shawarwarin jin daɗi",help:"Nemi taimako",volunteer:"Sashen masu sa kai",resources:"Asibitoci da albarkatu",change:"Canja harshe",back:"Koma shafin farko",screen:"Mental Health Screenings (English)"},
+    ig:{mood:"Lelee ọnọdụ obi gị",tips:"Ndụmọdụ maka ọdịmma",help:"Nweta enyemaka",volunteer:"Ndị ọrụ afọ ofufo",resources:"Ụlọọgwụ na akụrụngwa",change:"Gbanwee asụsụ",back:"Laghachi na mbido",screen:"Mental Health Screenings (English)"},
+    yo:{mood:"Ṣàyẹ̀wò bí ọkàn rẹ ṣe rí",tips:"Àwọn ìmọ̀ràn ìlera",help:"Gba ìrànlọ́wọ́",volunteer:"Àwọn olùyọ̀ǹda ara ẹni",resources:"Ilé ìwòsàn àti ohun èlò",change:"Yí èdè padà",back:"Padà sí ojúlé",screen:"Mental Health Screenings (English)"},
+    pcm:{mood:"Check how you dey feel",tips:"Tips to feel better",help:"Find help",volunteer:"Volunteer people",resources:"Hospitals and help",change:"Change language",back:"Go back home",screen:"Mental Health Screenings (English)"},
+    fr:{mood:"Évaluez votre humeur",tips:"Conseils de bien-être",help:"Obtenir de l’aide",volunteer:"Espace bénévoles",resources:"Cliniques et ressources",change:"Changer de langue",back:"Retour à l’accueil",screen:"Mental Health Screenings (English)"}
+  };
+  function applyNavigation(code){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      const key=el.getAttribute('data-i18n');
+      if(nav[code][key])el.textContent=nav[code][key];
+    });
+    const change=document.getElementById('mcChangeLanguage');
+    if(change)change.textContent='🌍 '+nav[code].change;
+    ['moodBackHome','formBackHome','tipsBackHome','helpBackHome','badgesBackHome'].forEach(function(id){
+      const el=document.getElementById(id);if(el)el.textContent=nav[code].back;
+    });
+  }
   const supported=Object.keys(labels);
   function apply(lang){
     const code=supported.includes(lang)?lang:'en';
     const words=labels[code];
     document.documentElement.lang=code;
+    applyNavigation(code);
     document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(dashboard[code] && dashboard[code][key])el.textContent=dashboard[code][key];});
     updateNavigation(code);
     const title=document.getElementById('langTitle');
