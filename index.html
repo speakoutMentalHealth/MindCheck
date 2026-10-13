@@ -705,7 +705,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
             <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>
             Use your Award ID to claim on WhatsApp.</p>
             <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
-            <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener">Claim via WhatsApp</a></p>
+            <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener" >${mcT('claimWhatsapp')}</a></p>
           `;
         }
       }
@@ -774,8 +774,8 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       const now=new Date(); const weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
       const weekCount=arr.filter(i=>{ const t=isoToDate(i.ts); return t>=weekAgo && t<=now; }).length;
       statsText.textContent = weekCount>0
-        ? `📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`
-        : `📊 You haven’t checked your mood this week yet — try it now!`;
+        ? `📊 ${mcT('checkedWeek')} ${weekCount} ${mcT('timesWeek')}`
+        : `📊 ${mcT('noChecksWeek')}`;
     }
     function tipsDoneLast7d(){
       const done=getDoneTips(); const now=new Date(); const wk=new Date(now); wk.setDate(now.getDate()-7);
@@ -797,9 +797,9 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
         const unlocked=owned.has(b.id);
         return `
           <div class="badge ${unlocked?'':'locked'}">
-            <div class="name">🏅 ${b.name}</div>
-            <div class="desc">${b.desc}</div>
-            <div class="status">${unlocked ? 'Unlocked ✅' : 'Locked 🔒'}</div>
+            <div class="name">🏅 ${mcT(b.id+'Name')}</div>
+            <div class="desc">${mcT(b.id+'Desc')}</div>
+            <div class="status">${unlocked ? mcT('unlocked') : mcT('locked')}</div>
           </div>
         `;
       }).join('');
@@ -807,15 +807,15 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     function renderAwards(){
       const awards = getAwards().sort((a,b)=> new Date(b.issued_at) - new Date(a.issued_at));
       if(!awards.length){
-        awardsList.innerHTML = `<div class="award"><p>No awards yet. Keep your streak to win ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} every 20 days.</p></div>`;
+        awardsList.innerHTML = `<div class="award"><p>${mcT('noAwards')} ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} ${mcT('every20days')}</p></div>`;
         return;
       }
       awardsList.innerHTML = awards.map(a=>{
         const when = new Date(a.issued_at).toLocaleString();
-        const status = a.claimed ? `Claimed ✅ (${new Date(a.claimed_at).toLocaleString()})` : 'Pending 🔔';
+        const status = a.claimed ? `${mcT('claimedAward')} (${new Date(a.claimed_at).toLocaleString()})` : mcT('pendingAward');
         const btns = a.claimed ? '' : `
           <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a>
-          <button class="btn btn-ghost" data-mark="${a.id}">Mark as Claimed</button>
+          <button class="btn btn-ghost" data-mark="${a.id}" >${mcT('markClaimed')}</button>
         `;
         return `
           <div class="award">
@@ -841,7 +841,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
             setAwards(list);
             renderAwards();
             updateHeaderPills();
-            alert('Marked as claimed. Thank you!');
+            alert(mcT('markedClaimed'));
           }
         });
       });
@@ -895,8 +895,8 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     }
     function renderSavedTips(){
       const saved=getSavedTips();
-      if(!saved.length){ savedTipsList.innerHTML='<li><em>No saved tips yet.</em></li>'; return; }
-      savedTipsList.innerHTML=saved.slice().reverse().map(t=>`<li>${t.text} <br><small>Saved ${new Date(t.saved_at).toLocaleString()}</small></li>`).join('');
+      if(!saved.length){ savedTipsList.innerHTML=`<li><em>${mcT('noSavedTips')}</em></li>`; return; }
+      savedTipsList.innerHTML=saved.slice().reverse().map(t=>`<li>${t.text} <br><small>${mcT('savedAt')} ${new Date(t.saved_at).toLocaleString()}</small></li>`).join('');
     }
     tipSaveBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
@@ -905,12 +905,12 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
         saved.push({text:currentTipObj.text,saved_at:new Date().toISOString()});
         setSavedTips(saved); renderSavedTips();
       }
-      tipStatus.textContent='⭐ Saved!'; tipStatus.style.display='block'; updateHeaderPills();
+      tipStatus.textContent=mcT('tipSaved'); tipStatus.style.display='block'; updateHeaderPills();
     });
     tipDoneBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
       const done=getDoneTips(); done.push({text:currentTipObj.text,done_at:new Date().toISOString()});
-      setDoneTips(done); tipStatus.textContent='✅ Great job — marked as done!'; tipStatus.style.display='block'; updateHeaderPills();
+      setDoneTips(done); tipStatus.textContent=mcT('tipDone'); tipStatus.style.display='block'; updateHeaderPills();
     });
 
     document.querySelectorAll('.tip-filter').forEach(btn=>{
