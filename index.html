@@ -651,12 +651,26 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       btn.onclick=()=>handleCheckin(parseInt(btn.dataset.val,10));
     });
 
+    // Dynamic check-in strings use the selected interface language.
+    function mcT(key){
+      const locale=window.MindCheckLocale;
+      return locale && typeof locale.t==='function' ? locale.t(key) : ({
+        checkedToday:'You already checked in today. Come back tomorrow!',
+        tipBreath:'Take a deep breath for 60 seconds.',
+        tipHappy:'Great mood! Share a smile today 🌻.',
+        tipWalk:'Stretch or walk a little to refresh.',
+        tipSupport:'You are not alone — breathe and reach out if you need help.',
+        thanks:'Thanks for checking in',earned:'you earned',points:'points',
+        streak:'Streak',days:'day(s)',tip:'Tip',newBadges:'New badges'
+      })[key]||key;
+    }
+
     async function handleCheckin(moodValue){
       const today = todayStr();
       const last = getLast();
       if(last===today){
         moodResult.style.display='block';
-        moodResult.innerHTML=`<p>✅ You already checked in today. Come back tomorrow!</p>`;
+        moodResult.innerHTML=`<p>✅ ${mcT('checkedToday')}</p>`;
         return;
       }
 
@@ -668,10 +682,10 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
 
       const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
-      let tip="Take a deep breath for 60 seconds.";
-      if(moodValue>=3) tip="Great mood! Share a smile today 🌻.";
-      if(moodValue===2) tip="Stretch or walk a little to refresh.";
-      if(moodValue<=1) tip="You’re not alone — breathe and reach out if you need help.";
+      let tip=mcT('tipBreath');
+      if(moodValue>=3) tip=mcT('tipHappy');
+      if(moodValue===2) tip=mcT('tipWalk');
+      if(moodValue<=1) tip=mcT('tipSupport');
 
       const newly=[];
       if(awardBadge('first_checkin')) newly.push('First Check-in');
@@ -687,21 +701,21 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
         created = createStreakAwardIfNew(streak);
         if(created){
           awardHTML = `
-            <p style="font-size:1.05rem;">🎁 <b>Congratulations!</b> You’ve won
-            <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>
-            Use your Award ID to claim on WhatsApp.</p>
-            <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
-            <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener">Claim via WhatsApp</a></p>
+            <p style="font-size:1.05rem;">🎁 <b>${mcT('congratulations')}</b> ${mcT('youWon')}
+            <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> ${mcT('forStreak')} <b>${streak} ${mcT('days')}</b>.<br/>
+            ${mcT('awardInstructions')}</p>
+            <p>${mcT('awardId')}: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
+            <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener" >${mcT('claimWhatsapp')}</a></p>
           `;
         }
       }
 
       moodResult.style.display='block';
       moodResult.innerHTML=`
-        <p>🎉 Thanks for checking in ${emoji} — you earned <b>+10 points</b>.</p>
-        <p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p>
-        <p><b>Tip:</b> ${tip}</p>
-        ${newly.length ? `<p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p>` : ''}
+        <p>🎉 ${mcT('thanks')} ${emoji} — ${mcT('earned')} <b>+10 ${mcT('points')}</b>.</p>
+        <p>${mcT('streak')}: <b>${getStreak()}</b> ${mcT('days')} • ${mcT('points')}: <b>${getPoints()}</b></p>
+        <p><b>${mcT('tip')}:</b> ${tip}</p>
+        ${newly.length ? `<p>🏅 ${mcT('newBadges')}: <b>${newly.join(', ')}</b></p>` : ''}
         ${awardHTML}
       `;
       updateHeaderPills();
@@ -760,8 +774,8 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       const now=new Date(); const weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
       const weekCount=arr.filter(i=>{ const t=isoToDate(i.ts); return t>=weekAgo && t<=now; }).length;
       statsText.textContent = weekCount>0
-        ? `📊 You’ve checked your mood ${weekCount} time${weekCount>1?'s':''} this week.`
-        : `📊 You haven’t checked your mood this week yet — try it now!`;
+        ? `📊 ${mcT('checkedWeek')} ${weekCount} ${mcT('timesWeek')}`
+        : `📊 ${mcT('noChecksWeek')}`;
     }
     function tipsDoneLast7d(){
       const done=getDoneTips(); const now=new Date(); const wk=new Date(now); wk.setDate(now.getDate()-7);
@@ -783,9 +797,9 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
         const unlocked=owned.has(b.id);
         return `
           <div class="badge ${unlocked?'':'locked'}">
-            <div class="name">🏅 ${b.name}</div>
-            <div class="desc">${b.desc}</div>
-            <div class="status">${unlocked ? 'Unlocked ✅' : 'Locked 🔒'}</div>
+            <div class="name">🏅 ${mcT(b.id+'Name')}</div>
+            <div class="desc">${mcT(b.id+'Desc')}</div>
+            <div class="status">${unlocked ? mcT('unlocked') : mcT('locked')}</div>
           </div>
         `;
       }).join('');
@@ -793,15 +807,15 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     function renderAwards(){
       const awards = getAwards().sort((a,b)=> new Date(b.issued_at) - new Date(a.issued_at));
       if(!awards.length){
-        awardsList.innerHTML = `<div class="award"><p>No awards yet. Keep your streak to win ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} every 20 days.</p></div>`;
+        awardsList.innerHTML = `<div class="award"><p>${mcT('noAwards')} ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} ${mcT('every20days')}</p></div>`;
         return;
       }
       awardsList.innerHTML = awards.map(a=>{
         const when = new Date(a.issued_at).toLocaleString();
-        const status = a.claimed ? `Claimed ✅ (${new Date(a.claimed_at).toLocaleString()})` : 'Pending 🔔';
+        const status = a.claimed ? `${mcT('claimedAward')} (${new Date(a.claimed_at).toLocaleString()})` : mcT('pendingAward');
         const btns = a.claimed ? '' : `
           <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a>
-          <button class="btn btn-ghost" data-mark="${a.id}">Mark as Claimed</button>
+          <button class="btn btn-ghost" data-mark="${a.id}" >${mcT('markClaimed')}</button>
         `;
         return `
           <div class="award">
@@ -827,7 +841,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
             setAwards(list);
             renderAwards();
             updateHeaderPills();
-            alert('Marked as claimed. Thank you!');
+            alert(mcT('markedClaimed'));
           }
         });
       });
@@ -835,16 +849,16 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 
     /* ---------- Tips engine ---------- */
     const TIPS = [
-      { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", tags: ["anxious","calm","neutral"], times:["evening","night"] },
-      { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", tags: ["low","neutral","positive"], times:["morning","afternoon"] },
-      { text: "📓 Write three gratitudes. Keep each to one sentence to make it easy.", tags: ["neutral","low","positive"], times:["evening"] },
-      { text: "💧 Drink a full glass of water, then stretch neck, shoulders, and back for one minute.", tags: ["low","neutral","all"], times:["morning","afternoon"] },
-      { text: "📵 Mute non-urgent notifications for 30 minutes and do one tiny task you’ve avoided.", tags: ["anxious","calm","neutral"], times:["afternoon"] },
-      { text: "🎶 Play one uplifting song. Breathe with the rhythm or sing along to release tension.", tags: ["low","neutral","positive"], times:["morning","afternoon","evening"] },
-      { text: "🌤 Get 5 minutes of sunlight. Look at the sky and take 5 deep breaths.", tags: ["low","neutral","positive"], times:["morning"] },
-      { text: "💬 Send a quick check-in: “Thinking of you. How are you today?”", tags: ["anxious","low","positive"], times:["afternoon","evening"] },
-      { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", tags: ["low","neutral","positive"], times:["evening","night"] },
-      { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s (3–4 rounds).", tags: ["anxious","calm","neutral"], times:["any"] }
+      { text: "🧘‍♀️ Do the 4-7-8 breathing: inhale 4s, hold 7s, exhale 8s. Repeat 4 cycles.", key:'wellness1', tags: ["anxious","calm","neutral"], times:["evening","night"] },
+      { text: "🚶‍♂️ Take a 10-minute mindful walk. Notice 3 sounds, 3 sights, 3 smells.", key:'wellness2', tags: ["low","neutral","positive"], times:["morning","afternoon"] },
+      { text: "📓 Write three gratitudes. Keep each to one sentence to make it easy.", key:'wellness3', tags: ["neutral","low","positive"], times:["evening"] },
+      { text: "💧 Drink a full glass of water, then stretch neck, shoulders, and back for one minute.", key:'wellness4', tags: ["low","neutral","all"], times:["morning","afternoon"] },
+      { text: "📵 Mute non-urgent notifications for 30 minutes and do one tiny task you’ve avoided.", key:'wellness5', tags: ["anxious","calm","neutral"], times:["afternoon"] },
+      { text: "🎶 Play one uplifting song. Breathe with the rhythm or sing along to release tension.", key:'wellness6', tags: ["low","neutral","positive"], times:["morning","afternoon","evening"] },
+      { text: "🌤 Get 5 minutes of sunlight. Look at the sky and take 5 deep breaths.", key:'wellness7', tags: ["low","neutral","positive"], times:["morning"] },
+      { text: "💬 Send a quick check-in: “Thinking of you. How are you today?”", key:'wellness8', tags: ["anxious","low","positive"], times:["afternoon","evening"] },
+      { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", key:'wellness9', tags: ["low","neutral","positive"], times:["evening","night"] },
+      { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s (3–4 rounds).", key:'wellness10', tags: ["anxious","calm","neutral"], times:["any"] }
     ];
     let currentTipFilter='all';
     let currentTipObj=null;
@@ -871,18 +885,18 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     }
     function renderTip(){
       const day=getDaypart();
-      tipsGreeting.textContent=greetingFor(day);
+      tipsGreeting.textContent=mcT('greeting'+day);
       const fallback={text:"Take a slow deep breath — you’ve got this.",tags:["all"]};
       const tip=pickTip(currentTipFilter) || fallback;
       currentTipObj=tip;
-      tipText.textContent=tip.text;
-      tipNote.textContent=currentTipFilter==='all'?`Suggested for: ${day}`:`Filter: ${currentTipFilter} • Suggested for: ${day}`;
+      tipText.textContent=tip.key?mcT(tip.key):mcT('tipFallback');
+      tipNote.textContent=currentTipFilter==='all'?`${mcT('suggestedFor')}: ${mcT('day'+day)}`:`${mcT('filter')}: ${mcT('tag'+currentTipFilter)} • ${mcT('suggestedFor')}: ${mcT('day'+day)}`;
       tipStatus.style.display='none';
     }
     function renderSavedTips(){
       const saved=getSavedTips();
-      if(!saved.length){ savedTipsList.innerHTML='<li><em>No saved tips yet.</em></li>'; return; }
-      savedTipsList.innerHTML=saved.slice().reverse().map(t=>`<li>${t.text} <br><small>Saved ${new Date(t.saved_at).toLocaleString()}</small></li>`).join('');
+      if(!saved.length){ savedTipsList.innerHTML=`<li><em>${mcT('noSavedTips')}</em></li>`; return; }
+      savedTipsList.innerHTML=saved.slice().reverse().map(t=>`<li>${t.text} <br><small>${mcT('savedAt')} ${new Date(t.saved_at).toLocaleString()}</small></li>`).join('');
     }
     tipSaveBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
@@ -891,12 +905,12 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
         saved.push({text:currentTipObj.text,saved_at:new Date().toISOString()});
         setSavedTips(saved); renderSavedTips();
       }
-      tipStatus.textContent='⭐ Saved!'; tipStatus.style.display='block'; updateHeaderPills();
+      tipStatus.textContent=mcT('tipSaved'); tipStatus.style.display='block'; updateHeaderPills();
     });
     tipDoneBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
       const done=getDoneTips(); done.push({text:currentTipObj.text,done_at:new Date().toISOString()});
-      setDoneTips(done); tipStatus.textContent='✅ Great job — marked as done!'; tipStatus.style.display='block'; updateHeaderPills();
+      setDoneTips(done); tipStatus.textContent=mcT('tipDone'); tipStatus.style.display='block'; updateHeaderPills();
     });
 
     document.querySelectorAll('.tip-filter').forEach(btn=>{
