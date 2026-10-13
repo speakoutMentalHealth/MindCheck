@@ -307,12 +307,14 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
   <section id="langSection" aria-labelledby="langTitle">
     <p id="langTitle" style="font-weight:700;">🌍 Choose your language:</p>
     <div class="twrap" role="group" aria-label="Language options">
-      <button class="tbtn live" data-lang="en" aria-label="English">English</button>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Hausa">🕓 Hausa — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Yoruba">🕓 Yoruba — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in French">🕓 French — Coming Soon</span>
+      <button class="tbtn live" data-lang="en" type="button">English</button>
+      <button class="tbtn live" data-lang="ha" type="button">Hausa</button>
+      <button class="tbtn live" data-lang="ig" type="button">Igbo</button>
+      <button class="tbtn live" data-lang="yo" type="button">Yoruba</button>
+      <button class="tbtn live" data-lang="pcm" type="button">Nigerian Pidgin</button>
+      <button class="tbtn live" data-lang="fr" type="button">Français</button>
     </div>
+    <p id="mcLocaleNotice" role="status" hidden style="margin-top:12px;font-size:.9rem"></p>
   </section>
 
   <!-- Home + Stats -->
@@ -571,7 +573,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 
     startBtn.onclick=()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');startBtn.style.display='none';show(langSection);};
     document.querySelectorAll('.tbtn.live').forEach(btn=>{
-      btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); document.body.classList.remove('mc-stage-welcome','mc-stage-language'); document.body.classList.add('mc-stage-dashboard'); show(homeSection); };
+      btn.onclick=()=>{ window.MindCheckLocale.apply(btn.dataset.lang || 'en'); document.body.classList.remove('mc-stage-welcome','mc-stage-language'); document.body.classList.add('mc-stage-dashboard'); show(homeSection); };
     });
 
     document.getElementById('goMood').onclick=()=>show(moodSection);
@@ -950,5 +952,6 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       });
     }
   </script>
+<script src="js/mindcheck-i18n.js"></script>
 </body>
 </html>
