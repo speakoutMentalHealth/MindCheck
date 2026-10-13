@@ -307,17 +307,20 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
   <section id="langSection" aria-labelledby="langTitle">
     <p id="langTitle" style="font-weight:700;">🌍 Choose your language:</p>
     <div class="twrap" role="group" aria-label="Language options">
-      <button class="tbtn live" data-lang="en" aria-label="English">English</button>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Hausa">🕓 Hausa — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Yoruba">🕓 Yoruba — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in Igbo">🕓 Igbo — Coming Soon</span>
-      <span class="tbtn soon" aria-disabled="true" data-tooltip="Launching soon in French">🕓 French — Coming Soon</span>
+      <button class="tbtn live" data-lang="en" type="button">English</button>
+      <button class="tbtn live" data-lang="ha" type="button">Hausa</button>
+      <button class="tbtn live" data-lang="ig" type="button">Igbo</button>
+      <button class="tbtn live" data-lang="yo" type="button">Yoruba</button>
+      <button class="tbtn live" data-lang="pcm" type="button">Nigerian Pidgin</button>
+      <button class="tbtn live" data-lang="fr" type="button">Français</button>
     </div>
   </section>
 
   <!-- Home + Stats -->
   <section id="homeSection" aria-labelledby="homeTitle">
     <h2 id="homeTitle">Welcome to MindCheck 🌿</h2>
+    <button id="mcChangeLanguage" type="button" style="margin:8px 0;padding:8px 12px;border:1px solid #9ab9ab;border-radius:8px;background:#fff;cursor:pointer">🌍 Change language</button>
+    <p id="mcLocaleNotice" role="status" hidden style="margin:8px 0;padding:10px;border:1px solid #b6c9c1;border-radius:8px;font-size:.9rem"></p>
     <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
     <div class="stats" role="status" aria-live="polite">
       <span class="pill">Points: <span id="pointsPill">0</span></span>
@@ -326,10 +329,10 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
 
       <h3 style="margin:14px 0 6px;font-weight:800;">
-  🎯 Choose Your Next Step
+  <span data-i18n="nextStep">🎯 Choose Your Next Step</span>
 </h3>
 <p style="margin:0 0 10px;color:#52606d;">
-  Every step helps you understand and care for your mental health.
+  <span data-i18n="nextStepHelp">Every step helps you understand and care for your mental health.</span>
 </p>
 
     </div>
@@ -337,7 +340,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     <div class="grid">
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
         <div class="big">😊</div>
-        <h3>Check Your Mood</h3>
+        <h3><span data-i18n="mood">Check Your Mood</span></h3>
         <p>Earn points once daily (+10). 20-day streak wins ₦1000.</p>
       </div>
 
@@ -357,7 +360,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 
       <div class="card" id="goScreenings" role="button" tabindex="0" aria-label="Open mental health screenings">
         <div class="big">🧠</div>
-        <h3>Mental Health Screenings</h3>
+        <h3>Mental Health Screenings (English)</h3>
         <p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p>
       </div>
 
@@ -374,33 +377,33 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 </a>
       <a class="card" id="goTips" href="#" aria-label="Open wellness tips">
         <div class="big">🌿</div>
-        <h3>Wellness Tips</h3>
+        <h3><span data-i18n="tips">Wellness Tips</span></h3>
         <p>Simple habits for calm and focus.</p>
       </a>
 
       <a class="card" id="goHelp" href="#" aria-label="Get help and support options">
         <div class="big">📞</div>
-        <h3>Get Help</h3>
+        <h3><span data-i18n="help">Get Help</span></h3>
         <p>Find mental-health support nearby.</p>
       </a>
 
       <div class="card" id="goBadges" role="button" tabindex="0" aria-label="Open badges and awards">
         <div class="big">🏅</div>
-        <h3>Badges & Awards</h3>
+        <h3><span data-i18n="badges">Badges & Awards</span></h3>
         <p>See unlocked badges & claim awards.</p>
       </div>
 
       <!-- Volunteer Zone -->
       <a class="card" id="goVolunteer" href="volunteers.html" aria-label="Volunteer Zone">
         <div class="big">🤝</div>
-        <h3>Volunteer Zone</h3>
+        <h3><span data-i18n="volunteer">Volunteer Zone</span></h3>
         <p>Get certified and join outreach.</p>
       </a>
 
       <!-- Clinics & Resources -->
       <a class="card" id="goResources" href="resources.html" aria-label="Clinics and resources directory">
         <div class="big">📍</div>
-        <h3>Clinics & Resources</h3>
+        <h3><span data-i18n="resources">Clinics & Resources</span></h3>
         <p>Find services near you (Abuja, Keffi, Owerri).</p>
       </a>
 
@@ -571,8 +574,10 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 
     startBtn.onclick=()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');startBtn.style.display='none';show(langSection);};
     document.querySelectorAll('.tbtn.live').forEach(btn=>{
-      btn.onclick=()=>{ localStorage.setItem('mc_lang', btn.dataset.lang || 'en'); document.body.classList.remove('mc-stage-welcome','mc-stage-language'); document.body.classList.add('mc-stage-dashboard'); show(homeSection); };
+      btn.onclick=()=>{ window.MindCheckLocale.apply(btn.dataset.lang || 'en'); document.body.classList.remove('mc-stage-welcome','mc-stage-language'); document.body.classList.add('mc-stage-dashboard'); show(homeSection); };
     });
+
+    document.getElementById('mcChangeLanguage').onclick=()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');show(langSection);};
 
     document.getElementById('goMood').onclick=()=>show(moodSection);
     document.getElementById('moodBackHome').onclick=()=>show(homeSection);
@@ -950,5 +955,6 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       });
     }
   </script>
+<script src="js/mindcheck-i18n.js"></script>
 </body>
 </html>
