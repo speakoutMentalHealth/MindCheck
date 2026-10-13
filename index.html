@@ -651,12 +651,26 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       btn.onclick=()=>handleCheckin(parseInt(btn.dataset.val,10));
     });
 
+    // Dynamic check-in strings use the selected interface language.
+    function mcT(key){
+      const locale=window.MindCheckLocale;
+      return locale && typeof locale.t==='function' ? locale.t(key) : ({
+        checkedToday:'You already checked in today. Come back tomorrow!',
+        tipBreath:'Take a deep breath for 60 seconds.',
+        tipHappy:'Great mood! Share a smile today 🌻.',
+        tipWalk:'Stretch or walk a little to refresh.',
+        tipSupport:'You are not alone — breathe and reach out if you need help.',
+        thanks:'Thanks for checking in',earned:'you earned',points:'points',
+        streak:'Streak',days:'day(s)',tip:'Tip',newBadges:'New badges'
+      })[key]||key;
+    }
+
     async function handleCheckin(moodValue){
       const today = todayStr();
       const last = getLast();
       if(last===today){
         moodResult.style.display='block';
-        moodResult.innerHTML=`<p>✅ You already checked in today. Come back tomorrow!</p>`;
+        moodResult.innerHTML=`<p>✅ ${mcT('checkedToday')}</p>`;
         return;
       }
 
@@ -668,10 +682,10 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
       const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
 
       const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
-      let tip="Take a deep breath for 60 seconds.";
-      if(moodValue>=3) tip="Great mood! Share a smile today 🌻.";
-      if(moodValue===2) tip="Stretch or walk a little to refresh.";
-      if(moodValue<=1) tip="You’re not alone — breathe and reach out if you need help.";
+      let tip=mcT('tipBreath');
+      if(moodValue>=3) tip=mcT('tipHappy');
+      if(moodValue===2) tip=mcT('tipWalk');
+      if(moodValue<=1) tip=mcT('tipSupport');
 
       const newly=[];
       if(awardBadge('first_checkin')) newly.push('First Check-in');
@@ -698,10 +712,10 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
 
       moodResult.style.display='block';
       moodResult.innerHTML=`
-        <p>🎉 Thanks for checking in ${emoji} — you earned <b>+10 points</b>.</p>
-        <p>Streak: <b>${getStreak()}</b> day(s) • Points: <b>${getPoints()}</b></p>
-        <p><b>Tip:</b> ${tip}</p>
-        ${newly.length ? `<p>🏅 New badge${newly.length>1?'s':''}: <b>${newly.join(', ')}</b></p>` : ''}
+        <p>🎉 ${mcT('thanks')} ${emoji} — ${mcT('earned')} <b>+10 ${mcT('points')}</b>.</p>
+        <p>${mcT('streak')}: <b>${getStreak()}</b> ${mcT('days')} • ${mcT('points')}: <b>${getPoints()}</b></p>
+        <p><b>${mcT('tip')}:</b> ${tip}</p>
+        ${newly.length ? `<p>🏅 ${mcT('newBadges')}: <b>${newly.join(', ')}</b></p>` : ''}
         ${awardHTML}
       `;
       updateHeaderPills();
