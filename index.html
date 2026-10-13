@@ -255,7 +255,25 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
   .mc-hero .mc-primary-action{border-radius:999px;color:#063f35!important}
   #homeSection .card{border-radius:28px}
   @media(max-width:650px){body>header.mc-brand-nav{border-radius:28px;padding:12px 16px}.mc-brand img{width:52px;height:52px}.mc-brand-nav .mc-nav-actions a:first-child{display:none}.mc-hero{border-radius:28px}.mc-brand small{font-size:.61rem}}
-  </style>
+    
+/* MindCheck premium first-impression layer: progressive, reduced-motion safe */
+:root{--mc-premium-ink:#102e30;--mc-premium-mint:#dff7e9}
+body.mc-stage-welcome{min-height:100svh}
+body.mc-stage-welcome .mc-hero{position:relative;isolation:isolate;overflow:hidden;width:min(1120px,calc(100% - 36px));box-sizing:border-box;margin:32px auto 20px;padding:clamp(36px,7vw,96px) clamp(24px,7vw,90px);border-radius:36px;text-align:left;background:radial-gradient(circle at 86% 25%,rgba(119,243,188,.38),transparent 31%),linear-gradient(125deg,#073e39 0%,#095b4e 55%,#11745c 100%);color:#fff;box-shadow:0 30px 75px rgba(6,57,51,.2)}
+body.mc-stage-welcome .mc-hero:after{content:"";position:absolute;z-index:-1;width:clamp(200px,35vw,440px);aspect-ratio:1;right:-5%;top:8%;border:1px solid rgba(255,255,255,.28);border-radius:42% 58% 60% 40%;box-shadow:0 0 0 32px rgba(255,255,255,.045),0 0 0 70px rgba(255,255,255,.035);transform:rotate(-18deg);pointer-events:none}
+body.mc-stage-welcome .mc-hero h1{max-width:760px;color:#fff;font-size:clamp(2.5rem,6vw,5.2rem);letter-spacing:-.055em;line-height:1.07;font-weight:800;margin:22px 0}
+body.mc-stage-welcome .mc-hero p{max-width:590px;color:#e1f7ee;font-size:clamp(1.03rem,1.8vw,1.25rem);line-height:1.65}
+body.mc-stage-welcome .mc-eyebrow{display:inline-flex;padding:9px 15px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(255,255,255,.09);color:#fff;font-weight:700;letter-spacing:.025em}
+body.mc-stage-welcome .mc-primary-action{display:inline-flex;align-items:center;justify-content:center;min-height:56px;margin-top:24px;padding:0 26px;border-radius:18px;background:#fff;color:#075543;font-weight:800;box-shadow:0 12px 25px rgba(0,0,0,.12);transition:transform .2s,box-shadow .2s}
+body.mc-stage-welcome .mc-primary-action:hover{transform:translateY(-3px);box-shadow:0 18px 30px rgba(0,0,0,.2)}
+body.mc-stage-welcome .mc-primary-action:focus-visible{outline:3px solid #d9ffe8;outline-offset:5px}
+body.mc-stage-welcome .mc-trust{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+body.mc-stage-welcome .mc-trust span{border:1px solid rgba(255,255,255,.23);border-radius:999px;padding:8px 13px;background:rgba(255,255,255,.09);color:#f0fff7;font-size:.84rem}
+body.mc-stage-welcome .mc-purpose{max-width:850px;margin:0 auto 40px;padding:0 24px;line-height:1.7;color:#365c55}
+@media(max-width:650px){body.mc-stage-welcome .mc-hero{width:calc(100% - 24px);margin:16px auto;padding:40px 25px 36px;border-radius:28px}body.mc-stage-welcome .mc-hero:after{right:-36%;top:5%;opacity:.55}body.mc-stage-welcome .mc-trust{gap:7px}body.mc-stage-welcome .mc-trust span{font-size:.76rem}body.mc-stage-welcome .mc-primary-action{width:100%;box-sizing:border-box}body.mc-stage-welcome .mc-purpose{font-size:.9rem}}
+@media(prefers-reduced-motion:reduce){body.mc-stage-welcome .mc-primary-action{transition:none}body.mc-stage-welcome .mc-primary-action:hover{transform:none}}
+
+</style>
 </head>
 <body class="mc-stage-welcome">
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="resources.html">Resources</a><a href="https://speakoutmentalhealth.org/">SpeakOut website</a></nav></header>
