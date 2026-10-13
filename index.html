@@ -896,13 +896,13 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
     function renderSavedTips(){
       const saved=getSavedTips();
       if(!saved.length){ savedTipsList.innerHTML=`<li><em>${mcT('noSavedTips')}</em></li>`; return; }
-      savedTipsList.innerHTML=saved.slice().reverse().map(t=>`<li>${t.text} <br><small>${mcT('savedAt')} ${new Date(t.saved_at).toLocaleString()}</small></li>`).join('');
+      savedTipsList.innerHTML=saved.slice().reverse().map(t=>{const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;const translated=key?mcT(key):t.text;return `<li>${translated} <br><small>${mcT('savedAt')} ${new Date(t.saved_at).toLocaleString()}</small></li>`;}).join('');
     }
     tipSaveBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
       const saved=getSavedTips();
       if(!saved.find(s=>s.text===currentTipObj.text)){
-        saved.push({text:currentTipObj.text,saved_at:new Date().toISOString()});
+        saved.push({text:currentTipObj.text,key:currentTipObj.key||null,saved_at:new Date().toISOString()});
         setSavedTips(saved); renderSavedTips();
       }
       tipStatus.textContent=mcT('tipSaved'); tipStatus.style.display='block'; updateHeaderPills();
