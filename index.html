@@ -701,10 +701,10 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
         created = createStreakAwardIfNew(streak);
         if(created){
           awardHTML = `
-            <p style="font-size:1.05rem;">🎁 <b>Congratulations!</b> You’ve won
-            <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> for your <b>${streak}-day streak</b>.<br/>
-            Use your Award ID to claim on WhatsApp.</p>
-            <p>Award ID: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
+            <p style="font-size:1.05rem;">🎁 <b>${mcT('congratulations')}</b> ${mcT('youWon')}
+            <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> ${mcT('forStreak')} <b>${streak} ${mcT('days')}</b>.<br/>
+            ${mcT('awardInstructions')}</p>
+            <p>${mcT('awardId')}: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
             <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener" >${mcT('claimWhatsapp')}</a></p>
           `;
         }
