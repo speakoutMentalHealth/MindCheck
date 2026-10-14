@@ -509,7 +509,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <h3 id="tipText" style="margin:.5rem 0;"></h3>
       <p id="tipNote" style="color:#52606d;margin:0;"></p>
       <div class="toolbar" style="justify-content:flex-start;margin-top:12px;">
-        <button id="tipDoneBtn" class="btn btn-primary" data-i18n="done">Done ✅</button>
+        <button id="nextTip" class="btn btn-primary" data-i18n="anotherTip">Next tip</button>
         <button id="tipSaveBtn" type="button" class="btn btn-ghost" onclick="return window.mcSaveTip(event)" data-i18n="saveTip">Save tip ⭐</button><button id="tipShareBtn" type="button" class="btn btn-ghost" onclick="return window.mcShareTip(event)">Share tip ↗</button>
       </div>
       <p id="tipStatus" style="color:#0b5;font-weight:600;display:none;margin-top:8px;"></p>
@@ -521,7 +521,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     </details>
 
     <div class="toolbar">
-      <button id="nextTip" class="btn btn-primary" data-i18n="anotherTip">Show another tip</button>
+      <button id="tipDoneBtn" class="btn btn-primary" data-i18n="done">Done ✅</button>
       <button id="tipsBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button>
     </div>
   </section>
@@ -587,6 +587,20 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       else copyFallback();
       return false;
     };
+  })();
+  </script>
+  <script>
+  // Attach directly to the controls as well as the inline fallback.
+  // Capture phase blocks the older duplicate Save listener.
+  (function(){
+    function wire(){
+      var save=document.getElementById('tipSaveBtn');
+      var share=document.getElementById('tipShareBtn');
+      if(save)save.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();window.mcSaveTip(e);},true);
+      if(share)share.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();window.mcShareTip(e);},true);
+    }
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire);
+    else wire();
   })();
   </script>
   <!-- App scripts: split for readability -->
