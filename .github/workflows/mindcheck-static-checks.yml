@@ -9,6 +9,9 @@ on:
       - 'sw.js'
       - 'js/mindcheck-i18n.js'
       - 'scripts/check_mindcheck_release.py'
+      - 'scripts/check_javascript_syntax.py'
+      - 'js/**'
+      - '*.html'
       - '.github/workflows/mindcheck-static-checks.yml'
   workflow_dispatch:
 
@@ -24,5 +27,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Run dependency-free release guards
         run: python3 scripts/check_mindcheck_release.py
+      - name: Validate all inline and external JavaScript syntax
+        run: python3 scripts/check_javascript_syntax.py
       - name: Compile release-check script
         run: python3 -m py_compile scripts/check_mindcheck_release.py
