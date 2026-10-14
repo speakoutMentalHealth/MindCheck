@@ -26,12 +26,51 @@ function moodType(){var a=history();if(!a.length)return'noMood';var last=a[a.len
 function showSection(id){var target=document.getElementById(id);if(!target)return;var btn=document.getElementById(id==='tipsSection'?'goTips':'goMood');if(btn)btn.click();else target.scrollIntoView({behavior:'smooth'});}
 var suggestions={low:['selfcare','connect','breathe'],neutral:['gratitude','selfcare','tips'],calm:['gratitude','breathe','tips'],positive:['gratitude','connect','tips'],noMood:['breathe','selfcare','tips']};
 function renderRecommendations(){renderAccordionLabels();root.querySelectorAll('[data-mcs]').forEach(function(el){el.textContent=tr(el.dataset.mcs);});var type=moodType();document.getElementById('mcSmartMessage').textContent=tr(type);var actions=document.getElementById('mcSmartActions');actions.replaceChildren();(suggestions[type]||suggestions.noMood).forEach(function(action){var b=document.createElement('button');b.type='button';b.textContent=tr(action);b.addEventListener('click',function(){if(action==='tips')showSection('tipsSection');else if(action==='breathe'){document.getElementById('mcBreathing').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('mcBreathingStart').focus();}else{var task=document.querySelector('#mcJourneyChallengeList .mc-journey-task:nth-child('+({gratitude:1,breathe:2,connect:3,selfcare:4}[action]||1)+')');if(task){var panel=task.closest('details');if(panel)panel.open=true;task.scrollIntoView({behavior:'smooth',block:'center'});}}});actions.appendChild(b);});if(!running&&!paused&&!completed)cue.textContent=tr('ready');if(!running)start.textContent=paused?tr('resume'):tr('start');reset.textContent=tr('reset');}
-var start=document.getElementById('mcBreathingStart'),reset=document.getElementById('mcBreathingReset'),cue=document.getElementById('mcBreathingCue'),progress=document.getElementById('mcBreathingProgress'),circle=document.getElementById('mcBreathingCircle');var running=false,paused=false,elapsed=0,last=0,frame=0,completed=false;var DURATION=30000;
-function draw(){var phase=elapsed%10000,inhale=phase<4000;circle.classList.toggle('is-inhaling',inhale);circle.classList.toggle('is-exhaling',!inhale);cue.textContent=tr(inhale?'inhale':'exhale');if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){circle.style.transform='none';}else circle.style.transform='scale('+(inhale?(0.75+0.25*phase/4000):(1-0.25*(phase-4000)/6000))+')';progress.textContent=Math.min(3,Math.floor(elapsed/10000))+' / 3';}
-function tick(ts){if(!running)return;if(!last)last=ts;elapsed+=Math.min(100,Math.max(0,ts-last));last=ts;if(elapsed>=DURATION){elapsed=DURATION;running=false;paused=false;completed=true;circle.classList.remove('is-breathing','is-inhaling','is-exhaling');cancelAnimationFrame(frame);circle.style.transform='scale(.75)';cue.textContent=tr('complete');progress.textContent='3 / 3';start.textContent=tr('start');return;}draw();frame=requestAnimationFrame(tick);}
+var start=document.getElementById('mcBreathingStart'),reset=document.getElementById('mcBreathingReset'),cue=document.getElementById('mcBreathingCue'),progress=document.getElementById('mcBreathingProgress'),circle=document.getElementById('mcBreathingCircle'),ring=document.getElementById('mcBreathingRingProgress'),seconds=document.getElementById('mcBreathingSeconds'),phaseLabel=document.getElementById('mcBreathingPhase');
+var running=false,paused=false,elapsed=0,last=0,frame=0,completed=false,previousPhase='';var DURATION=30000,CIRCUMFERENCE=2*Math.PI*114;
+ring.style.strokeDasharray=String(CIRCUMFERENCE);ring.style.strokeDashoffset=String(CIRCUMFERENCE);
+function reducedMotion(){return window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;}
+function draw(){
+  var phase=elapsed%10000,inhale=phase<4000,phaseElapsed=inhale?phase:phase-4000,phaseDuration=inhale?4000:6000;
+  var phaseKey=inhale?'inhale':'exhale',fraction=Math.min(1,phaseElapsed/phaseDuration);
+  var scale=inhale?(.65+.43*fraction):(1.08-.43*fraction);
+  circle.classList.toggle('is-inhaling',inhale);circle.classList.toggle('is-exhaling',!inhale);
+  if(reducedMotion())circle.style.transform='translate(-50%,-50%) scale(.85)';
+  else circle.style.transform='translate(-50%,-50%) scale('+scale.toFixed(3)+')';
+  ring.style.strokeDashoffset=String(CIRCUMFERENCE*(1-fraction));
+  seconds.textContent=String(Math.max(1,Math.ceil((phaseDuration-phaseElapsed)/1000)));
+  phaseLabel.textContent=tr(phaseKey);
+  if(phaseKey!==previousPhase){cue.textContent=tr(phaseKey);previousPhase=phaseKey;}
+  progress.textContent=(Math.min(3,Math.floor(elapsed/10000)+1))+' / 3';
+}
+function finish(){
+  running=false;paused=false;completed=true;cancelAnimationFrame(frame);
+  circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
+  circle.style.transform='translate(-50%,-50%) scale(.65)';
+  ring.style.strokeDashoffset='0';seconds.textContent='✓';phaseLabel.textContent='';
+  cue.textContent=tr('complete');progress.textContent='3 / 3';start.textContent=tr('start');
+}
+function tick(ts){
+  if(!running)return;
+  if(!last)last=ts;
+  elapsed+=Math.min(100,Math.max(0,ts-last));last=ts;
+  if(elapsed>=DURATION){elapsed=DURATION;finish();return;}
+  draw();frame=requestAnimationFrame(tick);
+}
 function pause(){running=false;paused=true;circle.classList.remove('is-breathing');cancelAnimationFrame(frame);last=0;start.textContent=tr('resume');}
-start.addEventListener('click',function(){if(running){pause();return;}if(completed){elapsed=0;completed=false;}running=true;paused=false;last=0;circle.classList.add('is-breathing');start.textContent=tr('pause');frame=requestAnimationFrame(tick);});
-reset.addEventListener('click',function(){running=false;paused=false;completed=false;circle.classList.remove('is-breathing','is-inhaling','is-exhaling');cancelAnimationFrame(frame);elapsed=0;last=0;circle.style.transform='scale(.75)';cue.textContent=tr('ready');progress.textContent='0 / 3';start.textContent=tr('start');});
+start.addEventListener('click',function(){
+  if(running){pause();return;}
+  if(completed){elapsed=0;completed=false;previousPhase='';}
+  running=true;paused=false;last=0;circle.classList.add('is-breathing');start.textContent=tr('pause');
+  draw();frame=requestAnimationFrame(tick);
+});
+reset.addEventListener('click',function(){
+  running=false;paused=false;completed=false;previousPhase='';cancelAnimationFrame(frame);elapsed=0;last=0;
+  circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
+  circle.style.transform='translate(-50%,-50%) scale(.65)';
+  ring.style.strokeDashoffset=String(CIRCUMFERENCE);seconds.textContent='4';phaseLabel.textContent=tr('inhale');
+  cue.textContent=tr('ready');progress.textContent='0 / 3';start.textContent=tr('start');
+});
 document.addEventListener('visibilitychange',function(){if(document.hidden&&running)pause();});
 document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mood,#mcChangeLanguage,[data-lang]'))setTimeout(renderRecommendations,100);});
 window.addEventListener('storage',renderRecommendations);
