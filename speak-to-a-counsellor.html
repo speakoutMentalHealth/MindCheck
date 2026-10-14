@@ -1,333 +1,68 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="day">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Speak to a Counsellor • SpeakOut MindCheck</title>
-  <meta name="description" content="Speak to a verified counsellor via WhatsApp or chat. A consultation fee is required to unlock access." />
-
-  <link rel="stylesheet" href="mc-theme.css">
-  <link rel="stylesheet" href="mc-gamify.css">
-
-  <meta name="theme-color" content="#06152f">
-  <link rel="icon" type="image/png" href="favicon.png">
-
-  <style>
-    /* Paywall lock styles */
-    .mc-card.is-locked {
-      opacity: 0.35;
-      filter: grayscale(100%);
-      pointer-events: none;
-      cursor: not-allowed;
-    }
-    .mc-locknote {
-      margin: 10px 0 0;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(34,197,94,.08);
-      border: 1px solid rgba(34,197,94,.25);
-      font-size: .95rem;
-      opacity: .95;
-    }
-    .mc-mini {
-      font-size: .92rem;
-      opacity: .9;
-      margin-top: 8px;
-    }
-    .mc-input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.9);
-      outline: none;
-      margin-top: 6px;
-      margin-bottom: 10px;
-    }
-    html[data-theme="night"] .mc-input{
-      background: rgba(0,0,0,.25);
-      border-color: rgba(255,255,255,.18);
-      color: #fff;
-    }
-    .mc-paybox p { margin: 6px 0; }
-    .mc-btn[disabled] { opacity: .55; pointer-events:none; }
-  </style>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="speakout-linked-pages.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06152f">
+<meta name="description" content="Find a supportive conversation with SpeakOut MindCheck. Review the consultation process and connect via WhatsApp.">
+<title>Speak to a Counsellor | SpeakOut MindCheck</title>
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="counsellor-chat.css">
 </head>
-
-<body class="mc-page mc-unified-page"><a class="mindcheck-brand-mark" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><style>.mindcheck-brand-mark{display:flex;align-items:center;gap:13px;width:min(1100px,92%);margin:16px auto 10px;padding:12px 22px;background:#fff;color:#063f35!important;text-decoration:none;border-radius:999px;box-shadow:0 12px 32px rgba(6,63,53,.10);font-family:Outfit,system-ui,sans-serif}.mindcheck-brand-mark img{width:56px;height:56px;object-fit:contain}.mindcheck-brand-mark strong{display:block;font-size:1.25rem;font-weight:900}.mindcheck-brand-mark small{display:block;font-size:.72rem;color:#0f9f5f;font-weight:800;text-transform:uppercase;letter-spacing:.07em}@media(max-width:500px){.mindcheck-brand-mark{padding:10px 14px}.mindcheck-brand-mark img{width:46px;height:46px}}</style>
-  <div class="mc-motion" aria-hidden="true">
-    <div class="mc-bubble" style="left:-70px; top:80px;"></div>
-    <div class="mc-bubble b2" style="right:-120px; top:240px;"></div>
-    <div class="mc-bubble b3" style="left:10%; bottom:-140px;"></div>
+<body>
+<div class="app">
+<header class="topbar">
+ <a class="back" href="index.html" aria-label="Back to MindCheck">←</a>
+ <div class="brand"><img src="icons/logo.png" alt=""><div><strong>SpeakOut Support</strong><span>MindCheck · Counselling</span></div></div>
+ <a class="toplink" href="resources.html">Resources</a>
+</header>
+<main class="layout">
+ <section class="conversation" aria-labelledby="chatTitle">
+  <div class="chat-head"><span class="chat-avatar" aria-hidden="true">♡</span><div><h1 id="chatTitle">You're welcome here.</h1><p>Take your time. We're here to help you find support.</p></div></div>
+  <div class="messages" aria-label="Welcome and guidance">
+   <div class="date-divider"><span>Getting started</span></div>
+   <div class="bubble support">Hello, welcome to SpeakOut MindCheck. <span aria-hidden="true">👋</span></div>
+   <div class="bubble support">You can choose someone to speak with, review the consultation process, and continue securely through WhatsApp.</div>
+   <div class="bubble support">What would you like help with today?</div>
+   <fieldset class="topics"><legend class="sr-only">Choose a support topic</legend>
+    <label><input type="radio" name="topic" value="Stress and anxiety"><span>Stress & anxiety</span></label>
+    <label><input type="radio" name="topic" value="Feeling low"><span>Feeling low</span></label>
+    <label><input type="radio" name="topic" value="Relationships"><span>Relationships</span></label>
+    <label><input type="radio" name="topic" value="School or work pressure"><span>School or work</span></label>
+    <label><input type="radio" name="topic" value="Something else"><span>Something else</span></label>
+   </fieldset>
+   <div class="bubble support">Select a counsellor below when you're ready. Their availability and credentials should be confirmed before your session.</div>
+   <div id="topicReply" class="bubble mine" hidden></div>
   </div>
-
-  <header style="background:#22c55e;color:#fff;padding:1.2rem;font-size:1.6rem;font-weight:800;text-align:center;">
-    🧠 SpeakOut MindCheck Nigeria
-  </header>
-
-  <div class="mc-wrap">
-    <div class="mc-hero">
-      <h1>💬 Speak to a Counsellor</h1>
-      <p>
-        You’re not alone here. This space is designed to be safe, confidential, and supportive. 
-        A consultation fee helps us keep this environment secure and allows you to access the counsellor list.
-      </p>
-
-      <div class="mc-xp" aria-label="User journey indicators">
-        <span class="mc-pill">🎮 Mode: Calm Support</span>
-        <div class="mc-bar" aria-hidden="true"><span style="width:78%"></span></div>
-        <span class="mc-pill">🛡️ Verified Network</span>
-      </div>
-
-      <div class="mc-btnrow">
-        <a class="mc-btn ghost" href="index.html">⬅️ Back to MindCheck</a>
-        <a class="mc-btn primary" href="become-a-counsellor.html">✅ Become a Counsellor</a>
-      </div>
-    </div>
-
-    <!-- PAYWALL PANEL -->
-    <div class="mc-hero" style="margin-top:14px;">
-      <h1 style="font-size:1.15rem;">💳 Consultation Fee (Required)</h1>
-
-      <p style="margin-bottom:10px;">
-        We understand that reaching out for support can be a big step.
-To keep this space safe and supportive for both you and our counsellors, profiles unlock after payment and verification. 
-        When WhatsApp opens, your first message will simply ask you to share your payment receipt so your counsellor can proceed with care.
-      </p>
-
-      <div class="mc-btnrow">
-        <button id="btnPay" class="mc-btn primary">Pay Consultation Fee</button>
-        <button id="btnVerify" class="mc-btn ghost" disabled>Verify Payment</button>
-        <button id="btnEnd" class="mc-btn ghost" style="display:none;">End Session (Lock Counsellors)</button>
-      </div>
-
-      <div id="payDetails" class="mc-locknote mc-paybox" style="display:none;">
-        <div style="font-weight:800;margin-bottom:6px;">Bank Transfer Details</div>
-
-        <!-- EDIT THESE -->
-        <p><b>Bank:</b> OPAY</p>
-        <p><b>Account Name:</b> Speakout Mental Health Outreach</p>
-        <p><b>Account Number:</b> 6117106366</p>
-        <p><b>Amount:</b> ₦<span id="feeAmount">N5,000</span></p>
-        <p><b>Narration:</b> SpeakOut - Full Name - Phone</p>
-
-        <div class="mc-mini">
-          After payment, enter your details below and click <b>Verify Payment</b> to unlock counsellors.
-        </div>
-
-        <label for="payerName"><b>Your Full Name</b></label>
-        <input id="payerName" class="mc-input" type="text" placeholder="e.g. Ngozi Offorka" />
-
-        <label for="payerPhone"><b>Your Phone Number</b></label>
-        <input id="payerPhone" class="mc-input" type="tel" placeholder="e.g. 080..." />
-
-        <label for="payerNote"><b>Optional Note (Bank / Time Paid)</b></label>
-        <input id="payerNote" class="mc-input" type="text" placeholder="e.g. GTBank, 10 Jan 2026 6:15pm" />
-      </div>
-
-      <div style="margin-top:10px;font-size:.9rem;opacity:.9;">
-        If you’re in immediate danger, call <b>112</b> or contact a trusted adult right away.
-      </div>
-    </div>
-
-    <h2 id="counsellors" style="margin:16px 0 8px;">Available Counsellors</h2>
-    <p style="margin-top:0;opacity:.9;">Counsellors unlock after verification. Tap one to start WhatsApp.</p>
-
-    <div class="mc-grid" id="counsellorGrid">
-      <!-- NOTE: change href="#" and add data-wa only. JS will build the WhatsApp link. -->
-
-      <!-- Counsellor 1 -->
-      <a class="mc-card is-locked counsellor-card"
-         href="#"
-         data-wa="2348118103510"
-         data-counsellor="Offorka Jerry">
-        <div class="mc-profile">
-          <div class="mc-avatar frame-gold" aria-hidden="true">🧑‍⚕️</div>
-          <div>
-            <h3 style="margin:0;">Offorka Jerry</h3>
-            <p style="margin:4px 0 0;">Stress • Anxiety • Relationship support</p>
-            <div class="mc-chips">
-              <span class="mc-chip live">🟢 Live</span>
-              <span class="mc-chip star">⭐ Verified</span>
-              <span class="mc-chip">⏱️ 1 hour</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Counsellor 2 -->
-      <a class="mc-card is-locked counsellor-card"
-         href="#"
-         data-wa="2348118103510"
-         data-counsellor="Adedu Feyintola">
-        <div class="mc-profile">
-          <div class="mc-avatar frame-sky" aria-hidden="true">👩🏽‍💼</div>
-          <div>
-            <h3 style="margin:0;">Adedu Feyintola</h3>
-            <p style="margin:4px 0 0;">Youth support • School pressure • Self-esteem</p>
-            <div class="mc-chips">
-              <span class="mc-chip live">🟢 Live</span>
-              <span class="mc-chip star">⭐ Verified</span>
-              <span class="mc-chip">💬 WhatsApp</span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Counsellor 3 -->
-      <a class="mc-card is-locked counsellor-card"
-         href="#"
-         data-wa="2348118103510"
-         data-counsellor="Aisha Musa">
-        <div class="mc-profile">
-          <div class="mc-avatar frame-violet" aria-hidden="true">🧠</div>
-          <div>
-            <h3 style="margin:0;">Aisha Musa</h3>
-            <p style="margin:4px 0 0;">Low mood • Burnout • Coping routines</p>
-            <div class="mc-chips">
-              <span class="mc-chip live">🟢 Live</span>
-              <span class="mc-chip star">⭐ Verified</span>
-              <span class="mc-chip">🕊️ Calm</span>
-            </div>
-          </div>
-        </div>
-      </a>
-    </div>
-
-    <div class="mc-hero" style="margin-top:14px;">
-      <h1 style="font-size:1.15rem;">🧾 How it works</h1>
-      <div class="mc-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
-        <div class="mc-card" style="cursor:default;">
-          <div class="mc-big">①</div>
-          <h3>Pay & verify</h3>
-          <p>Pay the consultation fee and unlock counsellors on this page.</p>
-        </div>
-        <div class="mc-card" style="cursor:default;">
-          <div class="mc-big">②</div>
-          <h3>Upload receipt on WhatsApp</h3>
-          <p>Your first message will request your payment receipt before counselling starts.</p>
-        </div>
-        <div class="mc-card" style="cursor:default;">
-          <div class="mc-big">③</div>
-          <h3>1-hour session</h3>
-          <p>Your 1-hour session starts after the counsellor confirms payment.</p>
-        </div>
-      </div>
-
-      <div style="margin-top:10px;font-size:.92rem;opacity:.9;">
-        ⚠️ If this is an emergency, call <b>112</b> or reach <a href="tel:+2348118103510">SpeakOut Helpline</a>.
-      </div>
-    </div>
-
-    <footer class="mc-footer">
-      🔒 <a href="privacy.html">Privacy</a> •
-      📄 <a href="terms.html">Terms</a> •
-      🏥 <a href="resources.html">Clinics & Resources</a> •
-      🤝 <a href="volunteers.html">Volunteer Zone</a> •
-      ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-    </footer>
-  </div>
-
-  <script>
-    // Night Mode – Calm (UI-only)
-    (function(){
-      try{
-        var t = localStorage.getItem('mc_theme');
-        if(t === 'night') document.documentElement.setAttribute('data-theme','night');
-      }catch(e){}
-    })();
-
-    // ===== Paywall Logic (manual verify) =====
-    (function(){
-      const btnPay = document.getElementById('btnPay');
-      const btnVerify = document.getElementById('btnVerify');
-      const btnEnd = document.getElementById('btnEnd');
-      const payDetails = document.getElementById('payDetails');
-
-      const payerName = document.getElementById('payerName');
-      const payerPhone = document.getElementById('payerPhone');
-      const payerNote = document.getElementById('payerNote');
-
-      const cards = Array.from(document.querySelectorAll('.counsellor-card'));
-
-      function lockAll(){
-        cards.forEach(c => c.classList.add('is-locked'));
-        btnEnd.style.display = 'none';
-        // optional: clear verified flag
-        try { localStorage.removeItem('mc_paid_verified'); } catch(e){}
-      }
-
-      function unlockAll(){
-        cards.forEach(c => c.classList.remove('is-locked'));
-        btnEnd.style.display = 'inline-flex';
-        try { localStorage.setItem('mc_paid_verified','1'); } catch(e){}
-      }
-
-      // Start locked
-      lockAll();
-
-      // If you want unlock to persist after refresh, keep this:
-      try {
-        if(localStorage.getItem('mc_paid_verified') === '1') unlockAll();
-      } catch(e){}
-
-      btnPay.addEventListener('click', function(){
-        payDetails.style.display = 'block';
-        btnVerify.disabled = false;
-        // small UX: scroll to details
-        payDetails.scrollIntoView({behavior:'smooth', block:'start'});
-      });
-
-      btnVerify.addEventListener('click', function(){
-        // "Manual verify" = user confirms they've paid.
-        // Unlock counsellors so they can choose. Enforcement is in WhatsApp receipt request.
-        unlockAll();
-        // scroll to counsellors
-        document.getElementById('counsellors').scrollIntoView({behavior:'smooth', block:'start'});
-      });
-
-      btnEnd.addEventListener('click', function(){
-        lockAll();
-        // optional: also clear payer fields
-        payerName.value = '';
-        payerPhone.value = '';
-        payerNote.value = '';
-      });
-
-      // Build WhatsApp links with forced receipt request
-      function buildWhatsAppLink(phone, counsellor){
-        const name = (payerName.value || '____').trim();
-        const userPhone = (payerPhone.value || '____').trim();
-        const note = (payerNote.value || '').trim();
-
-        const msg =
-`Hello ${counsellor},
-I want to start a counselling session via SpeakOut MindCheck.
-
-⚠️ BEFORE WE PROCEED: Please, I will upload my payment receipt here now as required.
-Kindly confirm payment. Once confirmed, please start the 1-hour session timer.`;
-
-        return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-      }
-
-      // Attach click behavior to each counsellor
-      cards.forEach(card => {
-        card.addEventListener('click', function(e){
-          e.preventDefault();
-
-          // If locked, do nothing (paywall)
-          if(card.classList.contains('is-locked')) return;
-
-          const phone = card.getAttribute('data-wa');
-          const counsellor = card.getAttribute('data-counsellor') || 'Counsellor';
-
-          const url = buildWhatsAppLink(phone, counsellor);
-          window.open(url, '_blank', 'noopener');
-        });
-      });
-    })();
-  </script>
+  <div class="composer"><span aria-hidden="true">🔒</span><span>This is an introduction, not a live chat. Conversations open in WhatsApp.</span></div>
+ </section>
+ <aside class="side" aria-label="Counselling options">
+  <section class="panel">
+   <div class="section-heading"><div><span class="eyebrow">YOUR NEXT STEP</span><h2>Choose a counsellor</h2></div><span class="count">3 options</span></div>
+   <p class="muted">Select a profile to prepare your WhatsApp introduction. Listed profiles are not live-availability indicators.</p>
+   <div class="people" role="radiogroup" aria-label="Choose counsellor">
+    <label class="person"><input type="radio" name="counsellor" value="Offorka Jerry" data-phone="2348118103510" checked><span class="avatar">OJ</span><span class="person-info"><strong>Offorka Jerry</strong><small>Stress · Anxiety · Relationships</small></span><span class="chevron">✓</span></label>
+    <label class="person"><input type="radio" name="counsellor" value="Adedu Feyintola" data-phone="2348118103510"><span class="avatar sky">AF</span><span class="person-info"><strong>Adedu Feyintola</strong><small>Youth · School pressure · Self-esteem</small></span><span class="chevron">✓</span></label>
+    <label class="person"><input type="radio" name="counsellor" value="Aisha Musa" data-phone="2348118103510"><span class="avatar lilac">AM</span><span class="person-info"><strong>Aisha Musa</strong><small>Low mood · Burnout · Coping</small></span><span class="chevron">✓</span></label>
+   </div>
+  </section>
+  <section class="panel payment" aria-labelledby="paymentTitle">
+   <div class="section-heading"><div><span class="eyebrow">BEFORE YOUR SESSION</span><h2 id="paymentTitle">Consultation information</h2></div></div>
+   <p class="muted">The listed consultation fee is <strong>₦5,000</strong>. Payment is confirmed by the SpeakOut team, not automatically on this page.</p>
+   <details><summary>View bank transfer details <span aria-hidden="true">⌄</span></summary><div class="bank"><p><span>Bank</span><strong>OPAY</strong></p><p><span>Account name</span><strong>Speakout Mental Health Outreach</strong></p><p><span>Account number</span><strong>6117106366</strong></p><p><span>Amount</span><strong>₦5,000</strong></p><p><span>Narration</span><strong>SpeakOut – Full Name – Phone</strong></p></div></details>
+   <label class="field">Your name (optional)<input id="payerName" autocomplete="name" maxlength="100" placeholder="How should we address you?"></label>
+   <p class="note">You can ask questions before paying. If you make a transfer, share the receipt privately with the team on WhatsApp for manual confirmation. Do not send sensitive financial details in this page.</p>
+   <button id="continueBtn" class="primary" type="button">Continue on WhatsApp <span aria-hidden="true">↗</span></button>
+   <p class="footnote">WhatsApp opens outside MindCheck. A counselling session starts only after a team member confirms arrangements.</p>
+  </section>
+  <section class="safety"><strong>Need urgent help?</strong><p>This page is not an emergency service. If you are in immediate danger in Nigeria, call <a href="tel:112">112</a> or seek local emergency care.</p><a href="resources.html">Explore support resources →</a></section>
+ </aside>
+</main>
+<footer><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="become-a-counsellor.html">Become a counsellor</a></footer>
+</div>
+<script src="js/counsellor-chat.js" defer></script>
 </body>
 </html>
