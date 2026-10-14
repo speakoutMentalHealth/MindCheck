@@ -1,0 +1,188 @@
+/* SpeakOut MindCheck unified subsection design — scoped to internal app stages.
+   Presentation only: retain all existing IDs, event handlers and translations. */
+body:is(.mc-stage-language,.mc-stage-dashboard) {
+  --mc-ui-navy:#06152f;
+  --mc-ui-blue:#0a68d8;
+  --mc-ui-gold:#f5a623;
+  --mc-ui-ink:#101828;
+  --mc-ui-line:#dce7f5;
+  --mc-ui-soft:#eef5ff;
+  --mc-ui-shadow:0 12px 36px rgba(6,21,47,.075);
+  font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:linear-gradient(180deg,#f7faff,#fff 58%,#f7faff);
+  color:var(--mc-ui-ink);
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) header {
+  background:var(--mc-ui-navy);
+  color:#fff;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(h1,h2,h3) {
+  color:var(--mc-ui-navy);
+  font-family:Outfit,system-ui,sans-serif;
+  line-height:1.18;
+  letter-spacing:-.025em;
+  text-wrap:balance;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn-primary,.tbtn:not(.soon)) {
+  background:var(--mc-ui-blue)!important;
+  color:#fff!important;
+  border:1px solid transparent;
+  border-radius:14px;
+  box-shadow:0 7px 20px rgba(10,104,216,.15);
+  font-weight:700;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn-primary,.tbtn:not(.soon)):hover {
+  background:#064a9c!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn-ghost,.tbtn.soon) {
+  background:var(--mc-ui-soft)!important;
+  color:var(--mc-ui-navy)!important;
+  border:1px solid var(--mc-ui-line)!important;
+  box-shadow:none;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.card,.award,.badge,#langSection,#moodSection) {
+  border-color:var(--mc-ui-line)!important;
+  box-shadow:var(--mc-ui-shadow);
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.card,.award,.badge) {
+  background:#fff;
+  border-radius:22px;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) .card .big {
+  background:var(--mc-ui-soft)!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.pill,.badge:not(.locked)) {
+  background:var(--mc-ui-soft)!important;
+  color:var(--mc-ui-navy)!important;
+  border-color:var(--mc-ui-line)!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(button,a,select,input,textarea):focus-visible {
+  outline:3px solid var(--mc-ui-gold)!important;
+  outline-offset:3px!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(button,.btn,.tbtn,select) {
+  min-height:44px;
+}
+body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection) {
+  width:min(1050px,calc(100% - 24px));
+  margin:20px auto;
+  border-radius:24px;
+}
+body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection).active {
+  background:rgba(255,255,255,.85);
+  border:1px solid var(--mc-ui-line);
+  box-shadow:var(--mc-ui-shadow);
+  padding:clamp(18px,3vw,34px);
+}
+body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection) :is(input,select,textarea) {
+  max-width:100%;
+  border-radius:12px;
+}
+@media(max-width:600px) {
+  body:is(.mc-stage-language,.mc-stage-dashboard) :is(.card,.award,.badge) {border-radius:18px;}
+  body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection) {margin:12px auto;}
+  body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection).active {padding:18px 14px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn,.tbtn,.card) {transition:none!important;animation:none!important;}
+}
+
+/* Screenshot QA fixes: header contrast, link presentation, five balanced mood options. */
+body.mc-stage-dashboard {
+  background:linear-gradient(180deg,#f7faff,#fff 58%,#f7faff)!important;
+}
+body.mc-stage-dashboard > header.mc-brand-nav {
+  background:#fff!important;
+  color:#06152f!important;
+  border:1px solid #e5edf6;
+  border-radius:24px;
+  box-shadow:0 10px 28px rgba(6,21,47,.07);
+}
+body.mc-stage-dashboard .mc-brand,
+body.mc-stage-dashboard .mc-brand strong {color:#06152f!important;}
+body.mc-stage-dashboard .mc-brand small {color:#475467!important;}
+body.mc-stage-dashboard .mc-brand-nav .mc-nav-actions a,
+body.mc-stage-dashboard .mc-brand-nav .mc-nav-actions a:last-child {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:11px 18px;
+  border-radius:999px;
+  border:1px solid #d5e5fa;
+  background:#0a68d8!important;
+  color:#fff!important;
+  text-decoration:none;
+  font-weight:700;
+}
+body.mc-stage-dashboard .mc-secondary-links {
+  width:min(1100px,calc(100% - 32px));
+  margin:24px auto;
+  padding:20px 24px;
+  border:1px solid #e5edf6;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 10px 28px rgba(6,21,47,.045);
+}
+body.mc-stage-dashboard .mc-secondary-links a {
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  margin:4px 8px 4px 0;
+  padding:9px 14px;
+  border:1px solid #d5e5fa;
+  border-radius:999px;
+  background:#eef5ff;
+  color:#064a9c;
+  font-weight:650;
+  text-decoration:none;
+}
+body.mc-stage-dashboard .mc-secondary-links a:hover {background:#dfeeff;}
+body.mc-stage-dashboard #moodSection .mood-row {
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+  width:100%;
+  max-width:100%;
+  align-items:stretch;
+}
+body.mc-stage-dashboard #moodSection .mood-row .mood {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  min-width:0;
+  min-height:112px;
+  margin:0;
+  padding:16px 8px;
+  border:1px solid #d5e5fa;
+  border-radius:20px;
+  background:#f7faff;
+  color:#06152f;
+  font-size:1.7rem;
+  line-height:1.25;
+  box-shadow:none;
+}
+body.mc-stage-dashboard #moodSection .mood-row .mood .mood-label {
+  color:#064a9c!important;
+  font-size:clamp(.84rem,1.5vw,1rem);
+  line-height:1.3;
+  font-weight:650;
+  overflow-wrap:anywhere;
+}
+body.mc-stage-dashboard #moodSection .mood-row .mood:focus-visible {
+  outline:3px solid #f5a623!important;
+  outline-offset:3px!important;
+}
+@media(max-width:700px) {
+  body.mc-stage-dashboard #moodSection .mood-row {grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  body.mc-stage-dashboard .mc-secondary-links {padding:16px;}
+}
+@media(max-width:420px) {
+  body.mc-stage-dashboard #moodSection .mood-row {grid-template-columns:repeat(2,minmax(0,1fr));}
+  body.mc-stage-dashboard #moodSection .mood-row .mood {min-height:98px;}
+  body.mc-stage-dashboard > header.mc-brand-nav {width:calc(100% - 24px);padding:16px;}
+  body.mc-stage-dashboard .mc-brand-nav .mc-nav-actions a {width:100%;}
+}

@@ -1,0 +1,64 @@
+/* SpeakOut unified linked-page skin. Applied only to pages explicitly opted in.
+   Existing form semantics, interactions and layouts remain intact. */
+body.mc-unified-page {
+  --mc-page-navy:#06152f;
+  --mc-page-blue:#0a68d8;
+  --mc-page-gold:#f5a623;
+  --mc-page-ink:#101828;
+  --mc-page-line:#e5edf6;
+  --mc-page-soft:#eef5ff;
+  font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--mc-page-ink);
+  background:linear-gradient(180deg,#f7faff 0%,#fff 50%,#f7faff 100%);
+  line-height:1.6;
+}
+body.mc-unified-page :is(h1,h2,h3) {
+  font-family:Outfit,system-ui,sans-serif;
+  letter-spacing:-.025em;
+  line-height:1.2;
+  text-wrap:balance;
+}
+body.mc-unified-page :is(.card,.panel,.tile,.feature-card,.resource-card) {
+  border-radius:22px;
+  border-color:var(--mc-page-line);
+  box-shadow:0 12px 32px rgba(6,21,47,.06);
+}
+body.mc-unified-page :is(.btn-primary,button.primary,a.primary) {
+  background:var(--mc-page-blue)!important;
+  color:#fff!important;
+  border-color:transparent!important;
+  font-weight:700;
+  border-radius:14px;
+}
+body.mc-unified-page :is(.btn-primary,button.primary,a.primary):hover {
+  background:#064a9c!important;
+}
+body.mc-unified-page :is(.btn-ghost,.btn-secondary,button.secondary) {
+  background:var(--mc-page-soft)!important;
+  color:var(--mc-page-navy)!important;
+  border-color:#d5e5fa!important;
+  border-radius:14px;
+}
+body.mc-unified-page :is(button,.btn,input,select,textarea) {
+  font-family:inherit;
+}
+body.mc-unified-page :is(button,.btn,input,select) {min-height:44px;}
+body.mc-unified-page :is(input,textarea,select) {
+  max-width:100%;
+  border-radius:12px;
+}
+body.mc-unified-page :is(a,button,input,textarea,select,[tabindex]):focus-visible {
+  outline:3px solid var(--mc-page-gold)!important;
+  outline-offset:3px!important;
+}
+body.mc-unified-page img {max-width:100%;height:auto;}
+@media(max-width:600px) {
+  body.mc-unified-page {overflow-x:hidden;}
+  body.mc-unified-page :is(.card,.panel,.tile,.feature-card,.resource-card) {border-radius:18px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.mc-unified-page *,body.mc-unified-page *::before,body.mc-unified-page *::after {
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+  }
+}
