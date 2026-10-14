@@ -8,6 +8,18 @@
     {id:'connection',icon:'💬',title:'Reach out',desc:'Send a kind message or check in with someone you trust.'},
     {id:'selfcare',icon:'🌿',title:'One caring action',desc:'Drink water, stretch, rest, or take a short walk if it feels comfortable.'}
   ];
+  /* Seven daily variations rotate each week. Existing four completion IDs remain stable. */
+  var weeklyThemes=[
+    [['Notice one good thing about today.','Take three gentle 4-in, 6-out breaths.','Send someone a friendly hello.','Drink a glass of water.']],
+    [['Write down something you handled well.','Relax your shoulders as you breathe slowly.','Thank someone who helped you.','Stretch gently for a minute.']],
+    [['Remember a moment that made you smile.','Take a short breathing pause away from your screen.','Ask a trusted person how they are doing.','Rest your eyes for a few minutes.']],
+    [['Appreciate something about yourself.','Breathe gently while sitting comfortably.','Share a kind word with someone.','Step outside for fresh air if comfortable.']],
+    [['Notice a small act of kindness.','Practice three unhurried breaths.','Reconnect with someone you miss.','Make time for a nourishing snack.']],
+    [['Celebrate one small effort you made.','Pause and follow your natural breath.','Tell someone you appreciate them.','Take a comfortable short walk or stretch.']],
+    [['Think of one hopeful moment this week.','Complete a calm breathing cycle at your pace.','Offer encouragement to someone.','Choose one restful activity you enjoy.']]
+  ];
+  var weeklyLabels={en:['Week','Day','New challenges each day. The seven-day plan repeats weekly.'],ha:['Mako','Rana','Ayyuka na canzawa kowace rana. Ana maimaitawa kowane mako.'],ig:['Izu','Ụbọchị','Ihe omume na-agbanwe kwa ụbọchị, na-amalitekwa ọzọ kwa izu.'],yo:['Ọ̀sẹ̀','Ọjọ́','Iṣẹ́ tuntun lójoojúmọ́. Ètò náà tún bẹ̀rẹ̀ lọ́sẹ̀ kọ̀ọ̀kan.'],pcm:['Week','Day','New small tasks every day. E go repeat every week.'],fr:['Semaine','Jour','De nouveaux défis chaque jour. Le programme reprend chaque semaine.']};
+  function weekDay(){var d=new Date();return (d.getDay()+6)%7;}
   var words={
     en:{eyebrow:'YOUR WELLNESS JOURNEY',title:'A little progress, every day',intro:'Your private progress on this device. No scores or diagnoses.',checkins:'Mood check-ins',streak:'Day streak',saved:'Saved tips',completed:'Challenges completed',moodHistory:'Recent mood check-ins',daily:"Today's gentle challenges",dailyIntro:'Choose what feels helpful. Completing a challenge is optional.',privacy:'Stored only in this browser. Clearing site data removes this progress.',finish:'Mark complete',undo:'Undo',done:'Completed',empty:'Your mood check-ins will appear here after you record them.',savedFeedback:'Challenge updated on this device.',error:'Could not save. Please check browser storage.'},
     ha:{eyebrow:'TAFIYAR LAFIYAR ZUCIYARKA',title:'Ci gaba kadan a kowace rana',intro:'Ci gabanka na sirri a wannan na’urar. Ba ganewar cuta ba ne.',checkins:'Duba yanayi',streak:'Kwanakin jere',saved:'Shawarwarin da aka ajiye',completed:'Ayyukan da aka kammala',moodHistory:'Yanayin baya-bayan nan',daily:'Ayyukan yau',dailyIntro:'Zabi abin da zai taimaka maka. Ba dole ba ne.',privacy:'Ana adanawa a wannan burauzar kawai.',finish:'Na kammala',undo:'Soke',done:'An kammala',empty:'Bayanan yanayinka za su bayyana a nan.',savedFeedback:'An sabunta aikin.',error:'Ba a iya adanawa ba.'},
@@ -49,10 +61,12 @@
       row.append(emoji,label);mood.appendChild(row);
     });
     var list=document.getElementById('mcJourneyChallengeList');list.replaceChildren();
+    var weeklyDay=weekDay(),label=weeklyLabels[locale()]||weeklyLabels.en;
+    var weekNote=document.createElement('p');weekNote.className='mc-journey-weekly-note';weekNote.textContent=label[1]+' '+(weeklyDay+1)+' / 7 · '+label[2];list.appendChild(weekNote);
     challenges.forEach(function(ch){
       var complete=todayDone.includes(ch.id),card=document.createElement('article');card.className='mc-journey-task'+(complete?' is-done':'');
       var icon=document.createElement('span');icon.className='mc-journey-task-icon';icon.textContent=ch.icon;icon.setAttribute('aria-hidden','true');
-      var body=document.createElement('div');var translated=challengeTranslations[locale()]&&challengeTranslations[locale()][challenges.indexOf(ch)];var displayTitle=translated?translated[0]:ch.title;var heading=document.createElement('h5');heading.textContent=displayTitle;var description=document.createElement('p');description.textContent=translated?translated[1]:ch.desc;body.append(heading,description);
+      var body=document.createElement('div');var translated=challengeTranslations[locale()]&&challengeTranslations[locale()][challenges.indexOf(ch)];var displayTitle=translated?translated[0]:ch.title;var heading=document.createElement('h5');heading.textContent=displayTitle;var description=document.createElement('p');description.textContent=locale()==='en'?weeklyThemes[weeklyDay][0][challenges.indexOf(ch)]:(translated?translated[1]:ch.desc);body.append(heading,description);
       var button=document.createElement('button');button.type='button';button.className='mc-journey-task-button';button.textContent=complete?w('undo'):w('finish');button.setAttribute('aria-pressed',String(complete));button.setAttribute('aria-label',displayTitle+': '+(complete?w('done'):w('finish')));
       button.addEventListener('click',function(){
         var saved=json(KEY,{});if(!saved||typeof saved!=='object'||Array.isArray(saved))saved={};
