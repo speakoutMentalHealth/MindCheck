@@ -140,8 +140,8 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
       const res  = await fetch(url);
       const data = await res.json().catch(()=>({}));
 
-      if(data && data.ok){
-        setStatus(true, 'Certificate record found', 'Certificate ID: ' + String(data.cert_id || id) + ' | Issued to: ' + String(data.name || 'Not supplied') + ' | Score: ' + String(data.score ?? 'Not supplied') + '% | Issue date: ' + String(data.date || 'Not supplied'));
+      if(res.ok && data && data.ok === true && typeof data.cert_id === 'string' && data.cert_id.trim().toUpperCase() === id.toUpperCase()){
+        setStatus(true, 'Certificate record found', 'Certificate ID: ' + String(data.cert_id) + ' | Issued to: ' + String(data.name || 'Not supplied') + ' | Score: ' + String(data.score ?? 'Not supplied') + '% | Issue date: ' + String(data.date || 'Not supplied'));
         try{ window.plausible && window.plausible('CertificateVerifyOK'); }catch(e){}
       } else {
         setStatus(false, 'Certificate not verified', 'No matching certificate was found, or the verification service requires a secure server-side integration.');
