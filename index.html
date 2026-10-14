@@ -319,6 +319,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <link rel="stylesheet" href="mindcheck-compact-header.css">
 <link rel="stylesheet" href="mindcheck-journey.css">
 <link rel="stylesheet" href="mindcheck-smart-wellness.css">
+<link rel="stylesheet" href="mindcheck-milestones.css">
 <link rel="stylesheet" href="mindcheck-sections-accessibility.css">
 </head>
 <body class="mc-stage-welcome">
@@ -655,6 +656,17 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <section id="badgesSection" aria-labelledby="badgesTitle">
     <h2 id="badgesTitle" data-i18n="badgesTitle">Badges & Awards 🏅</h2>
     <p style="color:#334155" data-i18n="awardsExplainer">Daily mood check-ins earn points; 20-day streak wins ₦1000. Claim via WhatsApp with your Award ID.</p>
+    <div id="mcMilestones" class="mc-milestones" aria-labelledby="mcMilestonesTitle">
+      <div class="mc-milestones-head"><div><p class="mc-milestones-kicker" data-mcm="eyebrow">YOUR PROGRESS</p><h3 id="mcMilestonesTitle" data-mcm="title">Small steps are worth celebrating</h3><p data-mcm="intro">Every check-in and gentle activity counts, at your own pace.</p></div><span aria-hidden="true">🏅</span></div>
+      <div class="mc-milestones-stats">
+        <div><strong id="mcMilestoneCheckins">0</strong><span data-mcm="checkins">Mood check-ins</span></div>
+        <div><strong id="mcMilestoneChallenges">0</strong><span data-mcm="challenges">Completed challenges</span></div>
+        <div><strong id="mcMilestoneDays">0</strong><span data-mcm="activeDays">Active days</span></div>
+      </div>
+      <h4 data-mcm="milestones">Personal milestones</h4>
+      <div id="mcMilestoneList" class="mc-milestone-list" role="list"></div>
+      <p class="mc-milestones-footnote" data-mcm="privacy">These personal milestones stay in this browser. They do not change official awards or cash reward eligibility.</p>
+    </div>
     <div id="badgesGrid" class="badge-list" aria-label="Available badges"></div>
     <h3 style="margin-top:18px;" data-i18n="yourAwards">Your Awards</h3>
     <div id="awardsList" class="award-list" aria-label="Your earned awards" aria-live="polite"></div>
@@ -1361,5 +1373,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <script src="js/mindcheck-premium-nav.js" defer></script>
 <script src="js/mindcheck-journey.js" defer></script>
 <script src="js/mindcheck-smart-wellness.js" defer></script>
+<script src="js/mindcheck-milestones.js" defer></script>
 </body>
 </html>
