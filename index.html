@@ -460,7 +460,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
         <div class="big">😊</div>
         <h3><span data-i18n="mood">Check Your Mood</span></h3>
-        <p data-i18n="moodRewardDesc">Earn points once daily (+10). 20-day streak wins ₦1000.</p>
+        <p data-i18n="moodRewardDesc">Earn points once daily (+10). 20-day streak may qualify for ₦1000 after verification.</p>
       </div>
 
       
@@ -669,7 +669,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <!-- Badges & Awards -->
   <section id="badgesSection" aria-labelledby="badgesTitle">
     <h2 id="badgesTitle" data-i18n="badgesTitle">Badges & Awards 🏅</h2>
-    <p style="color:#334155" data-i18n="awardsExplainer">Daily mood check-ins earn points; 20-day streak wins ₦1000. Request verification via WhatsApp with your Award ID.</p>
+    <p style="color:#334155" data-i18n="awardsExplainer">Daily mood check-ins earn points; 20-day streak may qualify for ₦1000 after verification. Request verification via WhatsApp with your Award ID.</p>
     <div id="badgesGrid" class="badge-list" aria-label="Available badges"></div>
     <h3 style="margin-top:18px;" data-i18n="yourAwards">Your Awards</h3>
     <div id="awardsList" class="award-list" aria-label="Your earned awards" aria-live="polite"></div>
@@ -922,7 +922,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         created = createStreakAwardIfNew(streak);
         if(created){
           awardHTML = `
-            <p style="font-size:1.05rem;">🎁 <b>${mcT('congratulations')}</b> ${mcT('youWon')}
+            <p style="font-size:1.05rem;">🎁 <b>${mcT('congratulations')}</b> — milestone recorded for review:
             <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> ${mcT('forStreak')} <b>${streak} ${mcT('days')}</b>.<br/>
             ${mcT('awardInstructions')} Eligibility and payment must be verified by SpeakOut; this device cannot confirm a cash award.</p>
             <p>${mcT('awardId')}: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
