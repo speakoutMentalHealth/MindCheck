@@ -30,3 +30,16 @@
 .note,.footnote{font-size:.72rem}
 .safety{padding:13px 16px}
 }
+
+/* Balanced 3 + 2 topic choices on phones; all five on one row when space allows. */
+.topics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));width:100%;gap:8px}
+.topics label{min-width:0;display:flex}
+.topics span{display:flex;align-items:center;justify-content:center;width:100%;min-height:42px;padding:8px 6px;text-align:center;line-height:1.2;white-space:normal}
+@media(max-width:880px){
+.topics{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.topics span{font-size:.76rem;min-height:43px;padding:7px 5px}
+}
+@media(max-width:360px){
+.topics{gap:6px}
+.topics span{font-size:.7rem;padding:6px 3px}
+}
