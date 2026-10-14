@@ -1,0 +1,118 @@
+/* Cohesive accessible dashboard sections — intentionally excludes Wellness. */
+body.mc-stage-dashboard :is(#moodSection,#formContainer,#helpSection,#badgesSection) {
+  --mc-section-border: #d8e6f5;
+  --mc-section-ink: #10243d;
+  color: var(--mc-section-ink);
+}
+body.mc-stage-dashboard :is(#moodSection,#formContainer,#helpSection,#badgesSection) > h2:not(.sr-only) {
+  font-family: Outfit,Inter,system-ui,sans-serif;
+  font-size: clamp(1.55rem,4.8vw,2.35rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+  margin: 8px auto 14px;
+}
+body.mc-stage-dashboard :is(#moodSection,#formContainer,#helpSection,#badgesSection) .mc-section-intro {
+  max-width: 740px;
+  margin: 0 auto 22px;
+  color: #405672;
+  line-height: 1.65;
+  font-size: clamp(.96rem,2.8vw,1.05rem);
+}
+body.mc-stage-dashboard #formContainer .mc-section-intro {
+  background: #f2f7ff;
+  border-color: var(--mc-section-border)!important;
+  box-shadow: 0 10px 28px rgba(25,67,120,.06);
+}
+body.mc-stage-dashboard #formContainer .mc-section-intro p { margin: 10px 0; }
+body.mc-stage-dashboard #formContainer iframe {
+  display:block;
+  width:100%;
+  max-width:900px;
+  margin: 16px auto;
+  min-height: 600px;
+  border:1px solid var(--mc-section-border);
+  border-radius:22px;
+  background:white;
+}
+body.mc-stage-dashboard #moodSection .mood-row {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:12px;
+  max-width:840px;
+  margin: 20px auto;
+}
+body.mc-stage-dashboard #moodSection button.mood {
+  min-width: 104px;
+  min-height: 110px;
+  border: 1px solid #d6e4f4;
+  border-radius: 20px;
+  background: linear-gradient(155deg,#fff,#f0f6ff);
+  box-shadow: 0 8px 20px rgba(24,63,108,.08);
+  transition: transform .15s ease,box-shadow .15s ease,border-color .15s ease;
+  touch-action:manipulation;
+}
+body.mc-stage-dashboard #moodSection button.mood:active { transform:scale(.97); }
+body.mc-stage-dashboard #moodSection button.mood[aria-pressed="true"] {
+  border-color:#1264cb;
+  box-shadow:0 0 0 3px rgba(18,100,203,.15);
+}
+body.mc-stage-dashboard #moodSection .mood-label { display:block; font-size:.9rem; font-weight:700; margin-top:5px; }
+body.mc-stage-dashboard #moodSection #moodResult {
+  max-width:760px;
+  margin:20px auto;
+  border-radius:20px;
+  line-height:1.65;
+}
+body.mc-stage-dashboard #helpSection .mc-support-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin:22px auto!important;
+}
+body.mc-stage-dashboard #helpSection .mc-support-grid .card {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:210px;
+  padding:22px 18px;
+  border:1px solid var(--mc-section-border);
+  border-radius:22px;
+  background:linear-gradient(155deg,#fff,#f1f7ff);
+  box-shadow:0 10px 26px rgba(25,67,120,.07);
+  text-decoration:none;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+body.mc-stage-dashboard #helpSection .mc-support-grid .card:active {transform:scale(.98);}
+body.mc-stage-dashboard #helpSection .mc-support-grid h3 {font-size:1.1rem;line-height:1.3;margin:8px 0;}
+body.mc-stage-dashboard #helpSection .mc-support-grid p {font-size:.94rem;line-height:1.5;}
+body.mc-stage-dashboard #badgesSection :is(.badge-list,.award-list) {
+  max-width:850px;
+  margin:18px auto;
+  gap:14px;
+}
+body.mc-stage-dashboard #badgesSection :is(.badge-list,.award-list) > * {
+  border-radius:18px;
+  border-color:var(--mc-section-border);
+  box-shadow:0 8px 22px rgba(25,67,120,.06);
+}
+body.mc-stage-dashboard :is(#moodSection,#formContainer,#helpSection,#badgesSection) :is(button,a,iframe):focus-visible {
+  outline:3px solid #145dba!important;
+  outline-offset:4px!important;
+}
+body.mc-stage-dashboard :is(#moodSection,#formContainer,#helpSection,#badgesSection) .toolbar .btn {
+  min-height:48px;
+  touch-action:manipulation;
+}
+@media(max-width:640px){
+  body.mc-stage-dashboard #helpSection .mc-support-grid {grid-template-columns:1fr;gap:12px;}
+  body.mc-stage-dashboard #helpSection .mc-support-grid .card {min-height:140px;padding:18px;}
+  body.mc-stage-dashboard #moodSection button.mood {min-width:calc(33.33% - 12px);min-height:104px;}
+  body.mc-stage-dashboard #formContainer iframe {min-height:540px;border-radius:16px;}
+}
+@media(prefers-reduced-motion:reduce){
+  body.mc-stage-dashboard :is(#moodSection,#helpSection) :is(.mood,.card) {transition:none!important;}
+}
