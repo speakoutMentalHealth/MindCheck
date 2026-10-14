@@ -322,7 +322,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     function minimalShow(section) {
       var ids = ["langSection","homeSection","moodSection","formContainer","tipsSection","helpSection","badgesSection"];
       ids.forEach(function(id){ var el=document.getElementById(id); if(el) el.classList.remove('active'); });
-      if (section) { section.classList.add('active'); section.scrollIntoView({behavior:'smooth'}); }
+      if (section) { section.classList.add('active'); section.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); }
     }
     function goToLang() {
       var startBtn = document.getElementById('startBtn');
@@ -622,7 +622,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     function show(section){
       [langSection,homeSection,moodSection,formContainer,tipsSection,helpSection,badgesSection].forEach(s=>s.classList.remove('active'));
       section.classList.add('active');
-      section.scrollIntoView({behavior:'smooth'});
+      section.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
 
       if(section===homeSection){ updateStats(); updateHeaderPills(); renderSparkline(); }
       if(section===badgesSection){ renderBadges(); renderAwards(); }
