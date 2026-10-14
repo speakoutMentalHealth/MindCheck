@@ -22,6 +22,18 @@
 <p class="small">On the NYU page, choose the English patient-facing six-question form (or another officially available language). The form is hosted by NYU, not SpeakOut.</p>
 <p><strong>After the questionnaire:</strong> A screening result that suggests possible ADHD is a reason to discuss your concerns with a clinician, not proof that you have ADHD. A result below the screening threshold does not rule it out when difficulties persist.</p>
 </section>
+<section class="panel" aria-labelledby="interpretTitle">
+<h2 id="interpretTitle">Understand your official ASRS screening result</h2>
+<p>Complete NYU's <strong>patient-facing six-question ASRS v1.1</strong> first. Count how many answers fall inside the shaded boxes printed on that official form. Do not count all answers marked “Often” or “Very often” automatically: the shaded threshold varies by question.</p>
+<label for="shadedCount"><strong>Number of answers in shaded boxes (0–6)</strong></label>
+<select id="shadedCount" style="display:block;max-width:270px;width:100%;padding:12px;margin:10px 0;background:#092337;color:#fff;border:1px solid #81cfbc;border-radius:10px" aria-describedby="screeningHelp">
+<option value="">Choose a number</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+</select>
+<p id="screeningHelp" class="small">This count stays in your browser's current page only. We do not save, transmit or track it.</p>
+<div class="notice" id="screeningResult" role="status" aria-live="polite" hidden></div>
+<button id="clearScreening" type="button" style="background:transparent;color:#a4f4df;border:1px solid #81cfbc;border-radius:10px;padding:10px 16px;cursor:pointer;margin-top:10px">Clear result</button>
+<p class="small">For the validated ASRS v1.1 six-question screener, four or more shaded responses indicate that further clinical assessment is recommended. Fewer than four do not rule ADHD out. This is screening guidance, never a diagnosis or probability estimate.</p>
+</section>
 <section class="panel" aria-labelledby="youthTitle"><h2 id="youthTitle">For children and teenagers</h2>
 <p>The adult ASRS is <strong>not intended for people under 18</strong>. A child or teenager who has persistent concentration, activity or impulse-control difficulties should be assessed through an age-appropriate process involving a qualified clinician and information from parents/caregivers and teachers, where appropriate.</p>
 <p>Clinicians may use tools such as the Vanderbilt parent and teacher rating scales as part of a wider assessment. They are not standalone diagnoses.</p>
@@ -34,4 +46,21 @@
 <li>If possible, bring relevant school reports or observations from someone who knows you well.</li>
 </ol></section>
 <section class="panel"><h2>Privacy and evidence</h2><p>MindCheck does not ask you to enter your questionnaire answers on this page and does not collect an ADHD score here. The third-party provider's privacy terms apply when you open the external questionnaire.</p><p class="small">Source: NYU Langone ASRS v1.1 six-question screener. ASRS v1.1 © New York University and the President and Fellows of Harvard College. Also informed by CDC guidance and NICE guideline NG87. Educational content should be reviewed by a qualified clinician before use in outreach programmes.</p></section>
+<script>
+(function(){
+  const input=document.getElementById('shadedCount');
+  const out=document.getElementById('screeningResult');
+  const clear=document.getElementById('clearScreening');
+  function show(){
+    if(input.value===''){out.hidden=true;out.textContent='';return;}
+    const count=Number(input.value);
+    out.hidden=false;
+    out.textContent=count>=4
+      ? 'Your responses meet the ASRS v1.1 screening threshold for further assessment. This does not mean you have ADHD. Consider discussing your experiences with a qualified clinician.'
+      : 'Your responses are below the ASRS v1.1 screening threshold. This does not rule out ADHD. If attention, organization or restlessness affect your daily life, consider discussing them with a qualified clinician.';
+  }
+  input.addEventListener('change',show);
+  clear.addEventListener('click',()=>{input.value='';show();input.focus();});
+})();
+</script>
 </main></body></html>
