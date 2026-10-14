@@ -103,3 +103,12 @@
 /* Root-cause fix: separate the orb's centering transform from its breathing scale.
    JS animates transform, so use a centered inset wrapper instead of translate(-50%). */
 #mcJourney .mc-breathing-circle{left:36px!important;top:36px!important;right:auto!important;bottom:auto!important;transform:scale(.65);transform-origin:50% 50%!important;}
+
+/* Breathing heart: animate the entire heart without disturbing timer alignment. */
+#mcJourney .mc-breathing-circle.mc-breathing-heart{background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;filter:drop-shadow(0 7px 17px rgba(255,69,123,.42));display:block!important;overflow:visible!important;transform:scale(.56);}
+#mcJourney .mc-breathing-heart::before,#mcJourney .mc-breathing-heart::after{display:none!important;content:none!important;}
+#mcJourney .mc-breathing-heart-svg{display:block;width:100%;height:100%;overflow:visible;}
+#mcJourney .mc-breathing-heart.is-inhaling{filter:drop-shadow(0 0 24px rgba(255,125,165,.74)) drop-shadow(0 10px 22px rgba(255,57,117,.45));}
+#mcJourney .mc-breathing-heart.is-exhaling{filter:drop-shadow(0 5px 13px rgba(255,70,133,.32));}
+#mcJourney .mc-breathing-countdown{z-index:5!important;}
+@media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-heart{filter:drop-shadow(0 7px 16px rgba(255,69,123,.38));}}
