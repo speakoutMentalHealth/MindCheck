@@ -43,3 +43,16 @@ body.mc-stage-dashboard .mc-premium-tabs button:not([aria-current=page]):active 
 #tipsSection .tip-filter:active,#tipsSection #nextTip:active,#tipsSection #tipSaveBtn:active,#tipsSection #tipDoneBtn:active{transform:scale(.97)}
 #tipsSection #tipStatus[style*="block"]{border-radius:10px;background:#eaf8ef;padding:10px 12px}
 @media(prefers-reduced-motion:reduce){body.mc-stage-dashboard .mc-premium-tabs button .mc-tab-icon{animation:none!important}#tipsSection .tip-filter{transition:none!important}}
+
+/* iOS-inspired tactile tab surfaces: always visible even when not selected */
+body.mc-stage-dashboard .mc-premium-tabs button{background:transparent!important;box-shadow:none!important;border-radius:17px!important;overflow:visible!important;gap:4px!important;color:#50637d!important;font-weight:650!important}
+body.mc-stage-dashboard .mc-premium-tabs .mc-tab-icon{display:grid!important;place-items:center!important;width:40px!important;height:39px!important;border-radius:14px!important;background:linear-gradient(155deg,#f3f8ff,#e5eefb)!important;border:1px solid #d6e4f5!important;box-shadow:0 3px 7px rgba(17,63,120,.09),inset 0 1px 1px #fff!important;opacity:1!important;animation:none!important;transform:none!important;transition:transform .22s cubic-bezier(.2,.8,.2,1),background .2s,box-shadow .2s!important}
+body.mc-stage-dashboard .mc-premium-tabs .mc-tab-icon svg{width:23px;height:23px;display:block}
+body.mc-stage-dashboard .mc-premium-tabs button[aria-current=page]{background:transparent!important;box-shadow:none!important;color:#0858b7!important}
+body.mc-stage-dashboard .mc-premium-tabs button[aria-current=page] .mc-tab-icon{background:linear-gradient(145deg,#1478e6,#0754b9)!important;color:white!important;border-color:#0861c6!important;box-shadow:0 6px 13px rgba(6,94,202,.25),inset 0 1px 1px rgba(255,255,255,.25)!important;transform:translateY(-3px)!important}
+body.mc-stage-dashboard .mc-premium-tabs button:not([aria-current=page]):hover .mc-tab-icon{transform:translateY(-3px)!important;background:#e0eeff!important}
+@keyframes mc-native-tap{0%{transform:scale(1)}45%{transform:scale(.76)}75%{transform:scale(1.15)}100%{transform:scale(1)}}
+body.mc-stage-dashboard .mc-premium-tabs button.mc-tapped .mc-tab-icon{animation:mc-native-tap .38s cubic-bezier(.2,.8,.2,1)!important}
+body.mc-stage-dashboard .mc-premium-tabs button .mc-tab-label{font-size:clamp(9px,2.25vw,12px);white-space:nowrap;line-height:1.1}
+@media(max-width:600px){body.mc-stage-dashboard .mc-premium-tabs button{min-height:70px!important;padding:6px 0!important}body.mc-stage-dashboard .mc-premium-tabs .mc-tab-icon{width:37px!important;height:37px!important;border-radius:13px!important}body.mc-stage-dashboard .mc-premium-tabs .mc-tab-icon svg{width:21px;height:21px}}
+@media(prefers-reduced-motion:reduce){body.mc-stage-dashboard .mc-premium-tabs button.mc-tapped .mc-tab-icon{animation:none!important}body.mc-stage-dashboard .mc-premium-tabs .mc-tab-icon{transition:none!important}}
