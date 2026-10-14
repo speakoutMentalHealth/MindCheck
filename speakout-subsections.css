@@ -1,0 +1,88 @@
+/* SpeakOut MindCheck unified subsection design — scoped to internal app stages.
+   Presentation only: retain all existing IDs, event handlers and translations. */
+body:is(.mc-stage-language,.mc-stage-dashboard) {
+  --mc-ui-navy:#06152f;
+  --mc-ui-blue:#0a68d8;
+  --mc-ui-gold:#f5a623;
+  --mc-ui-ink:#101828;
+  --mc-ui-line:#dce7f5;
+  --mc-ui-soft:#eef5ff;
+  --mc-ui-shadow:0 12px 36px rgba(6,21,47,.075);
+  font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:linear-gradient(180deg,#f7faff,#fff 58%,#f7faff);
+  color:var(--mc-ui-ink);
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) header {
+  background:var(--mc-ui-navy);
+  color:#fff;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(h1,h2,h3) {
+  color:var(--mc-ui-navy);
+  font-family:Outfit,system-ui,sans-serif;
+  line-height:1.18;
+  letter-spacing:-.025em;
+  text-wrap:balance;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn-primary,.tbtn:not(.soon)) {
+  background:var(--mc-ui-blue)!important;
+  color:#fff!important;
+  border:1px solid transparent;
+  border-radius:14px;
+  box-shadow:0 7px 20px rgba(10,104,216,.15);
+  font-weight:700;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn-primary,.tbtn:not(.soon)):hover {
+  background:#064a9c!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn-ghost,.tbtn.soon) {
+  background:var(--mc-ui-soft)!important;
+  color:var(--mc-ui-navy)!important;
+  border:1px solid var(--mc-ui-line)!important;
+  box-shadow:none;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.card,.award,.badge,#langSection,#moodSection) {
+  border-color:var(--mc-ui-line)!important;
+  box-shadow:var(--mc-ui-shadow);
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.card,.award,.badge) {
+  background:#fff;
+  border-radius:22px;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) .card .big {
+  background:var(--mc-ui-soft)!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(.pill,.badge:not(.locked)) {
+  background:var(--mc-ui-soft)!important;
+  color:var(--mc-ui-navy)!important;
+  border-color:var(--mc-ui-line)!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(button,a,select,input,textarea):focus-visible {
+  outline:3px solid var(--mc-ui-gold)!important;
+  outline-offset:3px!important;
+}
+body:is(.mc-stage-language,.mc-stage-dashboard) :is(button,.btn,.tbtn,select) {
+  min-height:44px;
+}
+body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection) {
+  width:min(1050px,calc(100% - 24px));
+  margin:20px auto;
+  border-radius:24px;
+}
+body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection).active {
+  background:rgba(255,255,255,.85);
+  border:1px solid var(--mc-ui-line);
+  box-shadow:var(--mc-ui-shadow);
+  padding:clamp(18px,3vw,34px);
+}
+body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection) :is(input,select,textarea) {
+  max-width:100%;
+  border-radius:12px;
+}
+@media(max-width:600px) {
+  body:is(.mc-stage-language,.mc-stage-dashboard) :is(.card,.award,.badge) {border-radius:18px;}
+  body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection) {margin:12px auto;}
+  body.mc-stage-dashboard :is(#formContainer,#tipsSection,#helpSection,#badgesSection).active {padding:18px 14px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  body:is(.mc-stage-language,.mc-stage-dashboard) :is(.btn,.tbtn,.card) {transition:none!important;animation:none!important;}
+}
