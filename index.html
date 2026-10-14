@@ -428,7 +428,18 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         <div class="mc-breathing-visual">
           <div class="mc-breathing-stage" aria-label="Breathing timer">
             <svg class="mc-breathing-ring" viewBox="0 0 260 260" aria-hidden="true"><circle class="mc-breathing-ring-track" cx="130" cy="130" r="114"></circle><circle id="mcBreathingRingProgress" class="mc-breathing-ring-progress" cx="130" cy="130" r="114"></circle></svg>
-            <div id="mcBreathingCircle" class="mc-breathing-circle mc-breathing-heart" aria-hidden="true"><svg class="mc-breathing-heart-svg" viewBox="0 0 200 200" focusable="false"><defs><linearGradient id="mcHeartGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffb4c9"/><stop offset="48%" stop-color="#ff527f"/><stop offset="100%" stop-color="#b71f5d"/></linearGradient><radialGradient id="mcHeartHighlight" cx="32%" cy="20%" r="80%"><stop offset="0%" stop-color="#fff" stop-opacity=".46"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient></defs><path d="M100 180 C82 163 21 126 17 78 C12 38 39 18 68 23 C84 26 94 36 100 46 C106 36 116 26 132 23 C161 18 188 38 183 78 C179 126 118 163 100 180 Z" fill="url(#mcHeartGradient)"/><path d="M100 180 C82 163 21 126 17 78 C12 38 39 18 68 23 C84 26 94 36 100 46 C106 36 116 26 132 23 C161 18 188 38 183 78 C179 126 118 163 100 180 Z" fill="url(#mcHeartHighlight)"/></svg></div>
+            <div id="mcBreathingCircle" class="mc-breathing-circle mc-breathing-heart" aria-hidden="true"><svg class="mc-breathing-heart-svg" viewBox="0 0 200 200" focusable="false" aria-hidden="true"><defs>
+<radialGradient id="mcHeartBody" cx="30%" cy="19%" r="87%"><stop offset="0" stop-color="#ffe0db"/><stop offset=".16" stop-color="#fb829a"/><stop offset=".42" stop-color="#e33e71"/><stop offset=".75" stop-color="#9d194e"/><stop offset="1" stop-color="#510b36"/></radialGradient>
+<linearGradient id="mcHeartLobe" x1=".08" y1=".05" x2=".86" y2=".96"><stop offset="0" stop-color="#fff0e6" stop-opacity=".68"/><stop offset=".38" stop-color="#ffb4b7" stop-opacity=".22"/><stop offset="1" stop-color="#32061c" stop-opacity=".44"/></linearGradient>
+<radialGradient id="mcHeartSheen" cx=".26" cy=".19" r=".76"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset=".35" stop-color="#ffd9de" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<filter id="mcHeartDepth" x="-25%" y="-25%" width="150%" height="165%"><feGaussianBlur in="SourceAlpha" stdDeviation="4" result="shadow"/><feOffset in="shadow" dx="2" dy="7" result="drop"/><feComponentTransfer in="drop" result="dark"><feFuncA type="linear" slope=".44"/></feComponentTransfer><feMerge><feMergeNode in="dark"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<g filter="url(#mcHeartDepth)"><path d="M100 181 C87 173 62 151 44 130 C23 106 13 87 18 64 C23 35 45 21 67 24 C82 26 94 36 100 48 C108 35 121 25 137 24 C161 22 181 40 184 65 C188 94 165 127 143 150 C123 170 108 178 100 181 Z" fill="url(#mcHeartBody)"/>
+<path d="M100 48 C84 21 55 19 35 40 C18 59 19 87 36 110 C42 120 52 132 62 143 C46 109 42 85 51 65 C61 44 83 44 100 59 Z" fill="url(#mcHeartLobe)" opacity=".75"/>
+<path d="M101 49 C127 19 156 30 169 48 C186 74 175 98 156 120 C167 91 153 57 132 53 C117 49 108 56 101 65 Z" fill="#6e1245" opacity=".22"/>
+<path d="M100 181 C108 169 125 150 134 127 C144 101 139 82 126 70 C144 80 151 100 147 123 C142 146 119 170 100 181 Z" fill="#530b35" opacity=".25"/>
+<path d="M51 43 C67 29 85 36 92 50" stroke="#fff3ee" stroke-opacity=".55" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="64" cy="58" rx="29" ry="24" fill="url(#mcHeartSheen)" opacity=".42"/></g>
+</svg></div>
             <div class="mc-breathing-countdown"><strong id="mcBreathingSeconds">4</strong><span id="mcBreathingPhase">INHALE</span></div>
           </div>
         </div>
