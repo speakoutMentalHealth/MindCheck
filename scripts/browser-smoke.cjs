@@ -58,6 +58,17 @@ async function run() {
       await page.locator('#goTips').click();
       assert.equal(await page.evaluate(()=>localStorage.getItem('mc_lang')),'fr');
       assert((await page.locator('#tipText').innerText()).length>10,'translated tip is empty');
+      // Mock official verifier responses: an 'ok' result for a different ID must be rejected.
+      const cert=await context.newPage();
+      await cert.route('https://script.google.com/**', async route=>{
+        await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,cert_id:'MC-CERT-OTHER',name:'Test Record',score:80,date:'2026-01-01'})});
+      });
+      await cert.goto('http://127.0.0.1:8765/verify.html',{waitUntil:'domcontentloaded'});
+      await cert.locator('#certInput').fill('MC-CERT-EXPECTED');
+      await cert.locator('#verifyBtn').click();
+      await cert.locator('#statusBox').getByText('Certificate not verified').waitFor();
+      assert.equal(await cert.locator('#statusBox').getAttribute('class'),'status bad','certificate ID mismatch wrongly verified');
+      await cert.close();
       assert.deepEqual(errors,[],setup.name+' JavaScript errors: '+errors.join('; '));
       await context.close();
       process.stdout.write('PASS '+setup.name+' — layout, breathing, challenges, tips, language switching\n');
