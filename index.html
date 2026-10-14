@@ -322,6 +322,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
 
   <div class="mc-hero"><div class="mc-eyebrow">SpeakOut Mental Health Outreach</div><h1 data-i18n="heroTitle">A little check-in can make a difference.</h1><p data-i18n="heroDescription">Understand how you feel, explore self-assessments and find support in a calm, judgement-free space.</p><a class="mc-primary-action" href="#startBtn" onclick="document.getElementById('startBtn').click();return false;" data-i18n="heroStart">Start your wellbeing check →</a><div class="mc-trust"><span>A space for personal reflection</span><span>Screenings are not diagnoses</span><span>Support when you need it</span></div></div>
+  <aside id="mcInstallBanner" aria-label="Install MindCheck" hidden>
+    <div class="mc-install-copy"><strong>Keep MindCheck on your phone</strong><span>Open it from your Home Screen anytime. Some features also work offline after your first visit.</span></div>
+    <div class="mc-install-buttons"><button type="button" id="mcInstallOpen">Add to phone</button><button type="button" id="mcInstallDismiss" aria-label="Dismiss installation invitation">Not now</button></div>
+  </aside>
+  <dialog id="mcInstallDialog" aria-labelledby="mcInstallTitle">
+    <h2 id="mcInstallTitle">Add MindCheck to your phone</h2>
+    <p id="mcInstallInstructions"></p>
+    <button type="button" id="mcInstallClose">Got it</button>
+  </dialog>
   <p class="mc-purpose">A private space to check in with your wellbeing, explore screening tools, find support and report safety concerns. Assessments are informational and do not provide a diagnosis.</p>
   <nav class="mc-wellbeing-nav" aria-label="MindCheck quick access"><a href="#startBtn" onclick="document.getElementById('startBtn').click();return false;">Mood check<small>Begin a personal check-in</small></a><a href="#startBtn" onclick="document.getElementById('startBtn').click();return false;">Assessments<small>Explore screening tools after starting</small></a><a href="report.html">Anonymous report<small>Share a safety concern</small></a><a href="resources.html">Find support<small>Browse available resources</small></a></nav>
   <button id="startBtn" class="btn btn-primary" aria-label="Start MindCheck" data-i18n="startNow">Start Now</button>
@@ -544,6 +553,54 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     #tipsSection .mc-remove-tip {position:relative;z-index:2;flex-shrink:0;min-height:44px;touch-action:manipulation;cursor:pointer;font-size:.85rem!important;padding:9px 12px!important;color:#9f1239!important;}
     @media(max-width:430px){#tipsSection .mc-saved-tip-item{flex-wrap:wrap}#tipsSection .mc-remove-tip{margin-left:auto}}
   </style>
+  <style>
+    #mcInstallBanner[hidden]{display:none!important}
+    #mcInstallBanner{box-sizing:border-box;width:min(920px,calc(100% - 28px));margin:16px auto;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;border:1px solid #cbdff8;border-radius:20px;background:#f0f7ff;color:#10253f;text-align:left;box-shadow:0 8px 25px rgba(12,71,130,.08)}
+    .mc-install-copy{display:flex;flex-direction:column;gap:5px;flex:1 1 230px}.mc-install-copy strong{font-size:1.04rem}.mc-install-copy span{font-size:.9rem;line-height:1.45}
+    .mc-install-buttons{display:flex;gap:8px;flex-wrap:wrap}
+    #mcInstallOpen,#mcInstallDismiss,#mcInstallClose{cursor:pointer;min-height:44px;border-radius:12px;padding:10px 15px;font:inherit;font-weight:700;touch-action:manipulation}
+    #mcInstallOpen,#mcInstallClose{background:#0b65ce;color:white;border:1px solid #0b65ce}
+    #mcInstallDismiss{background:white;color:#233a57;border:1px solid #cbdff8}
+    #mcInstallDialog{max-width:min(420px,calc(100vw - 44px));border:1px solid #d3e1f3;border-radius:22px;padding:25px;text-align:left;color:#10253f;box-shadow:0 25px 75px rgba(10,32,66,.2)}
+    #mcInstallDialog::backdrop{background:rgba(9,24,45,.55)}
+    #mcInstallDialog h2{font-size:1.3rem;margin:0 0 12px}
+    #mcInstallDialog p{line-height:1.65;white-space:pre-line}
+  </style>
+  <script>
+  (function(){
+    const banner=document.getElementById('mcInstallBanner');
+    const dialog=document.getElementById('mcInstallDialog');
+    const instructions=document.getElementById('mcInstallInstructions');
+    let deferredPrompt=null;
+    const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+    const isIOS=()=>/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    const showBanner=()=>{
+      if(standalone())return;
+      try{if(sessionStorage.getItem('mc-install-dismissed')==='1')return;}catch(e){}
+      if(document.body.classList.contains('mc-stage-welcome'))banner.hidden=false;
+    };
+    window.addEventListener('beforeinstallprompt',function(event){
+      event.preventDefault();deferredPrompt=event;showBanner();
+    });
+    window.addEventListener('appinstalled',function(){deferredPrompt=null;banner.hidden=true;});
+    document.getElementById('mcInstallDismiss').addEventListener('click',function(){
+      banner.hidden=true;try{sessionStorage.setItem('mc-install-dismissed','1');}catch(e){}
+    });
+    document.getElementById('mcInstallClose').addEventListener('click',()=>dialog.close());
+    document.getElementById('mcInstallOpen').addEventListener('click',async function(){
+      if(deferredPrompt){
+        const prompt=deferredPrompt;deferredPrompt=null;
+        try{await prompt.prompt();const choice=await prompt.userChoice;if(choice?.outcome==='accepted'){banner.hidden=true;return;}}catch(e){console.warn('Install prompt unavailable',e);}
+      }
+      instructions.textContent=isIOS()
+        ? 'On iPhone: Open this page in Safari, tap Share (the square with an upward arrow), choose Add to Home Screen, then tap Add. Open MindCheck from the new icon. If you are viewing this inside another app, first choose Open in Safari.'
+        : 'On Android: Open MindCheck in Chrome, tap the three-dot menu, then choose Install app or Add to Home screen. Follow the prompts. On other browsers, look for an Install or Add to Home Screen option in the browser menu.';
+      if(typeof dialog.showModal==='function')dialog.showModal();else alert(instructions.textContent);
+    });
+    document.addEventListener('DOMContentLoaded',showBanner);
+    showBanner();
+  })();
+  </script>
   <!-- Get Help -->
   <section id="helpSection" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="helpTitle">Get Help 📞</h2>
