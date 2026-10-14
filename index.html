@@ -537,6 +537,13 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     #tipsSection #tipActions button:focus-visible { outline:3px solid #2276d2; outline-offset:3px; }
   </style>
 
+  <style>
+    #tipsSection #savedTipsList {list-style:none!important;padding:0!important;}
+    #tipsSection .mc-saved-tip-item {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 4px;border-bottom:1px solid #e2e8f0;}
+    #tipsSection .mc-saved-tip-content {flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;line-height:1.5;overflow-wrap:anywhere;}
+    #tipsSection .mc-remove-tip {position:relative;z-index:2;flex-shrink:0;min-height:44px;touch-action:manipulation;cursor:pointer;font-size:.85rem!important;padding:9px 12px!important;color:#9f1239!important;}
+    @media(max-width:430px){#tipsSection .mc-saved-tip-item{flex-wrap:wrap}#tipsSection .mc-remove-tip{margin-left:auto}}
+  </style>
   <!-- Get Help -->
   <section id="helpSection" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="helpTitle">Get Help 📞</h2>
@@ -579,7 +586,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         var items=read(),exists=items.some(function(x){return x.text===t;});
         if(!exists){items.push({text:t,saved_at:new Date().toISOString()});localStorage.setItem('mc_tips_saved',JSON.stringify(items));}
         var saved=read();if(!saved.some(function(x){return x.text===t;}))throw Error('Verification failed');
-        var list=document.getElementById('savedTipsList');if(list){list.replaceChildren();saved.slice().reverse().forEach(function(x){var li=document.createElement('li');li.textContent=x.text;list.appendChild(li);});var panel=list.closest('details');if(panel)panel.open=true;}
+        if(typeof window.mcRenderSavedTips==='function')window.mcRenderSavedTips();var list=document.getElementById('savedTipsList');var panel=list?.closest('details');if(panel)panel.open=true;
         status(exists?'Already saved. See Saved tips below.':'Saved! See Saved tips below.',false);
       }catch(err){console.warn(err);status('Unable to save. Please check browser storage.',true);}
       return false;
@@ -1008,6 +1015,57 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       { text: "Offer a sincere compliment, a thank-you message, or practical help within your capacity. Kindness builds connection.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
       { text: "When your mind says I always fail, look for one example that gives a more balanced picture.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
       { text: "Schedule a ten-minute pause. Put your phone aside and breathe naturally. Rest supports sustainable effort.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+,
+      { text: "You do not have to fix your whole life today. Choose one small thing you can influence, give it ten minutes, and let that be enough for now.", key:'uplift1', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "A difficult morning does not predict the rest of your day. Take a sip of water, change your surroundings if you can, and begin again.", key:'uplift2', tags: ["low","neutral"], times:['any'] },
+      { text: "Progress is not always loud. Sometimes it looks like asking a question, getting some rest, or trying once more after yesterday.", key:'uplift3', tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Speak to yourself as you would speak to a friend who is learning. Replace 'I always fail' with 'I am still practising'.", key:'uplift4', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "You are allowed to have an unfinished day. Write down what can wait, then give yourself permission to stop.", key:'uplift5', tags: ["anxious","calm","low"], times:['any'] },
+      { text: "Your feelings deserve attention, but they do not have to make every decision. Name the feeling, then choose one helpful next step.", key:'uplift6', tags: ["anxious","neutral"], times:['any'] },
+      { text: "Try this: put your hand over your heart and say, 'This is hard, and I can treat myself gently while I work through it.'", key:'uplift7', tags: ["low","anxious","calm"], times:['any'] },
+      { text: "Comparison leaves out the parts of other people's stories you cannot see. Measure today against your own needs and values.", key:'uplift8', tags: ["low","neutral"], times:['any'] },
+      { text: "If you are overwhelmed, reduce the size of the task, not your sense of worth. One message or one paragraph is a start.", key:'uplift9', tags: ["anxious","low","neutral"], times:['any'] },
+      { text: "You can be grateful for what you have and still want things to improve. Both feelings can exist together.", key:'uplift10', tags: ["neutral","positive","low"], times:['any'] },
+      { text: "A pause is not the same as giving up. Take five minutes away from the problem, then return with one question you can answer.", key:'uplift11', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Think of one strength that helped you through a past challenge. How could you use a small part of it today?", key:'uplift12', tags: ["low","positive","neutral"], times:['any'] },
+      { text: "It is okay to say, 'I cannot take that on today.' A respectful boundary can protect your energy and your relationships.", key:'uplift13', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Your worth is not a scorecard of productivity. Notice one thing about yourself that matters beyond what you achieve.", key:'uplift14', tags: ["low","neutral","positive"], times:['any'] },
+      { text: "Not every thought needs a response. When a harsh thought arrives, try saying, 'I notice I am having that thought.'", key:'uplift15', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Make room for a little joy without waiting for everything to be perfect. Play a favourite song or savour a quiet moment.", key:'uplift16', tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Ask yourself: 'What would make the next hour 5% easier?' Choose a realistic answer rather than a perfect one.", key:'uplift17', tags: ["anxious","low","neutral"], times:['any'] },
+      { text: "A mistake can give you information without defining who you are. Write what happened, what you learned, and what comes next.", key:'uplift18', tags: ["low","neutral","positive"], times:['any'] },
+      { text: "You can start over more than once. A fresh start can be as simple as standing up, stretching, and choosing your next action.", key:'uplift19', tags: ["low","positive","neutral"], times:['any'] },
+      { text: "If you feel disconnected, send a trusted person a simple message: 'Could we talk for a few minutes when you're free?'", key:'uplift20', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "Take a moment to notice what your body needs: food, water, movement, warmth, quiet, or rest. Respond with kindness if you can.", key:'uplift21', tags: ["low","anxious","calm"], times:['any'] },
+      { text: "You are not behind in a race everyone is running together. Your circumstances, responsibilities, and pace are your own.", key:'uplift22', tags: ["low","neutral"], times:['any'] },
+      { text: "Celebrate effort as well as outcomes. Write down one thing you showed up for, even if the result is still uncertain.", key:'uplift23', tags: ["positive","low","neutral"], times:['any'] },
+      { text: "Try a gentle reset: look away from your screen, relax your hands, and take three comfortable breaths without forcing them.", key:'uplift24', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "A small act of kindness counts even when nobody sees it. Remember one kind choice you made recently.", key:'uplift25', tags: ["positive","neutral"], times:['any'] },
+      { text: "It is possible to feel afraid and take a careful step forward. Pick a step that feels safe and manageable.", key:'uplift26', tags: ["anxious","low","neutral"], times:['any'] },
+      { text: "Instead of asking 'Why am I not doing more?', try 'What support or resources would make this easier?'", key:'uplift27', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "Rest is a human need, not a prize for finishing every task. Choose a reasonable stopping point today.", key:'uplift28', tags: ["low","calm","neutral"], times:['any'] },
+      { text: "When the future feels enormous, return to today. List one thing to do, one person to connect with, and one thing to enjoy.", key:'uplift29', tags: ["anxious","neutral","positive"], times:['any'] },
+      { text: "You can appreciate how far you have come without pretending the journey was easy. Give yourself credit for your persistence.", key:'uplift30', tags: ["positive","low","neutral"], times:['any'] },
+      { text: "Try replacing 'I must get everything right' with 'I can do this carefully and learn as I go'.", key:'uplift31', tags: ["anxious","neutral"], times:['any'] },
+      { text: "If a plan falls through, it does not mean you have failed. Consider a smaller alternative or a different time.", key:'uplift32', tags: ["low","neutral"], times:['any'] },
+      { text: "You deserve support before things become unbearable. Reaching out early is a thoughtful way to care for yourself.", key:'uplift33', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "When someone offers a genuine compliment, practise receiving it with a simple 'Thank you' instead of dismissing it.", key:'uplift34', tags: ["positive","low","neutral"], times:['any'] },
+      { text: "You can care about people without carrying every problem alone. Decide what is yours to help with and what needs shared support.", key:'uplift35', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Find one ordinary thing that brings comfort: warm tea, a familiar voice, a quiet seat, or a favourite song. Stay with it briefly.", key:'uplift36', tags: ["calm","low","neutral"], times:['any'] },
+      { text: "Think of a challenge you once believed you could not handle. What did it teach you about seeking help or adapting?", key:'uplift37', tags: ["positive","neutral","low"], times:['any'] },
+      { text: "There is no need to turn every moment into self-improvement. Spend a few minutes doing something simply because you enjoy it.", key:'uplift38', tags: ["positive","calm","neutral"], times:['any'] },
+      { text: "If your energy is low, choose a minimum-viable day: basic needs, one priority, and enough room for rest.", key:'uplift39', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "Hope can be practical. Write down one possibility worth exploring, then identify the smallest first step.", key:'uplift40', tags: ["positive","low","neutral"], times:['any'] },
+      { text: "A gentle evening question: 'What can I leave behind today, and what deserves my attention tomorrow?'", key:'uplift41', tags: ["calm","neutral","low"], times:['any'] },
+      { text: "You can disagree with someone and still be respectful. Pause, name what matters to you, and respond when you feel ready.", key:'uplift42', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Your voice matters. Practise expressing one need clearly: 'I would appreciate help with...'", key:'uplift43', tags: ["low","neutral","positive"], times:['any'] },
+      { text: "When motivation is missing, make the first step easier: open the document, lay out your shoes, or prepare your workspace.", key:'uplift44', tags: ["low","neutral"], times:['any'] },
+      { text: "Notice one thing you did today that your younger self would have found difficult. Growth often hides in ordinary moments.", key:'uplift45', tags: ["positive","low","neutral"], times:['any'] },
+      { text: "Be patient with a change that takes practice. Consistency can mean returning after a break, not never missing a day.", key:'uplift46', tags: ["low","neutral","positive"], times:['any'] },
+      { text: "If today has been heavy, you do not need a motivational speech. Perhaps you need rest, company, or a safe space to talk.", key:'uplift47', tags: ["low","anxious","calm"], times:['any'] },
+      { text: "Let one good moment be good without worrying whether it will last. Enjoy it while it is here.", key:'uplift48', tags: ["positive","calm","neutral"], times:['any'] },
+      { text: "Ask a trusted person what has helped them through a difficult week. You might discover a practical idea or feel less alone.", key:'uplift49', tags: ["low","neutral"], times:['any'] },
+      { text: "Give yourself a realistic compliment: 'I handled something difficult today,' or 'I kept going when I needed to.'", key:'uplift50', tags: ["positive","low","neutral"], times:['any'] }
     ];
     let currentTipFilter='all';
     let currentTipObj=null;
@@ -1050,9 +1108,54 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     }
     function renderSavedTips(){
       const saved=getSavedTips();
-      if(!saved.length){ savedTipsList.innerHTML=`<li><em>${mcT('noSavedTips')}</em></li>`; return; }
-      savedTipsList.innerHTML=saved.slice().reverse().map(t=>{const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;const translated=key?mcT(key):t.text;const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));return `<li>${escapeHTML(translated)} <br><small>${escapeHTML(mcT('savedAt'))} ${escapeHTML(new Date(t.saved_at).toLocaleString())}</small></li>`;}).join('');
+      savedTipsList.replaceChildren();
+      if(!saved.length){
+        const li=document.createElement('li');
+        const em=document.createElement('em');
+        em.textContent=mcT('noSavedTips');
+        li.appendChild(em);savedTipsList.appendChild(li);return;
+      }
+      saved.slice().reverse().forEach((t,reverseIndex)=>{
+        const index=saved.length-1-reverseIndex;
+        const li=document.createElement('li');
+        li.className='mc-saved-tip-item';
+        const content=document.createElement('div');
+        content.className='mc-saved-tip-content';
+        const message=document.createElement('span');
+        const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;
+        const localized=key?mcT(key):t.text;
+        message.textContent=localized===key?t.text:localized;
+        const date=document.createElement('small');
+        const parsed=new Date(t.saved_at);
+        date.textContent=mcT('savedAt')+' '+(Number.isNaN(parsed.getTime())?'':parsed.toLocaleString());
+        content.append(message,date);
+        const remove=document.createElement('button');
+        remove.type='button';remove.className='btn btn-ghost mc-remove-tip';
+        remove.textContent='Remove ×';
+        remove.setAttribute('aria-label','Remove saved tip: '+t.text);
+        remove.addEventListener('click',()=>{
+          const latest=getSavedTips();
+          const identity=x=>(x.key||x.text)+'|'+(x.saved_at||'');
+          const target=identity(t);
+          const match=latest.findIndex(x=>identity(x)===target);
+          if(match<0)return;
+          latest.splice(match,1);
+          try{
+            if(!setSavedTips(latest))throw new Error('Removal could not be verified');
+            renderSavedTips();
+            if(currentTipObj)tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(x=>(x.key||x.text)===(currentTipObj.key||currentTipObj.text))));
+            tipStatus.textContent='Tip removed from your saved list.';
+            tipStatus.style.color='#087352';tipStatus.style.display='block';
+          }catch(error){
+            console.warn('Unable to remove saved tip',error);
+            tipStatus.textContent='Unable to remove this tip. Please try again.';
+            tipStatus.style.color='#9f1239';tipStatus.style.display='block';
+          }
+        });
+        li.append(content,remove);savedTipsList.appendChild(li);
+      });
     }
+    window.mcRenderSavedTips=renderSavedTips;
     tipSaveBtn.addEventListener('click', ()=>{
       if(!currentTipObj) { renderTip(); return; }
       const saved=getSavedTips();
