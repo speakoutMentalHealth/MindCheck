@@ -1,6 +1,6 @@
 // MindCheck service worker: network-first navigation prevents outdated homepage releases.
-const CACHE = 'mc-v9-visual-polish-20261014';
-const ASSETS = ['./','./index.html','./mc-theme.css','./mc-polish.css','./js/mindcheck-i18n.js','./volunteers.html','./training-hub.html','./certificate.html','./verify.html','./resources.html','./monitoring.html','./privacy.html','./terms.html','./favicon.png','./manifest.webmanifest'];
+const CACHE = 'mc-v10-native-tabs-20261014';
+const ASSETS = ['./mindcheck-focused-app.css','./mindcheck-premium-nav.css','./mindcheck-premium-layout.css','./mindcheck-compact-header.css','./js/mindcheck-premium-nav.js','./','./index.html','./mc-theme.css','./mc-polish.css','./js/mindcheck-i18n.js','./volunteers.html','./training-hub.html','./certificate.html','./verify.html','./resources.html','./monitoring.html','./privacy.html','./terms.html','./favicon.png','./manifest.webmanifest'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
   self.skipWaiting();
@@ -19,8 +19,8 @@ self.addEventListener('fetch', event => {
     }).catch(async () => (await caches.match(request)) || (await caches.match('./index.html')) || Response.error()));
     return;
   }
-  event.respondWith(caches.match(request).then(cached => cached || fetch(request).then(response => {
+  event.respondWith(fetch(request).then(response => {
     if (response.ok) { const copy=response.clone(); event.waitUntil(caches.open(CACHE).then(cache=>cache.put(request,copy))); }
     return response;
-  })));
+  }).catch(async () => (await caches.match(request)) || Response.error()));
 });
