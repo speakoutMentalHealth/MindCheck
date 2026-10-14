@@ -19,3 +19,26 @@
 #mcJourney :is(.mc-smart-actions button,.mc-breathing-controls button):focus-visible{outline:3px solid #0b66c3;outline-offset:4px;}
 @media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-circle{transform:none!important;will-change:auto;}}
 @media(max-width:480px){#mcJourney .mc-smart-actions button{flex:1 1 100%;}#mcJourney .mc-breathing-visual{height:190px;}}
+
+/* Calm progressive disclosure: keep the journey summary and breathing exercise visible. */
+#mcJourney .mc-calm-accordion{margin:12px 0;border:1px solid #dce9ed;background:#fff;border-radius:18px;overflow:hidden;}
+#mcJourney .mc-calm-accordion>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;padding:14px 18px;font-weight:750;font-size:1rem;color:#183e55;cursor:pointer;touch-action:manipulation;}
+#mcJourney .mc-calm-accordion>summary::-webkit-details-marker{display:none;}
+#mcJourney .mc-calm-accordion>summary:focus-visible{outline:3px solid #0b66c3;outline-offset:-4px;border-radius:16px;}
+#mcJourney .mc-calm-chevron{font-size:1.45rem;color:#336d83;transition:transform .2s ease;}
+#mcJourney .mc-calm-accordion[open] .mc-calm-chevron{transform:rotate(180deg);}
+#mcJourney .mc-calm-panel{padding:0 12px 12px;}
+#mcJourney .mc-calm-panel .mc-journey-chart,#mcJourney .mc-calm-panel .mc-smart-wellness{margin:0;box-shadow:none;border:0;padding:12px 5px;}
+#mcJourney .mc-calm-panel .mc-journey-challenge-head{margin:12px 5px;}
+#mcJourney .mc-calm-panel .mc-journey-challenge-list{padding:0 5px 10px;}
+#mcJourney .mc-breathing{background:linear-gradient(160deg,#f9fcff,#eaf7fc);border-color:#c8e5f1;}
+#mcJourney .mc-breathing-visual{height:230px;}
+#mcJourney .mc-breathing-circle{position:relative;isolation:isolate;transform:scale(.75);background:radial-gradient(circle at 30% 25%,#d5f9ff 0%,#6fc7ec 34%,#247cae 76%,#145a8a 100%);box-shadow:inset -12px -15px 30px rgba(12,64,116,.22),inset 8px 8px 20px rgba(255,255,255,.45),0 0 0 12px rgba(73,170,218,.10),0 12px 32px rgba(29,107,150,.18);}
+#mcJourney .mc-breathing-circle::before,#mcJourney .mc-breathing-circle::after{content:"";position:absolute;inset:-15px;border-radius:50%;border:2px solid rgba(65,172,220,.25);pointer-events:none;}
+#mcJourney .mc-breathing-circle::after{inset:-29px;border-color:rgba(65,172,220,.13);}
+#mcJourney .mc-breathing-circle.is-breathing::before{animation:mc-breath-aura 3s ease-in-out infinite alternate;}
+#mcJourney .mc-breathing-circle.is-breathing::after{animation:mc-breath-aura 3s ease-in-out 0.5s infinite alternate;}
+#mcJourney .mc-breathing-circle.is-inhaling{filter:brightness(1.09) saturate(1.12);}
+#mcJourney .mc-breathing-circle.is-exhaling{filter:brightness(.96);}
+@keyframes mc-breath-aura{from{opacity:.3;transform:scale(.94);}to{opacity:1;transform:scale(1.1);}}
+@media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-circle::before,#mcJourney .mc-breathing-circle::after{animation:none!important;}#mcJourney .mc-calm-chevron{transition:none;}}
