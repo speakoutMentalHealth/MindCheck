@@ -1,0 +1,74 @@
+/* SpeakOut brand unification — presentation only; no application logic changes. */
+body.mc-stage-welcome {
+  --mc-brand-navy:#06152f;
+  --mc-brand-blue:#0a68d8;
+  --mc-brand-gold:#f5a623;
+  --mc-brand-ink:#101828;
+  --mc-brand-bg:#f7faff;
+  font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:linear-gradient(180deg,#f7faff 0%,#fff 60%,#f7faff 100%);
+  color:var(--mc-brand-ink);
+}
+body.mc-stage-welcome .mc-brand-nav {
+  background:#fff!important;
+  color:var(--mc-brand-navy)!important;
+  border:1px solid #e5edf6;
+  box-shadow:0 8px 28px rgba(6,21,47,.055);
+}
+body.mc-stage-welcome .mc-brand,
+body.mc-stage-welcome .mc-brand strong {color:var(--mc-brand-navy)!important;}
+body.mc-stage-welcome .mc-brand small {color:#475467!important;}
+body.mc-stage-welcome .mc-brand img {object-fit:contain;flex-shrink:0;}
+body.mc-stage-welcome .mc-nav-actions a {
+  color:var(--mc-brand-navy)!important;
+  background:#eef5ff!important;
+  border:1px solid #d5e5fa!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+  font-weight:650;
+}
+body.mc-stage-welcome .mc-nav-actions a:hover {background:#e0edff!important;}
+body.mc-stage-welcome .mc-hero {
+  background:linear-gradient(135deg,#06152f 0%,#103b75 60%,#0a68d8 100%)!important;
+  border:1px solid rgba(255,255,255,.15);
+  box-shadow:0 20px 52px rgba(6,21,47,.18);
+}
+body.mc-stage-welcome .mc-hero h1 {
+  color:#fff!important;
+  font-family:Outfit,system-ui,sans-serif;
+  font-weight:800;
+  font-size:clamp(2.2rem,6vw,4.4rem);
+  line-height:1.08;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+body.mc-stage-welcome .mc-hero p {color:#f0f5ff!important;line-height:1.6;}
+body.mc-stage-welcome .mc-primary-action {
+  background:#fff!important;
+  color:#06152f!important;
+  border:2px solid transparent!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.12);
+  font-weight:750;
+  text-decoration:none;
+  min-height:52px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+body.mc-stage-welcome .mc-primary-action:hover {background:#edf4ff!important;transform:translateY(-2px);}
+body.mc-stage-welcome .mc-trust span {color:#fff!important;border-color:rgba(255,255,255,.35)!important;}
+body.mc-stage-welcome :is(a,button,input,select):focus-visible {outline:3px solid var(--mc-brand-gold)!important;outline-offset:3px!important;}
+@media(max-width:600px) {
+  body.mc-stage-welcome .mc-brand-nav {margin:12px!important;padding:18px!important;border-radius:24px!important;}
+  body.mc-stage-welcome .mc-brand {min-width:0;}
+  body.mc-stage-welcome .mc-brand strong {font-size:clamp(1.1rem,5vw,1.45rem);line-height:1.2;}
+  body.mc-stage-welcome .mc-brand small {font-size:.8rem;letter-spacing:.02em;}
+  body.mc-stage-welcome .mc-nav-actions a {min-height:44px;display:inline-flex;align-items:center;padding:10px 16px;}
+  body.mc-stage-welcome .mc-hero {margin:14px 12px 0!important;padding:30px 22px!important;border-radius:26px!important;}
+  body.mc-stage-welcome .mc-hero h1 {font-size:clamp(2.1rem,9vw,3.1rem);line-height:1.12;}
+  body.mc-stage-welcome .mc-primary-action {width:100%;padding:15px 12px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.mc-stage-welcome .mc-primary-action {transition:none!important;transform:none!important;}
+}
