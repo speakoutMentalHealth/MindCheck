@@ -31,3 +31,5 @@ body.mc-stage-dashboard #homeSection #mcJourney {
 #mcJourney .mc-journey-footnote{color:#526879;font-size:.82rem;line-height:1.5;}
 @media(max-width:650px){#mcJourney .mc-journey-stats{grid-template-columns:repeat(2,minmax(0,1fr));}#mcJourney .mc-journey-challenge-list{grid-template-columns:1fr;}#mcJourney .mc-journey-icon{font-size:1.8rem;padding:10px;}}
 @media(prefers-reduced-motion:reduce){#mcJourney *,#mcJourney *::before,#mcJourney *::after{animation:none!important;transition:none!important;}}
+
+#mcJourney .mc-journey-weekly-note{grid-column:1/-1;display:block;margin:0 0 14px;padding:13px 16px;border:1px solid #d6e8e9;border-radius:15px;background:#f0f9f8;color:#23666a;font-size:.87rem;font-weight:650;line-height:1.5;}
