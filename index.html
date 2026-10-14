@@ -313,6 +313,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <link rel="stylesheet" href="speakout-brand-unification.css">
   <!-- Shared internal subsection styling; after legacy rules -->
   <link rel="stylesheet" href="speakout-subsections.css">
+  <link rel="stylesheet" href="mindcheck-premium-layout.css">
+<link rel="stylesheet" href="mindcheck-premium-nav.css">
 </head>
 <body class="mc-stage-welcome">
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="resources.html">Resources</a><a href="https://speakoutmentalhealth.org/">SpeakOut website</a></nav></header>
@@ -384,6 +386,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
       <span class="pill">Tips done (7d): <span id="tipsDonePill">0</span></span>
       <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
+    </div>
+
 
       <h3 style="margin:14px 0 6px;font-weight:800;">
   <span data-i18n="nextStep">🎯 Choose Your Next Step</span>
@@ -392,8 +396,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <span data-i18n="nextStepHelp">Every step helps you understand and care for your mental health.</span>
 </p>
 
-    </div>
-
+    
     <div class="grid">
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
         <div class="big">😊</div>
@@ -482,7 +485,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     </div>
   </section>
 
-  <div class="mc-secondary-links" aria-label="SpeakOut learning and participation"><strong data-i18n="learnTitle">Looking to learn or get involved?</strong><p><a href="https://speakoutmentalhealth.org/pages/join-us.html" data-i18n="joinSpeakOut">Join SpeakOut</a><a href="volunteers.html" data-i18n="volunteerTraining">Volunteer training</a><a href="speakhub.html" data-i18n="speakhubCourses">SpeakHub courses</a><a href="e-library.html" data-i18n="learningLibrary">Learning library</a></p></div>
   <!-- Mood Check-in -->
   <section id="moodSection" aria-labelledby="moodTitle">
     <h2 id="moodTitle" data-i18n="moodQuestion">How are you feeling today?</h2>
@@ -507,6 +509,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     <div id="moodResult" class="result" style="display:none;"></div>
     <div class="toolbar"><button id="moodBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
+
+  <div class="mc-secondary-links" aria-label="SpeakOut learning and participation"><strong data-i18n="learnTitle">Looking to learn or get involved?</strong><p><a href="https://speakoutmentalhealth.org/pages/join-us.html" data-i18n="joinSpeakOut">Join SpeakOut</a><a href="volunteers.html" data-i18n="volunteerTraining">Volunteer training</a><a href="speakhub.html" data-i18n="speakhubCourses">SpeakHub courses</a><a href="e-library.html" data-i18n="learningLibrary">Learning library</a></p></div>
 
   <!-- Screenings form -->
   <section id="formContainer" aria-labelledby="formTitle">
@@ -1034,5 +1038,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     }
   </script>
 <script src="js/mindcheck-i18n.js"></script>
+<script src="js/mindcheck-premium-nav.js" defer></script>
 </body>
 </html>
