@@ -317,6 +317,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <link rel="stylesheet" href="mindcheck-premium-nav.css">
 <link rel="stylesheet" href="mindcheck-focused-app.css">
 <link rel="stylesheet" href="mindcheck-compact-header.css">
+<link rel="stylesheet" href="mindcheck-journey.css">
 </head>
 <body class="mc-stage-welcome">
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
@@ -400,7 +401,22 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     </div>
 
 
-      <h3 style="margin:14px 0 6px;font-weight:800;">
+      <section id="mcJourney" class="mc-journey" aria-labelledby="mcJourneyTitle">
+      <div class="mc-journey-head"><div><p class="mc-journey-eyebrow" data-mcj="eyebrow">YOUR WELLNESS JOURNEY</p><h3 id="mcJourneyTitle" data-mcj="title">A little progress, every day</h3><p data-mcj="intro">Your private progress on this device. No scores or diagnoses.</p></div><span class="mc-journey-icon" aria-hidden="true">🌱</span></div>
+      <div class="mc-journey-stats" aria-label="Wellness progress">
+        <div><strong id="mcJourneyCheckins">0</strong><span data-mcj="checkins">Mood check-ins</span></div>
+        <div><strong id="mcJourneyStreak">0</strong><span data-mcj="streak">Day streak</span></div>
+        <div><strong id="mcJourneyTips">0</strong><span data-mcj="saved">Saved tips</span></div>
+        <div><strong id="mcJourneyChallenges">0</strong><span data-mcj="completed">Challenges completed</span></div>
+      </div>
+      <div class="mc-journey-chart"><h4 data-mcj="moodHistory">Recent mood check-ins</h4><div id="mcJourneyMood" role="list" aria-label="Recent mood check-ins"></div></div>
+      <div class="mc-journey-challenge-head"><h4 data-mcj="daily">Today's gentle challenges</h4><p data-mcj="dailyIntro">Choose what feels helpful. Completing a challenge is optional.</p></div>
+      <div id="mcJourneyChallengeList" class="mc-journey-challenge-list"></div>
+      <p id="mcJourneyFeedback" role="status" aria-live="polite" class="mc-journey-feedback"></p>
+      <p class="mc-journey-footnote" data-mcj="privacy">Stored only in this browser. Clearing site data removes this progress.</p>
+    </section>
+
+    <h3 style="margin:14px 0 6px;font-weight:800;">
   <span data-i18n="nextStep">🎯 Choose Your Next Step</span>
 </h3>
 <p style="margin:0 0 10px;color:#52606d;">
@@ -1306,5 +1322,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   </script>
 <script src="js/mindcheck-i18n.js"></script>
 <script src="js/mindcheck-premium-nav.js" defer></script>
+<script src="js/mindcheck-journey.js" defer></script>
 </body>
 </html>
