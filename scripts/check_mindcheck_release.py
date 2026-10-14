@@ -38,7 +38,10 @@ check("privacy notice", 'href="privacy.html"' in html)
 check("emergency support", 'id="crisisBanner"' in html and 'href="tel:112"' in html)
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", "mc-v8-premium-privacy-20261013" in sw)
+check("service worker cache version rotated", "mc-v9-visual-polish-20261014" in sw)
+check("premium polish linked", 'href="mc-polish.css?v=20261014"' in html)
+check("premium polish cached", "'./mc-polish.css'" in sw)
+check("premium polish exists", (ROOT / "mc-polish.css").is_file())
 check("reduced motion supported", "prefers-reduced-motion" in css)
 
 if failures:
