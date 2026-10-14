@@ -889,6 +889,47 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       { text: "💬 Send a quick check-in: “Thinking of you. How are you today?”", key:'wellness8', tags: ["anxious","low","positive"], times:["afternoon","evening"] },
       { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", key:'wellness9', tags: ["low","neutral","positive"], times:["evening","night"] },
       { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s (3–4 rounds).", key:'wellness10', tags: ["anxious","calm","neutral"], times:["any"] }
+      ,
+      { text: "Name five things you can see, four you can feel, three you can hear, two you can smell, and one you can taste.", tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Relax your shoulders and unclench your jaw. Notice the difference for one minute.", tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Breathe gently in for four counts and out for six. Stop if you feel dizzy.", tags: ["anxious","calm"], times:['any'] },
+      { text: "Write down one worry and one small action within your control.", tags: ["anxious","neutral"], times:['any'] },
+      { text: "Put both feet on the floor and notice the support beneath you.", tags: ["anxious","calm"], times:['any'] },
+      { text: "Take a five-minute screen break and rest your eyes on something distant.", tags: ["anxious","neutral"], times:['any'] },
+      { text: "Choose one task and break it into a two-minute first step.", tags: ["anxious","low","neutral"], times:['any'] },
+      { text: "Listen to sounds around you for one quiet minute without judging them.", tags: ["calm","anxious","neutral"], times:['any'] },
+      { text: "Sip water slowly and notice its temperature.", tags: ["calm","anxious","neutral"], times:['any'] },
+      { text: "Try a gentle neck stretch, keeping movement comfortable.", tags: ["calm","neutral"], times:['any'] },
+      { text: "Step outside for fresh air if it is safe and accessible.", tags: ["low","neutral","positive"], times:['any'] },
+      { text: "Send a kind message to someone you trust.", tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Write one sentence about something you handled well today.", tags: ["low","positive"], times:['any'] },
+      { text: "Put on a song that helps you feel grounded.", tags: ["low","calm","positive"], times:['any'] },
+      { text: "Tidy one small corner of your space for three minutes.", tags: ["low","neutral"], times:['any'] },
+      { text: "Eat a nourishing snack if you have not eaten for a while.", tags: ["low","neutral"], times:['any'] },
+      { text: "Open the curtains and let daylight into your room.", tags: ["low","neutral","positive"], times:['any'] },
+      { text: "Make a short list of three manageable priorities, not ten.", tags: ["anxious","neutral"], times:['any'] },
+      { text: "Take a gentle walk or move your body in a way that feels comfortable.", tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Name one thing you are looking forward to, however small.", tags: ["low","positive"], times:['any'] },
+      { text: "Check in with your energy level before saying yes to another request.", tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Give yourself permission to take a short rest without earning it.", tags: ["low","anxious","calm"], times:['any'] },
+      { text: "Write down one boundary that would make tomorrow easier.", tags: ["anxious","neutral"], times:['any'] },
+      { text: "Notice three colours in your surroundings and describe their shades.", tags: ["anxious","calm"], times:['any'] },
+      { text: "Try a five-minute creative activity: sketch, hum, or write.", tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Reflect on a recent challenge and one thing it taught you.", tags: ["neutral","positive"], times:['any'] },
+      { text: "Celebrate completing one small task today.", tags: ["positive","low","neutral"], times:['any'] },
+      { text: "Plan a simple, enjoyable activity for later in the week.", tags: ["positive","low"], times:['any'] },
+      { text: "Thank someone for a small act of kindness.", tags: ["positive","neutral"], times:['any'] },
+      { text: "Share a genuine compliment without expecting anything back.", tags: ["positive"], times:['any'] },
+      { text: "Put your phone away for ten minutes during a meal.", tags: ["calm","neutral"], times:['any'] },
+      { text: "Notice whether you are thirsty, hungry, tired, or overstimulated.", tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "If your thoughts race, write them down without trying to solve them all.", tags: ["anxious","neutral"], times:['any'] },
+      { text: "Try a gentle hand stretch after using your phone or keyboard.", tags: ["calm","neutral"], times:['any'] },
+      { text: "Before sleeping, dim bright lights and choose a calming routine.", tags: ["anxious","calm","low"], times:['any'] },
+      { text: "Set out one thing tonight that will make tomorrow simpler.", tags: ["neutral","anxious"], times:['any'] },
+      { text: "Think of a person or place that helps you feel supported.", tags: ["low","anxious","calm"], times:['any'] },
+      { text: "Take three slow, comfortable breaths while noticing your feet.", tags: ["anxious","calm"], times:['any'] },
+      { text: "Look for one small moment of beauty in an ordinary day.", tags: ["positive","neutral","low"], times:['any'] },
+      { text: "Remind yourself: asking for support is a practical step, not a weakness.", tags: ["low","anxious","neutral"], times:['any'] }
     ];
     let currentTipFilter='all';
     let currentTipObj=null;
@@ -924,7 +965,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       currentTipObj=tip;
       previousTipKey=tip.key||tip.text;
       document.querySelectorAll('.tip-filter').forEach(btn=>{const selected=btn.dataset.filter===currentTipFilter;btn.setAttribute('aria-pressed',String(selected));});
-      tipText.textContent=tip.key?mcT(tip.key):mcT('tipFallback');
+      tipText.textContent=tip.key?mcT(tip.key):tip.text;
       tipNote.textContent=currentTipFilter==='all'?`${mcT('suggestedFor')}: ${mcT('day'+day)}`:`${mcT('filter')}: ${mcT('tag'+currentTipFilter)} • ${mcT('suggestedFor')}: ${mcT('day'+day)}`;
       tipStatus.style.display='none';
     }
