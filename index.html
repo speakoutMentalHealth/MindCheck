@@ -1211,7 +1211,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         em.textContent=mcT('noSavedTips');
         li.appendChild(em);savedTipsList.appendChild(li);return;
       }
-      saved.slice().reverse().forEach((t,reverseIndex)=>{
+      saved.slice().reverse().forEach((entry,reverseIndex)=>{
+        const t=entry&&typeof entry==='object'?entry:{text:typeof entry==='string'?entry:''};
         const index=saved.length-1-reverseIndex;
         const li=document.createElement('li');
         li.className='mc-saved-tip-item';
@@ -1231,7 +1232,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         remove.setAttribute('aria-label','Remove saved tip: '+t.text);
         remove.addEventListener('click',()=>{
           const latest=getSavedTips();
-          const identity=x=>(x.key||x.text)+'|'+(x.saved_at||'');
+          const identity=x=>((x&&typeof x==='object'?(x.key||x.text):x)||'')+'|'+((x&&typeof x==='object'&&x.saved_at)||'');
           const target=identity(t);
           const match=latest.findIndex(x=>identity(x)===target);
           if(match<0)return;
