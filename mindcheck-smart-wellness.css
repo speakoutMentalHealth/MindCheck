@@ -89,3 +89,13 @@
 @keyframes mc-disclosure-reveal{from{opacity:0;transform:translateY(-7px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:480px){#mcJourney .mc-calm-accordion{border-radius:21px;}#mcJourney .mc-calm-accordion>summary{min-height:78px;padding:14px 15px;gap:12px;}#mcJourney .mc-accordion-leading{flex-basis:42px;width:42px;height:42px;border-radius:14px;}}
 @media(prefers-reduced-motion:reduce){#mcJourney .mc-calm-accordion,#mcJourney .mc-calm-chevron{transition:none!important;}#mcJourney .mc-calm-accordion[open]>.mc-calm-panel{animation:none!important;}}
+
+/* iPhone Safari layout correction: center the ring, orb and timer on one fixed stage. */
+#mcJourney .mc-breathing-visual{display:flex!important;align-items:center!important;justify-content:center!important;width:100%;min-width:0;height:282px;overflow:hidden!important;margin:12px auto 4px;}
+#mcJourney .mc-breathing-stage{position:relative!important;display:block!important;width:260px!important;height:260px!important;min-width:260px;max-width:260px;flex:0 0 260px!important;margin:0 auto!important;transform:none!important;overflow:visible;}
+#mcJourney .mc-breathing-ring{position:absolute!important;left:0!important;top:0!important;width:260px!important;height:260px!important;max-width:none!important;transform:rotate(-90deg);transform-origin:50% 50%;}
+#mcJourney .mc-breathing-circle{position:absolute!important;left:50%!important;top:50%!important;right:auto!important;bottom:auto!important;margin:0!important;width:188px!important;height:188px!important;min-width:188px;min-height:188px;max-width:none!important;flex:none!important;transform-origin:center center!important;}
+#mcJourney .mc-breathing-countdown{position:absolute!important;inset:0!important;left:0!important;top:0!important;width:260px!important;height:260px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center;}
+#mcJourney .mc-breathing-countdown strong{position:static!important;margin:0!important;}
+#mcJourney .mc-breathing-cue{position:relative;z-index:1;margin-top:2px!important;padding:0 12px;overflow-wrap:break-word;}
+@media(max-width:480px){#mcJourney .mc-breathing-visual{height:265px!important;}#mcJourney .mc-breathing-stage{transform:scale(.92)!important;}}
