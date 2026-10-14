@@ -953,7 +953,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       const pool=TIPS.filter(fitsFilter);
       const timed=pool.filter(fitsTime);
       const src=timed.length?timed:pool;
-      const alternatives=src.filter(t=>t.key!==previousTipKey);
+      const alternatives=src.filter(t=>(t.key||t.text)!==previousTipKey);
       const choices=alternatives.length?alternatives:src;
       return choices.length?choices[Math.floor(Math.random()*choices.length)]:null;
     }
@@ -972,7 +972,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     function renderSavedTips(){
       const saved=getSavedTips();
       if(!saved.length){ savedTipsList.innerHTML=`<li><em>${mcT('noSavedTips')}</em></li>`; return; }
-      savedTipsList.innerHTML=saved.slice().reverse().map(t=>{const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;const translated=key?mcT(key):t.text;return `<li>${translated} <br><small>${mcT('savedAt')} ${new Date(t.saved_at).toLocaleString()}</small></li>`;}).join('');
+      savedTipsList.innerHTML=saved.slice().reverse().map(t=>{const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;const translated=key?mcT(key):t.text;const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));return `<li>${escapeHTML(translated)} <br><small>${escapeHTML(mcT('savedAt'))} ${escapeHTML(new Date(t.saved_at).toLocaleString())}</small></li>`;}).join('');
     }
     tipSaveBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
