@@ -460,7 +460,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
         <div class="big">😊</div>
         <h3><span data-i18n="mood">Check Your Mood</span></h3>
-        <p data-i18n="moodRewardDesc">Earn points once daily (+10). 20-day streak wins ₦1000.</p>
+        <p data-i18n="moodRewardDesc">Earn points once daily (+10). 20-day streak may qualify for ₦1000 after verification.</p>
       </div>
 
       
@@ -669,7 +669,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <!-- Badges & Awards -->
   <section id="badgesSection" aria-labelledby="badgesTitle">
     <h2 id="badgesTitle" data-i18n="badgesTitle">Badges & Awards 🏅</h2>
-    <p style="color:#334155" data-i18n="awardsExplainer">Daily mood check-ins earn points; 20-day streak wins ₦1000. Claim via WhatsApp with your Award ID.</p>
+    <p style="color:#334155" data-i18n="awardsExplainer">Daily mood check-ins earn points; 20-day streak may qualify for ₦1000 after verification. Request verification via WhatsApp with your Award ID.</p>
     <div id="badgesGrid" class="badge-list" aria-label="Available badges"></div>
     <h3 style="margin-top:18px;" data-i18n="yourAwards">Your Awards</h3>
     <div id="awardsList" class="award-list" aria-label="Your earned awards" aria-live="polite"></div>
@@ -922,9 +922,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         created = createStreakAwardIfNew(streak);
         if(created){
           awardHTML = `
-            <p style="font-size:1.05rem;">🎁 <b>${mcT('congratulations')}</b> ${mcT('youWon')}
+            <p style="font-size:1.05rem;">🎁 <b>${mcT('congratulations')}</b> — milestone recorded for review:
             <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> ${mcT('forStreak')} <b>${streak} ${mcT('days')}</b>.<br/>
-            ${mcT('awardInstructions')}</p>
+            ${mcT('awardInstructions')} Eligibility and payment must be verified by SpeakOut; this device cannot confirm a cash award.</p>
             <p>${mcT('awardId')}: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
             <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener" >${mcT('claimWhatsapp')}</a></p>
           `;
@@ -978,7 +978,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       awards.push(award); setAwards(awards); return award;
     }
     function whatsAppClaimLink(a){
-      const msg = encodeURIComponent(`Hello SpeakOut,\n\nI want to claim my MindCheck award.\nAward ID: ${a.id}\nAmount: ₦${a.amount}\nUID: ${UID}\n\nThank you!`);
+      const msg = encodeURIComponent(`Hello SpeakOut,\n\nPlease independently verify my MindCheck 20-day streak reward request before confirming eligibility or payment.\nAward ID: ${a.id}\nAmount: ₦${a.amount}\nUID: ${UID}\n\nThank you!`);
       return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
     }
 
@@ -1033,17 +1033,17 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       }
       awardsList.innerHTML = awards.map(a=>{
         const when = new Date(a.issued_at).toLocaleString();
-        const status = a.claimed ? `${mcT('claimedAward')} (${new Date(a.claimed_at).toLocaleString()})` : mcT('pendingAward');
+        const status = a.claimed ? `${mcT('claimedAward')} (${new Date(a.claimed_at).toLocaleString()}) — device record, not payment confirmation` : 'Awaiting verification by SpeakOut';
         const btns = a.claimed ? '' : `
-          <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Claim via WhatsApp</a>
-          <button class="btn btn-ghost" data-mark="${a.id}" >${mcT('markClaimed')}</button>
+          <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Request verification via WhatsApp</a>
+          
         `;
         return `
           <div class="award">
             <div class="row">
               <div>
                 <div><b>₦${a.amount.toLocaleString()}</b> • Streak: ${a.streak_cycle} days</div>
-                <div>ID: <span class="id">${a.id}</span></div>
+                <div>ID: <span class="id">${a.id}</span></div><div style="font-size:.85rem;color:#52606d;margin:7px 0">Locally recorded milestone only. SpeakOut must independently verify eligibility and payment status.</div>
                 <div style="color:#52606d">Issued: ${when} • ${status}</div>
               </div>
               <div>${btns}</div>
@@ -1051,21 +1051,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
           </div>
         `;
       }).join('');
-      document.querySelectorAll('[data-mark]').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const id = btn.getAttribute('data-mark');
-          const list = getAwards();
-          const idx = list.findIndex(x=>x.id===id);
-          if(idx>-1){
-            list[idx].claimed = true;
-            list[idx].claimed_at = new Date().toISOString();
-            setAwards(list);
-            renderAwards();
-            updateHeaderPills();
-            alert(mcT('markedClaimed'));
-          }
-        });
-      });
+
     }
 
     /* ---------- Tips engine ---------- */
