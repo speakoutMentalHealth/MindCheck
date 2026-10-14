@@ -1179,20 +1179,21 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     function greetingFor(d){ return d==='morning'?'Good morning! Try this reset idea…':d==='afternoon'?'Good afternoon! A quick refresh…':d==='evening'?'Good evening! Try this wind-down tip…':'It’s a quiet time — here’s a gentle tip…'; }
     function pickTip(filter='all'){
       const day=getDaypart();
-      const fitsFilter=t=>filter==='all'||(t.tags||[]).includes(filter);
-      const fitsTime=t=>!t.times||t.times.includes('any')||t.times.includes(day);
-      const pool=TIPS.filter(fitsFilter);
+      const fitsFilter=t=>t&&typeof t.text==='string'&&(filter==='all'||(Array.isArray(t.tags)?t.tags:[]).includes(filter));
+      const fitsTime=t=>t&&(!Array.isArray(t.times)||t.times.includes('any')||t.times.includes(day));
+      const pool=(Array.isArray(TIPS)?TIPS:[]).filter(fitsFilter);
       const timed=pool.filter(fitsTime);
       const src=timed.length?timed:pool;
-      const alternatives=src.filter(t=>(t.key||t.text)!==previousTipKey);
+      const alternatives=src.filter(t=>t&&(t.key||t.text)!==previousTipKey);
       const choices=alternatives.length?alternatives:src;
-      return choices.length?choices[Math.floor(Math.random()*choices.length)]:null;
+      return choices.length?(choices[Math.floor(Math.random()*choices.length)]||null):null;
     }
     function renderTip(){
       const day=getDaypart();
       tipsGreeting.textContent=mcT('greeting'+day);
       const fallback={text:"Take a slow deep breath — you’ve got this.",tags:["all"]};
-      const tip=pickTip(currentTipFilter) || fallback;
+      const candidate=pickTip(currentTipFilter);
+      const tip=candidate&&typeof candidate.text==='string'?candidate:fallback;
       currentTipObj=tip;
       previousTipKey=tip.key||tip.text;
       document.querySelectorAll('.tip-filter').forEach(btn=>{const selected=btn.dataset.filter===currentTipFilter;btn.setAttribute('aria-pressed',String(selected));});
@@ -1200,7 +1201,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       tipText.textContent=localizedTip && localizedTip!==tip.key?localizedTip:tip.text;
       tipNote.textContent=currentTipFilter==='all'?`${mcT('suggestedFor')}: ${mcT('day'+day)}`:`${mcT('filter')}: ${mcT('tag'+currentTipFilter)} • ${mcT('suggestedFor')}: ${mcT('day'+day)}`;
       tipStatus.style.display='none';
-      tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(s=>(s.key||s.text)===(tip.key||tip.text))));
+      tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(s=>s&&(typeof s==='string'?s:(s.key||s.text))===(tip.key||tip.text))));
     }
     function renderSavedTips(){
       const saved=getSavedTips();
@@ -1219,7 +1220,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         const content=document.createElement('div');
         content.className='mc-saved-tip-content';
         const message=document.createElement('span');
-        const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;
+        const key=t.key||TIPS.find(tip=>tip&&tip.text===t.text)?.key;
         const localized=key?mcT(key):t.text;
         message.textContent=!localized||localized===key?t.text:localized;
         const date=document.createElement('small');
