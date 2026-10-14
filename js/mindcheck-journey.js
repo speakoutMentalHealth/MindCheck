@@ -62,7 +62,20 @@ fr:[
   };
   var weeklyLabels={en:['Week','Day','New challenges each day. The seven-day plan repeats weekly.'],ha:['Mako','Rana','Ayyuka na canzawa kowace rana. Ana maimaitawa kowane mako.'],ig:['Izu','Ụbọchị','Ihe omume na-agbanwe kwa ụbọchị, na-amalitekwa ọzọ kwa izu.'],yo:['Ọ̀sẹ̀','Ọjọ́','Iṣẹ́ tuntun lójoojúmọ́. Ètò náà tún bẹ̀rẹ̀ lọ́sẹ̀ kọ̀ọ̀kan.'],pcm:['Week','Day','New small tasks every day. E go repeat every week.'],fr:['Semaine','Jour','De nouveaux défis chaque jour. Le programme reprend chaque semaine.']};
   function weekDay(){var d=new Date();return (d.getDay()+6)%7;}
-  var words={
+  var moodHistoryLabels={
+    en:{previous:'Previous check-in',moods:['Very low','Low','Okay','Good','Very good'],date:'en-GB'},
+    ha:{previous:'Duba yanayi na baya',moods:['Ƙwarai ƙasa','Ƙasa','Matsakaici','Mai kyau','Mai kyau sosai'],date:'ha-NG'},
+    ig:{previous:'Nyocha gara aga',moods:['Dị nnọọ ala','Ala','Ọ dị mma','Ọ dị mma nke ọma','Ọ dị ezigbo mma'],date:'ig-NG'},
+    yo:{previous:'Àyẹ̀wò tẹ́lẹ̀',moods:['Ó rẹlẹ̀ gan-an','Ó rẹlẹ̀','Ó dára','Ó dára púpọ̀','Ó dára gan-an'],date:'yo-NG'},
+    pcm:{previous:'Mood check wey you do before',moods:['E bad well well','E low','E dey okay','E good','E good well well'],date:'en-NG'},
+    fr:{previous:'Bilan précédent',moods:['Très bas','Bas','Moyen','Bien','Très bien'],date:'fr-FR'}
+  };
+  function locale(){var selected='en';try{selected=localStorage.getItem('mc_lang')||'en';}catch(e){}var s=selected.toLowerCase().split('-')[0];return words[s]?s:'en';}
+  function w(key){return (words[locale()]||words.en)[key]||words.en[key];}
+  function json(key,fallback){try{var v=JSON.parse(localStorage.getItem(key)||'null');return v===null?fallback:v;}catch(e){return fallback;}}
+  function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function render(){
+    var words={
     en:{eyebrow:'YOUR WELLNESS JOURNEY',title:'A little progress, every day',intro:'Your private progress on this device. No scores or diagnoses.',checkins:'Mood check-ins',streak:'Day streak',saved:'Saved tips',completed:'Challenges completed',moodHistory:'Recent mood check-ins',daily:"Today's gentle challenges",dailyIntro:'Choose what feels helpful. Completing a challenge is optional.',privacy:'Stored only in this browser. Clearing site data removes this progress.',finish:'Mark complete',undo:'Undo',done:'Completed',empty:'Your mood check-ins will appear here after you record them.',savedFeedback:'Challenge updated on this device.',error:'Could not save. Please check browser storage.'},
     ha:{eyebrow:'TAFIYAR LAFIYAR ZUCIYARKA',title:'Ci gaba kadan a kowace rana',intro:'Ci gabanka na sirri a wannan na’urar. Ba ganewar cuta ba ne.',checkins:'Duba yanayi',streak:'Kwanakin jere',saved:'Shawarwarin da aka ajiye',completed:'Ayyukan da aka kammala',moodHistory:'Yanayin baya-bayan nan',daily:'Ayyukan yau',dailyIntro:'Zabi abin da zai taimaka maka. Ba dole ba ne.',privacy:'Ana adanawa a wannan burauzar kawai.',finish:'Na kammala',undo:'Soke',done:'An kammala',empty:'Bayanan yanayinka za su bayyana a nan.',savedFeedback:'An sabunta aikin.',error:'Ba a iya adanawa ba.'},
     ig:{eyebrow:'NJE AHỤIKE UCHE GỊ',title:'Obere ọganihu kwa ụbọchị',intro:'Ọganihu nzuzo gị na ngwaọrụ a. Ọ bụghị nchọpụta ọrịa.',checkins:'Nyocha ọnọdụ uche',streak:'Ụbọchị n’usoro',saved:'Ndụmọdụ echekwara',completed:'Ihe omume emechara',moodHistory:'Ọnọdụ uche gara aga',daily:'Ihe omume taa',dailyIntro:'Họrọ ihe ga-enyere gị aka. Ọ bụghị iwu.',privacy:'A na-echekwa ya naanị na ihe nchọgharị a.',finish:'Emechara',undo:'Wepụ',done:'Emechara',empty:'Nyocha ọnọdụ uche gị ga-apụta ebe a.',savedFeedback:'Emelitere ihe omume.',error:'Enweghị ike ichekwa.'},
@@ -99,7 +112,7 @@ fr:[
     else recent.forEach(function(item){
       var row=document.createElement('div');row.className='mc-journey-mood-row';row.setAttribute('role','listitem');
       var emoji=document.createElement('span');emoji.textContent=['😢','😞','😐','😊','😄'][Number(item.mood_value)];emoji.setAttribute('aria-hidden','true');
-      var label=document.createElement('span');var date=new Date(item.ts);label.textContent=(Number.isNaN(date.getTime())?'Previous check-in':date.toLocaleDateString())+' · '+['Very low','Low','Okay','Good','Very good'][Number(item.mood_value)];
+      var label=document.createElement('span');var date=new Date(item.ts);var translatedMood=moodHistoryLabels[locale()]||moodHistoryLabels.en;var dateLabel=Number.isNaN(date.getTime())?translatedMood.previous:date.toLocaleDateString(translatedMood.date);label.textContent=dateLabel+' · '+translatedMood.moods[Number(item.mood_value)];
       row.append(emoji,label);mood.appendChild(row);
     });
     var list=document.getElementById('mcJourneyChallengeList');list.replaceChildren();
