@@ -1,0 +1,21 @@
+/* Phase 2 scoped wellness recommendation and breathing tools */
+#mcJourney .mc-smart-wellness,#mcJourney .mc-breathing{padding:clamp(17px,3vw,25px);border-radius:22px;background:#fff;border:1px solid #d8e8ed;margin:18px 0;box-shadow:0 8px 25px rgba(20,63,79,.045);}
+#mcJourney .mc-smart-head{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+#mcJourney .mc-smart-head>span{font-size:1.8rem;}
+#mcJourney .mc-smart-eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.12em;color:#176a65;margin:0 0 8px;}
+#mcJourney .mc-smart-wellness h4,#mcJourney .mc-breathing h4{font-size:clamp(1.12rem,3.5vw,1.4rem);margin:0 0 12px;line-height:1.3;color:#15374b;}
+#mcJourney #mcSmartMessage{color:#344f62;line-height:1.65;font-size:1rem;}
+#mcJourney .mc-smart-actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0;}
+#mcJourney .mc-smart-actions button,#mcJourney .mc-breathing-controls button{min-height:48px;padding:11px 17px;border:1px solid #bcd8e4;border-radius:13px;background:#edf7fa;color:#104a64;font:inherit;font-weight:750;cursor:pointer;touch-action:manipulation;}
+#mcJourney .mc-smart-actions button:first-child,#mcJourney #mcBreathingStart{background:#0b66c3;border-color:#0b66c3;color:white;}
+#mcJourney .mc-smart-disclaimer{font-size:.83rem;line-height:1.55;color:#506a79;margin:12px 0 0;}
+#mcJourney .mc-breathing>p:not(.mc-smart-eyebrow){line-height:1.6;color:#425d6c;}
+#mcJourney .mc-breathing-visual{display:flex;align-items:center;justify-content:center;height:210px;overflow:hidden;}
+#mcJourney .mc-breathing-circle{display:flex;align-items:center;justify-content:center;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#a7d9f4,#2787bd);box-shadow:0 0 0 13px #e9f6fb,0 12px 35px rgba(35,121,168,.22);transform:scale(.75);will-change:transform;}
+#mcJourney .mc-breathing-circle span{font-size:2rem;color:white;}
+#mcJourney .mc-breathing-cue{font-size:1.1rem;font-weight:800;text-align:center;color:#164b69!important;margin:8px 0;}
+#mcJourney .mc-breathing-progress{text-align:center;font-variant-numeric:tabular-nums;margin:5px 0 15px;}
+#mcJourney .mc-breathing-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+#mcJourney :is(.mc-smart-actions button,.mc-breathing-controls button):focus-visible{outline:3px solid #0b66c3;outline-offset:4px;}
+@media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-circle{transform:none!important;will-change:auto;}}
+@media(max-width:480px){#mcJourney .mc-smart-actions button{flex:1 1 100%;}#mcJourney .mc-breathing-visual{height:190px;}}
