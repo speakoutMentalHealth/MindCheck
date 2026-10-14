@@ -667,8 +667,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true;} return false; }
     const getAwards=()=>getJSON(KEY_AWARDS, []);
     const setAwards=arr=>setJSON(KEY_AWARDS, arr);
-    function getSavedTips(){ return getJSON(KEY_TIPS_SAVED, []); }
-    function setSavedTips(arr){ setJSON(KEY_TIPS_SAVED, arr); }
+    function getSavedTips(){ const saved=getJSON(KEY_TIPS_SAVED, []); return Array.isArray(saved)?saved:[]; }
+    function setSavedTips(arr){ setJSON(KEY_TIPS_SAVED, arr); return getSavedTips().length===arr.length; }
     function getDoneTips(){ return getJSON(KEY_TIPS_DONE, []); }
     function setDoneTips(arr){ setJSON(KEY_TIPS_DONE, arr); }
 
@@ -968,6 +968,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       tipText.textContent=tip.key?mcT(tip.key):tip.text;
       tipNote.textContent=currentTipFilter==='all'?`${mcT('suggestedFor')}: ${mcT('day'+day)}`:`${mcT('filter')}: ${mcT('tag'+currentTipFilter)} • ${mcT('suggestedFor')}: ${mcT('day'+day)}`;
       tipStatus.style.display='none';
+      tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(s=>(s.key||s.text)===(tip.key||tip.text))));
     }
     function renderSavedTips(){
       const saved=getSavedTips();
@@ -975,13 +976,28 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       savedTipsList.innerHTML=saved.slice().reverse().map(t=>{const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;const translated=key?mcT(key):t.text;const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));return `<li>${escapeHTML(translated)} <br><small>${escapeHTML(mcT('savedAt'))} ${escapeHTML(new Date(t.saved_at).toLocaleString())}</small></li>`;}).join('');
     }
     tipSaveBtn.addEventListener('click', ()=>{
-      if(!currentTipObj) return;
+      if(!currentTipObj) { renderTip(); return; }
       const saved=getSavedTips();
-      if(!saved.find(s=>s.text===currentTipObj.text)){
-        saved.push({text:currentTipObj.text,key:currentTipObj.key||null,saved_at:new Date().toISOString()});
-        setSavedTips(saved); renderSavedTips();
+      const id=currentTipObj.key||currentTipObj.text;
+      const exists=saved.some(s=>(s.key||s.text)===id);
+      try {
+        if(!exists){
+          saved.push({text:currentTipObj.text,key:currentTipObj.key||null,saved_at:new Date().toISOString()});
+          if(!setSavedTips(saved)) throw new Error('Saved tip could not be verified');
+        }
+        renderSavedTips();
+        const panel=savedTipsList.closest('details');
+        if(panel) panel.open=true;
+        tipStatus.textContent=exists?'Already in your saved tips':mcT('tipSaved');
+        tipStatus.style.color='#087352';
+        tipSaveBtn.setAttribute('aria-pressed','true');
+        updateHeaderPills();
+      }catch(error){
+        console.warn('Unable to save wellness tip',error);
+        tipStatus.textContent='Unable to save on this device. Please check browser storage settings and try again.';
+        tipStatus.style.color='#9f1239';
       }
-      tipStatus.textContent=mcT('tipSaved'); tipStatus.style.display='block'; updateHeaderPills();
+      tipStatus.style.display='block';
     });
     tipDoneBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
