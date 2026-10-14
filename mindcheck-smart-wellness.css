@@ -99,3 +99,7 @@
 #mcJourney .mc-breathing-countdown strong{position:static!important;margin:0!important;}
 #mcJourney .mc-breathing-cue{position:relative;z-index:1;margin-top:2px!important;padding:0 12px;overflow-wrap:break-word;}
 @media(max-width:480px){#mcJourney .mc-breathing-visual{height:265px!important;}#mcJourney .mc-breathing-stage{transform:scale(.92)!important;}}
+
+/* Root-cause fix: separate the orb's centering transform from its breathing scale.
+   JS animates transform, so use a centered inset wrapper instead of translate(-50%). */
+#mcJourney .mc-breathing-circle{left:36px!important;top:36px!important;right:auto!important;bottom:auto!important;transform:scale(.65);transform-origin:50% 50%!important;}
