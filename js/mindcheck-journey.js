@@ -18,6 +18,48 @@
     [['Celebrate one small effort you made.','Pause and follow your natural breath.','Tell someone you appreciate them.','Take a comfortable short walk or stretch.']],
     [['Think of one hopeful moment this week.','Complete a calm breathing cycle at your pace.','Offer encouragement to someone.','Choose one restful activity you enjoy.']]
   ];
+  var weeklyLocalized={
+ha:[
+['Ka tuna abu daya mai kyau yau.','Yi numfashi a hankali: shaka hudu, fitar shida, sau uku.','Gaishe da wani cikin kirki.','Sha gilashin ruwa.'],
+['Rubuta abu daya da ka yi da kyau.','Sassauta kafadunka yayin numfashi.','Gode wa wanda ya taimake ka.','Mikewa a hankali na minti daya.'],
+['Tuna wani abu da ya sa ka yi murmushi.','Dakatar da kallon allo don numfashi.','Tambayi amintacce yadda yake.','Huta da idanunka na dan lokaci.'],
+['Yaba wa kanka kan wani abu.','Yi numfashi a hankali kana zaune.','Fada wa wani kalma mai dadi.','Fita shan iska idan ya dace.'],
+['Ka tuna alherin da aka yi.','Yi numfashi uku ba tare da gaggawa ba.','Tuntubi wanda ka dade ba ka ji labarinsa ba.','Ci abinci mai gina jiki.'],
+['Yi murnar karamin kokarinka.','Dakata ka bi yadda numfashinka ke tafiya.','Fada wa wani kana yaba masa.','Yi dan yawo ko mikewa.'],
+['Tuna wani abin fata na wannan mako.','Yi zagayen numfashi cikin natsuwa.','Karfafa gwiwar wani.','Zabi aikin hutawa da kake so.']],
+ig:[
+['Cheta otu ihe ọma taa.','Kuo ume nwayọ: banye anọ, pụta isii, ugboro atọ.','Kelee mmadụ n’obi ọma.','Ṅụọ otu iko mmiri.'],
+['Dee otu ihe i mere nke ọma.','Mee ka ubu gị zuru ike ka ị na-eku ume.','Kelee onye nyeere gị aka.','Gbatịa ahụ otu nkeji.'],
+['Cheta ihe mere ka ị mụmụ ọnụ ọchị.','Kwụsị ile ihuenyo ka i kuo ume.','Jụọ onye ị tụkwasịrị obi ka ọ dị.','Mee ka anya gị zuru ike.'],
+['Nwee ekele maka onwe gị.','Nọdụ ala kuo ume nwayọ.','Gwa mmadụ okwu ọma.','Pụọ nweta ikuku ọhụrụ ma ọ dị mma.'],
+['Cheta obere obiọma.','Kuo ume ugboro atọ nwayọ.','Kpọtụrụ onye ị na-atụ uche.','Rie obere nri na-enye ahụ ike.'],
+['Mee emume obere mbọ gị.','Kwụsị soro iku ume gị.','Gwa mmadụ na ị na-enwe ekele maka ya.','Jee obere ije ma ọ bụ gbatịa ahụ.'],
+['Cheta otu ihe nyere gị olileanya n’izu a.','Mee otu usoro iku ume nwayọ.','Gbaa mmadụ ume.','Họrọ ihe na-enye gị ezumike.']],
+yo:[
+['Ronú nípa ohun rere kan lónìí.','Fa ẹ̀mí wọlé fún mẹ́rin, tú u jáde fún mẹ́fà, lẹ́ẹ̀mẹ́ta.','Kí ẹnìkan pẹ̀lú inú rere.','Mu gilasi omi kan.'],
+['Kọ ohun kan tí o ṣe dáadáa.','Jẹ́ kí èjìká rẹ sinmi nígbà mímí.','Dúpẹ́ lọ́wọ́ ẹni tó ràn ọ́ lọ́wọ́.','Na ara rẹ fún ìṣẹ́jú kan.'],
+['Rántí ohun tó mú ọ rẹ́rìn-ín.','Sinmi kúrò ní ojú iboju kí o mí.','Béèrè bí ẹni tí o gbẹ́kẹ̀ lé ṣe wà.','Jẹ́ kí ojú rẹ sinmi díẹ̀.'],
+['Mọrírì ohun kan nípa ara rẹ.','Jókòó kí o mí lọ́ra.','Sọ ọ̀rọ̀ rere fún ẹnìkan.','Jáde gba afẹ́fẹ́ bí ó bá rọrùn.'],
+['Rántí ìṣe inú rere kékeré kan.','Mí lọ́ra lẹ́ẹ̀mẹ́ta.','Bá ẹni tí o ń ṣàárò rẹ sọ̀rọ̀.','Gba oúnjẹ tó dára díẹ̀.'],
+['Ṣe ayẹyẹ ìsapá kékeré rẹ.','Dúró kí o kíyè sí mímí rẹ.','Sọ fún ẹnìkan pé o mọrírì rẹ.','Rìn díẹ̀ tàbí na ara.'],
+['Ronú nípa ìrètí kan ní ọ̀sẹ̀ yìí.','Ṣe ìyípo mímí pẹ̀lẹ́pẹ̀lẹ́.','Fún ẹnìkan ní ìwúrí.','Yan ìṣe ìsinmi tí o fẹ́.']],
+pcm:[
+['Notice one good thing today.','Breathe in for four, out for six, three times.','Greet person with kindness.','Drink one glass of water.'],
+['Write one thing wey you do well.','Relax your shoulder as you breathe.','Thank person wey help you.','Stretch small for one minute.'],
+['Remember wetin make you smile.','Rest from screen and breathe small.','Ask person wey you trust how dem dey.','Rest your eyes for some minutes.'],
+['Appreciate one thing about yourself.','Sit well and breathe gently.','Tell person one kind word.','Go outside for fresh air if you fit.'],
+['Remember one small kind thing.','Take three gentle breaths.','Reach person wey you miss.','Eat something nourishing.'],
+['Celebrate your small effort.','Pause and notice your breathing.','Tell person say you appreciate dem.','Waka small or stretch if comfortable.'],
+['Remember one hopeful thing this week.','Do one calm breathing cycle.','Encourage somebody.','Choose something wey go help you rest.']],
+fr:[
+['Remarquez une bonne chose aujourd’hui.','Inspirez sur quatre temps et expirez sur six, trois fois.','Envoyez un bonjour chaleureux.','Buvez un verre d’eau.'],
+['Notez une chose que vous avez bien faite.','Détendez les épaules en respirant.','Remerciez une personne qui vous a aidé.','Étirez-vous doucement une minute.'],
+['Rappelez-vous un moment souriant.','Faites une pause d’écran pour respirer.','Prenez des nouvelles d’une personne de confiance.','Reposez vos yeux quelques minutes.'],
+['Appréciez une qualité chez vous.','Respirez doucement en position assise.','Dites un mot gentil à quelqu’un.','Prenez l’air si cela vous convient.'],
+['Pensez à un petit geste de gentillesse.','Prenez trois respirations sans vous presser.','Recontactez une personne qui vous manque.','Prenez une collation nourrissante.'],
+['Célébrez un petit effort accompli.','Faites une pause pour observer votre respiration.','Dites à quelqu’un que vous l’appréciez.','Marchez ou étirez-vous doucement.'],
+['Pensez à un moment d’espoir cette semaine.','Faites un cycle de respiration calme.','Encouragez une personne.','Choisissez une activité reposante.']]
+  };
   var weeklyLabels={en:['Week','Day','New challenges each day. The seven-day plan repeats weekly.'],ha:['Mako','Rana','Ayyuka na canzawa kowace rana. Ana maimaitawa kowane mako.'],ig:['Izu','Ụbọchị','Ihe omume na-agbanwe kwa ụbọchị, na-amalitekwa ọzọ kwa izu.'],yo:['Ọ̀sẹ̀','Ọjọ́','Iṣẹ́ tuntun lójoojúmọ́. Ètò náà tún bẹ̀rẹ̀ lọ́sẹ̀ kọ̀ọ̀kan.'],pcm:['Week','Day','New small tasks every day. E go repeat every week.'],fr:['Semaine','Jour','De nouveaux défis chaque jour. Le programme reprend chaque semaine.']};
   function weekDay(){var d=new Date();return (d.getDay()+6)%7;}
   var words={
@@ -66,7 +108,7 @@
     challenges.forEach(function(ch){
       var complete=todayDone.includes(ch.id),card=document.createElement('article');card.className='mc-journey-task'+(complete?' is-done':'');
       var icon=document.createElement('span');icon.className='mc-journey-task-icon';icon.textContent=ch.icon;icon.setAttribute('aria-hidden','true');
-      var body=document.createElement('div');var translated=challengeTranslations[locale()]&&challengeTranslations[locale()][challenges.indexOf(ch)];var displayTitle=translated?translated[0]:ch.title;var heading=document.createElement('h5');heading.textContent=displayTitle;var description=document.createElement('p');description.textContent=locale()==='en'?weeklyThemes[weeklyDay][0][challenges.indexOf(ch)]:(translated?translated[1]:ch.desc);body.append(heading,description);
+      var body=document.createElement('div');var translated=challengeTranslations[locale()]&&challengeTranslations[locale()][challenges.indexOf(ch)];var displayTitle=translated?translated[0]:ch.title;var heading=document.createElement('h5');heading.textContent=displayTitle;var description=document.createElement('p');description.textContent=(weeklyLocalized[locale()]?weeklyLocalized[locale()][weeklyDay][challenges.indexOf(ch)]:weeklyThemes[weeklyDay][0][challenges.indexOf(ch)]);body.append(heading,description);
       var button=document.createElement('button');button.type='button';button.className='mc-journey-task-button';button.textContent=complete?w('undo'):w('finish');button.setAttribute('aria-pressed',String(complete));button.setAttribute('aria-label',displayTitle+': '+(complete?w('done'):w('finish')));
       button.addEventListener('click',function(){
         var saved=json(KEY,{});if(!saved||typeof saved!=='object'||Array.isArray(saved))saved={};
