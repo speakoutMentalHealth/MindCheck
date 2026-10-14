@@ -34,6 +34,8 @@ for mood in range(5):
 
 check("no selected mood analytics property",
       "track('CheckIn', { mood:" not in html and 'track("CheckIn", { mood:' not in html)
+check("reward eligibility cannot be self-confirmed", 'data-mark="${a.id}"' not in html and 'Request verification via WhatsApp' in html)
+check("reward verification notice visible", "Locally recorded milestone only. SpeakOut must independently verify" in html)
 check("privacy notice", 'href="privacy.html"' in html)
 check("emergency support", 'id="crisisBanner"' in html and 'href="tel:112"' in html)
 for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindcheck-premium-layout.css","mindcheck-focused-app.css","mindcheck-compact-header.css","speakout-brand-unification.css","speakout-subsections.css","icons/logo.png","icons/apple-touch-icon.png"):
