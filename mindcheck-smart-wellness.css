@@ -112,3 +112,9 @@
 #mcJourney .mc-breathing-heart.is-exhaling{filter:drop-shadow(0 5px 13px rgba(255,70,133,.32));}
 #mcJourney .mc-breathing-countdown{z-index:5!important;}
 @media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-heart{filter:drop-shadow(0 7px 16px rgba(255,69,123,.38));}}
+
+/* Organic heart finish: depth and bloom follow breathing rather than a fixed glow. */
+#mcJourney .mc-breathing-circle.mc-breathing-heart{--mc-heart-glow:.25;transform:scale(.72);filter:drop-shadow(0 8px 16px rgba(67,10,47,.38)) drop-shadow(0 0 26px rgba(255,98,158,var(--mc-heart-glow)));will-change:transform;backface-visibility:hidden;}
+#mcJourney .mc-breathing-heart.is-inhaling,#mcJourney .mc-breathing-heart.is-exhaling{filter:drop-shadow(0 8px 16px rgba(67,10,47,.38)) drop-shadow(0 0 26px rgba(255,98,158,var(--mc-heart-glow)));}
+#mcJourney .mc-breathing-heart-svg{filter:saturate(1.04);transform:translateZ(0);}
+@media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-circle.mc-breathing-heart{filter:drop-shadow(0 8px 18px rgba(67,10,47,.38));will-change:auto;}}
