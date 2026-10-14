@@ -1268,8 +1268,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         content.append(message,date);
         const remove=document.createElement('button');
         remove.type='button';remove.className='btn btn-ghost mc-remove-tip';
-        remove.textContent='Remove ×';
-        remove.setAttribute('aria-label','Remove saved tip: '+t.text);
+        remove.textContent=tipAction('remove')+' ×';
+        remove.setAttribute('aria-label',tipAction('remove')+': '+message.textContent);
         remove.addEventListener('click',()=>{
           const latest=getSavedTips();
           const identity=x=>((x&&typeof x==='object'?(x.key||x.text):x)||'')+'|'+((x&&typeof x==='object'&&x.saved_at)||'');
@@ -1281,17 +1281,27 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
             if(!setSavedTips(latest))throw new Error('Removal could not be verified');
             renderSavedTips();
             if(currentTipObj)tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(x=>(x.key||x.text)===(currentTipObj.key||currentTipObj.text))));
-            tipStatus.textContent='Tip removed from your saved list.';
+            tipStatus.textContent=tipAction('removed');
             tipStatus.style.color='#087352';tipStatus.style.display='block';
           }catch(error){
             console.warn('Unable to remove saved tip',error);
-            tipStatus.textContent='Unable to remove this tip. Please try again.';
+            tipStatus.textContent=tipAction('removeError');
             tipStatus.style.color='#9f1239';tipStatus.style.display='block';
           }
         });
         li.append(content,remove);savedTipsList.appendChild(li);
       });
     }
+    // Saved-tip actions must follow the selected language, including accessible labels.
+    const tipActionCopy={
+      en:{remove:'Remove',removed:'Tip removed from your saved list.',removeError:'Unable to remove this tip. Please try again.',already:'Already in your saved tips',saveError:'Unable to save on this device. Please check browser storage settings and try again.'},
+      ha:{remove:'Cire',removed:'An cire shawarar daga jerin ajiyarka.',removeError:'Ba a iya cire shawarar ba. Sake gwadawa.',already:'Wannan shawarar tana cikin ajiyarka',saveError:'Ba a iya ajiye shawarar a wannan na’urar ba. Duba saitunan ajiyar burauzarka.'},
+      ig:{remove:'Wepụ',removed:'Ewepụla ndụmọdụ na ndị echekwara.',removeError:'Enweghị ike iwepụ ndụmọdụ a. Nwaa ọzọ.',already:'Ị chekwalarị ndụmọdụ a',saveError:'Enweghị ike ichekwa na ngwaọrụ a. Lelee ntọala nchekwa ihe nchọgharị.'},
+      yo:{remove:'Yọ kúrò',removed:'A ti yọ ìmọ̀ràn náà kúrò nínú àwọn tí a fi pamọ́.',removeError:'A kò lè yọ ìmọ̀ràn yìí kúrò. Gbìyànjú lẹ́ẹ̀kan sí i.',already:'O ti fi ìmọ̀ràn yìí pamọ́',saveError:'A kò lè fi ìmọ̀ràn pamọ́ lórí ẹ̀rọ yìí. Ṣàyẹ̀wò ètò ìpamọ́ aṣàwákiri.'},
+      pcm:{remove:'Comot',removed:'We don comot the tip from your saved list.',removeError:'We no fit comot this tip. Try again.',already:'You don save this tip already',saveError:'We no fit save am for this device. Check your browser storage settings and try again.'},
+      fr:{remove:'Supprimer',removed:'Conseil retiré de votre liste.',removeError:'Impossible de supprimer ce conseil. Réessayez.',already:'Ce conseil est déjà enregistré',saveError:'Enregistrement impossible sur cet appareil. Vérifiez les paramètres de stockage du navigateur.'}
+    };
+    function tipAction(key){let lang='en';try{lang=(localStorage.getItem('mc_lang')||'en').toLowerCase().split('-')[0];}catch(_e){}return(tipActionCopy[lang]||tipActionCopy.en)[key];}
     window.mcRenderSavedTips=renderSavedTips;
     tipSaveBtn.addEventListener('click', ()=>{
       if(!currentTipObj) { renderTip(); return; }
@@ -1306,13 +1316,13 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         renderSavedTips();
         const panel=savedTipsList.closest('details');
         if(panel) panel.open=true;
-        tipStatus.textContent=exists?'Already in your saved tips':mcT('tipSaved');
+        tipStatus.textContent=exists?tipAction('already'):mcT('tipSaved');
         tipStatus.style.color='#087352';
         tipSaveBtn.setAttribute('aria-pressed','true');
         updateHeaderPills();
       }catch(error){
         console.warn('Unable to save wellness tip',error);
-        tipStatus.textContent='Unable to save on this device. Please check browser storage settings and try again.';
+        tipStatus.textContent=tipAction('saveError');
         tipStatus.style.color='#9f1239';
       }
       tipStatus.style.display='block';

@@ -23,6 +23,15 @@
     pcm:[['Small thank-you moment','Think of one small thing wey you appreciate today.'],['Calm breathing','Breathe in small for four counts, breathe out for six. Do am three times.'],['Check on person','Send kind message to person wey you trust.'],['Care for yourself','Drink water, stretch, rest or waka small if e comfortable.']],
     fr:[['Un instant de gratitude','Pensez à une petite chose que vous appréciez aujourd’hui.'],['Respiration apaisante','Inspirez doucement sur quatre temps, expirez sur six. Répétez trois fois.'],['Garder le lien','Envoyez un message bienveillant à une personne de confiance.'],['Prendre soin de soi','Buvez de l’eau, étirez-vous, reposez-vous ou marchez un peu.']]
   };
+  // Mood history labels are interface text, not clinical screening interpretations.
+  var moodHistoryLabels={
+    en:{previous:'Previous check-in',moods:['Very low','Low','Okay','Good','Very good'],date:'en-GB'},
+    ha:{previous:'Duba yanayi na baya',moods:['Ƙwarai ƙasa','Ƙasa','Matsakaici','Mai kyau','Mai kyau sosai'],date:'ha-NG'},
+    ig:{previous:'Nyocha gara aga',moods:['Dị nnọọ ala','Ala','Ọ dị mma','Ọ dị mma nke ọma','Ọ dị ezigbo mma'],date:'ig-NG'},
+    yo:{previous:'Àyẹ̀wò tẹ́lẹ̀',moods:['Ó rẹlẹ̀ gan-an','Ó rẹlẹ̀','Ó dára','Ó dára púpọ̀','Ó dára gan-an'],date:'yo-NG'},
+    pcm:{previous:'Mood check wey you do before',moods:['E bad well well','E low','E dey okay','E good','E good well well'],date:'en-NG'},
+    fr:{previous:'Bilan précédent',moods:['Très bas','Bas','Moyen','Bien','Très bien'],date:'fr-FR'}
+  };
   function locale(){var selected='en';try{selected=localStorage.getItem('mc_lang')||'en';}catch(e){}var s=selected.toLowerCase().split('-')[0];return words[s]?s:'en';}
   function w(key){return (words[locale()]||words.en)[key]||words.en[key];}
   function json(key,fallback){try{var v=JSON.parse(localStorage.getItem(key)||'null');return v===null?fallback:v;}catch(e){return fallback;}}
@@ -45,7 +54,7 @@
     else recent.forEach(function(item){
       var row=document.createElement('div');row.className='mc-journey-mood-row';row.setAttribute('role','listitem');
       var emoji=document.createElement('span');emoji.textContent=['😢','😞','😐','😊','😄'][Number(item.mood_value)];emoji.setAttribute('aria-hidden','true');
-      var label=document.createElement('span');var date=new Date(item.ts);label.textContent=(Number.isNaN(date.getTime())?'Previous check-in':date.toLocaleDateString())+' · '+['Very low','Low','Okay','Good','Very good'][Number(item.mood_value)];
+      var label=document.createElement('span');var date=new Date(item.ts);var translatedMood=moodHistoryLabels[locale()]||moodHistoryLabels.en;var dateLabel=Number.isNaN(date.getTime())?translatedMood.previous:date.toLocaleDateString(translatedMood.date);label.textContent=dateLabel+' · '+translatedMood.moods[Number(item.mood_value)];
       row.append(emoji,label);mood.appendChild(row);
     });
     var list=document.getElementById('mcJourneyChallengeList');list.replaceChildren();
