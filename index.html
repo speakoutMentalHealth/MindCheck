@@ -554,7 +554,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     @media(max-width:430px){#tipsSection .mc-saved-tip-item{flex-wrap:wrap}#tipsSection .mc-remove-tip{margin-left:auto}}
   </style>
   <style>
-    #mcInstallBanner[hidden]{display:none!important}
+    #mcInstallBanner[hidden],body:not(.mc-stage-welcome) #mcInstallBanner{display:none!important}
     #mcInstallBanner{box-sizing:border-box;width:min(920px,calc(100% - 28px));margin:16px auto;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;border:1px solid #cbdff8;border-radius:20px;background:#f0f7ff;color:#10253f;text-align:left;box-shadow:0 8px 25px rgba(12,71,130,.08)}
     .mc-install-copy{display:flex;flex-direction:column;gap:5px;flex:1 1 230px}.mc-install-copy strong{font-size:1.04rem}.mc-install-copy span{font-size:.9rem;line-height:1.45}
     .mc-install-buttons{display:flex;gap:8px;flex-wrap:wrap}
