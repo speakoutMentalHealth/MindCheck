@@ -52,6 +52,7 @@ async function run() {
       assert(await page.locator('#tipSaveBtn').isVisible(),'Save tip missing');
       await page.locator('#tipSaveBtn').click();
       assert((await page.locator('#savedTipsList li').count())>=1,'saved tips missing');
+      await page.locator('#tipsBackHome').click();
       await page.locator('#mcChangeLanguage').click();
       await page.locator('.tbtn.live[data-lang="fr"]').click();
       await page.locator('#goTips').click();
