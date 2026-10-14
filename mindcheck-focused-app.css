@@ -25,3 +25,21 @@ body.mc-stage-dashboard .mc-premium-tabs button{min-height:58px;border-radius:14
 body.mc-stage-dashboard .mc-premium-tabs button .mc-tab-icon{width:25px;height:25px;font-size:20px}
 }
 @media(prefers-reduced-motion:reduce){body.mc-stage-dashboard .mc-premium-tabs *,body.mc-stage-dashboard #homeSection .card,body.mc-stage-dashboard #homeSection .stats .pill{transition:none!important;transform:none!important}}
+
+/* Subtle continuous life across ALL navigation choices; stronger response on tap. */
+@keyframes mc-tab-breathe{0%,100%{transform:translateY(0);opacity:.78}50%{transform:translateY(-2px);opacity:1}}
+@keyframes mc-tab-activate{0%{transform:scale(.84)}65%{transform:scale(1.18)}100%{transform:scale(1.08)}}
+body.mc-stage-dashboard .mc-premium-tabs button:not([aria-current=page]) .mc-tab-icon{animation:mc-tab-breathe 3.6s ease-in-out infinite}
+body.mc-stage-dashboard .mc-premium-tabs button:nth-child(2) .mc-tab-icon{animation-delay:-.6s}
+body.mc-stage-dashboard .mc-premium-tabs button:nth-child(3) .mc-tab-icon{animation-delay:-1.2s}
+body.mc-stage-dashboard .mc-premium-tabs button:nth-child(4) .mc-tab-icon{animation-delay:-1.8s}
+body.mc-stage-dashboard .mc-premium-tabs button:nth-child(5) .mc-tab-icon{animation-delay:-2.4s}
+body.mc-stage-dashboard .mc-premium-tabs button:nth-child(6) .mc-tab-icon{animation-delay:-3s}
+body.mc-stage-dashboard .mc-premium-tabs button[aria-current=page] .mc-tab-icon{animation:mc-tab-activate .32s ease-out both}
+body.mc-stage-dashboard .mc-premium-tabs button:not([aria-current=page]):hover{background:#f1f6ff;color:#0b5fb7}
+body.mc-stage-dashboard .mc-premium-tabs button:not([aria-current=page]):active .mc-tab-icon{transform:scale(1.2)}
+#tipsSection .tip-filter{transition:transform .18s ease,background .18s ease,border-color .18s ease}
+#tipsSection .tip-filter[aria-pressed=true]{background:#e4f1ff!important;color:#0955ad!important;border-color:#6ba5ee!important;box-shadow:inset 0 0 0 1px #6ba5ee}
+#tipsSection .tip-filter:active,#tipsSection #nextTip:active,#tipsSection #tipSaveBtn:active,#tipsSection #tipDoneBtn:active{transform:scale(.97)}
+#tipsSection #tipStatus[style*="block"]{border-radius:10px;background:#eaf8ef;padding:10px 12px}
+@media(prefers-reduced-motion:reduce){body.mc-stage-dashboard .mc-premium-tabs button .mc-tab-icon{animation:none!important}#tipsSection .tip-filter{transition:none!important}}
