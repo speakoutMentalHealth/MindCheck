@@ -659,14 +659,31 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     function read(){try{var v=JSON.parse(localStorage.getItem('mc_tips_saved')||'[]');return Array.isArray(v)?v:[];}catch(e){return [];}}
     window.mcSaveTip=function(e){
       e?.preventDefault();e?.stopImmediatePropagation();
-      var t=tip();if(!t){status('No tip displayed. Tap Show another tip first.',true);return false;}
-      try{
-        var items=read(),exists=items.some(function(x){return x.text===t;});
-        if(!exists){items.push({text:t,saved_at:new Date().toISOString()});localStorage.setItem('mc_tips_saved',JSON.stringify(items));}
-        var saved=read();if(!saved.some(function(x){return x.text===t;}))throw Error('Verification failed');
-        if(typeof window.mcRenderSavedTips==='function')window.mcRenderSavedTips();var list=document.getElementById('savedTipsList');var panel=list?.closest('details');if(panel)panel.open=true;
-        status(exists?'Already saved. See Saved tips below.':'Saved! See Saved tips below.',false);
-      }catch(err){console.warn(err);status('Unable to save. Please check browser storage.',true);}
+      var t=tip();
+      if(!t){status('No tip displayed. Tap Show another tip first.',true);return false;}
+      var items=read(),exists=items.some(function(x){return x&&x.text===t;});
+      if(!exists){
+        try {
+          items.push({text:t,saved_at:new Date().toISOString()});
+          localStorage.setItem('mc_tips_saved',JSON.stringify(items));
+          if(!read().some(function(x){return x&&x.text===t;}))throw Error('Saved-tip verification failed');
+        } catch(err) {
+          console.warn('MindCheck tip storage unavailable:',err);
+          status('This browser could not store the tip. Check available device storage or private browsing settings; existing saved tips have not been deleted.',true);
+          return false;
+        }
+      }
+      try {
+        if(typeof window.mcRenderSavedTips==='function')window.mcRenderSavedTips();
+        var list=document.getElementById('savedTipsList');
+        var panel=list&&list.closest('details');
+        if(panel)panel.open=true;
+      }catch(err){
+        console.warn('Saved tip persisted, but list refresh failed:',err);
+        status('Tip saved on this device. Reopen Saved tips or refresh the page to view it.',false);
+        return false;
+      }
+      status(exists?'Already saved. See Saved tips below.':'Saved! See Saved tips below.',false);
       return false;
     };
     window.mcShareTip=function(e){
