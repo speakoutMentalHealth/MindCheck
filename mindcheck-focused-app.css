@@ -1,0 +1,27 @@
+/* Focused MindCheck dashboard and responsive, tactile native-style navigation */
+body.mc-stage-dashboard{background:radial-gradient(ellipse at 12% 10%,#e7f4ff 0,transparent 42%),linear-gradient(165deg,#f7faff,#f1f6fc)!important}
+body.mc-stage-dashboard #homeSection .grid .card{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important;cursor:pointer}
+body.mc-stage-dashboard #homeSection .grid .card:is(:hover,:focus-visible){transform:translateY(-4px);box-shadow:0 18px 38px rgba(10,65,130,.12)!important;border-color:#bcd6f6!important}
+body.mc-stage-dashboard #homeSection .grid .card:active{transform:scale(.985)}
+body.mc-stage-dashboard #homeSection .stats .pill{box-shadow:0 7px 22px rgba(17,69,120,.055);border:1px solid #e3edf8;transition:transform .2s ease,box-shadow .2s ease}
+body.mc-stage-dashboard #homeSection .stats .pill:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(17,69,120,.09)}
+body.mc-stage-dashboard .mc-premium-tabs{background:rgba(255,255,255,.91)!important;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(209,224,242,.9);box-shadow:0 -8px 32px rgba(7,32,74,.085);gap:3px!important}
+body.mc-stage-dashboard .mc-premium-tabs button{min-height:64px;gap:5px!important;padding:8px 1px!important;white-space:nowrap;overflow:hidden;font-size:clamp(9px,2.35vw,12px)!important;letter-spacing:-.025em;transition:background .18s ease,color .18s ease,transform .18s ease,box-shadow .18s ease}
+body.mc-stage-dashboard .mc-premium-tabs button .mc-tab-icon{display:grid;place-items:center;width:30px;height:30px;font-size:23px;transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+body.mc-stage-dashboard .mc-premium-tabs button[aria-current=page]{background:linear-gradient(145deg,#edf5ff,#e4efff)!important;color:#0955ac!important;box-shadow:inset 0 0 0 1px #dce9fb}
+body.mc-stage-dashboard .mc-premium-tabs button[aria-current=page] .mc-tab-icon{transform:translateY(-2px) scale(1.12)}
+body.mc-stage-dashboard .mc-premium-tabs button:active{transform:scale(.94)}
+body.mc-stage-dashboard .mc-premium-tabs button:focus-visible{outline:3px solid #dba537;outline-offset:-2px}
+body.mc-stage-dashboard .mc-brand-nav .mc-nav-actions a{transition:transform .2s ease,box-shadow .2s ease}
+body.mc-stage-dashboard .mc-brand-nav .mc-nav-actions a:hover{transform:translateY(-2px)}
+@media(max-width:600px){
+body.mc-stage-dashboard #homeSection{padding:18px 16px!important}
+body.mc-stage-dashboard #homeSection .stats{gap:10px!important;margin:18px 0 25px!important}
+body.mc-stage-dashboard #homeSection .stats .pill{min-height:70px;padding:12px 6px!important;font-size:.87rem}
+body.mc-stage-dashboard #homeSection .grid{gap:12px!important;margin-top:15px}
+body.mc-stage-dashboard #homeSection .grid .card{padding:18px!important;border-radius:18px!important}
+body.mc-stage-dashboard .mc-premium-tabs{padding:6px max(6px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))!important}
+body.mc-stage-dashboard .mc-premium-tabs button{min-height:58px;border-radius:14px}
+body.mc-stage-dashboard .mc-premium-tabs button .mc-tab-icon{width:25px;height:25px;font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){body.mc-stage-dashboard .mc-premium-tabs *,body.mc-stage-dashboard #homeSection .card,body.mc-stage-dashboard #homeSection .stats .pill{transition:none!important;transform:none!important}}
