@@ -41,9 +41,13 @@ function reducedMotion(){return window.matchMedia&&window.matchMedia('(prefers-r
 function draw(){
   var phase=elapsed%10000,inhale=phase<4000,phaseElapsed=inhale?phase:phase-4000,phaseDuration=inhale?4000:6000;
   var phaseKey=inhale?'inhale':'exhale',fraction=Math.min(1,phaseElapsed/phaseDuration);
-  var scale=inhale?(.56+.60*fraction):(1.16-.60*fraction);
+  // Smoothstep removes the mechanical snap at the change between inhale and exhale.
+  var eased=fraction*fraction*(3-2*fraction);
+  var scale=inhale?(.72+.42*eased):(1.14-.42*eased);
+  var glow=inhale?(.25+.55*eased):(.8-.55*eased);
+  circle.style.setProperty('--mc-heart-glow',glow.toFixed(3));
   circle.classList.toggle('is-inhaling',inhale);circle.classList.toggle('is-exhaling',!inhale);
-  if(reducedMotion())circle.style.transform='scale(.86)';
+  if(reducedMotion())circle.style.transform='scale(.88)';
   else circle.style.transform='scale('+scale.toFixed(3)+')';
   ring.style.strokeDashoffset=String(CIRCUMFERENCE*(1-fraction));
   seconds.textContent=String(Math.max(1,Math.ceil((phaseDuration-phaseElapsed)/1000)));
@@ -54,7 +58,7 @@ function draw(){
 function finish(){
   running=false;paused=false;completed=true;cancelAnimationFrame(frame);
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
-  circle.style.transform='scale(.56)';
+  circle.style.transform='scale(.72)';
   ring.style.strokeDashoffset='0';seconds.textContent='✓';phaseLabel.textContent='';
   cue.textContent=tr('complete');progress.textContent='3 / 3';start.textContent=tr('start');
 }
@@ -75,7 +79,7 @@ start.addEventListener('click',function(){
 reset.addEventListener('click',function(){
   running=false;paused=false;completed=false;previousPhase='';cancelAnimationFrame(frame);elapsed=0;last=0;
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
-  circle.style.transform='scale(.56)';
+  circle.style.transform='scale(.72)';
   ring.style.strokeDashoffset=String(CIRCUMFERENCE);seconds.textContent='4';phaseLabel.textContent=tr('inhale');
   cue.textContent=tr('ready');progress.textContent='0 / 3';start.textContent=tr('start');
 });
