@@ -50,6 +50,19 @@ check("premium polish cached", "'./mc-polish.css'" in sw)
 check("premium polish exists", (ROOT / "mc-polish.css").is_file())
 check("reduced motion supported", "prefers-reduced-motion" in css)
 
+# Cross-device regression guards for the shared breathing layout.
+breath_css = (ROOT / "mindcheck-smart-wellness.css").read_text(encoding="utf-8")
+breath_js = (ROOT / "js/mindcheck-smart-wellness.js").read_text(encoding="utf-8")
+check("breathing stage centered with flex", bool(re.search(r"\\.mc-breathing-visual\\s*\\{[^}]*justify-content\\s*:\\s*center", breath_css, re.S)))
+check("breathing stage has bounded width", bool(re.search(r"\\.mc-breathing-stage\\s*\\{[^}]*width\\s*:\\s*260px", breath_css, re.S)))
+check("orb uses center-based absolute placement", bool(re.search(r"\\.mc-breathing-circle\\s*\\{[^}]*left\\s*:\\s*50%", breath_css, re.S)))
+check("breathing timer anchored to stage", "mc-breathing-countdown" in breath_css and "mcBreathingSeconds" in breath_js)
+check("phone breakpoint exists", "@media(max-width:480px)" in breath_css)
+check("reduced motion for breathing", "prefers-reduced-motion:reduce" in breath_css)
+check("breathing animation uses requestAnimationFrame", "requestAnimationFrame(tick)" in breath_js)
+check("breathing pause and reset preserved", "function pause()" in breath_js and "mcBreathingReset" in breath_js)
+check("accessible native disclosure", '<details class="mc-calm-accordion">' in html and '<summary>' in html)
+
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
