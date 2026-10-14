@@ -508,12 +508,14 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <div class="big">🌱</div>
       <h3 id="tipText" style="margin:.5rem 0;"></h3>
       <p id="tipNote" style="color:#52606d;margin:0;"></p>
-      <div class="toolbar" style="justify-content:flex-start;margin-top:12px;">
-        <button id="nextTip" class="btn btn-primary" data-i18n="anotherTip">Next tip</button>
-        <button id="tipSaveBtn" type="button" class="btn btn-ghost" onclick="return window.mcSaveTip(event)" data-i18n="saveTip">Save tip ⭐</button><button id="tipShareBtn" type="button" class="btn btn-ghost" onclick="return window.mcShareTip(event)">Share tip ↗</button>
-      </div>
-      <p id="tipStatus" style="color:#0b5;font-weight:600;display:none;margin-top:8px;"></p>
     </div>
+    <!-- Keep interactive actions outside the decorative tip card's stacking context. -->
+    <div id="tipActions" class="toolbar" role="group" aria-label="Wellness tip actions" style="position:relative;z-index:10;isolation:isolate;max-width:680px;margin:12px auto;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;pointer-events:auto;">
+      <button id="nextTip" type="button" class="btn btn-primary" data-i18n="anotherTip">Next tip</button>
+      <button id="tipSaveBtn" type="button" class="btn btn-ghost" onclick="return window.mcSaveTip(event)" data-i18n="saveTip">Save tip ⭐</button>
+      <button id="tipShareBtn" type="button" class="btn btn-ghost" onclick="return window.mcShareTip(event)">Share tip ↗</button>
+    </div>
+    <p id="tipStatus" role="status" aria-live="polite" style="max-width:680px;margin:8px auto;color:#0b5;font-weight:600;display:none;"></p>
 
     <details style="max-width:680px;margin:10px auto;text-align:left;background:#fff;border:1px solid #eef2f7;border-radius:12px;padding:10px;">
       <summary style="cursor:pointer;font-weight:700;" data-i18n="savedTips">⭐ Saved tips</summary>
@@ -525,6 +527,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <button id="tipsBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button>
     </div>
   </section>
+
+  <style>
+    /* Isolated iOS-friendly action targets; decorative layers cannot capture taps. */
+    #tipsSection #tipCard { position:relative; z-index:0; }
+    #tipsSection #tipActions { position:relative!important; z-index:20!important; isolation:isolate; overflow:visible; }
+    #tipsSection #tipActions button { position:relative!important; z-index:1; pointer-events:auto!important; touch-action:manipulation; -webkit-tap-highlight-color:rgba(11,105,213,.15); min-height:48px; cursor:pointer; }
+    #tipsSection #tipActions button:active { transform:scale(.98); }
+    #tipsSection #tipActions button:focus-visible { outline:3px solid #2276d2; outline-offset:3px; }
+  </style>
 
   <!-- Get Help -->
   <section id="helpSection" aria-labelledby="helpTitle">
