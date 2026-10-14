@@ -1,6 +1,6 @@
 // MindCheck service worker: network-first navigation prevents outdated homepage releases.
-const CACHE = 'mc-v9-visual-polish-20261014-smart1';
-const ASSETS = ['./','./index.html','./mc-theme.css','./mc-polish.css','./js/mindcheck-i18n.js','./js/mindcheck-journey.js','./mindcheck-journey.css','./js/mindcheck-smart-wellness.js','./mindcheck-smart-wellness.css','./mindcheck-sections-accessibility.css','./volunteers.html','./training-hub.html','./certificate.html','./verify.html','./resources.html','./monitoring.html','./privacy.html','./terms.html','./favicon.png','./manifest.webmanifest'];
+const CACHE = 'mc-v9-visual-polish-20261014-milestones1';
+const ASSETS = ['./','./index.html','./mc-theme.css','./mc-polish.css','./js/mindcheck-i18n.js','./js/mindcheck-journey.js','./mindcheck-journey.css','./js/mindcheck-smart-wellness.js','./mindcheck-smart-wellness.css','./js/mindcheck-milestones.js','./mindcheck-milestones.css','./mindcheck-sections-accessibility.css','./volunteers.html','./training-hub.html','./certificate.html','./verify.html','./resources.html','./monitoring.html','./privacy.html','./terms.html','./favicon.png','./manifest.webmanifest'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
   self.skipWaiting();
