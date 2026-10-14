@@ -425,7 +425,13 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <div id="mcBreathing" class="mc-breathing" aria-labelledby="mcBreathingTitle">
         <div class="mc-breathing-head"><div><p class="mc-smart-eyebrow" data-mcs="breathingEyebrow">RELAXATION TOOL</p><h4 id="mcBreathingTitle" data-mcs="breathingTitle">Breathe at your own pace</h4></div></div>
         <p data-mcs="breathingIntro">Follow the circle or the words. Breathe comfortably and stop if you feel dizzy.</p>
-        <div class="mc-breathing-visual" aria-hidden="true"><div id="mcBreathingCircle" class="mc-breathing-circle"><span>✦</span></div></div>
+        <div class="mc-breathing-visual">
+          <div class="mc-breathing-stage" aria-label="Breathing timer">
+            <svg class="mc-breathing-ring" viewBox="0 0 260 260" aria-hidden="true"><circle class="mc-breathing-ring-track" cx="130" cy="130" r="114"></circle><circle id="mcBreathingRingProgress" class="mc-breathing-ring-progress" cx="130" cy="130" r="114"></circle></svg>
+            <div id="mcBreathingCircle" class="mc-breathing-circle" aria-hidden="true"><span class="mc-breathing-shimmer"></span></div>
+            <div class="mc-breathing-countdown"><strong id="mcBreathingSeconds">4</strong><span id="mcBreathingPhase">INHALE</span></div>
+          </div>
+        </div>
         <p id="mcBreathingCue" class="mc-breathing-cue" role="status" aria-live="off">Ready when you are</p>
         <p id="mcBreathingProgress" class="mc-breathing-progress">0 / 3</p>
         <div class="mc-breathing-controls"><button type="button" id="mcBreathingStart" data-mcs="start">Start breathing</button><button type="button" id="mcBreathingReset" data-mcs="reset">Reset</button></div>
