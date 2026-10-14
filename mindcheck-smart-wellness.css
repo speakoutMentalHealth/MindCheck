@@ -42,3 +42,31 @@
 #mcJourney .mc-breathing-circle.is-exhaling{filter:brightness(.96);}
 @keyframes mc-breath-aura{from{opacity:.3;transform:scale(.94);}to{opacity:1;transform:scale(1.1);}}
 @media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-circle::before,#mcJourney .mc-breathing-circle::after{animation:none!important;}#mcJourney .mc-calm-chevron{transition:none;}}
+
+/* Premium breathing studio: strong visible scale changes and phase countdown. */
+#mcJourney .mc-breathing{position:relative;overflow:hidden;background:linear-gradient(155deg,#071d38 0%,#0d3556 57%,#13526b 100%);border:1px solid rgba(163,224,244,.25);border-radius:28px;box-shadow:0 20px 48px rgba(6,32,62,.18);padding:clamp(22px,5vw,36px);}
+#mcJourney .mc-breathing::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(76,188,211,.15),transparent 70%);right:-120px;top:-150px;pointer-events:none;}
+#mcJourney .mc-breathing h4,#mcJourney .mc-breathing .mc-smart-eyebrow{color:#fff;}
+#mcJourney .mc-breathing .mc-smart-eyebrow{color:#8de1e3;}
+#mcJourney .mc-breathing>p:not(.mc-smart-eyebrow),#mcJourney .mc-breathing .mc-smart-disclaimer{color:#d1e4ed;}
+#mcJourney .mc-breathing-visual{height:300px;overflow:visible;margin:10px 0 4px;}
+#mcJourney .mc-breathing-stage{position:relative;width:260px;height:260px;flex:0 0 260px;isolation:isolate;}
+#mcJourney .mc-breathing-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transform:rotate(-90deg);z-index:3;pointer-events:none;}
+#mcJourney .mc-breathing-ring-track{fill:none;stroke:rgba(179,232,242,.16);stroke-width:5;}
+#mcJourney .mc-breathing-ring-progress{fill:none;stroke:#a5f3ef;stroke-width:7;stroke-linecap:round;filter:drop-shadow(0 0 5px rgba(107,241,232,.65));}
+#mcJourney .mc-breathing-circle{position:absolute;left:50%;top:50%;width:188px;height:188px;z-index:1;transform:translate(-50%,-50%) scale(.65);background:radial-gradient(circle at 32% 25%,#e1fbff 0%,#8ce3ee 27%,#35a9d3 55%,#14618f 86%,#0c3a65 100%);box-shadow:inset 12px 12px 30px rgba(255,255,255,.4),inset -22px -25px 35px rgba(6,41,83,.35),0 0 38px rgba(87,218,234,.34),0 0 85px rgba(65,173,215,.2);will-change:transform;transition:none;}
+#mcJourney .mc-breathing-circle::before{inset:-7px;border:1px solid rgba(173,246,255,.4);}
+#mcJourney .mc-breathing-circle::after{inset:-19px;border:1px solid rgba(131,230,249,.16);}
+#mcJourney .mc-breathing-circle .mc-breathing-shimmer{position:absolute;inset:15%;border-radius:50%;background:radial-gradient(circle at 35% 20%,rgba(255,255,255,.4),transparent 58%);}
+#mcJourney .mc-breathing-countdown{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:4;pointer-events:none;text-shadow:0 2px 14px rgba(2,26,50,.5);}
+#mcJourney .mc-breathing-countdown strong{font-size:clamp(3.5rem,12vw,4.7rem);font-weight:750;color:#fff;line-height:1;font-variant-numeric:tabular-nums;}
+#mcJourney .mc-breathing-countdown span{font-size:.72rem;letter-spacing:.19em;font-weight:850;color:#e9fbff;margin-top:9px;text-transform:uppercase;max-width:175px;text-align:center;}
+#mcJourney .mc-breathing-cue{color:#fff!important;font-size:1.16rem;letter-spacing:.01em;}
+#mcJourney .mc-breathing-progress{color:#a7dbe8!important;font-weight:700;letter-spacing:.12em;}
+#mcJourney .mc-breathing-controls button{background:rgba(255,255,255,.11);border:1px solid rgba(179,232,242,.33);color:#fff;border-radius:16px;padding:14px 23px;min-height:52px;}
+#mcJourney #mcBreathingStart{background:linear-gradient(125deg,#78e5d9,#9dece6);border-color:transparent;color:#073e50;box-shadow:0 8px 24px rgba(69,220,201,.18);}
+#mcJourney .mc-calm-accordion{border:1px solid #e3edf1;border-radius:20px;box-shadow:0 5px 20px rgba(22,62,91,.035);background:linear-gradient(135deg,#fff,#fbfdff);}
+#mcJourney .mc-calm-accordion>summary{padding:18px 21px;min-height:66px;font-weight:800;letter-spacing:-.015em;}
+#mcJourney .mc-calm-accordion[open]{box-shadow:0 12px 32px rgba(22,62,91,.075);}
+@media(max-width:480px){#mcJourney .mc-breathing-visual{height:278px;}#mcJourney .mc-breathing-stage{transform:scale(.9);}#mcJourney .mc-breathing{padding:22px 16px;}}
+@media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-circle{will-change:auto!important;}#mcJourney .mc-breathing-circle::before,#mcJourney .mc-breathing-circle::after{animation:none!important;}}
