@@ -1,0 +1,20 @@
+/* Personal milestones, scoped to Awards. Existing award/claim cards unchanged. */
+#badgesSection #mcMilestones{max-width:920px;margin:20px auto 24px;padding:clamp(18px,4vw,28px);border:1px solid #dce9ed;border-radius:24px;background:linear-gradient(145deg,#f5faff,#f1fbf5);box-shadow:0 12px 28px rgba(26,68,91,.06);text-align:left;}
+#mcMilestones .mc-milestones-head{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+#mcMilestones .mc-milestones-head>span{font-size:2.2rem;}
+#mcMilestones .mc-milestones-kicker{font-size:.74rem;font-weight:800;letter-spacing:.11em;color:#17635a;margin:0 0 7px;}
+#mcMilestones h3{font-size:clamp(1.3rem,4vw,1.8rem);line-height:1.25;color:#14364d;margin:0 0 8px;}
+#mcMilestones .mc-milestones-head p:last-child{margin:0;color:#4b6371;line-height:1.5;}
+#mcMilestones .mc-milestones-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:22px 0;}
+#mcMilestones .mc-milestones-stats>div{background:#fff;border:1px solid #dbe9ed;border-radius:16px;padding:14px;min-width:0;}
+#mcMilestones .mc-milestones-stats strong{display:block;font-size:1.7rem;color:#155d55;font-variant-numeric:tabular-nums;}
+#mcMilestones .mc-milestones-stats span{display:block;color:#4b6272;font-size:.84rem;line-height:1.4;}
+#mcMilestones h4{font-size:1.1rem;color:#15374b;margin:10px 0 13px;}
+#mcMilestones .mc-milestone-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;}
+#mcMilestones .mc-milestone-item{display:flex;align-items:center;gap:13px;border:1px solid #dce6ed;border-radius:15px;background:#fff;padding:14px;}
+#mcMilestones .mc-milestone-item.is-earned{border-color:#7ac9a7;background:#f4fff9;}
+#mcMilestones .mc-milestone-item>span{font-size:1.55rem;}
+#mcMilestones .mc-milestone-item strong{display:block;color:#1b3c52;font-size:.94rem;}
+#mcMilestones .mc-milestone-item div span{display:block;color:#526a79;font-size:.82rem;margin-top:3px;}
+#mcMilestones .mc-milestones-footnote{font-size:.82rem;color:#526a79;line-height:1.55;margin:18px 0 0;}
+@media(max-width:570px){#mcMilestones .mc-milestone-list{grid-template-columns:1fr;}#mcMilestones .mc-milestones-stats>div{padding:11px 8px;}#mcMilestones .mc-milestones-stats strong{font-size:1.4rem;}}
