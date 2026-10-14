@@ -318,6 +318,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <link rel="stylesheet" href="mindcheck-focused-app.css">
 <link rel="stylesheet" href="mindcheck-compact-header.css">
 <link rel="stylesheet" href="mindcheck-journey.css">
+<link rel="stylesheet" href="mindcheck-smart-wellness.css">
 <link rel="stylesheet" href="mindcheck-sections-accessibility.css">
 </head>
 <body class="mc-stage-welcome">
@@ -411,6 +412,21 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         <div><strong id="mcJourneyChallenges">0</strong><span data-mcj="completed">Challenges completed</span></div>
       </div>
       <div class="mc-journey-chart"><h4 data-mcj="moodHistory">Recent mood check-ins</h4><div id="mcJourneyMood" role="list" aria-label="Recent mood check-ins"></div></div>
+      <div id="mcSmartWellness" class="mc-smart-wellness" aria-labelledby="mcSmartTitle">
+        <div class="mc-smart-head"><div><p class="mc-smart-eyebrow" data-mcs="eyebrow">PERSONALIZED SUPPORT</p><h4 id="mcSmartTitle" data-mcs="title">A gentle suggestion for you</h4></div><span aria-hidden="true">✨</span></div>
+        <p id="mcSmartMessage" role="status" aria-live="polite"></p>
+        <div id="mcSmartActions" class="mc-smart-actions"></div>
+        <p class="mc-smart-disclaimer" data-mcs="disclaimer">Suggestions are based on your last recorded mood, not a diagnosis. You can always choose what feels helpful.</p>
+      </div>
+      <div id="mcBreathing" class="mc-breathing" aria-labelledby="mcBreathingTitle">
+        <div class="mc-breathing-head"><div><p class="mc-smart-eyebrow" data-mcs="breathingEyebrow">RELAXATION TOOL</p><h4 id="mcBreathingTitle" data-mcs="breathingTitle">Breathe at your own pace</h4></div></div>
+        <p data-mcs="breathingIntro">Follow the circle or the words. Breathe comfortably and stop if you feel dizzy.</p>
+        <div class="mc-breathing-visual" aria-hidden="true"><div id="mcBreathingCircle" class="mc-breathing-circle"><span>✦</span></div></div>
+        <p id="mcBreathingCue" class="mc-breathing-cue" role="status" aria-live="off">Ready when you are</p>
+        <p id="mcBreathingProgress" class="mc-breathing-progress">0 / 3</p>
+        <div class="mc-breathing-controls"><button type="button" id="mcBreathingStart" data-mcs="start">Start breathing</button><button type="button" id="mcBreathingReset" data-mcs="reset">Reset</button></div>
+        <p class="mc-smart-disclaimer" data-mcs="breathingNote">This exercise is optional and not a substitute for professional care.</p>
+      </div>
       <div class="mc-journey-challenge-head"><h4 data-mcj="daily">Today's gentle challenges</h4><p data-mcj="dailyIntro">Choose what feels helpful. Completing a challenge is optional.</p></div>
       <div id="mcJourneyChallengeList" class="mc-journey-challenge-list"></div>
       <p id="mcJourneyFeedback" role="status" aria-live="polite" class="mc-journey-feedback"></p>
@@ -1344,5 +1360,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <script src="js/mindcheck-i18n.js"></script>
 <script src="js/mindcheck-premium-nav.js" defer></script>
 <script src="js/mindcheck-journey.js" defer></script>
+<script src="js/mindcheck-smart-wellness.js" defer></script>
 </body>
 </html>
