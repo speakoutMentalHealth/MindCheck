@@ -23,11 +23,9 @@ async function run() {
       const page=await context.newPage();const errors=[];
       page.on('pageerror',e=>errors.push(e.message));
       await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
-      if(await page.locator('#startBtn').isVisible())await page.locator('#startBtn').click();
-      if(!await page.locator('.tbtn.live[data-lang="en"]').isVisible()){
-        if(await page.locator('#mcChangeLanguage').isVisible())await page.locator('#mcChangeLanguage').click();
-      }
-      if(await page.locator('.tbtn.live[data-lang="en"]').isVisible())await page.locator('.tbtn.live[data-lang="en"]').click();
+      // Explicitly enter the language stage; real browsers may restore onboarding state.
+      await page.evaluate(()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');document.getElementById('langSection').classList.add('active');});
+      await page.locator('.tbtn.live[data-lang="en"]').click();
       await page.waitForTimeout(250);
       assert.equal(await page.locator('#mcSmartWellness').count(),0,'redundant suggestion section returned');
       assert.equal(await page.locator('#mcJourneyChallengeList .mc-journey-task').count(),4,'today should have four challenges');
