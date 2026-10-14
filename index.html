@@ -592,9 +592,12 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         const prompt=deferredPrompt;deferredPrompt=null;
         try{await prompt.prompt();const choice=await prompt.userChoice;if(choice?.outcome==='accepted'){banner.hidden=true;return;}}catch(e){console.warn('Install prompt unavailable',e);}
       }
-      instructions.textContent=isIOS()
-        ? 'On iPhone: Open this page in Safari, tap Share (the square with an upward arrow), choose Add to Home Screen, then tap Add. Open MindCheck from the new icon. If you are viewing this inside another app, first choose Open in Safari.'
-        : 'On Android: Open MindCheck in Chrome, tap the three-dot menu, then choose Install app or Add to Home screen. Follow the prompts. On other browsers, look for an Install or Add to Home Screen option in the browser menu.';
+      const chromeIOS=isIOS() && /CriOS/i.test(navigator.userAgent);
+      instructions.textContent=chromeIOS
+        ? 'On iPhone using Google Chrome: Tap the Share icon in Chrome, scroll through the share options, and select Add to Home Screen if available, then tap Add. If this option is missing, tap Share and choose Open in Safari (or copy the MindCheck link into Safari), then use Safari Share → Add to Home Screen → Add. You can then launch MindCheck from your Home Screen.'
+        : isIOS()
+        ? 'On iPhone using Safari: Tap Share (the square with an upward arrow), scroll down to Add to Home Screen, then tap Add. If you use Google Chrome on iPhone instead, open Chrome’s Share menu and look for Add to Home Screen. If it is not offered, open the same link in Safari and add it there.'
+        : 'On Android using Google Chrome: Tap the three-dot menu, then Install app or Add to Home screen and follow the prompts. Other Android browsers may offer a similar option in their menu.';
       if(typeof dialog.showModal==='function')dialog.showModal();else alert(instructions.textContent);
     });
     document.addEventListener('DOMContentLoaded',showBanner);
@@ -1158,7 +1161,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       currentTipObj=tip;
       previousTipKey=tip.key||tip.text;
       document.querySelectorAll('.tip-filter').forEach(btn=>{const selected=btn.dataset.filter===currentTipFilter;btn.setAttribute('aria-pressed',String(selected));});
-      tipText.textContent=tip.key?mcT(tip.key):tip.text;
+      const localizedTip=tip.key?mcT(tip.key):tip.text;
+      tipText.textContent=localizedTip && localizedTip!==tip.key?localizedTip:tip.text;
       tipNote.textContent=currentTipFilter==='all'?`${mcT('suggestedFor')}: ${mcT('day'+day)}`:`${mcT('filter')}: ${mcT('tag'+currentTipFilter)} • ${mcT('suggestedFor')}: ${mcT('day'+day)}`;
       tipStatus.style.display='none';
       tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(s=>(s.key||s.text)===(tip.key||tip.text))));
@@ -1181,7 +1185,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         const message=document.createElement('span');
         const key=t.key||TIPS.find(tip=>tip.text===t.text)?.key;
         const localized=key?mcT(key):t.text;
-        message.textContent=localized===key?t.text:localized;
+        message.textContent=!localized||localized===key?t.text:localized;
         const date=document.createElement('small');
         const parsed=new Date(t.saved_at);
         date.textContent=mcT('savedAt')+' '+(Number.isNaN(parsed.getTime())?'':parsed.toLocaleString());
