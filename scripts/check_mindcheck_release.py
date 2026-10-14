@@ -67,6 +67,13 @@ check("premium polish cached", "'./mc-polish.css'" in sw)
 check("premium polish exists", (ROOT / "mc-polish.css").is_file())
 check("reduced motion supported", "prefers-reduced-motion" in css)
 
+# Leadership Summit certificate portal must remain disabled until server-side lookup is secured.
+summit_portal = (ROOT / "certificate/index.html").read_text(encoding="utf-8")
+summit_script = (ROOT / "certificate/script.js").read_text(encoding="utf-8")
+check("Summit certificate portal paused", "Certificate portal temporarily unavailable" in summit_portal)
+check("Summit portal has no active attendee form", 'id="fullname"' not in summit_portal and 'id="phone"' not in summit_portal)
+check("Summit portal does not load certificate API scripts", "script.js" not in summit_portal and "jspdf" not in summit_portal.lower())
+check("Summit browser attendee API disabled", "sheetdb.io" not in summit_script and "fetch(" not in summit_script)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
