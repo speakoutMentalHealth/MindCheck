@@ -556,6 +556,72 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
   </footer>
 
+  <!-- Independent save control: survives failures in unrelated dashboard scripts. -->
+  <script>
+  (function(){
+    'use strict';
+    const STORAGE_KEY='mc_tips_saved';
+    function escapeTip(value){
+      return String(value==null?'':value).replace(/[&<>"']/g,function(ch){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+      });
+    }
+    function readTips(){
+      try{
+        const result=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+        return Array.isArray(result)?result:[];
+      }catch(e){return [];}
+    }
+    function showSavedTips(items){
+      const list=document.getElementById('savedTipsList');
+      if(!list)return;
+      if(!items.length){list.innerHTML='<li><em>No saved tips yet.</em></li>';return;}
+      list.innerHTML=items.slice().reverse().map(function(item){
+        const text=item.text||item.key||'Wellness tip';
+        const date=item.saved_at?new Date(item.saved_at):null;
+        const stamp=date&&!Number.isNaN(date.getTime())?'<br><small>Saved '+escapeTip(date.toLocaleString())+'</small>':'';
+        return '<li>'+escapeTip(text)+stamp+'</li>';
+      }).join('');
+    }
+    document.addEventListener('click',function(event){
+      const button=event.target.closest&&event.target.closest('#tipSaveBtn');
+      if(!button)return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const status=document.getElementById('tipStatus');
+      const visibleTip=document.getElementById('tipText');
+      const text=visibleTip&&visibleTip.textContent.trim();
+      if(!status)return;
+      try{
+        if(!text)throw new Error('No tip is currently displayed');
+        const saved=readTips();
+        const alreadySaved=saved.some(function(item){return item.text===text;});
+        if(!alreadySaved){
+          saved.push({text:text,key:null,saved_at:new Date().toISOString()});
+          localStorage.setItem(STORAGE_KEY,JSON.stringify(saved));
+        }
+        const verified=readTips();
+        if(!verified.some(function(item){return item.text===text;}))throw new Error('Save verification failed');
+        showSavedTips(verified);
+        const panel=document.getElementById('savedTipsList')?.closest('details');
+        if(panel)panel.open=true;
+        button.setAttribute('aria-pressed','true');
+        status.style.color='#087352';
+        status.textContent=alreadySaved?'Already saved — see Saved tips below.':'Saved! Your tip is listed below.';
+      }catch(error){
+        console.warn('MindCheck tip save failed',error);
+        status.style.color='#a61b35';
+        status.textContent='Could not save this tip. Please check browser storage and try again.';
+      }
+      status.style.display='block';
+    },true);
+    document.addEventListener('DOMContentLoaded',function(){
+      const list=document.getElementById('savedTipsList');
+      if(list)showSavedTips(readTips());
+    });
+  })();
+  </script>
+
   <!-- App scripts: split for readability -->
   <script>
     /* ---------- Element refs & navigation ---------- */
