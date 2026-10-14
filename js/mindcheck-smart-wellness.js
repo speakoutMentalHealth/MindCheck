@@ -41,9 +41,9 @@ function reducedMotion(){return window.matchMedia&&window.matchMedia('(prefers-r
 function draw(){
   var phase=elapsed%10000,inhale=phase<4000,phaseElapsed=inhale?phase:phase-4000,phaseDuration=inhale?4000:6000;
   var phaseKey=inhale?'inhale':'exhale',fraction=Math.min(1,phaseElapsed/phaseDuration);
-  var scale=inhale?(.65+.43*fraction):(1.08-.43*fraction);
+  var scale=inhale?(.56+.60*fraction):(1.16-.60*fraction);
   circle.classList.toggle('is-inhaling',inhale);circle.classList.toggle('is-exhaling',!inhale);
-  if(reducedMotion())circle.style.transform='scale(.85)';
+  if(reducedMotion())circle.style.transform='scale(.86)';
   else circle.style.transform='scale('+scale.toFixed(3)+')';
   ring.style.strokeDashoffset=String(CIRCUMFERENCE*(1-fraction));
   seconds.textContent=String(Math.max(1,Math.ceil((phaseDuration-phaseElapsed)/1000)));
@@ -54,7 +54,7 @@ function draw(){
 function finish(){
   running=false;paused=false;completed=true;cancelAnimationFrame(frame);
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
-  circle.style.transform='scale(.65)';
+  circle.style.transform='scale(.56)';
   ring.style.strokeDashoffset='0';seconds.textContent='✓';phaseLabel.textContent='';
   cue.textContent=tr('complete');progress.textContent='3 / 3';start.textContent=tr('start');
 }
@@ -75,7 +75,7 @@ start.addEventListener('click',function(){
 reset.addEventListener('click',function(){
   running=false;paused=false;completed=false;previousPhase='';cancelAnimationFrame(frame);elapsed=0;last=0;
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
-  circle.style.transform='scale(.65)';
+  circle.style.transform='scale(.56)';
   ring.style.strokeDashoffset=String(CIRCUMFERENCE);seconds.textContent='4';phaseLabel.textContent=tr('inhale');
   cue.textContent=tr('ready');progress.textContent='0 / 3';start.textContent=tr('start');
 });
