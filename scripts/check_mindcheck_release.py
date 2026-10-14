@@ -36,6 +36,8 @@ check("no selected mood analytics property",
       "track('CheckIn', { mood:" not in html and 'track("CheckIn", { mood:' not in html)
 check("privacy notice", 'href="privacy.html"' in html)
 check("emergency support", 'id="crisisBanner"' in html and 'href="tel:112"' in html)
+for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindcheck-premium-layout.css","mindcheck-focused-app.css","mindcheck-compact-header.css","speakout-brand-unification.css","speakout-subsections.css","icons/logo.png","icons/apple-touch-icon.png"):
+    check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
 check("service worker cache version rotated", "mc-v9-visual-polish-20261014" in sw)
