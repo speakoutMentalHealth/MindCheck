@@ -510,7 +510,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <p id="tipNote" style="color:#52606d;margin:0;"></p>
       <div class="toolbar" style="justify-content:flex-start;margin-top:12px;">
         <button id="tipDoneBtn" class="btn btn-primary" data-i18n="done">Done ✅</button>
-        <button id="tipSaveBtn" type="button" class="btn btn-ghost" onclick="return window.mcSaveTip(event)" data-i18n="saveTip">Save tip ⭐</button><button id="tipCopyBtn" type="button" class="btn btn-ghost" onclick="return window.mcCopyTip(event)">Copy tip 📋</button>
+        <button id="tipSaveBtn" type="button" class="btn btn-ghost" onclick="return window.mcSaveTip(event)" data-i18n="saveTip">Save tip ⭐</button><button id="tipShareBtn" type="button" class="btn btn-ghost" onclick="return window.mcShareTip(event)">Share tip ↗</button>
       </div>
       <p id="tipStatus" style="color:#0b5;font-weight:600;display:none;margin-top:8px;"></p>
     </div>
@@ -573,10 +573,18 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       }catch(err){console.warn(err);status('Unable to save. Please check browser storage.',true);}
       return false;
     };
-    window.mcCopyTip=function(e){
-      e?.preventDefault();e?.stopImmediatePropagation();var t=tip();if(!t){status('No tip to copy.',true);return false;}
-      function fallback(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand('copy');}catch(err){}a.remove();status(ok?'Tip copied!':'Copy unavailable. Select the tip text manually.',!ok);}
-      if(navigator.clipboard?.writeText){navigator.clipboard.writeText(t).then(function(){status('Tip copied! Share it with someone.',false);}).catch(fallback);}else fallback();
+    window.mcShareTip=function(e){
+      e?.preventDefault();e?.stopImmediatePropagation();
+      var t=tip();if(!t){status('No tip to share.',true);return false;}
+      var payload={title:'MindCheck Wellness Tip',text:t+'\n\nShared from MindCheck: https://mindcheck.speakoutmentalhealth.org/'};
+      function copyFallback(){
+        function result(ok){status(ok?'Share options unavailable here. Tip copied — paste it anywhere.':'Sharing unavailable. Please select and copy the tip text manually.',!ok);}
+        if(navigator.clipboard?.writeText){navigator.clipboard.writeText(payload.text).then(function(){result(true);}).catch(function(){legacyCopy();});}
+        else legacyCopy();
+        function legacyCopy(){var a=document.createElement('textarea');a.value=payload.text;document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand('copy');}catch(err){}a.remove();result(ok);}
+      }
+      if(navigator.share){navigator.share(payload).then(function(){status('Share options opened.',false);}).catch(function(err){if(err?.name!=='AbortError'){copyFallback();}});}
+      else copyFallback();
       return false;
     };
   })();
