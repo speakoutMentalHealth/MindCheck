@@ -17,7 +17,15 @@ yo:['Ìtàn ìmọ̀lára','Ìmọ̀ràn ìlera','Àwọn iṣẹ́ òní'],
 pcm:['Your mood history','Wellness suggestions','Small challenges for today'],
 fr:['Historique des humeurs','Suggestions bien-être','Défis du jour']
 };
-function renderAccordionLabels(){var lang=language();var labels=accordionLabels[lang]||accordionLabels.en;document.querySelectorAll('#mcJourney [data-mc-accordion]').forEach(function(el){var i=['moodHistory','suggestions','challenges'].indexOf(el.dataset.mcAccordion);if(i>=0)el.textContent=labels[i];});}
+function renderAccordionLabels(){var lang=language();var labels=accordionLabels[lang]||accordionLabels.en;document.querySelectorAll('#mcJourney [data-mc-accordion]').forEach(function(el){var i=['moodHistory','suggestions','challenges'].indexOf(el.dataset.mcAccordion);if(i>=0)el.textContent=labels[i];});document.querySelectorAll('#mcJourney [data-mc-accordion-sub]').forEach(function(el){var i=['moodHistory','suggestions','challenges'].indexOf(el.dataset.mcAccordionSub);if(i>=0)el.textContent=(accordionSubtitles[lang]||accordionSubtitles.en)[i];});}
+var accordionSubtitles={
+en:['Your recent check-ins','Gentle support, just for you','Small steps for today'],
+ha:['Yanayinka na baya','Taimako mai sauki gare ka','Kananan matakai na yau'],
+ig:['Nyocha gị ndị gara aga','Nkwado dị nro maka gị','Obere nzọụkwụ taa'],
+yo:['Àwọn àyẹ̀wò rẹ tẹ́lẹ̀','Ìrànlọ́wọ́ onírẹ̀lẹ̀ fún ọ','Ìgbésẹ̀ kékeré lónìí'],
+pcm:['Your last mood checks','Small support for you','Small steps for today'],
+fr:['Vos derniers bilans','Un soutien doux pour vous','De petits pas aujourd’hui']
+};
 var root=document.getElementById('mcSmartWellness');if(!root)return;
 function language(){try{var l=(localStorage.getItem('mc_lang')||'en').split('-')[0].toLowerCase();return i18n[l]?l:'en';}catch(e){return'en';}}
 function tr(key){return(i18n[language()]||i18n.en)[key]||i18n.en[key];}
