@@ -48,6 +48,8 @@ check("saved-tip removal uses translated text", "tipAction('remove')" in html an
 check("smart wellness script linked", 'src="js/mindcheck-smart-wellness.js"' in html)
 check("smart wellness stylesheet linked", 'href="mindcheck-smart-wellness.css"' in html)
 check("breathing phase timer present", all('id="' + x + '"' in html for x in ("mcBreathingRingProgress","mcBreathingSeconds","mcBreathingPhase")))
+check("redundant suggestions removed", 'id="mcSmartWellness"' not in html and 'id="mcSmartActions"' not in html and 'data-mc-accordion="suggestions"' not in html)
+check("breathing initialization independent", "getElementById('mcSmartWellness')" not in (ROOT / "js/mindcheck-smart-wellness.js").read_text(encoding="utf-8"))
 check("breathing controls present", all('id="' + x + '"' in html for x in ("mcBreathingStart","mcBreathingReset","mcBreathingCue")))
 check("smart wellness cached", "'./js/mindcheck-smart-wellness.js'" in sw and "'./mindcheck-smart-wellness.css'" in sw)
 check("wellness journey cached", "'./js/mindcheck-journey.js'" in sw and "'./mindcheck-journey.css'" in sw)

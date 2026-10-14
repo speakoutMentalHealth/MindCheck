@@ -26,14 +26,18 @@ yo:['Àwọn àyẹ̀wò rẹ tẹ́lẹ̀','Ìrànlọ́wọ́ onírẹ̀lẹ̀
 pcm:['Your last mood checks','Small support for you','Small steps for today'],
 fr:['Vos derniers bilans','Un soutien doux pour vous','De petits pas aujourd’hui']
 };
-var root=document.getElementById('mcSmartWellness');if(!root)return;
 function language(){try{var l=(localStorage.getItem('mc_lang')||'en').split('-')[0].toLowerCase();return i18n[l]?l:'en';}catch(e){return'en';}}
 function tr(key){return(i18n[language()]||i18n.en)[key]||i18n.en[key];}
-function history(){try{var a=JSON.parse(localStorage.getItem('mc_mood_history')||'[]');return Array.isArray(a)?a:[];}catch(e){return[];}}
-function moodType(){var a=history();if(!a.length)return'noMood';var last=a[a.length-1];var n=Number(last&&last.mood_value);if(!Number.isInteger(n)||n<0||n>4)return'noMood';return n<=1?'low':n===2?'neutral':n===3?'calm':'positive';}
-function showSection(id){var target=document.getElementById(id);if(!target)return;var btn=document.getElementById(id==='tipsSection'?'goTips':'goMood');if(btn)btn.click();else target.scrollIntoView({behavior:'smooth'});}
-var suggestions={low:['selfcare','connect','breathe'],neutral:['gratitude','selfcare','tips'],calm:['gratitude','breathe','tips'],positive:['gratitude','connect','tips'],noMood:['breathe','selfcare','tips']};
-function renderRecommendations(){renderAccordionLabels();root.querySelectorAll('[data-mcs]').forEach(function(el){el.textContent=tr(el.dataset.mcs);});var type=moodType();document.getElementById('mcSmartMessage').textContent=tr(type);var actions=document.getElementById('mcSmartActions');actions.replaceChildren();(suggestions[type]||suggestions.noMood).forEach(function(action){var b=document.createElement('button');b.type='button';b.textContent=tr(action);b.addEventListener('click',function(){if(action==='tips')showSection('tipsSection');else if(action==='breathe'){document.getElementById('mcBreathing').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('mcBreathingStart').focus();}else{var task=document.querySelector('#mcJourneyChallengeList .mc-journey-task:nth-child('+({gratitude:1,breathe:2,connect:3,selfcare:4}[action]||1)+')');if(task){var panel=task.closest('details');if(panel)panel.open=true;task.scrollIntoView({behavior:'smooth',block:'center'});}}});actions.appendChild(b);});if(!running&&!paused&&!completed)cue.textContent=tr('ready');if(!running)start.textContent=paused?tr('resume'):tr('start');reset.textContent=tr('reset');}
+function renderBreathingLabels(){
+  renderAccordionLabels();
+  var breath=document.getElementById('mcBreathing');
+  if(!breath)return;
+  breath.querySelectorAll('[data-mcs]').forEach(function(el){el.textContent=tr(el.dataset.mcs);});
+  if(!running&&!paused&&!completed)cue.textContent=tr('ready');
+  if(!running)start.textContent=paused?tr('resume'):tr('start');
+  reset.textContent=tr('reset');
+  if(!running&&!completed)phaseLabel.textContent=tr(elapsed%10000<4000?'inhale':'exhale');
+}
 var start=document.getElementById('mcBreathingStart'),reset=document.getElementById('mcBreathingReset'),cue=document.getElementById('mcBreathingCue'),progress=document.getElementById('mcBreathingProgress'),circle=document.getElementById('mcBreathingCircle'),ring=document.getElementById('mcBreathingRingProgress'),seconds=document.getElementById('mcBreathingSeconds'),phaseLabel=document.getElementById('mcBreathingPhase');
 var running=false,paused=false,elapsed=0,last=0,frame=0,completed=false,previousPhase='';var DURATION=30000,CIRCUMFERENCE=2*Math.PI*114;
 ring.style.strokeDasharray=String(CIRCUMFERENCE);ring.style.strokeDashoffset=String(CIRCUMFERENCE);
@@ -84,7 +88,7 @@ reset.addEventListener('click',function(){
   cue.textContent=tr('ready');progress.textContent='0 / 3';start.textContent=tr('start');
 });
 document.addEventListener('visibilitychange',function(){if(document.hidden&&running)pause();});
-document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mood,#mcChangeLanguage,[data-lang]'))setTimeout(renderRecommendations,100);});
-window.addEventListener('storage',renderRecommendations);
-renderRecommendations();
+document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mood,#mcChangeLanguage,[data-lang]'))setTimeout(renderBreathingLabels,100);});
+window.addEventListener('storage',renderBreathingLabels);
+renderBreathingLabels();
 })();
