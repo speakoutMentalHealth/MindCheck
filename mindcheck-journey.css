@@ -1,0 +1,33 @@
+/* Phase 2: Home dashboard only. Existing Wellness buttons remain untouched. */
+body.mc-stage-dashboard #homeSection #mcJourney {
+  display:block!important;max-width:980px;margin:24px auto 30px;padding:clamp(18px,4vw,30px);
+  text-align:left;background:linear-gradient(145deg,#f7fbff,#eef7f2);
+  border:1px solid #d9e8e4;border-radius:26px;box-shadow:0 14px 38px rgba(13,56,79,.08);
+}
+#mcJourney .mc-journey-head{display:flex;align-items:center;justify-content:space-between;gap:14px;}
+#mcJourney .mc-journey-eyebrow{color:#176453;font-weight:800;font-size:.75rem;letter-spacing:.12em;margin:0 0 7px;}
+#mcJourney h3{font-size:clamp(1.4rem,4vw,2rem);line-height:1.2;margin:0 0 8px;color:#12314a;letter-spacing:-.035em;}
+#mcJourney .mc-journey-head p:last-child{color:#425e6e;line-height:1.5;margin:0;}
+#mcJourney .mc-journey-icon{font-size:2.5rem;background:#fff;border-radius:20px;padding:14px;}
+#mcJourney .mc-journey-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:24px 0;}
+#mcJourney .mc-journey-stats>div{padding:16px 12px;border:1px solid #deebe7;background:#fff;border-radius:17px;min-width:0;}
+#mcJourney .mc-journey-stats strong{display:block;font-size:1.8rem;color:#145d57;font-variant-numeric:tabular-nums;}
+#mcJourney .mc-journey-stats span{display:block;color:#405c68;font-size:.83rem;line-height:1.4;}
+#mcJourney h4{font-size:1.13rem;color:#163950;margin:0 0 12px;}
+#mcJourney .mc-journey-chart{background:#fff;border:1px solid #deebe7;border-radius:18px;padding:17px;margin-bottom:22px;}
+#mcJourneyMood{display:flex;flex-wrap:wrap;gap:9px;}
+#mcJourneyMood .mc-journey-mood-row{display:flex;align-items:center;gap:8px;background:#f2f8fa;border:1px solid #e1edf0;padding:9px 11px;border-radius:12px;font-size:.9rem;}
+#mcJourney .mc-journey-challenge-head p{color:#46606e;margin:0 0 15px;}
+#mcJourney .mc-journey-challenge-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+#mcJourney .mc-journey-task{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding:16px;border:1px solid #deebe7;border-radius:18px;background:#fff;}
+#mcJourney .mc-journey-task.is-done{border-color:#7fc9b5;background:#f4fffb;}
+#mcJourney .mc-journey-task-icon{font-size:1.5rem;}
+#mcJourney .mc-journey-task h5{margin:0 0 6px;font-size:1rem;color:#15374c;}
+#mcJourney .mc-journey-task p{margin:0;color:#496372;font-size:.9rem;line-height:1.5;}
+#mcJourney .mc-journey-task-button{grid-column:1/-1;min-height:46px;padding:10px 14px;border:1px solid #176b5b;background:#176b5b;color:#fff;font-weight:750;border-radius:12px;cursor:pointer;touch-action:manipulation;}
+#mcJourney .is-done .mc-journey-task-button{background:#fff;color:#176b5b;}
+#mcJourney .mc-journey-task-button:focus-visible{outline:3px solid #145db5;outline-offset:3px;}
+#mcJourney .mc-journey-feedback{min-height:1.4em;color:#176453;font-weight:650;}
+#mcJourney .mc-journey-footnote{color:#526879;font-size:.82rem;line-height:1.5;}
+@media(max-width:650px){#mcJourney .mc-journey-stats{grid-template-columns:repeat(2,minmax(0,1fr));}#mcJourney .mc-journey-challenge-list{grid-template-columns:1fr;}#mcJourney .mc-journey-icon{font-size:1.8rem;padding:10px;}}
+@media(prefers-reduced-motion:reduce){#mcJourney *,#mcJourney *::before,#mcJourney *::after{animation:none!important;transition:none!important;}}
