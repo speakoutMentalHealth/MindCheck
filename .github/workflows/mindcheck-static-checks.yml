@@ -5,6 +5,7 @@ on:
     paths:
       - 'index.html'
       - 'mc-theme.css'
+      - 'mc-polish.css'
       - 'sw.js'
       - 'js/mindcheck-i18n.js'
       - 'scripts/check_mindcheck_release.py'
