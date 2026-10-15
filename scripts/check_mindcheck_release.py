@@ -44,7 +44,7 @@ for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindche
     check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", "mc-v9-visual-polish-20261014" in sw)
+check("service worker cache version rotated", "mc-v10-assessment-centre-20261015" in sw)
 journey = (ROOT / "js/mindcheck-journey.js").read_text(encoding="utf-8")
 check("mood history labels in six languages", all(f"{code}:{{previous:" in journey for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("mood history uses translated labels", "translatedMood.moods[Number(item.mood_value)]" in journey)
@@ -76,6 +76,23 @@ check("Summit certificate portal paused", "Certificate portal temporarily unavai
 check("Summit portal has no active attendee form", 'id="fullname"' not in summit_portal and 'id="phone"' not in summit_portal)
 check("Summit portal does not load certificate API scripts", "script.js" not in summit_portal and "jspdf" not in summit_portal.lower())
 check("Summit browser attendee API disabled", "sheetdb.io" not in summit_script and "fetch(" not in summit_script)
+# Unified Assessment Centre navigation and private screening release checks.
+centre = (ROOT / "assessment-centre.html").read_text(encoding="utf-8")
+nav = (ROOT / "js/mindcheck-premium-nav.js").read_text(encoding="utf-8")
+audit = (ROOT / "audit-screening.html").read_text(encoding="utf-8")
+pcl5 = (ROOT / "pcl5-screening.html").read_text(encoding="utf-8")
+breathing = (ROOT / "mindcheck-smart-wellness.css").read_text(encoding="utf-8")
+check("single homepage Assessment Centre entry", html.count('id="goAssessmentCentre"') == 1 and 'id="goScreenings"' not in html and 'id="goADHDAwareness"' not in html)
+check("homepage quick Assessments link points to Centre", 'href="assessment-centre.html">Assessments' in html)
+check("bottom Assessments tab opens Centre", "if(id==='formContainer'){window.location.assign('assessment-centre.html');return;}" in nav)
+for destination in ("adhd.html", "pcl5-screening.html", "audit-screening.html", "sleep-awareness.html", "trauma-awareness.html", "suicide-support.html"):
+    check("Assessment Centre links " + destination, 'href="' + destination + '"' in centre)
+check("breathing mobile layout compact", "mc-breathing-stage{transform:scale(.76)!important}" in breathing and "height:209px!important" in breathing)
+check("AUDIT provides WHO form and private total", "who.int/publications/i/item/WHO-MSD-MSB-01.6a" in audit and 'id="auditScore"' in audit and "localStorage" not in audit and "fetch(" not in audit)
+check("PCL-5 accessible, private", 'name="q20"' in pcl5 and "localStorage" not in pcl5 and "fetch(" not in pcl5)
+for destination in ("assessment-centre.html", "audit-screening.html", "pcl5-screening.html"):
+    check("offline shell includes " + destination, "'./" + destination + "'" in sw)
+
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
