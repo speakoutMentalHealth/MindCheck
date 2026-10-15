@@ -132,6 +132,11 @@ for section in ("availableAssessments","moreResources","plannedPathways","profes
     check("Assessment Centre shortcut "+section, 'href="#'+section+'"' in centre and 'id="'+section+'"' in centre)
 check("Assessment Centre retains existing assessment pathways", all('href="'+p+'"' in centre for p in ("adhd.html","pcl5-screening.html","audit-screening.html","sleep-awareness.html")))
 check("Assessment Centre retains emergency support", 'href="suicide-support.html"' in centre)
+centre=(ROOT/"assessment-centre.html").read_text(encoding="utf-8")
+for status in ("External questionnaire","Official adult form + guidance","Educational guide","Safety information · No score","Private on-device questionnaire","Official-form score companion","Professional information"):
+    check("assessment availability label "+status, status in centre)
+check("Assessment Centre mobile cards keep full-width links", ".ac-card a{width:100%;justify-content:center}" in centre)
+check("Assessment Centre keeps existing screenings", all('href="'+p+'"' in centre for p in ("adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","suicide-support.html")))
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
