@@ -7,38 +7,51 @@
 <link rel="stylesheet" href="mc-theme.css">
 <style>
 :root{color-scheme:light}
-body{margin:0!important;background:linear-gradient(160deg,#f7fbff,#eef7f2)!important;color:#1c3642!important;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
-.wrap{box-sizing:border-box;width:min(100%,920px);margin:0 auto;padding:clamp(20px,5vw,46px) 18px 80px}
+body{background:#f4f9fc!important;color:#153d35!important;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif;margin:0!important}
+.adhd-header{background:#fff;border-bottom:1px solid #dce9ef;position:sticky;top:0;z-index:20}
+.adhd-header-inner{max-width:1080px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.adhd-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#154937!important;font-weight:850;font-size:1rem;min-width:0}
+.adhd-brand img{width:43px;height:43px;object-fit:contain}
+.adhd-home{border:1px solid #b9dbce;padding:8px 13px;border-radius:12px;color:#135e49!important;text-decoration:none;font-weight:750;white-space:nowrap}
+.wrap{max-width:1000px;width:100%;margin:auto;padding:20px 20px 90px;box-sizing:border-box}
 .wrap *{box-sizing:border-box}
-.wrap a{color:#087663}
-.wrap .back{display:inline-block;margin-bottom:23px;font-weight:650}
-.wrap .eyebrow{color:#187963;font-weight:800;letter-spacing:.07em;text-transform:uppercase;font-size:.79rem}
-.wrap h1{font-size:clamp(1.9rem,5vw,2.9rem)!important;line-height:1.2!important;margin:14px 0 22px!important;color:#143e32!important;overflow-wrap:break-word}
-.wrap h2{font-size:clamp(1.35rem,4vw,1.7rem)!important;line-height:1.32!important;margin:0 0 12px!important;color:#164837!important}
-.wrap p,.wrap li{color:#314e52!important}
-.wrap .panel{background:#fff!important;border:1px solid #d8e7ee!important;border-radius:22px;padding:clamp(18px,4vw,28px);margin:22px 0;box-shadow:0 8px 25px rgba(27,67,66,.05)}
-.wrap .notice{background:#e4f7ef!important;border-left:4px solid #21a783;padding:16px 18px;border-radius:12px;color:#173e33!important}
-.wrap .notice *{color:#173e33!important}
-.wrap .action{display:inline-block;background:#126c56!important;color:#fff!important;font-weight:800;text-decoration:none;padding:12px 20px;border-radius:12px;margin:8px 0}
-.wrap .small{font-size:.92rem;color:#536b73!important}
-.wrap ul,.wrap ol{padding-left:24px}
-.wrap .steps li{margin-bottom:10px}
-.wrap a:focus-visible,.wrap button:focus-visible,.wrap select:focus-visible{outline:3px solid #126c56;outline-offset:4px}
-.wrap #shadedCount{background:#fff!important;color:#173e33!important;border:1px solid #86b7ac!important}
-.wrap #clearScreening{color:#126c56!important;border-color:#459f8a!important}
-@media(max-width:480px){.wrap{padding-inline:16px}.wrap .panel{border-radius:18px}}
+.wrap a{color:#087862}
+.wrap .back{display:inline-block;margin:12px 0 16px;font-weight:650}
+.adhd-hero{background:linear-gradient(125deg,#075f50,#159875);border-radius:24px;padding:clamp(24px,5vw,46px);color:#fff;margin-bottom:18px}
+.adhd-hero .eyebrow{color:#c9f9ea;font-weight:800;font-size:.8rem;letter-spacing:.09em;text-transform:uppercase}
+.adhd-hero h1{font-size:clamp(1.95rem,4.8vw,3rem)!important;line-height:1.17!important;margin:14px 0!important;color:#fff!important}
+.adhd-hero p{color:#ebfff8!important;font-size:1.05rem;margin-bottom:0}
+.adhd-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:17px 0}
+.adhd-steps a{padding:13px 12px;text-align:center;border-radius:14px;background:#fff;border:1px solid #d3e7e1;color:#145d4a!important;font-weight:750;text-decoration:none}
+.wrap h2{font-size:clamp(1.3rem,3.3vw,1.65rem)!important;line-height:1.3!important;color:#15503e!important;margin:0 0 12px!important}
+.wrap p,.wrap li{color:#38545a!important}
+.wrap .panel{background:#fff!important;border:1px solid #d9e7ed!important;border-radius:22px;padding:clamp(18px,4vw,30px);margin:18px 0;box-shadow:0 6px 22px rgba(25,67,66,.05)}
+.wrap .notice{background:#e7f8f0!important;border-left:4px solid #31b18a;padding:15px 18px;border-radius:12px;color:#164835!important}
+.wrap .notice[hidden]{display:none!important}
+.wrap .action{display:inline-flex;background:#08765a!important;color:#fff!important;font-weight:800;text-decoration:none;padding:12px 19px;border-radius:12px;margin:8px 0}
+.wrap .small{font-size:.9rem;color:#567078!important}
+.wrap ul,.wrap ol{padding-left:23px}
+.wrap li{margin-bottom:8px}
+.wrap a:focus-visible,.wrap button:focus-visible,.wrap select:focus-visible{outline:3px solid #146d54;outline-offset:3px}
+.wrap #shadedCount{background:#fff!important;color:#153d35!important;border:1px solid #8bbdaf!important}
+.wrap #clearScreening{color:#126b53!important;border-color:#459f8a!important}
+.pdf-card{border:1px solid #d7e7e5;border-radius:17px;overflow:hidden;background:#f7fbfc;margin:18px 0}
+.pdf-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 15px;background:#eaf7f1;flex-wrap:wrap}
+.pdf-toolbar a{font-weight:750}
+.pdf-card iframe{width:100%;height:640px;max-height:72vh;border:0;display:block;background:white}
+@media(max-width:640px){.wrap{padding:14px 14px 96px}.adhd-header-inner{padding:9px 14px}.adhd-brand img{width:36px;height:36px}.adhd-hero{border-radius:18px}.adhd-steps{grid-template-columns:1fr}.wrap .panel{border-radius:17px}.pdf-card iframe{height:490px;max-height:68vh}.pdf-toolbar a{display:block}}
 </style>
 </head>
-<body><main class="wrap">
+<body><header class="adhd-header"><div class="adhd-header-inner"><a class="adhd-brand" href="index.html"><img src="icons/logo.png" alt="SpeakOut logo"><span>SpeakOut MindCheck</span></a><a class="adhd-home" href="index.html">Home</a></div></header><main class="wrap">
 <a class="back" href="index.html">← Back to MindCheck</a>
-<div class="eyebrow">SpeakOut MindCheck · Educational resource</div>
+<div class="adhd-hero"><div class="eyebrow">SpeakOut MindCheck · Educational resource</div>
 <h1>ADHD: Understand your attention and next steps</h1>
-<p>Attention-deficit/hyperactivity disorder (ADHD) may involve ongoing patterns of inattention, restlessness or impulsivity that affect daily life. People experience these difficulties differently.</p>
+<p>Attention-deficit/hyperactivity disorder (ADHD) may involve ongoing patterns of inattention, restlessness or impulsivity that affect daily life. People experience these difficulties differently.</p></div><nav class="adhd-steps" aria-label="ADHD page sections"><a href="#adultTitle">1 · Read the screener</a><a href="#interpretTitle">2 · Understand results</a><a href="#youthTitle">3 · Next steps</a></nav>
 <div class="notice"><strong>Important:</strong> This page and the questionnaire linked below do not diagnose or rule out ADHD. A qualified healthcare professional considers your history, functioning in different settings and other possible causes of symptoms.</div>
 <section class="panel" aria-labelledby="adultTitle"><h2 id="adultTitle">For adults aged 18 and older</h2>
 <p><strong>Recommended tool:</strong> Adult ADHD Self-Report Scale (ASRS v1.1), six-question screener, developed by researchers at NYU and Harvard in collaboration with WHO work. It asks about experiences over the past six months.</p>
 <p>Complete the <strong>official patient-facing six-question questionnaire</strong> shown below. We have not modified the PDF, wording or scoring instructions.</p>
-<div style="border-radius:14px;overflow:hidden;background:#fff;color:#14352f;margin:18px 0"><div style="padding:12px;background:#e4f7ee"><strong>Original ASRS v1.1 six-question PDF</strong> — <a style="color:#064b3c" href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">Download PDF</a></div><iframe src="./6Q_ASRS_ENGLISH_final.pdf" title="Original ASRS v1.1 patient-facing screener PDF" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;height:650px;max-height:75vh;border:0"></iframe></div><p class="small">If the PDF does not appear inside your browser, <a href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">open or download the original PDF</a>. This PDF will be served directly from MindCheck once the original document is uploaded to the repository.</p><a class="action" href="https://license.tov.med.nyu.edu/product/asrs6Qscreener" target="_blank" rel="noopener noreferrer">Official NYU source and licensing ↗</a>
+<div class="pdf-card"><div class="pdf-toolbar"><strong>Original ASRS v1.1 six-question PDF</strong> — <a href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">Download PDF</a></div><iframe src="./6Q_ASRS_ENGLISH_final.pdf" title="Original ASRS v1.1 patient-facing screener PDF" loading="lazy" referrerpolicy="no-referrer" ></iframe></div><p class="small">If the PDF does not appear inside your browser, <a href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">open or download the original PDF</a>. The original PDF is served directly from MindCheck.</p><a class="action" href="https://license.tov.med.nyu.edu/product/asrs6Qscreener" target="_blank" rel="noopener noreferrer">Official NYU source and licensing ↗</a>
 <p class="small">Alternative language versions are listed on the NYU source page. The embedded PDF is the English version.</p>
 <p><strong>After the questionnaire:</strong> A screening result that suggests possible ADHD is a reason to discuss your concerns with a clinician, not proof that you have ADHD. A result below the screening threshold does not rule it out when difficulties persist.</p>
 </section>
