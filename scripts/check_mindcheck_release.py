@@ -93,6 +93,13 @@ check("PCL-5 accessible, private", 'name="q20"' in pcl5 and "localStorage" not i
 for destination in ("assessment-centre.html", "audit-screening.html", "pcl5-screening.html"):
     check("offline shell includes " + destination, "'./" + destination + "'" in sw)
 
+# Assessment resource and AUDIT privacy regression guards.
+centre = (ROOT / "assessment-centre.html").read_text(encoding="utf-8")
+audit = (ROOT / "audit-screening.html").read_text(encoding="utf-8")
+check("WHO ASSIST official guide linked", "www.who.int/publications/i/item/978924159938-2" in centre)
+check("WHO AUDIT companion remains linked", 'href="audit-screening.html"' in centre)
+check("AUDIT private score widget preserved", 'id="auditScore"' in audit and 'id="result"' in audit)
+check("AUDIT no responses persisted or transmitted", "localStorage" not in audit and "fetch(" not in audit and "sendBeacon(" not in audit)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
