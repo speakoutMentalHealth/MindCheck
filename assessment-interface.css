@@ -15,3 +15,11 @@
 .mc-assessment-question-nav .mc-assessment-next{grid-column:2;grid-row:2}
 .mc-assessment-question-nav .mc-assessment-all{grid-column:1/-1;grid-row:3}
 @media(max-width:560px){.mc-assessment-question-nav{padding:11px;gap:8px}.mc-assessment-question-nav button{font-size:.91rem;padding:10px 7px}}
+
+/* Shared accessible result and action layout for approved or official-form companion tools. */
+.mc-assessment-result{background:#e9f7ef;border-left:4px solid #22996e;border-radius:12px;padding:16px;margin:15px 0;color:#164b3a;line-height:1.6}
+.mc-assessment-result[hidden]{display:none!important}
+.mc-assessment-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.mc-assessment-actions button,.mc-assessment-actions a{min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:10px 15px;border-radius:11px;font:inherit;font-weight:750;text-decoration:none;touch-action:manipulation}
+.mc-assessment-actions button:focus-visible,.mc-assessment-actions a:focus-visible{outline:3px solid #087861;outline-offset:3px}
+@media(max-width:560px){.mc-assessment-actions>*{flex:1 1 100%}}
