@@ -1,0 +1,6 @@
+/* Shared, accessible questionnaire progress UI. No health data persistence. */
+.mc-assessment-progress{background:#fff;border:1px solid #cfe5dc;border-radius:15px;padding:14px 16px;margin:14px 0 20px}
+.mc-assessment-progress>div{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;color:#17553f;font-weight:750}
+.mc-assessment-progress meter{display:block;width:100%;height:16px;margin:9px 0 4px;accent-color:#159372}
+.mc-assessment-progress .mc-assessment-hint{font-size:.85rem;font-weight:500;color:#48615c}
+@media(max-width:600px){.mc-assessment-progress{padding:12px 13px;border-radius:12px}}
