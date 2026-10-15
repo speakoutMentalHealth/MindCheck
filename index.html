@@ -467,25 +467,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 
 
 
-      <div class="card" id="goScreenings" role="button" tabindex="0" aria-label="Open mental health screenings">
-        <div class="big">🧠</div>
-        <h3>Mental Health Screenings (English)</h3>
-        <p>WHO-5, PHQ-9, GAD-7, and PSS-10.</p>
-      </div>
-
-      
-
-
-      <a class="card" id="goAssessmentCentre" href="assessment-centre.html" aria-label="Explore the MindCheck Assessment Centre">
+      <a class="card" id="goAssessmentCentre" href="assessment-centre.html" aria-label="Explore all mental health assessments">
         <div class="big" aria-hidden="true">📋</div>
         <h3>Assessment Centre</h3>
-        <p>Explore available wellbeing screenings, ADHD guidance and upcoming assessments in one place.</p>
-      </a>
-
-      <a class="card" id="goADHDAwareness" href="adhd.html" aria-label="Learn about ADHD and official adult screening options">
-        <div class="big" aria-hidden="true">🧠</div>
-        <h3>ADHD Awareness &amp; Screening</h3>
-        <p>Understand attention difficulties, access the official adult screener, and find next steps. Not a diagnosis.</p>
+        <p>Explore wellbeing, stress, anxiety, ADHD, sleep and support pathways in one place.</p>
       </a>
 
       <a class="card" id="goTips" href="#" aria-label="Open wellness tips">
@@ -815,7 +800,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     document.getElementById('goMood').onclick=()=>show(moodSection);
     document.getElementById('moodBackHome').onclick=()=>show(homeSection);
 
-    document.getElementById('goScreenings').onclick=()=>{ formFrame.src='https://tally.so/r/w2QbOV'; show(formContainer); };
+    // Existing WHO-5, PHQ-9, GAD-7 and PSS-10 screening remains available via the Assessment Centre.
     document.getElementById('formBackHome').onclick=()=>show(homeSection);
 
     document.getElementById('goTips').onclick=(e)=>{ e.preventDefault(); currentTipFilter = lastMoodTag(); show(tipsSection); };
