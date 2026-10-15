@@ -40,6 +40,16 @@ body{background:#f4f9fc!important;color:#153d35!important;font:16px/1.65 system-
 .pdf-toolbar a{font-weight:750}
 .pdf-card iframe{width:100%;height:640px;max-height:72vh;border:0;display:block;background:white}
 @media(max-width:640px){.wrap{padding:12px 14px 96px}.adhd-header-inner{padding:9px 14px}.adhd-brand img{width:36px;height:36px}.adhd-hero{border-radius:18px}.adhd-steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.adhd-steps a{font-size:.79rem;line-height:1.3;padding:11px 6px}.adhd-brand{font-size:.91rem}.adhd-home{padding:7px 10px}.adhd-hero{padding:24px 20px}.wrap .panel{border-radius:17px}.pdf-card iframe{height:490px;max-height:68vh}.pdf-toolbar a{display:block}}
+
+.pdf-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.pdf-actions .pdf-link{display:inline-flex;padding:9px 12px;border:1px solid #86bfae;border-radius:10px;background:#fff;color:#11634e!important;text-decoration:none;font-size:.9rem;font-weight:800}
+.pdf-frame{background:#eaf2f4;padding:10px}
+.pdf-frame iframe{border-radius:10px}
+.screening-select{display:block;width:100%;max-width:340px;min-height:48px;margin:12px 0;padding:12px;border:1px solid #86bfae;border-radius:12px;color:#143e33;background:#fff;font:inherit}
+.clear-screening{background:#fff;color:#126b53;border:1px solid #459f8a;border-radius:10px;padding:11px 16px;cursor:pointer;margin-top:8px;font:inherit;font-weight:700}
+#screeningResult{margin:14px 0;line-height:1.65}
+#adultTitle,#interpretTitle,#youthTitle{scroll-margin-top:90px}
+@media(max-width:640px){.pdf-toolbar{align-items:flex-start;flex-direction:column}.pdf-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.pdf-actions .pdf-link{justify-content:center;text-align:center;font-size:.8rem;padding:11px 7px}.pdf-frame{padding:0}.pdf-frame iframe{border-radius:0;height:380px;max-height:55vh}.screening-select{max-width:none}}
 </style>
 </head>
 <body><header class="adhd-header"><div class="adhd-header-inner"><a class="adhd-brand" href="index.html"><img src="icons/logo.png" alt="SpeakOut logo"><span>SpeakOut MindCheck</span></a><a class="adhd-home" href="index.html">Home</a></div></header><main class="wrap">
@@ -51,7 +61,7 @@ body{background:#f4f9fc!important;color:#153d35!important;font:16px/1.65 system-
 <section class="panel" aria-labelledby="adultTitle"><h2 id="adultTitle">For adults aged 18 and older</h2>
 <p><strong>Recommended tool:</strong> Adult ADHD Self-Report Scale (ASRS v1.1), six-question screener, developed by researchers at NYU and Harvard in collaboration with WHO work. It asks about experiences over the past six months.</p>
 <p>Complete the <strong>official patient-facing six-question questionnaire</strong> shown below. We have not modified the PDF, wording or scoring instructions.</p>
-<div class="pdf-card"><div class="pdf-toolbar"><strong>Original ASRS v1.1 six-question PDF</strong> — <a href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">Download PDF</a></div><iframe src="./6Q_ASRS_ENGLISH_final.pdf" title="Original ASRS v1.1 patient-facing screener PDF" loading="lazy" referrerpolicy="no-referrer" ></iframe></div><p class="small">If the PDF does not appear inside your browser, <a href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">open or download the original PDF</a>. The original PDF is served directly from MindCheck.</p><a class="action" href="https://license.tov.med.nyu.edu/product/asrs6Qscreener" target="_blank" rel="noopener noreferrer">Official NYU source and licensing ↗</a>
+<div class="pdf-card"><div class="pdf-toolbar"><strong>Official ASRS v1.1 questionnaire · 2 pages</strong><div class="pdf-actions"><a class="pdf-link" href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">Open full screen ↗</a><a class="pdf-link" href="./6Q_ASRS_ENGLISH_final.pdf" download="6Q_ASRS_ENGLISH_final.pdf">Download PDF ↓</a></div></div><div class="pdf-frame"><iframe src="./6Q_ASRS_ENGLISH_final.pdf#view=FitH" title="Original ASRS v1.1 patient-facing screener PDF" loading="lazy" referrerpolicy="no-referrer"></iframe></div></div><p class="small">If the PDF does not appear inside your browser, <a href="./6Q_ASRS_ENGLISH_final.pdf" target="_blank" rel="noopener noreferrer">open or download the original PDF</a>. The original PDF is served directly from MindCheck.</p><a class="action" href="https://license.tov.med.nyu.edu/product/asrs6Qscreener" target="_blank" rel="noopener noreferrer">Official NYU source and licensing ↗</a>
 <p class="small">Alternative language versions are listed on the NYU source page. The embedded PDF is the English version.</p>
 <p><strong>After the questionnaire:</strong> A screening result that suggests possible ADHD is a reason to discuss your concerns with a clinician, not proof that you have ADHD. A result below the screening threshold does not rule it out when difficulties persist.</p>
 </section>
@@ -59,12 +69,12 @@ body{background:#f4f9fc!important;color:#153d35!important;font:16px/1.65 system-
 <h2 id="interpretTitle">Understand your official ASRS screening result</h2>
 <p>Complete NYU's <strong>patient-facing six-question ASRS v1.1</strong> first. Count how many answers fall inside the shaded boxes printed on that official form. Do not count all answers marked “Often” or “Very often” automatically: the shaded threshold varies by question.</p>
 <label for="shadedCount"><strong>Number of answers in shaded boxes (0–6)</strong></label>
-<select id="shadedCount" style="display:block;max-width:270px;width:100%;padding:12px;margin:10px 0;background:#092337;color:#fff;border:1px solid #81cfbc;border-radius:10px" aria-describedby="screeningHelp">
+<select id="shadedCount" class="screening-select" aria-describedby="screeningHelp">
 <option value="">Choose a number</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
 </select>
 <p id="screeningHelp" class="small">This count stays in your browser's current page only. We do not save, transmit or track it.</p>
 <div class="notice" id="screeningResult" role="status" aria-live="polite" hidden></div>
-<button id="clearScreening" type="button" style="background:transparent;color:#a4f4df;border:1px solid #81cfbc;border-radius:10px;padding:10px 16px;cursor:pointer;margin-top:10px">Clear result</button>
+<button id="clearScreening" type="button" class="clear-screening">Clear result</button>
 <p class="small">For the validated ASRS v1.1 six-question screener, four or more shaded responses indicate that further clinical assessment is recommended. Fewer than four do not rule ADHD out. This is screening guidance, never a diagnosis or probability estimate.</p>
 </section>
 <section class="panel" aria-labelledby="youthTitle"><h2 id="youthTitle">For children and teenagers</h2>
