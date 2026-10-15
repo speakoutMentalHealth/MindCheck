@@ -26,7 +26,7 @@ for locale in ("en", "ha", "ig", "yo", "pcm", "fr"):
 for element_id in ("langSection", "homeSection", "moodSection", "formContainer",
                    "tipsSection", "helpSection", "badgesSection", "crisisBanner",
                    "formFrame", "pointsPill", "streakPill", "mcChangeLanguage",
-                   "goMood", "goScreenings"):
+                   "goMood", "goAssessmentCentre"):
     check("required element " + element_id, 'id="' + element_id + '"' in html)
 
 for mood in range(5):
