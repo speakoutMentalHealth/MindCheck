@@ -10,6 +10,7 @@
   function activeId(){return ids.find(id=>document.getElementById(id)?.classList.contains('active'))||'';}
   function findTrigger(id){return {homeSection:null,moodSection:'goMood',formContainer:'goScreenings',tipsSection:'goTips',helpSection:'goHelp',badgesSection:'goBadges'}[id];}
   function navigate(id,fromHistory){
+    if(id==='formContainer'){window.location.assign('assessment-centre.html');return;}
     if(!ids.includes(id))return;
     if(!ready())return;
     if(id==='homeSection') {

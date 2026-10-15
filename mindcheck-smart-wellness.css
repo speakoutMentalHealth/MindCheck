@@ -118,3 +118,18 @@
 #mcJourney .mc-breathing-heart.is-inhaling,#mcJourney .mc-breathing-heart.is-exhaling{filter:drop-shadow(0 8px 16px rgba(67,10,47,.38)) drop-shadow(0 0 26px rgba(255,98,158,var(--mc-heart-glow)));}
 #mcJourney .mc-breathing-heart-svg{filter:saturate(1.04);transform:translateZ(0);}
 @media(prefers-reduced-motion:reduce){#mcJourney .mc-breathing-circle.mc-breathing-heart{filter:drop-shadow(0 8px 18px rgba(67,10,47,.38));will-change:auto;}}
+
+/* iPhone compact breathing module; stage scales without modifying timer JS. */
+@media(max-width:640px){
+#mcJourney .mc-breathing{padding:18px 18px 20px!important;border-radius:22px!important;margin:12px 0!important}
+#mcJourney .mc-breathing h4{margin:3px 0 6px!important;font-size:1.25rem!important;line-height:1.2!important}
+#mcJourney .mc-breathing .mc-smart-eyebrow{margin:0 0 5px!important;font-size:.73rem!important}
+#mcJourney .mc-breathing>p:not(.mc-smart-eyebrow){font-size:.9rem!important;line-height:1.4!important;margin:6px 0 8px!important}
+#mcJourney .mc-breathing-visual{height:209px!important;margin:0 auto!important}
+#mcJourney .mc-breathing-stage{transform:scale(.76)!important}
+#mcJourney .mc-breathing-cue{font-size:1rem!important;margin:2px 0!important}
+#mcJourney .mc-breathing-progress{font-size:.9rem!important;margin:1px 0 8px!important}
+#mcJourney .mc-breathing-controls{display:grid!important;grid-template-columns:minmax(0,1.45fr) minmax(0,.8fr)!important;gap:9px!important;max-width:360px;margin:auto}
+#mcJourney .mc-breathing-controls button{min-height:44px!important;padding:9px 8px!important;font-size:.92rem!important;margin:0!important}
+#mcJourney .mc-breathing .mc-smart-disclaimer{font-size:.8rem!important;margin:8px 0 0!important}
+}
