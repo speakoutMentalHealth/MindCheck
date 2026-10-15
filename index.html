@@ -399,7 +399,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <span class="pill">Points: <span id="pointsPill">0</span></span>
       <span class="pill">Streak: <span id="streakPill">0</span> day(s)</span>
       <span class="pill">Tips done (7d): <span id="tipsDonePill">0</span></span>
-      <span class="pill">Awards: <span id="awardsPill">0</span> pending</span>
+      <span class="pill">Badges: <span id="awardsPill">0</span> unlocked</span>
     </div>
 
 
@@ -460,7 +460,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
         <div class="big">😊</div>
         <h3><span data-i18n="mood">Check Your Mood</span></h3>
-        <p data-i18n="moodRewardDesc">Earn points once daily (+10). 20-day streak may qualify for ₦1000 after verification.</p>
+        <p data-i18n="moodRewardDesc">Earn 10 points daily and unlock a digital badge after 20 consecutive days.</p>
       </div>
 
       
@@ -494,10 +494,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         <p data-i18n="helpDesc">Find mental-health support nearby.</p>
       </a>
 
-      <div class="card" id="goBadges" role="button" tabindex="0" aria-label="Open badges and awards">
+      <div class="card" id="goBadges" role="button" tabindex="0" aria-label="Open badges">
         <div class="big">🏅</div>
-        <h3><span data-i18n="badges">Badges & Awards</span></h3>
-        <p data-i18n="badgesDesc">See unlocked badges & claim awards.</p>
+        <h3><span data-i18n="badges">Badges</span></h3>
+        <p data-i18n="badgesDesc">See unlocked badges and celebrate your progress.</p>
       </div>
 
       
@@ -675,9 +675,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <!-- Badges & Awards -->
   <section id="badgesSection" aria-labelledby="badgesTitle">
     <h2 id="badgesTitle" data-i18n="badgesTitle">Badges & Awards 🏅</h2>
-    <p style="color:#334155" data-i18n="awardsExplainer">Daily mood check-ins earn points; 20-day streak may qualify for ₦1000 after verification. Request verification via WhatsApp with your Award ID.</p>
+    <p style="color:#334155" data-i18n="awardsExplainer">Earn points from daily mood check-ins. Unlock a digital 20-Day Streak badge after 20 consecutive days; no cash prizes.</p>
     <div id="badgesGrid" class="badge-list" aria-label="Available badges"></div>
-    <h3 style="margin-top:18px;" data-i18n="yourAwards">Your Awards</h3>
+    <h3 style="margin-top:18px;" data-i18n="yourAwards">20-Day Streak Milestone</h3>
     <div id="awardsList" class="award-list" aria-label="Your earned awards" aria-live="polite"></div>
     <div class="toolbar"><button id="badgesBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
@@ -862,16 +862,16 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     const getBadges=()=>getJSON(KEY_BADGES, []);
     const setBadges=arr=>setJSON(KEY_BADGES, arr);
     function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true;} return false; }
+    // Historical award records are read only to preserve prior streak milestones.
     const getAwards=()=>getJSON(KEY_AWARDS, []);
-    const setAwards=arr=>setJSON(KEY_AWARDS, arr);
     function getSavedTips(){ const saved=getJSON(KEY_TIPS_SAVED, []); return Array.isArray(saved)?saved:[]; }
     function setSavedTips(arr){ setJSON(KEY_TIPS_SAVED, arr); return getSavedTips().length===arr.length; }
     function getDoneTips(){ return getJSON(KEY_TIPS_DONE, []); }
     function setDoneTips(arr){ setJSON(KEY_TIPS_DONE, arr); }
 
     /* ---------- Config ---------- */
-    const AWARD_AMOUNT_NAIRA = 1000;
-    const WHATSAPP_NUMBER = '2348118103510';
+    const STREAK_BADGE_DAYS = 20;
+    if (getAwards().some(a=>Number(a.streak_cycle)>=STREAK_BADGE_DAYS)) awardBadge('streak_20');
 
     /* ---------- Mood check-in (daily) ---------- */
     document.querySelectorAll('.mood').forEach(btn=>{
@@ -922,20 +922,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       if(pts>=100 && awardBadge('points_100')) newly.push('100 Points');
       if(pts>=300 && awardBadge('points_300')) newly.push('300 Points');
 
-      let awardHTML=''; let created=null;
-      const streak = getStreak();
-      if(streak>0 && streak%20===0){
-        created = createStreakAwardIfNew(streak);
-        if(created){
-          awardHTML = `
-            <p style="font-size:1.05rem;">🎁 <b>${mcT('congratulations')}</b> — milestone recorded for review:
-            <b>₦${AWARD_AMOUNT_NAIRA.toLocaleString()}</b> ${mcT('forStreak')} <b>${streak} ${mcT('days')}</b>.<br/>
-            ${mcT('awardInstructions')} Eligibility and payment must be verified by SpeakOut; this device cannot confirm a cash award.</p>
-            <p>${mcT('awardId')}: <span class="id" style="font-family:ui-monospace,Consolas,monospace;">${created.id}</span></p>
-            <p><a class="btn btn-primary" href="${whatsAppClaimLink(created)}" target="_blank" rel="noopener" >${mcT('claimWhatsapp')}</a></p>
-          `;
-        }
-      }
+      if(getStreak()>=STREAK_BADGE_DAYS && awardBadge('streak_20')) newly.push(mcT('streak_20Name'));
 
       moodResult.style.display='block';
       moodResult.innerHTML=`
@@ -943,7 +930,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         <p>${mcT('streak')}: <b>${getStreak()}</b> ${mcT('days')} • ${mcT('points')}: <b>${getPoints()}</b></p>
         <p><b>${mcT('tip')}:</b> ${tip}</p>
         ${newly.length ? `<p>🏅 ${mcT('newBadges')}: <b>${newly.join(', ')}</b></p>` : ''}
-        ${awardHTML}
       `;
       updateHeaderPills();
       maybeShowCrisis();
@@ -961,8 +947,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
             points_after: getPoints(),
             lang: localStorage.getItem('mc_lang') || 'en',
             app_version: 'v1.0.0',
-            award_issued: !!created,
-            award_id: created ? created.id : ''
+            badge_20_unlocked: getBadges().includes('streak_20')
           })
         })
         .then(r=>r.text())
@@ -971,29 +956,11 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       } catch(e) { console.warn('Fetch block failed:', e); }
     }
 
-    function createStreakAwardIfNew(streakCycle){
-      const awards = getAwards();
-      if (awards.find(a => a.streak_cycle === streakCycle)) return null;
-      const today = new Date();
-      const y = today.getFullYear();
-      const m = String(today.getMonth()+1).padStart(2,'0');
-      const d = String(today.getDate()).padStart(2,'0');
-      const uidTail = UID.replace(/-/g,'').slice(-6).toUpperCase();
-      const id = `MC-${y}${m}${d}-${uidTail}-${streakCycle}`;
-      const award = { id, amount: AWARD_AMOUNT_NAIRA, issued_at: today.toISOString(), streak_cycle: streakCycle, uid: UID, claimed:false, claimed_at:null };
-      awards.push(award); setAwards(awards); return award;
-    }
-    function whatsAppClaimLink(a){
-      const msg = encodeURIComponent(`Hello SpeakOut,\n\nPlease independently verify my MindCheck 20-day streak reward request before confirming eligibility or payment.\nAward ID: ${a.id}\nAmount: ₦${a.amount}\nUID: ${UID}\n\nThank you!`);
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-    }
-
     /* ---------- Home stats ---------- */
     function updateHeaderPills(){
       pointsPill.textContent=getPoints();
       streakPill.textContent=getStreak();
-      const pend = getAwards().filter(a=>!a.claimed).length;
-      awardsPill.textContent = pend;
+      awardsPill.textContent = getBadges().length;
       if (tipsDonePill) tipsDonePill.textContent = tipsDoneLast7d();
     }
     function updateStats(){
@@ -1015,6 +982,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       { id:'first_checkin', name:'First Check-in', desc:'Your first ever mood check.' },
       { id:'streak_3', name:'3-Day Streak', desc:'Checked your mood 3 days in a row.' },
       { id:'streak_7', name:'7-Day Streak', desc:'Checked your mood 7 days in a row.' },
+      { id:'streak_20', name:'20-Day Streak', desc:'Checked your mood 20 days in a row.' },
       { id:'points_100', name:'100 Points', desc:'Reached 100 total points.' },
       { id:'points_300', name:'300 Points', desc:'Reached 300 total points.' },
     ];
@@ -1032,32 +1000,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       }).join('');
     }
     function renderAwards(){
-      const awards = getAwards().sort((a,b)=> new Date(b.issued_at) - new Date(a.issued_at));
-      if(!awards.length){
-        awardsList.innerHTML = `<div class="award"><p>${mcT('noAwards')} ₦${AWARD_AMOUNT_NAIRA.toLocaleString()} ${mcT('every20days')}</p></div>`;
-        return;
-      }
-      awardsList.innerHTML = awards.map(a=>{
-        const when = new Date(a.issued_at).toLocaleString();
-        const status = a.claimed ? `${mcT('claimedAward')} (${new Date(a.claimed_at).toLocaleString()}) — device record, not payment confirmation` : 'Awaiting verification by SpeakOut';
-        const btns = a.claimed ? '' : `
-          <a class="btn btn-primary" href="${whatsAppClaimLink(a)}" target="_blank" rel="noopener">Request verification via WhatsApp</a>
-          
-        `;
-        return `
-          <div class="award">
-            <div class="row">
-              <div>
-                <div><b>₦${a.amount.toLocaleString()}</b> • Streak: ${a.streak_cycle} days</div>
-                <div>ID: <span class="id">${a.id}</span></div><div style="font-size:.85rem;color:#52606d;margin:7px 0">Locally recorded milestone only. SpeakOut must independently verify eligibility and payment status.</div>
-                <div style="color:#52606d">Issued: ${when} • ${status}</div>
-              </div>
-              <div>${btns}</div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
+      const unlocked=getBadges().includes('streak_20');
+      awardsList.innerHTML = unlocked
+        ? '<div class="award"><strong>🏅 20-Day Streak Badge Unlocked!</strong><p>You checked in 20 days in a row. Keep going at your own pace.</p></div>'
+        : '<div class="award"><strong>🏅 20-Day Streak Badge</strong><p>Check in for 20 consecutive days to unlock this digital badge. No payment or claim needed.</p></div>';
     }
 
     /* ---------- Tips engine ---------- */

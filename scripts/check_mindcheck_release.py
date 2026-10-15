@@ -34,8 +34,10 @@ for mood in range(5):
 
 check("no selected mood analytics property",
       "track('CheckIn', { mood:" not in html and 'track("CheckIn", { mood:' not in html)
-check("reward eligibility cannot be self-confirmed", 'data-mark="${a.id}"' not in html and 'Request verification via WhatsApp' in html)
-check("reward verification notice visible", "Locally recorded milestone only. SpeakOut must independently verify" in html)
+check("cash reward UI removed", "₦" not in html and "AWARD_AMOUNT_NAIRA" not in html and "whatsAppClaimLink" not in html)
+check("20-day badge unlock", "STREAK_BADGE_DAYS = 20" in html and "streak_20" in html)
+check("no payment state in UI", "claimed_at" not in html and "award_issued" not in html)
+check("no localized cash amounts", "₦" not in i18n)
 check("privacy notice", 'href="privacy.html"' in html)
 check("emergency support", 'id="crisisBanner"' in html and 'href="tel:112"' in html)
 for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindcheck-premium-layout.css","mindcheck-focused-app.css","mindcheck-compact-header.css","speakout-brand-unification.css","speakout-subsections.css","icons/logo.png","icons/apple-touch-icon.png"):
