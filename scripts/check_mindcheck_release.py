@@ -105,6 +105,14 @@ pcl=(ROOT/"pcl5-screening.html").read_text(encoding="utf-8")
 check("shared assessment progress stylesheet", "mc-assessment-progress" in assessment_css)
 check("PCL-5 progress meter linked", 'href="assessment-interface.css"' in pcl and 'id="pclProgressMeter"' in pcl)
 check("PCL-5 progress meter updates on response", "document.getElementById('pclProgressMeter').value=values().length" in pcl)
+# PCL-5 questionnaire progressive navigation safeguards.
+pcl = (ROOT / "pcl5-screening.html").read_text(encoding="utf-8")
+for nav_id in ("previousQuestion", "nextQuestion", "questionPosition", "showAllQuestions"):
+    check("PCL-5 navigation control " + nav_id, 'id="' + nav_id + '"' in pcl)
+check("PCL-5 keeps 20 items", len(re.findall(r'<fieldset class="q"', pcl)) == 20)
+check("PCL-5 score formula retained", "answered.reduce((n,el)=>n+Number(el.value),0)" in pcl)
+check("PCL-5 nav works without storage or network", "localStorage" not in pcl and "fetch(" not in pcl and "sendBeacon(" not in pcl)
+check("PCL-5 missing responses surfaced", "if(missing>=0)jump(missing)" in pcl)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
