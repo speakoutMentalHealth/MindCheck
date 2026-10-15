@@ -100,6 +100,11 @@ check("WHO ASSIST official guide linked", "www.who.int/publications/i/item/97892
 check("WHO AUDIT companion remains linked", 'href="audit-screening.html"' in centre)
 check("AUDIT private score widget preserved", 'id="auditScore"' in audit and 'id="result"' in audit)
 check("AUDIT no responses persisted or transmitted", "localStorage" not in audit and "fetch(" not in audit and "sendBeacon(" not in audit)
+assessment_css=(ROOT/"assessment-interface.css").read_text(encoding="utf-8")
+pcl=(ROOT/"pcl5-screening.html").read_text(encoding="utf-8")
+check("shared assessment progress stylesheet", "mc-assessment-progress" in assessment_css)
+check("PCL-5 progress meter linked", 'href="assessment-interface.css"' in pcl and 'id="pclProgressMeter"' in pcl)
+check("PCL-5 progress meter updates on response", "document.getElementById('pclProgressMeter').value=values().length" in pcl)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
