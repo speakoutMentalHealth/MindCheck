@@ -44,7 +44,7 @@ for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindche
     check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", "mc-v9-visual-polish-20261014" in sw)
+check("service worker cache version rotated", "mc-v10-assessment-centre-20261015" in sw)
 journey = (ROOT / "js/mindcheck-journey.js").read_text(encoding="utf-8")
 check("mood history labels in six languages", all(f"{code}:{{previous:" in journey for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("mood history uses translated labels", "translatedMood.moods[Number(item.mood_value)]" in journey)
