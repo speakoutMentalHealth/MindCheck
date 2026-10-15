@@ -126,6 +126,12 @@ check("AUDIT result uses shared styling", 'id="result" class="mc-assessment-resu
 check("private ADHD threshold preserved", "count>=4" in adhd)
 check("AUDIT thresholds preserved", "n<8" in audit and "n<16" in audit and "n<20" in audit)
 check("shared result pages do not submit answers", "fetch(" not in adhd and "fetch(" not in audit and "localStorage" not in audit)
+# Assessment Centre accessible section navigation guards.
+centre=(ROOT/"assessment-centre.html").read_text(encoding="utf-8")
+for section in ("availableAssessments","moreResources","plannedPathways","professionalHelp"):
+    check("Assessment Centre shortcut "+section, 'href="#'+section+'"' in centre and 'id="'+section+'"' in centre)
+check("Assessment Centre retains existing assessment pathways", all('href="'+p+'"' in centre for p in ("adhd.html","pcl5-screening.html","audit-screening.html","sleep-awareness.html")))
+check("Assessment Centre retains emergency support", 'href="suicide-support.html"' in centre)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
