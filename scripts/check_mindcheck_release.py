@@ -137,6 +137,10 @@ for status in ("External questionnaire","Official adult form + guidance","Educat
     check("assessment availability label "+status, status in centre)
 check("Assessment Centre mobile cards keep full-width links", ".ac-card a{width:100%;justify-content:center}" in centre)
 check("Assessment Centre keeps existing screenings", all('href="'+p+'"' in centre for p in ("adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","suicide-support.html")))
+centre=(ROOT/"assessment-centre.html").read_text(encoding="utf-8")
+check("WHO-5 official reference accessible", "www.who.int/publications/m/item/WHO-UCN-MSD-MHE-2024.01" in centre)
+check("WHO mhGAP provider guidance linked", "www.who.int/publications/i/item/9789241549790" in centre)
+check("clinical referral verification not active", "KEFFI-FACILITY-VERIFICATION.md" in {p.name for p in (ROOT/"docs").iterdir()})
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
