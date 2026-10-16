@@ -1295,6 +1295,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       badgesSection:'goBadges'
     };
     if(Object.prototype.hasOwnProperty.call(dashboardTargets,routeTarget)){
+      window.addEventListener('DOMContentLoaded',function(){
       try{
         startBtn.click();
         let savedLang='en';
@@ -1310,6 +1311,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         // Remove sensitive-free routing query once the intended section is active.
         window.history.replaceState({mcScreen:routeTarget},'',window.location.pathname+'#'+routeTarget);
       }catch(error){console.warn('Section route unavailable',error);}
+      },{once:true});
     }
   </script>
 
