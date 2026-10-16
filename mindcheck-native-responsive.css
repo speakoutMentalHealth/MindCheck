@@ -33,3 +33,31 @@ button,a{touch-action:manipulation}
  body.mc-standalone-page .ac-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
+
+/* Phase 2: deliberate native-app hierarchy and interaction states. */
+body.mc-stage-dashboard #homeSection>h2{font-weight:850!important;letter-spacing:-.035em}
+body.mc-stage-dashboard #homeSection>p{color:#526775!important;line-height:1.6}
+body.mc-stage-dashboard #homeSection>h3{letter-spacing:-.025em}
+body.mc-stage-dashboard #homeSection .grid .card{position:relative;isolation:isolate;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;overflow:hidden}
+body.mc-stage-dashboard #homeSection .grid .card:focus-visible{border-color:#3186de!important}
+body.mc-stage-dashboard #homeSection .grid .card:active{transform:scale(.985)}
+body.mc-stage-dashboard #homeSection .grid .card .big{display:grid;place-items:center;width:56px;height:56px;border-radius:17px;background:linear-gradient(150deg,#f4f8ff,#e8f0fc);box-shadow:0 5px 13px rgba(21,63,112,.07)}
+body.mc-stage-dashboard #homeSection .grid .card h3{line-height:1.25!important;letter-spacing:-.02em}
+body.mc-stage-dashboard #homeSection .stats .pill{border-radius:16px!important}
+body.mc-standalone-page .ac-card{transition:transform .2s ease,box-shadow .2s ease}
+body.mc-standalone-page .ac-card a:active{transform:scale(.98)}
+@media(hover:hover) and (pointer:fine){
+ body.mc-stage-dashboard #homeSection .grid .card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(18,56,92,.11)!important;border-color:#c8ddeb!important}
+ body.mc-standalone-page .ac-card:hover{transform:translateY(-2px);box-shadow:0 13px 33px rgba(18,56,92,.10)!important}
+}
+@media(max-width:699px){
+ body.mc-stage-dashboard #homeSection{padding:18px 16px!important}
+ body.mc-stage-dashboard #homeSection .grid{gap:12px!important}
+ body.mc-stage-dashboard #homeSection .grid .card{padding:19px!important;min-height:0;border-radius:22px!important}
+ body.mc-stage-dashboard #homeSection .grid .card .big{width:54px;height:54px}
+ body.mc-stage-dashboard #homeSection .stats{gap:9px!important;margin:18px 0 25px!important}
+ body.mc-stage-dashboard #homeSection .stats .pill{min-height:68px;padding:11px 8px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mc-stage-dashboard #homeSection .grid .card,body.mc-standalone-page .ac-card{transition:none!important;transform:none!important}
+}
