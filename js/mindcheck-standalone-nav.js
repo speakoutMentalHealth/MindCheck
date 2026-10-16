@@ -17,7 +17,7 @@ function mount(){
  document.body.classList.add('mc-standalone-page');
  const nav=document.createElement('nav');nav.id='mc-premium-tabs';nav.className='mc-premium-tabs';nav.setAttribute('aria-label','MindCheck sections');
  tabs.forEach(function(t){
-  const a=document.createElement('a');a.className='mc-standalone-tab';a.href=t[1]==='formContainer'?'assessment-centre.html':'index.html#'+t[1];
+  const a=document.createElement('a');a.className='mc-standalone-tab';a.href=t[1]==='formContainer'?'assessment-centre.html':'index.html?section='+encodeURIComponent(t[1]);
   if(t[1]===active)a.setAttribute('aria-current','page');
   a.innerHTML='<span class="mc-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+t[2]+'</svg></span><span class="mc-tab-label">'+t[0]+'</span>';
   nav.appendChild(a);
