@@ -44,7 +44,7 @@ for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindche
     check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", "mc-v12-persistent-navigation-20261016" in sw)
+check("service worker cache version rotated", "mc-v13-explicit-section-routing-20261016" in sw)
 journey = (ROOT / "js/mindcheck-journey.js").read_text(encoding="utf-8")
 check("mood history labels in six languages", all(f"{code}:{{previous:" in journey for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("mood history uses translated labels", "translatedMood.moods[Number(item.mood_value)]" in journey)
@@ -150,7 +150,7 @@ check("clinician checklist retains emergency guidance", 'href="suicide-support.h
 # Regression: recently introduced linked pages must be precached for installed devices.
 for offline_asset in ("assessment-interface.css","clinician-referral-preparation.html","clinical-assessment-guide.html","pcl5-screening.html","audit-screening.html","adhd.html"):
     check("offline preload "+offline_asset, "'./"+offline_asset+"'" in sw and (ROOT / offline_asset).is_file())
-check("offline cache version updated", "mc-v12-persistent-navigation-20261016" in sw)
+check("offline cache version updated", "mc-v13-explicit-section-routing-20261016" in sw)
 # Ensure the six-tab navigation persists on every standalone MindCheck HTML page.
 standalone=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
 check("shared tab navigation cached", "'./js/mindcheck-standalone-nav.js'" in sw)
@@ -166,6 +166,15 @@ standalone_nav=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8
 check("standalone tabs use dashboard section hashes", "index.html#'+t[1]" in standalone_nav)
 check("deep link completes onboarding", "start.click();" in premium_nav and "language.click();" in premium_nav)
 check("deep link navigates target after dashboard is ready", "if(pendingDeepLink && ready())" in premium_nav and "if(target!=='homeSection')navigate(target,true)" in premium_nav)
+# Standalone navigation must reach the intended dashboard section, not just Home.
+standalone_nav=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
+homepage=(ROOT/"index.html").read_text(encoding="utf-8")
+check("secondary tabs use explicit query routing", "index.html?section='+encodeURIComponent(t[1])" in standalone_nav)
+check("homepage parses explicit tab destination", "new URLSearchParams(window.location.search).get('section')" in homepage)
+for section,trigger in (("moodSection","goMood"),("tipsSection","goTips"),("helpSection","goHelp"),("badgesSection","goBadges")):
+    check("homepage supports tab "+section, section+":'"+trigger+"'" in homepage)
+check("explicit route enters dashboard", "languageButton?.click()" in homepage and "targetButton?.click()" in homepage)
+check("tab update invalidates offline script cache", "mc-v13-explicit-section-routing-20261016" in sw)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
