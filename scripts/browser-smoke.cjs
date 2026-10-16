@@ -26,6 +26,18 @@ async function run() {
     assert(manifest.name && manifest.short_name && manifest.start_url && manifest.scope,'PWA metadata incomplete');
     assert(manifest.icons.some(icon=>icon.sizes==='192x192'),'192px PWA icon missing');
     assert(manifest.icons.some(icon=>icon.sizes==='512x512'),'512px PWA icon missing');
+    // PWA offline navigation: an uncached path must explain offline status,
+    // never silently display the homepage under the wrong URL.
+    {
+      const offlineContext=await browser.newContext({serviceWorkers:'allow'});
+      const offlinePage=await offlineContext.newPage();
+      await offlinePage.goto('http://127.0.0.1:8765/',{waitUntil:'load'});
+      await offlinePage.waitForFunction(()=>navigator.serviceWorker.controller!==null,{timeout:15000});
+      await offlineContext.setOffline(true);
+      await offlinePage.goto('http://127.0.0.1:8765/offline-missing-page.html',{waitUntil:'domcontentloaded'});
+      assert.match(await offlinePage.locator('h1').innerText(),/offline/i,'offline fallback missing');
+      await offlineContext.close();
+    }
     for(const setup of setups){
       const context=await browser.newContext({...setup,serviceWorkers:'block',reducedMotion:'no-preference'});
       const page=await context.newPage();const errors=[];
