@@ -61,3 +61,52 @@ body.mc-standalone-page .ac-card a:active{transform:scale(.98)}
 @media(prefers-reduced-motion:reduce){
  body.mc-stage-dashboard #homeSection .grid .card,body.mc-standalone-page .ac-card{transition:none!important;transform:none!important}
 }
+
+/* Full native-inspired interface: shared surfaces, controls and primary screens. */
+:root{--mc-native-surface:rgba(255,255,255,.96);--mc-native-ink:#153c35;--mc-native-muted:#526977;--mc-native-line:#dce8ee;--mc-native-tint:#eaf4fe}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection,#formContainer){
+ color:var(--mc-native-ink)!important;border:1px solid var(--mc-native-line)!important;
+ background:var(--mc-native-surface)!important;border-radius:28px!important;
+ box-shadow:0 12px 38px rgba(19,45,75,.075)!important;
+}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) :is(h1,h2,h3){
+ letter-spacing:-.028em;line-height:1.2;color:#153c35;
+}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) :is(button,.btn){
+ border-radius:15px;min-height:44px;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) button:active{transform:scale(.97)}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) :is(input,select,textarea){
+ border-radius:13px;font:inherit;max-width:100%;
+}
+body.mc-stage-dashboard #tipsSection :is(.tip-card,.mc-tip-card,details),
+body.mc-stage-dashboard #helpSection :is(.card,details),
+body.mc-stage-dashboard #badgesSection :is(.card,details){
+ border-radius:20px;
+}
+body.mc-stage-dashboard #tipsSection .tip-filter{min-height:44px;border-radius:14px!important}
+body.mc-stage-dashboard #tipsSection .tip-filter[aria-pressed=true]{
+ background:#e5f1ff!important;border-color:#72a7ea!important;color:#0753a7!important;
+}
+body.mc-standalone-page :is(.ac-hero,.hero){border-radius:26px!important}
+body.mc-standalone-page :is(.ac-card,.ac-list,.panel){background:rgba(255,255,255,.97)!important;border:1px solid var(--mc-native-line)!important}
+body.mc-standalone-page :is(button,.ac-card a,.tools button){touch-action:manipulation}
+@media(max-width:699px){
+ body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection,#formContainer){
+ width:calc(100% - 24px)!important;max-width:none!important;margin:14px auto 20px!important;
+ padding:20px 15px!important;border-radius:24px!important;
+ }
+ body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) :is(h1,h2){font-size:clamp(1.45rem,5vw,2rem)!important}
+ body.mc-stage-dashboard #tipsSection .tip-filter{padding:10px 13px!important}
+ body.mc-standalone-page :is(.ac-card,.ac-list,.panel){padding:18px!important}
+}
+@media(min-width:1100px){
+ body.mc-stage-dashboard :is(#tipsSection,#helpSection,#badgesSection,#formContainer){width:min(1600px,calc(100% - 80px))!important;max-width:none!important;margin-left:auto!important;margin-right:auto!important;padding:clamp(28px,3vw,54px)!important}
+ body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) :is(h1,h2){max-width:100%}
+}
+@media(hover:hover) and (pointer:fine){
+ body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) button:hover{box-shadow:0 5px 15px rgba(20,56,88,.12)}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) :is(button,.btn){transition:none!important;transform:none!important}
+}
