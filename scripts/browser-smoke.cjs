@@ -26,6 +26,23 @@ async function run() {
     assert(manifest.name && manifest.short_name && manifest.start_url && manifest.scope,'PWA metadata incomplete');
     assert(manifest.icons.some(icon=>icon.sizes==='192x192'),'192px PWA icon missing');
     assert(manifest.icons.some(icon=>icon.sizes==='512x512'),'512px PWA icon missing');
+    // PWA offline navigation: an uncached path must explain offline status,
+    // never silently display the homepage under the wrong URL.
+    {
+      const offlineContext=await browser.newContext({serviceWorkers:'allow'});
+      const offlinePage=await offlineContext.newPage();
+      await offlinePage.goto('http://127.0.0.1:8765/',{waitUntil:'load'});
+      await offlinePage.waitForFunction(()=>navigator.serviceWorker.controller!==null,{timeout:15000});
+      const fallbackCached=await offlinePage.evaluate(async()=>{
+        const hit=await caches.match('./offline.html');
+        return !!hit && (await hit.text()).includes("You're offline");
+      });
+      assert(fallbackCached,'branded offline fallback not available in the installed app cache');
+      await offlineContext.setOffline(true);
+      await offlinePage.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
+      assert.match(await offlinePage.locator('h1').first().innerText(),/assessment centre/i,'cached assessment centre unavailable offline');
+      await offlineContext.close();
+    }
     for(const setup of setups){
       const context=await browser.newContext({...setup,serviceWorkers:'block',reducedMotion:'no-preference'});
       const page=await context.newPage();const errors=[];
