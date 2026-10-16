@@ -60,7 +60,15 @@
       nav.appendChild(button);
     });
     document.body.appendChild(nav);
-    const observer=new MutationObserver(()=>sync());
+    let pendingDeepLink=ids.includes(location.hash.slice(1))?location.hash.slice(1):'';
+    const observer=new MutationObserver(()=>{
+      if(ready()&&pendingDeepLink){
+        const target=pendingDeepLink;pendingDeepLink='';
+        if(target!=='homeSection'&&target!=='formContainer')navigate(target,true);
+        else if(target==='formContainer')navigate(target,true);
+      }
+      sync();
+    });
     observer.observe(document.body,{attributes:true,attributeFilter:['class']});
     ids.forEach(id=>{const el=document.getElementById(id);if(el)observer.observe(el,{attributes:true,attributeFilter:['class']});});
     window.addEventListener('popstate',()=>{
