@@ -44,7 +44,7 @@ for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindche
     check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", "mc-v11-production-readiness-20261016" in sw)
+check("service worker cache version rotated", "mc-v12-persistent-navigation-20261016" in sw)
 journey = (ROOT / "js/mindcheck-journey.js").read_text(encoding="utf-8")
 check("mood history labels in six languages", all(f"{code}:{{previous:" in journey for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("mood history uses translated labels", "translatedMood.moods[Number(item.mood_value)]" in journey)
@@ -150,7 +150,16 @@ check("clinician checklist retains emergency guidance", 'href="suicide-support.h
 # Regression: recently introduced linked pages must be precached for installed devices.
 for offline_asset in ("assessment-interface.css","clinician-referral-preparation.html","clinical-assessment-guide.html","pcl5-screening.html","audit-screening.html","adhd.html"):
     check("offline preload "+offline_asset, "'./"+offline_asset+"'" in sw and (ROOT / offline_asset).is_file())
-check("offline cache version updated", "mc-v11-production-readiness-20261016" in sw)
+check("offline cache version updated", "mc-v12-persistent-navigation-20261016" in sw)
+# Ensure the six-tab navigation persists on every standalone MindCheck HTML page.
+standalone=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
+check("shared tab navigation cached", "'./js/mindcheck-standalone-nav.js'" in sw)
+check("all six shared tabs", all(label in standalone for label in ("Home","Mood","Assessments","Wellness","Support","Awards")))
+check("safe area space under persistent tabs", "env(safe-area-inset-bottom)" in (ROOT/"mindcheck-premium-nav.css").read_text(encoding="utf-8"))
+for page in ("assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):
+    body=(ROOT/page).read_text(encoding="utf-8")
+    check("persistent navigation linked: "+page, 'js/mindcheck-standalone-nav.js' in body and 'mindcheck-premium-nav.css' in body)
+check("cross-page tabs restore dashboard destination", "pendingDeepLink" in (ROOT/"js/mindcheck-premium-nav.js").read_text(encoding="utf-8"))
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
