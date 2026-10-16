@@ -94,6 +94,11 @@
     const start=document.getElementById('startBtn');
     if(start)start.addEventListener('click',()=>{current='';});
     document.querySelectorAll('.tbtn.live').forEach(b=>b.addEventListener('click',()=>{setTimeout(sync,0);}));
+    if(pendingDeepLink && ready()){
+      const target=pendingDeepLink;
+      pendingDeepLink='';
+      if(target!=='homeSection')navigate(target,true);
+    }
     sync();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
