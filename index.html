@@ -1284,6 +1284,33 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 
     /* ---------- Boot ---------- */
     startBtn.style.display='';
+    // Resolve an explicit route from a standalone bottom tab after all existing
+    // section click handlers have been installed, before the progressive nav mounts.
+    const routeTarget=new URLSearchParams(window.location.search).get('section');
+    const dashboardTargets={
+      homeSection:null,
+      moodSection:'goMood',
+      tipsSection:'goTips',
+      helpSection:'goHelp',
+      badgesSection:'goBadges'
+    };
+    if(Object.prototype.hasOwnProperty.call(dashboardTargets,routeTarget)){
+      try{
+        startBtn.click();
+        let savedLang='en';
+        try{
+          const previous=window.localStorage.getItem('mc_lang');
+          if(previous && /^[a-z]{2,3}$/.test(previous))savedLang=previous;
+        }catch(_){}
+        const languageButton=document.querySelector('.tbtn.live[data-lang="'+savedLang+'"]')
+          ||document.querySelector('.tbtn.live[data-lang="en"]');
+        languageButton?.click();
+        const targetButton=dashboardTargets[routeTarget] && document.getElementById(dashboardTargets[routeTarget]);
+        targetButton?.click();
+        // Remove sensitive-free routing query once the intended section is active.
+        window.history.replaceState({mcScreen:routeTarget},'',window.location.pathname+'#'+routeTarget);
+      }catch(error){console.warn('Section route unavailable',error);}
+    }
   </script>
 
   <script>
