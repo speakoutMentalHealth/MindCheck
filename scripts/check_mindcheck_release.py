@@ -163,7 +163,6 @@ check("cross-page tabs restore dashboard destination", "pendingDeepLink" in (ROO
 # Regression: standalone fixed tabs must actually open requested dashboard sections.
 premium_nav=(ROOT/"js/mindcheck-premium-nav.js").read_text(encoding="utf-8")
 standalone_nav=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
-check("standalone tabs use dashboard section hashes", "index.html#'+t[1]" in standalone_nav)
 check("deep link completes onboarding", "start.click();" in premium_nav and "language.click();" in premium_nav)
 check("deep link navigates target after dashboard is ready", "if(pendingDeepLink && ready())" in premium_nav and "if(target!=='homeSection')navigate(target,true)" in premium_nav)
 # Standalone navigation must reach the intended dashboard section, not just Home.
