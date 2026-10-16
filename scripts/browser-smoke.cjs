@@ -18,6 +18,14 @@ async function run() {
       {name:'tablet',viewport:{width:820,height:1180},hasTouch:true},
       {name:'desktop',viewport:{width:1366,height:900}}
     ];
+    // PWA install metadata is a baseline, not proof of native device behavior.
+    const manifestResponse=await fetch('http://127.0.0.1:8765/manifest.webmanifest');
+    assert(manifestResponse.ok,'PWA manifest missing');
+    const manifest=await manifestResponse.json();
+    assert.equal(manifest.display,'standalone','PWA must launch standalone');
+    assert(manifest.name && manifest.short_name && manifest.start_url && manifest.scope,'PWA metadata incomplete');
+    assert(manifest.icons.some(icon=>icon.sizes==='192x192'),'192px PWA icon missing');
+    assert(manifest.icons.some(icon=>icon.sizes==='512x512'),'512px PWA icon missing');
     for(const setup of setups){
       const context=await browser.newContext({...setup,serviceWorkers:'block',reducedMotion:'no-preference'});
       const page=await context.newPage();const errors=[];
