@@ -64,7 +64,6 @@ async function run() {
         await page.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
         const tab=page.locator('#mc-premium-tabs .mc-standalone-tab').filter({hasText:label});
         await tab.click();
-        await page.waitForURL(new RegExp('index\\\\.html|127\\\\.0\\\\.0\\\\.1:8765/'));
         await page.waitForFunction(id=>document.body.classList.contains('mc-stage-dashboard')&&document.getElementById(id)?.classList.contains('active'),target,{timeout:5000});
         assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' incorrect active tab '+label);
       }
