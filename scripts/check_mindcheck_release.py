@@ -44,7 +44,7 @@ for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindche
     check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", "mc-v10-assessment-centre-20261015" in sw)
+check("service worker cache version rotated", "mc-v11-production-readiness-20261016" in sw)
 journey = (ROOT / "js/mindcheck-journey.js").read_text(encoding="utf-8")
 check("mood history labels in six languages", all(f"{code}:{{previous:" in journey for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("mood history uses translated labels", "translatedMood.moods[Number(item.mood_value)]" in journey)
@@ -147,6 +147,10 @@ check("clinician checklist linked", 'href="clinician-referral-preparation.html"'
 check("referral checklist never submits patient data", "<form" not in referral and "fetch(" not in referral and "localStorage" not in referral and "sendBeacon(" not in referral)
 check("referral checklist keeps both partners inactive", "FMC Keffi" in referral and "Nagari Allah Magani Hospital" in referral and "no online referral is available" in referral)
 check("clinician checklist retains emergency guidance", 'href="suicide-support.html"' in referral)
+# Regression: recently introduced linked pages must be precached for installed devices.
+for offline_asset in ("assessment-interface.css","clinician-referral-preparation.html","clinical-assessment-guide.html","pcl5-screening.html","audit-screening.html","adhd.html"):
+    check("offline preload "+offline_asset, "'./"+offline_asset+"'" in sw and (ROOT / offline_asset).is_file())
+check("offline cache version updated", "mc-v11-production-readiness-20261016" in sw)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
