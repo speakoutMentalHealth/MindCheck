@@ -44,7 +44,7 @@ for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindche
     check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", "mc-v14-unified-tabs-20261016" in sw)
+check("service worker cache version rotated", "mc-v15-responsive-native-ui-20261016" in sw)
 journey = (ROOT / "js/mindcheck-journey.js").read_text(encoding="utf-8")
 check("mood history labels in six languages", all(f"{code}:{{previous:" in journey for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("mood history uses translated labels", "translatedMood.moods[Number(item.mood_value)]" in journey)
@@ -150,7 +150,7 @@ check("clinician checklist retains emergency guidance", 'href="suicide-support.h
 # Regression: recently introduced linked pages must be precached for installed devices.
 for offline_asset in ("assessment-interface.css","clinician-referral-preparation.html","clinical-assessment-guide.html","pcl5-screening.html","audit-screening.html","adhd.html"):
     check("offline preload "+offline_asset, "'./"+offline_asset+"'" in sw and (ROOT / offline_asset).is_file())
-check("offline cache version updated", "mc-v14-unified-tabs-20261016" in sw)
+check("offline cache version updated", "mc-v15-responsive-native-ui-20261016" in sw)
 # Ensure the six-tab navigation persists on every standalone MindCheck HTML page.
 standalone=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
 check("shared tab navigation cached", "'./js/mindcheck-standalone-nav.js'" in sw)
@@ -173,12 +173,18 @@ check("homepage parses explicit tab destination", "new URLSearchParams(window.lo
 for section,trigger in (("moodSection","goMood"),("tipsSection","goTips"),("helpSection","goHelp"),("badgesSection","goBadges")):
     check("homepage supports tab "+section, section+":'"+trigger+"'" in homepage)
 check("explicit route enters dashboard", "languageButton?.click()" in homepage and "targetButton?.click()" in homepage)
-check("tab update invalidates offline script cache", "mc-v14-unified-tabs-20261016" in sw)
+check("tab update invalidates offline script cache", "mc-v15-responsive-native-ui-20261016" in sw)
 tabs_css=(ROOT/"mindcheck-premium-nav.css").read_text(encoding="utf-8")
 check("consistent standalone iOS tab tiles", "body.mc-standalone-page .mc-premium-tabs .mc-standalone-tab .mc-tab-icon" in tabs_css)
 check("consistent standalone selected blue tab", "body.mc-standalone-page .mc-premium-tabs .mc-standalone-tab[aria-current=page] .mc-tab-icon" in tabs_css)
 check("standalone safe-area bottom padding", "calc(7px + env(safe-area-inset-bottom))" in tabs_css)
-check("cache refreshed for unified tabs", "mc-v14-unified-tabs-20261016" in sw)
+check("cache refreshed for unified tabs", "mc-v15-responsive-native-ui-20261016" in sw)
+native_css=(ROOT/"mindcheck-native-responsive.css").read_text(encoding="utf-8")
+check("responsive design cached", "'./mindcheck-native-responsive.css'" in sw)
+check("desktop layouts expand", "min-width:1100px" in native_css and "--mc-premium-max:1600px" in native_css)
+check("mobile native surfaces", "max-width:699px" in native_css and "backdrop-filter:blur(22px)" in native_css)
+for mobile_page in ("index.html","assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):
+    check("responsive stylesheet in "+mobile_page, 'href="mindcheck-native-responsive.css"' in (ROOT/mobile_page).read_text(encoding="utf-8"))
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
