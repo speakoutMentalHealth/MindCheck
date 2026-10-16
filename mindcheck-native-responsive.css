@@ -1,0 +1,35 @@
+/* MindCheck unified responsive design: mobile app surfaces, fluid desktop workspace. */
+:root{--mc-ui-radius:22px;--mc-ui-border:#dce7ec;--mc-ui-bg:#f3f7fb;--mc-ui-shadow:0 8px 30px rgba(24,49,76,.065)}
+html{-webkit-text-size-adjust:100%;scroll-padding-bottom:130px}
+body{overflow-x:clip}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button,a{touch-action:manipulation}
+:where(button,a,input,select,textarea):focus-visible{outline:3px solid #287dd8!important;outline-offset:3px}
+@media(max-width:699px){
+ body{background:var(--mc-ui-bg)!important}
+ main,body.mc-stage-dashboard main{width:100%;max-width:100%!important}
+ .ac-card,.ac-list,.panel{border-radius:var(--mc-ui-radius)!important;box-shadow:var(--mc-ui-shadow)}
+ .ac-card a,.mc-assessment-actions button,.mc-assessment-actions a{min-height:48px}
+ .mc-premium-tabs{backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+}
+@media(min-width:1100px){
+ body.mc-stage-dashboard{--mc-premium-max:1600px}
+ body.mc-stage-dashboard>header.mc-brand-nav{max-width:min(1680px,calc(100% - 70px))!important}
+ body.mc-stage-dashboard #homeSection,
+ body.mc-stage-dashboard #moodSection,
+ body.mc-stage-dashboard #tipsSection,
+ body.mc-stage-dashboard #helpSection,
+ body.mc-stage-dashboard #badgesSection,
+ body.mc-stage-dashboard #formContainer{width:min(1600px,calc(100% - 80px))!important;max-width:none!important}
+ body.mc-stage-dashboard #homeSection .grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:22px!important}
+ body.mc-stage-dashboard #homeSection .stats{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ body.mc-standalone-page main{max-width:min(1600px,calc(100% - 80px))!important;width:100%!important;margin-left:auto!important;margin-right:auto!important}
+ body.mc-standalone-page .ac-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ body.mc-standalone-page .ac-header>div{max-width:1600px!important}
+ body.mc-standalone-page .ac-card{min-width:0}
+}
+@media(min-width:1600px){
+ body.mc-stage-dashboard #homeSection .grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ body.mc-standalone-page .ac-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}}
