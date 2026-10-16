@@ -61,6 +61,17 @@
     });
     document.body.appendChild(nav);
     let pendingDeepLink=ids.includes(location.hash.slice(1))?location.hash.slice(1):'';
+    // Standalone tabs link into specific dashboard sections. Complete the existing
+    // welcome/language flow using its real handlers before navigating the section.
+    // Without this, the hash points at a section hidden by onboarding.
+    if(pendingDeepLink && !ready()){
+      const start=document.getElementById('startBtn');
+      const language=document.querySelector('.tbtn.live[data-lang="en"]');
+      if(start && language){
+        start.click();
+        language.click();
+      }
+    }
     const observer=new MutationObserver(()=>{
       if(ready()&&pendingDeepLink){
         const target=pendingDeepLink;pendingDeepLink='';
@@ -83,6 +94,11 @@
     const start=document.getElementById('startBtn');
     if(start)start.addEventListener('click',()=>{current='';});
     document.querySelectorAll('.tbtn.live').forEach(b=>b.addEventListener('click',()=>{setTimeout(sync,0);}));
+    if(pendingDeepLink && ready()){
+      const target=pendingDeepLink;
+      pendingDeepLink='';
+      if(target!=='homeSection')navigate(target,true);
+    }
     sync();
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);

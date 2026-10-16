@@ -160,6 +160,12 @@ for page in ("assessment-centre.html","adhd.html","audit-screening.html","pcl5-s
     body=(ROOT/page).read_text(encoding="utf-8")
     check("persistent navigation linked: "+page, 'js/mindcheck-standalone-nav.js' in body and 'mindcheck-premium-nav.css' in body)
 check("cross-page tabs restore dashboard destination", "pendingDeepLink" in (ROOT/"js/mindcheck-premium-nav.js").read_text(encoding="utf-8"))
+# Regression: standalone fixed tabs must actually open requested dashboard sections.
+premium_nav=(ROOT/"js/mindcheck-premium-nav.js").read_text(encoding="utf-8")
+standalone_nav=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
+check("standalone tabs use dashboard section hashes", "index.html#'+t[1]" in standalone_nav)
+check("deep link completes onboarding", "start.click();" in premium_nav and "language.click();" in premium_nav)
+check("deep link navigates target after dashboard is ready", "if(pendingDeepLink && ready())" in premium_nav and "if(target!=='homeSection')navigate(target,true)" in premium_nav)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
