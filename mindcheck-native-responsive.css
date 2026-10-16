@@ -110,3 +110,54 @@ body.mc-standalone-page :is(button,.ac-card a,.tools button){touch-action:manipu
 @media(prefers-reduced-motion:reduce){
  body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) :is(button,.btn){transition:none!important;transform:none!important}
 }
+
+/* Signature MindCheck experience: calm, tactile, native-inspired—not a copy of iOS. */
+:root{--mc-signature-primary:#106e60;--mc-signature-blue:#1769ca;--mc-signature-ink:#152f35;--mc-signature-glass:rgba(255,255,255,.84);--mc-signature-glow:0 15px 42px rgba(17,65,94,.10)}
+body.mc-stage-dashboard,body.mc-standalone-page{
+ background:radial-gradient(ellipse 70% 35% at 0% 0%,rgba(204,244,232,.65),transparent 75%),radial-gradient(ellipse 60% 38% at 100% 18%,rgba(210,230,255,.58),transparent 80%),#f4f8fb!important;
+ color:var(--mc-signature-ink);
+}
+body.mc-stage-dashboard #homeSection>h2{font-size:clamp(1.8rem,4vw,3.25rem)!important;letter-spacing:-.045em!important;line-height:1.08!important}
+body.mc-stage-dashboard #homeSection>h3{font-size:clamp(1.26rem,2.3vw,1.75rem)!important}
+body.mc-stage-dashboard #homeSection .grid .card{
+ border:1px solid rgba(220,235,241,.97)!important;
+ background:linear-gradient(160deg,rgba(255,255,255,.99),rgba(247,252,253,.97))!important;
+ box-shadow:0 12px 32px rgba(20,62,91,.065),inset 0 1px rgba(255,255,255,.95)!important;
+ border-radius:26px!important;
+}
+body.mc-stage-dashboard #homeSection .grid .card .big{
+ background:linear-gradient(145deg,#e8f7f2,#dbeeff)!important;
+ border:1px solid rgba(189,222,222,.8)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 18px rgba(20,84,100,.08)!important;
+}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection,#formContainer){
+ background:linear-gradient(155deg,rgba(255,255,255,.98),rgba(249,252,254,.95))!important;
+ border-color:rgba(213,229,237,.95)!important;
+ box-shadow:0 18px 48px rgba(25,66,93,.08),inset 0 1px 0 white!important;
+}
+body.mc-standalone-page :is(.ac-card,.ac-list,.panel){
+ background:linear-gradient(160deg,#fff,#f9fcfd)!important;
+ box-shadow:0 12px 35px rgba(25,66,93,.065)!important;
+ border-radius:24px!important;
+}
+body.mc-stage-dashboard .mc-premium-tabs,
+body.mc-standalone-page .mc-premium-tabs{
+ background:var(--mc-signature-glass)!important;
+ backdrop-filter:saturate(1.65) blur(26px)!important;
+ -webkit-backdrop-filter:saturate(1.65) blur(26px)!important;
+ border-top:1px solid rgba(255,255,255,.92)!important;
+ box-shadow:0 -8px 35px rgba(17,57,92,.10)!important;
+}
+@media(max-width:699px){
+ body.mc-stage-dashboard #homeSection .grid .card{padding:20px!important;border-radius:24px!important}
+ body.mc-standalone-page .ac-hero{padding:24px!important;border-radius:25px!important}
+ body.mc-stage-dashboard #homeSection>h2{font-size:clamp(1.75rem,8vw,2.35rem)!important}
+}
+@media(min-width:1100px){
+ body.mc-stage-dashboard #homeSection .grid{gap:24px!important}
+ body.mc-stage-dashboard #homeSection .grid .card{min-height:205px}
+ body.mc-standalone-page :is(.ac-grid,.grid){gap:20px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ body.mc-stage-dashboard #homeSection .grid .card{animation:none!important;transition:none!important}
+}
