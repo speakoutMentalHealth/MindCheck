@@ -33,9 +33,14 @@ async function run() {
       const offlinePage=await offlineContext.newPage();
       await offlinePage.goto('http://127.0.0.1:8765/',{waitUntil:'load'});
       await offlinePage.waitForFunction(()=>navigator.serviceWorker.controller!==null,{timeout:15000});
+      const fallbackCached=await offlinePage.evaluate(async()=>{
+        const hit=await caches.match('./offline.html');
+        return !!hit && (await hit.text()).includes("You're offline");
+      });
+      assert(fallbackCached,'branded offline fallback not available in the installed app cache');
       await offlineContext.setOffline(true);
-      await offlinePage.goto('http://127.0.0.1:8765/offline-missing-page.html',{waitUntil:'domcontentloaded'});
-      assert.match(await offlinePage.locator('h1').innerText(),/offline/i,'offline fallback missing');
+      await offlinePage.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
+      assert.match(await offlinePage.locator('h1').first().innerText(),/assessment centre/i,'cached assessment centre unavailable offline');
       await offlineContext.close();
     }
     for(const setup of setups){
