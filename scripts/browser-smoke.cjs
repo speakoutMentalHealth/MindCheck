@@ -67,6 +67,21 @@ async function run() {
         await page.waitForFunction(id=>document.body.classList.contains('mc-stage-dashboard')&&document.getElementById(id)?.classList.contains('active'),target,{timeout:5000});
         assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' incorrect active tab '+label);
       }
+      // Visual layout audit on standalone screens at each viewport.
+      for(const file of ['assessment-centre.html','pcl5-screening.html','adhd.html','audit-screening.html','clinician-referral-preparation.html']){
+        await page.goto('http://127.0.0.1:8765/'+file,{waitUntil:'domcontentloaded'});
+        const metrics=await page.evaluate(()=>{
+          const nav=document.getElementById('mc-premium-tabs');
+          const main=document.querySelector('main');
+          const rect=nav?.getBoundingClientRect();
+          const bounds=main?.getBoundingClientRect();
+          return {width:document.documentElement.scrollWidth,viewport:innerWidth,navVisible:!!rect&&rect.width>0&&rect.height>0,navBottom:rect?.bottom,screenHeight:innerHeight,contentBottom:bounds?.bottom,navTop:rect?.top};
+        });
+        assert(metrics.width<=metrics.viewport+3,setup.name+' '+file+' horizontal overflow: '+JSON.stringify(metrics));
+        assert(metrics.navVisible,setup.name+' '+file+' missing fixed tabs');
+        assert(Math.abs(metrics.navBottom-metrics.screenHeight)<28,setup.name+' '+file+' misplaced bottom tabs');
+        assert(metrics.contentBottom>metrics.navTop,setup.name+' '+file+' unexpectedly short content');
+      }
       // Mock official verifier responses: an 'ok' result for a different ID must be rejected.
       const cert=await context.newPage();
       await cert.route('https://script.google.com/**', async route=>{
