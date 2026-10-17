@@ -252,6 +252,11 @@ check("reduced motion for breathing", "prefers-reduced-motion:reduce" in live)
 check("live wellness cached in PWA", "'./mindcheck-live-wellness.css'" in sw)
 for page in ("index.html","assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):
     check("shared live wellness theme "+page, 'href="mindcheck-live-wellness.css"' in (ROOT/page).read_text(encoding="utf-8"))
+breath_js=(ROOT/"js/mindcheck-smart-wellness.js").read_text(encoding="utf-8")
+breath_css=(ROOT/"mindcheck-smart-wellness.css").read_text(encoding="utf-8")
+check("breathing CSS variable used by JS", "--mc-breath-scale" in breath_js)
+check("breathing CSS variable owns visual transform", "transform:scale(var(--mc-breath-scale))!important" in breath_css)
+check("breathing PWA cache rotated", "mc-v24-breathing-motion-20261017" in sw)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
