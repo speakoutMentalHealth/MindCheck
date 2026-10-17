@@ -52,6 +52,14 @@ async function run() {
       await page.evaluate(()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');document.getElementById('langSection').classList.add('active');});
       await page.locator('.tbtn.live[data-lang="en"]').click();
       await page.waitForTimeout(250);
+      // The homepage redesign must render visually and preserve the primary Mood action.
+      const hero=page.locator('#homeSection .mc-dashboard-hero');
+      assert(await hero.isVisible(),setup.name+' redesigned hero missing');
+      assert((await hero.boundingBox()).width>280,setup.name+' redesigned hero collapsed');
+      await page.locator('.mc-dashboard-main-action').click();
+      await page.waitForFunction(()=>document.getElementById('moodSection')?.classList.contains('active'));
+      await page.locator('#moodBackHome').click();
+      await page.waitForFunction(()=>document.getElementById('homeSection')?.classList.contains('active'));
       assert.equal(await page.locator('#mcSmartWellness').count(),0,'redundant suggestion section returned');
       assert.equal(await page.locator('#mcJourneyChallengeList .mc-journey-task').count(),4,'today should have four challenges');
       const appWidth=await page.evaluate(()=>({w:document.documentElement.scrollWidth,viewport:window.innerWidth}));
