@@ -320,11 +320,36 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <link rel="stylesheet" href="mindcheck-journey.css">
 <link rel="stylesheet" href="mindcheck-smart-wellness.css">
 <link rel="stylesheet" href="mindcheck-sections-accessibility.css">
-<link rel="stylesheet" href="mindcheck-native-responsive.css"><link rel="stylesheet" href="mindcheck-signature-dashboard.css"></head>
+<link rel="stylesheet" href="mindcheck-native-responsive.css"><link rel="stylesheet" href="mindcheck-signature-dashboard.css"><link rel="stylesheet" href="mindcheck-front-door.css"></head>
 <body class="mc-stage-welcome">
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
 
-  <div class="mc-hero"><div class="mc-eyebrow">SpeakOut Mental Health Outreach</div><h1 data-i18n="heroTitle">A little check-in can make a difference.</h1><p data-i18n="heroDescription">Understand how you feel, explore self-assessments and find support in a calm, judgement-free space.</p><a class="mc-primary-action" href="#startBtn" onclick="document.getElementById('startBtn').click();return false;" data-i18n="heroStart">Start your wellbeing check →</a><div class="mc-trust"><span>A space for personal reflection</span><span>Screenings are not diagnoses</span><span>Support when you need it</span></div></div>
+  <main class="mc-front-door" aria-label="Welcome to MindCheck">
+  <div class="mc-hero">
+    <div class="mc-front-content">
+      <div class="mc-eyebrow"><span class="mc-front-live" aria-hidden="true"></span> YOUR SPACE TO FEEL BETTER</div>
+      <h1 data-i18n="heroTitle">A little check-in can make a difference.</h1>
+      <p data-i18n="heroDescription">Understand how you feel, explore self-assessments and find support in a calm, judgement-free space.</p>
+      <a class="mc-primary-action" href="#startBtn" onclick="document.getElementById('startBtn').click();return false;" data-i18n="heroStart">Start your wellbeing check →</a>
+      <p class="mc-front-reassurance"><span aria-hidden="true">✦</span> Move at your own pace. You're in control.</p>
+    </div>
+    <div class="mc-front-scene" aria-hidden="true">
+      <div class="mc-front-orbit mc-front-orbit-a"></div><div class="mc-front-orbit mc-front-orbit-b"></div>
+      <div class="mc-front-glow"></div><div class="mc-front-heart">♥</div>
+      <div class="mc-front-float mc-front-float-a"><span>☀</span><b>Take a moment</b><small>for yourself</small></div>
+      <div class="mc-front-float mc-front-float-b"><span>✧</span><b>One small step</b><small>at a time</small></div>
+    </div>
+    <div class="mc-front-foot"><span>SELF REFLECTION</span><span>WELLNESS TOOLS</span><span>SUPPORT</span></div>
+  </div>
+  <div class="mc-front-discover" aria-label="What you can discover">
+    <div class="mc-front-discover-intro"><span>DISCOVER YOUR SPACE</span><h2>Everything you need, one gentle step at a time.</h2></div>
+    <div class="mc-front-discover-grid">
+      <div class="mc-front-discover-card"><span aria-hidden="true">◉</span><strong>Understand your mood</strong><small>Check in with how you're feeling.</small></div>
+      <div class="mc-front-discover-card"><span aria-hidden="true">✳</span><strong>Build healthy habits</strong><small>Simple practices for everyday calm.</small></div>
+      <div class="mc-front-discover-card"><span aria-hidden="true">♡</span><strong>Find your next step</strong><small>Explore tools and support options.</small></div>
+    </div>
+  </div>
+</main>
   <aside id="mcInstallBanner" aria-label="Install MindCheck" hidden>
     <div class="mc-install-copy"><strong>Keep MindCheck on your phone</strong><span>Open it from your Home Screen anytime. Some features also work offline after your first visit.</span></div>
     <div class="mc-install-buttons"><button type="button" id="mcInstallOpen">Add to phone</button><button type="button" id="mcInstallDismiss" aria-label="Dismiss installation invitation">Not now</button></div>

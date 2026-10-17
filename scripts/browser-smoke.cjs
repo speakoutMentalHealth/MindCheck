@@ -48,6 +48,15 @@ async function run() {
       const page=await context.newPage();const errors=[];
       page.on('pageerror',e=>errors.push(e.message));
       await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
+      const firstVisit=page.locator('.mc-front-door .mc-hero');
+      assert(await firstVisit.isVisible(),setup.name+' redesigned public welcome missing');
+      const frontDimensions=await firstVisit.boundingBox();
+      assert(frontDimensions && frontDimensions.width>280,setup.name+' public welcome width invalid');
+      const frontArtwork=page.locator('.mc-front-scene');
+      assert(await frontArtwork.isVisible(),setup.name+' welcome artwork missing');
+      await page.locator('.mc-front-door .mc-primary-action').click();
+      await page.waitForFunction(()=>document.getElementById('langSection')?.classList.contains('active'));
+      assert(await page.locator('#langSection').isVisible(),setup.name+' start action failed to reveal language selection');
       // Explicitly enter the language stage; real browsers may restore onboarding state.
       await page.evaluate(()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');document.getElementById('langSection').classList.add('active');});
       await page.locator('.tbtn.live[data-lang="en"]').click();
