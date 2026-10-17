@@ -133,3 +133,17 @@
 #mcJourney .mc-breathing-controls button{min-height:44px!important;padding:9px 8px!important;font-size:.92rem!important;margin:0!important}
 #mcJourney .mc-breathing .mc-smart-disclaimer{font-size:.8rem!important;margin:8px 0 0!important}
 }
+
+/* Reliable breathing motion: one source of truth, including Mobile Safari.
+   The JS updates --mc-breath-scale; no other layout transform can override it. */
+#mcJourney .mc-breathing-circle.mc-breathing-heart{
+ --mc-breath-scale:.72;
+ transform:scale(var(--mc-breath-scale))!important;
+ transform-origin:center center!important;
+}
+#mcJourney .mc-breathing-heart.is-breathing{
+ will-change:transform;
+}
+@media(prefers-reduced-motion:reduce){
+ #mcJourney .mc-breathing-circle.mc-breathing-heart{transform:scale(.88)!important}
+}
