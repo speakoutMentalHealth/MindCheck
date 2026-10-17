@@ -13,6 +13,7 @@ async function run() {
     for (let n=0; n<40; n++) {try{await new Promise((resolve,reject)=>{let c=net.connect(8765,'127.0.0.1');c.on('connect',()=>{c.end();resolve()});c.on('error',reject)});break}catch(e){if(n===39)throw e;await sleep(250)}}
     browser=await chromium.launch({headless:true});
     const setups=[
+      {name:'small 320px phone',viewport:{width:320,height:740},isMobile:true,hasTouch:true},
       {name:'small Android phone',viewport:{width:360,height:780},isMobile:true,hasTouch:true},
       {name:'iPhone-size viewport',viewport:{width:390,height:844},isMobile:true,hasTouch:true},
       {name:'tablet',viewport:{width:820,height:1180},hasTouch:true},
@@ -43,6 +44,31 @@ async function run() {
       assert.match(await offlinePage.locator('h1').first().innerText(),/assessment centre/i,'cached assessment centre unavailable offline');
       await offlineContext.close();
     }
+    {
+      const denied=await browser.newContext({serviceWorkers:'block'});
+      await denied.addInitScript(()=>{Storage.prototype.getItem=function(){throw new DOMException('Storage blocked','SecurityError')};Storage.prototype.setItem=function(){throw new DOMException('Storage blocked','SecurityError')};});
+      const deniedPage=await denied.newPage();const deniedErrors=[];
+      deniedPage.on('pageerror',e=>deniedErrors.push(e.message));
+      await deniedPage.goto('http://127.0.0.1:8765/index.html?section=moodSection',{waitUntil:'domcontentloaded'});
+      await deniedPage.locator('.mood[data-val="2"]').click();
+      assert.match(await deniedPage.locator('#moodResult').innerText(),/cannot save/,'storage denial is explained');
+      assert.deepEqual(deniedErrors,[],'storage denial must not break app');
+      await denied.close();
+    }
+    {
+      const reporting=await browser.newContext({serviceWorkers:'block'});const rp=await reporting.newPage();
+      let payload=null;
+      await rp.route('https://script.google.com/**',async route=>{payload=new URLSearchParams(route.request().postData());await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true})});});
+      await rp.goto('http://127.0.0.1:8765/report.html',{waitUntil:'domcontentloaded'});
+      await rp.evaluate(()=>localStorage.setItem('mc_uid','synthetic-device-id-must-not-be-sent'));
+      await rp.locator('#who').selectOption('myself');await rp.locator('#concernType').selectOption('other');
+      await rp.locator('#details').fill('Synthetic QA only. No real person or incident.');await rp.locator('#allowContact').selectOption('no');
+      await rp.locator('#submitBtn').click();await rp.locator('#msg').filter({hasText:'received'}).waitFor();
+      assert.equal(payload.get('uid'),'anonymous','anonymous reports must not link mood history');
+      assert(!payload.toString().includes('synthetic-device-id-must-not-be-sent'),'device identifier leaked');
+      await rp.waitForTimeout(1800);assert(rp.url().endsWith('/report.html'),'receipt must remain visible');
+      await reporting.close();
+    }
     for(const setup of setups){
       const context=await browser.newContext({...setup,serviceWorkers:'block',reducedMotion:'no-preference'});
       const page=await context.newPage();const errors=[];
@@ -64,7 +90,7 @@ async function run() {
       // The homepage redesign must render visually and preserve the primary Mood action.
       const hero=page.locator('#homeSection .mc-dashboard-hero');
       assert(await hero.isVisible(),setup.name+' redesigned hero missing');
-      assert((await hero.boundingBox()).width>280,setup.name+' redesigned hero collapsed');
+      assert((await hero.boundingBox()).width>=Math.min(280,setup.viewport.width*.7),setup.name+' redesigned hero collapsed');
       await page.locator('.mc-dashboard-main-action').click();
       await page.waitForFunction(()=>document.getElementById('moodSection')?.classList.contains('active'));
       await page.locator('#moodBackHome').click();
@@ -114,6 +140,17 @@ async function run() {
       assert.equal(await page.locator('.mc-breathing-heart-svg').evaluate(el=>getComputedStyle(el).transform),'none','reduced motion disables heartbeat');
       await page.locator('#mcBreathingReset').click();
       await page.emulateMedia({reducedMotion:'no-preference'});
+      // A synthetic daily check-in persists locally, once, without a cloud write.
+      const checkinRequests=[];
+      await page.route('https://script.google.com/**',async route=>{checkinRequests.push(route.request().url());await route.abort();});
+      await page.locator('#goMood').click();
+      await page.locator('.mood[data-val="2"]').click();
+      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_mood_history')).length),1,'first check-in stored locally');
+      await page.locator('.mood[data-val="3"]').click();
+      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_mood_history')).length),1,'daily duplicate does not add history');
+      assert.equal(await page.evaluate(()=>localStorage.getItem('mc_points')),'10','daily points awarded once');
+      assert.deepEqual(checkinRequests,[],'mood check-in must never leave this device');
+      await page.locator('#moodBackHome').click();
       // Opening tips should show a translated tip; save/remove controls remain available.
       await page.locator('#goTips').click();
       assert((await page.locator('#tipText').innerText()).length>10,'missing wellness tip');
@@ -124,6 +161,9 @@ async function run() {
       assert.notEqual(await page.locator('#tipText').innerText(),priorTip,'swipe should advance the tip');
       await page.locator('#tipSaveBtn').click();
       assert((await page.locator('#savedTipsList li').count())>=1,'saved tips missing');
+      assert.equal(await page.locator('#tipSaveBtn').getAttribute('aria-pressed'),'true','saved state accessible');
+      await page.locator('#savedTipsList button').first().click();
+      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_tips_saved')).length),0,'saved tip removed');
       await page.locator('#tipsBackHome').click();
       await page.locator('#mcChangeLanguage').click();
       await page.locator('.tbtn.live[data-lang="fr"]').click();

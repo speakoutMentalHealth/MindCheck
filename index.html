@@ -751,6 +751,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         status('Tip saved on this device. Reopen Saved tips or refresh the page to view it.',false);
         return false;
       }
+      document.getElementById('tipSaveBtn').setAttribute('aria-pressed','true');
       status(exists?'Already saved. See Saved tips below.':'Saved! See Saved tips below.',false);
       return false;
     };
@@ -854,8 +855,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   </script>
 
   <script>
-    /* ---------- Keys & UID ---------- */
-    const KEY_UID='mc_uid';
+    /* ---------- On-device progress keys ---------- */
     const KEY_POINTS='mc_points';
     const KEY_STREAK='mc_streak';
     const KEY_LAST='mc_lastCheckin';
@@ -866,29 +866,17 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     const KEY_TIPS_DONE ='mc_tips_done';
     const KEY_CRISIS_DISMISS='mc_crisis_dismiss_date';
 
-    function getUID() {
-      let uid = localStorage.getItem(KEY_UID);
-      if (!uid) {
-        try { uid = crypto.randomUUID(); }
-        catch { uid = 'mc_' + Math.random().toString(36).slice(2); }
-        localStorage.setItem(KEY_UID, uid);
-      }
-      return uid;
-    }
-    const UID = getUID();
-    window.MC_UID = UID;
-
     /* ---------- Helpers ---------- */
     function todayStr(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
     function isoToDate(iso){ return new Date(iso); }
     function getJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }catch(e){ return fallback; } }
     function setJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-    const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
+    const getPoints=()=>Number(getJSON(KEY_POINTS, 0))||0;
     const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
     const addPoints=n=>setPoints(getPoints()+n);
-    const getStreak=()=>parseInt(localStorage.getItem(KEY_STREAK)||'0',10);
+    const getStreak=()=>Number(getJSON(KEY_STREAK, 0))||0;
     const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
-    const getLast=()=>localStorage.getItem(KEY_LAST) || '';
+    const getLast=()=>{try{return localStorage.getItem(KEY_LAST)||'';}catch(_){return '';}};
     const setLast=v=>localStorage.setItem(KEY_LAST, v);
     const getBadges=()=>getJSON(KEY_BADGES, []);
     const setBadges=arr=>setJSON(KEY_BADGES, arr);
@@ -932,9 +920,17 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         return;
       }
 
+      try {
+        const probe='mc_storage_check';
+        localStorage.setItem(probe,'1');localStorage.removeItem(probe);
+      } catch(error) {
+        moodResult.style.display='block';
+        moodResult.textContent='This browser cannot save your check-in. Allow website storage or try another browser. You can still use breathing and assessment guidance.';
+        return;
+      }
       addPoints(10);
       setLast(today);
-      const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
+      const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })();
       if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
 
       const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
@@ -966,26 +962,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       updateHeaderPills();
       maybeShowCrisis();
 
-      try {
-        fetch('https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec?auth=speakout123', {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify({
-            type: 'checkin',
-            uid: UID,
-            day: todayStr(),
-            mood_value: moodValue,
-            streak_after: getStreak(),
-            points_after: getPoints(),
-            lang: localStorage.getItem('mc_lang') || 'en',
-            app_version: 'v1.0.0',
-            badge_20_unlocked: getBadges().includes('streak_20')
-          })
-        })
-        .then(r=>r.text())
-        .then(t=>{ try{ console.log('GAS response:', JSON.parse(t)); }catch{ console.log('GAS raw:', t); } })
-        .catch(e=>console.warn('Check-in logging failed:', e));
-      } catch(e) { console.warn('Fetch block failed:', e); }
+      // Mood history stays on this device. Never transmit check-ins or a device ID.
+
     }
 
     /* ---------- Home stats ---------- */
@@ -1314,7 +1292,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     }
     function maybeShowCrisis(){
       const today=todayStr();
-      const dismissed=localStorage.getItem(KEY_CRISIS_DISMISS);
+      let dismissed;try{dismissed=localStorage.getItem(KEY_CRISIS_DISMISS);}catch(_){}
       if(dismissed===today){ crisisBanner.style.display='none'; return; }
       crisisBanner.style.display = verySadStreak3Days() ? 'block' : 'none';
     }

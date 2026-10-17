@@ -268,7 +268,7 @@
 
 <body class="mc-unified-page"><a class="mindcheck-brand-mark" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><style>.mindcheck-brand-mark{display:flex;align-items:center;gap:13px;width:min(1100px,92%);margin:16px auto 10px;padding:12px 22px;background:#fff;color:#063f35!important;text-decoration:none;border-radius:999px;box-shadow:0 12px 32px rgba(6,63,53,.10);font-family:Outfit,system-ui,sans-serif}.mindcheck-brand-mark img{width:56px;height:56px;object-fit:contain}.mindcheck-brand-mark strong{display:block;font-size:1.25rem;font-weight:900}.mindcheck-brand-mark small{display:block;font-size:.72rem;color:#0f9f5f;font-weight:800;text-transform:uppercase;letter-spacing:.07em}@media(max-width:500px){.mindcheck-brand-mark{padding:10px 14px}.mindcheck-brand-mark img{width:46px;height:46px}}</style>
   <header>
-    <img src="https://speakoutmentalhealth.github.io/MindCheck/icons/apple-touch-icon.png" alt="SpeakOut Logo">
+    <img src="https://mindcheck.speakoutmentalhealth.org/icons/apple-touch-icon.png" alt="SpeakOut Logo">
     <div class="title">
       <h1>SpeakOut MindCheck 💚</h1>
       <small>Anonymous Reporting • Safe • Supportive</small>
@@ -286,13 +286,13 @@
         <div><b>Urgent safety note:</b> If you are in immediate danger, call <b>112</b> now or tell a trusted adult.</div>
         <div class="row">
           <a class="btnmini" href="tel:112">📞 Call 112</a>
-          <a class="btnmini" href="https://wa.me/2348130191085?text=Hi%20SpeakOut%2C%20I%20need%20help%20now." target="_blank" rel="noopener">💬 WhatsApp Support</a>
-          <a class="btnmini" href="https://speakoutmentalhealth.github.io/MindCheck/">🏠 Back to Home</a>
+          <a class="btnmini" href="https://wa.me/2348118103510" target="_blank" rel="noopener">💬 WhatsApp Support</a>
+          <a class="btnmini" href="https://mindcheck.speakoutmentalhealth.org/">🏠 Back to Home</a>
         </div>
       </div>
 
       <h2>Anonymous Reporting Form</h2>
-      <p class="sub">You’re doing a brave thing. Share only what you can.</p>
+      <p class="sub">Share only what you are comfortable sharing. Reports are not monitored continuously. For immediate danger, seek urgent in-person help rather than waiting for a reply.</p>
 
       <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
       <div class="steps" aria-hidden="true">
@@ -382,7 +382,7 @@
     const endpoint = "https://script.google.com/macros/s/AKfycbza254e2igg06ApsJc1_b3wIHFBIuwb6Bq6M9WyLHE8as-UaYJsRbFH7uvs9zJ_LOhhvQ/exec";
 
     function goHomeNow() {
-      window.location.href = "https://speakoutmentalhealth.github.io/MindCheck/";
+      window.location.href = "https://mindcheck.speakoutmentalhealth.org/";
     }
 
     // Calm mode toggle (persist)
@@ -517,9 +517,8 @@
 
       const formData = new FormData(form);
 
-      // Add UID from localStorage
-      const uid = localStorage.getItem("mc_uid") || "anonymous";
-      formData.append("uid", uid);
+      // Preserve the service field without identifying this browser or linking mood history.
+      formData.append("uid", "anonymous");
 
       // Convert to URL-encoded body
       const bodyParams = new URLSearchParams();
@@ -546,11 +545,11 @@
         if (res.ok && data.ok) {
           awardBadge();
           popConfetti();
-          showMsg("✅ Thank you for speaking up. Bravery Badge unlocked 💚 We’ll respond as soon as we can.");
+          showMsg("✅ Thank you for speaking up. Bravery Badge unlocked 💚 Your report was received. A reply is only possible if you supplied contact details; response times are not guaranteed.");
           form.reset();
           syncContactUI();
           updateProgress();
-          setTimeout(goHomeNow, 1600);
+          // Keep the receipt visible until the visitor chooses Back.
         } else {
           console.warn("Unexpected response:", text);
           showMsg("⚠ We could not confirm submission. If this is urgent, call 112 or tell a trusted adult now.");
