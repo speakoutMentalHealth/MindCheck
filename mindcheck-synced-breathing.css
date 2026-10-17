@@ -13,3 +13,12 @@
 @media(prefers-reduced-motion:reduce){
  #mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart:before{transform:scale(1)!important;transition:none!important}
 }
+/* Timer owns ambient movement as well as the heart. Pause freezes the whole scene. */
+#mcJourney #mcBreathing .mc-breathing-stage:before,
+#mcJourney #mcBreathing .mc-breathing-stage:after{animation:none!important;transform:translate(-50%,-50%) scale(var(--mc-stage-glow,.8))!important}
+#mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart:before{display:block!important;content:""!important;animation:none!important;transform:scale(var(--mc-breath-glow-size,.8))!important}
+#mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart:after{animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ #mcJourney #mcBreathing .mc-breathing-stage:before,#mcJourney #mcBreathing .mc-breathing-stage:after{transform:translate(-50%,-50%)!important}
+ #mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart:before{transform:none!important}
+}

@@ -20,3 +20,22 @@ body.mc-stage-dashboard #mcJourney .mc-breathing-controls button:active{transfor
 @media(max-width:650px){body.mc-stage-dashboard #mcJourney .mc-breathing{padding:22px 15px!important;border-radius:25px!important}body.mc-stage-dashboard #mcJourney .mc-breathing-controls button{flex:1 1 120px}}
 @media(hover:hover) and (pointer:fine){body.mc-stage-dashboard :is(#helpSection,#badgesSection) :is(.card,.badge-card):hover{transform:translateY(-3px);box-shadow:0 15px 32px rgba(15,65,78,.13)!important}}
 @media(prefers-reduced-motion:reduce){body.mc-stage-dashboard #mcJourney .mc-breathing-circle.is-breathing:before{animation:none!important}body.mc-stage-dashboard #mcJourney .mc-breathing-controls button,body.mc-stage-dashboard :is(#helpSection,#badgesSection) :is(.card,.badge-card){transition:none!important;transform:none!important}}
+
+/* Shared calm interactions: no decorative layer captures a control. */
+body.mc-stage-dashboard #moodSection .mood[aria-pressed=true]{border-color:#3f7876!important;background:#e4f3ed!important;box-shadow:0 0 0 3px #cbe5dc!important}
+body.mc-stage-dashboard #tipsSection #tipCard{touch-action:pan-y;cursor:default;border-radius:28px!important;background:radial-gradient(ellipse at 95% 5%,#f6e8ee,transparent 60%),linear-gradient(145deg,#f1faf5,#fff)!important;padding:clamp(24px,5vw,40px)!important;min-height:230px}
+body.mc-stage-dashboard #tipsSection #tipText{font-size:clamp(1.25rem,3.8vw,1.8rem)!important;font-weight:550!important;line-height:1.5!important;letter-spacing:-.025em}
+body.mc-stage-dashboard #tipSaveBtn[aria-pressed=true]{background:#ddefe7!important;color:#205f50!important;border-color:#9dc8b7!important}
+body.mc-stage-dashboard #helpSection .mc-urgent-support{grid-column:1/-1;border:1px solid #db9c9c!important;background:#fff6f3!important;box-shadow:none!important}
+body.mc-stage-dashboard #helpSection .mc-urgent-support h3{color:#842f35!important}
+#mcBadgeProgress{display:block;width:min(520px,100%);height:12px;margin:24px auto 30px;border:0;border-radius:999px;overflow:hidden;background:#e4eeea;accent-color:#3f7876}
+#mcBadgeProgress::-webkit-progress-bar{background:#e4eeea;border-radius:999px}
+#mcBadgeProgress::-webkit-progress-value{background:linear-gradient(90deg,#3f7876,#78aa94);border-radius:999px}
+#mcBadgeProgress::-moz-progress-bar{background:#3f7876;border-radius:999px}
+.ac-filters{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 10px}
+.ac-filters button{font:inherit;font-size:.9rem;min-height:44px;border-radius:999px;padding:10px 16px;border:1px solid #d0e2db;background:#fff;color:#285c50;cursor:pointer;touch-action:manipulation;transition:transform .18s,background .18s}
+.ac-filters button[aria-pressed=true]{background:#285f55;color:#fff;border-color:#285f55}
+.ac-filters button:active{transform:scale(.96)}
+.ac-card[hidden]{display:none!important}
+body.mc-standalone-page .ac-grid{align-items:stretch}
+@media(prefers-reduced-motion:reduce){.ac-filters button{transition:none;transform:none}}

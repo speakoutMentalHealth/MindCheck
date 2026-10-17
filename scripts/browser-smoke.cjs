@@ -90,6 +90,9 @@ async function run() {
       assert.notEqual(s1.scale,s2.scale,setup.name+' breathing scale variable did not animate');
       assert(Math.abs(s2.width-s1.width)>6,setup.name+' breathing heart did not visibly grow: '+JSON.stringify({s1,s2}));
       await page.locator('#mcBreathingStart').click();
+      const frozen=await heart.evaluate(el=>el.style.getPropertyValue('--mc-breath-scale'));
+      await page.waitForTimeout(250);
+      assert.equal(await heart.evaluate(el=>el.style.getPropertyValue('--mc-breath-scale')),frozen,'paused breathing must freeze');
       assert.equal(await page.locator('#mcBreathingStart').innerText(),'Resume');
       await page.locator('#mcBreathingReset').click();
       assert.equal(await page.locator('#mcBreathingProgress').innerText(),'0 / 3');
@@ -97,6 +100,10 @@ async function run() {
       await page.locator('#goTips').click();
       assert((await page.locator('#tipText').innerText()).length>10,'missing wellness tip');
       assert(await page.locator('#tipSaveBtn').isVisible(),'Save tip missing');
+      const priorTip=await page.locator('#tipText').innerText();
+      await page.locator('#tipCard').dispatchEvent('pointerdown',{pointerType:'touch',isPrimary:true,pointerId:1,clientX:200,clientY:120});
+      await page.locator('#tipCard').dispatchEvent('pointerup',{pointerType:'touch',isPrimary:true,pointerId:1,clientX:100,clientY:125});
+      assert.notEqual(await page.locator('#tipText').innerText(),priorTip,'swipe should advance the tip');
       await page.locator('#tipSaveBtn').click();
       assert((await page.locator('#savedTipsList li').count())>=1,'saved tips missing');
       await page.locator('#tipsBackHome').click();
@@ -114,6 +121,14 @@ async function run() {
         await page.waitForFunction(id=>document.body.classList.contains('mc-stage-dashboard')&&document.getElementById(id)?.classList.contains('active'),target,{timeout:5000});
         assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' incorrect active tab '+label);
       }
+      // Library filters change visible pathways without removing their disclosures.
+      await page.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
+      await page.locator('[data-ac-filter="questionnaire"]').click();
+      assert.equal(await page.locator('.ac-card:visible').count(),4,'questionnaire filter');
+      await page.locator('[data-ac-filter="guidance"]').click();
+      assert.equal(await page.locator('.ac-card:visible').count(),4,'guidance filter');
+      await page.locator('[data-ac-filter="all"]').click();
+      assert.equal(await page.locator('.ac-card:visible').count(),8,'all pathways restored');
       // Visual layout audit on standalone screens at each viewport.
       for(const file of ['assessment-centre.html','pcl5-screening.html','adhd.html','audit-screening.html','clinician-referral-preparation.html']){
         await page.goto('http://127.0.0.1:8765/'+file,{waitUntil:'domcontentloaded'});
