@@ -239,6 +239,13 @@ check("breathing animated halo and reduced motion", "@keyframes mc-breath-halo" 
 check("breathing existing timing retained", "DURATION=30000" in (ROOT/"js/mindcheck-smart-wellness.js").read_text(encoding="utf-8"))
 for pg in ("index.html","assessment-centre.html","pcl5-screening.html","adhd.html","audit-screening.html","resources.html","certificate.html"):
     check("calm design installed "+pg, 'mindcheck-calm-experience.css' in (ROOT/pg).read_text(encoding="utf-8"))
+experience=(ROOT/"mindcheck-live-experience.css").read_text(encoding="utf-8")
+check("front door hidden after onboarding", "body:not(.mc-stage-welcome) .mc-front-door{display:none!important}" in experience)
+check("breathing contrast restored", ".mc-breathing .mc-breathing-cue{color:#174752!important}" in experience)
+check("breathing ripple motion provided", "@keyframes mc-living-breath" in experience)
+check("breathing motion supports accessibility", "@media(prefers-reduced-motion:reduce)" in experience)
+check("experience stylesheet in app", 'href="mindcheck-live-experience.css"' in (ROOT/"index.html").read_text(encoding="utf-8"))
+check("experience stylesheet in cache", "'./mindcheck-live-experience.css'" in sw)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
