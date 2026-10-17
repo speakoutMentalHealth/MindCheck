@@ -1,0 +1,38 @@
+/* Calm Space-inspired, distinctly MindCheck: minimal consistent visual surfaces. */
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection,#formContainer){
+ background:linear-gradient(145deg,#fffefa,#fcfffc)!important;border:1px solid #e9ebe7!important;
+ box-shadow:0 14px 36px rgba(39,65,57,.055)!important;border-radius:28px!important;
+}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection) h2{font-weight:780!important;letter-spacing:-.045em!important;color:#2c403d!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood{background:linear-gradient(150deg,#fff,#f6fbf8)!important;border-color:#e3ebe5!important;box-shadow:0 5px 18px rgba(40,74,57,.05)!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood:focus-visible{outline:3px solid #4d9f9b!important}
+body.mc-stage-dashboard #tipsSection .toolbar[aria-label="Filter tips"]{background:#f3f6f3!important}
+body.mc-stage-dashboard #tipsSection .tip-filter[aria-pressed=true]{background:#dfefec!important;color:#265f60!important;border-color:#a5d1ca!important}
+body.mc-stage-dashboard #helpSection .mc-support-grid .card{border:1px solid #e6ede8!important;background:#fff!important;border-radius:23px!important}
+body.mc-stage-dashboard #badgesSection :is(.badge-list,.award-list){gap:14px}
+body.mc-standalone-page{background:radial-gradient(circle at 95% 3%,rgba(238,209,215,.27),transparent 28%),#f6f8f6!important}
+body.mc-standalone-page :is(.ac-card,.ac-list,.panel){background:#fff!important;border:1px solid #e5ebe6!important;box-shadow:0 10px 26px rgba(42,72,63,.05)!important}
+body.mc-standalone-page :is(a,button):focus-visible{outline:3px solid #3b928e!important;outline-offset:3px}
+@media(hover:hover) and (pointer:fine){
+ body.mc-standalone-page .ac-card:hover,body.mc-stage-dashboard #helpSection .mc-support-grid .card:hover{box-shadow:0 16px 34px rgba(35,76,68,.10)!important;transform:translateY(-2px)}
+}
+@media(max-width:700px){
+ body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection){border-radius:23px!important}
+ body.mc-standalone-page :is(.ac-card,.ac-list,.panel){border-radius:22px!important}
+}
+/* Guided breathing: the existing JS breath timing drives a responsive living orb. */
+#mcJourney #mcBreathing{background:radial-gradient(circle at 50% 35%,#f9eef1,#f8fbfa 70%)!important;border-radius:28px!important;border:1px solid #ede9e9!important;overflow:hidden;isolation:isolate}
+#mcJourney #mcBreathing .mc-breathing-stage{position:relative;isolation:isolate}
+#mcJourney #mcBreathing .mc-breathing-stage:before,
+#mcJourney #mcBreathing .mc-breathing-stage:after{content:"";position:absolute;top:50%;left:50%;width:min(64vw,260px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(251,170,179,.28),rgba(167,225,218,.16) 55%,transparent 71%);transform:translate(-50%,-50%) scale(.8);opacity:.55;pointer-events:none;z-index:-1}
+#mcJourney #mcBreathing .mc-breathing-stage:after{width:min(82vw,330px);border:1px solid rgba(183,213,207,.36);background:transparent}
+#mcJourney #mcBreathing:has(.is-breathing) .mc-breathing-stage:before{animation:mc-breath-halo 10s ease-in-out infinite}
+#mcJourney #mcBreathing:has(.is-breathing) .mc-breathing-stage:after{animation:mc-breath-ring 10s ease-in-out infinite}
+#mcJourney #mcBreathing .mc-breathing-circle{filter:drop-shadow(0 14px 22px rgba(146,89,107,.12));transition:filter .3s}
+#mcJourney #mcBreathing .mc-breathing-cue{font-size:clamp(1.05rem,2vw,1.35rem)!important;color:#395d5c!important;letter-spacing:-.025em}
+#mcJourney #mcBreathing .mc-breathing-controls button{border-radius:16px!important;min-height:49px!important;transition:transform .18s,box-shadow .18s}
+#mcJourney #mcBreathing .mc-breathing-controls button:active{transform:scale(.95)}
+#mcJourney #mcBreathingStart{background:#3f7876!important;border-color:#3f7876!important;box-shadow:0 8px 18px rgba(50,108,105,.15)}
+@keyframes mc-breath-halo{0%,100%{transform:translate(-50%,-50%) scale(.78);opacity:.3}40%{transform:translate(-50%,-50%) scale(1.19);opacity:.8}}
+@keyframes mc-breath-ring{0%,100%{transform:translate(-50%,-50%) scale(.86);opacity:.3}40%{transform:translate(-50%,-50%) scale(1.1);opacity:.65}}
+@media(prefers-reduced-motion:reduce){#mcJourney #mcBreathing .mc-breathing-stage:before,#mcJourney #mcBreathing .mc-breathing-stage:after{animation:none!important}#mcJourney #mcBreathing .mc-breathing-controls button{transition:none!important}}
