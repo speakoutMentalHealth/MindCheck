@@ -69,6 +69,10 @@ async function run() {
       await page.waitForFunction(()=>document.getElementById('moodSection')?.classList.contains('active'));
       await page.locator('#moodBackHome').click();
       await page.waitForFunction(()=>document.getElementById('homeSection')?.classList.contains('active'));
+      assert.equal(await page.locator('.mc-front-door').isVisible(),false,setup.name+' first-visit promotional content persists in dashboard');
+      const breathColors=await page.locator('#mcBreathing').evaluate(el=>({title:getComputedStyle(el.querySelector('h4')).color,cue:getComputedStyle(el.querySelector('.mc-breathing-cue')).color}));
+      assert.notEqual(breathColors.title,'rgb(255, 255, 255)',setup.name+' breathing heading invisible');
+      assert.notEqual(breathColors.cue,'rgb(255, 255, 255)',setup.name+' breathing cue invisible');
       assert.equal(await page.locator('#mcSmartWellness').count(),0,'redundant suggestion section returned');
       assert.equal(await page.locator('#mcJourneyChallengeList .mc-journey-task').count(),4,'today should have four challenges');
       const appWidth=await page.evaluate(()=>({w:document.documentElement.scrollWidth,viewport:window.innerWidth}));
