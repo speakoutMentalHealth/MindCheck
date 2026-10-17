@@ -84,10 +84,11 @@ async function run() {
       await page.locator('#mcBreathingStart').click();
       await page.waitForTimeout(1200);
       await center();
-      let s1=await heart.evaluate(el=>getComputedStyle(el).transform);
+      let s1=await heart.evaluate(el=>({transform:getComputedStyle(el).transform,scale:el.style.getPropertyValue('--mc-breath-scale'),width:el.getBoundingClientRect().width}));
       await page.waitForTimeout(1250);
-      let s2=await heart.evaluate(el=>getComputedStyle(el).transform);
-      assert.notEqual(s1,s2,setup.name+' breathing heart did not animate');
+      let s2=await heart.evaluate(el=>({transform:getComputedStyle(el).transform,scale:el.style.getPropertyValue('--mc-breath-scale'),width:el.getBoundingClientRect().width}));
+      assert.notEqual(s1.scale,s2.scale,setup.name+' breathing scale variable did not animate');
+      assert(Math.abs(s2.width-s1.width)>6,setup.name+' breathing heart did not visibly grow: '+JSON.stringify({s1,s2}));
       await page.locator('#mcBreathingStart').click();
       assert.equal(await page.locator('#mcBreathingStart').innerText(),'Resume');
       await page.locator('#mcBreathingReset').click();
