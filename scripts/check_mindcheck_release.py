@@ -246,6 +246,12 @@ check("breathing ripple motion provided", "@keyframes mc-living-breath" in exper
 check("breathing motion supports accessibility", "@media(prefers-reduced-motion:reduce)" in experience)
 check("experience stylesheet in app", 'href="mindcheck-live-experience.css"' in (ROOT/"index.html").read_text(encoding="utf-8"))
 check("experience stylesheet in cache", "'./mindcheck-live-experience.css'" in sw)
+live=(ROOT/"mindcheck-live-wellness.css").read_text(encoding="utf-8")
+check("live breathing inhale exhale visual states", ".is-inhaling" in live and ".is-exhaling" in live)
+check("reduced motion for breathing", "prefers-reduced-motion:reduce" in live)
+check("live wellness cached in PWA", "'./mindcheck-live-wellness.css'" in sw)
+for page in ("index.html","assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):
+    check("shared live wellness theme "+page, 'href="mindcheck-live-wellness.css"' in (ROOT/page).read_text(encoding="utf-8"))
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
