@@ -34,3 +34,18 @@ body.mc-stage-welcome .mc-front-content{padding:0!important}
  body.mc-stage-welcome .mc-front-door .mc-primary-action{min-height:53px!important}
 }
 @media(prefers-reduced-motion:reduce){body.mc-stage-welcome .mc-front-heart,body.mc-stage-welcome .mc-front-discover-card,body.mc-stage-welcome .mc-front-door .mc-primary-action{transition:none!important;transform:none!important}}
+
+/* Reference-led palette: spacious pastel calm and restrained native UI. */
+body.mc-stage-welcome{background:linear-gradient(155deg,#f8f9f6,#f4faf6 50%,#f9f6f7)!important}
+body.mc-stage-welcome .mc-front-door .mc-hero{background:radial-gradient(ellipse at 80% 20%,rgba(244,190,192,.63),transparent 42%),radial-gradient(ellipse at 65% 85%,rgba(172,227,198,.65),transparent 45%),linear-gradient(130deg,#edf6ee,#e9f3ef 55%,#f7eceb)!important;color:#1d4542!important;box-shadow:0 22px 52px rgba(48,93,83,.10)!important;border:1px solid rgba(227,239,229,.9)!important}
+body.mc-stage-welcome .mc-front-door .mc-eyebrow{color:#35796e!important;border-color:rgba(61,140,119,.16)!important;background:rgba(255,255,255,.56)!important}
+body.mc-stage-welcome .mc-front-door h1{color:#173d3b!important}
+body.mc-stage-welcome .mc-front-door .mc-hero p[data-i18n]{color:#4f7773!important}
+body.mc-stage-welcome .mc-front-door .mc-primary-action{background:#1d5651!important;color:#fff!important;box-shadow:0 12px 26px rgba(29,86,81,.19)!important}
+body.mc-stage-welcome .mc-front-door .mc-primary-action:hover{background:#154640!important}
+body.mc-stage-welcome .mc-front-orbit{border-color:rgba(43,136,121,.14)!important}
+body.mc-stage-welcome .mc-front-orbit-a{box-shadow:0 0 0 38px rgba(78,180,148,.045),0 0 0 84px rgba(78,180,148,.03)!important}
+body.mc-stage-welcome .mc-front-glow{background:#e4a5b5!important;opacity:.34!important}
+body.mc-stage-welcome .mc-front-heart{color:#fff!important;background:linear-gradient(145deg,#f9bec8,#f3a8b8 52%,#8dbdaf)!important;box-shadow:inset 10px 10px 24px rgba(255,255,255,.67),inset -14px -17px 24px rgba(89,121,112,.20),0 23px 42px rgba(90,124,114,.19)!important}
+body.mc-stage-welcome .mc-front-discover-card{background:rgba(255,255,255,.92)!important;border-color:#e8eeea!important;box-shadow:0 9px 22px rgba(42,83,73,.055)!important}
+body.mc-stage-welcome .mc-front-discover-card>span{background:#f4f4ed!important;color:#417b73!important}
