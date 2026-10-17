@@ -1,0 +1,35 @@
+/* One app: welcome content only during the welcome stage. */
+body:not(.mc-stage-welcome) .mc-front-door{display:none!important}
+body.mc-stage-welcome .mc-front-door{display:block!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing{
+ position:relative;isolation:isolate;overflow:hidden;
+ background:linear-gradient(145deg,#f8fffc 0%,#eef8fa 54%,#f5f7ff 100%)!important;
+ border:1px solid #d8e9ea!important;border-radius:28px!important;
+ box-shadow:0 18px 48px rgba(18,61,75,.09)!important;
+}
+body.mc-stage-dashboard #mcJourney .mc-breathing::before{
+ content:"";position:absolute;inset:-20% -40%;pointer-events:none;z-index:-1;
+ background:radial-gradient(circle at 50% 50%,rgba(114,215,202,.16),transparent 42%);
+}
+body.mc-stage-dashboard #mcJourney .mc-breathing h4{color:#123e49!important;font-weight:800!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing .mc-smart-eyebrow{color:#176f72!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing p,
+body.mc-stage-dashboard #mcJourney .mc-breathing [data-mcs="breathingIntro"]{color:#476773!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing .mc-breathing-cue{color:#174752!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing .mc-breathing-progress{color:#2e727b!important;font-weight:750!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing .mc-smart-disclaimer{color:#536e78!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing-controls button{color:#154853!important;background:#fff!important;border:1px solid #bfdae0!important;transition:transform .16s ease,box-shadow .2s}
+body.mc-stage-dashboard #mcJourney #mcBreathingStart{background:#186b72!important;color:white!important;border-color:#186b72!important}
+body.mc-stage-dashboard #mcJourney .mc-breathing-controls button:active{transform:scale(.95)}
+body.mc-stage-dashboard #mcJourney .mc-breathing-stage::before,
+body.mc-stage-dashboard #mcJourney .mc-breathing-stage::after{
+ content:"";position:absolute;left:50%;top:50%;width:72%;aspect-ratio:1;border-radius:50%;
+ border:1px solid rgba(61,166,162,.25);transform:translate(-50%,-50%) scale(.78);pointer-events:none;
+}
+body.mc-stage-dashboard #mcJourney .mc-breathing-stage::after{width:89%;border-color:rgba(61,166,162,.13)}
+body.mc-stage-dashboard #mcJourney .mc-breathing-stage:has(.is-breathing)::before{animation:mc-living-breath 4s ease-in-out infinite alternate}
+body.mc-stage-dashboard #mcJourney .mc-breathing-stage:has(.is-breathing)::after{animation:mc-living-breath 4s ease-in-out infinite alternate-reverse}
+@keyframes mc-living-breath{from{transform:translate(-50%,-50%) scale(.78);opacity:.32}to{transform:translate(-50%,-50%) scale(1.15);opacity:.8}}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection){box-shadow:0 12px 40px rgba(21,60,73,.075)!important}
+@media(max-width:680px){body.mc-stage-dashboard #mcJourney .mc-breathing{padding:22px 17px!important}}
+@media(prefers-reduced-motion:reduce){body.mc-stage-dashboard #mcJourney .mc-breathing-stage::before,body.mc-stage-dashboard #mcJourney .mc-breathing-stage::after{animation:none!important}body.mc-stage-dashboard #mcJourney .mc-breathing-controls button{transition:none!important}}
