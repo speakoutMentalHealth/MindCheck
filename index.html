@@ -391,7 +391,20 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 
   <!-- Home + Stats -->
   <section id="homeSection" aria-labelledby="homeTitle">
-    <h2 id="homeTitle">Welcome to MindCheck 🌿</h2>
+    <div class="mc-dashboard-topline"><span class="mc-status-spark" aria-hidden="true"></span><span>YOUR PERSONAL WELLNESS SPACE</span><span class="mc-dashboard-private">Private on this device</span></div>
+    <div class="mc-dashboard-hero">
+      <div class="mc-dashboard-hero-content">
+        <p class="mc-dashboard-kicker">A moment for yourself</p>
+        <h2 id="homeTitle">How are you feeling today<span aria-hidden="true">?</span></h2>
+        <p class="mc-dashboard-lead">Your wellbeing is worth checking in on. Start with one small step, at your own pace.</p>
+        <div class="mc-dashboard-actions">
+          <button type="button" class="mc-dashboard-main-action" onclick="document.getElementById('goMood').click()">Check in with yourself <span aria-hidden="true">↗</span></button>
+          <a class="mc-dashboard-secondary-action" href="assessment-centre.html">Explore assessments <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="mc-dashboard-art" aria-hidden="true"><div class="mc-orbit mc-orbit-one"></div><div class="mc-orbit mc-orbit-two"></div><div class="mc-orbit mc-orbit-three"></div><div class="mc-art-core"><span class="mc-art-heart">♥</span></div><span class="mc-art-star mc-star-a">✧</span><span class="mc-art-star mc-star-b">✳</span></div>
+    </div>
+    <div class="mc-dashboard-section-heading"><div><span class="mc-dashboard-section-label">YOUR MOMENTUM</span><h3>Your progress, at a glance</h3></div><span class="mc-dashboard-soft-caption">Every small step matters</span></div>
     <button id="mcChangeLanguage" type="button" style="margin:8px 0;padding:8px 12px;border:1px solid #9ab9ab;border-radius:8px;background:#fff;cursor:pointer">🌍 Change language</button>
     <p id="mcLocaleNotice" role="status" hidden style="margin:8px 0;padding:10px;border:1px solid #b6c9c1;border-radius:8px;font-size:.9rem"></p>
     <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
@@ -448,9 +461,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <p class="mc-journey-footnote" data-mcj="privacy">Stored only in this browser. Clearing site data removes this progress.</p>
     </section>
 
-    <h3 style="margin:14px 0 6px;font-weight:800;">
-  <span data-i18n="nextStep">🎯 Choose Your Next Step</span>
-</h3>
+    <div class="mc-dashboard-section-heading mc-dashboard-explore-head"><div><span class="mc-dashboard-section-label">EXPLORE MINDCHECK</span><h3 style="margin:0;font-weight:800;"><span data-i18n="nextStep">🎯 Choose Your Next Step</span></h3></div><span class="mc-dashboard-soft-caption">Choose what you need today</span></div>
 <p style="margin:0 0 10px;color:#52606d;">
   <span data-i18n="nextStepHelp">Every step helps you understand and care for your mental health.</span>
 </p>
