@@ -54,6 +54,7 @@ function draw(){
   circle.style.setProperty('--mc-breath-scale',reducedMotion()?'0.88':scale.toFixed(3));
   circle.style.setProperty('--mc-breath-glow-size', (inhale ? (0.8 + .34*eased) : (1.14-.34*eased)).toFixed(3));
   circle.setAttribute('data-breath-phase',phaseKey);
+  circle.closest('.mc-breathing-stage').style.setProperty('--mc-stage-glow', (0.8+.34*(inhale?eased:1-eased)).toFixed(3));
   ring.style.strokeDashoffset=String(CIRCUMFERENCE*(1-fraction));
   seconds.textContent=String(Math.max(1,Math.ceil((phaseDuration-phaseElapsed)/1000)));
   phaseLabel.textContent=tr(phaseKey);
@@ -66,6 +67,7 @@ function finish(){
   circle.style.setProperty('--mc-breath-scale','0.72');
   circle.style.setProperty('--mc-breath-glow-size','0.8');
   circle.removeAttribute('data-breath-phase');
+  circle.closest('.mc-breathing-stage').style.setProperty('--mc-stage-glow','0.8');
   ring.style.strokeDashoffset='0';seconds.textContent='✓';phaseLabel.textContent='';
   cue.textContent=tr('complete');progress.textContent='3 / 3';start.textContent=tr('start');
 }
@@ -87,9 +89,14 @@ reset.addEventListener('click',function(){
   running=false;paused=false;completed=false;previousPhase='';cancelAnimationFrame(frame);elapsed=0;last=0;
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
   circle.style.setProperty('--mc-breath-scale','0.72');
+  circle.style.setProperty('--mc-breath-glow-size','0.8');
+  circle.style.setProperty('--mc-heart-glow','.25');
+  circle.removeAttribute('data-breath-phase');
+  circle.closest('.mc-breathing-stage').style.setProperty('--mc-stage-glow','0.8');
   ring.style.strokeDashoffset=String(CIRCUMFERENCE);seconds.textContent='4';phaseLabel.textContent=tr('inhale');
   cue.textContent=tr('ready');progress.textContent='0 / 3';start.textContent=tr('start');
 });
+new MutationObserver(function(){if(running&&!document.getElementById('homeSection').classList.contains('active'))pause();}).observe(document.getElementById('homeSection'),{attributes:true,attributeFilter:['class']});
 document.addEventListener('visibilitychange',function(){if(document.hidden&&running)pause();});
 document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mood,#mcChangeLanguage,[data-lang]'))setTimeout(renderBreathingLabels,100);});
 window.addEventListener('storage',renderBreathingLabels);
