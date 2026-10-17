@@ -52,6 +52,8 @@ function draw(){
   circle.style.setProperty('--mc-heart-glow',glow.toFixed(3));
   circle.classList.toggle('is-inhaling',inhale);circle.classList.toggle('is-exhaling',!inhale);
   circle.style.setProperty('--mc-breath-scale',reducedMotion()?'0.88':scale.toFixed(3));
+  circle.style.setProperty('--mc-breath-glow-size', (inhale ? (0.8 + .34*eased) : (1.14-.34*eased)).toFixed(3));
+  circle.setAttribute('data-breath-phase',phaseKey);
   ring.style.strokeDashoffset=String(CIRCUMFERENCE*(1-fraction));
   seconds.textContent=String(Math.max(1,Math.ceil((phaseDuration-phaseElapsed)/1000)));
   phaseLabel.textContent=tr(phaseKey);
@@ -62,6 +64,8 @@ function finish(){
   running=false;paused=false;completed=true;cancelAnimationFrame(frame);
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
   circle.style.setProperty('--mc-breath-scale','0.72');
+  circle.style.setProperty('--mc-breath-glow-size','0.8');
+  circle.removeAttribute('data-breath-phase');
   ring.style.strokeDashoffset='0';seconds.textContent='✓';phaseLabel.textContent='';
   cue.textContent=tr('complete');progress.textContent='3 / 3';start.textContent=tr('start');
 }
