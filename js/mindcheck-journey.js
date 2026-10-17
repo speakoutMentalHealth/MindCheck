@@ -98,7 +98,7 @@ fr:[
     var done=Object.keys(entries).filter(function(key){return Array.isArray(entries[key]);}).reduce(function(n,key){return n+entries[key].length;},0);
     var todayDone=Array.isArray(entries[today()])?entries[today()]:[];
     document.getElementById('mcJourneyCheckins').textContent=history.length;
-    document.getElementById('mcJourneyStreak').textContent=String(Math.max(0,Number(localStorage.getItem('mc_streak'))||0));
+    document.getElementById('mcJourneyStreak').textContent=String(Math.max(0,Number(json('mc_streak',0))||0));
     document.getElementById('mcJourneyTips').textContent=tips.length;
     document.getElementById('mcJourneyChallenges').textContent=done;
     var mood=document.getElementById('mcJourneyMood');mood.replaceChildren();
