@@ -453,11 +453,12 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <details class="mc-calm-accordion"><summary><span class="mc-accordion-leading" aria-hidden="true">◷</span><span class="mc-accordion-copy"><span data-mc-accordion="moodHistory">Mood history</span><small data-mc-accordion-sub="moodHistory">Your recent check-ins</small></span><span class="mc-calm-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary><div class="mc-calm-panel">
 <div class="mc-journey-chart"><h4 data-mcj="moodHistory">Recent mood check-ins</h4><div id="mcJourneyMood" role="list" aria-label="Recent mood check-ins"></div></div>
       </div></details>
-<div id="mcBreathing" class="mc-breathing" aria-labelledby="mcBreathingTitle">
+<div id="mcBreathing" class="mc-breathing" data-heart-scene="living" aria-labelledby="mcBreathingTitle">
         <div class="mc-breathing-head"><div><p class="mc-smart-eyebrow" data-mcs="breathingEyebrow">RELAXATION TOOL</p><h4 id="mcBreathingTitle" data-mcs="breathingTitle">Breathe at your own pace</h4></div></div>
         <p data-mcs="breathingIntro">Follow the circle or the words. Breathe comfortably and stop if you feel dizzy.</p>
         <div class="mc-breathing-visual">
           <div class="mc-breathing-stage" aria-label="Breathing timer">
+            <div class="mc-heart-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
             <svg class="mc-breathing-ring" viewBox="0 0 260 260" aria-hidden="true"><circle class="mc-breathing-ring-track" cx="130" cy="130" r="114"></circle><circle id="mcBreathingRingProgress" class="mc-breathing-ring-progress" cx="130" cy="130" r="114"></circle></svg>
             <div id="mcBreathingCircle" class="mc-breathing-circle mc-breathing-heart" aria-hidden="true"><svg class="mc-breathing-heart-svg" viewBox="0 0 200 200" focusable="false" aria-hidden="true"><defs>
 <radialGradient id="mcHeartBody" cx="30%" cy="19%" r="87%"><stop offset="0" stop-color="#ffe0db"/><stop offset=".16" stop-color="#fb829a"/><stop offset=".42" stop-color="#e33e71"/><stop offset=".75" stop-color="#9d194e"/><stop offset="1" stop-color="#510b36"/></radialGradient>
@@ -475,6 +476,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
           </div>
         </div>
         <p id="mcBreathingCue" class="mc-breathing-cue" role="status" aria-live="off">Ready when you are</p>
+        <div class="mc-breath-cycle-dots" aria-hidden="true"><i></i><i></i><i></i></div>
         <p id="mcBreathingProgress" class="mc-breathing-progress">0 / 3</p>
         <div class="mc-breathing-controls"><button type="button" id="mcBreathingStart" data-mcs="start">Start breathing</button><button type="button" id="mcBreathingReset" data-mcs="reset">Reset</button></div>
         <p class="mc-smart-disclaimer" data-mcs="breathingNote">This exercise is optional and not a substitute for professional care.</p>

@@ -22,3 +22,42 @@
  #mcJourney #mcBreathing .mc-breathing-stage:before,#mcJourney #mcBreathing .mc-breathing-stage:after{transform:translate(-50%,-50%)!important}
  #mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart:before{transform:none!important}
 }
+
+/* Living heart scene: the slow breath and double beat are separate nested transforms. */
+body.mc-stage-dashboard #mcJourney #mcBreathing[data-heart-scene=living]{
+ background:radial-gradient(ellipse at 50% 42%,#e1f4ee 0%,transparent 64%),linear-gradient(145deg,#f7fcfa,#eef2f8)!important;
+ padding:clamp(24px,4vw,38px)!important;border-radius:32px!important;border:1px solid #d4e6df!important;
+ box-shadow:inset 0 1px #fff,0 18px 46px rgba(29,75,68,.09)!important;text-align:center;
+}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-head{justify-content:center}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-visual{height:340px!important;align-items:flex-start!important;padding-top:12px;box-sizing:border-box;margin:12px auto 0!important;overflow:visible!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-stage{transform:none!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-circle{top:30px!important;left:30px!important;width:200px!important;height:200px!important;min-width:200px;min-height:200px;filter:drop-shadow(0 16px 16px rgba(118,38,79,.17)) drop-shadow(0 0 30px rgba(247,140,174,.3))!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-heart-svg{transform:scale(var(--mc-heart-beat,1));transform-origin:50% 55%;will-change:transform}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-ring-track{stroke:#c9e0d9;stroke-width:1.5;stroke-dasharray:2 7}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-ring-progress{stroke:#3f8077;stroke-width:3;stroke-linecap:round}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-countdown{top:273px!important;left:0!important;width:260px!important;height:38px!important;flex-direction:row!important;gap:9px!important;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid #d7e8e2;box-sizing:border-box}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-countdown strong{font-size:1.1rem!important;color:#255e55!important;line-height:1!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-countdown span{font-size:.78rem!important;color:#3c665e!important;letter-spacing:0!important;line-height:1.2!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-cue{min-height:1.6em;font-weight:650!important;font-size:1.3rem!important;margin:8px 0!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-progress{font-size:.8rem!important;letter-spacing:.12em;margin:7px 0 20px!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-stage:before{inset:auto!important;top:50%!important;left:50%!important;width:280px!important;height:280px;background:radial-gradient(circle,rgba(246,161,187,.3),rgba(162,223,203,.17) 55%,transparent 72%);border:0!important}
+#mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-stage:after{display:none}
+.mc-heart-orbit{position:absolute;inset:18px;border:1px solid rgba(123,173,160,.22);border-radius:50%;pointer-events:none}
+.mc-heart-orbit i{position:absolute;width:6px;height:6px;border-radius:50%;background:#6f9f90;box-shadow:0 0 0 5px rgba(111,159,144,.08)}
+.mc-heart-orbit i:nth-child(1){left:14%;top:11%}.mc-heart-orbit i:nth-child(2){right:-3px;top:49%}.mc-heart-orbit i:nth-child(3){left:12%;bottom:14%;background:#d9a1b2}
+.mc-breath-cycle-dots{display:flex;justify-content:center;gap:8px;margin:4px 0}
+.mc-breath-cycle-dots i{height:6px;width:6px;border-radius:999px;background:#c5d9d2;transition:width .3s,background .3s}
+.mc-breath-cycle-dots i[data-state=current]{width:22px;background:#447d70}.mc-breath-cycle-dots i[data-state=done]{background:#447d70}
+/* Ready-state invitation is slow and quiet; active rhythm is exclusively timer driven. */
+#mcBreathing:not([data-breath-state]) .mc-breathing-heart-svg,#mcBreathing[data-breath-state=ready] .mc-breathing-heart-svg{animation:mc-heart-invitation 2.6s ease-in-out infinite}
+@keyframes mc-heart-invitation{0%,38%,100%{transform:scale(1)}14%{transform:scale(1.07)}25%{transform:scale(1.015)}31%{transform:scale(1.04)}}
+@media(max-width:640px){
+ body.mc-stage-dashboard #mcJourney #mcBreathing[data-heart-scene=living]{padding:24px 16px!important}
+ #mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-visual{height:330px!important}
+ #mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-stage{transform:scale(.94)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #mcJourney #mcBreathing[data-heart-scene=living] .mc-breathing-heart-svg{animation:none!important;transform:none!important;will-change:auto}
+ .mc-breath-cycle-dots i{transition:none}
+}

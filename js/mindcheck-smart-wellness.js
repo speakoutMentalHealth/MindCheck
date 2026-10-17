@@ -39,6 +39,9 @@ function renderBreathingLabels(){
   if(!running&&!completed)phaseLabel.textContent=tr(elapsed%10000<4000?'inhale':'exhale');
 }
 var start=document.getElementById('mcBreathingStart'),reset=document.getElementById('mcBreathingReset'),cue=document.getElementById('mcBreathingCue'),progress=document.getElementById('mcBreathingProgress'),circle=document.getElementById('mcBreathingCircle'),ring=document.getElementById('mcBreathingRingProgress'),seconds=document.getElementById('mcBreathingSeconds'),phaseLabel=document.getElementById('mcBreathingPhase');
+var scene=document.getElementById('mcBreathing');
+var heartVisual=circle.querySelector('.mc-breathing-heart-svg');
+var cycleDots=scene.querySelectorAll('.mc-breath-cycle-dots i');
 var running=false,paused=false,elapsed=0,last=0,frame=0,completed=false,previousPhase='';var DURATION=30000,CIRCUMFERENCE=2*Math.PI*114;
 ring.style.strokeDasharray=String(CIRCUMFERENCE);ring.style.strokeDashoffset=String(CIRCUMFERENCE);
 function reducedMotion(){return window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;}
@@ -49,6 +52,13 @@ function draw(){
   var eased=fraction*fraction*(3-2*fraction);
   var scale=inhale?(.72+.42*eased):(1.14-.42*eased);
   var glow=inhale?(.25+.55*eased):(.8-.55*eased);
+  // Two soft beats sit inside the slow breathing envelope; never use a separate clock.
+  var beat=(elapsed%1600)/1600;
+  function bump(center,width){var distance=Math.abs(beat-center);return Math.max(0,1-distance/width);}
+  var pulse=1+.09*bump(.14,.10)+.055*bump(.34,.12);
+  heartVisual.style.setProperty('--mc-heart-beat',reducedMotion()?'1':pulse.toFixed(4));
+  scene.dataset.breathState='running';
+  cycleDots.forEach(function(dot,index){dot.dataset.state=index<Math.floor(elapsed/10000)?'done':index===Math.floor(elapsed/10000)?'current':'next';});
   circle.style.setProperty('--mc-heart-glow',glow.toFixed(3));
   circle.classList.toggle('is-inhaling',inhale);circle.classList.toggle('is-exhaling',!inhale);
   circle.style.setProperty('--mc-breath-scale',reducedMotion()?'0.88':scale.toFixed(3));
@@ -63,6 +73,8 @@ function draw(){
 }
 function finish(){
   running=false;paused=false;completed=true;cancelAnimationFrame(frame);
+  scene.dataset.breathState='complete';heartVisual.style.setProperty('--mc-heart-beat','1');
+  cycleDots.forEach(function(dot){dot.dataset.state='done';});
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
   circle.style.setProperty('--mc-breath-scale','0.72');
   circle.style.setProperty('--mc-breath-glow-size','0.8');
@@ -78,7 +90,7 @@ function tick(ts){
   if(elapsed>=DURATION){elapsed=DURATION;finish();return;}
   draw();frame=requestAnimationFrame(tick);
 }
-function pause(){running=false;paused=true;circle.classList.remove('is-breathing');cancelAnimationFrame(frame);last=0;start.textContent=tr('resume');}
+function pause(){scene.dataset.breathState='paused';running=false;paused=true;circle.classList.remove('is-breathing');cancelAnimationFrame(frame);last=0;start.textContent=tr('resume');}
 start.addEventListener('click',function(){
   if(running){pause();return;}
   if(completed){elapsed=0;completed=false;previousPhase='';}
@@ -87,6 +99,8 @@ start.addEventListener('click',function(){
 });
 reset.addEventListener('click',function(){
   running=false;paused=false;completed=false;previousPhase='';cancelAnimationFrame(frame);elapsed=0;last=0;
+  scene.dataset.breathState='ready';heartVisual.style.setProperty('--mc-heart-beat','1');
+  cycleDots.forEach(function(dot){dot.dataset.state='next';});
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
   circle.style.setProperty('--mc-breath-scale','0.72');
   circle.style.setProperty('--mc-breath-glow-size','0.8');
