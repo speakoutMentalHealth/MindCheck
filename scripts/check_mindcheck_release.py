@@ -256,7 +256,7 @@ breath_js=(ROOT/"js/mindcheck-smart-wellness.js").read_text(encoding="utf-8")
 breath_css=(ROOT/"mindcheck-smart-wellness.css").read_text(encoding="utf-8")
 check("breathing CSS variable used by JS", "--mc-breath-scale" in breath_js)
 check("breathing CSS variable owns visual transform", "transform:scale(var(--mc-breath-scale))!important" in breath_css)
-check("breathing PWA cache rotated", "mc-v24-breathing-motion-20261017" in sw)
+check("breathing PWA cache rotated", "mc-v26-breathing-motion-20261017" in sw)
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
