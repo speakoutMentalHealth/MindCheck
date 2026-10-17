@@ -94,7 +94,7 @@ async function run() {
       assert.notEqual(s1.scale,s2.scale,setup.name+' breathing scale variable did not animate');
       assert(Math.abs(s2.width-s1.width)>6,setup.name+' breathing heart did not visibly grow: '+JSON.stringify({s1,s2}));
       const beatSamples=[];
-      for(let i=0;i<5;i++){
+      for(let i=0;i<12;i++){
         beatSamples.push(await page.locator('.mc-breathing-heart-svg').evaluate(el=>el.style.getPropertyValue('--mc-heart-beat')));
         await page.waitForTimeout(180);
       }
