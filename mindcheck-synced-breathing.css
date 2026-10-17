@@ -1,0 +1,15 @@
+/* Synced guided breathing — orb, halo and label all follow the same timing engine. */
+#mcJourney #mcBreathing .mc-breathing-stage{isolation:isolate;overflow:visible}
+#mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart{position:relative;--mc-breath-glow-size:.8}
+#mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart:before{
+ content:"";position:absolute;inset:-32px;border-radius:50%;z-index:-1;pointer-events:none;
+ background:radial-gradient(circle,rgba(111,231,210,.30) 18%,rgba(143,218,224,.19) 48%,transparent 72%);
+ opacity:.8;transform:scale(var(--mc-breath-glow-size));transition:opacity .2s linear;
+}
+#mcJourney #mcBreathing .mc-breathing-circle[data-breath-phase="inhale"]:before{background:radial-gradient(circle,rgba(104,235,210,.35),rgba(130,211,229,.18) 52%,transparent 74%)}
+#mcJourney #mcBreathing .mc-breathing-circle[data-breath-phase="exhale"]:before{background:radial-gradient(circle,rgba(245,176,187,.24),rgba(134,206,206,.13) 53%,transparent 75%)}
+#mcJourney #mcBreathing .mc-breathing-cue{min-height:2.1em;display:grid;place-items:center;line-height:1.3}
+#mcJourney #mcBreathing .mc-breathing-controls button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media(prefers-reduced-motion:reduce){
+ #mcJourney #mcBreathing .mc-breathing-circle.mc-breathing-heart:before{transform:scale(1)!important;transition:none!important}
+}
