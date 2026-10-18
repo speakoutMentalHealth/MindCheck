@@ -10,6 +10,7 @@ on:
       - 'js/mindcheck-i18n.js'
       - 'scripts/check_mindcheck_release.py'
       - 'scripts/check_javascript_syntax.py'
+      - 'scripts/analytics-privacy.test.cjs'
       - 'js/**'
       - '*.html'
       - '.github/workflows/mindcheck-static-checks.yml'
@@ -29,5 +30,7 @@ jobs:
         run: python3 scripts/check_mindcheck_release.py
       - name: Validate all inline and external JavaScript syntax
         run: python3 scripts/check_javascript_syntax.py
+      - name: Check aggregate analytics privacy boundaries
+        run: node --test scripts/analytics-privacy.test.cjs
       - name: Compile release-check script
         run: python3 -m py_compile scripts/check_mindcheck_release.py
