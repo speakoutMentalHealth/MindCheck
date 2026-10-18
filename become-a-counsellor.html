@@ -1,558 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Become a Counsellor • MindCheck</title>
-  <meta name="description" content="Explore free introductory training and assessment. Completion certificates do not constitute a professional counselling licence or authorization to practise." />
-
-  <!-- Shared theme -->
-  <link rel="stylesheet" href="mc-theme.css">
-
-  <style>
-    :root{
-      --green:#22c55e; --greenDark:#16a34a; --ink:#062436;
-      --bg:#f5fdf8; --card:#ffffff; --muted:#52606d;
-      --border:#eef2f7; --danger:#ef4444; --warn:#f59e0b;
-    }
-
-    /* Calm animated background (CSS-only) */
-    body{
-      margin:0;
-      font-family: "Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-      color:var(--ink);
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
-                  var(--bg);
-      overflow-x:hidden;
-    }
-    body::before{
-      content:"";
-      position:fixed; inset:-40vh -40vw;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(34,197,94,.10), transparent 35%),
-        radial-gradient(circle at 70% 40%, rgba(34,197,94,.08), transparent 38%),
-        radial-gradient(circle at 45% 70%, rgba(34,197,94,.06), transparent 40%);
-      filter: blur(10px);
-      animation: floaty 18s ease-in-out infinite;
-      pointer-events:none;
-      z-index:-1;
-    }
-    @keyframes floaty{
-      0%,100%{ transform: translate3d(0,0,0) scale(1); }
-      50%{ transform: translate3d(2vw, -2vh, 0) scale(1.02); }
-    }
-
-    header{
-      background:var(--green);
-      color:#fff;
-      padding:1.1rem 1rem;
-      font-size:1.35rem;
-      font-weight:900;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    header .left{display:flex;align-items:center;gap:10px;}
-    header a{color:#fff;text-decoration:none;font-weight:800;}
-    .wrap{max-width:980px;margin:18px auto 40px;padding:0 14px;}
-
-    .topbar{
-      display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;
-      margin:14px 0 10px;
-    }
-    .pill{
-      background:#fff;
-      border:1px solid #e5e7eb;
-      border-radius:999px;
-      padding:8px 12px;
-      font-weight:800;
-      font-size:.95rem;
-      display:flex; align-items:center; gap:8px;
-    }
-    .pill b{font-weight:900}
-    .xpbar{
-      width:160px; height:10px; border-radius:999px; overflow:hidden;
-      background: rgba(2,23,34,.08);
-    }
-    .xpbar > span{
-      display:block; height:100%; width:0%;
-      background: linear-gradient(90deg, #22c55e, #16a34a);
-      transition: width .25s ease;
-    }
-
-    .btn{
-      border:none;
-      padding:12px 16px;
-      border-radius:14px;
-      font-size:1rem;
-      cursor:pointer;
-      transition:.15s;
-      font-weight:900;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      text-decoration:none;
-      user-select:none;
-    }
-    .btn-primary{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(34,197,94,.25);}
-    .btn-primary:hover{background:var(--greenDark);transform:translateY(-1px);}
-    .btn-ghost{background:#fff;border:1px solid #e5e7eb;color:var(--ink);}
-    .btn-ghost:hover{transform:translateY(-1px);}
-    .btn-warn{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.35);color:#7c4a00;}
-    .btn-warn:hover{transform:translateY(-1px);}
-    .btn-danger{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#7f1d1d;}
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      gap:14px;
-      margin-top:12px;
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:16px;
-      box-shadow:0 10px 25px rgba(2,23,34,.06);
-      position:relative;
-      overflow:hidden;
-    }
-    .card::after{
-      content:"";
-      position:absolute; inset:auto -80px -80px auto;
-      width:180px; height:180px;
-      background: radial-gradient(circle at 30% 30%, rgba(34,197,94,.18), transparent 60%);
-      transform: rotate(15deg);
-      pointer-events:none;
-    }
-    .card h2,.card h3{margin:.15rem 0 .35rem;}
-    .muted{color:var(--muted);}
-
-    .steps{margin:0;padding-left:18px;line-height:1.6;color:var(--muted);font-weight:600}
-    .callout{
-      background:#fff;
-      border:1px solid #d1fae5;
-      border-radius:14px;
-      padding:12px;
-      color:#065f46;
-      font-weight:900;
-    }
-    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .badge{
-      border-radius:999px;
-      padding:8px 10px;
-      background:rgba(34,197,94,.12);
-      border:1px solid rgba(34,197,94,.22);
-      font-weight:900;
-      display:inline-flex;align-items:center;gap:8px;
-    }
-    .badge.lock{background:rgba(2,23,34,.06);border-color:rgba(2,23,34,.10);font-weight:900}
-    .badge.done{background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.28)}
-    .badge.warn{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.35)}
-
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-    input[type="file"]{
-      width:100%;
-      padding:12px;
-      border:1px dashed #cbd5e1;
-      border-radius:14px;
-      background:#fff;
-      font-weight:700;
-    }
-    small{color:#64748b; font-weight:600;}
-
-    /* Mini toast */
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:18px;
-      transform:translateX(-50%);
-      background:rgba(2,23,34,.92);
-      color:#fff;
-      padding:10px 12px;
-      border-radius:999px;
-      font-weight:900;
-      font-size:.95rem;
-      display:none;
-      z-index:9999;
-      max-width:min(92vw, 720px);
-      text-align:center;
-    }
-    .toast.show{display:block; animation:pop .2s ease;}
-    @keyframes pop{from{transform:translateX(-50%) scale(.98); opacity:.6} to{transform:translateX(-50%) scale(1); opacity:1}}
-
-    /* Night Mode – Calm */
-    body.night{
-      --bg:#071a14;
-      --card:#071f18;
-      --ink:#e9fff3;
-      --muted:#b9e7cf;
-      --border:rgba(255,255,255,.08);
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.12), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.10), transparent 55%),
-                  var(--bg);
-    }
-    body.night .pill, body.night .btn-ghost, body.night .card, body.night input[type="file"]{
-      background: rgba(255,255,255,.04);
-      border-color: rgba(255,255,255,.10);
-      color: var(--ink);
-    }
-    body.night header{ background: linear-gradient(90deg, #16a34a, #22c55e); }
-    body.night .xpbar{ background: rgba(255,255,255,.12); }
-
-    footer{
-      margin-top:18px;
-      text-align:center;
-      opacity:.9;
-      font-size:.95rem;
-      color:var(--muted);
-      font-weight:700;
-    }
-    footer a{color:inherit;}
-  </style>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-/* Professional pathway design, consistent with Resources */
-:root{--green:#0f9f5f!important;--greenDark:#063f35!important;--ink:#102a27!important;--bg:#f4fbf7!important;--border:rgba(15,159,95,.14)!important}
-body{font-family:Outfit,system-ui,sans-serif!important;background:radial-gradient(circle at 88% 12%,rgba(15,159,95,.12),transparent 27%),linear-gradient(180deg,#f4fbf7,#fff 55%,#f4fbf7)!important}
-body::before{animation:none!important;display:none!important}
-body>header{width:min(1180px,92%);margin:18px auto 0!important;border-radius:999px;background:#fff!important;color:#063f35!important;box-shadow:0 18px 45px rgba(6,63,53,.1);padding:16px 26px!important}
-body>header a{color:#063f35!important}
-.wrap,main{max-width:1100px!important;margin:32px auto!important;padding:0 20px!important}
-.card{background:#fff!important;border:1px solid rgba(15,159,95,.14)!important;border-radius:26px!important;box-shadow:0 14px 40px rgba(6,63,53,.07)!important;padding:26px!important}
-.card::after{display:none!important}
-.btn-primary{background:linear-gradient(135deg,#0f9f5f,#063f35)!important;color:#fff!important;border-radius:999px!important}
-.btn-ghost{border-radius:999px!important}
-.pill,.badge,.callout{border-radius:18px!important}
-h1,h2,h3{color:#063f35;letter-spacing:-.025em}
-.mindcheck-pro-brand{display:flex;align-items:center;gap:14px;width:min(1100px,92%);margin:18px auto 0;padding:15px 24px;background:#fff;border-radius:999px;box-shadow:0 12px 35px rgba(6,63,53,.09);text-decoration:none;color:#063f35!important}
-.mindcheck-pro-brand img{width:64px;height:64px;object-fit:contain}
-.mindcheck-pro-brand strong{display:block;font-size:1.5rem;font-weight:900}.mindcheck-pro-brand small{display:block;color:#0f9f5f;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
-@media(max-width:600px){.mindcheck-pro-brand{padding:12px 16px}.mindcheck-pro-brand img{width:48px;height:48px}body>header{border-radius:26px;padding:14px!important}.card{padding:20px!important}}
-</style><style id="premium-training-system">
-:root{--green:#0f9f5f!important;--greenDark:#063f35!important;--ink:#102a27!important;--bg:#f4fbf7!important;--border:rgba(15,159,95,.15)!important}
-body{font-family:Outfit,system-ui,sans-serif!important;background:linear-gradient(180deg,#f4fbf7 0%,#fff 60%,#f4fbf7 100%)!important;color:#102a27!important}
-body::before{display:none!important}
-.mindcheck-pro-brand,.mindcheck-brand-mark{display:flex;align-items:center;gap:14px;width:min(1120px,92%);margin:20px auto 0;padding:16px 26px;background:#fff;border:1px solid #e4efe8;border-radius:26px;box-shadow:0 12px 36px rgba(6,63,53,.07);color:#063f35!important;text-decoration:none}
-.mindcheck-pro-brand img,.mindcheck-brand-mark img{width:60px;height:60px;object-fit:contain}.mindcheck-pro-brand strong,.mindcheck-brand-mark strong{font-size:1.35rem;font-weight:900}.mindcheck-pro-brand small,.mindcheck-brand-mark small{color:#0f9f5f;font-weight:800}
-.training-context-header{width:min(1120px,92%)!important;max-width:1120px;margin:10px auto 0!important;padding:12px 20px!important;background:#063f35!important;color:#fff!important;border-radius:18px!important;box-shadow:none!important;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:1rem!important;font-weight:700!important}
-.training-context-header a{color:#fff!important;text-decoration:underline}
-.training-context-header .btn-ghost{background:#fff!important;color:#063f35!important;border-radius:999px!important}
-.wrap{max-width:1120px!important;margin:28px auto 70px!important;padding:0 18px!important}
-.grid{gap:22px!important;align-items:start}.card,.hero,.lesson,.quizCard{border-radius:26px!important;border:1px solid rgba(15,159,95,.14)!important;background:#fff!important;box-shadow:0 14px 42px rgba(6,63,53,.07)!important;padding:clamp(20px,3vw,34px)!important}
-.card::after{display:none!important}
-h1,h2,h3{color:#063f35;line-height:1.2;letter-spacing:-.025em}
-p,li{line-height:1.7}
-.btn-primary{background:linear-gradient(135deg,#0f9f5f,#063f35)!important;color:#fff!important;border-radius:999px!important}
-.topbar{margin:22px 0!important;gap:12px!important}.pill,.badge{background:#e7f8ef!important;color:#063f35!important;border:1px solid #ccebd9!important;border-radius:999px!important}
-.callout{border-radius:18px!important;background:#eff9f3!important;border:1px solid #d2eadb!important;color:#063f35!important}
-@media(max-width:700px){.training-context-header{border-radius:16px!important;flex-wrap:wrap}.mindcheck-pro-brand,.mindcheck-brand-mark{padding:12px 16px}.mindcheck-pro-brand img,.mindcheck-brand-mark img{width:48px;height:48px}.wrap{padding:0 12px!important}.grid{grid-template-columns:1fr!important}}
-</style><style id="speakout-brand-final-overrides">
-/* Last-in-cascade brand guard for legacy standalone page styles */
-:root{--green:#0a68d8!important;--greenDark:#064a9c!important;--brand-green:#0a68d8!important;--brand-green-dark:#06152f!important;--green-deep:#06152f!important;--ink:#101828!important;--bg:#f7faff!important;--border:#e5edf6!important;--focus-ring:#f5a623!important}
-body{font-family:Outfit,system-ui,sans-serif!important;color:#101828!important;background:#f7faff!important}
-.training-context-header{background:#06152f!important;color:#fff!important}
-.training-context-header .btn-ghost{background:#fff!important;color:#06152f!important}
-.mindcheck-pro-brand,.mindcheck-brand-mark{color:#06152f!important;border-color:#e5edf6!important}
-.mindcheck-pro-brand small,.mindcheck-brand-mark small{color:#064a9c!important}
-h1,h2,h3{color:#06152f!important}
-.btn-primary,.cta,.btn.btn-primary{background:#0a68d8!important;color:#fff!important;border-color:#0a68d8!important}
-.btn-primary:hover,.cta:hover,.btn.btn-primary:hover{background:#064a9c!important}
-.pill,.badge{background:#eaf5ff!important;color:#06152f!important;border-color:#c8dfff!important}
-.card,.hero,.lesson,.quizCard{border-color:#e5edf6!important}
-.callout{background:#eef6ff!important;color:#06152f!important;border-color:#d5e9ff!important}
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f5a623!important;outline-offset:3px!important}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-</style><link rel="stylesheet" href="speakout-linked-pages.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f8fc">
+  <meta name="description" content="Build your mental health support skills with free foundation training. Explore the next steps towards a counsellor pathway with SpeakOut MindCheck.">
+  <title>Counsellor Pathway · MindCheck</title>
+  <link rel="icon" href="icons/logo.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="canonical" href="https://mindcheck.speakoutmentalhealth.org/become-a-counsellor.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/counsellor-pathway.css">
+  <script src="js/counsellor-pathway.js" defer></script>
 </head>
+<body>
+  <a class="cp-skip" href="#main">Skip to content</a>
+  <svg class="cp-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="cp-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="cp-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+    <symbol id="cp-chat" viewBox="0 0 24 24"><path d="M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 1 1 18 0Z"/><path d="M8 9h8M8 13h5"/></symbol>
+    <symbol id="cp-book" viewBox="0 0 24 24"><path d="M12 5v15M3 4h5a4 4 0 0 1 4 2 4 4 0 0 1 4-2h5v15h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3Z"/></symbol>
+    <symbol id="cp-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="cp-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/></symbol>
+    <symbol id="cp-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/></symbol>
+    <symbol id="cp-moon" viewBox="0 0 24 24"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></symbol>
+    <symbol id="cp-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></symbol>
+  </svg>
 
-<body class="mc-unified-page"><a class="mindcheck-pro-brand" href="index.html"><img src="icons/logo.png" alt="SpeakOut logo"><span><strong>SpeakOut MindCheck</strong><small>Training and professional pathways</small></span></a>
-  <header class="training-context-header"><span>Counsellor Development</span><button id="nightToggle" class="btn btn-ghost" type="button" aria-label="Toggle night mode">
-      🌙 Night Mode
-    </button></header>
-
-  <div class="wrap">
-    <div class="topbar">
-      <span class="pill">
-        Counsellor training progress
-        <span class="xpbar" aria-label="Progress"><span id="xpFill"></span></span>
-        <b id="xpText">0%</b>
-      </span>
-      <span class="pill">🔒 You go “Live” only after verification</span>
+  <header class="cp-header">
+    <div class="cp-shell cp-header-inner">
+      <a class="cp-brand" href="index.html" aria-label="MindCheck home, by SpeakOut">
+        <img src="icons/logo.png" width="48" height="48" alt="SpeakOut">
+        <span>MindCheck<small>BY SPEAKOUT</small></span>
+      </a>
+      <nav class="cp-header-actions" aria-label="Page navigation">
+        <a class="cp-back" href="training-hub.html">Training hub <svg class="cp-icon" aria-hidden="true"><use href="#cp-arrow"/></svg></a>
+        <button class="cp-theme" id="nightToggle" type="button" aria-label="Night mode" aria-pressed="false"><svg class="cp-icon" aria-hidden="true"><use id="themeIcon" href="#cp-moon"/></svg></button>
+      </nav>
     </div>
+  </header>
 
-    <div class="grid">
-      <!-- LEFT: Quest / Course + Exam -->
-      <section class="card" aria-labelledby="title1">
-        <h2 id="title1">Counsellor Development Pathway</h2>
-        <p class="muted">
-          Complete a <b>free certified course</b>, take the exam, and if you pass you’ll download your certificate (PDF).
-          Then upload it here for verification.
-        </p>
-
-        <div class="callout">
-          💡 MindCheck counsellors provide supportive listening + guidance, not emergency response.
-          If someone is in danger, they should call emergency services (Nigeria: <b>112</b>).
+  <main id="main" class="cp-shell">
+    <section class="cp-hero" aria-labelledby="pageTitle">
+      <div class="cp-hero-copy">
+        <p class="cp-eyebrow"><span></span> COUNSELLOR PATHWAY</p>
+        <h1 id="pageTitle">Learn to listen.<br><em>Be there</em> for someone.</h1>
+        <p class="cp-lead">Turn your care for others into thoughtful support. Start with the foundations, then explore your next step with SpeakOut.</p>
+        <div class="cp-actions">
+          <a class="cp-button cp-primary" href="https://www.betherecertificate.org/" target="_blank" rel="noopener noreferrer">Start free training <svg class="cp-icon" aria-hidden="true"><use href="#cp-arrow"/></svg><span class="cp-sr"> (opens provider website in a new tab)</span></a>
+          <a class="cp-text-link" href="#pathway">Find your path <span aria-hidden="true">↘</span></a>
         </div>
+        <p class="cp-hero-meta">Free foundation <span>·</span> Online <span>·</span> At your pace</p>
+      </div>
+      <div class="cp-art" aria-hidden="true">
+        <div class="cp-orbit cp-orbit-outer"></div><div class="cp-orbit cp-orbit-inner"></div>
+        <span class="cp-orbit-dot"></span><span class="cp-art-star">✧</span>
+        <div class="cp-conversation cp-conversation-one"><span class="cp-avatar cp-avatar-gold"></span><span class="cp-message"><i></i><i></i><i></i></span></div>
+        <div class="cp-conversation cp-conversation-two"><svg class="cp-art-heart" viewBox="0 0 24 24"><use href="#cp-heart"/></svg><span class="cp-message"><i></i><i></i></span><span class="cp-avatar cp-avatar-blue"></span></div>
+        <div class="cp-art-note"><span class="cp-note-dot"></span> A little care. A lasting impact.</div>
+        <span class="cp-art-word">connection</span>
+      </div>
+    </section>
 
-        <div class="badges" role="list" aria-label="Quest steps">
-          <span class="badge lock" id="bCourse" role="listitem">📘 Course: <span>Not started</span></span>
-          <span class="badge lock" id="bExam" role="listitem">🧪 Exam: <span>Locked</span></span>
-          <span class="badge lock" id="bCert" role="listitem">🏅 Certificate: <span>Locked</span></span>
-          <span class="badge lock" id="bUpload" role="listitem">📤 Upload: <span>Locked</span></span>
-        </div>
+    <div class="cp-scope-note"><svg class="cp-icon" aria-hidden="true"><use href="#cp-book"/></svg><p>A foundation in supporting others. <strong>A completion certificate is not a professional counselling qualification or licence to practise.</strong></p></div>
 
-        <h3 style="margin-top:14px;">How it works</h3>
-        <ol class="steps">
-          <li>Start the free course.</li>
-          <li>Mark the course as completed.</li>
-          <li>Unlock the exam link and pass (target: <b>70%</b>).</li>
-          <li>Download your certificate (PDF).</li>
-          <li>Upload the certificate for verification.</li>
+    <section class="cp-values" aria-label="Skills you can build">
+      <div><span class="cp-value-icon"><svg class="cp-icon" aria-hidden="true"><use href="#cp-chat"/></svg></span><h2>Listen with care</h2><p>Give someone room to be heard.</p></div>
+      <div><span class="cp-value-icon cp-value-gold"><svg class="cp-icon" aria-hidden="true"><use href="#cp-heart"/></svg></span><h2>Know your role</h2><p>Support with healthy boundaries.</p></div>
+      <div><span class="cp-value-icon cp-value-mint"><svg class="cp-icon" aria-hidden="true"><use href="#cp-spark"/></svg></span><h2>Connect to help</h2><p>Recognise when more support is needed.</p></div>
+    </section>
+
+    <section class="cp-pathway" id="pathway" aria-labelledby="pathTitle">
+      <div class="cp-section-heading"><div><p class="cp-eyebrow">A PLACE TO BEGIN</p><h2 id="pathTitle">Your next step starts here.</h2></div><p>Choose where you are today.</p></div>
+      <fieldset class="cp-route-picker">
+        <legend class="cp-sr">Choose your training pathway</legend>
+        <label class="cp-route"><input type="radio" name="pathway" value="beginner" checked aria-controls="beginnerPath"><span class="cp-route-content"><span class="cp-route-number">01</span><span><strong>I’m starting out</strong><small>Build your support skills.</small></span><span class="cp-radio-mark"></span></span></label>
+        <label class="cp-route"><input type="radio" name="pathway" value="qualified" aria-controls="qualifiedPath"><span class="cp-route-content"><span class="cp-route-number">02</span><span><strong>I already have training</strong><small>Explore a role with SpeakOut.</small></span><span class="cp-radio-mark"></span></span></label>
+      </fieldset>
+      <noscript><p class="cp-note">Both pathways are shown below. Training and email links work without JavaScript; the personal checklist needs JavaScript.</p></noscript>
+
+      <div id="beginnerPath" class="cp-route-panel">
+        <ol class="cp-steps" aria-label="Foundation pathway">
+          <li><span>1</span><div><strong>Learn the foundations</strong><p>Complete the provider’s lessons.</p></div></li>
+          <li><span>2</span><div><strong>Keep your certificate</strong><p>Download it from the provider.</p></div></li>
+          <li><span>3</span><div><strong>Talk to SpeakOut</strong><p>Ask about suitable next steps.</p></div></li>
         </ol>
-
-        <div class="row" style="margin-top:14px;">
-          <!-- FREE COURSE (external) -->
-          <a id="courseBtn" class="btn btn-primary"
-             href="https://www.betherecertificate.org/"
-             target="_blank" rel="noopener noreferrer">
-            📘 Start free course
-          </a>
-
-          <button id="markCourseDone" class="btn btn-warn" type="button">
-            ✅ I finished the course
-          </button>
-
-          <!-- EXAM (external) - locked until course done -->
-          <a id="examBtn" class="btn btn-ghost"
-             href="https://www.betherecertificate.org/"
-             target="_blank" rel="noopener noreferrer"
-             aria-disabled="true"
-             style="opacity:.65; pointer-events:none;">
-            🧪 Start counsellor exam
-          </a>
-
-          <a class="btn btn-ghost" href="./index.html">← Back</a>
+        <div class="cp-learning-grid">
+          <article class="cp-course-card">
+            <div class="cp-card-top"><span class="cp-tag">FOUNDATION COURSE</span><span class="cp-free">Free</span></div>
+            <span class="cp-course-symbol"><svg class="cp-icon" aria-hidden="true"><use href="#cp-book"/></svg></span>
+            <h3>Be There Certificate</h3>
+            <p>Learn how to recognise when someone is struggling, listen with care and connect them to support.</p>
+            <div class="cp-course-facts"><span>6 interactive lessons</span><span>Self-paced</span></div>
+            <a class="cp-button cp-primary" id="courseBtn" href="https://www.betherecertificate.org/" target="_blank" rel="noopener noreferrer">Open free course <svg class="cp-icon" aria-hidden="true"><use href="#cp-arrow"/></svg><span class="cp-sr"> (opens provider website in a new tab)</span></a>
+            <p class="cp-provider">Offered by Jack.org in partnership with Born This Way Foundation. Learning and certificates are managed on the provider’s website.</p>
+          </article>
+          <aside class="cp-progress-card" aria-labelledby="progressTitle">
+            <div class="cp-card-top"><span class="cp-tag">YOUR LEARNING CHECKLIST</span><svg class="cp-icon" aria-hidden="true"><use href="#cp-spark"/></svg></div>
+            <h3 id="progressTitle">A small step forward.</h3>
+            <p id="progressLabel" class="cp-progress-label" aria-live="polite">0 of 2 learning steps</p>
+            <progress id="learningProgress" max="2" value="0" aria-label="Personal learning checklist"></progress>
+            <label class="cp-check-row"><input id="courseComplete" type="checkbox"><span>I completed the provider’s course.</span></label>
+            <label class="cp-check-row"><input id="certificateReady" type="checkbox" disabled><span>I downloaded my provider certificate.</span></label>
+            <p class="cp-note">Your own checklist, saved on this device. It does not verify training or submit a certificate.</p>
+            <p id="storageStatus" class="cp-storage-status" role="status"></p>
+            <button id="resetProgress" class="cp-quiet-button" type="button">Reset checklist</button>
+          </aside>
         </div>
+      </div>
 
-        <p class="muted" style="margin-top:10px;">
-          Tip: Use your real name exactly as you want it to appear on your certificate.
-        </p>
-      </section>
+      <div id="qualifiedPath" class="cp-route-panel cp-qualified">
+        <div class="cp-qualified-copy"><span class="cp-tag">ALREADY TRAINED?</span><h3>Bring your experience.<br>Explore what comes next.</h3><p>Tell SpeakOut about your qualifications, practical experience and the kind of support you would like to offer.</p><a class="cp-button cp-primary" href="mailto:speaaakout@gmail.com?subject=SpeakOut%20counsellor%20pathway%20enquiry">Discuss your pathway <svg class="cp-icon" aria-hidden="true"><use href="#cp-arrow"/></svg></a></div>
+        <div class="cp-qualified-detail"><svg class="cp-icon" aria-hidden="true"><use href="#cp-check"/></svg><h4>A conversation, then a review.</h4><p>Qualifications, relevant registration, experience and role requirements need review before any appointment or access to service users.</p><p>Completing a short course does not automatically activate a counsellor profile or guarantee a placement.</p></div>
+      </div>
+    </section>
 
-      <!-- RIGHT: Upload + status -->
-      <section class="card" aria-labelledby="title2">
-        <h3 id="title2">Upload Certificate for Verification</h3>
-        <p class="muted">
-          After passing, upload the certificate PDF here. We’ll review and activate your counsellor profile.
-        </p>
+    <section class="cp-next-step" aria-labelledby="nextTitle">
+      <div><p class="cp-eyebrow">GROW WITH SPEAKOUT</p><h2 id="nextTitle">Finished the foundation?<br>Let’s talk about your next step.</h2><p>Email SpeakOut with the name of your course and your area of interest. If you share a certificate, attach it in your email app.</p></div>
+      <div class="cp-next-actions"><a class="cp-button cp-primary" id="reviewContact" href="mailto:speaaakout@gmail.com?subject=SpeakOut%20foundation%20training%20next%20steps">Contact SpeakOut <svg class="cp-icon" aria-hidden="true"><use href="#cp-arrow"/></svg></a><span>speaaakout@gmail.com</span><small>Opens your email app. Nothing is sent from this page.</small></div>
+    </section>
 
-        <input id="certFile" type="file" accept="application/pdf,image/*" />
-        <p><small>Accepted: PDF preferred. You can also upload an image if needed.</small></p>
+    <section class="cp-faq" aria-labelledby="faqTitle">
+      <div><p class="cp-eyebrow">A LITTLE CLARITY</p><h2 id="faqTitle">Before you begin.</h2></div>
+      <div class="cp-faq-list">
+        <details><summary>Will this make me a professional counsellor?<span aria-hidden="true">+</span></summary><p>No. The foundation course builds mental health literacy and support skills. Professional counselling requires appropriate formal training, supervised practice and any registration applicable to the role.</p></details>
+        <details><summary>How do I receive my certificate?<span aria-hidden="true">+</span></summary><p>Complete the Be There course on the provider’s website and follow its certificate instructions. MindCheck does not issue the provider’s certificate or receive your results automatically.</p></details>
+        <details><summary>Has my certificate been submitted here?<span aria-hidden="true">+</span></summary><p>No. This page has no certificate upload. The checklist is only a personal reminder. Use Contact SpeakOut and send your enquiry from your email app; attach a certificate there if you choose.</p></details>
+        <details><summary>What if I want support for myself?<span aria-hidden="true">+</span></summary><p>You don’t need to complete training to ask for help. <a href="index.html?section=helpSection">Explore MindCheck support options.</a> Training enquiries are not an emergency response service.</p></details>
+      </div>
+    </section>
+  </main>
 
-        <div class="row" style="margin-top:8px;">
-          <button id="saveUpload" class="btn btn-primary" type="button">📤 Submit for Verification</button>
-          <button id="clearUpload" class="btn btn-ghost" type="button">Clear</button>
-          <button id="resetQuest" class="btn btn-danger" type="button" title="Reset your local progress on this device">Reset progress</button>
-        </div>
-
-        <p id="uploadStatus" class="muted" style="margin-top:10px;"></p>
-
-        <hr style="border:none;border-top:1px solid rgba(148,163,184,.35);margin:16px 0;">
-
-        <h3>Your last exam result</h3>
-        <p class="muted" id="lastResult">No exam taken yet.</p>
-        <div class="row">
-          <a id="downloadCertBtn" class="btn btn-ghost" href="#" style="display:none;">⬇️ Download last certificate</a>
-        </div>
-
-        <div class="callout" style="margin-top:14px;">
-          ✅ Fast verification option: email your certificate to <b>speaaakout@gmail.com</b>
-          (or WhatsApp your local SpeakOut coordinator).
-        </div>
-      </section>
-    </div>
-
-    <footer>
-      🔒 <a href="privacy.html">Privacy</a> • 📄 <a href="terms.html">Terms</a> • ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-    </footer>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    /***************
-     * Night mode toggle (persists)
-     ***************/
-    const nightToggle = document.getElementById('nightToggle');
-    const NIGHT_KEY = 'mc_night_mode';
-    function applyNight(on){
-      document.body.classList.toggle('night', !!on);
-      nightToggle.textContent = on ? '☀️ Day Mode' : '🌙 Night Mode';
-      localStorage.setItem(NIGHT_KEY, on ? '1' : '0');
-    }
-    applyNight(localStorage.getItem(NIGHT_KEY) === '1');
-    nightToggle.addEventListener('click', () => applyNight(!document.body.classList.contains('night')));
-
-    /***************
-     * Gamified quest state (local only)
-     ***************/
-    const toastEl = document.getElementById('toast');
-    function toast(msg){
-      toastEl.textContent = msg;
-      toastEl.classList.add('show');
-      clearTimeout(toastEl._t);
-      toastEl._t = setTimeout(() => toastEl.classList.remove('show'), 2600);
-    }
-
-    const KEY = {
-      courseDone: 'mc_counsellor_course_done',
-      certUploadedName: 'mc_cert_uploaded_name',
-      examLast: 'mc_counsellor_exam_last'
-    };
-
-    const bCourse = document.getElementById('bCourse');
-    const bExam   = document.getElementById('bExam');
-    const bCert   = document.getElementById('bCert');
-    const bUpload = document.getElementById('bUpload');
-    const xpFill  = document.getElementById('xpFill');
-    const xpText  = document.getElementById('xpText');
-
-    const markCourseDoneBtn = document.getElementById('markCourseDone');
-    const examBtn = document.getElementById('examBtn');
-
-    // Step completion calculation (4 steps)
-    function computeProgress(){
-      const courseDone = localStorage.getItem(KEY.courseDone) === '1';
-      const last = JSON.parse(localStorage.getItem(KEY.examLast) || 'null');
-      const passed = !!(last && last.passed);
-      const uploaded = !!localStorage.getItem(KEY.certUploadedName);
-
-      const doneCount = (courseDone?1:0) + (passed?1:0) + (passed?1:0) + (uploaded?1:0);
-      // Note: Cert step follows "passed"
-      const pct = Math.round((doneCount/4)*100);
-
-      // badges
-      setBadge(bCourse, courseDone ? 'done' : 'lock', courseDone ? 'Completed ✅' : 'Not started');
-      setBadge(bExam, courseDone ? 'warn' : 'lock', courseDone ? 'Unlocked 🔓' : 'Locked');
-      setBadge(bCert, passed ? 'done' : (courseDone ? 'warn' : 'lock'), passed ? 'Ready ✅' : (courseDone ? 'Pending exam' : 'Locked'));
-      setBadge(bUpload, uploaded ? 'done' : (passed ? 'warn' : 'lock'), uploaded ? 'Submitted ✅' : (passed ? 'Upload needed' : 'Locked'));
-
-      // exam link unlock
-      if (courseDone){
-        examBtn.style.opacity = '1';
-        examBtn.style.pointerEvents = 'auto';
-        examBtn.setAttribute('aria-disabled', 'false');
-      } else {
-        examBtn.style.opacity = '.65';
-        examBtn.style.pointerEvents = 'none';
-        examBtn.setAttribute('aria-disabled', 'true');
-      }
-
-      // xp bar
-      xpFill.style.width = pct + '%';
-      xpText.textContent = pct + '%';
-
-      return {courseDone, passed, uploaded, pct};
-    }
-
-    function setBadge(el, type, text){
-      el.classList.remove('lock','done','warn');
-      el.classList.add(type);
-      const span = el.querySelector('span');
-      if (span) span.textContent = text;
-    }
-
-    markCourseDoneBtn.addEventListener('click', () => {
-      localStorage.setItem(KEY.courseDone, '1');
-      toast('Course marked as completed ✅ Exam unlocked!');
-      computeProgress();
-    });
-
-    /***************
-     * Upload placeholder (static site): store "submitted" locally + give instructions
-     ***************/
-    const certFile = document.getElementById('certFile');
-    const uploadStatus = document.getElementById('uploadStatus');
-
-    document.getElementById('saveUpload').addEventListener('click', () => {
-      const { passed } = computeProgress();
-      if (!passed) {
-        uploadStatus.textContent = '⚠️ Please pass the exam first before uploading (certificate is required).';
-        toast('Pass the exam first 🧪');
-        return;
-      }
-      if (!certFile.files || !certFile.files[0]) {
-        uploadStatus.textContent = '⚠️ Please select your certificate file first.';
-        toast('Select a file first 📄');
-        return;
-      }
-
-      localStorage.setItem(KEY.certUploadedName, certFile.files[0].name);
-      uploadStatus.innerHTML =
-        '✅ Submitted (saved on this device).<br>' +
-        'Next step: send the certificate to SpeakOut for verification via email: <b>speaaakout@gmail.com</b> ' +
-        'or WhatsApp (if you prefer).';
-      toast('Certificate submitted ✅');
-      computeProgress();
-    });
-
-    document.getElementById('clearUpload').addEventListener('click', () => {
-      certFile.value = '';
-      uploadStatus.textContent = '';
-      localStorage.removeItem(KEY.certUploadedName);
-      toast('Cleared.');
-      computeProgress();
-    });
-
-    document.getElementById('resetQuest').addEventListener('click', () => {
-      localStorage.removeItem(KEY.courseDone);
-      localStorage.removeItem(KEY.certUploadedName);
-      // Don’t delete exam history unless you want:
-      // localStorage.removeItem(KEY.examLast);
-      toast('Progress reset on this device.');
-      uploadStatus.textContent = '';
-      certFile.value = '';
-      computeProgress();
-      renderLastExam();
-    });
-
-    /***************
-     * Show last exam result (saved from exam page, if you implement it later)
-     ***************/
-    const lastResultEl = document.getElementById('lastResult');
-    const downloadBtn = document.getElementById('downloadCertBtn');
-
-    function renderLastExam(){
-      const last = JSON.parse(localStorage.getItem(KEY.examLast) || 'null');
-
-      if (last) {
-        const dateStr = new Date(last.issuedAt || Date.now()).toLocaleString();
-        lastResultEl.innerHTML =
-          `Score: <b>${last.scorePct}%</b> • Result: <b>${last.passed ? 'PASSED ✅' : 'NOT PASSED ❌'}</b> • Date: ${dateStr}`;
-
-        if (last.passed && last.certDataUri) {
-          downloadBtn.style.display = 'inline-flex';
-          downloadBtn.href = last.certDataUri;
-          downloadBtn.download = last.certFileName || 'MindCheck-Counsellor-Certificate.pdf';
-          toast('Certificate ready 🏅');
-        } else {
-          downloadBtn.style.display = 'none';
-          downloadBtn.href = '#';
-        }
-      } else {
-        lastResultEl.textContent = 'No exam taken yet.';
-        downloadBtn.style.display = 'none';
-        downloadBtn.href = '#';
-      }
-    }
-
-    // Initial render
-    renderLastExam();
-    computeProgress();
-  </script>
+  <footer class="cp-footer cp-shell"><a class="cp-footer-brand" href="index.html">MindCheck <span>by SpeakOut</span></a><nav aria-label="Footer"><a href="training-hub.html">Training</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="index.html?section=helpSection">Get support</a></nav><p>Listen. Support. Empower.</p></footer>
+  <nav class="cp-mobile-nav" aria-label="MindCheck navigation"><a href="index.html"><svg class="cp-icon" aria-hidden="true"><use href="#cp-home"/></svg>Home</a><a href="training-hub.html"><svg class="cp-icon" aria-hidden="true"><use href="#cp-book"/></svg>Training</a><a href="index.html?section=helpSection"><svg class="cp-icon" aria-hidden="true"><use href="#cp-heart"/></svg>Support</a></nav>
+  <dialog id="resetDialog" aria-labelledby="resetTitle" aria-describedby="resetDescription"><h2 id="resetTitle">Reset your checklist?</h2><p id="resetDescription">This clears these two personal checkmarks on this device. It won’t change your provider’s course record or certificate.</p><div class="cp-actions"><button class="cp-button cp-secondary" id="cancelReset" type="button">Keep progress</button><button class="cp-button cp-primary" id="confirmReset" type="button">Reset checklist</button></div></dialog>
+  <div class="cp-toast" id="pathwayToast" role="status" aria-live="polite"></div>
 </body>
 </html>
