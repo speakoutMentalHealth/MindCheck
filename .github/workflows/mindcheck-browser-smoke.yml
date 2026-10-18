@@ -5,6 +5,8 @@ on:
     paths:
       - 'index.html'
       - 'become-a-counsellor.html'
+      - 'training-hub.html'
+      - 'resources.html'
       - 'sw.js'
       - 'css/**'
       - 'scripts/counsellor-pathway-smoke.cjs'
