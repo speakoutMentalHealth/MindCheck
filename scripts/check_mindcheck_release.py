@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v32-counsellor-navigation-20261018"
+EXPECTED_CACHE = "mc-v33-training-centre-20261018"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)
@@ -185,7 +185,7 @@ check("responsive design cached", "'./mindcheck-native-responsive.css'" in sw)
 check("desktop layouts expand", "min-width:1100px" in native_css and "--mc-premium-max:1600px" in native_css)
 check("mobile native surfaces", "max-width:699px" in native_css and "backdrop-filter:blur(22px)" in native_css)
 for mobile_page in ("index.html","assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):
-    check("responsive stylesheet in "+mobile_page, 'href="mindcheck-native-responsive.css"' in (ROOT/mobile_page).read_text(encoding="utf-8"))
+    check("responsive stylesheet in "+mobile_page, ('href="css/training-centre.css"' if mobile_page == 'training-hub.html' else 'href="mindcheck-native-responsive.css"') in (ROOT/mobile_page).read_text(encoding="utf-8"))
 native=(ROOT/"mindcheck-native-responsive.css").read_text(encoding="utf-8")
 check("native polish card interaction", "body.mc-stage-dashboard #homeSection .grid .card:active" in native)
 check("native polish desktop hover guarded", "@media(hover:hover) and (pointer:fine)" in native)
@@ -252,7 +252,7 @@ check("live breathing inhale exhale visual states", ".is-inhaling" in live and "
 check("reduced motion for breathing", "prefers-reduced-motion:reduce" in live)
 check("live wellness cached in PWA", "'./mindcheck-live-wellness.css'" in sw)
 for page in ("index.html","assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):
-    check("shared live wellness theme "+page, 'href="mindcheck-live-wellness.css"' in (ROOT/page).read_text(encoding="utf-8"))
+    check("shared live wellness theme "+page, ('href="css/training-centre.css"' if page == 'training-hub.html' else 'href="mindcheck-live-wellness.css"') in (ROOT/page).read_text(encoding="utf-8"))
 breath_js=(ROOT/"js/mindcheck-smart-wellness.js").read_text(encoding="utf-8")
 breath_css=(ROOT/"mindcheck-smart-wellness.css").read_text(encoding="utf-8")
 check("breathing CSS variable used by JS", "--mc-breath-scale" in breath_js)
@@ -268,6 +268,13 @@ check("check-ins never transmit mood data", "type: 'checkin'" not in html and "a
 report=(ROOT/"report.html").read_text(encoding="utf-8")
 check("reports never attach mood history identifier", 'localStorage.getItem("mc_uid")' not in report and 'formData.append("uid", "anonymous")' in report)
 check("report monitoring limits explained", "not monitored continuously" in report)
+# Focused Training Centre replaces the older stacked theme styles.
+training = (ROOT / "training-hub.html").read_text(encoding="utf-8")
+for asset in ("css/training-centre.css", "js/training-centre.js"):
+    check("Training Centre asset " + asset, asset in training and "'./" + asset + "'" in sw and (ROOT / asset).exists())
+check("Training Centre keeps five lessons", len(re.findall(r'class="th-lesson" data-lesson=', training)) == 5)
+check("Training Centre official assessment handoff", '?type=assessment' in training and 'script.google.com/macros/s/' in training)
+
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
