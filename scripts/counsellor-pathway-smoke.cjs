@@ -12,6 +12,23 @@ async function run(){
  try{
   for(let n=0;n<30;n++){try{await new Promise((r,j)=>{const c=net.connect(8770,'127.0.0.1');c.on('connect',()=>{c.end();r()});c.on('error',j)});break}catch(e){if(n===29)throw e;await sleep(200)}}
   browser=await chromium.launch();
+  for(const width of [390,1366]){
+   const context=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block'});
+   const page=await context.newPage();
+   for(const entry of ['training-hub.html','resources.html']){
+    await page.goto(base+'/'+entry);
+    const tabBar=page.locator('#mc-premium-tabs');
+    await tabBar.waitFor({state:'visible'});
+    const bounds=await tabBar.boundingBox();assert(bounds.height<150,'Section navigation must stay a compact bottom bar');
+    const link=page.getByRole('link',{name:'Explore the counsellor pathway →',exact:true});
+    await link.scrollIntoViewIfNeeded();
+    await page.screenshot({path:`artifacts/counsellor-pathway/${width}-${entry}.png`});
+    await link.click();await page.getByRole('heading',{name:/Learn to listen/}).waitFor();
+    assert.equal(new URL(page.url()).pathname,path);
+    await page.goBack();await link.waitFor({state:'visible'});
+   }
+   await context.close();
+  }
   for(const width of [320,360,390,820,1366]){
    const context=await browser.newContext({viewport:{width,height:900},serviceWorkers:'block'});
    await context.route('https://fonts.googleapis.com/**',r=>r.abort());
