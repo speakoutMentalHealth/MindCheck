@@ -1,6 +1,6 @@
 # MindCheck visitor analytics
 
-Status: implementation prepared; owner account/endpoint and dashboard receipt verification pending. Do not describe traffic tracking as live until a real visit appears in the private dashboard.
+Status: owner account `mindcheck.goatcounter.com` confirmed by welcome email to SpeakOut and its private sign-in page. Public collection endpoint configured for deployment on 18 October 2026. Dashboard login was declined in the secure prompt: incoming counts, email-verification completion, reporting timezone and account settings remain unverified. Do not claim dashboard receipt or verified visitor figures until a real visit appears there.
 
 ## Owner setup
 
@@ -25,3 +25,5 @@ The loader counts only allow-listed public pages. It sends static page titles, a
 5. Record the activation date and owner access path. Historical traffic cannot be reconstructed from a previously inactive tracker.
 
 Provider references: https://www.goatcounter.com/ , https://www.goatcounter.com/help/js , https://www.goatcounter.com/help/privacy . Hosted service currently advertises free reasonable public usage; review its terms during signup.
+
+The tracked HTML pages explicitly set a strict-origin referrer policy so analytics requests cannot carry page paths or query strings in the HTTP Referer header. No change was made to dashboard access permissions.
