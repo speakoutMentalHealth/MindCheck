@@ -20,12 +20,13 @@ async function run(){
    await page.goto(base+path);await page.locator('#beginnerPath').waitFor({state:'visible'});
    assert.equal(await page.locator('h1').count(),1);
    assert.equal(await page.locator('input[type=file]').count(),0);
+   await page.waitForFunction(()=>document.getAnimations().filter(a=>a instanceof CSSTransition||a.animationName==='cp-reveal').every(a=>a.playState==='finished'));
    await page.screenshot({path:`artifacts/counsellor-pathway/${width}-initial.png`,fullPage:true});
    const overflow=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth,offenders:[...document.querySelectorAll('body *')].map(el=>({tag:el.tagName,class:el.className?.baseVal??el.className,x:el.getBoundingClientRect().x,right:el.getBoundingClientRect().right,width:el.getBoundingClientRect().width})).filter(r=>r.width>0&&(r.right>innerWidth+1||r.x< -1))}));
    assert(overflow.width<=overflow.viewport+1,`overflow at ${width}: ${JSON.stringify(overflow)}`);
    await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
    const axe=await page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));
-   assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],`accessibility at ${width}`);
+   assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),[],`accessibility at ${width}`);
    if([390,1366].includes(width))await page.screenshot({path:`artifacts/counsellor-pathway/${width}-light.png`,fullPage:true});
    await page.getByRole('checkbox',{name:'I completed the provider’s course.'}).check();
    assert.equal(await page.locator('#learningProgress').evaluate(el=>el.value),1);
@@ -42,9 +43,10 @@ async function run(){
    await page.reload();assert.equal(await page.locator('#qualifiedPath').isVisible(),true);
    await page.getByRole('radio',{name:/I’m starting out/}).check();
    await page.getByRole('button',{name:'Night mode',exact:true}).click();assert.equal(await page.locator('body').getAttribute('class'),'night');
+   await page.waitForFunction(()=>document.getAnimations().filter(a=>a instanceof CSSTransition||a.animationName==='cp-reveal').every(a=>a.playState==='finished'));
    const darkAxe=await page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).catch(async()=>{
      await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});return page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));
-   });assert.deepEqual(darkAxe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],`dark accessibility at ${width}`);
+   });assert.deepEqual(darkAxe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),[],`dark accessibility at ${width}`);
    if(width===390)await page.screenshot({path:'artifacts/counsellor-pathway/390-night.png',fullPage:true});
    await page.reload();assert.equal(await page.getByRole('button',{name:'Night mode',exact:true}).getAttribute('aria-pressed'),'true');
    await page.getByRole('button',{name:'Night mode',exact:true}).click();
