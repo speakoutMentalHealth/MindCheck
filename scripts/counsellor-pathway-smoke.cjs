@@ -20,7 +20,9 @@ async function run(){
    await page.goto(base+path);await page.locator('#beginnerPath').waitFor({state:'visible'});
    assert.equal(await page.locator('h1').count(),1);
    assert.equal(await page.locator('input[type=file]').count(),0);
-   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`overflow at ${width}`);
+   await page.screenshot({path:`artifacts/counsellor-pathway/${width}-initial.png`,fullPage:true});
+   const overflow=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth,offenders:[...document.querySelectorAll('body *')].map(el=>({tag:el.tagName,class:el.className?.baseVal??el.className,x:el.getBoundingClientRect().x,right:el.getBoundingClientRect().right,width:el.getBoundingClientRect().width})).filter(r=>r.width>0&&(r.right>innerWidth+1||r.x< -1))}));
+   assert(overflow.width<=overflow.viewport+1,`overflow at ${width}: ${JSON.stringify(overflow)}`);
    await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});
    const axe=await page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));
    assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[],`accessibility at ${width}`);
