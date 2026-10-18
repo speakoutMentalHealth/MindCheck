@@ -13,6 +13,7 @@ async function run(){
    await context.route('https://fonts.googleapis.com/**',r=>r.abort());
    const page=await context.newPage(),errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url())});
    await page.goto(base+path);await page.locator('body.is-enhanced').waitFor();
+   assert.equal(await page.evaluate(()=>scrollY),0,'fresh navigation must keep the front door visible');
    assert.equal(await page.locator('h1').count(),1);assert.equal(await page.locator('.th-lesson:visible').count(),1);
    assert.equal(await page.locator('#assessmentLink').isVisible(),false);assert.equal(await page.locator('#prevLesson').isDisabled(),true);
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`overflow ${width}`);
@@ -24,7 +25,7 @@ async function run(){
    assert.equal(await page.locator('#trainingProgress').evaluate(el=>el.value),1);assert.equal(await page.locator('#assessmentLink').isVisible(),false);
    await page.locator('[data-open-lesson="1"]').click();await page.locator('#nextLesson').click();
    await page.reload();assert.equal(await page.locator('[data-lesson="2"]').isVisible(),true);
-   assert.equal(await page.locator('#trainingProgress').evaluate(el=>el.value),2);assert.equal(await page.evaluate(()=>scrollY),0,'initial load must keep front door visible');
+   assert.equal(await page.locator('#trainingProgress').evaluate(el=>el.value),2);
    for(let lesson=2;lesson<=4;lesson++){assert.equal(await page.locator(`[data-lesson="${lesson}"]`).isVisible(),true);await page.locator('#nextLesson').click()}
    assert.equal(await page.locator('#trainingProgress').evaluate(el=>el.value),5);assert.equal(await page.locator('#assessmentLink').isVisible(),true);
    const target=await page.locator('#assessmentLink').getAttribute('href');assert.match(target,/^https:\/\/script.google.com\/macros\/s\/[^/]+\/exec\?type=assessment$/);
