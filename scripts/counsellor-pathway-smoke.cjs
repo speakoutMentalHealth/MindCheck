@@ -50,7 +50,7 @@ async function run(){
    if(width===390)await page.screenshot({path:'artifacts/counsellor-pathway/390-night.png',fullPage:true});
    await page.reload();assert.equal(await page.getByRole('button',{name:'Night mode',exact:true}).getAttribute('aria-pressed'),'true');
    await page.getByRole('button',{name:'Night mode',exact:true}).click();
-   await page.getByText('Has my certificate been submitted here?',{exact:true}).click();assert.equal(await page.locator('details[open]').count(),1);
+   await page.locator('summary').filter({hasText:'Has my certificate been submitted here?'}).click();assert.equal(await page.locator('details[open]').count(),1);
    assert.equal(await page.locator('#courseBtn').getAttribute('href'),'https://www.betherecertificate.org/');
    assert.match(await page.locator('#reviewContact').getAttribute('href'),/^mailto:speaaakout@gmail.com\?subject=/);
    await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.locator('.cp-conversation-one').evaluate(el=>getComputedStyle(el).animationName),'none');
