@@ -1,6 +1,8 @@
 # MindCheck visitor analytics
 
-Status: owner account `mindcheck.goatcounter.com` confirmed by welcome email to SpeakOut and its private sign-in page. Public collection endpoint configured for deployment on 18 October 2026. Dashboard login was declined in the secure prompt: incoming counts, email-verification completion, reporting timezone and account settings remain unverified. Do not claim dashboard receipt or verified visitor figures until a real visit appears there.
+Status: deployed and dashboard receipt verified on 18 October 2026. The configured account is `https://mindcheck.goatcounter.com/`, with collection endpoint `https://mindcheck.goatcounter.com/count`. A real browser visit to the live MindCheck homepage appeared as `/index.html` / Home in the signed-in owner dashboard: 1 visit during the setup check. This is a QA visit, not a launch-audience total.
+
+Verified account settings: site domain is `mindcheck.speakoutmentalhealth.org`; dashboard is viewable by logged-in users only; individual pageview exports are disabled; session-based visitor estimation is enabled (up to eight hours). Dashboard access became available after the initial secure sign-in prompt was declined. Reporting timezone and email-verification completion were not inspected.
 
 ## Owner setup
 
