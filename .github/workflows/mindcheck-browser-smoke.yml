@@ -10,6 +10,7 @@ on:
       - 'sw.js'
       - 'css/**'
       - 'scripts/counsellor-pathway-smoke.cjs'
+      - 'scripts/training-centre-smoke.cjs'
       - 'js/**'
       - '*.css'
       - 'scripts/browser-smoke.cjs'
@@ -34,6 +35,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Check counsellor pathway interactions and accessibility
         run: node scripts/counsellor-pathway-smoke.cjs
+      - name: Check Training Centre learning flow and accessibility
+        run: node scripts/training-centre-smoke.cjs
       - name: Run responsive browser smoke suite
         run: node scripts/browser-smoke.cjs
       - uses: actions/upload-artifact@v4
@@ -41,4 +44,10 @@ jobs:
         with:
           name: counsellor-pathway-preview
           path: artifacts/counsellor-pathway
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: training-centre-preview
+          path: artifacts/training-centre
           retention-days: 14

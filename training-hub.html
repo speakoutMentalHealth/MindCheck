@@ -1,344 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>SpeakOut MindCheck Volunteer Training</title>
-  <link rel="icon" href="favicon.png"/>
-  <link rel="stylesheet" href="mc-theme.css"/>
-  <meta name="theme-color" content="#06152f">
-
-  <!-- Plausible (optional) -->
-  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-
-  <style>
-    :root{
-      --green:#22c55e; --greenDark:#16a34a;
-      --ink:#062436; --muted:#52606d;
-      --card:#fff; --border:#e8eef5;
-      --bg:#f5fdf8; --shadow:0 10px 25px rgba(15,23,42,.06);
-      --radius:16px;
-    }
-
-    body{
-      margin:0;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,.10), transparent 60%),
-                  radial-gradient(900px 500px at 90% 20%, rgba(34,197,94,.08), transparent 55%),
-                  var(--bg);
-      color:var(--ink);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      -webkit-text-size-adjust: 100%;
-      overflow-x:hidden;
-    }
-
-    header{
-      background: linear-gradient(90deg, var(--greenDark), var(--green));
-      color:#fff;
-      padding:16px 14px;
-      font-weight:900;
-      letter-spacing:.2px;
-    }
-
-    .wrap{
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 14px 12px 120px;
-      box-sizing:border-box;
-    }
-
-    .hero{
-      border-radius: 20px;
-      background: rgba(255,255,255,.65);
-      border:1px solid rgba(255,255,255,.65);
-      box-shadow: var(--shadow);
-      padding: 14px;
-      overflow:hidden;
-    }
-
-    .heroTop{
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-
-    .heroTitle{ flex:1 1 260px; min-width: 240px; }
-    .heroTitle h1{
-      margin:0;
-      font-size: clamp(1.15rem, 3.8vw, 1.8rem);
-      line-height:1.2;
-      font-weight: 950;
-      color:#083a28;
-    }
-    .heroTitle p{
-      margin:.5rem 0 0;
-      color: var(--muted);
-      font-weight:600;
-      line-height:1.4;
-      font-size: .98rem;
-    }
-
-    .heroBtns{ display:flex; gap:10px; flex-wrap:wrap; }
-
-    .btn{
-      border:none;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 900;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      transition:.15s;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-      white-space:nowrap;
-    }
-    .btn:active{ transform: translateY(1px); }
-    .btn-primary{ background: var(--green); color:#fff; box-shadow: 0 10px 20px rgba(34,197,94,.22); }
-    .btn-primary:hover{ background: var(--greenDark); }
-    .btn-ghost{ background:#fff; color: var(--ink); border:1px solid rgba(0,0,0,.08); }
-
-    .pillRow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; align-items:center; }
-    .pill{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.08);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight:900;
-      font-size:.92rem;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-    }
-
-    .progressWrap{
-      margin-top:10px;
-      background: rgba(255,255,255,.85);
-      border:1px solid rgba(0,0,0,.06);
-      border-radius: 14px;
-      padding: 10px;
-    }
-    .bar{
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(34,197,94,.15);
-      overflow:hidden;
-      border: 1px solid rgba(34,197,94,.18);
-    }
-    .bar > div{
-      height:100%;
-      width:0%;
-      background: linear-gradient(90deg, var(--greenDark), var(--green));
-      border-radius: 999px;
-      transition: width .25s ease;
-    }
-    .barMeta{
-      margin-top:8px;
-      display:flex;
-      justify-content:space-between;
-      color: var(--muted);
-      font-weight:800;
-      font-size:.92rem;
-    }
-
-    .card{
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px;
-      box-shadow: var(--shadow);
-      margin-top: 12px;
-    }
-    .muted{ color: var(--muted); }
-
-    /* Lessons */
-    .lesson{
-      display:none;
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 14px;
-      margin-top: 12px;
-      text-align:left;
-    }
-    .lesson h2{ margin:.2rem 0 .3rem; font-size: 1.15rem; }
-    .lesson h3{ margin: 14px 0 6px; font-size: 1.05rem; }
-    .lesson p, .lesson li{
-      line-height: 1.65;
-      color: #243b53;
-      font-weight: 600;
-    }
-    .lesson ul{ padding-left: 18px; }
-
-    /* Bigger images */
-    .lessonImg{
-      width:100%;
-      height:auto;
-      border-radius: 16px;
-      margin: 10px 0 12px;
-      display:block;
-      border:1px solid rgba(0,0,0,.06);
-      box-shadow: 0 10px 20px rgba(2,23,34,.06);
-      max-height: 340px;
-      object-fit: cover;
-    }
-    @media (min-width: 720px){
-      .lessonImg{ max-height: 420px; }
-    }
-
-    .callout{
-      background: #ecfdf3;
-      border: 1px solid #bbf7d0;
-      border-radius: 14px;
-      padding: 12px;
-      font-weight:900;
-      color:#065f46;
-    }
-
-    /* Sticky lesson nav */
-    .stickyNav{
-      position: fixed;
-      left:0; right:0; bottom:0;
-      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(0,0,0,.06);
-      z-index: 50;
-    }
-    .stickyInner{
-      max-width: 900px;
-      margin:0 auto;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .navLeft{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .navRight{ display:flex; gap:10px; align-items:center; }
-    .mini{
-      font-weight: 950;
-      border-radius: 999px;
-      padding: 8px 12px;
-      border:1px solid rgba(0,0,0,.08);
-      background:#fff;
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-    }
-
-    .assessment-card{ display:none; }
-
-    footer{
-      margin: 18px 0 0;
-      text-align:center;
-      color: var(--muted);
-      font-weight: 700;
-      padding-bottom: 16px;
-    }
-    footer a{ color: inherit; }
-  </style>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style id="premium-training-system">
-:root{--green:#0f9f5f!important;--greenDark:#063f35!important;--ink:#102a27!important;--bg:#f4fbf7!important;--border:rgba(15,159,95,.15)!important}
-body{font-family:Outfit,system-ui,sans-serif!important;background:linear-gradient(180deg,#f4fbf7 0%,#fff 60%,#f4fbf7 100%)!important;color:#102a27!important}
-body::before{display:none!important}
-.mindcheck-pro-brand,.mindcheck-brand-mark{display:flex;align-items:center;gap:14px;width:min(1120px,92%);margin:20px auto 0;padding:16px 26px;background:#fff;border:1px solid #e4efe8;border-radius:26px;box-shadow:0 12px 36px rgba(6,63,53,.07);color:#063f35!important;text-decoration:none}
-.mindcheck-pro-brand img,.mindcheck-brand-mark img{width:60px;height:60px;object-fit:contain}.mindcheck-pro-brand strong,.mindcheck-brand-mark strong{font-size:1.35rem;font-weight:900}.mindcheck-pro-brand small,.mindcheck-brand-mark small{color:#0f9f5f;font-weight:800}
-.training-context-header{width:min(1120px,92%)!important;max-width:1120px;margin:10px auto 0!important;padding:12px 20px!important;background:#063f35!important;color:#fff!important;border-radius:18px!important;box-shadow:none!important;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:1rem!important;font-weight:700!important}
-.training-context-header a{color:#fff!important;text-decoration:underline}
-.training-context-header .btn-ghost{background:#fff!important;color:#063f35!important;border-radius:999px!important}
-.wrap{max-width:1120px!important;margin:28px auto 70px!important;padding:0 18px!important}
-.grid{gap:22px!important;align-items:start}.card,.hero,.lesson,.quizCard{border-radius:26px!important;border:1px solid rgba(15,159,95,.14)!important;background:#fff!important;box-shadow:0 14px 42px rgba(6,63,53,.07)!important;padding:clamp(20px,3vw,34px)!important}
-.card::after{display:none!important}
-h1,h2,h3{color:#063f35;line-height:1.2;letter-spacing:-.025em}
-p,li{line-height:1.7}
-.btn-primary{background:linear-gradient(135deg,#0f9f5f,#063f35)!important;color:#fff!important;border-radius:999px!important}
-.topbar{margin:22px 0!important;gap:12px!important}.pill,.badge{background:#e7f8ef!important;color:#063f35!important;border:1px solid #ccebd9!important;border-radius:999px!important}
-.callout{border-radius:18px!important;background:#eff9f3!important;border:1px solid #d2eadb!important;color:#063f35!important}
-@media(max-width:700px){.training-context-header{border-radius:16px!important;flex-wrap:wrap}.mindcheck-pro-brand,.mindcheck-brand-mark{padding:12px 16px}.mindcheck-pro-brand img,.mindcheck-brand-mark img{width:48px;height:48px}.wrap{padding:0 12px!important}.grid{grid-template-columns:1fr!important}}
-</style><style id="speakout-brand-final-overrides">
-/* Last-in-cascade brand guard for legacy standalone page styles */
-:root{--green:#0a68d8!important;--greenDark:#064a9c!important;--brand-green:#0a68d8!important;--brand-green-dark:#06152f!important;--green-deep:#06152f!important;--ink:#101828!important;--bg:#f7faff!important;--border:#e5edf6!important;--focus-ring:#f5a623!important}
-body{font-family:Outfit,system-ui,sans-serif!important;color:#101828!important;background:#f7faff!important}
-.training-context-header{background:#06152f!important;color:#fff!important}
-.training-context-header .btn-ghost{background:#fff!important;color:#06152f!important}
-.mindcheck-pro-brand,.mindcheck-brand-mark{color:#06152f!important;border-color:#e5edf6!important}
-.mindcheck-pro-brand small,.mindcheck-brand-mark small{color:#064a9c!important}
-h1,h2,h3{color:#06152f!important}
-.btn-primary,.cta,.btn.btn-primary{background:#0a68d8!important;color:#fff!important;border-color:#0a68d8!important}
-.btn-primary:hover,.cta:hover,.btn.btn-primary:hover{background:#064a9c!important}
-.pill,.badge{background:#eaf5ff!important;color:#06152f!important;border-color:#c8dfff!important}
-.card,.hero,.lesson,.quizCard{border-color:#e5edf6!important}
-.callout{background:#eef6ff!important;color:#06152f!important;border-color:#d5e9ff!important}
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #f5a623!important;outline-offset:3px!important}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-</style><link rel="stylesheet" href="mindcheck-premium-nav.css"><script src="js/mindcheck-standalone-nav.js" defer></script><link rel="stylesheet" href="mindcheck-native-responsive.css"><link rel="stylesheet" href="mindcheck-calm-experience.css">
-<link rel="stylesheet" href="mindcheck-live-wellness.css"></head>
-
-<body>
-  <header class="training-context-header"><span>Volunteer Learning Centre</span><a href="volunteers.html">Volunteer pathway →</a></header>
-
-  <div class="wrap">
-
-    <!-- ONE-TIME INFO -->
-    <section class="hero" id="introCard">
-      <div class="heroTop">
-        <div class="heroTitle">
-          <h1>Volunteer Training Programme</h1>
-          <p>
-            Complete <b>5 lessons</b>, then continue to the official MindCheck assessment.
-            Your assessment result and certificate are handled by the official assessment service.
-          </p>
-        </div>
-        <div class="heroBtns">
-          <a class="btn btn-primary" href="volunteers.html">👥 Volunteer Zone</a>
-          <a class="btn btn-ghost" href="resources.html">🏥 Clinics & Resources</a>
-        </div>
-      </div>
-
-      <div class="pillRow">
-        <span class="pill">📘 Lesson: <span id="lessonPill">1 / 5</span></span>
-      </div>
-
-      <div class="progressWrap">
-        <div class="bar"><div id="barFill"></div></div>
-        <div class="barMeta">
-          <span><span id="pctText">0%</span> complete</span>
-          <span id="saveText">Saved</span>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:12px;text-align:left;">
-        <b>Important (read once)</b>
-        <p class="muted" style="margin:.5rem 0 0;">
-          ✅ This training is for <b>safe listening + referral</b> (not emergency response).<br/>
-          ⚠ If someone is in immediate danger: call <b>112</b> or find a trusted adult immediately.<br/>
-          🔒 Keep privacy: log only the minimum necessary. No screenshots, no full names.
-        </p>
-      </div>
-
-      <div class="card" style="text-align:left;">
-        <b>Training organiser</b>
-        <p class="muted" style="margin:.5rem 0;">This training and its knowledge-assessment certificate are issued by <b>SpeakOut Mental Health Outreach</b>. Other organisations are acknowledged only for programmes with explicitly approved partnerships.</p>
-      </div>
-    </section>
-
-    <section class="card" aria-labelledby="counsellorPathwayHeading">
-      <h2 id="counsellorPathwayHeading">Build your listening skills</h2>
-      <p class="muted">Explore the counsellor pathway: start with foundation learning or share your existing training with SpeakOut. Foundation training does not qualify you as a professional counsellor.</p>
-      <a class="btn btn-primary" href="become-a-counsellor.html">Explore the counsellor pathway →</a>
-    </section>
-
-    <!-- LESSONS -->
-    <section class="lesson" data-lesson="1">
-      <h2>Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h2>
-      <img class="lessonImg" src="icons/listen.png" alt="Safe Listening"/>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Volunteer Training · MindCheck</title><meta name="description" content="Five focused lessons in safe listening, boundaries and referral. Learn at your pace with SpeakOut MindCheck.">
+<meta name="theme-color" content="#f6f8fc"><link rel="icon" href="icons/logo.png"><link rel="manifest" href="manifest.webmanifest">
+<link rel="canonical" href="https://mindcheck.speakoutmentalhealth.org/training-hub.html">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mindcheck-premium-nav.css"><link rel="stylesheet" href="css/counsellor-pathway.css"><link rel="stylesheet" href="css/training-centre.css">
+<script src="js/mindcheck-standalone-nav.js" defer></script><script src="js/training-centre.js" defer></script>
+</head><body class="th-page"><a class="cp-skip" href="#main">Skip to content</a>
+  <svg class="cp-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="cp-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="cp-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+    <symbol id="cp-chat" viewBox="0 0 24 24"><path d="M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 1 1 18 0Z"/><path d="M8 9h8M8 13h5"/></symbol>
+    <symbol id="cp-book" viewBox="0 0 24 24"><path d="M12 5v15M3 4h5a4 4 0 0 1 4 2 4 4 0 0 1 4-2h5v15h-5a4 4 0 0 0-4 2 4 4 0 0 0-4-2H3Z"/></symbol>
+    <symbol id="cp-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="cp-spark" viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5Z"/></symbol>
+    <symbol id="cp-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/></symbol>
+    <symbol id="cp-moon" viewBox="0 0 24 24"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></symbol>
+    <symbol id="cp-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></symbol>
+  </svg>
+  <header class="cp-header">
+    <div class="cp-shell cp-header-inner">
+      <a class="cp-brand" href="index.html" aria-label="MindCheck home, by SpeakOut">
+        <img src="icons/logo.png" width="48" height="48" alt="SpeakOut">
+        <span>MindCheck<small>BY SPEAKOUT</small></span>
+      </a>
+      <nav class="cp-header-actions" aria-label="Page navigation">
+        <a class="cp-back" href="volunteers.html">Volunteer zone <svg class="cp-icon" aria-hidden="true"><use href="#cp-arrow"/></svg></a>
+        <button class="cp-theme" id="nightToggle" type="button" aria-label="Night mode" aria-pressed="false"><svg class="cp-icon" aria-hidden="true"><use id="themeIcon" href="#cp-moon"/></svg></button>
+      </nav>
+    </div>
+  </header>
+<main id="main" class="cp-shell">
+<section class="th-hero" aria-labelledby="pageTitle">
+ <div><p class="cp-eyebrow"><span></span> VOLUNTEER LEARNING CENTRE</p><h1 id="pageTitle">Learn with care.<br><em>Support</em> with confidence.</h1><p class="cp-lead">Five focused lessons. A stronger foundation for listening, respecting boundaries and connecting people to help.</p><div class="cp-actions"><a class="cp-button cp-primary" id="resumeLearning" href="#learning">Start learning <svg class="cp-icon" aria-hidden="true"><use href="#cp-arrow"/></svg></a><span class="th-meta">Free · Self-paced</span></div></div>
+ <div class="th-journey" aria-label="Your learning progress"><div class="th-art-orbit" aria-hidden="true"></div><div class="th-progress-ring" id="progressRing"><div><strong id="progressCount">0<span>/ 5</span></strong><span>lessons reviewed</span></div></div><div class="th-art-label"><svg class="cp-icon" aria-hidden="true"><use href="#cp-book"/></svg><span>Small steps.<br><strong>Thoughtful support.</strong></span></div><span class="th-spark" aria-hidden="true">✧</span></div>
+</section>
+<div class="cp-scope-note"><svg class="cp-icon" aria-hidden="true"><use href="#cp-heart"/></svg><p>Safe listening and referral skills. This foundation programme does not qualify you as a professional counsellor.</p></div>
+<div class="th-workspace" id="learning">
+ <aside class="th-outline" aria-labelledby="outlineTitle"><p class="cp-eyebrow">YOUR LEARNING PATH</p><h2 id="outlineTitle">One step at a time.</h2><p class="th-subtle">Explore a topic. Return whenever you need.</p><nav aria-label="Course lessons"><ol><li><button type="button" data-open-lesson="1" aria-controls="lessonReader"><span class="th-number">01</span><span><strong>Safe listening</strong><small>Make room to be heard</small></span><span class="th-lesson-status cp-sr">Not yet reviewed</span></button></li><li><button type="button" data-open-lesson="2" aria-controls="lessonReader"><span class="th-number">02</span><span><strong>Recognising risk</strong><small>Know when to seek help</small></span><span class="th-lesson-status cp-sr">Not yet reviewed</span></button></li><li><button type="button" data-open-lesson="3" aria-controls="lessonReader"><span class="th-number">03</span><span><strong>Boundaries & referral</strong><small>Support within your role</small></span><span class="th-lesson-status cp-sr">Not yet reviewed</span></button></li><li><button type="button" data-open-lesson="4" aria-controls="lessonReader"><span class="th-number">04</span><span><strong>Privacy first</strong><small>Protect what is shared</small></span><span class="th-lesson-status cp-sr">Not yet reviewed</span></button></li><li><button type="button" data-open-lesson="5" aria-controls="lessonReader"><span class="th-number">05</span><span><strong>Culture & self-care</strong><small>Care for others and yourself</small></span><span class="th-lesson-status cp-sr">Not yet reviewed</span></button></li></ol></nav><label class="cp-sr" for="trainingProgress">Lessons reviewed</label><progress id="trainingProgress" max="5" value="0"></progress><p id="progressText" class="th-subtle">0 of 5 lessons reviewed</p><p id="storageStatus" class="th-subtle" role="status">Progress stays on this device. It is not an assessment result.</p><button class="th-reset" id="resetProgress" type="button">Reset lesson progress</button></aside>
+ <div id="lessonReader" class="th-reader"><section class="th-lesson" data-lesson="1" aria-labelledby="lessonTitle1">
+      <p class="cp-eyebrow">LESSON 1 OF 5</p><h2 id="lessonTitle1" tabindex="-1">Lesson 1 — Safe Listening Basics (L-I-S-T-E-N)</h2>
       <p class="muted">Safe listening helps someone feel calm enough to choose safer next steps. You’re not “fixing” them — you’re creating safety, clarity, and connection.</p>
       <h3>The L-I-S-T-E-N method</h3>
       <ul>
@@ -350,11 +53,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <li><b>N — Next step:</b> One small step for today.</li>
       </ul>
       <div class="callout">Example: “I’m tired of everything.” → “I’m glad you told me. What has today felt like?” → summarize → empathize → choose a small next step.</div>
-    </section>
-
-    <section class="lesson" data-lesson="2">
-      <h2>Lesson 2 — Red Flags & Immediate Danger</h2>
-      <img class="lessonImg" src="icons/red-flags.png" alt="Red Flags"/>
+</section>
+<section class="th-lesson" data-lesson="2" aria-labelledby="lessonTitle2">
+      <p class="cp-eyebrow">LESSON 2 OF 5</p><h2 id="lessonTitle2" tabindex="-1">Lesson 2 — Red Flags & Immediate Danger</h2>
       <p class="muted">Most chats are not emergencies — but some require immediate escalation.</p>
       <h3>Immediate red flags</h3>
       <ul>
@@ -371,11 +72,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <li>Log minimum facts + actions taken</li>
       </ul>
       <div class="callout">Example: “I bought pills.” → “Are you alone? I’m calling 112 now. Stay with me.”</div>
-    </section>
-
-    <section class="lesson" data-lesson="3">
-      <h2>Lesson 3 — Boundaries & Ethical Referral</h2>
-      <img class="lessonImg" src="icons/referral.png" alt="Referral"/>
+</section>
+<section class="th-lesson" data-lesson="3" aria-labelledby="lessonTitle3">
+      <p class="cp-eyebrow">LESSON 3 OF 5</p><h2 id="lessonTitle3" tabindex="-1">Lesson 3 — Boundaries & Ethical Referral</h2>
       <p class="muted">Boundaries protect you and the person. Ethical referral means choices, consent, and dignity.</p>
       <h3>Scope</h3>
       <ul>
@@ -389,22 +88,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <li>Become a 24/7 hotline</li>
       </ul>
       <div class="callout">Referral script: “Would you like 2–3 support options? You can choose what feels safest.”</div>
-    </section>
-
-    <section class="lesson" data-lesson="4">
-      <h2>Lesson 4 — Privacy-First Logging</h2>
-      <img class="lessonImg" src="icons/privacy.png" alt="Privacy"/>
+</section>
+<section class="th-lesson" data-lesson="4" aria-labelledby="lessonTitle4">
+      <p class="cp-eyebrow">LESSON 4 OF 5</p><h2 id="lessonTitle4" tabindex="-1">Lesson 4 — Privacy-First Logging</h2>
       <p class="muted">Record only what is needed for safety + learning.</p>
       <h3>Log</h3>
       <ul><li>Date/time</li><li>General concern</li><li>Action taken</li></ul>
       <h3>Do not log</h3>
       <ul><li>Full names/addresses</li><li>Screenshots</li><li>Judgments</li></ul>
       <div class="callout">Good log: “2026-01-02 • exam stress + poor sleep • taught breathing • offered clinic list • person chose WhatsApp support.”</div>
-    </section>
-
-    <section class="lesson" data-lesson="5">
-      <h2>Lesson 5 — Cultural Sensitivity & Volunteer Self-Care</h2>
-      <img class="lessonImg" src="icons/culture.png" alt="Culture"/>
+</section>
+<section class="th-lesson" data-lesson="5" aria-labelledby="lessonTitle5">
+      <p class="cp-eyebrow">LESSON 5 OF 5</p><h2 id="lessonTitle5" tabindex="-1">Lesson 5 — Cultural Sensitivity & Volunteer Self-Care</h2>
       <p class="muted">Respect improves trust and outcomes. Your wellbeing matters too.</p>
       <h3>Cultural sensitivity</h3>
       <ul>
@@ -419,97 +114,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <li>Escalate when overwhelmed</li>
       </ul>
       <div class="callout">Example: “Counselling is shameful.” → “Many people combine faith + family support + counselling. Would you like private options?”</div>
-    </section>
+</section>
 
-    <!-- OFFICIAL ASSESSMENT -->
-    <section class="card assessment-card" id="assessmentCard" aria-labelledby="assessmentTitle">
-      <h2 id="assessmentTitle">Training complete — take the official assessment</h2>
-      <p class="muted">Continue to the official MindCheck assessment to enter your details and answer the questions. The assessment service determines your result and issues your certificate if you pass.</p>
-      <a class="btn btn-primary" href="https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec?type=assessment">Continue to official assessment →</a>
-      <a class="btn btn-ghost" href="verify.html">Verify an existing certificate</a>
-      <p class="muted">Your lesson progress is saved on this device when browser storage is available. You can return here to reopen the assessment.</p>
-    </section>
-
-    <footer>
-      🔒 <a href="privacy.html">Privacy</a> • 📄 <a href="terms.html">Terms</a> • 🏥 <a href="resources.html">Clinics & Resources</a> • ✉️ <a href="mailto:speaaakout@gmail.com">speaaakout@gmail.com</a>
-    </footer>
-  </div>
-
-  <!-- Sticky bottom nav -->
-  <div class="stickyNav" id="stickyNav">
-    <div class="stickyInner">
-      <div class="navLeft">
-        <span class="mini">📍 <span id="lessonLabel">Lesson 1</span></span>
-        <span class="mini">✅ Completed: <span id="doneLabel">0</span> / 5</span>
-      </div>
-      <div class="navRight">
-        <button class="btn btn-ghost" id="prevLesson" type="button">⬅ Previous</button>
-        <button class="btn btn-primary" id="nextLesson" type="button">Next ➜</button>
-      </div>
-    </div>
-  </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const KEY_LESSON_PROGRESS = 'mc_training_lessons_done';
-  const $ = (id) => document.getElementById(id);
-  const lessons = Array.from(document.querySelectorAll('.lesson'));
-  const totalLessons = lessons.length;
-
-  // Local progress is a navigation convenience, never proof of assessment success.
-  let savedProgress = 0;
-  try { savedProgress = parseInt(localStorage.getItem(KEY_LESSON_PROGRESS) || '0', 10) || 0; } catch(e) {}
-  let completedLessons = Math.max(0, Math.min(savedProgress, totalLessons));
-  let currentLessonIndex = Math.min(completedLessons, totalLessons - 1);
-
-  function refreshProgress(){
-    $('lessonPill').textContent = `${currentLessonIndex + 1} / ${totalLessons}`;
-    const pct = Math.round(completedLessons / totalLessons * 100);
-    $('pctText').textContent = `${pct}%`;
-    $('barFill').style.width = `${pct}%`;
-    $('doneLabel').textContent = completedLessons;
-  }
-
-  function showLesson(index){
-    lessons.forEach((section, i) => section.style.display = i === index ? 'block' : 'none');
-    currentLessonIndex = index;
-    $('lessonLabel').textContent = `Lesson ${index + 1}`;
-    $('prevLesson').disabled = index === 0;
-    $('nextLesson').textContent = index === totalLessons - 1 ? 'Finish Lessons ✅' : 'Next ➜';
-    refreshProgress();
-    lessons[index].scrollIntoView({behavior:'smooth', block:'start'});
-  }
-
-  function showAssessment(){
-    $('assessmentCard').style.display = 'block';
-    $('stickyNav').style.display = 'none';
-  }
-
-  $('prevLesson').addEventListener('click', () => {
-    if(currentLessonIndex > 0) showLesson(currentLessonIndex - 1);
-  });
-  $('nextLesson').addEventListener('click', () => {
-    completedLessons = Math.max(completedLessons, currentLessonIndex + 1);
-    try {
-      localStorage.setItem(KEY_LESSON_PROGRESS, String(completedLessons));
-      $('saveText').textContent = 'Saved';
-    } catch(e) {
-      $('saveText').textContent = 'Progress saved for this visit only';
-    }
-    refreshProgress();
-    if(currentLessonIndex < totalLessons - 1){
-      showLesson(currentLessonIndex + 1);
-    } else {
-      showAssessment();
-      $('assessmentCard').scrollIntoView({behavior:'smooth', block:'start'});
-    }
-  });
-
-  showLesson(currentLessonIndex);
-  if(completedLessons >= totalLessons) showAssessment();
-  try{ window.plausible && window.plausible('TrainingHubViewed'); }catch(e){}
-});
-</script>
-
-</body>
-</html>
+ <div class="th-reader-controls" id="readerControls" hidden><button class="cp-button cp-secondary" id="prevLesson" type="button">Previous</button><button class="cp-button cp-primary" id="nextLesson" type="button">Mark reviewed & continue</button></div>
+ <p class="th-review-note">Marking a lesson reviewed records your own reading progress. The assessment checks your knowledge separately.</p>
+ </div>
+</div>
+<section class="th-assessment" id="assessmentCard" aria-labelledby="assessmentTitle"><div class="th-assessment-symbol" aria-hidden="true"><svg class="cp-icon"><use href="#cp-check"/></svg></div><div><p class="cp-eyebrow">THE NEXT STEP</p><h2 id="assessmentTitle">Put your learning into practice.</h2><p id="assessmentStatus">Read all five lessons, then continue to the official assessment. Your result and certificate are handled by the assessment service.</p><div class="cp-actions" id="assessmentActions"><a class="cp-button cp-primary" id="assessmentLink" href="https://script.google.com/macros/s/AKfycbxmkC25_qQhxydDmRjjZa_efL-wQwGYysAIIxJ3YkIavJqLr5XVsNHv9okO2d3Epm4vfA/exec?type=assessment">Continue to official assessment →</a><a class="cp-text-link" href="verify.html">Verify a certificate</a></div><p class="th-subtle" id="networkStatus" role="status">The assessment opens an external service and needs internet access.</p></div></section>
+<section class="th-more" aria-label="Keep exploring"><div><p class="cp-eyebrow">CONTINUE GROWING</p><h2>Build your listening skills</h2><p>Explore foundation learning or the route for people with existing training.</p><a class="cp-text-link" href="become-a-counsellor.html">Explore the counsellor pathway →</a></div><div><p class="cp-eyebrow">SUPPORT, WHEN NEEDED</p><h2>Know where to turn.</h2><p>Keep referral options close while you learn.</p><a class="cp-text-link" href="resources.html">Clinics & resources →</a></div></section>
+<details class="th-safety"><summary>Before you offer support</summary><p>Protect privacy and follow your organisation’s safeguarding procedures. If someone is in immediate danger, use emergency services. This course is issued by SpeakOut Mental Health Outreach and does not grant a professional licence or automatic volunteer placement.</p></details>
+<noscript><p class="th-subtle">All lessons are shown below the course outline. Reading progress and lesson controls need JavaScript; the assessment link remains available after you read the lessons.</p></noscript>
+</main>
+<footer class="cp-shell cp-footer"><a class="cp-footer-brand" href="index.html">MindCheck <span>by SpeakOut</span></a><nav aria-label="Footer"><a href="volunteers.html">Volunteer zone</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="index.html?section=helpSection">Get support</a></nav><p>Listen. Support. Empower.</p></footer>
+<dialog id="resetDialog" aria-labelledby="resetTitle"><h2 id="resetTitle">Start afresh?</h2><p>This clears your lesson progress on this device. It does not change any assessment result or certificate.</p><div class="cp-actions"><button class="cp-button cp-secondary" id="cancelReset" type="button">Keep progress</button><button class="cp-button cp-primary" id="confirmReset" type="button">Reset progress</button></div></dialog>
+<p class="cp-sr" id="learningAnnouncement" role="status"></p>
+</body></html>
