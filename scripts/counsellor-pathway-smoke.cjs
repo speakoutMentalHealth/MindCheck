@@ -17,6 +17,9 @@ async function run(){
    const page=await context.newPage();
    for(const entry of ['training-hub.html','resources.html']){
     await page.goto(base+'/'+entry);
+    const tabBar=page.locator('#mc-premium-tabs');
+    await tabBar.waitFor({state:'visible'});
+    const bounds=await tabBar.boundingBox();assert(bounds.height<150,'Section navigation must stay a compact bottom bar');
     const link=page.getByRole('link',{name:'Explore the counsellor pathway →',exact:true});
     await link.scrollIntoViewIfNeeded();
     await page.screenshot({path:`artifacts/counsellor-pathway/${width}-${entry}.png`});
