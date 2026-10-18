@@ -31,13 +31,6 @@
     .ok{color:#166534;}
     .bad{color:#7f1d1d;}
   </style>
-
-  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-  <script>
-    (function(){
-      try{ window.plausible && window.plausible('MonitoringViewed'); }catch(e){}
-    })();
-  </script>
 <link rel="stylesheet" href="mindcheck-premium-nav.css"><script src="js/mindcheck-standalone-nav.js" defer></script><link rel="stylesheet" href="mindcheck-native-responsive.css"><link rel="stylesheet" href="mindcheck-calm-experience.css">
 <link rel="stylesheet" href="mindcheck-live-wellness.css"></head>
 <body>
@@ -217,8 +210,6 @@
       rows.push(row);
       setLocalMon(rows);
       renderTable();
-
-      try{ window.plausible && window.plausible('MonitoringSaved'); }catch(e){}
     }catch(e){
       console.error(e);
       setMonStatus(false,'❌ Network error while saving. Your data was not sent.');
@@ -247,7 +238,6 @@
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-    try{ window.plausible && window.plausible('MonitoringExport'); }catch(e){}
   }
 
   els('submitMonitoring').addEventListener('click', saveMonitoring);

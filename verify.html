@@ -31,13 +31,6 @@
     .pill{display:inline-block;margin-top:6px;padding:4px 10px;border-radius:999px;
       font-family:"SF Mono","Menlo",monospace;font-size:.78rem;border:1px dashed #d4af37;}
   </style>
-
-  <script defer data-domain="speakoutmentalhealth.github.io" src="https://plausible.io/js/script.js"></script>
-  <script>
-    (function(){
-      try{ window.plausible && window.plausible('VerifyPageViewed'); }catch(e){}
-    })();
-  </script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* Professional pathway design, consistent with Resources */
@@ -143,10 +136,8 @@ h1,h2,h3{color:#063f35;letter-spacing:-.025em}
 
       if(res.ok && data && data.ok === true && typeof data.cert_id === 'string' && data.cert_id.trim().toUpperCase() === id.toUpperCase()){
         setStatus(true, 'Certificate record found', 'Certificate ID: ' + String(data.cert_id) + ' | Issued to: ' + String(data.name || 'Not supplied') + ' | Score: ' + String(data.score ?? 'Not supplied') + '% | Issue date: ' + String(data.date || 'Not supplied'));
-        try{ window.plausible && window.plausible('CertificateVerifyOK'); }catch(e){}
       } else {
         setStatus(false, 'Certificate not verified', 'No matching certificate was found, or the verification service requires a secure server-side integration.');
-        try{ window.plausible && window.plausible('CertificateVerifyFail'); }catch(e){}
       }
     }catch(e){
       console.error(e);
