@@ -59,7 +59,7 @@ async function run(){
    await page.getByRole('radio',{name:/I already have training/}).check();assert.equal(await page.locator('#qualifiedPath').isVisible(),true);assert.equal(await page.locator('#beginnerPath').isVisible(),false);
    await page.reload();assert.equal(await page.locator('#qualifiedPath').isVisible(),true);
    await page.getByRole('radio',{name:/I’m starting out/}).check();
-   await page.getByRole('button',{name:'Night mode',exact:true}).click();assert.equal(await page.locator('body').getAttribute('class'),'night');
+   await page.getByRole('button',{name:'Night mode',exact:true}).click();assert(await page.locator('body').evaluate(body=>body.classList.contains('night')));
    await page.waitForFunction(()=>document.getAnimations().filter(a=>a instanceof CSSTransition||a.animationName==='cp-reveal').every(a=>a.playState==='finished'));
    const darkAxe=await page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).catch(async()=>{
      await page.addScriptTag({path:require.resolve('axe-core/axe.min.js')});return page.evaluate(async()=>await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));

@@ -14,6 +14,8 @@ on:
       - 'js/**'
       - '*.css'
       - 'scripts/browser-smoke.cjs'
+      - 'scripts/language-switch-smoke.cjs'
+      - '*.html'
       - '.github/workflows/mindcheck-browser-smoke.yml'
   workflow_dispatch:
 
@@ -37,6 +39,8 @@ jobs:
         run: node scripts/counsellor-pathway-smoke.cjs
       - name: Check Training Centre learning flow and accessibility
         run: node scripts/training-centre-smoke.cjs
+      - name: Check language switch on every page
+        run: node scripts/language-switch-smoke.cjs
       - name: Run responsive browser smoke suite
         run: node scripts/browser-smoke.cjs
       - uses: actions/upload-artifact@v4

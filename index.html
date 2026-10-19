@@ -323,6 +323,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <link rel="stylesheet" href="mindcheck-live-experience.css"><link rel="stylesheet" href="mindcheck-live-wellness.css"><link rel="stylesheet" href="mindcheck-synced-breathing.css"><script src="js/mindcheck-analytics-config.js" defer></script>
 <script src="js/mindcheck-analytics.js" defer></script>
 <meta name="referrer" content="strict-origin">
+<link rel="stylesheet" href="css/language-switch.css">
+<script defer src="js/language-switch.js"></script>
 </head>
 <body class="mc-stage-welcome">
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
@@ -433,7 +435,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <div class="mc-dashboard-art" aria-hidden="true"><div class="mc-orbit mc-orbit-one"></div><div class="mc-orbit mc-orbit-two"></div><div class="mc-orbit mc-orbit-three"></div><div class="mc-art-core"><span class="mc-art-heart">♥</span></div><span class="mc-art-star mc-star-a">✧</span><span class="mc-art-star mc-star-b">✳</span></div>
     </div>
     <div class="mc-dashboard-section-heading"><div><span class="mc-dashboard-section-label">YOUR MOMENTUM</span><h3>Your progress, at a glance</h3></div><span class="mc-dashboard-soft-caption">Every small step matters</span></div>
-    <button id="mcChangeLanguage" type="button" style="margin:8px 0;padding:8px 12px;border:1px solid #9ab9ab;border-radius:8px;background:#fff;cursor:pointer">🌍 Change language</button>
     <p id="mcLocaleNotice" role="status" hidden style="margin:8px 0;padding:10px;border:1px solid #b6c9c1;border-radius:8px;font-size:.9rem"></p>
     <p id="statsText" style="color:#334155;font-weight:500;margin-bottom:4px;"></p>
     <div class="stats" role="status" aria-live="polite">
@@ -838,7 +839,6 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       btn.onclick=()=>{ window.MindCheckLocale.apply(btn.dataset.lang || 'en'); document.body.classList.remove('mc-stage-welcome','mc-stage-language'); document.body.classList.add('mc-stage-dashboard'); show(homeSection); };
     });
 
-    document.getElementById('mcChangeLanguage').onclick=()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');show(langSection);};
 
     document.getElementById('goMood').onclick=()=>show(moodSection);
     document.getElementById('moodBackHome').onclick=()=>show(homeSection);

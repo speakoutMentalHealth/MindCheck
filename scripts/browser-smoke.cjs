@@ -165,8 +165,7 @@ async function run() {
       await page.locator('#savedTipsList button').first().click();
       assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_tips_saved')).length),0,'saved tip removed');
       await page.locator('#tipsBackHome').click();
-      await page.locator('#mcChangeLanguage').click();
-      await page.locator('.tbtn.live[data-lang="fr"]').click();
+      await page.locator('#mcLanguageSelect').selectOption('fr');
       await page.locator('#goTips').click();
       assert.equal(await page.evaluate(()=>localStorage.getItem('mc_lang')),'fr');
       assert((await page.locator('#tipText').innerText()).length>10,'translated tip is empty');
