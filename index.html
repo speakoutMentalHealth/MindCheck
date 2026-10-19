@@ -1142,6 +1142,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       { text: "Ask a trusted person what has helped them through a difficult week. You might discover a practical idea or feel less alone.", key:'uplift49', tags: ["low","neutral"], times:['any'] },
       { text: "Give yourself a realistic compliment: 'I handled something difficult today,' or 'I kept going when I needed to.'", key:'uplift50', tags: ["positive","low","neutral"], times:['any'] }
     ];
+    function savedTipKey(entry){const item=typeof entry==='string'?{text:entry}:entry||{};return item.key||TIPS.find(tip=>tip.text===item.text)?.key||window.MindCheckLocale?.tipKey(item.text)||item.text;}
     let currentTipFilter='all';
     let currentTipObj=null;
     let previousTipKey=null;
@@ -1182,7 +1183,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       tipText.textContent=localizedTip && localizedTip!==tip.key?localizedTip:tip.text;
       tipNote.textContent=currentTipFilter==='all'?`${mcT('suggestedFor')}: ${mcT('day'+day)}`:`${mcT('filter')}: ${mcT('tag'+currentTipFilter)} • ${mcT('suggestedFor')}: ${mcT('day'+day)}`;
       tipStatus.style.display='none';
-      tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(s=>s&&(typeof s==='string'?s:(s.key||s.text))===(tip.key||tip.text))));
+      tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(s=>savedTipKey(s)===(tip.key||tip.text))));
     }
     function renderSavedTips(){
       const saved=getSavedTips();
@@ -1222,7 +1223,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
           try{
             if(!setSavedTips(latest))throw new Error('Removal could not be verified');
             renderSavedTips();
-            if(currentTipObj)tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(x=>(x.key||x.text)===(currentTipObj.key||currentTipObj.text))));
+            if(currentTipObj)tipSaveBtn.setAttribute('aria-pressed',String(getSavedTips().some(x=>savedTipKey(x)===(currentTipObj.key||currentTipObj.text))));
             tipStatus.textContent=tipAction('removed');
             tipStatus.style.color='#087352';tipStatus.style.display='block';
           }catch(error){
@@ -1250,7 +1251,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       if(!currentTipObj) { renderTip(); return; }
       const saved=getSavedTips();
       const id=currentTipObj.key||currentTipObj.text;
-      const exists=saved.some(s=>(s.key||s.text)===id);
+      const exists=saved.some(s=>savedTipKey(s)===id);
       try {
         if(!exists){
           saved.push({text:currentTipObj.text,key:currentTipObj.key||null,saved_at:new Date().toISOString()});

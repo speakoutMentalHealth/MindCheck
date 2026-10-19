@@ -38,6 +38,8 @@ const fs=require('node:fs'),vm=require('node:vm'),{spawn}=require('node:child_pr
     const before=await page.locator('#tipText').innerText();
     await page.locator('#mcLanguageSelect').selectOption('en');await page.locator('#mcLanguageSelect').selectOption(code);
     assert.equal(await page.locator('#savedTipsList .mc-saved-tip-content>span').first().innerText(),before);
+    await page.evaluate(text=>localStorage.setItem('mc_tips_saved',JSON.stringify([{text,saved_at:new Date().toISOString()}])),tips.find(t=>t.key===key).text);
+    await page.locator('#tipSaveBtn').click();assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_tips_saved')).length),1,'legacy unkeyed saved tips must not duplicate');
     await page.locator('#tipShareBtn').click();assert.equal(await page.evaluate(()=>sharedPayload.text.split('\n')[0]),before);
     assert.equal(await page.locator('#tipStatus').innerText(),await page.evaluate(()=>MindCheckLocale.t('shareOpened')));
     await page.locator('#savedTipsList button').first().click();
