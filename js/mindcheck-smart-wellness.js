@@ -26,7 +26,7 @@ yo:['Àwọn àyẹ̀wò rẹ tẹ́lẹ̀','Ìrànlọ́wọ́ onírẹ̀lẹ̀
 pcm:['Your last mood checks','Small support for you','Small steps for today'],
 fr:['Vos derniers bilans','Un soutien doux pour vous','De petits pas aujourd’hui']
 };
-function language(){try{var l=(localStorage.getItem('mc_lang')||'en').split('-')[0].toLowerCase();return i18n[l]?l:'en';}catch(e){return'en';}}
+function language(){if(window.MindCheckLocale?.current)return window.MindCheckLocale.current();try{var l=(localStorage.getItem('mc_lang')||'en').split('-')[0].toLowerCase();return i18n[l]?l:'en';}catch(e){return'en';}}
 function tr(key){return(i18n[language()]||i18n.en)[key]||i18n.en[key];}
 function renderBreathingLabels(){
   renderAccordionLabels();
@@ -34,7 +34,9 @@ function renderBreathingLabels(){
   if(!breath)return;
   breath.querySelectorAll('[data-mcs]').forEach(function(el){el.textContent=tr(el.dataset.mcs);});
   if(!running&&!paused&&!completed)cue.textContent=tr('ready');
-  if(!running)start.textContent=paused?tr('resume'):tr('start');
+  start.textContent=running?tr('pause'):paused?tr('resume'):tr('start');
+  if(completed)cue.textContent=tr('complete');
+  if(running||paused){phaseLabel.textContent=tr(elapsed%10000<4000?'inhale':'exhale');cue.textContent=phaseLabel.textContent;}
   reset.textContent=tr('reset');
   if(!running&&!completed)phaseLabel.textContent=tr(elapsed%10000<4000?'inhale':'exhale');
 }
@@ -114,5 +116,6 @@ new MutationObserver(function(){if(running&&!document.getElementById('homeSectio
 document.addEventListener('visibilitychange',function(){if(document.hidden&&running)pause();});
 document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.mood,#mcChangeLanguage,[data-lang]'))setTimeout(renderBreathingLabels,100);});
 window.addEventListener('storage',renderBreathingLabels);
+window.addEventListener('mindcheck:languagechange',renderBreathingLabels);
 renderBreathingLabels();
 })();

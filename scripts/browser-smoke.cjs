@@ -173,7 +173,7 @@ async function run() {
       // fixed bottom tab and assert the destination screen is actually active.
       for(const [label,target] of [['Mood','moodSection'],['Wellness','tipsSection'],['Support','helpSection'],['Awards','badgesSection'],['Home','homeSection']]){
         await page.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
-        const tab=page.locator('#mc-premium-tabs .mc-standalone-tab').filter({hasText:label});
+        const tab=page.locator('#mc-premium-tabs .mc-standalone-tab[href*="'+target+'"]');
         await tab.click();
         await page.waitForFunction(id=>document.body.classList.contains('mc-stage-dashboard')&&document.getElementById(id)?.classList.contains('active'),target,{timeout:5000});
         assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' incorrect active tab '+label);
