@@ -5,10 +5,20 @@ const fs=require('node:fs'),vm=require('node:vm'),{spawn}=require('node:child_pr
 (async()=>{
  const source=fs.readFileSync('index.html','utf8');
  const tips=vm.runInNewContext(source.match(/const TIPS = (\[[\s\S]*?\n    \]);/)[1]);
+ const data={window:{}};
+ for(const file of ['js/wellness-interface-translations.js','js/mindcheck-uplift-translations.js'])vm.runInNewContext(fs.readFileSync(file,'utf8'),data);
+ const base=vm.runInNewContext(fs.readFileSync('js/mindcheck-i18n.js','utf8').match(/const wellness=(.*);\n/)[1].replace(/^/, '(')+')');
+ for(const tip of tips){
+  if(/^wellness(?:[1-9][0-9])$/.test(tip.key)&&Number(tip.key.slice(8))>=11)assert.equal(data.window.MindCheckWellnessTranslations.en[tip.key],tip.text,'translation must correspond to original tip');
+  for(const code of ['ha','ig','yo','pcm','fr']){
+   const value=tip.key.startsWith('uplift')?data.window.MindCheckUpliftTranslations[code][Number(tip.key.slice(6))-1]:data.window.MindCheckWellnessTranslations[code][tip.key]||base[code][tip.key];
+   assert(typeof value==='string'&&value.trim(),code+' needs an explicit translation for '+tip.key);
+  }
+ }
  assert.equal(tips.length,120);assert.equal(new Set(tips.map(t=>t.key)).size,120,'every tip needs a unique translation key');
  const server=spawn('python3',['-m','http.server','8771','--bind','127.0.0.1'],{stdio:'ignore'});let browser;
  try{
-  for(let i=0;i<50;i++){try{await fetch('http://127.0.0.1:8771/');break}catch{await new Promise(r=>setTimeout(r,100));}}
+  for(let i=0;i<50;i++){try{await new Promise((resolve,reject)=>{const socket=require('node:net').connect(8771,'127.0.0.1');socket.on('connect',()=>{socket.end();resolve();});socket.on('error',reject);});break}catch{await new Promise(r=>setTimeout(r,100));}}
   browser=await chromium.launch({headless:true});
   for(const width of [320,390,1280]){
    const context=await browser.newContext({viewport:{width,height:844},serviceWorkers:'block'});
