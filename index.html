@@ -579,12 +579,12 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <section id="formContainer" aria-labelledby="formTitle">
     <h2 id="formTitle" class="sr-only" style="position:absolute;left:-9999px;" data-i18n="screenForm">Screening Form</h2>
     <div class="mc-section-intro" role="note" style="margin:12px 0;padding:14px;border:1px solid #cbd5e1;border-radius:12px;text-align:left;line-height:1.5;">
-      <strong>Before you begin</strong>
-      <p>These screening questionnaires are currently provided in English by an external form service (Tally). They are screening tools, not a diagnosis or emergency service. Your responses are submitted to the external form provider; please review the <a href="privacy.html" target="_blank" rel="noopener">MindCheck privacy notice</a> before continuing.</p>
-      <p>If you or someone else is in immediate danger, do not wait for screening results. Contact local emergency services or seek urgent in-person help. In Nigeria, call 112.</p>
-      <p><a href="https://tally.so/r/w2QbOV" target="_blank" rel="noopener noreferrer">Open the screening form in a new tab</a> if it does not load below.</p>
+      <strong data-mcw="beforeScreening">Before you begin</strong>
+      <p><span data-mcw="screenIntro">These questionnaires are provided in English by Tally. They are screening tools, not a diagnosis or emergency service. Your answers go to the external form provider. Before answering, read the</span> <a href="privacy.html" target="_blank" rel="noopener" data-mcw="screenPrivacy">MindCheck privacy notice.</a></p>
+      <p data-mcw="screenUrgent">If you or someone else is in immediate danger, do not wait for screening results. Seek urgent in-person help or contact local emergency services. In Nigeria, call 112.</p>
+      <p><a href="https://tally.so/r/w2QbOV" target="_blank" rel="noopener noreferrer" data-mcw="screenOpen">Open the screening form in a new tab</a> <span data-mcw="screenMissing">if it does not load below.</span></p>
     </div>
-    <iframe id="formFrame" src="" title="SpeakOut MindCheck form" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    <iframe lang="en" id="formFrame" src="" title="SpeakOut MindCheck form" loading="lazy" referrerpolicy="no-referrer"></iframe>
     <div class="toolbar"><button id="formBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
 
@@ -760,15 +760,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     };
     window.mcShareTip=function(e){
       e?.preventDefault();e?.stopImmediatePropagation();
-      var t=tip();if(!t){status('No tip to share.',true);return false;}
-      var payload={title:'MindCheck Wellness Tip',text:t+'\n\nShared from MindCheck: https://mindcheck.speakoutmentalhealth.org/'};
+      var t=tip();if(!t){status(window.MindCheckLocale.t('shareEmpty'),true);return false;}
+      var payload={title:window.MindCheckLocale.t('shareTitle'),text:t+'\n\n'+window.MindCheckLocale.t('shareFrom')+' https://mindcheck.speakoutmentalhealth.org/'};
       function copyFallback(){
-        function result(ok){status(ok?'Share options unavailable here. Tip copied — paste it anywhere.':'Sharing unavailable. Please select and copy the tip text manually.',!ok);}
+        function result(ok){status(ok?window.MindCheckLocale.t('shareCopied'):window.MindCheckLocale.t('shareManual'),!ok);}
         if(navigator.clipboard?.writeText){navigator.clipboard.writeText(payload.text).then(function(){result(true);}).catch(function(){legacyCopy();});}
         else legacyCopy();
         function legacyCopy(){var a=document.createElement('textarea');a.value=payload.text;document.body.appendChild(a);a.select();var ok=false;try{ok=document.execCommand('copy');}catch(err){}a.remove();result(ok);}
       }
-      if(navigator.share){navigator.share(payload).then(function(){status('Share options opened.',false);}).catch(function(err){if(err?.name!=='AbortError'){copyFallback();}});}
+      if(navigator.share){navigator.share(payload).then(function(){status(window.MindCheckLocale.t('shareOpened'),false);}).catch(function(err){if(err?.name!=='AbortError'){copyFallback();}});}
       else copyFallback();
       return false;
     };
@@ -1031,67 +1031,66 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       { text: "🛏 Before bed, name one thing you did well and one tiny thing to try tomorrow.", key:'wellness9', tags: ["low","neutral","positive"], times:["evening","night"] },
       { text: "🌱 Box breathing: inhale 4s, hold 4s, exhale 4s, hold 4s (3–4 rounds).", key:'wellness10', tags: ["anxious","calm","neutral"], times:["any"] }
       ,
-      { text: "Name five things you can see, four you can feel, three you can hear, two you can smell, and one you can taste.", tags: ["anxious","calm","neutral"], times:['any'] },
-      { text: "Relax your shoulders and unclench your jaw. Notice the difference for one minute.", tags: ["anxious","calm","neutral"], times:['any'] },
-      { text: "Breathe gently in for four counts and out for six. Stop if you feel dizzy.", tags: ["anxious","calm"], times:['any'] },
-      { text: "Write down one worry and one small action within your control.", tags: ["anxious","neutral"], times:['any'] },
-      { text: "Put both feet on the floor and notice the support beneath you.", tags: ["anxious","calm"], times:['any'] },
-      { text: "Take a five-minute screen break and rest your eyes on something distant.", tags: ["anxious","neutral"], times:['any'] },
-      { text: "Choose one task and break it into a two-minute first step.", tags: ["anxious","low","neutral"], times:['any'] },
-      { text: "Listen to sounds around you for one quiet minute without judging them.", tags: ["calm","anxious","neutral"], times:['any'] },
-      { text: "Sip water slowly and notice its temperature.", tags: ["calm","anxious","neutral"], times:['any'] },
-      { text: "Try a gentle neck stretch, keeping movement comfortable.", tags: ["calm","neutral"], times:['any'] },
-      { text: "Step outside for fresh air if it is safe and accessible.", tags: ["low","neutral","positive"], times:['any'] },
-      { text: "Send a kind message to someone you trust.", tags: ["low","positive","neutral"], times:['any'] },
-      { text: "Write one sentence about something you handled well today.", tags: ["low","positive"], times:['any'] },
-      { text: "Put on a song that helps you feel grounded.", tags: ["low","calm","positive"], times:['any'] },
-      { text: "Tidy one small corner of your space for three minutes.", tags: ["low","neutral"], times:['any'] },
-      { text: "Eat a nourishing snack if you have not eaten for a while.", tags: ["low","neutral"], times:['any'] },
-      { text: "Open the curtains and let daylight into your room.", tags: ["low","neutral","positive"], times:['any'] },
-      { text: "Make a short list of three manageable priorities, not ten.", tags: ["anxious","neutral"], times:['any'] },
-      { text: "Take a gentle walk or move your body in a way that feels comfortable.", tags: ["low","positive","neutral"], times:['any'] },
-      { text: "Name one thing you are looking forward to, however small.", tags: ["low","positive"], times:['any'] },
-      { text: "Check in with your energy level before saying yes to another request.", tags: ["anxious","calm","neutral"], times:['any'] },
-      { text: "Give yourself permission to take a short rest without earning it.", tags: ["low","anxious","calm"], times:['any'] },
-      { text: "Write down one boundary that would make tomorrow easier.", tags: ["anxious","neutral"], times:['any'] },
-      { text: "Notice three colours in your surroundings and describe their shades.", tags: ["anxious","calm"], times:['any'] },
-      { text: "Try a five-minute creative activity: sketch, hum, or write.", tags: ["low","positive","neutral"], times:['any'] },
-      { text: "Reflect on a recent challenge and one thing it taught you.", tags: ["neutral","positive"], times:['any'] },
-      { text: "Celebrate completing one small task today.", tags: ["positive","low","neutral"], times:['any'] },
-      { text: "Plan a simple, enjoyable activity for later in the week.", tags: ["positive","low"], times:['any'] },
-      { text: "Thank someone for a small act of kindness.", tags: ["positive","neutral"], times:['any'] },
-      { text: "Share a genuine compliment without expecting anything back.", tags: ["positive"], times:['any'] },
-      { text: "Put your phone away for ten minutes during a meal.", tags: ["calm","neutral"], times:['any'] },
-      { text: "Notice whether you are thirsty, hungry, tired, or overstimulated.", tags: ["low","anxious","neutral"], times:['any'] },
-      { text: "If your thoughts race, write them down without trying to solve them all.", tags: ["anxious","neutral"], times:['any'] },
-      { text: "Try a gentle hand stretch after using your phone or keyboard.", tags: ["calm","neutral"], times:['any'] },
-      { text: "Before sleeping, dim bright lights and choose a calming routine.", tags: ["anxious","calm","low"], times:['any'] },
-      { text: "Set out one thing tonight that will make tomorrow simpler.", tags: ["neutral","anxious"], times:['any'] },
-      { text: "Think of a person or place that helps you feel supported.", tags: ["low","anxious","calm"], times:['any'] },
-      { text: "Take three slow, comfortable breaths while noticing your feet.", tags: ["anxious","calm"], times:['any'] },
-      { text: "Look for one small moment of beauty in an ordinary day.", tags: ["positive","neutral","low"], times:['any'] },
-      { text: "Remind yourself: asking for support is a practical step, not a weakness.", tags: ["low","anxious","neutral"], times:['any'] },
-      { text: "Some days, getting out of bed is an achievement. Choose one kind, achievable action: drink water, open a window, or message someone you trust. Small steps count.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "When your mind feels crowded, place both feet on the floor, relax your shoulders, breathe out slowly, and name five things you can see. You do not need to solve everything at once.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Send someone a simple message: I thought of you today and hope you are doing okay. Connection does not require a perfect speech.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Make a done list instead of a to-do list. Write three things you managed today, however ordinary. Your effort deserves recognition.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Give yourself permission to enjoy something without earning it first. Play a favorite song, sit in the sunshine, or enjoy a warm drink.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "If you made a mistake, speak to yourself as you would to a friend. Compassion can help you learn and move forward.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Feeling lonely? Choose one low-pressure connection today: greet a neighbor, call a relative, or join a community activity.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Before sleeping, write down one worry and one next step for tomorrow. You are allowed to rest before everything is finished.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Try a gentle energy boost: drink water, stretch your arms, and walk for five minutes if you can. Notice how your body feels.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Remember one challenge you have already survived. What helped you get through it? That strength and support are still part of your story.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Create a little joy: play a song that makes you smile, dance for one minute, or recall a funny memory.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "When overwhelmed, ask: what would help me through the next ten minutes? Choose one safe, manageable step.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Take a break from comparing your life to curated social-media highlights. Focus on one value that matters to you.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Practice a kind boundary: I cannot take that on today, but thank you for thinking of me. Protecting your energy matters.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Notice a small beautiful thing nearby: the sky, a tree, laughter, or a familiar song. Let the moment matter.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "If someone seems withdrawn, ask: would you like company, a listening ear, or practical help? Offer them a choice.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Write yourself a note: My feelings are real, but they can change. I can ask for support and take one step at a time.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Offer a sincere compliment, a thank-you message, or practical help within your capacity. Kindness builds connection.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "When your mind says I always fail, look for one example that gives a more balanced picture.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-      { text: "Schedule a ten-minute pause. Put your phone aside and breathe naturally. Rest supports sustainable effort.", tags:['low','neutral','positive','anxious','calm'], times:['any'] },
-,
+      { text: "Name five things you can see, four you can feel, three you can hear, two you can smell, and one you can taste.", key:'wellness11', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Relax your shoulders and unclench your jaw. Notice the difference for one minute.", key:'wellness12', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Breathe gently in for four counts and out for six. Stop if you feel dizzy.", key:'wellness13', tags: ["anxious","calm"], times:['any'] },
+      { text: "Write down one worry and one small action within your control.", key:'wellness14', tags: ["anxious","neutral"], times:['any'] },
+      { text: "Put both feet on the floor and notice the support beneath you.", key:'wellness15', tags: ["anxious","calm"], times:['any'] },
+      { text: "Take a five-minute screen break and rest your eyes on something distant.", key:'wellness16', tags: ["anxious","neutral"], times:['any'] },
+      { text: "Choose one task and break it into a two-minute first step.", key:'wellness17', tags: ["anxious","low","neutral"], times:['any'] },
+      { text: "Listen to sounds around you for one quiet minute without judging them.", key:'wellness18', tags: ["calm","anxious","neutral"], times:['any'] },
+      { text: "Sip water slowly and notice its temperature.", key:'wellness19', tags: ["calm","anxious","neutral"], times:['any'] },
+      { text: "Try a gentle neck stretch, keeping movement comfortable.", key:'wellness20', tags: ["calm","neutral"], times:['any'] },
+      { text: "Step outside for fresh air if it is safe and accessible.", key:'wellness21', tags: ["low","neutral","positive"], times:['any'] },
+      { text: "Send a kind message to someone you trust.", key:'wellness22', tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Write one sentence about something you handled well today.", key:'wellness23', tags: ["low","positive"], times:['any'] },
+      { text: "Put on a song that helps you feel grounded.", key:'wellness24', tags: ["low","calm","positive"], times:['any'] },
+      { text: "Tidy one small corner of your space for three minutes.", key:'wellness25', tags: ["low","neutral"], times:['any'] },
+      { text: "Eat a nourishing snack if you have not eaten for a while.", key:'wellness26', tags: ["low","neutral"], times:['any'] },
+      { text: "Open the curtains and let daylight into your room.", key:'wellness27', tags: ["low","neutral","positive"], times:['any'] },
+      { text: "Make a short list of three manageable priorities, not ten.", key:'wellness28', tags: ["anxious","neutral"], times:['any'] },
+      { text: "Take a gentle walk or move your body in a way that feels comfortable.", key:'wellness29', tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Name one thing you are looking forward to, however small.", key:'wellness30', tags: ["low","positive"], times:['any'] },
+      { text: "Check in with your energy level before saying yes to another request.", key:'wellness31', tags: ["anxious","calm","neutral"], times:['any'] },
+      { text: "Give yourself permission to take a short rest without earning it.", key:'wellness32', tags: ["low","anxious","calm"], times:['any'] },
+      { text: "Write down one boundary that would make tomorrow easier.", key:'wellness33', tags: ["anxious","neutral"], times:['any'] },
+      { text: "Notice three colours in your surroundings and describe their shades.", key:'wellness34', tags: ["anxious","calm"], times:['any'] },
+      { text: "Try a five-minute creative activity: sketch, hum, or write.", key:'wellness35', tags: ["low","positive","neutral"], times:['any'] },
+      { text: "Reflect on a recent challenge and one thing it taught you.", key:'wellness36', tags: ["neutral","positive"], times:['any'] },
+      { text: "Celebrate completing one small task today.", key:'wellness37', tags: ["positive","low","neutral"], times:['any'] },
+      { text: "Plan a simple, enjoyable activity for later in the week.", key:'wellness38', tags: ["positive","low"], times:['any'] },
+      { text: "Thank someone for a small act of kindness.", key:'wellness39', tags: ["positive","neutral"], times:['any'] },
+      { text: "Share a genuine compliment without expecting anything back.", key:'wellness40', tags: ["positive"], times:['any'] },
+      { text: "Put your phone away for ten minutes during a meal.", key:'wellness41', tags: ["calm","neutral"], times:['any'] },
+      { text: "Notice whether you are thirsty, hungry, tired, or overstimulated.", key:'wellness42', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "If your thoughts race, write them down without trying to solve them all.", key:'wellness43', tags: ["anxious","neutral"], times:['any'] },
+      { text: "Try a gentle hand stretch after using your phone or keyboard.", key:'wellness44', tags: ["calm","neutral"], times:['any'] },
+      { text: "Before sleeping, dim bright lights and choose a calming routine.", key:'wellness45', tags: ["anxious","calm","low"], times:['any'] },
+      { text: "Set out one thing tonight that will make tomorrow simpler.", key:'wellness46', tags: ["neutral","anxious"], times:['any'] },
+      { text: "Think of a person or place that helps you feel supported.", key:'wellness47', tags: ["low","anxious","calm"], times:['any'] },
+      { text: "Take three slow, comfortable breaths while noticing your feet.", key:'wellness48', tags: ["anxious","calm"], times:['any'] },
+      { text: "Look for one small moment of beauty in an ordinary day.", key:'wellness49', tags: ["positive","neutral","low"], times:['any'] },
+      { text: "Remind yourself: asking for support is a practical step, not a weakness.", key:'wellness50', tags: ["low","anxious","neutral"], times:['any'] },
+      { text: "Some days, getting out of bed is an achievement. Choose one kind, achievable action: drink water, open a window, or message someone you trust. Small steps count.", key:'wellness51', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "When your mind feels crowded, place both feet on the floor, relax your shoulders, breathe out slowly, and name five things you can see. You do not need to solve everything at once.", key:'wellness52', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Send someone a simple message: I thought of you today and hope you are doing okay. Connection does not require a perfect speech.", key:'wellness53', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Make a done list instead of a to-do list. Write three things you managed today, however ordinary. Your effort deserves recognition.", key:'wellness54', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Give yourself permission to enjoy something without earning it first. Play a favorite song, sit in the sunshine, or enjoy a warm drink.", key:'wellness55', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "If you made a mistake, speak to yourself as you would to a friend. Compassion can help you learn and move forward.", key:'wellness56', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Feeling lonely? Choose one low-pressure connection today: greet a neighbor, call a relative, or join a community activity.", key:'wellness57', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Before sleeping, write down one worry and one next step for tomorrow. You are allowed to rest before everything is finished.", key:'wellness58', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Try a gentle energy boost: drink water, stretch your arms, and walk for five minutes if you can. Notice how your body feels.", key:'wellness59', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Remember one challenge you have already survived. What helped you get through it? That strength and support are still part of your story.", key:'wellness60', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Create a little joy: play a song that makes you smile, dance for one minute, or recall a funny memory.", key:'wellness61', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "When overwhelmed, ask: what would help me through the next ten minutes? Choose one safe, manageable step.", key:'wellness62', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Take a break from comparing your life to curated social-media highlights. Focus on one value that matters to you.", key:'wellness63', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Practice a kind boundary: I cannot take that on today, but thank you for thinking of me. Protecting your energy matters.", key:'wellness64', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Notice a small beautiful thing nearby: the sky, a tree, laughter, or a familiar song. Let the moment matter.", key:'wellness65', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "If someone seems withdrawn, ask: would you like company, a listening ear, or practical help? Offer them a choice.", key:'wellness66', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Write yourself a note: My feelings are real, but they can change. I can ask for support and take one step at a time.", key:'wellness67', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Offer a sincere compliment, a thank-you message, or practical help within your capacity. Kindness builds connection.", key:'wellness68', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "When your mind says I always fail, look for one example that gives a more balanced picture.", key:'wellness69', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
+      { text: "Schedule a ten-minute pause. Put your phone aside and breathe naturally. Rest supports sustainable effort.", key:'wellness70', tags:['low','neutral','positive','anxious','calm'], times:['any'] },
       { text: "You do not have to fix your whole life today. Choose one small thing you can influence, give it ten minutes, and let that be enough for now.", key:'uplift1', tags: ["low","anxious","neutral"], times:['any'] },
       { text: "A difficult morning does not predict the rest of your day. Take a sip of water, change your surroundings if you can, and begin again.", key:'uplift2', tags: ["low","neutral"], times:['any'] },
       { text: "Progress is not always loud. Sometimes it looks like asking a question, getting some rest, or trying once more after yesterday.", key:'uplift3', tags: ["low","positive","neutral"], times:['any'] },
@@ -1169,13 +1168,14 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       const choices=alternatives.length?alternatives:src;
       return choices.length?(choices[Math.floor(Math.random()*choices.length)]||null):null;
     }
-    function renderTip(){
+    function renderTip(preserve=false){
       const day=getDaypart();
       tipsGreeting.textContent=mcT('greeting'+day);
       const fallback={text:"Take a slow deep breath — you’ve got this.",tags:["all"]};
-      const candidate=pickTip(currentTipFilter);
+      const candidate=preserve===true&&currentTipObj?currentTipObj:pickTip(currentTipFilter);
       const tip=candidate&&typeof candidate.text==='string'?candidate:fallback;
       currentTipObj=tip;
+      tipText.dataset.tipKey=tip.key||"";
       previousTipKey=tip.key||tip.text;
       document.querySelectorAll('.tip-filter').forEach(btn=>{const selected=btn.dataset.filter===currentTipFilter;btn.setAttribute('aria-pressed',String(selected));});
       const localizedTip=tip.key?mcT(tip.key):tip.text;
@@ -1201,12 +1201,12 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         const content=document.createElement('div');
         content.className='mc-saved-tip-content';
         const message=document.createElement('span');
-        const key=t.key||TIPS.find(tip=>tip&&tip.text===t.text)?.key;
+        const key=t.key||TIPS.find(tip=>tip&&tip.text===t.text)?.key||window.MindCheckLocale?.tipKey(t.text);
         const localized=key?mcT(key):t.text;
         message.textContent=!localized||localized===key?t.text:localized;
         const date=document.createElement('small');
         const parsed=new Date(t.saved_at);
-        date.textContent=mcT('savedAt')+' '+(Number.isNaN(parsed.getTime())?'':parsed.toLocaleString());
+        date.textContent=mcT('savedAt')+' '+(Number.isNaN(parsed.getTime())?'':parsed.toLocaleString(({ha:'ha-NG',ig:'ig-NG',yo:'yo-NG',pcm:'en-NG',fr:'fr-FR'})[window.MindCheckLocale?.current()]||'en-NG'));
         content.append(message,date);
         const remove=document.createElement('button');
         remove.type='button';remove.className='btn btn-ghost mc-remove-tip';
@@ -1243,9 +1243,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       pcm:{remove:'Comot',removed:'We don comot the tip from your saved list.',removeError:'We no fit comot this tip. Try again.',already:'You don save this tip already',saveError:'We no fit save am for this device. Check your browser storage settings and try again.'},
       fr:{remove:'Supprimer',removed:'Conseil retiré de votre liste.',removeError:'Impossible de supprimer ce conseil. Réessayez.',already:'Ce conseil est déjà enregistré',saveError:'Enregistrement impossible sur cet appareil. Vérifiez les paramètres de stockage du navigateur.'}
     };
-    function tipAction(key){let lang='en';try{lang=(localStorage.getItem('mc_lang')||'en').toLowerCase().split('-')[0];}catch(_e){}return(tipActionCopy[lang]||tipActionCopy.en)[key];}
+    function tipAction(key){if(window.MindCheckLocale?.current)return tipActionCopy[window.MindCheckLocale.current()][key];let lang='en';try{lang=(localStorage.getItem('mc_lang')||'en').toLowerCase().split('-')[0];}catch(_e){}return(tipActionCopy[lang]||tipActionCopy.en)[key];}
     window.mcRenderSavedTips=renderSavedTips;
-    tipSaveBtn.addEventListener('click', ()=>{
+    function saveCurrentTip(event){
+      event?.preventDefault();
       if(!currentTipObj) { renderTip(); return; }
       const saved=getSavedTips();
       const id=currentTipObj.key||currentTipObj.text;
@@ -1268,7 +1269,11 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         tipStatus.style.color='#9f1239';
       }
       tipStatus.style.display='block';
-    });
+      return false;
+    }
+    window.mcSaveTip=saveCurrentTip;
+    tipSaveBtn.addEventListener('click',saveCurrentTip);
+    window.addEventListener('mindcheck:languagechange',()=>{renderSavedTips();if(currentTipObj)renderTip(true);});
     tipDoneBtn.addEventListener('click', ()=>{
       if(!currentTipObj) return;
       const done=getDoneTips(); done.push({text:currentTipObj.text,key:currentTipObj.key||null,done_at:new Date().toISOString()});
@@ -1346,10 +1351,11 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     }
   </script>
 <script src="js/mindcheck-uplift-translations.js"></script>
+<script src="js/wellness-interface-translations.js"></script>
 <script src="js/mindcheck-i18n.js"></script>
 <script src="js/mindcheck-premium-nav.js" defer></script>
 <script src="js/mindcheck-journey.js" defer></script>
 <script src="js/mindcheck-smart-wellness.js" defer></script>
 <script src="js/mindcheck-calm-interactions.js" defer></script>
-</body>
+<script src="js/mindcheck-page-locales.js" defer></script></body>
 </html>

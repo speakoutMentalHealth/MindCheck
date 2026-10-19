@@ -19,7 +19,8 @@
     function update(code){
       selected=locale.supported.includes(code)?code:'en';select.value=selected;label.textContent=labels[selected];label.lang=selected;
       note.hidden=selected==='en';
-      note.textContent=document.getElementById('homeSection')?'Some content, including screening tools, remains in English.':'This page is currently available in English.';
+      note.lang=document.getElementById('assessmentMain')||document.getElementById('homeSection')?selected:'en';
+      note.textContent=document.getElementById('assessmentMain')||document.getElementById('homeSection')?locale.t('sourceNotice'):'This page is currently available in English.';
       resize();
     }
     select.addEventListener('change',()=>update(locale.apply(select.value)));

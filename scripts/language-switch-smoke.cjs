@@ -29,7 +29,7 @@ const {readdirSync}=require('node:fs');
    assert.equal(await page.locator('section.active').first().getAttribute('id'),activeBefore,'language must preserve current step');
    await page.goto('http://127.0.0.1:8768/assessment-centre.html');
    assert.equal(await page.locator('#mcLanguageSelect').inputValue(),'fr','cross-page selection retained');
-   assert.equal(await page.locator('html').getAttribute('lang'),'en','untranslated standalone source language retained');
+   assert.equal(await page.locator('html').getAttribute('lang'),'fr','translated assessment library uses selected document language');
    await page.reload();assert.equal(await page.locator('#mcLanguageSelect').inputValue(),'fr');
    console.log('PASS '+pages.length+' pages at '+width+'px; top visibility, scrolling, switching, persistence and source language');
    if(width===390){await page.screenshot({path:'/tmp/mc-language-mobile.png',fullPage:false});}
