@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v34-visitor-analytics-20261018"
+EXPECTED_CACHE = "mc-v35-global-language-20261019"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)
@@ -26,7 +26,7 @@ for locale in ("en", "ha", "ig", "yo", "pcm", "fr"):
 
 for element_id in ("langSection", "homeSection", "moodSection", "formContainer",
                    "tipsSection", "helpSection", "badgesSection", "crisisBanner",
-                   "formFrame", "pointsPill", "streakPill", "mcChangeLanguage",
+                   "formFrame", "pointsPill", "streakPill",
                    "goMood", "goAssessmentCentre"):
     check("required element " + element_id, 'id="' + element_id + '"' in html)
 
