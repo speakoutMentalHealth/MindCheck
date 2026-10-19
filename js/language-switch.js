@@ -10,7 +10,7 @@
     try{selected=localStorage.getItem('mc_lang')||'en';}catch(_){}
     if(!locale.supported.includes(selected))selected='en';
     const bar=document.createElement('div');bar.id='mcLanguageBar';bar.setAttribute('role','region');bar.setAttribute('aria-label','Language settings');
-    bar.innerHTML='<div class="mc-language-inner"><label for="mcLanguageSelect"><span aria-hidden="true">🌐</span> <span id="mcLanguageLabel">Language</span></label><select id="mcLanguageSelect" aria-describedby="mcLanguageNote"></select></div><p id="mcLanguageNote" lang="en" hidden></p>';
+    bar.innerHTML='<div class="mc-language-inner"><label for="mcLanguageSelect"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18M5 6h14M5 18h14"/></svg> <span id="mcLanguageLabel">Language</span></label><select id="mcLanguageSelect" aria-describedby="mcLanguageNote"></select></div><p id="mcLanguageNote" lang="en" hidden></p>';
     const select=bar.querySelector('select'),label=bar.querySelector('#mcLanguageLabel'),note=bar.querySelector('p');
     for(const [code,name] of languages){const option=document.createElement('option');option.value=code;option.lang=code;option.textContent=name;select.appendChild(option);}
     document.body.style.setProperty('--mc-content-padding-top',getComputedStyle(document.body).paddingTop);
@@ -19,7 +19,7 @@
     function update(code){
       selected=locale.supported.includes(code)?code:'en';select.value=selected;label.textContent=labels[selected];label.lang=selected;
       note.hidden=selected==='en';
-      note.textContent=document.getElementById('homeSection')?'Some content, including screening tools, remains in English.':'Language preference saved. This page’s content is currently in English.';
+      note.textContent=document.getElementById('homeSection')?'Some content, including screening tools, remains in English.':'This page is currently available in English.';
       resize();
     }
     select.addEventListener('change',()=>update(locale.apply(select.value)));
