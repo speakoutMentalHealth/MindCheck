@@ -3,7 +3,7 @@
 'use strict';
 function mount(){
  const home=document.getElementById('homeSection'),journey=document.getElementById('mcJourney');
- if(!home||!journey||!HTMLDialogElement.prototype.showModal)return;
+ if(!home||!journey||!window.HTMLDialogElement?.prototype?.showModal||!window.MindCheckHomeCopy?.en)return;
  const body=document.body;
  const copy=key=>(window.MindCheckHomeCopy?.[window.MindCheckLocale?.current()||'en']||window.MindCheckHomeCopy.en)[key];
  const footer=()=>'<div class="mc-home-footer"><a href="privacy.html" data-hc="privacy">Privacy</a><a href="terms.html" data-hc="terms">Terms</a><a href="https://speakoutmentalhealth.org/">SpeakOut ↗</a></div>';
