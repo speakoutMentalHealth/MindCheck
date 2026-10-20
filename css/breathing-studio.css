@@ -24,3 +24,45 @@
 #mcBreathing :is(select,summary,.mc-grounding-controls button):focus-visible{outline:3px solid #1d7960;outline-offset:3px}
 @media(max-width:450px){#mcBreathing .mc-breathing-options{grid-template-columns:1fr}#mcBreathing .mc-grounding summary{padding:16px}#mcBreathing .mc-breathing-meters{gap:8px 14px}}
 @media(prefers-reduced-motion:reduce){#mcBreathing .mc-grounding-controls button{transition:none}}
+/* A single-screen breathing console. Expanded guidance can scroll naturally. */
+body #mcHomeSheet[data-panel=breathing] .mc-home-sheet-head{padding:6px 16px;min-height:54px}
+body #mcHomeSheet[data-panel=breathing] .mc-home-sheet-content{padding:6px 10px max(8px,env(safe-area-inset-bottom))}
+body #mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing[data-heart-scene=living]{padding:12px!important;border-radius:22px!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-smart-eyebrow,#mcHomeSheet[data-panel=breathing] #mcBreathing>[data-mcs=breathingIntro]{display:none!important}
+body #mcHomeSheet[data-panel=breathing] #mcBreathingTitle{font-size:1.2rem!important;line-height:1.2!important;margin:0!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-head{margin:0!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-options{grid-template-columns:1fr 1fr;gap:8px;margin:9px 0 0!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-options label{gap:3px;font-size:.7rem;line-height:1.3;min-width:0}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-options select{min-height:44px;padding:7px 22px 7px 8px;font-size:16px;border-radius:11px}
+#mcHomeSheet[data-panel=breathing] #mcBreathingChangeHint{margin:4px 0 0;font-size:.7rem;line-height:1.25}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-visual{position:relative;display:block!important;height:clamp(112px,calc(100dvh - 455px),260px)!important;padding:0!important;margin:0 auto!important;overflow:visible!important}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-stage{position:absolute!important;left:50%!important;top:0!important;width:260px!important;height:260px!important;min-width:260px!important;margin:0 0 0 -130px!important;transform:scale(var(--mc-fit-scene-scale,.6))!important;transform-origin:50% 0!important}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-cue{min-height:0!important;font-size:1rem!important;line-height:1.25!important;margin:2px 0 5px!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breath-cycle-dots{display:none}
+body #mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-meters{gap:4px 12px;margin:0 0 8px!important;padding:7px 0!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-meters p{gap:5px;font-size:.68rem;line-height:1.3}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-meters strong{font-size:.85rem!important;letter-spacing:0!important;margin:0!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-controls{display:grid!important;grid-template-columns:1fr 1fr;gap:8px;margin:0!important}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-controls button{min-height:44px!important;padding:9px 8px!important;font-size:.86rem!important;line-height:1.3!important;margin:0!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-comfort{font-size:.72rem;line-height:1.35;color:#425f54;margin:7px auto;max-width:440px}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-extras{display:flex;flex-wrap:wrap;gap:7px;text-align:left}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-extras>details{flex:1 1 calc(50% - 7px);min-width:0;border:1px solid #d4ddcf;border-radius:13px;background:#fffefa;margin:0!important;box-sizing:border-box}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-extras>details[open]{flex-basis:100%}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-extras summary{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:8px!important;line-height:1.3;font-size:.76rem;font-weight:600;color:#245242;cursor:pointer;text-align:center;box-sizing:border-box}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-grounding summary>span{display:none}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-guide-body{padding:0 13px 12px;line-height:1.5;font-size:.85rem}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-guide-body .mc-smart-disclaimer{font-size:.85rem!important;line-height:1.5!important;margin:0 0 10px!important}
+@media(max-height:620px){body #mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing[data-heart-scene=living]{padding:9px!important}#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-comfort{margin:5px auto}}
+
+/* Keep timer text at reading size rather than scaling it with the heart. */
+body #mcHomeSheet[data-panel=breathing]{padding-bottom:0!important}
+body #mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing[data-heart-scene=living]{margin-bottom:0!important}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-circle{width:240px!important;height:240px!important;min-width:240px!important;min-height:240px!important;left:10px!important;top:10px!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-rhythm-cue{display:flex;align-items:center;justify-content:center;gap:8px;margin:3px 0 5px;min-height:24px}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-countdown{position:static!important;inset:auto!important;display:flex!important;flex:none!important;width:28px!important;height:26px!important;min-width:28px;padding:0!important;background:#fffefa!important;border:1px solid #d4ddcf!important;text-shadow:none!important;box-shadow:none!important;transform:none!important}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-countdown span{position:absolute!important;width:1px!important;height:1px!important;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
+#mcHomeSheet[data-panel=breathing] #mcJourney #mcBreathing .mc-breathing-cue{margin:0!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-comfort{font-size:.72rem!important;line-height:1.35!important;margin:6px auto!important;color:#425f54!important}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-extras summary::after{content:'+';margin-left:auto;font-size:1rem;line-height:1;color:#486d5a}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-extras details[open]>summary::after{content:'−'}
+#mcHomeSheet[data-panel=breathing] #mcBreathing .mc-breathing-extras summary strong{font-size:inherit!important;line-height:inherit!important;font-weight:600!important}

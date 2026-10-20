@@ -465,9 +465,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         <div class="mc-breathing-options">
 <label for="mcBreathingRhythm"><span data-bx="rhythm">Choose your rhythm</span><select id="mcBreathingRhythm"><option value="gentle" data-bx="gentle">Gentle · 4 in, 6 out</option><option value="steady" data-bx="steady">Steady · 5 in, 5 out</option><option value="easy" data-bx="easy">Shorter · 3 in, 3 out</option></select></label>
 <label for="mcBreathingDuration"><span data-bx="duration">Make a little space</span><select id="mcBreathingDuration"><option value="30000" data-bx="sec30">30 seconds</option><option value="60000" data-bx="min1">1 minute</option><option value="120000" data-bx="min2">2 minutes</option></select></label>
-</div><p id="mcBreathingChangeHint" data-bx="changeHint" hidden>Reset to change your rhythm or time.</p>
+</div>
 <div class="mc-breathing-visual">
-          <div class="mc-breathing-stage" aria-label="Breathing timer">
+          <div class="mc-breathing-stage" role="img" aria-label="Breathing timer">
             <div class="mc-heart-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
             <svg class="mc-breathing-ring" viewBox="0 0 260 260" aria-hidden="true"><circle class="mc-breathing-ring-track" cx="130" cy="130" r="114"></circle><circle id="mcBreathingRingProgress" class="mc-breathing-ring-progress" cx="130" cy="130" r="114"></circle></svg>
             <div id="mcBreathingCircle" class="mc-breathing-circle mc-breathing-heart" aria-hidden="true"><svg class="mc-breathing-heart-svg" viewBox="0 0 200 200" focusable="false" aria-hidden="true"><defs>
@@ -482,17 +482,18 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <path d="M51 43 C67 29 85 36 92 50" stroke="#fff3ee" stroke-opacity=".55" stroke-width="5" fill="none" stroke-linecap="round"/>
 <ellipse cx="64" cy="58" rx="29" ry="24" fill="url(#mcHeartSheen)" opacity=".42"/></g>
 </svg></div>
-            <div class="mc-breathing-countdown"><strong id="mcBreathingSeconds">4</strong><span id="mcBreathingPhase">INHALE</span></div>
+
           </div>
         </div>
-        <p id="mcBreathingCue" class="mc-breathing-cue" role="status" aria-live="off">Ready when you are</p>
+        <div class="mc-breathing-rhythm-cue"><div class="mc-breathing-countdown"><strong id="mcBreathingSeconds">4</strong><span id="mcBreathingPhase">INHALE</span></div><p id="mcBreathingCue" class="mc-breathing-cue" role="status" aria-live="off">Ready when you are</p></div>
         <div class="mc-breath-cycle-dots" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="mc-breathing-meters"><p><span data-bx="cycles">Breathing cycles</span> <strong id="mcBreathingProgress" class="mc-breathing-progress">0 / 3</strong></p><p><span data-bx="remaining">Time left</span> <strong id="mcBreathingRemaining">0:30</strong></p></div>
         <div class="mc-breathing-controls"><button type="button" id="mcBreathingStart" data-mcs="start">Start breathing</button><button type="button" id="mcBreathingReset" data-mcs="reset">Reset</button></div>
-        <p class="mc-smart-disclaimer" data-bx="comfort">Follow only while comfortable. Breathe normally if the pace does not suit you. Stop if you feel dizzy or unwell.</p>
+        <p class="mc-breathing-comfort" data-bx="comfortShort">Breathe comfortably. Stop if dizzy or unwell.</p>
+        <div class="mc-breathing-extras"><details id="mcBreathingGuide" class="mc-breathing-guide"><summary data-bx="guideTitle">How to &amp; safety</summary><div class="mc-breathing-guide-body"><p id="mcBreathingChangeHint" data-bx="changeHint" hidden>Reset to change your rhythm or time.</p>        <p class="mc-smart-disclaimer" data-bx="comfort">Follow only while comfortable. Breathe normally if the pace does not suit you. Stop if you feel dizzy or unwell.</p>
         <p class="mc-breathing-health-note" data-bx="notTest">A calming visual, not a heart or lung health test.</p>
         <a class="mc-breathing-source" href="https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/breathing-exercises-for-stress/" target="_blank" rel="noopener noreferrer" data-bx="guidance">Breathing guidance · NHS</a>
-        <details id="mcGrounding" class="mc-grounding"><summary><span aria-hidden="true">5 · 4 · 3 · 2 · 1</span><strong data-bx="groundingTitle">Five-senses reset</strong></summary><div class="mc-grounding-body"><p data-bx="groundingIntro">Look around at your own pace. Skip any sense that is not available or comfortable. You do not need to type anything.</p><p id="mcGroundingProgress" class="mc-grounding-progress">1 / 5</p><p id="mcGroundingPrompt" role="status" aria-live="polite">Notice 5 things you can see.</p><div class="mc-grounding-controls"><button id="mcGroundingBack" type="button" data-bx="previous" disabled>Back</button><button id="mcGroundingNext" type="button" data-bx="next">Next / skip</button></div><a class="mc-breathing-source" href="https://www.nhsinform.scot/healthy-living/mental-wellbeing/breathing-and-relaxation-exercises/grounding-exercises/" target="_blank" rel="noopener noreferrer" data-bx="groundingSource">Grounding guidance · NHS inform</a></div></details>
+</div></details><details id="mcGrounding" class="mc-grounding"><summary><span aria-hidden="true">5 · 4 · 3 · 2 · 1</span><strong data-bx="groundingTitle">Five-senses reset</strong></summary><div class="mc-grounding-body"><p data-bx="groundingIntro">Look around at your own pace. Skip any sense that is not available or comfortable. You do not need to type anything.</p><p id="mcGroundingProgress" class="mc-grounding-progress">1 / 5</p><p id="mcGroundingPrompt" role="status" aria-live="polite">Notice 5 things you can see.</p><div class="mc-grounding-controls"><button id="mcGroundingBack" type="button" data-bx="previous" disabled>Back</button><button id="mcGroundingNext" type="button" data-bx="next">Next / skip</button></div><a class="mc-breathing-source" href="https://www.nhsinform.scot/healthy-living/mental-wellbeing/breathing-and-relaxation-exercises/grounding-exercises/" target="_blank" rel="noopener noreferrer" data-bx="groundingSource">Grounding guidance · NHS inform</a></div></details></div>
       </div>
       <details class="mc-calm-accordion"><summary><span class="mc-accordion-leading" aria-hidden="true">✓</span><span class="mc-accordion-copy"><span data-mc-accordion="challenges">Daily wellness challenges</span><small data-mc-accordion-sub="challenges">Small steps for today</small></span><span class="mc-calm-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary><div class="mc-calm-panel">
 <div class="mc-journey-challenge-head"><h4 data-mcj="daily">Today's gentle challenges</h4><p data-mcj="dailyIntro">Choose what feels helpful. Completing a challenge is optional.</p></div>
@@ -664,44 +665,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     #mcInstallDialog h2{font-size:1.3rem;margin:0 0 12px}
     #mcInstallDialog p{line-height:1.65;white-space:pre-line}
   </style>
-  <script>
-  (function(){
-    const banner=document.getElementById('mcInstallBanner');
-    const dialog=document.getElementById('mcInstallDialog');
-    const instructions=document.getElementById('mcInstallInstructions');
-    let deferredPrompt=null;
-    const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
-    const isIOS=()=>/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-    const showBanner=()=>{
-      if(standalone())return;
-      try{if(sessionStorage.getItem('mc-install-dismissed')==='1')return;}catch(e){}
-      if(document.body.classList.contains('mc-stage-welcome'))banner.hidden=false;
-    };
-    window.addEventListener('beforeinstallprompt',function(event){
-      event.preventDefault();deferredPrompt=event;showBanner();
-    });
-    window.addEventListener('appinstalled',function(){deferredPrompt=null;banner.hidden=true;});
-    document.getElementById('mcInstallDismiss').addEventListener('click',function(){
-      banner.hidden=true;try{sessionStorage.setItem('mc-install-dismissed','1');}catch(e){}
-    });
-    document.getElementById('mcInstallClose').addEventListener('click',()=>dialog.close());
-    document.getElementById('mcInstallOpen').addEventListener('click',async function(){
-      if(deferredPrompt){
-        const prompt=deferredPrompt;deferredPrompt=null;
-        try{await prompt.prompt();const choice=await prompt.userChoice;if(choice?.outcome==='accepted'){banner.hidden=true;return;}}catch(e){console.warn('Install prompt unavailable',e);}
-      }
-      const chromeIOS=isIOS() && /CriOS/i.test(navigator.userAgent);
-      instructions.textContent=chromeIOS
-        ? 'On iPhone using Google Chrome: Tap the Share icon in Chrome, scroll through the share options, and select Add to Home Screen if available, then tap Add. If this option is missing, tap Share and choose Open in Safari (or copy the MindCheck link into Safari), then use Safari Share → Add to Home Screen → Add. You can then launch MindCheck from your Home Screen.'
-        : isIOS()
-        ? 'On iPhone using Safari: Tap Share (the square with an upward arrow), scroll down to Add to Home Screen, then tap Add. If you use Google Chrome on iPhone instead, open Chrome’s Share menu and look for Add to Home Screen. If it is not offered, open the same link in Safari and add it there.'
-        : 'On Android using Google Chrome: Tap the three-dot menu, then Install app or Add to Home screen and follow the prompts. Other Android browsers may offer a similar option in their menu.';
-      if(typeof dialog.showModal==='function')dialog.showModal();else alert(instructions.textContent);
-    });
-    document.addEventListener('DOMContentLoaded',showBanner);
-    showBanner();
-  })();
-  </script>
+  <script src="js/install-app.js" defer></script>
   <!-- Get Help -->
   <section id="helpSection" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="helpTitle">Get Help 📞</h2>
