@@ -1,0 +1,85 @@
+/* A compact launch screen. Long tools live in a scrollable, accessible sheet. */
+.mc-home-launch{display:grid;gap:14px;margin-top:16px}
+.mc-home-tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mc-home-tool{display:grid;grid-template-columns:44px 1fr;gap:3px 12px;align-items:center;text-align:left;padding:18px;border:1px solid #d5e6df;border-radius:22px;background:#fff;color:#174c40;font:inherit;box-shadow:0 7px 22px #183e3008;cursor:pointer;min-height:90px;transition:transform .18s,box-shadow .18s}
+.mc-home-tool:active{transform:scale(.97);box-shadow:0 2px 7px #183e3010}
+.mc-home-tool-icon{grid-row:span 2;display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:#e7f3ec;color:#1b6653;font-size:28px}
+.mc-home-tool strong{font-size:1.05rem;line-height:1.2}.mc-home-tool small{font-size:.78rem;line-height:1.4;color:#58726a}
+.mc-home-breathe{background:linear-gradient(125deg,#edf8f0,#fff)}
+.mc-home-momentum{display:flex;justify-content:center;gap:24px;color:#547066;font-size:.8rem;flex-wrap:wrap}
+.mc-home-momentum strong{color:#204f41;font-size:1.1rem;margin-right:4px}
+.mc-home-footer{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:.73rem;color:#47695c}
+.mc-home-footer a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;padding:4px;box-sizing:border-box}
+.mc-home-install{border:0;background:transparent;font:inherit;font-size:.75rem;color:#3d6658;padding:8px 14px;min-height:44px;cursor:pointer;display:block;margin:0 auto}
+.mc-home-compact.mc-on-home>footer,.mc-home-compact #mcInstallBanner{display:none!important}
+.mc-home-compact #homeSection> :not(.mc-dashboard-hero):not(.mc-home-launch){display:none!important}
+.mc-home-compact #homeSection .mc-dashboard-secondary-action{display:none!important}
+.mc-home-compact #homeSection .mc-dashboard-art{position:absolute!important;right:16px!important;top:18px!important;width:80px!important;height:80px!important;opacity:.28;pointer-events:none}
+.mc-home-compact .mc-dashboard-hero{min-height:0!important;grid-template-columns:1fr!important;max-width:880px;margin:0 auto!important;padding:32px!important}
+.mc-home-compact #homeSection .mc-dashboard-hero h2{font-size:clamp(1.9rem,4vw,3rem)!important;max-width:640px!important;line-height:1.12!important;letter-spacing:-.045em!important;margin:9px 0 12px!important}
+.mc-home-compact .mc-dashboard-kicker{font-size:.64rem!important;letter-spacing:.1em!important;margin:0!important;color:#bcecd9!important}
+.mc-home-compact .mc-dashboard-lead{font-size:.9rem!important;line-height:1.5!important;margin:0 0 18px!important}
+.mc-home-compact .mc-dashboard-main-action{width:100%;min-height:48px!important;padding:12px 16px!important;border-radius:15px!important;font-size:.95rem!important}
+.mc-home-compact .mc-front-door .mc-front-discover-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.mc-home-compact .mc-front-discover-card{text-decoration:none!important}
+.mc-home-compact .mc-front-door .mc-front-discover-card{padding:12px!important;min-height:62px;display:flex!important;flex-direction:row!important;justify-content:center;gap:8px!important;border-radius:18px!important}
+.mc-home-compact .mc-front-door .mc-front-discover-card>span{width:28px!important;height:28px!important;font-size:1.2rem!important;border-radius:10px!important}
+.mc-home-compact .mc-front-door .mc-front-discover-card strong{font-size:.82rem!important;overflow-wrap:anywhere}
+#mcHomeSheet{position:fixed;inset:0;box-sizing:border-box;width:min(760px,100%);height:100dvh;max-width:100%;max-height:100dvh;margin:0 auto;padding:var(--mc-language-height,64px) 0 20px;border:0;background:#f4faf7;color:#193f33;overflow-y:auto;overscroll-behavior:contain;scroll-padding-top:calc(var(--mc-language-height) + 76px)}
+#mcHomeSheet:not([open]){display:none}
+#mcHomeSheet::backdrop{background:#092c2990;backdrop-filter:blur(5px)}
+.mc-home-sheet-open{overflow:hidden!important}
+#mcHomeSheet .mc-home-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:var(--mc-language-height,64px);z-index:10;padding:12px 20px;background:#f4faf7f5;border-bottom:1px solid #dfebe4;backdrop-filter:blur(12px)}
+#mcHomeSheetTitle{font-size:1.25rem;line-height:1.3;margin:0;color:#193f33}
+#mcHomeSheetClose{display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #cfdfd6;border-radius:14px;background:#fff;color:#234e3e;font:400 28px/1 system-ui,sans-serif;cursor:pointer}
+#mcHomeSheet .mc-home-sheet-content{padding:16px 18px 30px}
+#mcHomeSheet #mcJourney{display:block!important;margin:0!important;padding:0!important;border:0!important;width:100%!important;max-width:none!important;background:transparent!important;box-shadow:none!important}
+#mcHomeSheet #mcJourney>.mc-journey-head{display:none!important}
+#mcHomeSheet[data-panel=breathing] #mcJourney>:not(#mcBreathing){display:none!important}
+#mcHomeSheet[data-panel=journey] #mcBreathing{display:none!important}
+#mcHomeSheet .mc-home-service-note{font-size:.8rem;line-height:1.6}
+#mcHomeSheet .mc-breathing{margin-top:0!important}
+body.mc-home-compact .mc-hero .mc-eyebrow{max-width:calc(100% - 60px);white-space:normal}
+@media(max-width:850px){
+ body.mc-home-compact.mc-on-home{background:linear-gradient(155deg,#f5faf6,#eaf6f0)!important}
+ body.mc-home-compact #mcLanguageBar{padding-top:max(2px,env(safe-area-inset-top));padding-bottom:2px}
+ body.mc-home-compact #mcLanguageBar select{min-height:44px;padding-top:6px;padding-bottom:6px;border-radius:13px}
+ body.mc-home-compact #mcLanguageBar label{font-size:13px}
+ body.mc-home-compact.mc-on-home>header.mc-brand-nav{width:calc(100% - 28px)!important;margin:8px auto!important;padding:9px 14px!important;min-height:58px!important;border-radius:18px!important;box-sizing:border-box;box-shadow:0 3px 16px #14372a06!important}
+ body.mc-home-compact.mc-on-home .mc-brand img{width:32px!important;height:32px!important}
+ body.mc-home-compact.mc-on-home .mc-brand strong{font-size:1.08rem!important;letter-spacing:-.035em!important}
+ body.mc-home-compact.mc-on-home .mc-brand small{display:block!important;font-size:.55rem!important;letter-spacing:.04em!important}
+ body.mc-home-compact.mc-on-home >header.mc-brand-nav .mc-nav-actions{display:none!important}
+ body.mc-home-compact.mc-stage-welcome{padding-bottom:8px!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door{width:calc(100% - 28px)!important;margin:0 auto!important;max-width:680px!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-hero{min-height:0!important;display:block!important;padding:25px 22px!important;border-radius:26px!important;background:radial-gradient(circle at 95% 0,#d1efd3,transparent 70%),linear-gradient(145deg,#e6f6eb,#d8eee4)!important;box-shadow:0 9px 26px #183e3010!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-eyebrow{font-size:.58rem!important;line-height:1.5!important;letter-spacing:.08em!important;padding:6px 9px!important;background:#f6fffa80!important;color:#2d6b58!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door h1{font-size:clamp(2rem,8vw,2.8rem)!important;line-height:1.07!important;letter-spacing:-.055em!important;max-width:90%!important;margin:20px 0 10px!important;color:#133f32!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-hero p[data-i18n]{font-size:.95rem!important;line-height:1.5!important;max-width:310px!important;color:#456c5a!important;margin:0!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-primary-action{width:100%!important;min-height:48px!important;box-sizing:border-box;font-size:.93rem!important;padding:12px 15px!important;border-radius:15px!important;background:#174f3e!important;color:#fff!important;margin:20px 0 0!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-scene{position:absolute!important;right:18px!important;top:19px!important;width:58px!important;height:58px!important;min-height:0!important;margin:0!important;opacity:.9;pointer-events:none}
+ body.mc-home-compact.mc-stage-welcome .mc-front-heart{width:42px!important;height:42px!important;font-size:2.2rem!important;border-radius:15px!important;box-shadow:0 8px 18px #7e315222,inset 3px 3px 8px #ffffff90!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-orbit-a{width:62px!important}.mc-home-compact.mc-stage-welcome .mc-front-orbit-b{width:48px!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-glow{filter:blur(15px)!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-discover{padding:12px 0 0!important}
+ body.mc-home-compact.mc-stage-welcome .mc-purpose,body.mc-home-compact.mc-stage-welcome .mc-wellbeing-nav,body.mc-home-compact.mc-stage-welcome .mc-secondary-links{display:none!important}
+ body.mc-home-compact.mc-stage-dashboard #homeSection{box-sizing:border-box;width:calc(100% - 28px)!important;max-width:680px!important;padding:0!important;margin:0 auto!important;border:0!important;background:transparent!important;box-shadow:none!important}
+ body.mc-home-compact .mc-dashboard-hero{padding:22px!important;border-radius:25px!important;box-shadow:0 10px 28px #174f3e20!important}
+ body.mc-home-compact #homeSection .mc-dashboard-hero h2{font-size:clamp(1.8rem,7.3vw,2.3rem)!important;max-width:100%!important;margin:9px 0!important}
+ body.mc-home-compact .mc-dashboard-lead{font-size:.82rem!important;margin-bottom:16px!important}
+ body.mc-home-compact .mc-home-launch{gap:10px;margin-top:12px}
+ body.mc-home-compact .mc-home-tools{gap:10px}
+ body.mc-home-compact .mc-home-tool{grid-template-columns:1fr;gap:5px;padding:13px;min-height:88px;border-radius:19px}
+ body.mc-home-compact .mc-home-tool-icon{display:none}
+ body.mc-home-compact .mc-home-tool strong{font-size:1rem}
+ body.mc-home-compact .mc-home-tool small{font-size:.73rem}
+ body.mc-home-compact .mc-home-footer{gap:10px;font-size:.68rem}
+ body.mc-home-compact .mc-premium-tabs{padding-top:6px!important;padding-bottom:calc(6px + env(safe-area-inset-bottom))!important}
+ body.mc-home-compact .mc-premium-tabs button{min-height:56px!important;padding:6px 1px!important}
+ body.mc-home-compact.mc-stage-dashboard{padding-bottom:calc(78px + env(safe-area-inset-bottom))!important}
+ #mcHomeSheet{border-radius:0}
+ #mcHomeSheet .mc-home-sheet-content{padding:12px 12px 30px}
+}
+@media(prefers-reduced-motion:reduce){.mc-home-tool{transition:none}}
+
+@media(max-width:850px){body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-front-discover-card{flex-direction:column!important;gap:5px!important;min-height:76px;padding:10px!important}body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-front-discover-card strong{white-space:nowrap;overflow-wrap:normal;font-size:.75rem!important}}

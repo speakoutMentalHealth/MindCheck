@@ -81,8 +81,8 @@ async function run() {
       const frontArtwork=page.locator('.mc-front-scene');
       assert(await frontArtwork.isVisible(),setup.name+' welcome artwork missing');
       await page.locator('.mc-front-door .mc-primary-action').click();
-      await page.waitForFunction(()=>document.getElementById('langSection')?.classList.contains('active'));
-      assert(await page.locator('#langSection').isVisible(),setup.name+' start action failed to reveal language selection');
+      await page.waitForFunction(()=>document.getElementById('moodSection')?.classList.contains('active'));
+      assert(await page.locator('#moodSection').isVisible(),setup.name+' primary action must open a mood check directly');
       // Explicitly enter the language stage; real browsers may restore onboarding state.
       await page.evaluate(()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');document.getElementById('langSection').classList.add('active');});
       await page.locator('.tbtn.live[data-lang="en"]').click();
@@ -96,6 +96,7 @@ async function run() {
       await page.locator('#moodBackHome').click();
       await page.waitForFunction(()=>document.getElementById('homeSection')?.classList.contains('active'));
       assert.equal(await page.locator('.mc-front-door').isVisible(),false,setup.name+' first-visit promotional content persists in dashboard');
+      await page.locator('#mcOpenBreathing').click();
       const breathColors=await page.locator('#mcBreathing').evaluate(el=>({title:getComputedStyle(el.querySelector('h4')).color,cue:getComputedStyle(el.querySelector('.mc-breathing-cue')).color}));
       assert.notEqual(breathColors.title,'rgb(255, 255, 255)',setup.name+' breathing heading invisible');
       assert.notEqual(breathColors.cue,'rgb(255, 255, 255)',setup.name+' breathing cue invisible');
@@ -140,10 +141,11 @@ async function run() {
       assert.equal(await page.locator('.mc-breathing-heart-svg').evaluate(el=>getComputedStyle(el).transform),'none','reduced motion disables heartbeat');
       await page.locator('#mcBreathingReset').click();
       await page.emulateMedia({reducedMotion:'no-preference'});
+      await page.locator('#mcHomeSheetClose').click();
       // A synthetic daily check-in persists locally, once, without a cloud write.
       const checkinRequests=[];
       await page.route('https://script.google.com/**',async route=>{checkinRequests.push(route.request().url());await route.abort();});
-      await page.locator('#goMood').click();
+      await page.locator('[data-mc-nav-target="moodSection"]').click();
       await page.locator('.mood[data-val="2"]').click();
       assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_mood_history')).length),1,'first check-in stored locally');
       await page.locator('.mood[data-val="3"]').click();
@@ -152,7 +154,7 @@ async function run() {
       assert.deepEqual(checkinRequests,[],'mood check-in must never leave this device');
       await page.locator('#moodBackHome').click();
       // Opening tips should show a translated tip; save/remove controls remain available.
-      await page.locator('#goTips').click();
+      await page.locator('[data-mc-nav-target="tipsSection"]').click();
       assert((await page.locator('#tipText').innerText()).length>10,'missing wellness tip');
       assert(await page.locator('#tipSaveBtn').isVisible(),'Save tip missing');
       const priorTip=await page.locator('#tipText').innerText();
@@ -166,7 +168,7 @@ async function run() {
       assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_tips_saved')).length),0,'saved tip removed');
       await page.locator('#tipsBackHome').click();
       await page.locator('#mcLanguageSelect').selectOption('fr');
-      await page.locator('#goTips').click();
+      await page.locator('[data-mc-nav-target="tipsSection"]').click();
       assert.equal(await page.evaluate(()=>localStorage.getItem('mc_lang')),'fr');
       assert((await page.locator('#tipText').innerText()).length>10,'translated tip is empty');
       // Cross-page navigation: start on Assessment Centre, then use each

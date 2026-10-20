@@ -10,6 +10,7 @@ try{
   await context.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:8773/')?route.continue():route.abort());
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.clock.install();await page.goto('http://127.0.0.1:8773/index.html?section=homeSection');
+  await page.locator('#mcOpenBreathing').click();
   const rhythm=page.locator('#mcBreathingRhythm'),duration=page.locator('#mcBreathingDuration'),start=page.locator('#mcBreathingStart'),reset=page.locator('#mcBreathingReset');
   await rhythm.waitFor({state:'visible'});assert.equal(await rhythm.locator('option').count(),3);assert.equal(await duration.locator('option').count(),3);
   if(width===390){
