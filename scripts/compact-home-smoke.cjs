@@ -23,7 +23,12 @@ try{
   if(width===390)await page.waitForTimeout(350);
   if(width===390)await page.screenshot({path:'/tmp/mc-compact-home.png'});
   await page.locator('#mcOpenBreathing').click();assert(await page.locator('#mcHomeSheet').isVisible());
-  assert(await page.locator('#mcLanguageSelect').isVisible());await page.locator('#mcLanguageSelect').selectOption('fr');
+  assert(await page.locator('#mcLanguageSelect').isVisible());
+  await page.waitForTimeout(350);
+  const sheetLayout=await page.evaluate(()=>{const bar=document.getElementById('mcLanguageBar').getBoundingClientRect(),head=document.querySelector('.mc-home-sheet-head').getBoundingClientRect(),title=document.getElementById('mcBreathingTitle').getBoundingClientRect();return {bar:bar.bottom,headTop:head.top,headBottom:head.bottom,title:title.top};});
+  assert(Math.abs(sheetLayout.headTop-sheetLayout.bar)<3,'sheet header follows language row without duplicated space');
+  assert(sheetLayout.title>=sheetLayout.headBottom,'breathing title is not hidden by sheet header');
+  await page.locator('#mcLanguageSelect').selectOption('fr');
   await page.locator('#mcBreathingStart').click();await page.waitForTimeout(300);
   await page.locator('#mcHomeSheetClose').click();assert.equal(await page.locator('#mcBreathing').getAttribute('data-breath-state'),'paused','closing breathing pauses session');
   assert.equal(await page.evaluate(()=>document.getElementById('mcLanguageBar').parentElement===document.body),true,'language returns to global header');
