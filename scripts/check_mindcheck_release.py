@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v40-phone-fit-20261020"
+EXPECTED_CACHE = "mc-v41-monitoring-receipt-20261020"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)
