@@ -1,0 +1,114 @@
+/* MindCheck visual system. Loaded last; owns shared surfaces and controls.
+   Existing screen layout, clinical wording and timer transforms remain authoritative. */
+:root{--mc-paper:#f7f6f2;--mc-surface:#fffefa;--mc-deep:#173f3c;--mc-muted:#586e67;--mc-edge:#dce3dc;--mc-sage:#e6eee2;--mc-lilac:#ece7f4;--focus-ring:#377567}
+body.mc-home-compact.mc-on-home,body.mc-stage-welcome,body.mc-stage-dashboard,body.mc-standalone-page:not(.th-page){background:var(--mc-paper)!important;color:var(--mc-deep);-webkit-font-smoothing:antialiased}
+body :is(button,a,summary,select){-webkit-tap-highlight-color:transparent}
+body :is(button,a,summary,select):focus-visible{outline:3px solid #377567!important;outline-offset:4px!important}
+body :is(h1,h2,h3,h4){text-wrap:balance}
+body :is(.btn,.ac-card a,.ac-home){border-radius:14px!important;box-shadow:none!important;font-weight:600!important}
+body .btn-primary,body .ac-card a{background:#214f47!important;color:#fff!important;border-color:#214f47!important}
+body .btn-ghost{background:#fffefa!important;color:#244d44!important;border-color:#d2ded5!important}
+body #mcLanguageBar{background:#f7f6f2f5!important;border-bottom:1px solid #dfe5dc!important;box-shadow:none!important;backdrop-filter:blur(18px)}
+body #mcLanguageBar select{background:#fffefa!important;color:#234d44!important;border-color:#ccd9cf!important;box-shadow:none!important}
+body #mcLanguageBar label{color:#36594e!important}
+body.mc-home-compact.mc-on-home>header.mc-brand-nav{background:transparent!important;border:0!important;box-shadow:none!important}
+body.mc-home-compact .mc-brand strong{font-weight:650!important;color:#173f3c!important}
+body.mc-home-compact .mc-brand small{color:#617169!important}
+body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door .mc-hero{background:radial-gradient(ellipse at 100% 0,#e3eddb 0,transparent 65%),#eaf0e5!important;border:1px solid #dbe4d5!important;box-shadow:none!important;border-radius:28px!important}
+body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door h1{font-weight:600!important;letter-spacing:-.055em!important}
+body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door .mc-eyebrow{background:transparent!important;padding-left:0!important;font-weight:650!important;letter-spacing:.14em!important;font-size:.57rem!important}
+body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door .mc-primary-action{background:#214f47!important;box-shadow:0 5px 12px #214f4712!important;font-weight:600!important}
+body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-heart{background:linear-gradient(145deg,#f6e4e5,#dbb4be)!important;box-shadow:inset 0 1px 4px #fff9,0 8px 20px #5f384619!important;color:#fffefa!important}
+body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door .mc-front-discover-card{background:#fffefa!important;border:1px solid #dce3dc!important;box-shadow:none!important;border-radius:20px!important}
+body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door .mc-front-discover-card>span{background:transparent!important;color:#3b6659!important}
+body.mc-home-compact .mc-dashboard-hero{background:radial-gradient(ellipse at 110% -20%,#3b7766 0,transparent 67%),#173f3c!important;box-shadow:none!important;border:1px solid #204b42!important}
+body.mc-home-compact #homeSection .mc-dashboard-hero h2{font-weight:600!important;letter-spacing:-.045em!important}
+body.mc-home-compact .mc-dashboard-main-action{background:#e4eedc!important;color:#173f3c!important;box-shadow:none!important;font-weight:600!important}
+body.mc-home-compact .mc-dashboard-art{display:none!important}
+body.mc-home-compact .mc-home-tool{position:relative;grid-template-columns:34px 1fr!important;gap:3px 10px!important;background:#e9ede2!important;border:1px solid #d9e1d2!important;box-shadow:none!important;padding:15px!important;min-height:96px!important}
+body.mc-home-compact .mc-home-tool:last-child{background:#ece7f2!important;border-color:#dfd9e8!important}
+body.mc-home-compact .mc-home-tool-icon{display:grid!important;grid-row:span 2;width:32px;height:32px;border-radius:0;background:transparent;color:#395f51}
+body.mc-home-compact .mc-home-tool-icon svg{width:29px;height:29px}
+body.mc-home-compact .mc-home-tool strong{font-size:.94rem!important;font-weight:600}
+body.mc-home-compact .mc-home-tool small{font-size:.7rem!important;color:#52665a}
+body.mc-home-compact .mc-home-momentum{gap:24px;padding:3px 0;font-size:.73rem;color:#586b60}
+body.mc-home-compact .mc-home-momentum strong{font-weight:600;font-variant-numeric:tabular-nums}
+body.mc-home-compact .mc-home-footer{color:#536b5f}
+/* One quiet navigation treatment across dashboard and standalone pages. */
+body:is(.mc-stage-dashboard,.mc-standalone-page) .mc-premium-tabs{background:#fffefaee!important;border-color:#dce3dc!important;box-shadow:0 -4px 22px #173f3c06!important;backdrop-filter:blur(20px)}
+body:is(.mc-stage-dashboard,.mc-standalone-page) .mc-premium-tabs :is(button,.mc-standalone-tab){background:transparent!important;color:#586b63!important;box-shadow:none!important;font-weight:500!important;gap:5px!important;min-height:56px!important;transition:color .2s}
+body:is(.mc-stage-dashboard,.mc-standalone-page) .mc-premium-tabs :is(button,.mc-standalone-tab) .mc-tab-icon{width:38px!important;height:30px!important;display:grid!important;place-items:center!important;background:transparent!important;border:0!important;border-radius:12px!important;color:inherit!important;box-shadow:none!important;transform:none!important}
+body:is(.mc-stage-dashboard,.mc-standalone-page) .mc-premium-tabs :is(button,.mc-standalone-tab)[aria-current=page]{color:#214f47!important;font-weight:700!important}
+body:is(.mc-stage-dashboard,.mc-standalone-page) .mc-premium-tabs :is(button,.mc-standalone-tab)[aria-current=page] .mc-tab-icon{background:#e3eddf!important;color:#214f47!important}
+body .mc-premium-tabs .mc-tab-icon svg{width:22px!important;height:22px!important;stroke-width:1.65}
+/* Calm editorial hierarchy on the four daily-use screens. */
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection){background:#fffefa!important;border-color:#dce3dc!important;box-shadow:none!important;padding:clamp(24px,5vw,42px)!important}
+body.mc-stage-dashboard :is(#moodSection,#tipsSection,#helpSection,#badgesSection)>h2{font-size:clamp(1.8rem,5vw,2.65rem)!important;line-height:1.16!important;font-weight:600!important;letter-spacing:-.045em!important;color:#173f3c!important;margin-bottom:16px!important}
+body.mc-stage-dashboard #moodSection .mc-section-intro{color:#586e67!important;max-width:460px;margin:0 auto 28px;line-height:1.6}
+body.mc-stage-dashboard #moodSection .mood-row .mood{background:#f5f4ed!important;border:1px solid #e4e4d8!important;box-shadow:none!important;min-height:136px!important;gap:8px!important;border-radius:23px!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood:nth-child(2){background:#eef1e6!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood:nth-child(3){background:#f3ecdf!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood:nth-child(4){background:#eee8f0!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood:nth-child(5){background:#e8ecf1!important}
+.mc-emotion-face{width:50px;height:50px;display:block;color:#3e6151;flex-shrink:0}
+body.mc-stage-dashboard #moodSection .mood-row .mood br{display:none}
+body.mc-stage-dashboard #moodSection .mood-row .mood .mood-label{color:#344e43;font-weight:500!important;margin:0!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood[aria-pressed=true]{border-color:#315e4f!important;box-shadow:0 0 0 2px #315e4f!important;transform:translateY(-3px)}
+body.mc-stage-dashboard #tipsSection .toolbar[aria-label="Filter tips"]{background:transparent!important;padding:0!important;gap:7px!important}
+body.mc-stage-dashboard #tipsSection .tip-filter{border:1px solid #dce3dc!important;border-radius:999px!important;box-shadow:none!important;padding:8px 14px!important}
+body.mc-stage-dashboard #tipsSection .tip-filter[aria-pressed=true]{background:#214f47!important;color:#fff!important;border-color:#214f47!important}
+body.mc-stage-dashboard #tipsSection #tipCard{background:radial-gradient(ellipse at 100% 0,#ebe4f3,transparent 75%),#f0eee6!important;border:1px solid #e3dfd9!important;box-shadow:none!important}
+body.mc-stage-dashboard #tipsSection #tipText{font-weight:500!important;color:#27473d!important;line-height:1.5!important}
+body.mc-stage-dashboard #helpSection .mc-support-grid .card{background:#f5f6ef!important;border-color:#dde4d9!important;box-shadow:none!important;padding:24px!important;text-decoration:none}
+body.mc-stage-dashboard #helpSection .mc-support-grid .mc-urgent-support{background:#fbefea!important;border-color:#e4c8ba!important}
+body.mc-stage-dashboard #helpSection .mc-support-grid .mc-urgent-support h3{color:#813f33!important}
+body #helpSection .big svg,body #tipCard .big svg{width:34px;height:34px;color:#416556}
+body.mc-stage-dashboard #badgesSection .badge{background:#f4f1e7!important;border:1px solid #e4dfcd!important;border-radius:22px!important;box-shadow:none!important;color:#3f5545!important;padding:22px!important}
+body.mc-stage-dashboard #badgesSection #mcBadgeProgress{height:7px!important}
+/* Assessment library: readable cards and restrained category pills. */
+body.mc-standalone-page .ac-hero{background:radial-gradient(ellipse at 100% 0,#3b7766,transparent 75%),#173f3c!important;border-radius:28px!important;box-shadow:none!important}
+body.mc-standalone-page .ac-hero h1{font-weight:600!important;letter-spacing:-.045em!important}
+body.mc-standalone-page :is(.ac-card,.ac-list){background:#fffefa!important;border-color:#dce3dc!important;box-shadow:none!important;border-radius:23px!important}
+body.mc-standalone-page .ac-card h2{font-weight:600!important;letter-spacing:-.025em}
+body.mc-standalone-page .ac-card .soon{background:#edf0e6!important;color:#415c4d!important;border-color:#dce3d4!important;font-weight:500!important}
+body.mc-standalone-page .ac-note{background:#eaf0e4!important;border-left-color:#79977c!important}
+body.mc-standalone-page .ac-filters button[aria-pressed=true]{background:#214f47!important;color:#fff!important}
+/* Breathing owns its own atmosphere; animation remains tied to the timer. */
+body #mcHomeSheet{background:#f7f6f2!important}
+body #mcHomeSheet .mc-home-sheet-head{background:#f7f6f2f5!important;border-color:#dce3dc!important}
+body #mcHomeSheet #mcHomeSheetTitle{font-weight:600;letter-spacing:-.035em}
+body.mc-stage-dashboard #mcHomeSheet #mcJourney #mcBreathing[data-heart-scene=living]{background:radial-gradient(ellipse at 50% 43%,#e0e9df 0,transparent 55%),linear-gradient(155deg,#f4f0e9,#e8e8f1)!important;border-color:#dce0d8!important;box-shadow:none!important}
+body #mcHomeSheet #mcBreathingTitle{font-weight:500!important;letter-spacing:-.035em!important;font-size:1.6rem!important}
+body #mcHomeSheet #mcBreathing .mc-breathing-options select{background:#fffefa!important;border-color:#ced9ce!important;font-weight:500}
+body #mcHomeSheet #mcBreathing .mc-breathing-cue{color:#254e43!important;font-weight:500!important}
+body #mcHomeSheet #mcBreathing .mc-breathing-controls button{box-shadow:none!important;border-radius:15px!important}
+body #mcHomeSheet #mcBreathingStart{background:#214f47!important;color:#fff!important}
+body #mcHomeSheet #mcBreathingReset{background:#fffefa!important;color:#214f47!important;border:1px solid #c8d5c9!important}
+body #mcHomeSheet #mcBreathing .mc-breathing-meters{border-block:1px solid #d6dfd5;padding:14px 0;margin:16px 0!important}
+body #mcHomeSheet #mcBreathing .mc-grounding{background:#fffefa!important;border-color:#d4ddcf!important}
+/* Motion is brief on navigation; breathing itself retains its slow guided rhythm. */
+@media(prefers-reduced-motion:no-preference){
+ body.mc-stage-dashboard>section.active:not(#homeSection){animation:mc-screen-arrive .28s ease-out}
+ #mcHomeSheet[open]{animation:mc-sheet-arrive .28s cubic-bezier(.2,.7,.2,1)}
+ body :is(.mc-home-tool,.mc-front-discover-card,.btn,.ac-card a){transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+ body :is(.mc-home-tool,.mc-front-discover-card,.btn,.ac-card a):active{transform:scale(.975)}
+ @keyframes mc-screen-arrive{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}
+ @keyframes mc-sheet-arrive{from{opacity:.4;transform:translateY(18px)}to{opacity:1;transform:none}}
+}
+@media(max-width:360px){body.mc-home-compact .mc-home-tool{grid-template-columns:1fr!important;min-height:88px!important}body.mc-home-compact .mc-home-tool-icon{display:none!important}}
+@media(min-width:851px){body.mc-home-compact .mc-front-door{max-width:880px!important}body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door .mc-hero{min-height:0!important;padding:40px!important}body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door h1{font-size:3.5rem!important;max-width:75%!important}body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-scene{width:150px!important;min-height:0!important;height:150px!important}body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-heart{width:110px!important;height:110px!important;font-size:5rem!important}body.mc-home-compact.mc-on-home.mc-stage-welcome .mc-front-door .mc-primary-action{margin-top:24px!important}}
+@media(forced-colors:active){body .mc-premium-tabs [aria-current=page] .mc-tab-icon,body #moodSection .mood[aria-pressed=true]{outline:2px solid Highlight!important}}
+/* Retire legacy glow and blue text treatments within the new visual system. */
+body.mc-home-compact .mc-front-door .mc-hero::before,body.mc-home-compact .mc-front-door .mc-hero::after{display:none!important}
+body.mc-home-compact .mc-front-door :is(h1,.mc-primary-action,.mc-eyebrow){text-shadow:none!important}
+body.mc-home-compact.mc-stage-dashboard>header.mc-brand-nav{background:transparent!important;border-color:transparent!important;box-shadow:none!important}
+body.mc-home-compact.mc-stage-dashboard>header.mc-brand-nav .mc-nav-actions a{background:#e8eee3!important;color:#315648!important;border:1px solid #d9e1d2!important;box-shadow:none!important}
+body.mc-stage-dashboard #moodSection .mood-row .mood span.mood-label{color:#344e43!important;text-shadow:none!important}
+body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-eyebrow{border:0!important;box-shadow:none!important}
+/* Reserve the language row once: sticky offsets otherwise double dialog padding. */
+body #mcHomeSheet{padding-top:0!important}
+body #mcHomeSheet .mc-home-sheet-head{margin-top:var(--mc-language-height,64px)}
+body.mc-home-compact>footer{color:#52665c!important;opacity:1!important}
+/* Locked milestones remain readable; status text communicates availability. */
+body.mc-stage-dashboard #badgesSection .badge.locked{opacity:1!important;filter:none!important;background:#f2f1eb!important}
+body.mc-stage-dashboard #badgesSection .badge :is(.name,.desc,.status){color:#435b4b!important;opacity:1!important}
