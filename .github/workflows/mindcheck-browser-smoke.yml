@@ -16,6 +16,7 @@ on:
       - 'scripts/browser-smoke.cjs'
       - 'scripts/language-switch-smoke.cjs'
       - 'scripts/translation-coverage-smoke.cjs'
+      - 'scripts/breathing-studio-smoke.cjs'
       - '*.html'
       - '.github/workflows/mindcheck-browser-smoke.yml'
   workflow_dispatch:
@@ -44,6 +45,8 @@ jobs:
         run: node scripts/language-switch-smoke.cjs
       - name: Check assessment and wellness translation coverage
         run: node scripts/translation-coverage-smoke.cjs
+      - name: Check breathing studio sessions and grounding
+        run: node scripts/breathing-studio-smoke.cjs
       - name: Run responsive browser smoke suite
         run: node scripts/browser-smoke.cjs
       - uses: actions/upload-artifact@v4
