@@ -6,7 +6,7 @@ const {readdirSync}=require('node:fs');
 (async()=>{
  const server=spawn('python3',['-m','http.server','8768','--bind','127.0.0.1'],{stdio:'ignore'});let browser;
  try{
-  for(let i=0;i<40;i++){try{await fetch('http://127.0.0.1:8768/index.html');break}catch{await new Promise(r=>setTimeout(r,100));}}
+  for(let i=0;i<40;i++){try{await new Promise((resolve,reject)=>{const socket=require('node:net').connect(8768,'127.0.0.1');socket.on('connect',()=>{socket.end();resolve();});socket.on('error',reject);});break}catch{await new Promise(r=>setTimeout(r,100));}}
   browser=await chromium.launch({headless:true});
   const pages=readdirSync('.').filter(p=>p.endsWith('.html')).concat('certificate/index.html');
   for(const width of [320,390,1280]){
