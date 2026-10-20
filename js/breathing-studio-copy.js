@@ -27,7 +27,9 @@ window.MindCheckBreathingCopy={
     "again": "Start again",
     "guidance": "Breathing guidance · NHS",
     "groundingSource": "Grounding guidance · NHS inform",
-    "breathingTimer": "Breathing timer"
+    "breathingTimer": "Breathing timer",
+    "guideTitle": "How to & safety",
+    "comfortShort": "Breathe comfortably. Stop if dizzy or unwell."
   },
   "ha": {
     "rhythm": "Zaɓi tsarin numfashi",
@@ -56,7 +58,9 @@ window.MindCheckBreathingCopy={
     "again": "Sake farawa",
     "guidance": "Jagorancin numfashi · NHS",
     "groundingSource": "Jagorancin natsuwa · NHS inform",
-    "breathingTimer": "Mai ƙirga lokacin numfashi"
+    "breathingTimer": "Mai ƙirga lokacin numfashi",
+    "guideTitle": "Yadda ake yi da tsaro",
+    "comfortShort": "Yi numfashi cikin sauƙi. Dakata idan ka ji jiri ko rashin lafiya."
   },
   "ig": {
     "rhythm": "Họrọ usoro iku ume",
@@ -85,7 +89,9 @@ window.MindCheckBreathingCopy={
     "again": "Malite ọzọ",
     "guidance": "Nduzi iku ume · NHS",
     "groundingSource": "Nduzi izu ike · NHS inform",
-    "breathingTimer": "Ngụ oge iku ume"
+    "breathingTimer": "Ngụ oge iku ume",
+    "guideTitle": "Nduzi na nchekwa",
+    "comfortShort": "Kuo ume nwayọọ. Kwụsị ma isi na-atụ gị ma ọ bụ ahụ adịghị gị mma."
   },
   "yo": {
     "rhythm": "Yan ìlànà mímí",
@@ -114,7 +120,9 @@ window.MindCheckBreathingCopy={
     "again": "Tún bẹ̀rẹ̀",
     "guidance": "Ìtọ́sọ́nà mímí · NHS",
     "groundingSource": "Ìtọ́sọ́nà ìfarabalẹ̀ · NHS inform",
-    "breathingTimer": "Aago mímí"
+    "breathingTimer": "Aago mímí",
+    "guideTitle": "Ìtọ́sọ́nà àti ààbò",
+    "comfortShort": "Mí ní ìrọ̀rùn. Dúró tí orí bá ń yí ọ tàbí ara kò bá yá."
   },
   "pcm": {
     "rhythm": "Choose your rhythm",
@@ -143,7 +151,9 @@ window.MindCheckBreathingCopy={
     "again": "Start again",
     "guidance": "Breathing guidance · NHS",
     "groundingSource": "Grounding guidance · NHS inform",
-    "breathingTimer": "Breathing timer"
+    "breathingTimer": "Breathing timer",
+    "guideTitle": "How to & safety",
+    "comfortShort": "Breathe as e easy you. Stop if you feel dizzy or unwell."
   },
   "fr": {
     "rhythm": "Choisissez votre rythme",
@@ -172,6 +182,8 @@ window.MindCheckBreathingCopy={
     "again": "Recommencer",
     "guidance": "Conseils de respiration · NHS",
     "groundingSource": "Conseils d’ancrage · NHS inform",
-    "breathingTimer": "Minuteur respiratoire"
+    "breathingTimer": "Minuteur respiratoire",
+    "guideTitle": "Guide et sécurité",
+    "comfortShort": "Respirez à votre aise. Arrêtez en cas de vertige ou de malaise."
   }
 };
