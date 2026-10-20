@@ -554,7 +554,7 @@
           updateProgress();
           // Keep the receipt visible until the visitor chooses Back.
         } else {
-          console.warn("Unexpected response:", text);
+          console.warn("Report receipt could not be confirmed (HTTP status):", res.status);
           showMsg("⚠ We could not confirm submission. If this is urgent, call 112 or tell a trusted adult now.");
         }
       } catch (err) {

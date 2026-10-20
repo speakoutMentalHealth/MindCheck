@@ -93,15 +93,15 @@
     <div class="toolbar">
       <button id="submitMonitoring" class="btn-primary" type="button">Save weekly data</button>
     </div>
-    <div id="monStatus" class="status" style="display:none"></div>
+    <div id="monStatus" class="status" role="status" aria-live="polite" style="display:none"></div>
   </section>
 
   <!-- Front-end only weekly table (reads from localStorage for now) -->
   <section class="card">
     <h3>Local weekly log (for your browser)</h3>
     <p class="muted">
-      This table mirrors what is sent to the secure Google Sheet. It is stored only in this browser for
-      quick review. Use the export button below if you need a CSV snapshot from this device.
+      This table is saved in this browser. Online delivery is not confirmed by this page.
+      Export a CSV as your backup and ask the programme administrator to confirm receipt in the register.
     </p>
     <table id="monTable">
       <thead>
@@ -147,7 +147,7 @@
   }
 
   function getLocalMon(){
-    try{return JSON.parse(localStorage.getItem(LS_KEY_MON) || '[]');}
+    try{const rows=JSON.parse(localStorage.getItem(LS_KEY_MON) || '[]');return Array.isArray(rows)?rows.filter(row=>row&&typeof row==='object'):[];}
     catch(e){return [];}
   }
   function setLocalMon(rows){
@@ -157,22 +157,19 @@
   function renderTable(){
     const tbody = document.querySelector('#monTable tbody');
     const rows = getLocalMon();
-    tbody.innerHTML = rows.map(r => `
-      <tr>
-        <td>${r.week_start}</td>
-        <td>${r.program}</td>
-        <td>${r.lga}</td>
-        <td>${r.contacts}</td>
-        <td>${r.screened_pct}</td>
-        <td>${r.red_flags}</td>
-        <td>${r.referrals}</td>
-        <td>${r.follow_ups}</td>
-        <td>${r.vol_hours}</td>
-      </tr>
-    `).join('');
+    tbody.replaceChildren();
+    for(const row of rows){
+      const tr=document.createElement('tr');
+      for(const key of ['week_start','program','lga','contacts','screened_pct','red_flags','referrals','follow_ups','vol_hours']){
+        const td=document.createElement('td');td.textContent=String(row[key]??'');tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
   }
 
+  let monitoringBusy=false;
   async function saveMonitoring(){
+    if(monitoringBusy)return;
     const row = {
       program   : els('program').value.trim(),
       lga       : els('lga').value.trim(),
@@ -190,7 +187,18 @@
       return;
     }
 
-    setMonStatus(false,'Saving to MindCheck register…');
+    const numbers=['contacts','screened_pct','red_flags','referrals','follow_ups','vol_hours'];
+    if(numbers.some(key=>!Number.isFinite(row[key])||row[key]<0)||row.screened_pct>100){
+      setMonStatus(false,'Please use valid non-negative numbers and a screening percentage from 0 to 100.');return;
+    }
+    try{
+      const rows=getLocalMon();rows.push(row);setLocalMon(rows);renderTable();
+    }catch{
+      setMonStatus(false,'This browser could not save a local copy. Nothing was sent. Check device storage before trying again.');return;
+    }
+    monitoringBusy=true;els('submitMonitoring').disabled=true;
+    setMonStatus(false,'Saved on this device. Attempting online delivery…');
+    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),15000);
 
     // build payload for Apps Script
     const payload = Object.assign({}, row, {
@@ -199,24 +207,16 @@
     });
 
     try{
-      // use no-cors so browser doesn’t block on CORS;
-      // we can’t read the response, but if no error is thrown we treat as success
+      // An opaque response cannot prove that the server accepted or stored this row.
       await fetch(SCRIPT_URL + '?auth=' + encodeURIComponent(AUTH_TOKEN), {
-        method:'POST',
-        mode:'no-cors',
-        headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body: JSON.stringify(payload)
+        method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify(payload),signal:controller.signal
       });
-
-      setMonStatus(true,'✅ Saved. Weekly indicators recorded in the register.');
-
-      const rows = getLocalMon();
-      rows.push(row);
-      setLocalMon(rows);
-      renderTable();
-    }catch(e){
-      console.error(e);
-      setMonStatus(false,'❌ Network error while saving. Your data was not sent.');
+      setMonStatus(false,'Saved on this device. Online receipt is unconfirmed. Export a CSV and ask the programme administrator to verify the register.');
+    }catch{
+      setMonStatus(false,'Saved on this device. Online delivery could not be confirmed. Export a CSV for your programme administrator; do not assume the register was updated.');
+    }finally{
+      clearTimeout(timeout);monitoringBusy=false;els('submitMonitoring').disabled=false;
     }
   }
 
