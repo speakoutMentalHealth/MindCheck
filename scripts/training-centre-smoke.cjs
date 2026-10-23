@@ -1,5 +1,5 @@
 /* Isolated reading-flow checks. Never submits assessments or creates certificates. */
-const {chromium}=require('playwright'),assert=require('node:assert/strict');
+const {chromium}=require('./adult-browser-fixture.cjs'),assert=require('node:assert/strict');
 const {spawn}=require('node:child_process'),{mkdir,writeFile}=require('node:fs/promises'),net=require('node:net');
 const base='http://127.0.0.1:8771',path='/training-hub.html',sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function run(){

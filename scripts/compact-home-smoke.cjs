@@ -1,5 +1,5 @@
 /* Local home layout and modal continuity checks; no real health submissions. */
-const {chromium}=require('playwright');const assert=require('node:assert/strict');const {spawn}=require('node:child_process'),net=require('node:net');
+const {chromium}=require('./adult-browser-fixture.cjs');const assert=require('node:assert/strict');const {spawn}=require('node:child_process'),net=require('node:net');
 (async()=>{let browser;const server=spawn('python3',['-m','http.server','8775','--bind','127.0.0.1'],{stdio:'ignore'});
 try{
  for(let n=0;n<40;n++){try{await new Promise((r,j)=>{const s=net.connect(8775,'127.0.0.1');s.on('connect',()=>{s.end();r();});s.on('error',j);});break}catch{await new Promise(r=>setTimeout(r,100));}}

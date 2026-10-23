@@ -1,5 +1,5 @@
 /* Isolated local UI checks; no real forms or external services are submitted. */
-const {chromium}=require('playwright');
+const {chromium}=require('./adult-browser-fixture.cjs');
 const assert=require('node:assert/strict');
 const {spawn}=require('node:child_process');
 const {readdirSync}=require('node:fs');

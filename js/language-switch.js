@@ -18,9 +18,11 @@
     const resize=()=>document.documentElement.style.setProperty('--mc-language-height',bar.getBoundingClientRect().height+'px');
     function update(code){
       selected=locale.supported.includes(code)?code:'en';select.value=selected;label.textContent=labels[selected];label.lang=selected;
-      note.hidden=selected==='en';
+      const guide=Boolean(document.getElementById('mcGuideMain'));
+      note.hidden=selected==='en'||guide&&selected==='fr';
       note.lang=document.getElementById('assessmentMain')||document.getElementById('homeSection')?selected:'en';
       note.textContent=document.getElementById('assessmentMain')||document.getElementById('homeSection')?locale.t('sourceNotice'):'This page is currently available in English.';
+      if(guide&&!note.hidden)note.textContent='Guide answers are currently available in English and French.';
       resize();
     }
     select.addEventListener('change',()=>update(locale.apply(select.value)));

@@ -1,0 +1,27 @@
+name: MindCheck guide server checks
+on:
+  pull_request:
+    paths: ['server/guide/**', 'js/guide-content.js', '.github/workflows/mindcheck-guide-checks.yml']
+  push:
+    branches: [main]
+    paths: ['server/guide/**', 'js/guide-content.js', '.github/workflows/mindcheck-guide-checks.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  guide:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: server/guide
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+        env:
+          WRANGLER_SEND_METRICS: 'false'

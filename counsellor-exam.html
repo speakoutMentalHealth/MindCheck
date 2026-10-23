@@ -61,6 +61,11 @@
       box-shadow:0 10px 25px rgba(2,23,34,.08);
     }
     header a{color:#fff;text-decoration:none;font-weight:900;}
+    /* Let the title and controls wrap independently on narrow screens. */
+    header{flex-wrap:wrap}
+    header > div{min-width:0;flex-wrap:wrap}
+    .frameRow > div:last-child{flex:1;min-width:min(200px,100%)}
+    .frameRow .tag{overflow-wrap:anywhere}
     .wrap{max-width:980px;margin:18px auto 40px;padding:0 14px;}
 
     .toolbar{
@@ -201,6 +206,8 @@
 <script defer src="js/language-switch.js"></script>
 <link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
 <script defer src="js/platform-quality.js?v=20261023-quality"></script>
+<link rel="stylesheet" href="css/adult-guide.css?v=20261023-adult">
+<script defer src="js/adult-entry.js?v=20261023-adult"></script>
 </head>
 
 <body>

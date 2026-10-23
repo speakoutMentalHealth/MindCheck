@@ -269,6 +269,8 @@
 <script defer src="js/language-switch.js"></script>
 <link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
 <script defer src="js/platform-quality.js?v=20261023-quality"></script>
+<link rel="stylesheet" href="css/adult-guide.css?v=20261023-adult">
+<script defer src="js/adult-entry.js?v=20261023-adult"></script>
 </head>
 
 <body class="mc-unified-page"><a class="mindcheck-brand-mark" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><style>.mindcheck-brand-mark{display:flex;align-items:center;gap:13px;width:min(1100px,92%);margin:16px auto 10px;padding:12px 22px;background:#fff;color:#063f35!important;text-decoration:none;border-radius:999px;box-shadow:0 12px 32px rgba(6,63,53,.10);font-family:Outfit,system-ui,sans-serif}.mindcheck-brand-mark img{width:56px;height:56px;object-fit:contain}.mindcheck-brand-mark strong{display:block;font-size:1.25rem;font-weight:900}.mindcheck-brand-mark small{display:block;font-size:.72rem;color:#0f9f5f;font-weight:800;text-transform:uppercase;letter-spacing:.07em}@media(max-width:500px){.mindcheck-brand-mark{padding:10px 14px}.mindcheck-brand-mark img{width:46px;height:46px}}</style>
@@ -329,17 +331,14 @@
 
         <div class="row2">
           <div>
-            <label for="locationContext">Where are you (school / community)?</label>
-            <input id="locationContext" type="text" name="locationContext" placeholder="e.g. School, street, community" />
+            <label for="locationContext">Where are you (community / area)?</label>
+            <input id="locationContext" type="text" name="locationContext" placeholder="e.g. Town or community — no exact address needed" />
           </div>
 
           <div>
             <label for="ageBand">How old are you?</label>
             <select id="ageBand" name="ageBand">
               <option value="">Prefer not to say</option>
-              <option value="Under 13">Under 13</option>
-              <option value="13-15">13–15</option>
-              <option value="16-18">16–18</option>
               <option value="18+">18+</option>
             </select>
           </div>
@@ -358,11 +357,11 @@
           <p class="fine" style="margin-top:8px;">Tip: If it’s not safe to share your number, pick “No, keep me anonymous”.</p>
         </div>
 
-        <label for="safeAdult">Safe adult (optional)</label>
-        <input id="safeAdult" type="text" name="safeAdult" placeholder="e.g. Teacher, counsellor, aunt/uncle" />
+        <label for="safeAdult">Trusted support person (optional)</label>
+        <input id="safeAdult" type="text" name="safeAdult" placeholder="e.g. Counsellor, relative or trusted friend" />
 
         <div class="fine">
-          By submitting, you agree we may share this information with a trusted adult or school contact if someone’s life or safety is in danger.
+          By submitting, you agree we may share this information with an appropriate safeguarding contact or emergency service if someone’s life or safety is in danger.
         </div>
 
         <div class="actions">
