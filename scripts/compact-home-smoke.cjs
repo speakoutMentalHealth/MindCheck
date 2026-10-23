@@ -46,5 +46,29 @@ try{
   assert.deepEqual(errors,[]);console.log('PASS compact home '+width+'x'+height+'; welcome scroll '+welcomeSize.overflow+'px, home scroll '+homeSize.overflow+'px; tools, language, pause/resume, Escape focus and accessibility');
   await ctx.close();
  }
+ // Reproduce a returning phone loading a locale API without current().
+ for(const legacy of ['missing','nonfunction']){
+  const ctx=await browser.newContext({viewport:{width:390,height:664},serviceWorkers:'block'});
+  await ctx.addInitScript(()=>localStorage.setItem('mc_lang','fr'));
+  await ctx.route('**/*',async route=>{
+   const url=new URL(route.request().url());
+   if(url.origin!=='http://127.0.0.1:8775')return route.abort();
+   if(url.pathname==='/js/mindcheck-i18n.js'){
+    const source=require('node:fs').readFileSync('js/mindcheck-i18n.js','utf8');
+    return route.fulfill({contentType:'application/javascript',body:source+'\nwindow.MindCheckLocale.current='+ (legacy==='missing'?'undefined':'"fr"')+';'});
+   }
+   return route.continue();
+  });
+  const page=await ctx.newPage(),errors=[],dialogs=[];
+  page.on('pageerror',e=>errors.push(e.message));page.on('dialog',async d=>{dialogs.push(d.message());await d.dismiss()});
+  await page.goto('http://127.0.0.1:8775/');await page.locator('body.mc-home-compact').waitFor();
+  await page.locator('.mc-home-install').click();assert.match(await page.locator('#mcInstallTitle').innerText(),/Ajouter/);await page.locator('#mcInstallClose').click();
+  await page.locator('.mc-primary-action').click();await page.locator('#moodSection.active').waitFor();
+  await page.locator('[data-mc-nav-target="homeSection"]').click();await page.locator('#mcOpenBreathing').click();
+  await page.locator('#mcBreathingStart').click();assert.equal(await page.locator('#mcBreathing').getAttribute('data-breath-state'),'running');
+  await page.locator('#mcHomeSheetClose').click();await page.locator('#mcLanguageSelect').selectOption('ha');
+  await page.locator('#mcOpenJourney').click();await page.locator('#mcHomeSheetClose').click();
+  assert.deepEqual(errors,[]);assert.deepEqual(dialogs,[]);await ctx.close();console.log('PASS legacy locale '+legacy+': compact home, install, mood, breathing, journey and language switching');
+ }
 }finally{await browser?.close();server.kill();}
 })().catch(e=>{console.error(e);process.exitCode=1});
