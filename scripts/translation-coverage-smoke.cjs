@@ -1,5 +1,5 @@
 /* Local-only localization checks. No live health answers or external form submissions. */
-const {chromium}=require('playwright');
+const {chromium}=require('./adult-browser-fixture.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm'),{spawn}=require('node:child_process');
 (async()=>{

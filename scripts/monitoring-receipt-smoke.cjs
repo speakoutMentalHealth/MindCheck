@@ -1,5 +1,5 @@
 /* All remote writes are intercepted. This checks receipt wording, not live delivery. */
-const {chromium}=require('playwright'),assert=require('node:assert/strict'),{spawn}=require('node:child_process'),net=require('node:net');
+const {chromium}=require('./adult-browser-fixture.cjs'),assert=require('node:assert/strict'),{spawn}=require('node:child_process'),net=require('node:net');
 (async()=>{let browser;const server=spawn('python3',['-m','http.server','8778','--bind','127.0.0.1'],{stdio:'ignore'});try{
 for(let i=0;i<50;i++){try{await new Promise((r,j)=>{const s=net.connect(8778,'127.0.0.1');s.on('connect',()=>{s.end();r()});s.on('error',j)});break}catch{await new Promise(r=>setTimeout(r,100))}}
 browser=await chromium.launch();

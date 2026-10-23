@@ -1,5 +1,5 @@
 /* Local-only interaction and accessibility checks. No personal data or real submissions. */
-const {chromium}=require('playwright');const assert=require('node:assert/strict');
+const {chromium}=require('./adult-browser-fixture.cjs');const assert=require('node:assert/strict');
 const {spawn}=require('node:child_process'),net=require('node:net');
 (async()=>{let browser;const server=spawn('python3',['-m','http.server','8773','--bind','127.0.0.1'],{stdio:'ignore'});
 try{

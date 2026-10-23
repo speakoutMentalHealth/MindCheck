@@ -1,7 +1,7 @@
 /* Browser-based regression tests for the MindCheck public UI.
  * Run with: npm install --no-save playwright@1.56.1 && npx playwright install chromium && node scripts/browser-smoke.cjs
  * Tests run against a local static server and never submit a screening or personal data. */
-const { chromium, devices } = require('playwright');
+const { chromium, devices } = require('./adult-browser-fixture.cjs');
 const assert = require('node:assert/strict');
 const { spawn } = require('node:child_process');
 const net = require('node:net');

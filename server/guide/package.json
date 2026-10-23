@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@ai-sdk/google": "4.0.104",
+    "ai": "7.0.152"
+  },
+  "devDependencies": {
+    "wrangler": "4.152.0"
+  },
+  "name": "mindcheck-guide-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test worker.test.mjs",
+    "build": "wrangler deploy --dry-run --outdir dist"
+  }
+}

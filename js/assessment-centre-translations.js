@@ -71,10 +71,10 @@ window.MindCheckAssessmentTranslations={
     ". We will first confirm clinical suitability, approved wording, licensing and safety requirements.": ". We will first confirm clinical suitability, approved wording, licensing and safety requirements.",
     "Suicide-risk assessment:": "Suicide-risk assessment:",
     "evaluate C-SSRS with PHC/FMC clinical partners and implement only after escalation contacts, operating hours and emergency response are confirmed.": "evaluate C-SSRS with PHC/FMC clinical partners and implement only after escalation contacts, operating hours and emergency response are confirmed.",
-    "Children and teenagers:": "Children and teenagers:",
-    "develop a separate, age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.": "develop a separate, age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.",
     "When to seek professional support": "When to seek professional support",
-    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service."
+    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.",
+    "Adults 18+:": "Adults 18+:",
+    "MindCheck’s tools are intended for adults. Under-18 resources are available separately through the main SpeakOut website.": "MindCheck’s tools are intended for adults. Under-18 resources are available separately through the main SpeakOut website."
   },
   "ha": {
     "Home": "Shafin farko",
@@ -147,10 +147,10 @@ window.MindCheckAssessmentTranslations={
     ". We will first confirm clinical suitability, approved wording, licensing and safety requirements.": ". Za mu fara tabbatar da dacewar asibiti, kalmomin da aka amince da su, lasisi da ƙa’idojin tsaro.",
     "Suicide-risk assessment:": "Tantance haɗarin kashe kai:",
     "evaluate C-SSRS with PHC/FMC clinical partners and implement only after escalation contacts, operating hours and emergency response are confirmed.": "tantance C-SSRS tare da abokan aikin PHC/FMC sannan a fara ne bayan tabbatar da lambobin neman taimako, lokutan aiki da martanin gaggawa.",
-    "Children and teenagers:": "Yara da matasa:",
-    "develop a separate, age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.": "ƙirƙiro hanya ta daban da ta dace da shekaru, tare da kulawar ƙwararru, jagorancin iyaye/malamai da kariyar yarda.",
     "When to seek professional support": "Lokacin neman taimakon ƙwararru",
-    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Idan alamomi suna hana makaranta, aiki, barci, hulɗa ko ayyukan yau da kullum, yi la’akari da magana da ƙwararren ma’aikacin lafiya ko da tantancewa ta nuna ƙarancin damuwa. Idan kana cikin haɗari nan take, tuntuɓi sabis na gaggawa na yankinka."
+    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Idan alamomi suna hana makaranta, aiki, barci, hulɗa ko ayyukan yau da kullum, yi la’akari da magana da ƙwararren ma’aikacin lafiya ko da tantancewa ta nuna ƙarancin damuwa. Idan kana cikin haɗari nan take, tuntuɓi sabis na gaggawa na yankinka.",
+    "Adults 18+:": "Manya masu shekara 18 zuwa sama:",
+    "MindCheck’s tools are intended for adults. Under-18 resources are available separately through the main SpeakOut website.": "Kayan aikin MindCheck na manya ne. Ana samun albarkatun waɗanda ba su kai 18 ba a babban shafin SpeakOut."
   },
   "ig": {
     "Home": "Mbido",
@@ -223,10 +223,10 @@ window.MindCheckAssessmentTranslations={
     ". We will first confirm clinical suitability, approved wording, licensing and safety requirements.": ". Anyị ga-ebu ụzọ kwado ịdị mma ụlọ ọgwụ, okwu akwadoro, ikike na ihe achọrọ maka nchekwa.",
     "Suicide-risk assessment:": "Nyocha ihe ize ndụ igbu onwe:",
     "evaluate C-SSRS with PHC/FMC clinical partners and implement only after escalation contacts, operating hours and emergency response are confirmed.": "nyochaa C-SSRS na ndị mmekọ PHC/FMC ma jiri ya naanị mgbe a kwadoro kọntaktị enyemaka, oge ọrụ na nzaghachi mberede.",
-    "Children and teenagers:": "Ụmụaka na ndị ntorobịa:",
-    "develop a separate, age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.": "mepụta ụzọ dị iche dabara n’afọ ndụ, n’okpuru nlekọta ọkachamara, nduzi ndị nlekọta/ndị nkuzi na nchekwa nkwenye.",
     "When to seek professional support": "Mgbe ị ga-achọ nkwado ọkachamara",
-    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Ọ bụrụ na mgbaàmà na-emetụta ụlọ akwụkwọ, ọrụ, ụra, mmekọrịta ma ọ bụ ihe omume kwa ụbọchị, tụlee ịgwa onye ahụike ruru eru okwu ọbụna ma nyocha gosiri obere nchegbu. Ọ bụrụ na ị nọ n’ihe ize ndụ ozugbo, kpọtụrụ ọrụ mberede mpaghara gị."
+    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Ọ bụrụ na mgbaàmà na-emetụta ụlọ akwụkwọ, ọrụ, ụra, mmekọrịta ma ọ bụ ihe omume kwa ụbọchị, tụlee ịgwa onye ahụike ruru eru okwu ọbụna ma nyocha gosiri obere nchegbu. Ọ bụrụ na ị nọ n’ihe ize ndụ ozugbo, kpọtụrụ ọrụ mberede mpaghara gị.",
+    "Adults 18+:": "Ndị okenye afọ 18 ma ọ bụ karịa:",
+    "MindCheck’s tools are intended for adults. Under-18 resources are available separately through the main SpeakOut website.": "Ngwa MindCheck bụ maka ndị okenye. Ihe enyemaka maka ndị na-erubeghị afọ 18 dị iche na isi weebụsaịtị SpeakOut."
   },
   "yo": {
     "Home": "Ojúlé",
@@ -299,10 +299,10 @@ window.MindCheckAssessmentTranslations={
     ". We will first confirm clinical suitability, approved wording, licensing and safety requirements.": ". A ó kọ́kọ́ jẹ́rìí ìbámu amọ̀ja, ọ̀rọ̀ tí a fọwọ́ sí, àṣẹ àti àwọn ìlànà ààbò.",
     "Suicide-risk assessment:": "Àyẹ̀wò ewu pípa ara ẹni:",
     "evaluate C-SSRS with PHC/FMC clinical partners and implement only after escalation contacts, operating hours and emergency response are confirmed.": "ṣàyẹ̀wò C-SSRS pẹ̀lú àwọn alábàáṣiṣẹ́ PHC/FMC, kí a sì bẹ̀rẹ̀ lẹ́yìn ìmúdájú àwọn ọ̀nà ìrànlọ́wọ́, àkókò iṣẹ́ àti ìdáhùn pajawiri.",
-    "Children and teenagers:": "Àwọn ọmọdé àti ọ̀dọ́:",
-    "develop a separate, age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.": "ṣe ọ̀nà lọ́tọ̀ tó bá ọjọ́ orí mu, pẹ̀lú àbójútó amọ̀ja, ìtọ́sọ́nà olùtọ́jú/olùkọ́ àti ààbò ìyọ̀nda.",
     "When to seek professional support": "Ìgbà láti wá ìrànlọ́wọ́ amọ̀ja",
-    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Tí àwọn àmì bá ń dí ẹ̀kọ́, iṣẹ́, oorun, ìbáṣepọ̀ tàbí iṣẹ́ ojoojúmọ́ lọ́wọ́, ronú nípa bíbá amọ̀ja ìlera tó péye sọ̀rọ̀ bí àyẹ̀wò bá tilẹ̀ fi ìṣòro kékeré hàn. Tí o bá wà nínú ewu kíákíá, kàn sí iṣẹ́ pajawiri agbègbè rẹ."
+    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Tí àwọn àmì bá ń dí ẹ̀kọ́, iṣẹ́, oorun, ìbáṣepọ̀ tàbí iṣẹ́ ojoojúmọ́ lọ́wọ́, ronú nípa bíbá amọ̀ja ìlera tó péye sọ̀rọ̀ bí àyẹ̀wò bá tilẹ̀ fi ìṣòro kékeré hàn. Tí o bá wà nínú ewu kíákíá, kàn sí iṣẹ́ pajawiri agbègbè rẹ.",
+    "Adults 18+:": "Àgbàlagbà ọdún 18 sí òkè:",
+    "MindCheck’s tools are intended for adults. Under-18 resources are available separately through the main SpeakOut website.": "Àwọn irinṣẹ́ MindCheck jẹ́ fún àgbàlagbà. Ìrànlọ́wọ́ fún àwọn tí kò tíì pé ọdún 18 wà lọ́tọ̀ lórí ojúlé SpeakOut."
   },
   "pcm": {
     "Home": "Home",
@@ -375,10 +375,10 @@ window.MindCheckAssessmentTranslations={
     ". We will first confirm clinical suitability, approved wording, licensing and safety requirements.": ". We go first confirm clinical suitability, approved wording, licensing and safety requirements.",
     "Suicide-risk assessment:": "Suicide-risk assessment:",
     "evaluate C-SSRS with PHC/FMC clinical partners and implement only after escalation contacts, operating hours and emergency response are confirmed.": "evaluate C-SSRS with PHC/FMC clinical partners and use am only after we confirm escalation contacts, working hours and emergency response.",
-    "Children and teenagers:": "Children and teenagers:",
-    "develop a separate, age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.": "develop separate age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.",
     "When to seek professional support": "When to seek professional support",
-    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "If symptoms dey affect school, work, sleep, relationships or everyday activities, consider talking to qualified health professional even if screening show low concern. If immediate danger dey, contact your local emergency service."
+    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "If symptoms dey affect school, work, sleep, relationships or everyday activities, consider talking to qualified health professional even if screening show low concern. If immediate danger dey, contact your local emergency service.",
+    "Adults 18+:": "Adults wey don reach 18:",
+    "MindCheck’s tools are intended for adults. Under-18 resources are available separately through the main SpeakOut website.": "MindCheck tools na for adults. Resources for people wey never reach 18 dey separately for main SpeakOut website."
   },
   "fr": {
     "Home": "Accueil",
@@ -451,9 +451,9 @@ window.MindCheckAssessmentTranslations={
     ". We will first confirm clinical suitability, approved wording, licensing and safety requirements.": ". Nous vérifierons d’abord leur pertinence clinique, les formulations validées, les licences et les exigences de sécurité.",
     "Suicide-risk assessment:": "Évaluation du risque suicidaire :",
     "evaluate C-SSRS with PHC/FMC clinical partners and implement only after escalation contacts, operating hours and emergency response are confirmed.": "évaluer la C-SSRS avec les partenaires cliniques PHC/FMC et ne la mettre en œuvre qu’après confirmation des contacts d’orientation, horaires et réponses d’urgence.",
-    "Children and teenagers:": "Enfants et adolescents :",
-    "develop a separate, age-appropriate approach with clinical supervision, caregiver/teacher guidance and consent protections.": "développer une approche distincte adaptée à l’âge, avec supervision clinique, conseils aux responsables/enseignants et protections du consentement.",
     "When to seek professional support": "Quand consulter un professionnel",
-    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Si des symptômes perturbent l’école, le travail, le sommeil, les relations ou le quotidien, envisagez de consulter un professionnel qualifié, même si le dépistage indique peu de difficultés. En cas de danger immédiat, contactez les secours locaux."
+    "If symptoms interfere with school, work, sleep, relationships or everyday activities, consider speaking with a qualified health professional even when a screening tool suggests a lower level of concern. If you are in immediate danger, contact your local emergency service.": "Si des symptômes perturbent l’école, le travail, le sommeil, les relations ou le quotidien, envisagez de consulter un professionnel qualifié, même si le dépistage indique peu de difficultés. En cas de danger immédiat, contactez les secours locaux.",
+    "Adults 18+:": "Adultes de 18 ans et plus :",
+    "MindCheck’s tools are intended for adults. Under-18 resources are available separately through the main SpeakOut website.": "Les outils MindCheck sont destinés aux adultes. Les ressources pour les moins de 18 ans sont disponibles séparément sur le site principal SpeakOut."
   }
 };

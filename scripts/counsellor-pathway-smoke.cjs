@@ -1,5 +1,5 @@
 /* Isolated synthetic UI checks: no course accounts, uploads, emails or health data. */
-const {chromium}=require('playwright');
+const {chromium}=require('./adult-browser-fixture.cjs');
 const assert=require('node:assert/strict');
 const {spawn}=require('node:child_process');
 const {mkdir,writeFile}=require('node:fs/promises');

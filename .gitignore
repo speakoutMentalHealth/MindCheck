@@ -1,0 +1,4 @@
+node_modules/
+server/guide/.dev.vars
+server/guide/.wrangler/
+server/guide/dist/
