@@ -19,6 +19,7 @@ on:
       - 'scripts/breathing-studio-smoke.cjs'
       - 'scripts/compact-home-smoke.cjs'
       - 'scripts/phone-experience-smoke.cjs'
+      - 'scripts/calm-studio-smoke.cjs'
       - 'scripts/monitoring-receipt-smoke.cjs'
       - '*.html'
       - '.github/workflows/mindcheck-browser-smoke.yml'
@@ -54,6 +55,8 @@ jobs:
         run: node scripts/compact-home-smoke.cjs
       - name: Check phone installation handoff and compact breathing
         run: node scripts/phone-experience-smoke.cjs
+      - name: Check calm activities, sound consent and mobile layout
+        run: node scripts/calm-studio-smoke.cjs
       - name: Check monitoring receipt wording and local backup
         run: node scripts/monitoring-receipt-smoke.cjs
       - name: Run responsive browser smoke suite

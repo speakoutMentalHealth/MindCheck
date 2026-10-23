@@ -15,7 +15,7 @@ window.MindCheckBreathingCopy={
     "comfort": "Follow only while comfortable. Breathe normally if the pace does not suit you. Stop if you feel dizzy or unwell.",
     "notTest": "A calming visual, not a heart or lung health test.",
     "groundingTitle": "Five-senses reset",
-    "groundingIntro": "Look around at your own pace. Skip any sense that is not available or comfortable. You do not need to type anything.",
+    "groundingIntro": "Skip any sense that is unavailable or uncomfortable.",
     "see": "Notice 5 things you can see.",
     "feel": "Notice 4 things you can feel, such as your feet on the floor or your clothes.",
     "hear": "Notice 3 sounds around you.",
@@ -29,7 +29,8 @@ window.MindCheckBreathingCopy={
     "groundingSource": "Grounding guidance · NHS inform",
     "breathingTimer": "Breathing timer",
     "guideTitle": "How to & safety",
-    "comfortShort": "Breathe comfortably. Stop if dizzy or unwell."
+    "comfortShort": "Breathe comfortably. Stop if dizzy or unwell.",
+    "paused": "Paused. Take your time."
   },
   "ha": {
     "rhythm": "Zaɓi tsarin numfashi",
@@ -46,7 +47,7 @@ window.MindCheckBreathingCopy={
     "comfort": "Bi tsarin idan yana yi maka daɗi kawai. Yi numfashi na al’ada idan tsarin bai dace ba. Dakata idan ka ji jiri ko rashin lafiya.",
     "notTest": "Hoton natsuwa ne, ba gwajin lafiyar zuciya ko huhu ba.",
     "groundingTitle": "Natsuwa ta gabobi biyar",
-    "groundingIntro": "Duba kewaye a hankali. Tsallake duk abin da ba ka iya ji ko ba ya maka daɗi. Ba sai ka rubuta komai ba.",
+    "groundingIntro": "Tsallake abin da ba ka iya ji ko ba ya maka daɗi.",
     "see": "Lura da abubuwa 5 da kake gani.",
     "feel": "Lura da abubuwa 4 da kake ji, kamar ƙafafunka a ƙasa ko tufafinka.",
     "hear": "Lura da sautuka 3 a kewaye.",
@@ -60,7 +61,8 @@ window.MindCheckBreathingCopy={
     "groundingSource": "Jagorancin natsuwa · NHS inform",
     "breathingTimer": "Mai ƙirga lokacin numfashi",
     "guideTitle": "Yadda ake yi da tsaro",
-    "comfortShort": "Yi numfashi cikin sauƙi. Dakata idan ka ji jiri ko rashin lafiya."
+    "comfortShort": "Yi numfashi cikin sauƙi. Dakata idan ka ji jiri ko rashin lafiya.",
+    "paused": "An dakata. Ka ɗauki lokacinka."
   },
   "ig": {
     "rhythm": "Họrọ usoro iku ume",
@@ -77,7 +79,7 @@ window.MindCheckBreathingCopy={
     "comfort": "Soro usoro a naanị ma ọ dị gị mma. Kuo ume dịka ọ na-adị ma ọ bụrụ na usoro adabaghị gị. Kwụsị ma isi na-atụ gị ma ọ bụ ahụ adịghị gị mma.",
     "notTest": "Ihe onyonyo izu ike, ọ bụghị ule ahụike obi ma ọ bụ akpa ume.",
     "groundingTitle": "Izu ike site n’echiche ise",
-    "groundingIntro": "Legharịa anya nwayọọ. Gafee mmetụta ọ bụla ị na-enweghị ike iji ma ọ bụ nke na-adịghị gị mma. Ọ dịghị mkpa ide ihe ọ bụla.",
+    "groundingIntro": "Gafee mmetụta ị na-enweghị ike iji ma ọ bụ nke na-adịghị gị mma.",
     "see": "Rịba ama ihe 5 ị na-ahụ.",
     "feel": "Rịba ama ihe 4 ị na-emetụ, dịka ụkwụ gị n’ala ma ọ bụ uwe gị.",
     "hear": "Rịba ama ụda 3 gbara gị gburugburu.",
@@ -91,7 +93,8 @@ window.MindCheckBreathingCopy={
     "groundingSource": "Nduzi izu ike · NHS inform",
     "breathingTimer": "Ngụ oge iku ume",
     "guideTitle": "Nduzi na nchekwa",
-    "comfortShort": "Kuo ume nwayọọ. Kwụsị ma isi na-atụ gị ma ọ bụ ahụ adịghị gị mma."
+    "comfortShort": "Kuo ume nwayọọ. Kwụsị ma isi na-atụ gị ma ọ bụ ahụ adịghị gị mma.",
+    "paused": "Akwụsịtụrụ. Were oge gị."
   },
   "yo": {
     "rhythm": "Yan ìlànà mímí",
@@ -108,7 +111,7 @@ window.MindCheckBreathingCopy={
     "comfort": "Tẹ̀lé e bí ara rẹ bá fẹ́ nìkan. Mí bó ṣe máa ń rí bí ìlànà náà kò bá bá ọ mu. Dúró bí orí bá ń yí ọ tàbí ara kò bá yá ọ.",
     "notTest": "Àwòrán ìfarabalẹ̀ ni, kì í ṣe àyẹ̀wò ìlera ọkàn tàbí ẹ̀dọ̀fóró.",
     "groundingTitle": "Ìfarabalẹ̀ pẹ̀lú àwọn agbára ìmọ̀lára márùn-ún",
-    "groundingIntro": "Wo àyíká rẹ lọ́ra. Fo agbára ìmọ̀lára tí o kò lè lò tàbí tí kò rọrùn fún ọ. Kò sí ohun tí o nílò láti tẹ̀.",
+    "groundingIntro": "Fo agbára ìmọ̀lára tí o kò lè lò tàbí tí kò rọrùn fún ọ.",
     "see": "Ṣàkíyèsí ohun 5 tí o rí.",
     "feel": "Ṣàkíyèsí ohun 4 tí ara rẹ mọ̀, bí ẹsẹ̀ rẹ lórí ilẹ̀ tàbí aṣọ rẹ.",
     "hear": "Ṣàkíyèsí ìró 3 tó yí ọ ká.",
@@ -122,7 +125,8 @@ window.MindCheckBreathingCopy={
     "groundingSource": "Ìtọ́sọ́nà ìfarabalẹ̀ · NHS inform",
     "breathingTimer": "Aago mímí",
     "guideTitle": "Ìtọ́sọ́nà àti ààbò",
-    "comfortShort": "Mí ní ìrọ̀rùn. Dúró tí orí bá ń yí ọ tàbí ara kò bá yá."
+    "comfortShort": "Mí ní ìrọ̀rùn. Dúró tí orí bá ń yí ọ tàbí ara kò bá yá.",
+    "paused": "Ti dákẹ́. Má ṣe kánjú."
   },
   "pcm": {
     "rhythm": "Choose your rhythm",
@@ -139,7 +143,7 @@ window.MindCheckBreathingCopy={
     "comfort": "Follow only if e comfortable. Breathe normally if the pace no suit you. Stop if you feel dizzy or unwell.",
     "notTest": "Na calming visual, no be heart or lung health test.",
     "groundingTitle": "Five-senses reset",
-    "groundingIntro": "Look around at your own pace. Skip any sense wey no available or comfortable. You no need type anything.",
+    "groundingIntro": "Skip any sense wey no available or comfortable.",
     "see": "Notice 5 things wey you see.",
     "feel": "Notice 4 things wey you feel, like your feet for floor or your clothes.",
     "hear": "Notice 3 sounds around you.",
@@ -153,7 +157,8 @@ window.MindCheckBreathingCopy={
     "groundingSource": "Grounding guidance · NHS inform",
     "breathingTimer": "Breathing timer",
     "guideTitle": "How to & safety",
-    "comfortShort": "Breathe as e easy you. Stop if you feel dizzy or unwell."
+    "comfortShort": "Breathe as e easy you. Stop if you feel dizzy or unwell.",
+    "paused": "Don pause. Take your time."
   },
   "fr": {
     "rhythm": "Choisissez votre rythme",
@@ -170,7 +175,7 @@ window.MindCheckBreathingCopy={
     "comfort": "Suivez le rythme seulement s’il vous convient. Sinon, respirez naturellement. Arrêtez en cas de vertiges ou de malaise.",
     "notTest": "Un guide visuel apaisant, pas un test de santé cardiaque ou pulmonaire.",
     "groundingTitle": "Retour aux cinq sens",
-    "groundingIntro": "Observez votre environnement à votre rythme. Passez tout sens inaccessible ou inconfortable. Vous n’avez rien à saisir.",
+    "groundingIntro": "Passez tout sens inaccessible ou inconfortable.",
     "see": "Remarquez 5 choses que vous voyez.",
     "feel": "Remarquez 4 sensations, comme vos pieds au sol ou vos vêtements.",
     "hear": "Remarquez 3 sons autour de vous.",
@@ -184,6 +189,7 @@ window.MindCheckBreathingCopy={
     "groundingSource": "Conseils d’ancrage · NHS inform",
     "breathingTimer": "Minuteur respiratoire",
     "guideTitle": "Guide et sécurité",
-    "comfortShort": "Respirez à votre aise. Arrêtez en cas de vertige ou de malaise."
+    "comfortShort": "Respirez à votre aise. Arrêtez en cas de vertige ou de malaise.",
+    "paused": "En pause. Prenez votre temps."
   }
 };

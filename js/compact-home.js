@@ -19,9 +19,9 @@ function mount(){
  const scene=document.querySelector('#mcBreathing .mc-breathing-visual');
  let fitFrame=0;
  function fitScene(){
-  if(!scene||!sheet.open||sheet.dataset.panel!=='breathing')return;
+  if(!scene||!sheet.open||sheet.dataset.panel!=='breathing'||document.getElementById('mcBreathing').dataset.calmActive&&document.getElementById('mcBreathing').dataset.calmActive!=='breathe')return;
   const breath=document.getElementById('mcBreathing');
-  if(!breath.querySelector('details[open]')){
+  if(!Array.from(breath.querySelectorAll('details[open]')).some(detail=>detail.getClientRects().length)){
    const content=sheet.querySelector('.mc-home-sheet-content'),rect=breath.getBoundingClientRect();
    const available=sheet.clientHeight-(rect.top-sheet.getBoundingClientRect().top)-parseFloat(getComputedStyle(content).paddingBottom)-parseFloat(getComputedStyle(sheet).paddingBottom);
    const fixed=rect.height-scene.getBoundingClientRect().height;
