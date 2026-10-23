@@ -39,7 +39,7 @@ function renderBreathingLabels(){
   if(!running&&!paused&&!completed)cue.textContent=tr('ready');
   start.textContent=running?tr('pause'):paused?tr('resume'):tr('start');
   if(completed)cue.textContent=tr('complete');
-  if(running||paused){phaseLabel.textContent=tr(phaseInfo().inhale?'inhale':'exhale');cue.textContent=phaseLabel.textContent;}
+  if(running||paused){phaseLabel.textContent=tr(phaseInfo().inhale?'inhale':'exhale');cue.textContent=paused?tr('paused'):phaseLabel.textContent;}
   reset.textContent=tr('reset');
   if(!running&&!completed)phaseLabel.textContent=tr(phaseInfo().inhale?'inhale':'exhale');
 }
@@ -52,7 +52,8 @@ var patterns={gentle:[4000,6000],steady:[5000,5000],easy:[3000,3000]},timing=pat
 var grounding=document.getElementById('mcGrounding'),groundPrompt=document.getElementById('mcGroundingPrompt'),groundProgress=document.getElementById('mcGroundingProgress'),groundNext=document.getElementById('mcGroundingNext'),groundBack=document.getElementById('mcGroundingBack'),groundIndex=0,groundKeys=['see','feel','hear','smell','taste'];
 function phaseInfo(){var cycle=timing[0]+timing[1],phase=elapsed%cycle,inhale=phase<timing[0];return {cycle:cycle,phase:phase,inhale:inhale,phaseElapsed:inhale?phase:phase-timing[0],phaseDuration:inhale?timing[0]:timing[1]};}
 function lockOptions(locked){rhythm.disabled=locked;duration.disabled=locked;changeHint.hidden=!locked;}
-function updateRemaining(){var value=Math.max(0,Math.ceil((DURATION-elapsed)/1000));remaining.textContent=Math.floor(value/60)+':'+String(value%60).padStart(2,'0');}
+function textIfChanged(element,value){if(element.textContent!==value)element.textContent=value;}
+function updateRemaining(){var value=Math.max(0,Math.ceil((DURATION-elapsed)/1000));textIfChanged(remaining,Math.floor(value/60)+':'+String(value%60).padStart(2,'0'));}
 function configure(){
   timing=patterns[rhythm.value]||patterns.gentle;DURATION=[30000,60000,120000].includes(Number(duration.value))?Number(duration.value):30000;
   totalCycles=DURATION/(timing[0]+timing[1]);dots.replaceChildren();
@@ -64,6 +65,7 @@ function renderGrounding(){
  groundPrompt.textContent=tr(groundIndex<5?groundKeys[groundIndex]:'groundingDone');
  groundProgress.textContent=Math.min(5,groundIndex+1)+' / 5';groundBack.disabled=groundIndex===0;
  groundNext.textContent=tr(groundIndex<5?'next':'again');
+ window.dispatchEvent(new CustomEvent('mindcheck:groundstep',{detail:{index:groundIndex}}));
 }
 
 var running=false,paused=false,elapsed=0,last=0,frame=0,completed=false,previousPhase='';var DURATION=30000,CIRCUMFERENCE=2*Math.PI*114;
@@ -81,7 +83,7 @@ function draw(){
   function bump(center,width){var distance=Math.abs(beat-center);return Math.max(0,1-distance/width);}
   var pulse=1+.09*bump(.14,.10)+.055*bump(.34,.12);
   heartVisual.style.setProperty('--mc-heart-beat',reducedMotion()?'1':pulse.toFixed(4));
-  scene.dataset.breathState='running';
+  if(scene.dataset.breathState!=='running')scene.dataset.breathState='running';
   cycleDots.forEach(function(dot,index){var segment=Math.floor(elapsed/DURATION*cycleDots.length);dot.dataset.state=index<segment?'done':index===segment?'current':'next';});
   circle.style.setProperty('--mc-heart-glow',glow.toFixed(3));
   circle.classList.toggle('is-inhaling',inhale);circle.classList.toggle('is-exhaling',!inhale);
@@ -90,10 +92,15 @@ function draw(){
   circle.setAttribute('data-breath-phase',phaseKey);
   circle.closest('.mc-breathing-stage').style.setProperty('--mc-stage-glow', (0.8+.34*(inhale?eased:1-eased)).toFixed(3));
   ring.style.strokeDashoffset=String(CIRCUMFERENCE*(1-fraction));
-  seconds.textContent=String(Math.max(1,Math.ceil((phaseDuration-phaseElapsed)/1000)));
-  phaseLabel.textContent=tr(phaseKey);
-  if(phaseKey!==previousPhase){cue.textContent=tr(phaseKey);previousPhase=phaseKey;}
-  progress.textContent=Math.min(totalCycles,Math.floor(elapsed/info.cycle)+1)+' / '+totalCycles;updateRemaining();
+  textIfChanged(seconds,String(Math.max(1,Math.ceil((phaseDuration-phaseElapsed)/1000))));
+  textIfChanged(phaseLabel,tr(phaseKey));
+  if(phaseKey!==previousPhase){cue.textContent=tr(phaseKey);previousPhase=phaseKey;
+    if(!reducedMotion()&&cue.animate)cue.animate([{opacity:.3,transform:'translateY(3px)'},{opacity:1,transform:'none'}],{duration:280});
+    window.dispatchEvent(new CustomEvent('mindcheck:breathphase',{detail:{phase:phaseKey}}));
+  }
+  scene.style.setProperty('--mc-session-progress',String(elapsed/DURATION));
+  var timeline=scene.querySelector('.mc-calm-timeline');if(timeline){var percent=String(Math.round(elapsed/DURATION*100));if(timeline.getAttribute('aria-valuenow')!==percent)timeline.setAttribute('aria-valuenow',percent);}
+  textIfChanged(progress,Math.min(totalCycles,Math.floor(elapsed/info.cycle)+1)+' / '+totalCycles);updateRemaining();
 }
 function finish(){
   running=false;paused=false;completed=true;cancelAnimationFrame(frame);
@@ -105,7 +112,9 @@ function finish(){
   circle.removeAttribute('data-breath-phase');
   circle.closest('.mc-breathing-stage').style.setProperty('--mc-stage-glow','0.8');
   ring.style.strokeDashoffset='0';seconds.textContent='✓';phaseLabel.textContent='';
-  cue.textContent=tr('complete');progress.textContent=totalCycles+' / '+totalCycles;start.textContent=tr('start');updateRemaining();lockOptions(false);
+  cue.textContent=tr('complete');progress.textContent=totalCycles+' / '+totalCycles;start.textContent=tr('start');updateRemaining();lockOptions(false);scene.style.setProperty('--mc-session-progress','1');
+  var timeline=scene.querySelector('.mc-calm-timeline');if(timeline)timeline.setAttribute('aria-valuenow','100');
+  window.dispatchEvent(new Event('mindcheck:breathcomplete'));
 }
 function tick(ts){
   if(!running)return;
@@ -114,17 +123,17 @@ function tick(ts){
   if(elapsed>=DURATION){elapsed=DURATION;finish();return;}
   draw();frame=requestAnimationFrame(tick);
 }
-function pause(){scene.dataset.breathState='paused';running=false;paused=true;circle.classList.remove('is-breathing');cancelAnimationFrame(frame);last=0;start.textContent=tr('resume');}
+function pause(){scene.dataset.breathState='paused';running=false;paused=true;circle.classList.remove('is-breathing');cancelAnimationFrame(frame);last=0;start.textContent=tr('resume');cue.textContent=tr('paused');}
 start.addEventListener('click',function(){
   if(running){pause();return;}
   if(completed){elapsed=0;completed=false;previousPhase='';}
   grounding.open=false;lockOptions(true);
-  running=true;paused=false;last=0;circle.classList.add('is-breathing');start.textContent=tr('pause');
+  running=true;paused=false;last=0;previousPhase='';circle.classList.add('is-breathing');start.textContent=tr('pause');
   draw();frame=requestAnimationFrame(tick);
 });
 function resetBreathing(){
   running=false;paused=false;completed=false;previousPhase='';cancelAnimationFrame(frame);elapsed=0;last=0;
-  scene.dataset.breathState='ready';heartVisual.style.setProperty('--mc-heart-beat','1');
+  scene.dataset.breathState='ready';scene.style.setProperty('--mc-session-progress','0');var timeline=scene.querySelector('.mc-calm-timeline');if(timeline)timeline.setAttribute('aria-valuenow','0');heartVisual.style.setProperty('--mc-heart-beat','1');
   cycleDots.forEach(function(dot){dot.dataset.state='next';});
   circle.classList.remove('is-breathing','is-inhaling','is-exhaling');
   circle.style.setProperty('--mc-breath-scale','0.72');
