@@ -42,3 +42,5 @@ References checked 23 October 2026:
 - https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite
 - https://ai.google.dev/gemini-api/docs/pricing
 - https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
+
+Release validation also identified a prior CI failure on narrow counsellor-exam header overflow. The title/control row now wraps independently; the all-page suite adds a focused 320px exam check.
