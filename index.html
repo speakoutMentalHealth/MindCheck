@@ -13,7 +13,7 @@
 
   <!-- PWA manifest + theme -->
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#06152f">
+  <meta name="theme-color" content="#315d46">
 
   <!-- Icons -->
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -200,7 +200,7 @@ section.active{
   .mc-wellbeing-nav small{display:block;color:#405b52;font-weight:500;margin-top:6px;line-height:1.4}
   .mc-purpose{max-width:750px;margin:16px auto;padding:0 16px;line-height:1.6;color:#25483b}
   @media(max-width:500px){.mc-wellbeing-nav{grid-template-columns:1fr 1fr;gap:9px}.mc-wellbeing-nav a{padding:12px;font-size:.92rem}}
-  
+
 /* MindCheck 2026: wellbeing-first responsive homepage, scoped to avoid changing assessment logic */
 body{background:linear-gradient(180deg,#eaf8f1 0,#f6fbf8 380px,#fff 100%)!important;color:#12362e}
 body>header{background:#083e37!important;color:#fff!important;text-align:left;padding:18px max(20px,calc((100vw - 1100px)/2));font-size:1.15rem;box-shadow:none}
@@ -255,7 +255,7 @@ body>header{background:#083e37!important;color:#fff!important;text-align:left;pa
   .mc-hero .mc-primary-action{border-radius:999px;color:#063f35!important}
   #homeSection .card{border-radius:28px}
   @media(max-width:650px){body>header.mc-brand-nav{border-radius:28px;padding:12px 16px}.mc-brand img{width:52px;height:52px}.mc-brand-nav .mc-nav-actions a:first-child{display:none}.mc-hero{border-radius:28px}.mc-brand small{font-size:.61rem}}
-    
+
 /* MindCheck premium first-impression layer: progressive, reduced-motion safe */
 :root{--mc-premium-ink:#102e30;--mc-premium-mint:#dff7e9}
 body.mc-stage-welcome{min-height:100svh}
@@ -329,6 +329,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <link rel="stylesheet" href="css/compact-home.css">
 <link rel="stylesheet" href="css/mindcheck-visual-system.css">
 <link rel="stylesheet" href="css/calm-studio.css?v=20261023-calm">
+<link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
+<script defer src="js/platform-quality.js?v=20261023-quality"></script>
 </head>
 <body class="mc-stage-welcome">
   <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
@@ -340,15 +342,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       <h1 data-i18n="heroTitle">Make space for yourself.</h1>
       <p data-i18n="heroDescription">A quieter moment starts here.</p>
       <a class="mc-primary-action" href="#startBtn" onclick="document.getElementById('startBtn').click();return false;" data-i18n="heroStart">Begin your check-in →</a>
-      
+
     </div>
     <div class="mc-front-scene" aria-hidden="true">
       <div class="mc-front-orbit mc-front-orbit-a"></div><div class="mc-front-orbit mc-front-orbit-b"></div>
       <div class="mc-front-glow"></div><div class="mc-front-heart">♥</div>
-      
-      
+
+
     </div>
-    
+
   </div>
   <div class="mc-front-discover" aria-label="What you can discover">
     <h2 class="mc-front-discover-title">Explore MindCheck</h2>
@@ -405,8 +407,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <!-- Runtime error reporter -->
   <script>
   window.addEventListener('error', function(ev){
-    console.error('JS Error:', ev.message, 'at', ev.filename+':'+ev.lineno+':'+ev.colno);
-    if (!window._mcAlerted) { window._mcAlerted = true; alert('A script error stopped the app:\n' + ev.message + '\nCheck DevTools Console for details.'); }
+    window.mcStartupError=true;window.dispatchEvent(new Event('mindcheck:runtimeerror'));
   });
   </script>
 
@@ -509,7 +510,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <span data-i18n="nextStepHelp">Every step helps you understand and care for your mental health.</span>
 </p>
 
-    
+
     <div class="grid">
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Check your mood">
         <div class="big">😊</div>
@@ -517,7 +518,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         <p data-i18n="moodRewardDesc">Earn 10 points daily and unlock a digital badge after 20 consecutive days.</p>
       </div>
 
-      
+
 
 
 
@@ -545,12 +546,12 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         <p data-i18n="badgesDesc">See unlocked badges and celebrate your progress.</p>
       </div>
 
-      
 
-      
 
-   
-      
+
+
+
+
     </div>
 
     <div style="font-size:.8rem;line-height:1.4;color:#666;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:12px;max-width:680px;margin:16px auto 0;text-align:left;">
@@ -585,7 +586,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     <div class="toolbar"><button id="moodBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
 
-  
+
 
   <!-- Screenings form -->
   <section id="formContainer" aria-labelledby="formTitle">
@@ -846,7 +847,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     /* ---------- Helpers ---------- */
     function todayStr(){ const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
     function isoToDate(iso){ return new Date(iso); }
-    function getJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }catch(e){ return fallback; } }
+    function getJSON(key, fallback){try{const value=JSON.parse(localStorage.getItem(key)||'null');if(Array.isArray(fallback))return Array.isArray(value)?value.filter(item=>item!==null):fallback;if(typeof fallback==='number')return typeof value==='number'&&Number.isFinite(value)&&value>=0?value:fallback;return value===null?fallback:value;}catch(e){return fallback;}}
+    function getHistory(){return getJSON(KEY_HISTORY,[]).filter(item=>item&&typeof item==='object'&&typeof item.ts==='string'&&!Number.isNaN(new Date(item.ts).getTime())&&Number.isInteger(item.mood_value)&&item.mood_value>=0&&item.mood_value<=4);}
     function setJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
     const getPoints=()=>Number(getJSON(KEY_POINTS, 0))||0;
     const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
@@ -855,14 +857,14 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
     const getLast=()=>{try{return localStorage.getItem(KEY_LAST)||'';}catch(_){return '';}};
     const setLast=v=>localStorage.setItem(KEY_LAST, v);
-    const getBadges=()=>getJSON(KEY_BADGES, []);
+    const getBadges=()=>getJSON(KEY_BADGES, []).filter(item=>typeof item==='string');
     const setBadges=arr=>setJSON(KEY_BADGES, arr);
-    function awardBadge(id){ const b=getBadges(); if(!b.includes(id)){ b.push(id); setBadges(b); return true;} return false; }
+    function awardBadge(id){const b=getBadges();if(!b.includes(id)){b.push(id);try{setBadges(b);return true;}catch(_){return false;}}return false;}
     // Historical award records are read only to preserve prior streak milestones.
-    const getAwards=()=>getJSON(KEY_AWARDS, []);
-    function getSavedTips(){ const saved=getJSON(KEY_TIPS_SAVED, []); return Array.isArray(saved)?saved:[]; }
+    const getAwards=()=>getJSON(KEY_AWARDS, []).filter(item=>item&&typeof item==='object');
+    function getSavedTips(){ const saved=getJSON(KEY_TIPS_SAVED, []); return Array.isArray(saved)?saved.filter(item=>typeof item==='string'||item&&typeof item==='object'&&typeof item.text==='string'):[]; }
     function setSavedTips(arr){ setJSON(KEY_TIPS_SAVED, arr); return getSavedTips().length===arr.length; }
-    function getDoneTips(){ return getJSON(KEY_TIPS_DONE, []); }
+    function getDoneTips(){ return getJSON(KEY_TIPS_DONE, []).filter(item=>item&&typeof item.done_at==='string'); }
     function setDoneTips(arr){ setJSON(KEY_TIPS_DONE, arr); }
 
     /* ---------- Config ---------- */
@@ -905,12 +907,14 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
         moodResult.textContent='This browser cannot save your check-in. Allow website storage or try another browser. You can still use breathing and assessment guidance.';
         return;
       }
-      addPoints(10);
-      setLast(today);
-      const yesterdayStr = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })();
-      if(last===yesterdayStr){ setStreak(getStreak()+1); } else { setStreak(1); }
-
-      const arr=getJSON(KEY_HISTORY, []); arr.push({ ts:new Date().toISOString(), mood_value:moodValue }); setJSON(KEY_HISTORY, arr);
+      const yesterdayStr = (()=>{const d=new Date();d.setDate(d.getDate()-1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;})();
+      const arr=getHistory();arr.push({ts:new Date().toISOString(),mood_value:moodValue});
+      const changes=[[KEY_HISTORY,JSON.stringify(arr)],[KEY_POINTS,String(getPoints()+10)],[KEY_STREAK,String(last===yesterdayStr?getStreak()+1:1)],[KEY_LAST,today]];
+      const previous=changes.map(([key])=>[key,localStorage.getItem(key)]);
+      try{for(const [key,value] of changes){localStorage.setItem(key,value);if(localStorage.getItem(key)!==value)throw Error('Storage unavailable');}}
+      catch(_){let restored=true;for(const [key,value] of previous){try{if(localStorage.getItem(key)!==value){if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value);}}catch(_restore){restored=false;}}
+        moodResult.style.display='block';moodResult.textContent=restored?'Your check-in could not be saved. Existing progress is unchanged. You can still use Calm space and assessment guidance.':'Your check-in could not be saved completely. Check your history before trying again.';return;
+      }
       document.querySelectorAll('.mood').forEach(button=>button.setAttribute('aria-pressed',String(Number(button.dataset.val)===moodValue)));
 
       const emoji=['😢','😞','😐','😊','😄'][moodValue] || '😐';
@@ -951,7 +955,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       if (tipsDonePill) tipsDonePill.textContent = tipsDoneLast7d();
     }
     function updateStats(){
-      const arr=getJSON(KEY_HISTORY, []);
+      const arr=getHistory();
       const now=new Date(); const weekAgo=new Date(now); weekAgo.setDate(now.getDate()-7);
       const weekCount=arr.filter(i=>{ const t=isoToDate(i.ts); return t>=weekAgo && t<=now; }).length;
       statsText.textContent = weekCount>0
@@ -1123,7 +1127,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
     let previousTipKey=null;
 
     function lastMoodTag(){
-      const arr=getJSON(KEY_HISTORY, []);
+      const arr=getHistory();
       if(!arr.length) return 'all';
       const last=arr[arr.length-1].mood_value;
       if(last<=1) return 'low';
@@ -1263,7 +1267,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 
     /* ---------- Crisis smart-routing ---------- */
     function verySadStreak3Days(){
-      const hist=getJSON(KEY_HISTORY, []);
+      const hist=getHistory();
       if(hist.length<3) return false;
       const days=[]; for(let i=0;i<3;i++){ const d=new Date(); d.setDate(d.getDate()-i); days.push(d.toISOString().slice(0,10)); }
       return days.every(ds=>{
@@ -1280,7 +1284,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
       crisisBanner.style.display = verySadStreak3Days() ? 'block' : 'none';
     }
     if (dismissCrisis) dismissCrisis.addEventListener('click', ()=>{
-      localStorage.setItem(KEY_CRISIS_DISMISS, todayStr());
+      try{localStorage.setItem(KEY_CRISIS_DISMISS, todayStr());}catch(_){}
       crisisBanner.style.display='none';
     });
 
@@ -1336,9 +1340,9 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <script src="js/mindcheck-calm-interactions.js" defer></script>
 <script src="js/mindcheck-page-locales.js?v=20261023-locale-startup" defer></script>
 <script src="js/compact-home-copy.js" defer></script>
-<script src="js/compact-home.js?v=20261023-calm" defer></script><script src="js/mindcheck-visual-system.js" defer></script>
+<script src="js/compact-home.js?v=20261023-quality" defer></script><script src="js/mindcheck-visual-system.js" defer></script>
 <script src="js/calm-studio-copy.js?v=20261023-calm" defer></script>
 <script src="js/calm-studio.js?v=20261023-calm" defer></script>
-<script src="js/speakout-platform-switcher.js" defer></script>
+<script src="js/speakout-platform-switcher.js?v=20261023-quality" defer></script>
 </body>
 </html>

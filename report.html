@@ -267,34 +267,30 @@
 <link rel="stylesheet" href="css/language-switch.css">
 <script defer src="js/mindcheck-i18n.js"></script>
 <script defer src="js/language-switch.js"></script>
+<link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
+<script defer src="js/platform-quality.js?v=20261023-quality"></script>
 </head>
 
 <body class="mc-unified-page"><a class="mindcheck-brand-mark" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><style>.mindcheck-brand-mark{display:flex;align-items:center;gap:13px;width:min(1100px,92%);margin:16px auto 10px;padding:12px 22px;background:#fff;color:#063f35!important;text-decoration:none;border-radius:999px;box-shadow:0 12px 32px rgba(6,63,53,.10);font-family:Outfit,system-ui,sans-serif}.mindcheck-brand-mark img{width:56px;height:56px;object-fit:contain}.mindcheck-brand-mark strong{display:block;font-size:1.25rem;font-weight:900}.mindcheck-brand-mark small{display:block;font-size:.72rem;color:#0f9f5f;font-weight:800;text-transform:uppercase;letter-spacing:.07em}@media(max-width:500px){.mindcheck-brand-mark{padding:10px 14px}.mindcheck-brand-mark img{width:46px;height:46px}}</style>
-  <header>
-    <img src="https://mindcheck.speakoutmentalhealth.org/icons/apple-touch-icon.png" alt="SpeakOut Logo">
-    <div class="title">
-      <h1>SpeakOut MindCheck 💚</h1>
-      <small>Anonymous Reporting • Safe • Supportive</small>
-    </div>
-  </header>
 
-  <div class="wrap">
+
+  <div class="wrap" role="main" id="mcReportMain">
     <div class="topbar">
-      <div class="chip">🛡️ Privacy-first: no names required</div>
-      <div class="chip toggle" id="modeToggle" role="button" tabindex="0" aria-label="Toggle calm dark mode">🌙 Calm Mode</div>
+      <div class="chip">Privacy first · no name required</div>
+      <div class="chip toggle" id="modeToggle" role="button" tabindex="0" aria-label="Toggle calm dark mode" aria-pressed="false">Calm mode</div>
     </div>
 
     <div class="card">
       <div class="banner">
         <div><b>Urgent safety note:</b> If you are in immediate danger, call <b>112</b> now or tell a trusted adult.</div>
         <div class="row">
-          <a class="btnmini" href="tel:112">📞 Call 112</a>
-          <a class="btnmini" href="https://wa.me/2348118103510" target="_blank" rel="noopener">💬 WhatsApp Support</a>
-          <a class="btnmini" href="https://mindcheck.speakoutmentalhealth.org/">🏠 Back to Home</a>
+          <a class="btnmini" href="tel:112">Call 112</a>
+          <a class="btnmini" href="https://wa.me/2348118103510" target="_blank" rel="noopener">WhatsApp support</a>
+          <a class="btnmini" href="https://mindcheck.speakoutmentalhealth.org/">Back to MindCheck</a>
         </div>
       </div>
 
-      <h2>Anonymous Reporting Form</h2>
+      <h1 id="mcReportTitle">Share a safety concern</h1>
       <p class="sub">Share only what you are comfortable sharing. Reports are not monitored continuously. For immediate danger, seek urgent in-person help rather than waiting for a reply.</p>
 
       <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
@@ -329,7 +325,7 @@
         </select>
 
         <label for="details">What happened? (briefly)</label>
-        <textarea id="details" name="details" placeholder="Write what’s going on..." required></textarea>
+        <textarea id="details" name="details" maxlength="5000" placeholder="Write what’s going on..." required></textarea>
 
         <div class="row2">
           <div>
@@ -358,7 +354,7 @@
 
         <div id="contactWrap" class="hide">
           <label for="contactInfo">How can we reach you safely? (required if you chose “Yes”)</label>
-          <input id="contactInfo" type="text" name="contactInfo" placeholder="Phone or WhatsApp (safe contact)" />
+          <input id="contactInfo" maxlength="200" type="text" name="contactInfo" placeholder="Phone or WhatsApp (safe contact)" />
           <p class="fine" style="margin-top:8px;">Tip: If it’s not safe to share your number, pick “No, keep me anonymous”.</p>
         </div>
 
@@ -390,12 +386,12 @@
 
     // Calm mode toggle (persist)
     const toggle = document.getElementById("modeToggle");
-    const savedMode = localStorage.getItem("mc_mode");
-    if (savedMode === "dark") document.body.classList.add("dark");
+    let savedMode;try{savedMode=localStorage.getItem("mc_mode");}catch(_){}
+    if(savedMode==="dark")document.body.classList.add("dark");toggle.setAttribute("aria-pressed",String(document.body.classList.contains("dark")));
 
     function flipMode(){
-      document.body.classList.toggle("dark");
-      localStorage.setItem("mc_mode", document.body.classList.contains("dark") ? "dark" : "light");
+      document.body.classList.toggle("dark");toggle.setAttribute("aria-pressed",String(document.body.classList.contains("dark")));
+      try{localStorage.setItem("mc_mode",document.body.classList.contains("dark")?"dark":"light");}catch(_){}
     }
     toggle.addEventListener("click", flipMode);
     toggle.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); flipMode(); } });
@@ -459,31 +455,6 @@
     syncContactUI();
     updateProgress();
 
-    // Confetti + badge
-    const confetti = document.getElementById("confetti");
-    function popConfetti(){
-      confetti.innerHTML = "";
-      confetti.classList.remove("hide");
-      const n = 28;
-      for(let i=0;i<n;i++){
-        const p = document.createElement("i");
-        p.style.left = Math.random()*100 + "vw";
-        p.style.animationDelay = (Math.random()*0.25) + "s";
-        p.style.transform = `translateY(-10px) rotate(${Math.random()*360}deg)`;
-        p.style.opacity = 0.65 + Math.random()*0.35;
-        p.style.width = (8 + Math.random()*10) + "px";
-        p.style.height = (10 + Math.random()*14) + "px";
-        confetti.appendChild(p);
-      }
-      setTimeout(()=>confetti.classList.add("hide"), 1600);
-    }
-
-    function awardBadge(){
-      const badges = JSON.parse(localStorage.getItem("mc_badges") || "[]");
-      if (!badges.includes("Bravery Badge")) badges.push("Bravery Badge");
-      localStorage.setItem("mc_badges", JSON.stringify(badges));
-    }
-
     // Submit with timeout + UI feedback
     const form = document.getElementById("reportForm");
     const msg  = document.getElementById("msg");
@@ -498,8 +469,10 @@
       msg.textContent = "";
     }
 
+    let busy=false;
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      if(busy)return;
       hideMsg();
 
       // Basic validation
@@ -515,7 +488,9 @@
         return;
       }
 
+      busy=true;
       btn.disabled = true;
+      form.setAttribute("aria-busy","true");
       btn.textContent = "Submitting... ⏳";
 
       const formData = new FormData(form);
@@ -539,16 +514,12 @@
           signal: controller.signal
         });
 
-        clearTimeout(t);
-
         const text = await res.text();
         let data = {};
         try { data = JSON.parse(text); } catch (_) {}
 
-        if (res.ok && data.ok) {
-          awardBadge();
-          popConfetti();
-          showMsg("✅ Thank you for speaking up. Bravery Badge unlocked 💚 Your report was received. A reply is only possible if you supplied contact details; response times are not guaranteed.");
+        if (res.ok && data.ok === true) {
+          showMsg("Your report was acknowledged by the receiving service. A reply is only possible if you supplied contact details; response times are not guaranteed.");
           form.reset();
           syncContactUI();
           updateProgress();
@@ -559,12 +530,13 @@
         }
       } catch (err) {
         const isAbort = (err && err.name === "AbortError");
-        console.error("Network error:", err);
+        console.warn("Report receipt could not be confirmed.");
         showMsg(isAbort
-          ? "⚠ Network timeout. Please try again, or call 112 if urgent."
-          : "⚠ Network issue. Please try again, or call 112 if urgent."
+          ? "We could not confirm a receipt before the connection timed out. The report may still have arrived. Your text is kept here so you can decide whether to retry. For urgent danger, use the emergency options above."
+          : "We could not confirm a receipt. Your text is kept here so you can decide whether to retry. For urgent danger, use the emergency options above."
         );
       } finally {
+        clearTimeout(t);busy=false;form.removeAttribute("aria-busy");
         btn.disabled = false;
         btn.textContent = "Submit Report ✅";
       }

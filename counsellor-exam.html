@@ -199,6 +199,8 @@
 <link rel="stylesheet" href="css/language-switch.css">
 <script defer src="js/mindcheck-i18n.js"></script>
 <script defer src="js/language-switch.js"></script>
+<link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
+<script defer src="js/platform-quality.js?v=20261023-quality"></script>
 </head>
 
 <body>
@@ -246,7 +248,7 @@
       <div id="resultBox" class="result" style="display:none;"></div>
 
       <div class="toolbar" id="afterPass" style="display:none;">
-        <a id="viewCert" class="btn btn-primary" href="#">🎓 View Provisional Completion Document</a>
+        <a id="viewCert" class="btn btn-primary" href="#">View official certificate lookup</a>
         <a class="btn btn-ghost" href="./become-a-counsellor.html">📤 Upload for Verification</a>
       </div>
     </div>
@@ -263,9 +265,9 @@
     function applyNight(on){
       document.body.classList.toggle('night', !!on);
       nightToggle.textContent = on ? '☀️ Day Mode' : '🌙 Night Mode';
-      localStorage.setItem(NIGHT_KEY, on ? '1' : '0');
+      try{localStorage.setItem(NIGHT_KEY,on?'1':'0');}catch(_){}
     }
-    applyNight(localStorage.getItem(NIGHT_KEY) === '1');
+    try{applyNight(localStorage.getItem(NIGHT_KEY)==='1');}catch(_){applyNight(false);}
     nightToggle.addEventListener('click', () => applyNight(!document.body.classList.contains('night')));
 
     // Exam config
@@ -448,16 +450,6 @@
       try { return crypto.randomUUID(); } catch { return 'mc_' + Math.random().toString(36).slice(2); }
     }
 
-    function buildCertUrl({ name, scorePct, certId }){
-      const dt = new Date();
-      const params = new URLSearchParams();
-      params.set('name', name || 'Candidate');
-      params.set('score', String(scorePct));
-      params.set('date', dt.toISOString());
-      params.set('cid', certId);
-      return `./counsellor-certificate.html?${params.toString()}`;
-    }
-
     function finalize({ forced=false }={}){
       if (timer) { clearInterval(timer); timer = null; }
 
@@ -478,20 +470,20 @@
 
       resultBox.style.display = 'block';
       resultBox.innerHTML = passed
-        ? `🎉 <b>PASSED ✅</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Next: view your provisional completion document. Independent verification and professional approval are required.`
+        ? `🎉 <b>PASSED ✅</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>This is a practice result saved in this browser. Official certificates require an independently verified assessment record.`
         : `❌ <b>NOT PASSED</b><br>Score: <b>${pct}%</b> (${correct}/${total})<br>Tip: reset and try again.`;
 
       afterPass.style.display = passed ? 'flex' : 'none';
 
       if (passed){
-        const url = buildCertUrl({ name: name || 'Candidate', scorePct: pct, certId });
+        const url = 'certificate.html';
         viewCert.href = url;
         viewCert.addEventListener('click', (e) => {
           // allow normal navigation
         }, { once:true });
 
         // Save last pass (useful for your "Become a Counsellor" page to show status)
-        localStorage.setItem('mc_counsellor_exam_last', JSON.stringify({
+        try{localStorage.setItem('mc_counsellor_exam_last', JSON.stringify({
           name: name || 'Candidate',
           scorePct: pct,
           correct,
@@ -500,9 +492,9 @@
           issuedAt: new Date().toISOString(),
           certId,
           certUrl: url
-        }));
+        }));}catch(_){/* Practice feedback remains available without local storage. */}
       } else {
-        localStorage.setItem('mc_counsellor_exam_last', JSON.stringify({
+        try{localStorage.setItem('mc_counsellor_exam_last', JSON.stringify({
           name: name || 'Candidate',
           scorePct: pct,
           correct,
@@ -511,7 +503,7 @@
           issuedAt: new Date().toISOString(),
           certId: '',
           certUrl: ''
-        }));
+        }));}catch(_){/* Practice feedback remains available without local storage. */}
       }
     }
 

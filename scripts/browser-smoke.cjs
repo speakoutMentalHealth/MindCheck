@@ -63,7 +63,7 @@ async function run() {
       await rp.evaluate(()=>localStorage.setItem('mc_uid','synthetic-device-id-must-not-be-sent'));
       await rp.locator('#who').selectOption('myself');await rp.locator('#concernType').selectOption('other');
       await rp.locator('#details').fill('Synthetic QA only. No real person or incident.');await rp.locator('#allowContact').selectOption('no');
-      await rp.locator('#submitBtn').click();await rp.locator('#msg').filter({hasText:'received'}).waitFor();
+      await rp.locator('#submitBtn').click();await rp.locator('#msg').filter({hasText:'acknowledged'}).waitFor();
       assert.equal(payload.get('uid'),'anonymous','anonymous reports must not link mood history');
       assert(!payload.toString().includes('synthetic-device-id-must-not-be-sent'),'device identifier leaked');
       await rp.waitForTimeout(1800);assert(rp.url().endsWith('/report.html'),'receipt must remain visible');

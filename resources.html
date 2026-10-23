@@ -176,6 +176,8 @@
 <script defer src="js/mindcheck-i18n.js"></script>
 <script defer src="js/language-switch.js"></script>
 <link rel="stylesheet" href="css/mindcheck-visual-system.css">
+<link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
+<script defer src="js/platform-quality.js?v=20261023-quality"></script>
 </head>
 
 <body class="mc-unified-page">
@@ -260,7 +262,7 @@
           <div class="card">
             <h2 style="color:var(--brand-green-dark);margin-bottom:6px">Resource Progress</h2>
             <p class="muted">Open sections, save contacts, copy numbers, and share this page when someone needs help.</p>
-            <div class="progress" aria-label="Resource progress"><div id="progressBar"></div></div>
+            <p id="resourceStorageStatus" role="status" aria-live="polite"></p><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Resource progress"><div id="progressBar"></div></div>
             <div class="muted" style="margin-top:10px;font-weight:850">Progress: <span id="progressText">0%</span> complete • <span id="progressHint">Open sections to unlock your badge.</span></div>
             <div class="status-pills">
               <span class="pill">⭐ XP: <span id="xpText2">0</span></span>
@@ -375,19 +377,20 @@
     const badgeId='resource_scout';
     const $=(sel)=>document.querySelector(sel);
     const $$=(sel)=>Array.from(document.querySelectorAll(sel));
-    const getJSON=(k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
-    const setJSON=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-    const getPoints=()=>parseInt(localStorage.getItem(KEY_POINTS)||'0',10);
-    const setPoints=(v)=>localStorage.setItem(KEY_POINTS,String(v));
+    const getJSON=(k,f)=>{try{const v=JSON.parse(localStorage.getItem(k)||'null');return Array.isArray(f)?(Array.isArray(v)?v.filter(item=>typeof item==='string'):f):v&&typeof v==='object'&&!Array.isArray(v)?v:f}catch(e){return f}};
+    const setJSON=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){storageNotice();return false}};
+    const getPoints=()=>{try{const v=Number(localStorage.getItem(KEY_POINTS)||0);return Number.isFinite(v)&&v>=0?v:0}catch(e){return 0}};
+    const setPoints=(v)=>{try{localStorage.setItem(KEY_POINTS,String(v));}catch(e){storageNotice();}};
+    function storageNotice(){const el=document.getElementById('resourceStorageStatus');if(el)el.textContent='This browser cannot save progress or contacts. You can still read resources and use the contact links.';}
     const addPoints=(n)=>setPoints(getPoints()+n);
     const getBadges=()=>getJSON(KEY_BADGES,[]);
     const setBadges=(a)=>setJSON(KEY_BADGES,a);
-    const awardBadge=(id)=>{const b=getBadges();if(!b.includes(id)){b.push(id);setBadges(b);return true}return false};
+    const awardBadge=(id)=>{const b=getBadges();if(!b.includes(id)){b.push(id);return setBadges(b)}return false};
     const getSaved=()=>getJSON(KEY_SAVED,[]);
     const setSaved=(a)=>setJSON(KEY_SAVED,a);
 
-    function setNight(on){document.body.classList.toggle('night',!!on);const btn=$('#nightToggle');if(btn)btn.textContent=on?'☀️ Day':'🌙 Night';localStorage.setItem(NIGHT_KEY,on?'1':'0')}
-    setNight(localStorage.getItem(NIGHT_KEY)==='1');
+    function setNight(on){document.body.classList.toggle('night',!!on);const btn=$('#nightToggle');if(btn)btn.textContent=on?'☀️ Day':'🌙 Night';try{localStorage.setItem(NIGHT_KEY,on?'1':'0')}catch(e){}}
+    try{setNight(localStorage.getItem(NIGHT_KEY)==='1')}catch(e){setNight(false)}
     $('#nightToggle')?.addEventListener('click',()=>setNight(!document.body.classList.contains('night')));
 
     function refreshHeader(){
@@ -404,14 +407,14 @@
     function sectionProgress(){
       const opened=getOpenedMap();
       const total=$$('details.accord').length;
-      const done=Object.values(opened).filter(Boolean).length;
+      const done=$$('details.accord').filter(d=>opened[d.getAttribute('data-section')||'section']===true).length;
       const pct=total?Math.round((done/total)*100):0;
-      $('#progressBar').style.width=pct+'%';
+      $('#progressBar').style.width=pct+'%';$('#progressBar').parentElement.setAttribute('aria-valuenow',String(pct));
       $('#progressText').textContent=pct+'%';
       if(done>=3){
         const unlocked=awardBadge(badgeId);
-        if(unlocked){addPoints(10);$('#progressHint').textContent='Badge unlocked! (+10 XP)'}
-        else{$('#progressHint').textContent='Badge already unlocked.'}
+        if(unlocked){addPoints(10);$('#progressHint').textContent='Resource Scout badge saved.'}
+        else{$('#progressHint').textContent=getBadges().includes(badgeId)?'Badge already unlocked.':'This browser could not save the badge.'}
       }else{
         $('#progressHint').textContent=`Open ${Math.max(0,3-done)} more section(s) to unlock your badge.`;
       }
@@ -424,7 +427,7 @@
     $$('details.accord').forEach(d=>{d.addEventListener('toggle',()=>{if(d.open){const key=d.getAttribute('data-section')||'section';const opened=getOpenedMap();if(!opened[key]){opened[key]=true;setOpenedMap(opened);addPoints(2)}sectionProgress()}})});
 
     function setStarStates(){const saved=getSaved();$$('button.star').forEach(b=>{const key=b.getAttribute('data-save');const on=saved.includes(key);b.classList.toggle('on',on);b.textContent=on?'⭐ Saved':'⭐'});refreshHeader()}
-    document.addEventListener('click',(e)=>{const star=e.target.closest('button.star');if(!star)return;const key=star.getAttribute('data-save');const saved=getSaved();const idx=saved.indexOf(key);if(idx>=0){saved.splice(idx,1)}else{saved.push(key);addPoints(1)}setSaved(saved);setStarStates()});
+    document.addEventListener('click',(e)=>{const star=e.target.closest('button.star');if(!star)return;const key=star.getAttribute('data-save');const saved=getSaved();const idx=saved.indexOf(key);if(idx>=0){saved.splice(idx,1)}else{saved.push(key);addPoints(1)}if(setSaved(saved))setStarStates()});
     $('#openSaved')?.addEventListener('click',()=>{const saved=getSaved();if(!saved.length){alert('No saved contacts yet. Tap ⭐ on any item to save it.');return}alert('Saved items on this device:\n\n'+saved.map(s=>'• '+s).join('\n'))});
 
     const searchInput=$('#searchInput');

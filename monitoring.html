@@ -36,6 +36,8 @@
 <script defer src="js/mindcheck-i18n.js"></script>
 <script defer src="js/language-switch.js"></script>
 <link rel="stylesheet" href="css/mindcheck-visual-system.css">
+<link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
+<script defer src="js/platform-quality.js?v=20261023-quality"></script>
 </head>
 <body>
 <header>🧠 SpeakOut MindCheck Nigeria</header>
@@ -103,7 +105,7 @@
       This table is saved in this browser. Online delivery is not confirmed by this page.
       Export a CSV as your backup and ask the programme administrator to confirm receipt in the register.
     </p>
-    <table id="monTable">
+    <div class="mc-monitoring-table-wrap" role="region" aria-label="Saved weekly monitoring table" tabindex="0"><table id="monTable">
       <thead>
         <tr>
           <th>Week start</th>
@@ -118,7 +120,7 @@
         </tr>
       </thead>
       <tbody></tbody>
-    </table>
+    </table></div>
     <div class="toolbar">
       <button id="exportCsv" class="btn-ghost" type="button">Export CSV</button>
     </div>

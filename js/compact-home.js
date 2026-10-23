@@ -1,6 +1,7 @@
 /* Compact home, with long tools opened in an accessible native dialog. */
 (function(){
 'use strict';
+const initialTool=new URLSearchParams(location.search).get('tool');
 function mount(){
  const home=document.getElementById('homeSection'),journey=document.getElementById('mcJourney');
  if(!home||!journey||!window.HTMLDialogElement?.prototype?.showModal||!window.MindCheckHomeCopy?.en)return;
@@ -92,6 +93,7 @@ function mount(){
  const installButton=document.createElement('button');installButton.type='button';installButton.className='mc-home-install';installButton.dataset.hc='install';installButton.setAttribute('aria-haspopup','dialog');installButton.addEventListener('click',()=>document.getElementById('mcInstallOpen').click());welcome.appendChild(installButton);
  const updateInstall=()=>installButton.hidden=install.dataset.installed==='true';new MutationObserver(updateInstall).observe(install,{attributes:true,attributeFilter:['data-installed']});updateInstall();
  body.classList.add('mc-home-compact');refresh();sync();window.addEventListener('mindcheck:languagechange',refresh);
+ if(initialTool==='calm'||initialTool==='journey')open(initialTool==='calm'?'breathing':'journey');
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 })();

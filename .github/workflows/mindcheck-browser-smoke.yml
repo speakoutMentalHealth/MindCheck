@@ -20,6 +20,8 @@ on:
       - 'scripts/compact-home-smoke.cjs'
       - 'scripts/phone-experience-smoke.cjs'
       - 'scripts/calm-studio-smoke.cjs'
+      - 'scripts/platform-quality-smoke.cjs'
+      - 'manifest.webmanifest'
       - 'scripts/monitoring-receipt-smoke.cjs'
       - '*.html'
       - '.github/workflows/mindcheck-browser-smoke.yml'
@@ -59,6 +61,8 @@ jobs:
         run: node scripts/calm-studio-smoke.cjs
       - name: Check monitoring receipt wording and local backup
         run: node scripts/monitoring-receipt-smoke.cjs
+      - name: Check all public pages and private data controls
+        run: node scripts/platform-quality-smoke.cjs
       - name: Run responsive browser smoke suite
         run: node scripts/browser-smoke.cjs
       - uses: actions/upload-artifact@v4

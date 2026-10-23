@@ -4,8 +4,8 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f8ff",
-  "theme_color": "#0b65ce",
+  "background_color": "#f7f8f2",
+  "theme_color": "#315d46",
   "icons": [
     {
       "src": "./icons/mindcheck-192.png",
@@ -22,6 +22,23 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "id": "./",
+  "description": "A private space for mood check-ins, calming activities and wellbeing guidance.",
+  "lang": "en",
+  "shortcuts": [
+    {
+      "name": "Check my mood",
+      "url": "./index.html?section=moodSection"
+    },
+    {
+      "name": "Calm space",
+      "url": "./index.html?section=homeSection&tool=calm"
+    },
+    {
+      "name": "Assessment Centre",
+      "url": "./assessment-centre.html"
     }
   ]
 }
