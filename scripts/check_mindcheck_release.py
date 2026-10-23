@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v41-monitoring-receipt-20261020"
+EXPECTED_CACHE = "mc-v42-locale-startup-20261023"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)
@@ -52,7 +52,7 @@ check("mood history uses translated labels", "translatedMood.moods[Number(item.m
 check("mood history localizes dates", "date.toLocaleDateString(translatedMood.date)" in journey)
 check("saved-tip actions localized in six languages", all(f"{code}:{{remove:" in html for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("saved-tip removal uses translated text", "tipAction('remove')" in html and "tipAction('removed')" in html)
-check("smart wellness script linked", 'src="js/mindcheck-smart-wellness.js"' in html)
+check("smart wellness script linked", 'src="js/mindcheck-smart-wellness.js?v=20261023-locale-startup"' in html)
 check("smart wellness stylesheet linked", 'href="mindcheck-smart-wellness.css"' in html)
 check("breathing phase timer present", all('id="' + x + '"' in html for x in ("mcBreathingRingProgress","mcBreathingSeconds","mcBreathingPhase")))
 check("redundant suggestions removed", 'id="mcSmartWellness"' not in html and 'id="mcSmartActions"' not in html and 'data-mc-accordion="suggestions"' not in html)

@@ -5,7 +5,13 @@ function mount(){
  const home=document.getElementById('homeSection'),journey=document.getElementById('mcJourney');
  if(!home||!journey||!window.HTMLDialogElement?.prototype?.showModal||!window.MindCheckHomeCopy?.en)return;
  const body=document.body;
- const copy=key=>(window.MindCheckHomeCopy?.[window.MindCheckLocale?.current()||'en']||window.MindCheckHomeCopy.en)[key];
+ // Returning installations may briefly combine old locale code with new UI.
+ function language(){
+  let code=typeof window.MindCheckLocale?.current==='function'?window.MindCheckLocale.current():document.documentElement.lang;
+  try{if(typeof window.MindCheckLocale?.current!=='function')code=localStorage.getItem('mc_lang')||code;}catch(_){}
+  return Object.hasOwn(window.MindCheckHomeCopy,code)?code:'en';
+ }
+ const copy=key=>(window.MindCheckHomeCopy?.[language()]||window.MindCheckHomeCopy.en)[key];
  const footer=()=>'<div class="mc-home-footer"><a href="privacy.html" data-hc="privacy">Privacy</a><a href="terms.html" data-hc="terms">Terms</a><a href="https://speakoutmentalhealth.org/">SpeakOut ↗</a></div>';
  const launch=document.createElement('div');launch.className='mc-home-launch';
  launch.innerHTML='<div class="mc-home-tools"><button id="mcOpenBreathing" class="mc-home-tool mc-home-breathe" type="button" aria-haspopup="dialog"><span class="mc-home-tool-icon" aria-hidden="true">◌</span><strong data-hc="breathe">Breathe</strong><small data-hc="breatheHint">Find your rhythm</small></button><button id="mcOpenJourney" class="mc-home-tool" type="button" aria-haspopup="dialog"><span class="mc-home-tool-icon" aria-hidden="true">↗</span><strong data-hc="journey">My journey</strong><small data-hc="journeyHint">Progress & challenges</small></button></div><div class="mc-home-momentum"><span><strong id="mcCompactCheckins">0</strong> <span data-hc="checkins">Check-ins</span></span><span><strong id="mcCompactStreak">0</strong> <span data-hc="streak">Day streak</span></span></div>'+footer();
@@ -72,7 +78,7 @@ function mount(){
  new MutationObserver(sync).observe(home,{attributes:true,attributeFilter:['class']});
  // The visible language control makes a second language-selection screen unnecessary.
  function enter(target){
-  if(!body.classList.contains('mc-stage-dashboard')){document.getElementById('startBtn').click();document.querySelector('.tbtn.live[data-lang="'+(window.MindCheckLocale?.current()||'en')+'"]').click();}
+  if(!body.classList.contains('mc-stage-dashboard')){document.getElementById('startBtn').click();document.querySelector('.tbtn.live[data-lang="'+(language())+'"]').click();}
   document.getElementById(target).click();window.scrollTo({top:0,behavior:'auto'});
  }
  document.querySelector('.mc-primary-action').addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();enter('goMood');},true);

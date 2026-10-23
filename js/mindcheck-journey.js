@@ -85,7 +85,7 @@ fr:[
     pcm:[['Small thank-you moment','Think of one small thing wey you appreciate today.'],['Calm breathing','Breathe in small for four counts, breathe out for six. Do am three times.'],['Check on person','Send kind message to person wey you trust.'],['Care for yourself','Drink water, stretch, rest or waka small if e comfortable.']],
     fr:[['Un instant de gratitude','Pensez à une petite chose que vous appréciez aujourd’hui.'],['Respiration apaisante','Inspirez doucement sur quatre temps, expirez sur six. Répétez trois fois.'],['Garder le lien','Envoyez un message bienveillant à une personne de confiance.'],['Prendre soin de soi','Buvez de l’eau, étirez-vous, reposez-vous ou marchez un peu.']]
   };
-  function locale(){if(window.MindCheckLocale?.current)return window.MindCheckLocale.current();var selected='en';try{selected=localStorage.getItem('mc_lang')||'en';}catch(e){}var s=selected.toLowerCase().split('-')[0];return words[s]?s:'en';}
+  function locale(){if(typeof window.MindCheckLocale?.current==='function')return window.MindCheckLocale.current();var selected='en';try{selected=localStorage.getItem('mc_lang')||'en';}catch(e){}var s=selected.toLowerCase().split('-')[0];return words[s]?s:'en';}
   function w(key){return (words[locale()]||words.en)[key]||words.en[key];}
   function json(key,fallback){try{var v=JSON.parse(localStorage.getItem(key)||'null');return v===null?fallback:v;}catch(e){return fallback;}}
   function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}

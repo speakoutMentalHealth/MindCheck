@@ -5,7 +5,9 @@ const originals=new WeakMap();
 const normalize=text=>text.replace(/\s+/g,' ').trim();
 function refresh(){
  const locale=window.MindCheckLocale;if(!locale)return;
- const code=locale.current(),root=document.getElementById('assessmentMain');
+ let code=typeof locale.current==='function'?locale.current():document.documentElement.lang;
+ try{if(typeof locale.current!=='function')code=localStorage.getItem('mc_lang')||code;}catch(_){}
+ const root=document.getElementById('assessmentMain');
  const dictionary=window.MindCheckAssessmentTranslations?.[code];
  if(root&&dictionary){
   // Text-node replacement keeps link destinations and nested emphasis intact.

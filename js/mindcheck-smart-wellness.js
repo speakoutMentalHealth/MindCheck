@@ -26,7 +26,7 @@ yo:['Àwọn àyẹ̀wò rẹ tẹ́lẹ̀','Ìrànlọ́wọ́ onírẹ̀lẹ̀
 pcm:['Your last mood checks','Small support for you','Small steps for today'],
 fr:['Vos derniers bilans','Un soutien doux pour vous','De petits pas aujourd’hui']
 };
-function language(){if(window.MindCheckLocale?.current)return window.MindCheckLocale.current();try{var l=(localStorage.getItem('mc_lang')||'en').split('-')[0].toLowerCase();return i18n[l]?l:'en';}catch(e){return'en';}}
+function language(){if(typeof window.MindCheckLocale?.current==='function')return window.MindCheckLocale.current();try{var l=(localStorage.getItem('mc_lang')||'en').split('-')[0].toLowerCase();return i18n[l]?l:'en';}catch(e){return'en';}}
 function tr(key){return window.MindCheckBreathingCopy?.[language()]?.[key]||(i18n[language()]||i18n.en)[key]||i18n.en[key]||key;}
 function renderBreathingLabels(){
   renderAccordionLabels();
