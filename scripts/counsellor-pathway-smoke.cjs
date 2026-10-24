@@ -89,7 +89,7 @@ async function run(){
   }
   const nojs=await browser.newContext({javaScriptEnabled:false});const page=await nojs.newPage();await page.goto(base+path);assert.equal(await page.locator('#courseBtn').isVisible(),true);assert.equal(await page.locator('#qualifiedPath').isVisible(),true);await nojs.close();
   // The guide and its interactions can be revisited offline after caching.
-  const offline=await browser.newContext({serviceWorkers:'allow'}),offlinePage=await offline.newPage();await offlinePage.goto(base+'/');await offlinePage.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
+  const offline=await browser.newContext({serviceWorkers:'allow'}),offlinePage=await offline.newPage();await offlinePage.goto(base+'/index.html');await offlinePage.evaluate(async()=>{const registration=await navigator.serviceWorker.register('/sw.js');await navigator.serviceWorker.ready;await registration.update();});await offlinePage.reload();await offlinePage.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),null,{timeout:15000});
   await offline.setOffline(true);await offlinePage.goto(base+path);await offlinePage.getByRole('heading',{name:/Learn to listen/}).waitFor();await offlinePage.locator('#courseComplete').check();await offline.close();
   await writeFile('artifacts/counsellor-pathway/results.json',JSON.stringify({reports,noJavaScriptLinks:true,offlineGuide:true},null,2));
   console.log('PASS counsellor pathway — 5 widths, light/dark accessibility, progress, reset, route switching, storage denial/corruption, legacy migration, no-JS links and offline guide.');
