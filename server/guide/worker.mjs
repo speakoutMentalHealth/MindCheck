@@ -9,23 +9,19 @@ async function smallBody(request){const reader=request.body?.getReader();if(!rea
 export function createHandler(generate=explain){return async function(request,env){
  if(request.headers.get('Origin')!==origin)return reply({error:'Unavailable'},403);
  if(new URL(request.url).pathname!=='/')return reply({error:'Not found'},404);
- if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'Access-Control-Allow-Methods':'POST','Access-Control-Allow-Headers':'Content-Type','Access-Control-Max-Age':'600'}});
+ if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'Access-Control-Allow-Methods':'POST','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'600'}});
  if(request.method!=='POST')return reply({error:'Method not allowed'},405);
  if(!/^application\/json(?:;|$)/i.test(request.headers.get('Content-Type')||''))return reply({error:'Use JSON'},415);
  let data;try{data=await smallBody(request);}catch(_){return reply({error:'Invalid selection'},400);}
  if(!data||Array.isArray(data)||Object.keys(data).sort().join(',')!=='adult,language,question'||data.adult!==true||!Object.hasOwn(topics,data.question)||!['en','fr'].includes(data.language))return reply({error:'Invalid selection'},400);
- // Explicit pilot opt-out only: an absent/misspelled flag must never activate generated AI.
- // A browser-supplied adult:true value is not verified age authorization.
- if(env.GUIDE_REQUIRE_ADULT_TOKEN==='true'){
-  const authorization=request.headers.get('Authorization')||'';
-  const match=/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/.exec(authorization);
-  if(!match||!await verifyAdultToken(env.AGE_AUTH_SECRET,match[1]))return reply({error:'Adult authorization required'},403);
- }
  const topic=topics[data.question],fact=(topic[data.language]||topic).answer;
  const fallback=reason=>reply({source:'prepared',answer:fact,reason});
- // Keep reviewed education available, but do not invoke the provider by default
- // without a trusted adult entitlement. Explicit false is a reviewed pilot opt-out.
- if(env.GUIDE_REQUIRE_ADULT_TOKEN!=='true'&&env.GUIDE_REQUIRE_ADULT_TOKEN!=='false')return fallback('authorization');
+ // Hybrid policy: no anonymous AI generation. Unverified or absent access
+ // always returns prepared public education, even when GUIDE_ENABLED is true.
+ if(env.GUIDE_REQUIRE_ADULT_TOKEN!=='true')return fallback('authorization');
+ const authorization=request.headers.get('Authorization')||'';
+ const match=/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/.exec(authorization);
+ if(!match||!await verifyAdultToken(env.AGE_AUTH_SECRET,match[1]))return fallback('authorization');
  // Reviewed free-pilot regions: Nigeria and US. Missing country fails closed.
  // Origin checks are CORS hygiene, not authentication. The limiter is mandatory.
  if(env.GUIDE_ENABLED!=='true')return fallback('disabled');
