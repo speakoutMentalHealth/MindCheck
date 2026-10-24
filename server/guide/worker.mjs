@@ -14,15 +14,17 @@ export function createHandler(generate=explain){return async function(request,en
  let data;try{data=await smallBody(request);}catch(_){return reply({error:'Invalid selection'},400);}
  if(!data||Array.isArray(data)||Object.keys(data).sort().join(',')!=='adult,language,question'||data.adult!==true||!Object.hasOwn(topics,data.question)||!['en','fr'].includes(data.language))return reply({error:'Invalid selection'},400);
  const topic=topics[data.question],fact=(topic[data.language]||topic).answer;
- const fallback=()=>reply({source:'prepared',answer:fact});
- // Free pilot restricted to Nigeria. Missing platform country metadata fails closed.
+ const fallback=reason=>reply({source:'prepared',answer:fact,reason});
+ // Reviewed free-pilot regions: Nigeria and US. Missing country fails closed.
  // Origin checks are CORS hygiene, not authentication. The limiter is mandatory.
- if(env.GUIDE_ENABLED!=='true'||!env.GEMINI_API_KEY||!env.GEMINI_MODEL||request.cf?.country!=='NG'||!env.GUIDE_LIMITER)return fallback();
+ if(env.GUIDE_ENABLED!=='true')return fallback('disabled');
+ if(!env.GEMINI_API_KEY||!env.GEMINI_MODEL||!env.GUIDE_LIMITER)return fallback('configuration');
+ if(!['NG','US'].includes(request.cf?.country))return fallback('region');
  try{
-  const limit=await env.GUIDE_LIMITER.limit({key:'mindcheck-guide-pilot'});if(!limit.success)return fallback();
-  const answer=await generate(env,fact,data.language,AbortSignal.timeout(6000));
-  if(typeof answer!=='string'||answer.trim().length<10||answer.length>900||/[<>]|https?:|www\.|\b(prescrib|medicat|diagnos|dosage|cure|suicid)/i.test(answer))return fallback();
+  const limit=await env.GUIDE_LIMITER.limit({key:'mindcheck-guide-pilot'});if(!limit.success)return fallback('busy');
+  const answer=await generate(env,fact,data.language,AbortSignal.timeout(12000));
+  if(typeof answer!=='string'||answer.trim().length<10||answer.length>900||/[<>]|https?:|www\.|\b(prescrib|medicat|diagnos|dosage|cure|suicid)/i.test(answer))return fallback('output');
   return reply({source:'gemini',answer:answer.trim()});
- }catch(_){return fallback();} // Never return or log provider errors, keys, requests or IP addresses.
+ }catch(error){const status=Number(error?.statusCode);const reason=error?.name==='TimeoutError'||error?.name==='AbortError'?'timeout':status===429?'quota':status===401||status===403?'provider_access':status===404?'model':status===400?'provider_request':'provider';return fallback(reason);} // Never return or log provider errors, keys, requests or IP addresses.
 };}
 export default {fetch:createHandler()};
