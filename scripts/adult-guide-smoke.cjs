@@ -8,10 +8,14 @@ for(const [width,height] of [[320,568],[390,600],[430,740]]){
  await p.goto(origin+'index.html');await p.waitForURL('**/age-entry.html');
  await p.locator('[data-choice="youth"]').click();await p.locator('#birthdate').fill('2012-04-01');await p.locator('#continue').click();await p.waitForURL('**/youth.html');
  assert.equal(posts,0);
+ // A mismatched initial choice must still route by calculated age.
+ await p.goto(origin+'age-entry.html');await p.locator('[data-choice="adult"]').click();await p.locator('#birthdate').fill('2012-04-01');await p.locator('#continue').click();await p.waitForURL('**/youth.html');
+ assert.equal(await p.locator('#everyday .card').count(),4);await p.locator('#mcYouthLanguage').selectOption('fr');assert.match(await p.locator('#everyday h2').innerText(),/habitudes/);assert.match(await p.locator('#everyday [data-youth-i18n="schoolBody"]').innerText(),/enseignant/);await p.locator('#mcYouthLanguage').selectOption('en');assert.match(await p.locator('#everyday h2').innerText(),/Little skills/);
+ assert.equal(posts,0);
  await p.goto(origin+'guide.html');await p.waitForURL('**/age-entry.html');
  await p.locator('[data-choice="adult"]').click();await p.locator('#birthdate').fill('1990-04-01');await p.locator('#continue').click();await p.waitForURL('**/index.html');
  await p.goto(origin+'guide.html');await p.locator('#mcGuideTopics button').first().waitFor();
- assert.equal(await p.locator('#mcGuideTopics button').count(),6);
+ assert.equal(await p.locator('#mcGuideTopics button').count(),6);assert.equal(await p.locator('#mcAdultWellnessTitle').count(),1);assert.equal(await p.locator('#mcAdultWellnessTitle + p + div article').count(),4);await p.locator('#mcLanguageSelect').selectOption('fr');await p.waitForFunction(()=>document.getElementById('mcAdultWellnessTitle').textContent.includes('adultes'));assert.match(await p.locator('[data-adult-i18n="sleepBody"]').innerText(),/caféine/);await p.locator('#mcLanguageSelect').selectOption('en');await p.waitForFunction(()=>document.getElementById('mcAdultWellnessTitle').textContent.includes('adults'));
  for(const b of await p.locator('#mcGuideTopics button').all()){await b.click();assert(await p.locator('#mcGuideAnswer').innerText());}
  assert.equal(await p.locator('#mcGuideAI').isVisible(),false);
  assert.match(await p.locator('#mcGuideAIStatus').innerText(),/not connected/);

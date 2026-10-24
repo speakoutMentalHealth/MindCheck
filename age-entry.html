@@ -25,7 +25,7 @@ form.addEventListener('submit',event=>{
  if(year<1900||date.getFullYear()!==year||date.getMonth()!==month-1||date.getDate()!==day||date>today){message.textContent='Enter a valid date of birth.';return;}
  const age=today.getFullYear()-year-((today.getMonth()+1<month||(today.getMonth()+1===month&&today.getDate()<day))?1:0);
  const actual=age>=18?'adult':'youth';
- if(actual!==selected){message.textContent=actual==='adult'?'Your date of birth indicates you are 18 or older. Select 18+ Adults to continue.':'Your date of birth indicates you are under 18. Select Under 18 to continue.';return;}
+ if(actual!==selected){selected=actual;document.querySelectorAll('[data-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.choice===actual)));message.textContent=actual==='adult'?'Your age places you in the 18+ section. Continuing there.':'Your age places you in the Under 18 section. Continuing there.';}
  try{sessionStorage.setItem('mc-age-entry-band',actual);sessionStorage.setItem('mc-age-entry-adult',actual==='adult'?'1':'0');sessionStorage.setItem('mc-age-entry-youth-group',actual==='youth'?(age<13?'child':'teen'):'');}catch(_){}
  location.assign(actual==='adult'?'index.html':'youth.html');
 });
