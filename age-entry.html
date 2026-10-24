@@ -8,9 +8,10 @@
 </main><script>
 (()=>{'use strict';
 const form=document.getElementById('age-form'),input=document.getElementById('birthdate'),message=document.getElementById('message');
+let selected=null;
 const now=new Date();input.max=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
 document.querySelectorAll('[data-choice]').forEach(button=>button.addEventListener('click',()=>{
- const adult=button.dataset.choice==='adult';
+ selected=button.dataset.choice;
  document.querySelectorAll('[data-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
  message.textContent='';
  form.hidden=false;document.getElementById('continue').disabled=false;input.focus();
@@ -23,9 +24,10 @@ form.addEventListener('submit',event=>{
  const date=new Date(year,month-1,day),today=new Date();
  if(year<1900||date.getFullYear()!==year||date.getMonth()!==month-1||date.getDate()!==day||date>today){message.textContent='Enter a valid date of birth.';return;}
  const age=today.getFullYear()-year-((today.getMonth()+1<month||(today.getMonth()+1===month&&today.getDate()<day))?1:0);
- if(age<18){location.assign('youth.html');return;}
- try{sessionStorage.setItem('mc-age-entry-adult','1');}catch(_){}
- location.assign('index.html');
+ const actual=age>=18?'adult':'youth';
+ if(actual!==selected){message.textContent=actual==='adult'?'Your date of birth indicates you are 18 or older. Select 18+ Adults to continue.':'Your date of birth indicates you are under 18. Select Under 18 to continue.';return;}
+ try{sessionStorage.setItem('mc-age-entry-band',actual);sessionStorage.setItem('mc-age-entry-adult',actual==='adult'?'1':'0');}catch(_){}
+ location.assign(actual==='adult'?'index.html':'youth.html');
 });
 })();
 </script></body></html>
