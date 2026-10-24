@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v49-learning-companion-20261024"
+EXPECTED_CACHE = "mc-v50-contextual-ai-20261024"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)

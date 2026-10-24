@@ -1,0 +1,9 @@
+# In-app AI Guide
+
+The existing Guide now opens in a native modal from the Home header and contextual links in Mood, Wellness, Assessment Centre and Training Centre. Ordinary links still reach the standalone Guide if JavaScript, adult confirmation or dialog support is unavailable. The underlying page stays in place. Escape and Close cancel pending generation and restore focus. The dialog scrolls independently on small screens and at larger text sizes.
+
+The shared Guide controller and existing Gemini Worker are reused. Only a fixed public question ID, en/fr language and adult confirmation are sent. No personal records, screening answers, mood values or private text are read. Opening the Guide does not call AI. The provider disclosure precedes the optional generation button. Successful public explanations are cached by topic and language in memory for the page lifetime; nothing is persisted. Topic/language changes and closing invalidate stale responses. Prepared answers remain available on quota exhaustion, offline or service failure.
+
+English and French are the existing supported Guide languages. Hausa, Igbo, Yoruba and Pidgin content remains pending language review; this release does not activate draft translations or add clinical advice. Training's existing lesson-specific companion is unchanged. No new backend topics, secrets, paid services or provider permissions are introduced.
+
+Validation: contextual-ai-smoke.cjs intercepts every external request and checks exact fixed payloads, no automatic generation, language-specific caching, quota fallback, close cancellation, focus restoration, dialog contrast and overflow at 320/390/1280px. Existing support, adult/privacy and platform-quality checks cover regressions. These mocks do not establish a new live Gemini generation; the production endpoint already serves the same allowed topics.
