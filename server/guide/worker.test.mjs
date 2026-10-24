@@ -45,6 +45,6 @@ test('unspecified or malformed adult-token configuration never calls AI provider
   assert.equal(generated,0);
  }
  const explicit=await handler(request(),env);
- assert.equal((await explicit.json()).source,'prepared');
+ assert.equal((await explicit.json()).source,'gemini');
  assert.equal(generated,1);
 });
