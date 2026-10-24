@@ -18,7 +18,7 @@ document.querySelectorAll('[data-choice]').forEach(button=>button.addEventListen
 form.addEventListener('submit',event=>{
  event.preventDefault();message.textContent='';
  const value=input.value.trim(),age=Number(value);
- if(!/^\\d{1,3}$/.test(value)||!Number.isInteger(age)||age<1||age>120){message.textContent='Enter your age in whole years (1–120).';return;}
+ if(!/^\d{1,3}$/.test(value)||!Number.isInteger(age)||age<1||age>120){message.textContent='Enter your age in whole years (1–120).';return;}
  if(age<18){location.assign('youth.html');return;}
  try{sessionStorage.setItem('mc-age-entry-adult','1');}catch(_){}
  location.assign('index.html');
