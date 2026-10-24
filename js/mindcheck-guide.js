@@ -1,4 +1,5 @@
 (()=>{'use strict';let current='mood',controller,requestId=0;const content=window.MindCheckGuideContent,config=window.MindCheckGuideConfig||{};
+const selectedTopic=new URLSearchParams(location.search).get('topic');if(Object.hasOwn(content.topics,selectedTopic))current=selectedTopic;
 const $=id=>document.getElementById(id);const lang=()=>document.documentElement.lang==='fr'?'fr':'en';const text=(id,t)=>{$(id).textContent=t;};
 function enabled(){try{const url=new URL(config.endpoint);return config.enabled===true&&url.protocol==='https:'&&url.hostname==='mindcheck-guide.speakout-platform-api.workers.dev';}catch(_){return false;}}
 function select(id,focus=false){requestId++;controller?.abort();current=id;render();if(focus)$('mcGuideQuestion').focus();}
