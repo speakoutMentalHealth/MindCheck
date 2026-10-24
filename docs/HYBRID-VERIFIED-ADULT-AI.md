@@ -23,3 +23,9 @@ Before enabling the generated-explanation button for verified adults:
 The server changes in this branch intentionally make Gemini unavailable to current anonymous browsers. **Do not merge or deploy this branch as a functional adult-AI launch** until the trusted issuer and browser flow are complete and approved. It may be reviewed as a server-side fail-closed implementation only.
 
 Previous Cloudflare screenshots showed `GUIDE_ENABLED=true`, limiter 5/60, and operator reported `GUIDE_REQUIRE_ADULT_TOKEN` not listed. No production settings were changed by this branch.
+
+## Browser integration boundary (development)
+
+The guide now calls an optional in-memory `window.MindCheckVerifiedAdultAccess.getToken({signal})` integration at click time. If no trusted integration exists or it returns no valid-looking token, the browser makes **no AI request** and displays a verified-access explanation. It does not store tokens in localStorage, sessionStorage, cookies or URLs. The Worker independently verifies signature and expiry; browser token shape is not security verification. Browser smoke tests use a fake token **only with mocked network responses**.
+
+A real provider adapter has **not** been implemented: it must be authenticated, age-verified, consent-reviewed and protected against CSRF/abuse before connecting this hook. A browser-supplied `adult:true` or `MindCheckAdult.confirmed()` cannot grant entitlement. The Worker preflight now permits the Authorization header for legitimate verified requests.
