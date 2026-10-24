@@ -14,6 +14,7 @@ on:
       - 'js/**'
       - '*.css'
       - 'scripts/browser-smoke.cjs'
+      - 'scripts/age-entry-smoke.cjs'
       - 'scripts/language-switch-smoke.cjs'
       - 'scripts/translation-coverage-smoke.cjs'
       - 'scripts/breathing-studio-smoke.cjs'
@@ -45,6 +46,8 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.56.1 axe-core@4.10.3
           npx playwright install --with-deps chromium
+      - name: Check DOB age-entry and youth navigation
+        run: node scripts/age-entry-smoke.cjs
       - name: Check counsellor pathway interactions and accessibility
         run: node scripts/counsellor-pathway-smoke.cjs
       - name: Check Training Centre learning flow and accessibility

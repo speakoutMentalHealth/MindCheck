@@ -8,7 +8,8 @@ const {readdirSync}=require('node:fs');
  try{
   for(let i=0;i<40;i++){try{await new Promise((resolve,reject)=>{const socket=require('node:net').connect(8768,'127.0.0.1');socket.on('connect',()=>{socket.end();resolve();});socket.on('error',reject);});break}catch{await new Promise(r=>setTimeout(r,100));}}
   browser=await chromium.launch({headless:true});
-  const pages=readdirSync('.').filter(p=>p.endsWith('.html')).concat('certificate/index.html');
+  // The DOB entry and youth educational page are separate, not yet localized flows.
+  const pages=readdirSync('.').filter(p=>p.endsWith('.html')&&!['age-entry.html','youth.html'].includes(p)).concat('certificate/index.html');
   for(const width of [320,390,1280]){
    const context=await browser.newContext({viewport:{width,height:844},serviceWorkers:'block'});
    await context.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:8768/')?route.continue():route.abort());
@@ -35,7 +36,7 @@ const {readdirSync}=require('node:fs');
    if(width===390){await page.screenshot({path:'/tmp/mc-language-mobile.png',fullPage:false});}
    await context.close();
   }
-  const blocked=await browser.newContext({serviceWorkers:'block'});await blocked.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=function(){throw Error('storage unavailable')};});
+  const blocked=await browser.newContext({serviceWorkers:'block'});await blocked.addInitScript(()=>{Object.defineProperty(window,'localStorage',{configurable:true,get(){throw Error('local storage unavailable')}});});
   const p=await blocked.newPage();await p.goto('http://127.0.0.1:8768/index.html');await p.locator('#mcLanguageSelect').selectOption('ha');assert.equal(await p.locator('#mcLanguageSelect').inputValue(),'ha');await blocked.close();
   console.log('PASS language switching remains usable with blocked storage');
  }finally{await browser?.close();server.kill();}

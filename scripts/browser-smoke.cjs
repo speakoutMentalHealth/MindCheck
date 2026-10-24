@@ -46,7 +46,7 @@ async function run() {
     }
     {
       const denied=await browser.newContext({serviceWorkers:'block'});
-      await denied.addInitScript(()=>{Storage.prototype.getItem=function(){throw new DOMException('Storage blocked','SecurityError')};Storage.prototype.setItem=function(){throw new DOMException('Storage blocked','SecurityError')};});
+      await denied.addInitScript(()=>{Object.defineProperty(window,'localStorage',{configurable:true,get(){throw new DOMException('Storage blocked','SecurityError')}});});
       const deniedPage=await denied.newPage();const deniedErrors=[];
       deniedPage.on('pageerror',e=>deniedErrors.push(e.message));
       await deniedPage.goto('http://127.0.0.1:8765/index.html?section=moodSection',{waitUntil:'domcontentloaded'});
