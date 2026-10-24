@@ -23,6 +23,7 @@ on:
       - 'scripts/platform-quality-smoke.cjs'
       - 'manifest.webmanifest'
       - 'scripts/monitoring-receipt-smoke.cjs'
+      - 'scripts/contextual-ai-smoke.cjs'
       - '*.html'
       - '.github/workflows/mindcheck-browser-smoke.yml'
   workflow_dispatch:
@@ -63,6 +64,8 @@ jobs:
         run: node scripts/monitoring-receipt-smoke.cjs
       - name: Check the learning companion privacy and practice flow
         run: node scripts/training-companion-smoke.cjs
+      - name: Check in-app AI privacy, cancellation and accessibility
+        run: node scripts/contextual-ai-smoke.cjs
       - name: Check home guide and support hub
         run: node scripts/support-guide-smoke.cjs
       - name: Check adult entry and optional guide privacy
