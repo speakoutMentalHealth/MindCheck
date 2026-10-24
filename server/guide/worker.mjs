@@ -9,7 +9,7 @@ async function smallBody(request){const reader=request.body?.getReader();if(!rea
 export function createHandler(generate=explain){return async function(request,env){
  if(request.headers.get('Origin')!==origin)return reply({error:'Unavailable'},403);
  if(new URL(request.url).pathname!=='/')return reply({error:'Not found'},404);
- if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'Access-Control-Allow-Methods':'POST','Access-Control-Allow-Headers':'Content-Type','Access-Control-Max-Age':'600'}});
+ if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'Access-Control-Allow-Methods':'POST','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'600'}});
  if(request.method!=='POST')return reply({error:'Method not allowed'},405);
  if(!/^application\/json(?:;|$)/i.test(request.headers.get('Content-Type')||''))return reply({error:'Use JSON'},415);
  let data;try{data=await smallBody(request);}catch(_){return reply({error:'Invalid selection'},400);}
