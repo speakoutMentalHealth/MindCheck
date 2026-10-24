@@ -24,6 +24,7 @@ on:
       - 'manifest.webmanifest'
       - 'scripts/monitoring-receipt-smoke.cjs'
       - 'scripts/contextual-ai-smoke.cjs'
+      - 'scripts/adult-guide-smoke.cjs'
       - '*.html'
       - '.github/workflows/mindcheck-browser-smoke.yml'
   workflow_dispatch:
