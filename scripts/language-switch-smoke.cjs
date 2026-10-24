@@ -37,7 +37,9 @@ const {readdirSync}=require('node:fs');
    await context.close();
   }
   const blocked=await browser.newContext({serviceWorkers:'block'});await blocked.addInitScript(()=>{Object.defineProperty(window,'localStorage',{configurable:true,get(){throw Error('local storage unavailable')}});});
-  const p=await blocked.newPage();await p.goto('http://127.0.0.1:8768/index.html');await p.locator('#mcLanguageSelect').selectOption('ha');assert.equal(await p.locator('#mcLanguageSelect').inputValue(),'ha');await blocked.close();
+  const p=await blocked.newPage();await p.goto('http://127.0.0.1:8768/index.html');await p.locator('#mcLanguageSelect').selectOption('ha');assert.equal(await p.locator('#mcLanguageSelect').inputValue(),'ha');
+  await p.goto('http://127.0.0.1:8768/age-entry.html');await p.locator('[data-choice="adult"]').click();await p.locator('#birthdate').fill('1990-04-01');await p.locator('#continue').click();await p.waitForURL('**/index.html');
+  await p.goto('http://127.0.0.1:8768/guide.html');await p.locator('#mcLanguageSelect').selectOption('fr');assert.match(await p.locator('#mcAdultWellnessTitle').innerText(),/adultes/,'adult wellness responds without localStorage');await p.locator('#mcLanguageSelect').selectOption('en');assert.match(await p.locator('#mcAdultWellnessTitle').innerText(),/adults/);await blocked.close();
   console.log('PASS language switching remains usable with blocked storage');
  }finally{await browser?.close();server.kill();}
 })().catch(e=>{console.error(e);process.exitCode=1});
