@@ -36,7 +36,7 @@ const {readdirSync}=require('node:fs');
    if(width===390){await page.screenshot({path:'/tmp/mc-language-mobile.png',fullPage:false});}
    await context.close();
   }
-  const blocked=await browser.newContext({serviceWorkers:'block'});await blocked.addInitScript(()=>{Storage.prototype.getItem=Storage.prototype.setItem=function(){throw Error('storage unavailable')};});
+  const blocked=await browser.newContext({serviceWorkers:'block'});await blocked.addInitScript(()=>{Object.defineProperty(window,'localStorage',{configurable:true,get(){throw Error('local storage unavailable')}});});
   const p=await blocked.newPage();await p.goto('http://127.0.0.1:8768/index.html');await p.locator('#mcLanguageSelect').selectOption('ha');assert.equal(await p.locator('#mcLanguageSelect').inputValue(),'ha');await blocked.close();
   console.log('PASS language switching remains usable with blocked storage');
  }finally{await browser?.close();server.kill();}
