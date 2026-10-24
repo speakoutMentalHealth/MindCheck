@@ -40,6 +40,8 @@ await page.locator('#story-next').click();assert.equal(await page.locator('#stor
 await page.locator('#story-reset').click();assert.equal(await page.locator('#story-step').innerText(),'Scene 1 of 4');
 await page.locator('[data-kind-choice="talk"]').click();assert.match(await page.locator('#kind-feedback').innerText(),/trusted adult/i);
 await page.locator('#kind-reset').click();assert.match(await page.locator('#kind-feedback').innerText(),/Choose an answer/);
+await page.locator('[data-section-link="everyday"]').click();
+assert.equal(await page.locator('#everyday').isVisible(),true,'language selector is in life skills');
 await page.locator('#mcYouthLanguage').selectOption('fr');
 assert.equal(await page.locator('#everyday').getAttribute('lang'),'fr');
 assert.equal(await page.locator('#everyday .quiet').first().getAttribute('lang'),'fr');
