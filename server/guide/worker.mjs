@@ -1,5 +1,6 @@
 import '../../js/guide-content.js';
 import { explain } from './provider.mjs';
+import { verifyAdultToken } from './age-entitlement.mjs';
 const {topics}=globalThis.MindCheckGuideContent;
 const origin='https://mindcheck.speakoutmentalhealth.org';
 const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':origin,'Vary':'Origin','X-Content-Type-Options':'nosniff'};
@@ -13,6 +14,12 @@ export function createHandler(generate=explain){return async function(request,en
  if(!/^application\/json(?:;|$)/i.test(request.headers.get('Content-Type')||''))return reply({error:'Use JSON'},415);
  let data;try{data=await smallBody(request);}catch(_){return reply({error:'Invalid selection'},400);}
  if(!data||Array.isArray(data)||Object.keys(data).sort().join(',')!=='adult,language,question'||data.adult!==true||!Object.hasOwn(topics,data.question)||!['en','fr'].includes(data.language))return reply({error:'Invalid selection'},400);
+ // This flag is for staged deployment only. Do not enable youth-facing production access while false.
+ if(env.GUIDE_REQUIRE_ADULT_TOKEN==='true'){
+  const authorization=request.headers.get('Authorization')||'';
+  const match=/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/.exec(authorization);
+  if(!match||!await verifyAdultToken(env.AGE_AUTH_SECRET,match[1]))return reply({error:'Adult authorization required'},403);
+ }
  const topic=topics[data.question],fact=(topic[data.language]||topic).answer;
  const fallback=reason=>reply({source:'prepared',answer:fact,reason});
  // Reviewed free-pilot regions: Nigeria and US. Missing country fails closed.
