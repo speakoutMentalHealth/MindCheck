@@ -14,7 +14,8 @@ export function createHandler(generate=explain){return async function(request,en
  if(!/^application\/json(?:;|$)/i.test(request.headers.get('Content-Type')||''))return reply({error:'Use JSON'},415);
  let data;try{data=await smallBody(request);}catch(_){return reply({error:'Invalid selection'},400);}
  if(!data||Array.isArray(data)||Object.keys(data).sort().join(',')!=='adult,language,question'||data.adult!==true||!Object.hasOwn(topics,data.question)||!['en','fr'].includes(data.language))return reply({error:'Invalid selection'},400);
- // This flag is for staged deployment only. Do not enable youth-facing production access while false.
+ // Explicit pilot opt-out only: an absent/misspelled flag must never activate generated AI.
+ // A browser-supplied adult:true value is not verified age authorization.
  if(env.GUIDE_REQUIRE_ADULT_TOKEN==='true'){
   const authorization=request.headers.get('Authorization')||'';
   const match=/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/.exec(authorization);
@@ -22,6 +23,9 @@ export function createHandler(generate=explain){return async function(request,en
  }
  const topic=topics[data.question],fact=(topic[data.language]||topic).answer;
  const fallback=reason=>reply({source:'prepared',answer:fact,reason});
+ // Keep reviewed education available, but do not invoke the provider by default
+ // without a trusted adult entitlement. Explicit false is a reviewed pilot opt-out.
+ if(env.GUIDE_REQUIRE_ADULT_TOKEN!=='true'&&env.GUIDE_REQUIRE_ADULT_TOKEN!=='false')return fallback('authorization');
  // Reviewed free-pilot regions: Nigeria and US. Missing country fails closed.
  // Origin checks are CORS hygiene, not authentication. The limiter is mandatory.
  if(env.GUIDE_ENABLED!=='true')return fallback('disabled');
