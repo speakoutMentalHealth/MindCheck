@@ -22,6 +22,12 @@ assert.notEqual(youthStyle.introColor,'rgb(255, 255, 255)','youth intro must rem
 assert(youthStyle.noticeSize<=18,'youth notice must not inherit oversized global header typography');
 if(width<=390){const heroHeight=await page.locator('.youth-hero').evaluate(el=>el.getBoundingClientRect().height);assert(heroHeight<450,'youth hero must fit comfortably on mobile');}
 assert.equal(await page.evaluate(()=>sessionStorage.getItem('mc-age-entry-youth-group')),'child');
+assert.equal(await page.locator('#activities .card h3').count(),4,'youth cards need semantic headings');
+assert.equal(await page.locator('input,textarea,form').count(),0,'youth educational page must not contain personal-data forms');
+assert.equal(await page.locator('a[href="assessment-centre.html"],a[href="guide.html"],a[href="counsellor-exam.html"]').count(),0,'youth navigation must not expose adult features');
+for(const target of ['#activities','#calm','#support'])assert.equal(await page.locator('.youth-discover a[href="'+target+'"]').count(),1);
+await page.locator('#start').click();assert.equal(await page.locator('#stop').isEnabled(),true);await page.locator('#stop').click();assert.equal(await page.locator('#start').isEnabled(),true);
+assert.match(await page.locator('#calm-announcement').innerText(),/stopped/i);
 assert.equal(await page.evaluate(()=>Object.keys(sessionStorage).some(k=>/birth|dob/i.test(k))),false);
 await page.goto(base+'assessment-centre.html');await page.waitForURL('**/age-entry.html');
 await page.locator('[data-choice="adult"]').click();await page.locator('#birthdate').fill('1990-04-01');await page.locator('#continue').click();await page.waitForURL('**/index.html');
