@@ -18,6 +18,9 @@ assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('kids
 assert.match(await page.locator('#welcome').innerText(),/Feelings Adventure/);
 assert.match(await page.locator('#play').innerText(),/Ada's rainy-day story/);
 assert.match(await page.locator('#play').innerText(),/Tobi feels nervous/);
+assert.match(await page.locator('#play').innerText(),/Ahmed's kindness quest/);
+await page.locator('[data-ahmed-choice="ask"]').click();assert.match(await page.locator('#ahmed-feedback').innerText(),/respects/);
+await page.locator('#ahmed-reset').click();assert.match(await page.locator('#ahmed-feedback').innerText(),/Choose a kind action/);
 assert.equal(await page.locator('.youth-art span').innerText(),'👧🏽');
 assert.equal(await page.locator('#story-step').innerText(),'Scene 1 of 4');
 await page.locator('#story-next').click();assert.equal(await page.locator('#story-step').innerText(),'Scene 2 of 4');
