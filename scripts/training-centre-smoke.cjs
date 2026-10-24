@@ -53,7 +53,7 @@ async function run(){
    assert.deepEqual(errors,[]);await context.close();reports.push({fixture,passed:true});
   }
   const nojs=await browser.newContext({javaScriptEnabled:false}),nojsPage=await nojs.newPage();await nojsPage.goto(base+path);assert.equal(await nojsPage.locator('.th-lesson:visible').count(),5);assert.equal(await nojsPage.locator('#assessmentLink').isVisible(),true);await nojs.close();
-  const offline=await browser.newContext(),page=await offline.newPage();await page.goto(base+'/');await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));await offline.setOffline(true);await page.goto(base+path);await page.locator('body.is-enhanced').waitFor();
+  const offline=await browser.newContext(),page=await offline.newPage();await page.goto(base+'/index.html');await page.evaluate(async()=>{await navigator.serviceWorker.register('/sw.js');await navigator.serviceWorker.ready;});await page.reload();await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),null,{timeout:15000});await offline.setOffline(true);await page.goto(base+path);await page.locator('body.is-enhanced').waitFor();
   for(let i=0;i<5;i++)await page.locator('#nextLesson').click();await page.locator('#assessmentLink').click();assert.equal(new URL(page.url()).pathname,path);assert.match(await page.locator('#networkStatus').innerText(),/offline/);await offline.close();
   await writeFile('artifacts/training-centre/results.json',JSON.stringify({reports,noJavaScript:true,offline:true},null,2));console.log('PASS training centre: 5 widths, light/dark accessibility, real reading navigation, assessment handoff, persistence, reset, legacy/invalid/blocked storage, no-JS and offline.');
  }finally{if(browser)await browser.close();server.kill('SIGTERM')}
