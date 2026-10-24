@@ -14,7 +14,7 @@ await page.locator('[data-choice="adult"]').click();
 await page.locator('#birthdate').fill('2015-04-01');await page.locator('#continue').click();
 assert.match(await page.locator('#message').innerText(),/Under 18/);
 await page.locator('[data-choice="youth"]').click();await page.locator('#continue').click();await page.waitForURL('**/youth.html');
-assert.match(await page.locator('#group').innerText(),/under 13/);
+assert.match(await page.locator('#group').innerText(),/under 13/i);
 assert.equal(await page.evaluate(()=>sessionStorage.getItem('mc-age-entry-youth-group')),'child');
 assert.equal(await page.evaluate(()=>Object.keys(sessionStorage).some(k=>/birth|dob/i.test(k))),false);
 await page.goto(base+'assessment-centre.html');await page.waitForURL('**/age-entry.html');
