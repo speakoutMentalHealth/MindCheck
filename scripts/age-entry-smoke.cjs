@@ -20,7 +20,7 @@ assert.equal(youthStyle.alignment,'left','youth hero uses readable left-aligned 
 assert.notEqual(youthStyle.noticeColor,'rgb(255, 255, 255)','youth notice must not use white-on-pale text');
 assert.notEqual(youthStyle.introColor,'rgb(255, 255, 255)','youth intro must remain readable');
 assert(youthStyle.noticeSize<=18,'youth notice must not inherit oversized global header typography');
-if(width<=390)assert(youthStyle.headerHeight<550,'youth welcome must not dominate mobile viewport');
+if(width<=390){const heroHeight=await page.locator('.youth-hero').evaluate(el=>el.getBoundingClientRect().height);assert(heroHeight<450,'youth hero must fit comfortably on mobile');}
 assert.equal(await page.evaluate(()=>sessionStorage.getItem('mc-age-entry-youth-group')),'child');
 assert.equal(await page.evaluate(()=>Object.keys(sessionStorage).some(k=>/birth|dob/i.test(k))),false);
 await page.goto(base+'assessment-centre.html');await page.waitForURL('**/age-entry.html');
