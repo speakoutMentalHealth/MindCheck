@@ -19,6 +19,9 @@ assert.match(await page.locator('#welcome').innerText(),/Feelings Adventure/);
 assert.equal(await page.locator('#adventure-map').isVisible(),true,'Kids Mode adventure map visible');
 assert.equal(await page.locator('.adventure-stop').count(),5,'five optional adventure destinations');
 assert.equal(await page.locator('#activities').isVisible(),false,'other sections hidden on home');
+const menuLayout=await page.locator('.youth-section-menu').evaluate(nav=>({fits:nav.scrollWidth<=nav.clientWidth+2,allVisible:[...nav.querySelectorAll('a:not([hidden])')].every(link=>{const a=link.getBoundingClientRect(),n=nav.getBoundingClientRect();return a.left>=n.left-2&&a.right<=n.right+2&&a.height>=44})}));
+assert.equal(menuLayout.fits,true,'all menu destinations fit without horizontal scrolling');
+assert.equal(menuLayout.allVisible,true,'every menu destination is fully visible and touch-sized');
 await page.locator('[data-section-link="play"]').click();
 assert.equal(await page.locator('#play').isVisible(),true,'play menu shows play only');
 assert.equal(await page.locator('#adventure-map').isVisible(),false,'map hidden when play selected');
@@ -40,6 +43,8 @@ await page.locator('#story-next').click();assert.equal(await page.locator('#stor
 await page.locator('#story-reset').click();assert.equal(await page.locator('#story-step').innerText(),'Scene 1 of 4');
 await page.locator('[data-kind-choice="talk"]').click();assert.match(await page.locator('#kind-feedback').innerText(),/trusted adult/i);
 await page.locator('#kind-reset').click();assert.match(await page.locator('#kind-feedback').innerText(),/Choose an answer/);
+await page.locator('[data-section-link="everyday"]').click();
+assert.equal(await page.locator('#everyday').isVisible(),true,'language selector is in life skills');
 await page.locator('#mcYouthLanguage').selectOption('fr');
 assert.equal(await page.locator('#everyday').getAttribute('lang'),'fr');
 assert.equal(await page.locator('#everyday .quiet').first().getAttribute('lang'),'fr');
