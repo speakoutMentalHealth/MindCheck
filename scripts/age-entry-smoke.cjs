@@ -16,6 +16,8 @@ await page.waitForURL('**/youth.html');
 assert.match(await page.locator('#group').innerText(),/under 13/i);
 assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('kids-mode')),true,'child route uses Kids Mode');
 assert.match(await page.locator('#welcome').innerText(),/Feelings Adventure/);
+assert.equal(await page.locator('#adventure-map').isVisible(),true,'Kids Mode adventure map visible');
+assert.equal(await page.locator('.adventure-stop').count(),5,'five optional adventure destinations');
 assert.match(await page.locator('#play').innerText(),/Ada's rainy-day story/);
 assert.match(await page.locator('#play').innerText(),/Tobi feels nervous/);
 assert.match(await page.locator('#play').innerText(),/Ahmed's kindness quest/);
