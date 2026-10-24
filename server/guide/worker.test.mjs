@@ -12,3 +12,20 @@ test('origin, method, MIME and preflight guards',async()=>{const handler=createH
 test('pinned AI SDK integration builds a Google request without telemetry or retries',async()=>{const previous=globalThis.fetch;let payload,url,headers;globalThis.fetch=async(u,o)=>{url=String(u);payload=JSON.parse(o.body);headers=new Headers(o.headers);return new Response(JSON.stringify({candidates:[{content:{role:'model',parts:[{text:'Open My journey to review saved check-ins.'}]},finishReason:'STOP'}],usageMetadata:{promptTokenCount:20,candidatesTokenCount:10,totalTokenCount:30}}),{headers:{'Content-Type':'application/json'}});};try{const text=await explain(env,'Only this public platform fact.','en',new AbortController().signal);assert.match(text,/My journey/);assert.match(url,/generativelanguage.googleapis.com/);assert.match(url,/gemini-3.5-flash-lite/);assert.equal(headers.get('x-goog-api-key'),env.GEMINI_API_KEY);assert.equal(payload.generationConfig.maxOutputTokens,240);assert.doesNotMatch(JSON.stringify(payload),/mc_mood_history|PRIVATE FIXTURE/);}finally{globalThis.fetch=previous;}});
 
 test('safe diagnostics distinguish region, provider rejection, quota and timeout',async()=>{for(const [error,reason] of [[{statusCode:403},'provider_access'],[{statusCode:404},'model'],[{statusCode:429},'quota'],[{name:'TimeoutError'},'timeout']]){const r=await createHandler(async()=>{throw {...error,responseBody:'PRIVATE_PROVIDER_BODY'}})(request(),env);const data=await r.json();assert.equal(data.reason,reason);assert(!JSON.stringify(data).includes('PRIVATE'));}for(const country of ['NG','US']){const r=await createHandler(async()=> 'Open My journey to review the saved check-ins.')(request(good,{country}),env);assert.equal((await r.json()).source,'gemini');}const r=await createHandler()(request(good,{country:'GB'}),env);assert.equal((await r.json()).reason,'region');});
+
+test('signed entitlement gate rejects missing and forged tokens',async()=>{
+ const locked={...env,GUIDE_REQUIRE_ADULT_TOKEN:'true',AGE_AUTH_SECRET:'development-only-secret-that-is-long-enough'};
+ let calls=0;const handler=createHandler(async()=>{calls++;return 'Not called';});
+ const missing=await handler(request(),locked);assert.equal(missing.status,403);
+ const forged=await handler(request(good,{headers:{Authorization:'Bearer forged.token'}}),locked);assert.equal(forged.status,403);
+ assert.equal(calls,0);
+});
+test('signed entitlement gate accepts a valid short-lived adult token',async()=>{
+ const {issueAdultToken}=await import('./age-entitlement.mjs');
+ const secret='development-only-secret-that-is-long-enough';
+ const token=await issueAdultToken(secret,{subject:'account-123',expiresAt:Math.floor(Date.now()/1000)+300});
+ const locked={...env,GUIDE_REQUIRE_ADULT_TOKEN:'true',AGE_AUTH_SECRET:secret};
+ const handler=createHandler(async()=> 'Review your mood check-in history in My journey.');
+ const response=await handler(request(good,{headers:{Authorization:'Bearer '+token}}),locked);
+ assert.equal(response.status,200);assert.equal((await response.json()).source,'gemini');
+});

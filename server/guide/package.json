@@ -10,7 +10,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test worker.test.mjs",
+    "test": "node --test worker.test.mjs age-entitlement.test.mjs entitlement-issuer.test.mjs",
     "build": "wrangler deploy --dry-run --outdir dist"
   }
 }

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#315d46"><title>Choose your MindCheck experience</title><link rel="stylesheet" href="mc-theme.css"><style>
+:root{font-family:system-ui,sans-serif;color:#123d32;background:#f3faf6}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px}main{width:min(100%,480px);background:white;border-radius:24px;padding:28px;box-shadow:0 12px 42px #183b2818}h1{margin:0 0 8px;font-size:1.8rem}p{line-height:1.5;color:#405c51}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}button{font:inherit;cursor:pointer;border-radius:14px;padding:16px;border:2px solid #d1e4d9;background:#f8fcfa;color:#123d32;font-weight:700}button[aria-pressed=true]{border-color:#247d57;background:#e8f6ee}button:focus-visible,input:focus-visible{outline:3px solid #257d58;outline-offset:3px}label{display:block;font-weight:700;margin:16px 0 8px}input{width:100%;padding:14px;border:1px solid #9ab5a6;border-radius:12px;font:inherit}#continue{width:100%;background:#236a4c;color:white;margin-top:18px}#continue:disabled{opacity:.55;cursor:not-allowed}.error{color:#9a1c1c;min-height:1.5em}.small{font-size:.85rem}</style></head><body><main>
+<a href="https://speakoutmentalhealth.org/">← SpeakOut website</a><h1>Choose your experience</h1><p>MindCheck provides age-appropriate wellbeing resources.</p>
+<div class="choices" role="group" aria-label="Experience"><button type="button" data-choice="adult" aria-pressed="false">18+ Adults</button><button type="button" data-choice="youth" aria-pressed="false">Under 18</button></div>
+<form id="age-form" hidden><label for="birthdate">Enter your full date of birth</label><input id="birthdate" type="date" required autocomplete="bday"><p class="small">No login required. Your date of birth is used only to calculate your age in this browser and is not stored or sent to a server.</p><p class="error" id="message" role="alert"></p><button id="continue" type="submit" disabled>Continue</button></form>
+<p class="small">For a child or teenager, a trusted adult may need to help with consent and support. The date of birth is not sent to a server.</p>
+</main><script>
+(()=>{'use strict';
+const form=document.getElementById('age-form'),input=document.getElementById('birthdate'),message=document.getElementById('message');
+let selected=null;
+const now=new Date();input.max=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+document.querySelectorAll('[data-choice]').forEach(button=>button.addEventListener('click',()=>{
+ selected=button.dataset.choice;
+ document.querySelectorAll('[data-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+ message.textContent='';
+ form.hidden=false;document.getElementById('continue').disabled=false;input.focus();
+}));
+form.addEventListener('submit',event=>{
+ event.preventDefault();message.textContent='';
+ const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(input.value);
+ if(!match){message.textContent='Enter your full date of birth.';return;}
+ const year=Number(match[1]),month=Number(match[2]),day=Number(match[3]);
+ const date=new Date(year,month-1,day),today=new Date();
+ if(year<1900||date.getFullYear()!==year||date.getMonth()!==month-1||date.getDate()!==day||date>today){message.textContent='Enter a valid date of birth.';return;}
+ const age=today.getFullYear()-year-((today.getMonth()+1<month||(today.getMonth()+1===month&&today.getDate()<day))?1:0);
+ const actual=age>=18?'adult':'youth';
+ if(actual!==selected){message.textContent=actual==='adult'?'Your date of birth indicates you are 18 or older. Select 18+ Adults to continue.':'Your date of birth indicates you are under 18. Select Under 18 to continue.';return;}
+ try{sessionStorage.setItem('mc-age-entry-band',actual);sessionStorage.setItem('mc-age-entry-adult',actual==='adult'?'1':'0');sessionStorage.setItem('mc-age-entry-youth-group',actual==='youth'?(age<13?'child':'teen'):'');}catch(_){}
+ location.assign(actual==='adult'?'index.html':'youth.html');
+});
+})();
+</script></body></html>
