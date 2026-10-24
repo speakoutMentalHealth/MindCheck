@@ -10,7 +10,7 @@ for(const [width,height] of [[320,568],[390,600],[430,740]]){
  assert.equal(posts,0);
  // A mismatched initial choice must still route by calculated age.
  await p.goto(origin+'age-entry.html');await p.locator('[data-choice="adult"]').click();await p.locator('#birthdate').fill('2012-04-01');await p.locator('#continue').click();await p.waitForURL('**/youth.html');
- assert.equal(await p.locator('#everyday .card').count(),4);
+ assert.equal(await p.locator('#everyday .card').count(),4);await p.locator('#mcYouthLanguage').selectOption('fr');assert.match(await p.locator('#everyday h2').innerText(),/habitudes/);await p.locator('#mcYouthLanguage').selectOption('en');assert.match(await p.locator('#everyday h2').innerText(),/Little skills/);
  assert.equal(posts,0);
  await p.goto(origin+'guide.html');await p.waitForURL('**/age-entry.html');
  await p.locator('[data-choice="adult"]').click();await p.locator('#birthdate').fill('1990-04-01');await p.locator('#continue').click();await p.waitForURL('**/index.html');
