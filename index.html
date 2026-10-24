@@ -333,9 +333,11 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <script defer src="js/platform-quality.js?v=20261023-quality"></script>
 <link rel="stylesheet" href="css/adult-guide.css?v=20261023-adult">
 <script defer src="js/adult-entry.js?v=20261023-adult"></script>
+<link rel="stylesheet" href="css/support-hub.css?v=20261024-hub">
+<script defer src="js/support-hub.js?v=20261024-hub"></script>
 </head>
 <body class="mc-stage-welcome">
-  <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
+  <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a class="mc-ai-guide-entry" href="guide.html" data-support="guide">✦ AI Guide</a><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
 
   <main class="mc-front-door" aria-label="Welcome to MindCheck">
   <div class="mc-hero">
@@ -673,13 +675,22 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
   <!-- Get Help -->
   <section id="helpSection" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="helpTitle">Get Help 📞</h2>
-    <p style="color:#334155" data-i18n="helpEmergencyDesc">If you're in immediate danger or feel unsafe, contact your local emergency number.</p>
-    <div class="grid mc-support-grid" style="max-width:820px;margin:0 auto;">
-      <a class="card mc-urgent-support" href="tel:112"><div class="big">🚑</div><h3 data-i18n="emergency">Emergency Services</h3><p data-i18n="callEmergencyDesc">Call 112 (or your country emergency number) for urgent help.</p></a>
-      <a class="card" href="tel:+2348118103510"><div class="big">📞</div><h3>SpeakOut Helpline</h3><p data-i18n="helplineDesc">Call us for support and referral options.</p></a>
-      <a class="card" href="https://wa.me/2348118103510" target="_blank" rel="noopener"><div class="big">💬</div><h3>WhatsApp</h3><p data-i18n="whatsappDesc">Chat with a SpeakOut volunteer.</p></a>
-
+    <p class="mc-support-intro" data-support="intro">Find care. Learn new skills. Connect with SpeakOut.</p>
+    <aside class="mc-support-urgent"><strong data-support="urgent">Need urgent help?</strong><p data-i18n="helpEmergencyDesc">If you're in immediate danger or feel unsafe, contact your local emergency number.</p><a href="tel:112" data-support="emergency">Call 112 · Nigeria emergency services</a></aside>
+    <div class="mc-support-routes" role="group" aria-label="Support options">
+      <button type="button" data-support-open="mcSupportCare"><span aria-hidden="true">♡</span><strong data-support="care">Professional care</strong><small data-support="careHint">Hospitals & referral options</small></button>
+      <a href="training-hub.html"><span aria-hidden="true">▤</span><strong data-support="learn">Learn & train</strong><small data-support="learnHint">Courses & learning pathways</small></a>
+      <a href="volunteers.html"><span aria-hidden="true">↗</span><strong data-support="volunteer">Get involved</strong><small data-support="volunteerHint">Volunteer with SpeakOut</small></a>
     </div>
+    <details class="mc-support-panel" id="mcSupportCare"><summary data-support="directory">Hospitals & professional support</summary>
+      <p data-support="directoryNote">A directory listing is not a confirmed SpeakOut partnership. Confirm services, appointments and costs with each facility before visiting.</p>
+      <article><h3>Federal Medical Centre (FMC), Keffi</h3><p data-support="fmc">Contact the hospital to ask about psychiatry or mental-health assessment and the referral process.</p><span class="mc-support-status" data-support="pending">SpeakOut referral partnership: awaiting confirmation</span><div class="mc-support-actions"><a href="https://www.fmckeffi.gov.ng/contact_detail" target="_blank" rel="noopener noreferrer" data-support="official">Official hospital contact ↗</a><a href="tel:+2349057508163" data-support="switchboard">Call hospital enquiries</a></div></article>
+      <article><h3>Nagari Allah Magani Hospital, Keffi</h3><p data-support="nagari">Proposed local referral contact. Mental-health services and referral arrangements are not yet confirmed.</p><span class="mc-support-status" data-support="pending">SpeakOut referral partnership: awaiting confirmation</span><div class="mc-support-actions"><a href="https://healthpartnersng.org/our-providers/" target="_blank" rel="noopener noreferrer" data-support="listing">View provider listing ↗</a></div></article>
+      <article><h3 data-support="national">Specialist mental-health hospitals</h3><p data-support="nationalNote">Explore the Federal Ministry of Health directory of neuro-psychiatric hospitals.</p><a href="https://health.gov.ng/specialty-hospitals/" target="_blank" rel="noopener noreferrer" data-support="nationalLink">Open official directory ↗</a></article>
+      <div class="mc-support-actions"><a href="clinician-referral-preparation.html" data-support="prepare">Prepare for an appointment</a><a href="resources.html" data-support="resources">More clinics & resources</a></div>
+    </details>
+    <details class="mc-support-panel"><summary data-support="pathways">Training & ways to help</summary><div class="mc-support-actions"><a href="training-hub.html" data-support="learn">Learn & train</a><a href="become-a-counsellor.html" data-support="counsellor">Explore the counsellor pathway</a><a href="volunteers.html" data-support="volunteer">Get involved</a></div><p data-support="qualification">Learning and practice quizzes do not qualify you to provide professional counselling.</p><a href="guide.html?topic=training" data-support="guideTraining">Ask the AI Guide about training →</a></details>
+    <div class="mc-support-panel"><h3 data-support="contact">Contact SpeakOut</h3><p data-support="contactNote">For non-emergency enquiries and referral questions. Support hours and response times are not yet confirmed.</p><div class="mc-support-actions"><a href="tel:+2348118103510" data-support="call">Call SpeakOut</a><a href="https://wa.me/2348118103510" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a><a href="guide.html?topic=assessment" data-support="guide">✦ AI Guide</a></div></div>
     <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
 
