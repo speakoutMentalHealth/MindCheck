@@ -15,6 +15,12 @@ await page.locator('#birthdate').fill('2015-04-01');await page.locator('#continu
 assert.match(await page.locator('#message').innerText(),/Under 18/);
 await page.locator('[data-choice="youth"]').click();await page.locator('#continue').click();await page.waitForURL('**/youth.html');
 assert.match(await page.locator('#group').innerText(),/under 13/i);
+const youthStyle=await page.locator('header').evaluate(h=>{const n=h.querySelector('.notice'),p=h.querySelector('#intro'),c=getComputedStyle(n),bg=getComputedStyle(h);return {headerHeight:h.getBoundingClientRect().height,noticeColor:c.color,noticeSize:parseFloat(c.fontSize),introColor:getComputedStyle(p).color,alignment:bg.textAlign}});
+assert.equal(youthStyle.alignment,'left','youth hero uses readable left-aligned text');
+assert.notEqual(youthStyle.noticeColor,'rgb(255, 255, 255)','youth notice must not use white-on-pale text');
+assert.notEqual(youthStyle.introColor,'rgb(255, 255, 255)','youth intro must remain readable');
+assert(youthStyle.noticeSize<=18,'youth notice must not inherit oversized global header typography');
+if(width<=390){const heroHeight=await page.locator('.youth-hero').evaluate(el=>el.getBoundingClientRect().height);assert(heroHeight<450,'youth hero must fit comfortably on mobile');}
 assert.equal(await page.evaluate(()=>sessionStorage.getItem('mc-age-entry-youth-group')),'child');
 assert.equal(await page.evaluate(()=>Object.keys(sessionStorage).some(k=>/birth|dob/i.test(k))),false);
 await page.goto(base+'assessment-centre.html');await page.waitForURL('**/age-entry.html');
