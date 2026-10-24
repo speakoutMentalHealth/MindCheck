@@ -1,0 +1,18 @@
+name: MindCheck age policy tests
+on:
+  push:
+    branches: [feature/age-based-entry-20261024]
+  pull_request:
+    paths:
+      - 'js/age-policy.mjs'
+      - 'js/age-policy.test.mjs'
+      - '.github/workflows/mindcheck-age-policy.yml'
+jobs:
+  age-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test js/age-policy.test.mjs
