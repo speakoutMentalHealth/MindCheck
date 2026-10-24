@@ -27,7 +27,7 @@ test('youth page remains education-only without data collection or external scri
  assert.doesNotMatch(youth,/fetch\s*\(|sendBeacon\s*\(|XMLHttpRequest|localStorage\.setItem/);
  assert.doesNotMatch(youth,/href=["'][^"']*(?:assessment-centre|report\.html|guide\.html|certificate|counsellor-exam)/i);
  for(const id of ['activities','calm','support','start','stop','calm-status'])
-  assert.match(youth,new RegExp('id=["\\']'+id+'["\\']'),'missing youth feature '+id);
+  assert(youth.includes('id="'+id+'"'),'missing youth feature '+id);
  assert.match(youth,/trusted adult/i);
  assert.match(youth,/emergency services/i);
 });
