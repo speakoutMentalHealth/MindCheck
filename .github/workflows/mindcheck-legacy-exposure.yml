@@ -1,0 +1,28 @@
+name: MindCheck legacy exposure guard
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'age-entry.html'
+      - 'youth.html'
+      - 'certificate/index.html'
+      - 'verify.html'
+      - 'js/mindcheck-analytics.js'
+      - 'scripts/analytics-privacy.test.cjs'
+      - 'scripts/legacy-exposure-regression.test.cjs'
+      - 'docs/backend-security-handover.md'
+      - '.github/workflows/mindcheck-legacy-exposure.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  legacy-exposure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test scripts/legacy-exposure-regression.test.cjs

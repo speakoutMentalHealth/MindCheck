@@ -1,0 +1,21 @@
+name: MindCheck report safety contract
+on:
+  pull_request:
+    paths:
+      - 'report.html'
+      - 'scripts/report-safety-contract.test.cjs'
+      - '.github/workflows/mindcheck-report-safety.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  report-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test scripts/report-safety-contract.test.cjs
