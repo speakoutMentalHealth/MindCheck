@@ -15,7 +15,7 @@ for(const [width,height] of [[320,568],[390,600],[430,740]]){
  await p.goto(origin+'guide.html');await p.waitForURL('**/age-entry.html');
  await p.locator('[data-choice="adult"]').click();await p.locator('#birthdate').fill('1990-04-01');await p.locator('#continue').click();await p.waitForURL('**/index.html');
  await p.goto(origin+'guide.html');await p.locator('#mcGuideTopics button').first().waitFor();
- assert.equal(await p.locator('#mcGuideTopics button').count(),6);
+ assert.equal(await p.locator('#mcGuideTopics button').count(),6);assert.equal(await p.locator('#mcAdultWellnessTitle').count(),1);assert.equal(await p.locator('#mcAdultWellnessTitle + p + div article').count(),4);
  for(const b of await p.locator('#mcGuideTopics button').all()){await b.click();assert(await p.locator('#mcGuideAnswer').innerText());}
  assert.equal(await p.locator('#mcGuideAI').isVisible(),false);
  assert.match(await p.locator('#mcGuideAIStatus').innerText(),/not connected/);
