@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v50-contextual-ai-20261024"
+EXPECTED_CACHE = "mc-v51-age-entry-20261024"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)
@@ -45,7 +45,7 @@ for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindche
     check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
-check("service worker cache version rotated", EXPECTED_CACHE in sw)
+check("service worker cache version rotated", EXPECTED_CACHE in sw and "mc-v50-contextual-ai-20261024" not in sw)
 journey = (ROOT / "js/mindcheck-journey.js").read_text(encoding="utf-8")
 check("mood history labels in six languages", all(f"{code}:{{previous:" in journey for code in ("en", "ha", "ig", "yo", "pcm", "fr")))
 check("mood history uses translated labels", "translatedMood.moods[Number(item.mood_value)]" in journey)
