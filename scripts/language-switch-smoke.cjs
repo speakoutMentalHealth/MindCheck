@@ -8,7 +8,8 @@ const {readdirSync}=require('node:fs');
  try{
   for(let i=0;i<40;i++){try{await new Promise((resolve,reject)=>{const socket=require('node:net').connect(8768,'127.0.0.1');socket.on('connect',()=>{socket.end();resolve();});socket.on('error',reject);});break}catch{await new Promise(r=>setTimeout(r,100));}}
   browser=await chromium.launch({headless:true});
-  // The DOB entry and youth educational page are separate, not yet localized flows.\n  const pages=readdirSync('.').filter(p=>p.endsWith('.html')&&!['age-entry.html','youth.html'].includes(p)).concat('certificate/index.html');
+  // The DOB entry and youth educational page are separate, not yet localized flows.
+  const pages=readdirSync('.').filter(p=>p.endsWith('.html')&&!['age-entry.html','youth.html'].includes(p)).concat('certificate/index.html');
   for(const width of [320,390,1280]){
    const context=await browser.newContext({viewport:{width,height:844},serviceWorkers:'block'});
    await context.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:8768/')?route.continue():route.abort());
