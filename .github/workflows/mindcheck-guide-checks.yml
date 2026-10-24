@@ -3,7 +3,7 @@ on:
   pull_request:
     paths: ['server/guide/**', 'js/guide-content.js', '.github/workflows/mindcheck-guide-checks.yml']
   push:
-    branches: [main]
+    branches: [main, feature/age-based-entry-20261024]
     paths: ['server/guide/**', 'js/guide-content.js', '.github/workflows/mindcheck-guide-checks.yml']
   workflow_dispatch:
 permissions:
