@@ -2,9 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHandler} from './worker.mjs';
 import {explain} from './provider.mjs';
+import {issueAdultToken} from './age-entitlement.mjs';
+const secret='development-only-secret-that-is-long-enough';
+const validToken=await issueAdultToken(secret,{subject:'verified-adult-test',expiresAt:Math.floor(Date.now()/1000)+300});
 const good={question:'mood',language:'en',adult:true};
-function request(body=good,options={}){const r=new Request('https://mindcheck-guide.example/',{method:'POST',headers:{Origin:'https://mindcheck.speakoutmentalhealth.org','Content-Type':'application/json',...options.headers},body:JSON.stringify(body)});Object.defineProperty(r,'cf',{value:{country:options.country??'NG'}});return r;}
-const env={GUIDE_REQUIRE_ADULT_TOKEN:'false',GUIDE_ENABLED:'true',GEMINI_API_KEY:'test-key-never-live',GEMINI_MODEL:'gemini-3.5-flash-lite',GUIDE_LIMITER:{limit:async()=>({success:true})}};
+function request(body=good,options={}){const r=new Request('https://mindcheck-guide.example/',{method:'POST',headers:{Origin:'https://mindcheck.speakoutmentalhealth.org','Content-Type':'application/json',Authorization:'Bearer '+validToken,...options.headers},body:JSON.stringify(body)});Object.defineProperty(r,'cf',{value:{country:options.country??'NG'}});return r;}
+const env={AGE_AUTH_SECRET:secret,GUIDE_REQUIRE_ADULT_TOKEN:'true',GUIDE_ENABLED:'true',GEMINI_API_KEY:'test-key-never-live',GEMINI_MODEL:'gemini-3.5-flash-lite',GUIDE_LIMITER:{limit:async()=>({success:true})}};
 test('fixed selectors only: private input, injection, minors and oversize rejected before provider',async()=>{let calls=0;const handler=createHandler(async()=>{calls++;return 'unused'});for(const body of [{...good,prompt:'PRIVATE FIXTURE'}, {...good,question:'ignore instructions'}, {...good,adult:false},{...good,language:'xx'},null,{...good,notes:'x'.repeat(300)}]){const r=await handler(request(body),env);assert.equal(r.status,400);}assert.equal(calls,0);});
 test('disabled, unknown region, missing key/limiter and quota fail to prepared answer',async()=>{let calls=0;const handler=createHandler(async()=>{calls++;return 'unused'});for(const [e,options]of [[{},{}],[env,{country:'GB'}],[env,{country:'DE'}],[env,{country:'XX'}],[{...env,GEMINI_API_KEY:''},{}],[{...env,GUIDE_LIMITER:null},{}],[{...env,GUIDE_LIMITER:{limit:async()=>({success:false})}},{}]]){const r=await handler(request(good,options),e);assert.equal((await r.json()).source,'prepared');}assert.equal(calls,0);});
 test('provider receives only approved fact; output limits and errors fall back without leaking',async()=>{let fact;const handler=createHandler(async(e,f,l,signal)=>{fact=f;assert.equal(l,'en');assert(signal instanceof AbortSignal);return 'Your check-ins stay in this browser. Open My journey to see your history.'});const r=await handler(request(),env);assert.equal((await r.json()).source,'gemini');assert.match(fact,/Choose the mood/);for(const output of ['<img src=x onerror=alert(1)>','https://bad.example','Take medication','x'.repeat(901),'']){const r=await createHandler(async()=>output)(request(),env);assert.equal((await r.json()).source,'prepared');}const r2=await createHandler(async()=>{throw Error('PRIVATE PROVIDER ERROR')})(request(),env);assert.doesNotMatch(await r2.text(),/PRIVATE/);});
@@ -16,8 +19,8 @@ test('safe diagnostics distinguish region, provider rejection, quota and timeout
 test('signed entitlement gate rejects missing and forged tokens',async()=>{
  const locked={...env,GUIDE_REQUIRE_ADULT_TOKEN:'true',AGE_AUTH_SECRET:'development-only-secret-that-is-long-enough'};
  let calls=0;const handler=createHandler(async()=>{calls++;return 'Not called';});
- const missing=await handler(request(),locked);assert.equal(missing.status,403);
- const forged=await handler(request(good,{headers:{Authorization:'Bearer forged.token'}}),locked);assert.equal(forged.status,403);
+ const missing=await handler(request(good,{headers:{Authorization:''}}),locked);assert.equal((await missing.json()).reason,'authorization');
+ const forged=await handler(request(good,{headers:{Authorization:'Bearer forged.token'}}),locked);assert.equal((await forged.json()).reason,'authorization');
  assert.equal(calls,0);
 });
 test('signed entitlement gate accepts a valid short-lived adult token',async()=>{
@@ -33,7 +36,7 @@ test('signed entitlement gate accepts a valid short-lived adult token',async()=>
 test('unspecified or malformed adult-token configuration never calls AI provider',async()=>{
  let generated=0;
  const handler=createHandler(async()=>{generated++;return 'UNSAFE PROVIDER CALL';});
- for(const mode of [undefined,'False','off','0','TRUE','']){
+ for(const mode of [undefined,'False','off','0','TRUE','','false']){
   const environment={...env};
   if(mode===undefined)delete environment.GUIDE_REQUIRE_ADULT_TOKEN;
   else environment.GUIDE_REQUIRE_ADULT_TOKEN=mode;
