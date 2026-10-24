@@ -24,3 +24,16 @@ This is a configuration safeguard, **not age verification**. Any production sett
 5. Verify rate limits and abuse protections against a controlled staging environment before expanded use.
 
 No deployment, secret rotation, or live configuration changes are included in this PR.
+
+## Production configuration evidence — 24 October 2026
+
+The operator supplied Cloudflare dashboard screenshots showing `GUIDE_ENABLED=true` and `GUIDE_LIMITER` configured to 5 requests per 60 seconds, and separately confirmed `GUIDE_REQUIRE_ADULT_TOKEN` was **not listed**. This does not establish the exact live deployed code version or any trusted age-issuer. Do not assume the candidate's fail-closed guard is already running in production.
+
+**Safe deployment sequencing:**
+1. Keep the PR draft while verifying existing production deployment and its actual behavior. Do not submit health or child data as a test.
+2. After an authorized, reviewed release of the fail-closed Worker, missing `GUIDE_REQUIRE_ADULT_TOKEN` must result in prepared educational fallback rather than a Gemini call; confirm with a fixed platform topic only.
+3. Do **not** set `GUIDE_REQUIRE_ADULT_TOKEN=true` as a shortcut: the current browser does not request or attach signed tokens and the issuer module is not a deployed identity/age verification service. This would block Gemini for ordinary users.
+4. Do **not** set `GUIDE_REQUIRE_ADULT_TOKEN=false` merely to restore generation; that is an explicit unauthenticated pilot exception requiring owner acceptance, education-only scope and safeguarding review.
+5. A functional adult-only AI launch requires a trusted eligibility/consent verifier, server-only token issuer, browser delivery and renewal, verified-denial tests for youth/expired/forged tokens, and privacy review. Do not use self-entered DOB or browser flags as independent age proof.
+
+**No Cloudflare settings were modified by this PR.**
