@@ -1,0 +1,36 @@
+name: MindCheck youth safety regression gate
+on:
+  pull_request:
+    paths:
+      - 'age-entry.html'
+      - 'youth.html'
+      - 'index.html'
+      - 'assessment-centre.html'
+      - 'adhd.html'
+      - 'pcl5-screening.html'
+      - 'professional-assessments.html'
+      - 'audit-screening.html'
+      - 'clinical-assessment-guide.html'
+      - 'report.html'
+      - 'monitoring.html'
+      - 'guide.html'
+      - 'counsellor-exam.html'
+      - 'counsellor-certificate.html'
+      - 'certificate.html'
+      - 'scripts/youth-safety.test.cjs'
+      - '.github/workflows/mindcheck-youth-safety.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  youth-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check youth privacy and age routing invariants
+        run: node --test scripts/youth-safety.test.cjs
