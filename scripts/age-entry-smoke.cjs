@@ -14,6 +14,8 @@ await page.locator('[data-choice="adult"]').click();
 await page.locator('#birthdate').fill('2015-04-01');await page.locator('#continue').click();
 await page.waitForURL('**/youth.html');
 assert.match(await page.locator('#group').innerText(),/under 13/i);
+assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('kids-mode')),true,'child route uses Kids Mode');
+assert.match(await page.locator('#welcome').innerText(),/Feelings Adventure/);
 assert.equal(await page.locator('#story-step').innerText(),'Scene 1 of 4');
 await page.locator('#story-next').click();assert.equal(await page.locator('#story-step').innerText(),'Scene 2 of 4');
 await page.locator('#story-reset').click();assert.equal(await page.locator('#story-step').innerText(),'Scene 1 of 4');
