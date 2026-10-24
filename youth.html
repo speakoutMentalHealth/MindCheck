@@ -41,7 +41,21 @@ header.youth-shell>.notice strong{color:#103e2f}
 </div></section>
 <section class="panel" id="calm"><h2>One-minute calm break</h2><p>This optional timer is a reminder to pause, not a breathing test. Breathe normally and comfortably.</p><button type="button" class="primary" id="start">Start 60-second pause</button> <button type="button" id="stop" disabled>Stop</button><p id="calm-status" role="status" aria-live="polite">Ready when you are.</p></section>
 <section class="panel" id="support"><h2>When you need extra help</h2><p>If a feeling is too much to handle alone, talk to a trusted adult or a qualified healthcare professional. If you feel unsafe, tell a trusted adult right away. If someone is in immediate danger, contact local emergency services.</p><p class="quiet">This educational page is not a crisis service or a substitute for professional care.</p><p><a href="https://speakoutmentalhealth.org/">Visit SpeakOut Mental Health</a></p></section>
-</main><script defer src="js/youth-language.js"></script><script>
+</main><script>/* Youth educational headings: non-clinical language preview. No external calls. */
+(()=>{'use strict';
+const words={
+ en:{eyebrow:'EVERYDAY WELLBEING',heading:'Little skills for everyday life',schoolTitle:'When school feels stressful',friendTitle:'Friendship and boundaries',feelingsTitle:'Big feelings',onlineTitle:'Online wellbeing'},
+ fr:{eyebrow:'BIEN-ÊTRE AU QUOTIDIEN',heading:'De petites habitudes utiles au quotidien',schoolTitle:'Quand l’école devient stressante',friendTitle:'Amitié et limites personnelles',feelingsTitle:'Les émotions intenses',onlineTitle:'Bien-être en ligne'}
+};
+const select=document.createElement('select');select.id='mcYouthLanguage';select.setAttribute('aria-label','Youth page language');
+for(const [code,name] of [['en','English'],['fr','Français']]){const option=document.createElement('option');option.value=code;option.textContent=name;select.append(option);}
+const label=document.createElement('label');label.htmlFor=select.id;label.textContent='Page language / Langue de la page';label.style.cssText='display:block;font-weight:700;margin:8px 0';
+const note=document.createElement('p');note.className='quiet';note.textContent='Only the everyday learning headings are translated in this preview. Other content remains in English until reviewed.';
+const host=document.getElementById('everyday');if(!host)return;host.prepend(note);host.prepend(select);host.prepend(label);
+function apply(code){const language=Object.hasOwn(words,code)?code:'en';select.value=language;for(const node of host.querySelectorAll('[data-youth-i18n]')){const value=words[language][node.dataset.youthI18n];if(value)node.textContent=value;}note.textContent=language==='fr'?'Seuls les titres des activités quotidiennes sont traduits pour le moment. Le reste du contenu reste en anglais en attendant une révision.':'Only the everyday learning headings are translated in this preview. Other content remains in English until reviewed.';host.lang=language;}
+select.addEventListener('change',()=>apply(select.value));apply('en');
+})();
+</script><script>
 (()=>{'use strict';let group='teen';try{group=sessionStorage.getItem('mc-age-entry-youth-group')==='child'?'child':'teen';}catch(_){}
 const child=group==='child';document.getElementById('group').textContent=child?'For children under 13':'For ages 13–17';
 if(child){document.getElementById('intro').textContent='Explore feelings with help from a trusted adult or caregiver, especially for younger children.';}if(!child){document.getElementById('welcome').textContent='Your space to understand wellbeing';document.getElementById('intro').textContent='Explore stress, emotions and everyday habits at your own pace.';document.getElementById('feelings').textContent='Stress, sadness, excitement and frustration are all human experiences. Notice what you feel without judging yourself.';document.getElementById('talk').textContent='A trusted adult, school counsellor or healthcare professional can help when things feel difficult.';document.getElementById('habits').textContent='Sleep, movement, supportive friendships and breaks from screens can support wellbeing.';}
