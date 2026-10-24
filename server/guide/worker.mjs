@@ -20,7 +20,7 @@ export function createHandler(generate=explain){return async function(request,en
  // always returns prepared public education, even when GUIDE_ENABLED is true.
  if(env.GUIDE_REQUIRE_ADULT_TOKEN!=='true')return fallback('authorization');
  const authorization=request.headers.get('Authorization')||'';
- const match=/^Bearer ([A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+)$/.exec(authorization);
+ const match=/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/.exec(authorization);
  if(!match||!await verifyAdultToken(env.AGE_AUTH_SECRET,match[1]))return fallback('authorization');
  // Reviewed free-pilot regions: Nigeria and US. Missing country fails closed.
  // Origin checks are CORS hygiene, not authentication. The limiter is mandatory.
