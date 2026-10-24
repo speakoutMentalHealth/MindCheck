@@ -61,6 +61,8 @@ jobs:
         run: node scripts/calm-studio-smoke.cjs
       - name: Check monitoring receipt wording and local backup
         run: node scripts/monitoring-receipt-smoke.cjs
+      - name: Check the learning companion privacy and practice flow
+        run: node scripts/training-companion-smoke.cjs
       - name: Check home guide and support hub
         run: node scripts/support-guide-smoke.cjs
       - name: Check adult entry and optional guide privacy
