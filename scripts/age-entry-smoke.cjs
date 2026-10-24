@@ -18,6 +18,17 @@ assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('kids
 assert.match(await page.locator('#welcome').innerText(),/Feelings Adventure/);
 assert.equal(await page.locator('#adventure-map').isVisible(),true,'Kids Mode adventure map visible');
 assert.equal(await page.locator('.adventure-stop').count(),5,'five optional adventure destinations');
+assert.equal(await page.locator('#activities').isVisible(),false,'other sections hidden on home');
+await page.locator('[data-section-link="play"]').click();
+assert.equal(await page.locator('#play').isVisible(),true,'play menu shows play only');
+assert.equal(await page.locator('#adventure-map').isVisible(),false,'map hidden when play selected');
+assert.equal(await page.locator('#quiz-answers button').count(),3,'quiz options render');
+assert.match(await page.locator('#quiz-progress').innerText(),/Question 1 of 6/);
+assert.equal(await page.locator('#quiz-next').isDisabled(),true,'must answer before advancing');
+await page.locator('[data-section-link="activities"]').click();
+assert.equal(await page.locator('#activities').isVisible(),true,'feelings menu opens feelings only');
+assert.equal(await page.locator('#play').isVisible(),false,'play hidden after switching');
+await page.locator('[data-section-link="play"]').click();
 assert.match(await page.locator('#play').innerText(),/Ada's rainy-day story/);
 assert.match(await page.locator('#play').innerText(),/Tobi feels nervous/);
 assert.match(await page.locator('#play').innerText(),/Ahmed's kindness quest/);
