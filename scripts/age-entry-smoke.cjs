@@ -12,8 +12,7 @@ const writes=[];page.on('request',req=>{if(req.method()!=='GET')writes.push(req.
 await page.goto(base+'index.html');await page.waitForURL('**/age-entry.html');
 await page.locator('[data-choice="adult"]').click();
 await page.locator('#birthdate').fill('2015-04-01');await page.locator('#continue').click();
-assert.match(await page.locator('#message').innerText(),/Under 18/);
-await page.locator('[data-choice="youth"]').click();await page.locator('#continue').click();await page.waitForURL('**/youth.html');
+await page.waitForURL('**/youth.html');
 assert.match(await page.locator('#group').innerText(),/under 13/i);
 const youthStyle=await page.locator('header').evaluate(h=>{const n=h.querySelector('.notice'),p=h.querySelector('#intro'),c=getComputedStyle(n),bg=getComputedStyle(h);return {headerHeight:h.getBoundingClientRect().height,noticeColor:c.color,noticeSize:parseFloat(c.fontSize),introColor:getComputedStyle(p).color,alignment:bg.textAlign}});
 assert.equal(youthStyle.alignment,'left','youth hero uses readable left-aligned text');
@@ -29,6 +28,6 @@ assert.equal(await page.evaluate(()=>sessionStorage.getItem('mc-age-entry-band')
 await page.goto(base+'assessment-centre.html');assert.equal(new URL(page.url()).pathname,'/assessment-centre.html');
 assert.deepEqual(writes,[]);await context.close();
 }
-console.log('PASS age entry: mobile/desktop, DOB mismatch, youth routing, adult routing, sensitive page navigation, no DOB storage or POST');
+console.log('PASS age entry: mobile/desktop, DOB auto-routing, youth routing, adult routing, sensitive page navigation, no DOB storage or POST');
 }finally{await browser?.close();server.kill();}
 })().catch(e=>{console.error(e);process.exitCode=1});
