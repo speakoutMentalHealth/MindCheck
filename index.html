@@ -319,6 +319,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <link rel="stylesheet" href="mindcheck-compact-header.css">
 <link rel="stylesheet" href="mindcheck-journey.css">
 <link rel="stylesheet" href="mindcheck-smart-wellness.css">
+<link rel="stylesheet" href="mindcheck-milestones.css">
 <link rel="stylesheet" href="mindcheck-sections-accessibility.css">
 <link rel="stylesheet" href="mindcheck-native-responsive.css"><link rel="stylesheet" href="mindcheck-signature-dashboard.css"><link rel="stylesheet" href="mindcheck-front-door.css"><link rel="stylesheet" href="mindcheck-minimal-front.css"><link rel="stylesheet" href="mindcheck-calm-experience.css">
 <link rel="stylesheet" href="mindcheck-live-experience.css"><link rel="stylesheet" href="mindcheck-live-wellness.css"><link rel="stylesheet" href="mindcheck-synced-breathing.css"><script src="js/mindcheck-analytics-config.js" defer></script>
@@ -707,6 +708,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 
   <!-- Badges & Awards -->
   <section id="badgesSection" aria-labelledby="badgesTitle">
+    <section id="mcMilestones" class="mc-milestones" aria-labelledby="mcMilestonesTitle"><div class="mc-milestones-head"><div><p class="mc-milestones-kicker" data-mcm="eyebrow">YOUR PROGRESS</p><h3 id="mcMilestonesTitle" data-mcm="title">Small steps are worth celebrating</h3><p data-mcm="intro">Every check-in and gentle activity counts, at your own pace.</p></div><span aria-hidden="true">🏅</span></div><div class="mc-milestones-stats"><div><strong id="mcMilestoneCheckins">0</strong><span data-mcm="checkins">Mood check-ins</span></div><div><strong id="mcMilestoneChallenges">0</strong><span data-mcm="challenges">Completed challenges</span></div><div><strong id="mcMilestoneDays">0</strong><span data-mcm="activeDays">Active days</span></div></div><h4 data-mcm="milestones">Personal milestones</h4><div id="mcMilestoneList" class="mc-milestone-list" role="list"></div><p class="mc-milestones-privacy" data-mcm="privacy">These personal milestones stay in this browser. They do not change official awards or reward eligibility.</p></section>
     <h2 id="badgesTitle" data-i18n="badgesTitle">Badges & Awards 🏅</h2>
     <p style="color:#334155" data-i18n="awardsExplainer">Earn points from daily mood check-ins. Unlock a digital 20-Day Streak badge after 20 consecutive days; no cash prizes.</p>
     <progress id="mcBadgeProgress" max="20" value="0" aria-labelledby="badgesTitle"></progress>
@@ -1359,6 +1361,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 <script src="js/mindcheck-i18n.js?v=20261023-locale-startup"></script>
 <script src="js/mindcheck-premium-nav.js" defer></script>
 <script src="js/mindcheck-journey.js?v=20261023-locale-startup" defer></script>
+<script src="js/mindcheck-milestones.js" defer></script>
 <script src="js/breathing-studio-copy.js?v=20261023-calm" defer></script>
 <script src="js/mindcheck-smart-wellness.js?v=20261023-calm" defer></script>
 <script src="js/mindcheck-calm-interactions.js" defer></script>
