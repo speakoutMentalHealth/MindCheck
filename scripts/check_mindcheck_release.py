@@ -275,6 +275,19 @@ for asset in ("css/training-centre.css", "js/training-centre.js"):
 check("Training Centre keeps five lessons", len(re.findall(r'class="th-lesson" data-lesson=', training)) == 5)
 check("Training Centre official assessment handoff", '?type=assessment' in training and 'script.google.com/macros/s/' in training)
 
+# Cross-device breathing regression checks, rebuilt against current main.
+breath_css = (ROOT / "mindcheck-smart-wellness.css").read_text(encoding="utf-8")
+breath_js = (ROOT / "js/mindcheck-smart-wellness.js").read_text(encoding="utf-8")
+check("breathing visual centered", ".mc-breathing-visual" in breath_css and "justify-content:center" in breath_css)
+check("breathing stage bounded", ".mc-breathing-stage" in breath_css and "width:260px" in breath_css)
+check("breathing orb centered", ".mc-breathing-circle" in breath_css and "left:50%" in breath_css)
+check("breathing timer anchored", "mc-breathing-countdown" in breath_css and "mcBreathingSeconds" in breath_js)
+check("breathing mobile breakpoint", "@media(max-width:480px)" in breath_css)
+check("breathing reduced motion", "prefers-reduced-motion:reduce" in breath_css)
+check("breathing animation", "requestAnimationFrame(tick)" in breath_js)
+check("breathing pause/reset", "function pause()" in breath_js and "mcBreathingReset" in breath_js)
+check("breathing accessible disclosure", '<details class="mc-calm-accordion">' in html and "<summary>" in html)
+
 if failures:
     print("\n" + str(len(failures)) + " static release guard(s) failed.")
     sys.exit(1)
