@@ -278,9 +278,9 @@ check("Training Centre official assessment handoff", '?type=assessment' in train
 # Cross-device breathing regression checks, rebuilt against current main.
 breath_css = (ROOT / "mindcheck-smart-wellness.css").read_text(encoding="utf-8")
 breath_js = (ROOT / "js/mindcheck-smart-wellness.js").read_text(encoding="utf-8")
-check("breathing visual centered", bool(re.search(r"\\.mc-breathing-visual\\s*\\{[^}]*justify-content\\s*:\\s*center", breath_css, re.S)))
-check("breathing stage bounded", bool(re.search(r"\\.mc-breathing-stage\\s*\\{[^}]*width\\s*:\\s*260px", breath_css, re.S)))
-check("breathing orb centered", bool(re.search(r"\\.mc-breathing-circle\\s*\\{[^}]*left\\s*:\\s*50%", breath_css, re.S)))
+check("breathing visual centered", ".mc-breathing-visual" in breath_css and "justify-content:center" in breath_css)
+check("breathing stage bounded", ".mc-breathing-stage" in breath_css and "width:260px" in breath_css)
+check("breathing orb centered", ".mc-breathing-circle" in breath_css and "left:50%" in breath_css)
 check("breathing timer anchored", "mc-breathing-countdown" in breath_css and "mcBreathingSeconds" in breath_js)
 check("breathing mobile breakpoint", "@media(max-width:480px)" in breath_css)
 check("breathing reduced motion", "prefers-reduced-motion:reduce" in breath_css)
