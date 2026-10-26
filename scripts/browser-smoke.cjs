@@ -143,6 +143,8 @@ async function run() {
       // A synthetic daily check-in persists locally, once, without a cloud write.
       const checkinRequests=[];
       await page.route('https://script.google.com/**',async route=>{checkinRequests.push(route.request().url());await route.abort();});
+      const dockGeometry=await page.locator('#mc-premium-tabs').evaluate(nav=>{const r=nav.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,viewportWidth:innerWidth,viewportHeight:innerHeight};});
+      assert(dockGeometry.left>=-1&&dockGeometry.right<=dockGeometry.viewportWidth+1&&dockGeometry.top>=0&&dockGeometry.bottom<=dockGeometry.viewportHeight+1,setup.name+' floating navigation must remain inside viewport '+JSON.stringify(dockGeometry));
       await page.locator('[data-mc-nav-target="moodSection"]').click();
       await page.waitForURL('**/daily-life.html');
       await page.locator('.buddy-mood').nth(1).click();
