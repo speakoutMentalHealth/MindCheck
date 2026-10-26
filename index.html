@@ -532,6 +532,7 @@ body.mc-stage-welcome :where(button,.btn,a):focus-visible{outline:3px solid #176
 </p>
 
 
+    <nav class="mc-home-pathways" aria-label="Counselling and opportunities"><a href="become-a-counsellor.html">Become a counsellor</a><a href="ambassador.html">Become an ambassador</a><a href="index.html?section=helpSection">Speak to a counsellor</a><p>Contact SpeakOut about support and availability.</p></nav>
     <div class="grid">
       <div class="card" id="goMood" role="button" tabindex="0" aria-label="Open My Buddy">
         <div class="big">😊</div>
@@ -897,7 +898,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
     const getPoints=()=>Number(getJSON(KEY_POINTS, 0))||0;
     const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
     const addPoints=n=>setPoints(getPoints()+n);
-    const getStreak=()=>Number(getJSON(KEY_STREAK, 0))||0;
+    const getStreak=()=>{const d=new Date();d.setDate(d.getDate()-1);const yesterday=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const last=getLast();return last===todayStr()||last===yesterday ? Number(getJSON(KEY_STREAK, 0))||0 : 0;};
     const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
     const getLast=()=>{try{return localStorage.getItem(KEY_LAST)||'';}catch(_){return '';}};
     const setLast=v=>localStorage.setItem(KEY_LAST, v);

@@ -21,7 +21,7 @@ if(card&&text){
 }
 var meter=document.getElementById('mcBadgeProgress'),badges=document.getElementById('badgesGrid');
 function updateMilestone(){
-  var streak=0;try{streak=Number(localStorage.getItem('mc_streak'))||0;}catch(_){}
+  var streak=0;try{var now=new Date(), y=new Date(now);y.setDate(y.getDate()-1);var day=function(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};var last=localStorage.getItem('mc_lastCheckin');if(last===day(now)||last===day(y))streak=Number(localStorage.getItem('mc_streak'))||0;}catch(_){}
   meter.value=Math.min(20,Math.max(0,streak));
 }
 if(meter&&badges){
