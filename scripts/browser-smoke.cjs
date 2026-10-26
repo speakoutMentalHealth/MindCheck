@@ -186,9 +186,15 @@ async function run() {
       assert.equal(await page.locator('.buddy-mood[aria-pressed="true"]').count(),1,'one mood selected');
       await page.locator('.buddy-mood').nth(2).click();
       assert.equal(await page.locator('.buddy-mood[aria-pressed="true"]').count(),1,'selecting another mood replaces the previous selection');
-      // A saved My Buddy check-in must immediately update the shared badge display.
-      assert.equal(await page.locator('#mcBadgeProgress').inputValue(),'1','first daily mood check-in updates the 20-day badge progress');
-      assert.match(await page.locator('#badgesGrid').innerText(),/First Check-in/,'My Buddy check-in renders the first badge');
+      // My Buddy and the Awards screen share one local, once-per-day progress ledger.
+      assert.equal(await page.evaluate(()=>localStorage.getItem('mc_streak')),'1','My Buddy creates the first day streak');
+      assert.equal(await page.evaluate(()=>localStorage.getItem('mc_points')),'10','My Buddy credits ten points only once per day');
+      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_mood_history')).length),1,'changing mood emoji does not double-count the day');
+      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_badges')).includes('first_checkin')),true,'My Buddy unlocks first check-in badge');
+      await page.goto('http://127.0.0.1:8765/index.html?section=badgesSection',{waitUntil:'domcontentloaded'});
+      await page.locator('#badgesSection.active').waitFor();
+      assert.equal(await page.locator('#mcBadgeProgress').inputValue(),'1','Awards shows the shared My Buddy streak');
+      assert.match(await page.locator('#badgesGrid').innerText(),/First Check-in/,'Awards displays the unlocked check-in badge');
       assert.deepEqual(checkinRequests,[],'mood selection must never leave this device');
       await page.goto('http://127.0.0.1:8765/index.html?section=homeSection',{waitUntil:'domcontentloaded'});
       await page.locator('#homeSection.active').waitFor();
