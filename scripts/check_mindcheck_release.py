@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v54-unified-dock-20261026"
+EXPECTED_CACHE = "mc-v55-my-buddy-unified-20261026"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)
@@ -155,6 +155,8 @@ check("offline cache version updated", EXPECTED_CACHE in sw)
 # Ensure the six-tab navigation persists on every standalone MindCheck HTML page.
 standalone=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
 check("shared tab navigation cached", "'./js/mindcheck-standalone-nav.js'" in sw)
+check("unified dock cached for offline use", "'./css/mindcheck-nav-unified.css?v=20261026-v55'" in sw and (ROOT/"css/mindcheck-nav-unified.css").is_file())
+check("My Buddy name cannot revert to Mood", '"navMood": "My Buddy"' in (ROOT/"js/wellness-interface-translations.js").read_text(encoding="utf-8") and "names[i]===\'navMood\'?\'My Buddy\'" in (ROOT/"js/mindcheck-page-locales.js").read_text(encoding="utf-8"))
 check("all six shared tabs", all(label in standalone for label in ("Home","My Buddy","Assessments","Wellness","Support","Awards")))
 check("safe area space under persistent tabs", "env(safe-area-inset-bottom)" in (ROOT/"mindcheck-premium-nav.css").read_text(encoding="utf-8"))
 for page in ("assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):

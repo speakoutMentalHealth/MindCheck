@@ -6,6 +6,39 @@ const assert = require('node:assert/strict');
 const { spawn } = require('node:child_process');
 const net = require('node:net');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function checkUnifiedDock(page,setupName,activeTarget){
+  await page.waitForFunction(target=>{
+    const nav=document.getElementById('mc-premium-tabs');
+    const skin=document.querySelector('link[href*="css/mindcheck-nav-unified.css"]');
+    return nav?.classList.contains('mc-unified-nav')&&!!skin?.sheet&&nav.querySelector('[aria-current="page"]')?.dataset.mcNavTarget===target;
+  },activeTarget,{timeout:12000});
+  // A tab may become current just before its CSS transition finishes.
+  // Require the fully painted selected appearance, not a transient frame.
+  await page.waitForFunction(target=>{
+    const selected=document.querySelector('#mc-premium-tabs .mc-nav-tab[aria-current="page"]');
+    return selected?.dataset.mcNavTarget===target && getComputedStyle(selected.querySelector('.mc-tab-icon')).backgroundColor==='rgb(25, 93, 75)';
+  },activeTarget,{timeout:5000});
+  const info=await page.locator('#mc-premium-tabs').evaluate(nav=>{
+    const box=nav.getBoundingClientRect(),style=getComputedStyle(nav);
+    const tabs=[...nav.querySelectorAll('.mc-nav-tab')];
+    const selected=nav.querySelector('[aria-current="page"]');
+    const icon=getComputedStyle(selected.querySelector('.mc-tab-icon'));
+    return {
+      count:tabs.length,labels:tabs.map(el=>el.querySelector('.mc-tab-label')?.textContent.trim()),
+      active:tabs.filter(el=>el.hasAttribute('aria-current')).map(el=>el.dataset.mcNavTarget),
+      inside:box.left>=-1&&box.right<=innerWidth+1&&box.top>=0&&box.bottom<=innerHeight+1,
+      raised:innerHeight-box.bottom>=8,
+      appearance:{background:style.backgroundColor,borderRadius:style.borderTopLeftRadius,borderColor:style.borderTopColor,
+        padding:style.padding,iconBackground:icon.backgroundColor,iconSize:icon.width,tabHeight:getComputedStyle(selected).minHeight}
+    };
+  });
+  assert.equal(info.count,6,setupName+' must show exactly six tabs');
+  assert.equal(info.labels[1],'My Buddy',setupName+' label reverted to Mood');
+  assert.deepEqual(info.active,[activeTarget],setupName+' current tab mismatch');
+  assert(info.inside,setupName+' navigation is outside viewport');
+  assert(info.raised,setupName+' navigation is not raised above screen edge');
+  return info.appearance;
+}
 async function run() {
   const server = spawn('python3', ['-m','http.server','8765','--bind','127.0.0.1'], {stdio:'ignore'});
   let browser;
@@ -83,6 +116,7 @@ async function run() {
       await page.locator('.mc-front-door .mc-primary-action').click();
       await page.locator('#homeSection.active').waitFor();
       assert.equal(await page.locator('.mc-primary-action').innerText(),'My Mental Health Companion →',setup.name+' companion action label');
+      const homeDock=await checkUnifiedDock(page,setup.name+' Home','homeSection');
       // The adult dashboard was opened through the public Home route.
       // The homepage redesign must render visually and preserve the primary My Buddy action.
       const hero=page.locator('#homeSection .mc-dashboard-hero');
@@ -91,6 +125,7 @@ async function run() {
       await page.locator('.mc-dashboard-main-action').click();
       await page.waitForURL('**/daily-life.html');
       assert(await page.locator('.buddy-mood').first().isVisible(),setup.name+' dashboard action must open My Buddy');
+      assert.deepEqual(await checkUnifiedDock(page,setup.name+' My Buddy','moodSection'),homeDock,setup.name+' My Buddy menu differs from Home');
       await page.goto('http://127.0.0.1:8765/index.html?section=homeSection',{waitUntil:'domcontentloaded'});
       await page.locator('#homeSection.active').waitFor();
       assert.equal(await page.locator('.mc-front-door').isVisible(),false,setup.name+' first-visit promotional content persists in dashboard');
@@ -176,6 +211,7 @@ async function run() {
       // fixed bottom tab and assert the destination screen is actually active.
       for(const [label,target] of [['My Buddy','moodSection'],['Wellness','tipsSection'],['Support','helpSection'],['Awards','badgesSection'],['Home','homeSection']]){
         await page.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
+        assert.deepEqual(await checkUnifiedDock(page,setup.name+' Assessments','formContainer'),homeDock,setup.name+' assessment menu styling differs from Home');
         const tab=page.locator(target==='moodSection'?'#mc-premium-tabs .mc-standalone-tab[href="daily-life.html"]':'#mc-premium-tabs .mc-standalone-tab[href*="'+target+'"]');
         await tab.click();
         if(target==='moodSection'){

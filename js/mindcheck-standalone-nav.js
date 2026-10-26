@@ -12,12 +12,17 @@ const tabs=[
 ];
 const page=location.pathname.split('/').pop();
 const active=page==='assessment-centre.html'||/^(adhd|audit-screening|pcl5-screening|trauma-awareness|sleep-awareness|professional-assessments|clinical-assessment-guide|clinician-referral-preparation)\.html$/.test(page)?'formContainer':page==='suicide-support.html'?'helpSection':page==='daily-life.html'?'moodSection':'homeSection';
+function ensureUnifiedSkin(){
+ if(document.querySelector('link[href*="css/mindcheck-nav-unified.css"]'))return;
+ const skin=document.createElement('link');skin.rel='stylesheet';skin.href='css/mindcheck-nav-unified.css?v=20261026-v55';document.head.appendChild(skin);
+}
 function mount(){
+ ensureUnifiedSkin();
  if(document.getElementById('mc-premium-tabs'))return;
  document.body.classList.add('mc-standalone-page');
- const nav=document.createElement('nav');nav.id='mc-premium-tabs';nav.className='mc-premium-tabs';nav.setAttribute('aria-label','MindCheck sections');
+ const nav=document.createElement('nav');nav.id='mc-premium-tabs';nav.className='mc-premium-tabs mc-unified-nav';nav.setAttribute('aria-label','MindCheck sections');
  tabs.forEach(function(t){
-  const a=document.createElement('a');a.className='mc-standalone-tab';a.href=t[1]==='formContainer'?'assessment-centre.html':t[1]==='moodSection'?'daily-life.html':'index.html?section='+encodeURIComponent(t[1]);
+  const a=document.createElement('a');a.className='mc-standalone-tab mc-nav-tab';a.dataset.mcNavTarget=t[1];a.href=t[1]==='formContainer'?'assessment-centre.html':t[1]==='moodSection'?'daily-life.html':'index.html?section='+encodeURIComponent(t[1]);
   if(t[1]===active)a.setAttribute('aria-current','page');
   a.innerHTML='<span class="mc-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+t[2]+'</svg></span><span class="mc-tab-label">'+t[0]+'</span>';
   nav.appendChild(a);
