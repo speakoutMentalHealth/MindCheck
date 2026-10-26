@@ -140,3 +140,16 @@ body.mc-standalone-page main {
 @media (prefers-reduced-motion: reduce) {
   #mc-premium-tabs.mc-unified-nav * { animation: none !important; transition: none !important; }
 }
+
+/* Active styling must not depend on transient dashboard-stage classes.
+   Both link and button tabs use the same current-page visual treatment. */
+#mc-premium-tabs.mc-unified-nav .mc-nav-tab[aria-current="page"] {
+  color: var(--mc-tab-dock-active) !important;
+  font-weight: 850 !important;
+}
+#mc-premium-tabs.mc-unified-nav .mc-nav-tab[aria-current="page"] .mc-tab-icon {
+  background: var(--mc-tab-dock-active) !important;
+  border-color: var(--mc-tab-dock-active) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(23,84,59,.2) !important;
+}
