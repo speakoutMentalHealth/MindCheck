@@ -15,8 +15,9 @@ try{
   const action=await page.locator('.mc-primary-action').boundingBox();assert(action.y+action.height<=height,'primary action above fold');
   if(width===390)await page.waitForTimeout(350);
   if(width===390)await page.screenshot({path:'/tmp/mc-compact-welcome.png'});
-  await page.locator('.mc-primary-action').click();await page.locator('#moodSection.active').waitFor();
-  await page.locator('[data-mc-nav-target="homeSection"]').click();await page.locator('#homeSection.active').waitFor();
+  await page.locator('.mc-primary-action').click();await page.waitForURL('**/daily-life.html');
+  assert(await page.getByText('My Buddy',{exact:true}).first().isVisible(),'primary action opens My Buddy');
+  await page.goto('http://127.0.0.1:8775/index.html?section=homeSection');await page.locator('#homeSection.active').waitFor();
   const homeSize=await page.evaluate(()=>({overflow:document.documentElement.scrollHeight-innerHeight,width:document.documentElement.scrollWidth}));
   if(width<=430)assert(homeSize.overflow<=60,'dashboard excessive scroll '+JSON.stringify({width,height,...homeSize}));
   for(const id of ['mcOpenBreathing','mcOpenJourney']){const b=await page.locator('#'+id).boundingBox();assert(b.y+b.height<height-65,'home tools above navigation');}
@@ -63,8 +64,9 @@ try{
   page.on('pageerror',e=>errors.push(e.message));page.on('dialog',async d=>{dialogs.push(d.message());await d.dismiss()});
   await page.goto('http://127.0.0.1:8775/');await page.locator('body.mc-home-compact').waitFor();
   await page.locator('.mc-home-install').click();assert.match(await page.locator('#mcInstallTitle').innerText(),/Ajouter/);await page.locator('#mcInstallClose').click();
-  await page.locator('.mc-primary-action').click();await page.locator('#moodSection.active').waitFor();
-  await page.locator('[data-mc-nav-target="homeSection"]').click();await page.locator('#mcOpenBreathing').click();
+  await page.locator('.mc-primary-action').click();await page.waitForURL('**/daily-life.html');
+  await page.goto('http://127.0.0.1:8775/index.html?section=homeSection');await page.locator('#homeSection.active').waitFor();
+  await page.locator('#mcOpenBreathing').click();
   await page.locator('#mcBreathingStart').click();assert.equal(await page.locator('#mcBreathing').getAttribute('data-breath-state'),'running');
   await page.locator('#mcHomeSheetClose').click();await page.locator('#mcLanguageSelect').selectOption('ha');
   await page.locator('#mcOpenJourney').click();await page.locator('#mcHomeSheetClose').click();
