@@ -13,10 +13,10 @@ function script(){return new Promise((resolve,reject)=>{if(window.google?.accoun
 function auth(action){if(!clientId){say('Google Drive is not configured. Download a copy instead.');return}pending=action;try{if(!window.google?.accounts?.oauth2){say('Google sign-in is loading. Tap Save Diary again in a moment, or open in Safari if this browser blocks sign-in.');void script().catch(()=>say('Google sign-in could not load. Open My Buddy in Safari and try again.'));return}if(!oauthClient)oauthClient=google.accounts.oauth2.initTokenClient({client_id:clientId,scope,callback:response=>{if(!response?.access_token){say('Google sign-in was cancelled or not approved.');return}token=response.access_token;ui();const next=pending;pending='';if(next==='save')void upload();else if(next==='list')void browse()}});oauthClient.requestAccessToken({prompt:'consent'})}catch(e){say('Unable to open Google sign-in. Try again in your browser.')}}
 async function api(url,options={}){if(!token)throw Error('Connect your Google Drive to continue.');const response=await fetch(url,{...options,headers:{Authorization:'Bearer '+token,...(options.headers||{})}});if(response.status===401){token='';ui();throw Error('Google connection expired. Tap Save Diary to reconnect.')}if(!response.ok)throw Error('Google Drive could not complete the request ('+response.status+').');return response}
 function snapshot(){return {version:1,title:(titleInput?.value||'').trim().slice(0,100),date:new Date().toISOString(),mood:document.getElementById('buddy-mood')?.value||'',journal:document.getElementById('journal')?.value||'',tasks:Array.from(document.querySelectorAll('#tasks .task'),li=>({text:li.querySelector('span')?.textContent||'',done:!!li.querySelector('input')?.checked}))}}
-function safeTitle(value){return String(value||'').replace(/[\\/<>:"|?*\\x00-\\x1F]/g,' ').trim().slice(0,100)||'My Diary'}
+function safeTitle(value){return String(value||'').replace(/[\\/<>:"|?*\x00-\x1F]/g,' ').trim().slice(0,100)||'My Diary'}
 function displayName(file){
- const raw=file.name.replace(/^MindCheck My Buddy /,'').replace(/\\.json$/i,'');
- const match=raw.match(/^(.*?) -- \\d{4}-\\d{2}-\\d{2}T/);
+ const raw=file.name.replace(/^MindCheck My Buddy /,'').replace(/\.json$/i,'');
+ const match=raw.match(/^(.*?) -- \d{4}-\d{2}-\d{2}T/);
  return match?safeTitle(match[1]):'My Diary';
 }
 function fileRow(file){
@@ -41,7 +41,7 @@ async function upload(){
  try{
  const date=new Date();const name='MindCheck My Buddy '+safeTitle(data.title)+' -- '+date.toISOString().replace(/[:.]/g,'-')+'.json';
  const metadata={name,mimeType:'application/json',description:'MindCheck My Buddy diary'};
- const boundary='buddy'+Date.now();const body='--'+boundary+'\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n'+JSON.stringify(metadata)+'\\r\\n--'+boundary+'\\r\\nContent-Type: application/json; charset=UTF-8\\r\\n\\r\\n'+JSON.stringify(data)+'\\r\\n--'+boundary+'--';
+ const boundary='buddy'+Date.now();const body='--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(metadata)+'\r\n--'+boundary+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(data)+'\r\n--'+boundary+'--';
  const response=await api('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name',{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+boundary},body});
  const saved=await response.json();lastSaveId=saved.id||'';currentId=lastSaveId;
  say('Saved successfully to Google Drive. See your diary below.','success');
