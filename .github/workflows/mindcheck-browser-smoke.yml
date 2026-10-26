@@ -15,6 +15,7 @@ on:
       - '*.css'
       - 'scripts/browser-smoke.cjs'
       - 'scripts/age-entry-smoke.cjs'
+      - 'scripts/buddy-assessment-smoke.cjs'
       - 'scripts/language-switch-smoke.cjs'
       - 'scripts/translation-coverage-smoke.cjs'
       - 'scripts/breathing-studio-smoke.cjs'
@@ -48,6 +49,8 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Check DOB age-entry and youth navigation
         run: node scripts/age-entry-smoke.cjs
+      - name: Check My Buddy and assessment filters without live Drive access
+        run: node scripts/buddy-assessment-smoke.cjs
       - name: Check counsellor pathway interactions and accessibility
         run: node scripts/counsellor-pathway-smoke.cjs
       - name: Check Training Centre learning flow and accessibility
