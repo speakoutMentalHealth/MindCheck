@@ -83,3 +83,23 @@ body.mc-stage-dashboard,body.mc-standalone-page{padding-bottom:calc(110px + env(
 body.mc-standalone-page main{padding-bottom:calc(100px + env(safe-area-inset-bottom))!important}
 @media(max-width:380px){:root{--mc-dock-lift:9px}body.mc-stage-dashboard .mc-premium-tabs,body.mc-standalone-page .mc-premium-tabs{width:calc(100% - 12px)!important;padding:5px!important;gap:0!important}}
 @media(prefers-reduced-motion:reduce){body .mc-premium-tabs *{transition:none!important}}
+
+/* The homepage's legacy inline #mc-premium-tabs rule has ID specificity.
+   Override it explicitly; otherwise left:12px combines with translateX(-50%)
+   and sends the first touch targets outside narrow phone viewports. */
+body.mc-stage-dashboard #mc-premium-tabs,
+body.mc-home-compact.mc-stage-dashboard #mc-premium-tabs,
+body.mc-standalone-page #mc-premium-tabs{
+  position:fixed!important;
+  inset:auto auto calc(var(--mc-dock-lift) + env(safe-area-inset-bottom)) 50%!important;
+  transform:translateX(-50%)!important;
+  width:min(760px,calc(100vw - 22px))!important;
+  max-width:calc(100vw - 12px)!important;
+}
+@media(max-width:380px){
+  body.mc-stage-dashboard #mc-premium-tabs,
+  body.mc-home-compact.mc-stage-dashboard #mc-premium-tabs,
+  body.mc-standalone-page #mc-premium-tabs{
+    width:calc(100vw - 12px)!important;
+  }
+}
