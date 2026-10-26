@@ -186,6 +186,9 @@ async function run() {
       assert.equal(await page.locator('.buddy-mood[aria-pressed="true"]').count(),1,'one mood selected');
       await page.locator('.buddy-mood').nth(2).click();
       assert.equal(await page.locator('.buddy-mood[aria-pressed="true"]').count(),1,'selecting another mood replaces the previous selection');
+      // A saved My Buddy check-in must immediately update the shared badge display.
+      assert.equal(await page.locator('#mcBadgeProgress').inputValue(),'1','first daily mood check-in updates the 20-day badge progress');
+      assert.match(await page.locator('#badgesGrid').innerText(),/First Check-in/,'My Buddy check-in renders the first badge');
       assert.deepEqual(checkinRequests,[],'mood selection must never leave this device');
       await page.goto('http://127.0.0.1:8765/index.html?section=homeSection',{waitUntil:'domcontentloaded'});
       await page.locator('#homeSection.active').waitFor();
