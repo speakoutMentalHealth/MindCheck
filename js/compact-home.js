@@ -53,7 +53,8 @@ function mount(){
   document.getElementById('homeTitle').textContent=copy('question');
   document.querySelector('.mc-dashboard-lead').textContent=copy('private');
   document.querySelector('.mc-dashboard-kicker').textContent=copy('eyebrow');
-  document.querySelector('.mc-dashboard-main-action').textContent=copy('start');
+  document.querySelector('.mc-dashboard-main-action').textContent='Open My Buddy →';
+  document.querySelector('.mc-front-discover-grid [data-hc-nav="navMood"]').textContent='My Buddy';
   document.getElementById('mcHomeSheetClose').setAttribute('aria-label',copy('close'));
   document.getElementById('mcHomeSheetTitle').textContent=copy(sheet.dataset.panel==='journey'?'journey':'breathe');
   document.querySelector('.mc-brand strong').textContent='MindCheck';document.querySelector('.mc-brand small').textContent='SpeakOut Mental Health';
@@ -80,13 +81,14 @@ function mount(){
  // The visible language control makes a second language-selection screen unnecessary.
  function enter(target){
   if(!body.classList.contains('mc-stage-dashboard')){document.getElementById('startBtn').click();document.querySelector('.tbtn.live[data-lang="'+(language())+'"]').click();}
-  document.getElementById(target).click();window.scrollTo({top:0,behavior:'auto'});
+  if(target)document.getElementById(target).click();window.scrollTo({top:0,behavior:'auto'});
  }
- document.querySelector('.mc-primary-action').addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();enter('goMood');},true);
+ document.querySelector('.mc-primary-action').addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();enter(null);},true);
  const cards=Array.from(document.querySelectorAll('.mc-front-discover-card'));
  for(const [index,target] of ['goMood','goTips','goHelp'].entries()){
   const card=cards[index],link=document.createElement('a');link.className=card.className;link.innerHTML=card.innerHTML;link.querySelector('strong').dataset.hcNav=['navMood','navWellness','navSupport'][index];link.href='index.html?section='+['moodSection','tipsSection','helpSection'][index];
-  link.addEventListener('click',event=>{event.preventDefault();enter(target);});card.replaceWith(link);
+  if(index===0){link.href='daily-life.html';link.querySelector('strong').textContent='My Buddy';link.addEventListener('click',event=>{event.preventDefault();window.location.assign('daily-life.html')});}
+  else link.addEventListener('click',event=>{event.preventDefault();enter(target);});card.replaceWith(link);
  }
  document.querySelector('.mc-front-discover-title').hidden=true;
  const install=document.getElementById('mcInstallBanner');
