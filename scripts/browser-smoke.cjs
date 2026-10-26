@@ -49,9 +49,9 @@ async function run() {
       await denied.addInitScript(()=>{Object.defineProperty(window,'localStorage',{configurable:true,get(){throw new DOMException('Storage blocked','SecurityError')}});});
       const deniedPage=await denied.newPage();const deniedErrors=[];
       deniedPage.on('pageerror',e=>deniedErrors.push(e.message));
-      await deniedPage.goto('http://127.0.0.1:8765/index.html?section=moodSection',{waitUntil:'domcontentloaded'});
-      await deniedPage.locator('.mood[data-val="2"]').click();
-      assert.match(await deniedPage.locator('#moodResult').innerText(),/cannot save/,'storage denial is explained');
+      await deniedPage.goto('http://127.0.0.1:8765/daily-life.html',{waitUntil:'domcontentloaded'});
+      await deniedPage.locator('.buddy-mood').nth(1).click();
+      assert.equal(await deniedPage.locator('.buddy-mood[aria-pressed="true"]').count(),1,'My Buddy remains usable when local storage is blocked');
       assert.deepEqual(deniedErrors,[],'storage denial must not break app');
       await denied.close();
     }
@@ -81,20 +81,20 @@ async function run() {
       const frontArtwork=page.locator('.mc-front-scene');
       assert(await frontArtwork.isVisible(),setup.name+' welcome artwork missing');
       await page.locator('.mc-front-door .mc-primary-action').click();
-      await page.waitForFunction(()=>document.getElementById('moodSection')?.classList.contains('active'));
-      assert(await page.locator('#moodSection').isVisible(),setup.name+' primary action must open a mood check directly');
-      // Explicitly enter the language stage; real browsers may restore onboarding state.
-      await page.evaluate(()=>{document.body.classList.remove('mc-stage-welcome','mc-stage-dashboard');document.body.classList.add('mc-stage-language');document.getElementById('langSection').classList.add('active');});
-      await page.locator('.tbtn.live[data-lang="en"]').click();
-      await page.waitForTimeout(250);
-      // The homepage redesign must render visually and preserve the primary Mood action.
+      await page.waitForURL('**/daily-life.html');
+      assert(await page.locator('.buddy-mood').first().isVisible(),setup.name+' primary action must open My Buddy');
+      await page.goto('http://127.0.0.1:8765/index.html?section=homeSection',{waitUntil:'domcontentloaded'});
+      await page.locator('#homeSection.active').waitFor();
+      // The adult dashboard was opened through the public Home route.
+      // The homepage redesign must render visually and preserve the primary My Buddy action.
       const hero=page.locator('#homeSection .mc-dashboard-hero');
       assert(await hero.isVisible(),setup.name+' redesigned hero missing');
       assert((await hero.boundingBox()).width>=Math.min(280,setup.viewport.width*.7),setup.name+' redesigned hero collapsed');
       await page.locator('.mc-dashboard-main-action').click();
-      await page.waitForFunction(()=>document.getElementById('moodSection')?.classList.contains('active'));
-      await page.locator('#moodBackHome').click();
-      await page.waitForFunction(()=>document.getElementById('homeSection')?.classList.contains('active'));
+      await page.waitForURL('**/daily-life.html');
+      assert(await page.locator('.buddy-mood').first().isVisible(),setup.name+' dashboard action must open My Buddy');
+      await page.goto('http://127.0.0.1:8765/index.html?section=homeSection',{waitUntil:'domcontentloaded'});
+      await page.locator('#homeSection.active').waitFor();
       assert.equal(await page.locator('.mc-front-door').isVisible(),false,setup.name+' first-visit promotional content persists in dashboard');
       await page.locator('#mcOpenBreathing').click();
       const breathColors=await page.locator('#mcBreathing').evaluate(el=>({title:getComputedStyle(el.querySelector('h4')).color,cue:getComputedStyle(el.querySelector('.mc-breathing-cue')).color}));
@@ -146,13 +146,14 @@ async function run() {
       const checkinRequests=[];
       await page.route('https://script.google.com/**',async route=>{checkinRequests.push(route.request().url());await route.abort();});
       await page.locator('[data-mc-nav-target="moodSection"]').click();
-      await page.locator('.mood[data-val="2"]').click();
-      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_mood_history')).length),1,'first check-in stored locally');
-      await page.locator('.mood[data-val="3"]').click();
-      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('mc_mood_history')).length),1,'daily duplicate does not add history');
-      assert.equal(await page.evaluate(()=>localStorage.getItem('mc_points')),'10','daily points awarded once');
-      assert.deepEqual(checkinRequests,[],'mood check-in must never leave this device');
-      await page.locator('#moodBackHome').click();
+      await page.waitForURL('**/daily-life.html');
+      await page.locator('.buddy-mood').nth(1).click();
+      assert.equal(await page.locator('.buddy-mood[aria-pressed="true"]').count(),1,'one mood selected');
+      await page.locator('.buddy-mood').nth(2).click();
+      assert.equal(await page.locator('.buddy-mood[aria-pressed="true"]').count(),1,'selecting another mood replaces the previous selection');
+      assert.deepEqual(checkinRequests,[],'mood selection must never leave this device');
+      await page.goto('http://127.0.0.1:8765/index.html?section=homeSection',{waitUntil:'domcontentloaded'});
+      await page.locator('#homeSection.active').waitFor();
       // Opening tips should show a translated tip; save/remove controls remain available.
       await page.locator('[data-mc-nav-target="tipsSection"]').click();
       assert((await page.locator('#tipText').innerText()).length>10,'missing wellness tip');
@@ -173,12 +174,17 @@ async function run() {
       assert((await page.locator('#tipText').innerText()).length>10,'translated tip is empty');
       // Cross-page navigation: start on Assessment Centre, then use each
       // fixed bottom tab and assert the destination screen is actually active.
-      for(const [label,target] of [['Mood','moodSection'],['Wellness','tipsSection'],['Support','helpSection'],['Awards','badgesSection'],['Home','homeSection']]){
+      for(const [label,target] of [['My Buddy','moodSection'],['Wellness','tipsSection'],['Support','helpSection'],['Awards','badgesSection'],['Home','homeSection']]){
         await page.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
         const tab=page.locator('#mc-premium-tabs .mc-standalone-tab[href*="'+target+'"]');
         await tab.click();
-        await page.waitForFunction(id=>document.body.classList.contains('mc-stage-dashboard')&&document.getElementById(id)?.classList.contains('active'),target,{timeout:5000});
-        assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' incorrect active tab '+label);
+        if(target==='moodSection'){
+          await page.waitForURL('**/daily-life.html');
+          assert(await page.locator('.buddy-mood').first().isVisible(),setup.name+' My Buddy tab broken');
+        }else{
+          await page.waitForFunction(id=>document.body.classList.contains('mc-stage-dashboard')&&document.getElementById(id)?.classList.contains('active'),target,{timeout:5000});
+          assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' incorrect active tab '+label);
+        }
       }
       // Library filters change visible pathways without removing their disclosures.
       await page.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
