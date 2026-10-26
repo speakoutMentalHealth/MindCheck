@@ -16,9 +16,11 @@ try{
   await p.goto(origin+'guide.html?topic=mood');await p.locator('#mcGuideAnswer').waitFor({state:'visible'});
   assert((await p.locator('#mcGuideAnswer').innerText()).trim().length>20,'prepared answer present');
   assert.equal(calls.length,0,'guide must not auto-send requests');
-  await p.goto(origin+'index.html');await p.locator('.mc-ai-guide-entry').click();
-  await p.waitForURL(url=>url.pathname.endsWith('/guide.html'));
-  assert.equal(new URL(p.url()).pathname,'/guide.html','guide entry opens guide page');
+  await p.goto(origin+'index.html');
+  const guideEntry=p.locator('.mc-ai-guide-entry');
+  assert.equal(await guideEntry.getAttribute('href'),'guide.html','Guide link targets dedicated page');
+  await p.goto(new URL(await guideEntry.getAttribute('href'),p.url()).href);
+  await p.locator('#mcGuideAnswer').waitFor({state:'visible'});
   await p.goto(origin+'index.html?section=moodSection');await p.waitForURL('**/daily-life.html');
   assert(await p.getByText('My Buddy',{exact:true}).first().isVisible(),'mood entry opens My Buddy');
   assert.equal(calls.length,0,'navigation must not send wellbeing data');
