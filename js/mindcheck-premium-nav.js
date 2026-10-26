@@ -46,15 +46,21 @@
       if(title){if(!title.hasAttribute('tabindex'))title.setAttribute('tabindex','-1');title.focus({preventScroll:true});}
     }
   }
+  function ensureUnifiedSkin(){
+    if(document.querySelector('link[href*="css/mindcheck-nav-unified.css"]'))return;
+    const skin=document.createElement('link');skin.rel='stylesheet';skin.href='css/mindcheck-nav-unified.css?v=20261026-v55';
+    document.head.appendChild(skin);
+  }
   function mount(){
+    ensureUnifiedSkin();
     if(document.getElementById('mc-premium-tabs'))return;
     const nav=document.createElement('nav');
     nav.id='mc-premium-tabs';
-    nav.className='mc-premium-tabs';
+    nav.className='mc-premium-tabs mc-unified-nav';
     nav.setAttribute('aria-label','MindCheck sections');
     ids.forEach(id=>{
       const button=document.createElement('button');
-      button.type='button';button.dataset.mcNavTarget=id;
+      button.type='button';button.className='mc-nav-tab';button.dataset.mcNavTarget=id;
       button.innerHTML='<span class="mc-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+icons[id]+'</svg></span><span class="mc-tab-label">'+labels[id]+'</span>';
       button.addEventListener('click',()=>{button.classList.remove('mc-tapped');void button.offsetWidth;button.classList.add('mc-tapped');navigate(id,false);});
       button.addEventListener('animationend',()=>button.classList.remove('mc-tapped'));
