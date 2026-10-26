@@ -12,6 +12,12 @@ async function checkUnifiedDock(page,setupName,activeTarget){
     const skin=document.querySelector('link[href*="css/mindcheck-nav-unified.css"]');
     return nav?.classList.contains('mc-unified-nav')&&!!skin?.sheet&&nav.querySelector('[aria-current="page"]')?.dataset.mcNavTarget===target;
   },activeTarget,{timeout:12000});
+  // A tab may become current just before its CSS transition finishes.
+  // Require the fully painted selected appearance, not a transient frame.
+  await page.waitForFunction(target=>{
+    const selected=document.querySelector('#mc-premium-tabs .mc-nav-tab[aria-current="page"]');
+    return selected?.dataset.mcNavTarget===target && getComputedStyle(selected.querySelector('.mc-tab-icon')).backgroundColor==='rgb(25, 93, 75)';
+  },activeTarget,{timeout:5000});
   const info=await page.locator('#mc-premium-tabs').evaluate(nav=>{
     const box=nav.getBoundingClientRect(),style=getComputedStyle(nav);
     const tabs=[...nav.querySelectorAll('.mc-nav-tab')];
