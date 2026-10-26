@@ -26,7 +26,7 @@ function refresh(){
  }
  document.querySelectorAll('[data-mcw]').forEach(el=>{el.textContent=locale.t(el.dataset.mcw);});
  const names=['navHome','navMood','navAssessments','navWellness','navSupport','navAwards'];
- document.querySelectorAll('#mc-premium-tabs .mc-tab-label').forEach((el,i)=>{if(names[i]){el.textContent=locale.t(names[i]);el.lang=code;}});
+ document.querySelectorAll('#mc-premium-tabs .mc-tab-label').forEach((el,i)=>{if(names[i]){el.textContent=names[i]==='navMood'?'My Buddy':locale.t(names[i]);el.lang=code;}});
  document.getElementById('tipShareBtn')?.replaceChildren(document.createTextNode(locale.t('shareTip')));
  document.querySelector('#tipsSection [aria-label="Filter tips"],#tipsSection [data-localized-filter]')?.setAttribute('data-localized-filter','true');
  document.querySelector('#tipsSection [data-localized-filter]')?.setAttribute('aria-label',locale.t('filterTips'));
