@@ -89,3 +89,11 @@ body.mc-home-compact .mc-home-install:active{transform:scale(.98);background:#d9
 body.mc-home-compact .mc-home-install[hidden]{display:none!important}
 #mcInstallDialog{max-height:calc(100dvh - 28px);overflow-y:auto;overscroll-behavior:contain;background:#fffefa}
 @media(prefers-reduced-motion:reduce){body.mc-home-compact .mc-home-install{transition:none}}
+
+/* Tiny phones: allow the longer companion label without adding welcome scroll. */
+@media(max-width:340px) and (max-height:620px){
+ body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-hero{padding:19px 18px!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door h1{margin:13px 0 8px!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-door .mc-primary-action{margin-top:12px!important;font-size:.81rem!important;letter-spacing:-.015em!important;padding:10px 7px!important;min-height:44px!important}
+ body.mc-home-compact.mc-stage-welcome .mc-front-discover{padding-top:8px!important}
+}

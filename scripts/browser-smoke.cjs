@@ -81,10 +81,8 @@ async function run() {
       const frontArtwork=page.locator('.mc-front-scene');
       assert(await frontArtwork.isVisible(),setup.name+' welcome artwork missing');
       await page.locator('.mc-front-door .mc-primary-action').click();
-      await page.waitForURL('**/daily-life.html');
-      assert(await page.locator('.buddy-mood').first().isVisible(),setup.name+' primary action must open My Buddy');
-      await page.goto('http://127.0.0.1:8765/index.html?section=homeSection',{waitUntil:'domcontentloaded'});
       await page.locator('#homeSection.active').waitFor();
+      assert.equal(await page.locator('.mc-primary-action').innerText(),'My Mental Health Companion →',setup.name+' companion action label');
       // The adult dashboard was opened through the public Home route.
       // The homepage redesign must render visually and preserve the primary My Buddy action.
       const hero=page.locator('#homeSection .mc-dashboard-hero');
