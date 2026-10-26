@@ -897,7 +897,16 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
     const getPoints=()=>Number(getJSON(KEY_POINTS, 0))||0;
     const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
     const addPoints=n=>setPoints(getPoints()+n);
-    const getStreak=()=>Number(getJSON(KEY_STREAK, 0))||0;
+    // A streak counts consecutive calendar days, not repeated emoji taps.
+    // Yesterday's check-in remains active until the end of today.
+    const getStreak=()=>{
+      const count=Number(getJSON(KEY_STREAK,0))||0;
+      const last=getLast();
+      if(!last)return 0;
+      const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+      const y=[yesterday.getFullYear(),String(yesterday.getMonth()+1).padStart(2,'0'),String(yesterday.getDate()).padStart(2,'0')].join('-');
+      return last===todayStr()||last===y?count:0;
+    };
     const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
     const getLast=()=>{try{return localStorage.getItem(KEY_LAST)||'';}catch(_){return '';}};
     const setLast=v=>localStorage.setItem(KEY_LAST, v);
@@ -985,6 +994,9 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
         ${newly.length ? `<p>🏅 ${mcT('newBadges')}: <b>${newly.join(', ')}</b></p>` : ''}
       `;
       updateHeaderPills();
+      renderBadges();
+      renderAwards();
+      window.dispatchEvent(new Event('mc:progress-updated'));
       maybeShowCrisis();
 
       // Mood history stays on this device. Never transmit check-ins or a device ID.
@@ -1023,6 +1035,8 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
     ];
     function renderBadges(){
       const owned=new Set(getBadges());
+      const meter=document.getElementById('mcBadgeProgress');
+      if(meter){meter.value=Math.min(STREAK_BADGE_DAYS,getStreak());meter.setAttribute('aria-valuetext',getStreak()+' of '+STREAK_BADGE_DAYS+' consecutive days');}
       badgesGrid.innerHTML = BADGE_CATALOG.map(b=>{
         const unlocked=owned.has(b.id);
         return `
