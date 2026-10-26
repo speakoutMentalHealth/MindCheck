@@ -9,8 +9,19 @@ const titleInput=document.getElementById('buddy-diary-title');
 let currentId='',lastSaveId='';
 const say=(message,state='info')=>{status.textContent=message;status.dataset.state=state};
 function ui(){save.disabled=busy;list.disabled=busy;disconnect.disabled=!token||busy}
-function script(){return new Promise((resolve,reject)=>{if(window.google?.accounts?.oauth2)return resolve();const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;s.onload=resolve;s.onerror=()=>reject(Error('Google sign-in could not load'));document.head.append(s)})}
-function auth(action){if(!clientId){say('Google Drive is not configured. Download a copy instead.');return}pending=action;try{if(!window.google?.accounts?.oauth2){say('Google sign-in is loading. Tap Save Diary again in a moment, or open in Safari if this browser blocks sign-in.');void script().catch(()=>say('Google sign-in could not load. Open My Buddy in Safari and try again.'));return}if(!oauthClient)oauthClient=google.accounts.oauth2.initTokenClient({client_id:clientId,scope,callback:response=>{if(!response?.access_token){say('Google sign-in was cancelled or not approved.');return}token=response.access_token;ui();const next=pending;pending='';if(next==='save')void upload();else if(next==='list')void browse()}});oauthClient.requestAccessToken({prompt:'consent'})}catch(e){say('Unable to open Google sign-in. Try again in your browser.')}}
+let googleScriptLoading=null;
+function script(){
+ if(window.google?.accounts?.oauth2)return Promise.resolve();
+ if(googleScriptLoading)return googleScriptLoading;
+ googleScriptLoading=new Promise((resolve,reject)=>{
+  const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
+  s.onload=()=>window.google?.accounts?.oauth2?resolve():reject(Error('Google sign-in was not initialized'));
+  s.onerror=()=>reject(Error('Google sign-in could not load'));
+  document.head.append(s);
+ }).catch(error=>{googleScriptLoading=null;throw error});
+ return googleScriptLoading;
+}
+function auth(action){if(!clientId){say('Google Drive is not configured. Download a copy instead.');return}pending=action;try{if(!window.google?.accounts?.oauth2){say('Preparing Google sign-in…');void script().then(()=>say('Google sign-in is ready. Tap Save Diary or Refresh diaries to continue.')).catch(()=>say('Google sign-in could not load. Open My Buddy in Safari and try again.','error'));return}if(!oauthClient)oauthClient=google.accounts.oauth2.initTokenClient({client_id:clientId,scope,callback:response=>{if(!response?.access_token){say('Google sign-in was cancelled or not approved.');return}token=response.access_token;ui();const next=pending;pending='';if(next==='save')void upload();else if(next==='list')void browse()}});oauthClient.requestAccessToken({prompt:'consent'})}catch(e){say('Unable to open Google sign-in. Try again in your browser.')}}
 async function api(url,options={}){if(!token)throw Error('Connect your Google Drive to continue.');const response=await fetch(url,{...options,headers:{Authorization:'Bearer '+token,...(options.headers||{})}});if(response.status===401){token='';ui();throw Error('Google connection expired. Tap Save Diary to reconnect.')}if(!response.ok)throw Error('Google Drive could not complete the request ('+response.status+').');return response}
 function snapshot(){return {version:1,title:(titleInput?.value||'').trim().slice(0,100),date:new Date().toISOString(),mood:document.getElementById('buddy-mood')?.value||'',journal:document.getElementById('journal')?.value||'',tasks:Array.from(document.querySelectorAll('#tasks .task'),li=>({text:li.querySelector('span')?.textContent||'',done:!!li.querySelector('input')?.checked}))}}
 function safeTitle(value){return String(value||'').replace(/[\\/<>:"|?*\x00-\x1F]/g,' ').trim().slice(0,100)||'My Diary'}
@@ -81,7 +92,9 @@ async function openDiary(id){
  if(data.version!==1||typeof data.journal!=='string'||data.journal.length>10000||!Array.isArray(data.tasks)||data.tasks.length>100)throw Error('This diary format is not supported.');
  if(titleInput)titleInput.value=typeof data.title==='string'?data.title.slice(0,100):'';
  document.getElementById('journal').value=data.journal;
- if(typeof data.mood==='string'&&['great','good','okay','low','anxious'].includes(data.mood))window.buddySelectMood?.(data.mood);
+ const savedMood=typeof data.mood==='string'&&['great','good','okay','low','anxious'].includes(data.mood)?data.mood:'';
+ // An older diary can contain writing without a recorded mood; never invent one or hide that writing.
+ window.buddySelectMood?.(savedMood,true);
  document.getElementById('tasks').replaceChildren();for(const task of data.tasks){if(task&&typeof task.text==='string'&&task.text.length<=180)window.buddyAddTask?.(task.text,!!task.done)}
  currentId=id;say('Saved diary opened. Changes are temporary until you save again.','success');document.getElementById('journal')?.scrollIntoView({behavior:'smooth',block:'center'});
  }catch(e){say(e.message,'error')}
