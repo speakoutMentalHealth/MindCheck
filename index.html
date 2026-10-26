@@ -706,6 +706,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
   <section id="helpSection" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="helpTitle">Get Help 📞</h2>
     <p class="mc-support-intro" data-support="intro">Find care. Learn new skills. Connect with SpeakOut.</p>
+    <nav class="mc-home-pathways" aria-label="Counselling and opportunities"><a href="become-a-counsellor.html">Become a counsellor</a><a href="ambassador.html">Become an ambassador</a><a href="#mcSupportContact">Speak to a counsellor</a><p>Contact SpeakOut about support and availability.</p></nav>
     <aside class="mc-support-urgent"><strong data-support="urgent">Need urgent help?</strong><p data-i18n="helpEmergencyDesc">If you're in immediate danger or feel unsafe, contact your local emergency number.</p><a href="tel:112" data-support="emergency">Call 112 · Nigeria emergency services</a></aside>
     <div class="mc-support-routes" role="group" aria-label="Support options">
       <button type="button" data-support-open="mcSupportCare"><span aria-hidden="true">♡</span><strong data-support="care">Professional care</strong><small data-support="careHint">Hospitals & referral options</small></button>
@@ -720,7 +721,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
       <div class="mc-support-actions"><a href="clinician-referral-preparation.html" data-support="prepare">Prepare for an appointment</a><a href="resources.html" data-support="resources">More clinics & resources</a></div>
     </details>
     <details class="mc-support-panel"><summary data-support="pathways">Training & ways to help</summary><div class="mc-support-actions"><a href="training-hub.html" data-support="learn">Learn & train</a><a href="become-a-counsellor.html" data-support="counsellor">Explore the counsellor pathway</a><a href="volunteers.html" data-support="volunteer">Get involved</a></div><p data-support="qualification">Learning and practice quizzes do not qualify you to provide professional counselling.</p><a href="guide.html?topic=training" data-support="guideTraining">Ask the AI Guide about training →</a></details>
-    <div class="mc-support-panel"><h3 data-support="contact">Contact SpeakOut</h3><p data-support="contactNote">For non-emergency enquiries and referral questions. Support hours and response times are not yet confirmed.</p><div class="mc-support-actions"><a href="tel:+2348118103510" data-support="call">Call SpeakOut</a><a href="https://wa.me/2348118103510" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a><a href="guide.html?topic=assessment" data-support="guide">✦ AI Guide</a></div></div>
+    <div class="mc-support-panel" id="mcSupportContact"><h3 data-support="contact">Contact SpeakOut</h3><p data-support="contactNote">For non-emergency enquiries and referral questions. Support hours and response times are not yet confirmed.</p><div class="mc-support-actions"><a href="tel:+2348118103510" data-support="call">Call SpeakOut</a><a href="https://wa.me/2348118103510" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a><a href="guide.html?topic=assessment" data-support="guide">✦ AI Guide</a></div></div>
     <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
 
@@ -897,7 +898,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
     const getPoints=()=>Number(getJSON(KEY_POINTS, 0))||0;
     const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
     const addPoints=n=>setPoints(getPoints()+n);
-    const getStreak=()=>Number(getJSON(KEY_STREAK, 0))||0;
+    const getStreak=()=>{const d=new Date();d.setDate(d.getDate()-1);const yesterday=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const last=getLast();return last===todayStr()||last===yesterday ? Number(getJSON(KEY_STREAK, 0))||0 : 0;};
     const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
     const getLast=()=>{try{return localStorage.getItem(KEY_LAST)||'';}catch(_){return '';}};
     const setLast=v=>localStorage.setItem(KEY_LAST, v);
