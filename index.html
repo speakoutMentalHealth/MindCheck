@@ -307,7 +307,13 @@ button:focus-visible,a:focus-visible{outline:3px solid #176a4b;outline-offset:3p
 .btn-primary{background:linear-gradient(120deg,#087a52,#16a34a);box-shadow:0 12px 28px rgba(13,128,82,.19);font-weight:700;min-height:48px}
 @media(max-width:600px){.btn{min-height:48px}body{overflow-wrap:anywhere}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-  </style>
+  
+/* Adult homepage visual refinement, scoped to avoid altering assessment forms. */
+body.mc-stage-welcome{background:radial-gradient(circle at 90% 0%,rgba(29,164,104,.10),transparent 38%),#f5fbf8}
+body.mc-stage-welcome :where(.card){min-width:0;overflow-wrap:anywhere}
+body.mc-stage-welcome :where(button,.btn,a):focus-visible{outline:3px solid #176b4b;outline-offset:3px}
+@media(max-width:600px){body.mc-stage-welcome :where(.grid)>*{min-width:0}}
+</style>
   <link rel="stylesheet" href="mc-polish.css?v=20261014">
   <!-- Scoped SpeakOut brand alignment; loaded after legacy inline styles -->
   <link rel="stylesheet" href="speakout-brand-unification.css">
