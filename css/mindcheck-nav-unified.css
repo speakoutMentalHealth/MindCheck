@@ -1,0 +1,142 @@
+/* The single MindCheck six-tab navigation design used by the adult dashboard
+   and all standalone pages. Keep this stylesheet as the last nav style.
+   Applies identically to button tabs (dashboard) and anchor tabs (other pages). */
+:root {
+  --mc-tab-dock-gap: 14px;
+  --mc-tab-dock-active: #195d4b;
+  --mc-tab-dock-fg: #476b5e;
+  --mc-tab-dock-line: #d9ebe0;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav,
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav {
+  position: fixed !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: space-between !important;
+  gap: 3px !important;
+  inset: auto auto calc(var(--mc-tab-dock-gap) + env(safe-area-inset-bottom)) 50% !important;
+  width: min(740px, calc(100vw - 22px)) !important;
+  max-width: calc(100vw - 12px) !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  box-sizing: border-box !important;
+  transform: translateX(-50%) !important;
+  background: rgba(255,255,255,.97) !important;
+  border: 1px solid var(--mc-tab-dock-line) !important;
+  border-radius: 25px !important;
+  box-shadow: 0 14px 38px rgba(15,55,42,.16) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  z-index: 1000 !important;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab,
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab {
+  flex: 1 1 0 !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  min-height: 66px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 5px 1px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 17px !important;
+  background: transparent !important;
+  color: var(--mc-tab-dock-fg) !important;
+  box-shadow: none !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font: 650 clamp(8px,2.3vw,12px)/1.15 Outfit,system-ui,sans-serif !important;
+  letter-spacing: -.015em !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab .mc-tab-icon,
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab .mc-tab-icon {
+  width: 37px !important;
+  height: 37px !important;
+  flex: 0 0 37px !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid #d6e8dd !important;
+  border-radius: 13px !important;
+  background: #eef7f0 !important;
+  color: #2c654f !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab svg,
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab svg {
+  width: 22px !important;
+  height: 22px !important;
+  display: block !important;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab .mc-tab-label,
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab .mc-tab-label {
+  display: block !important;
+  max-width: 100% !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  white-space: nowrap !important;
+  font: inherit !important;
+  color: inherit !important;
+  letter-spacing: inherit !important;
+  line-height: 1.15 !important;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab[aria-current="page"],
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab[aria-current="page"] {
+  background: transparent !important;
+  color: var(--mc-tab-dock-active) !important;
+  font-weight: 850 !important;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab[aria-current="page"] .mc-tab-icon,
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab[aria-current="page"] .mc-tab-icon {
+  background: var(--mc-tab-dock-active) !important;
+  border-color: var(--mc-tab-dock-active) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(23,84,59,.2) !important;
+  transform: none !important;
+}
+body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab:focus-visible,
+body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab:focus-visible {
+  outline: 3px solid #cf8b1f !important;
+  outline-offset: 0 !important;
+}
+body.mc-stage-dashboard,
+body.mc-standalone-page {
+  padding-bottom: calc(120px + env(safe-area-inset-bottom)) !important;
+}
+body.mc-standalone-page main {
+  padding-bottom: calc(105px + env(safe-area-inset-bottom)) !important;
+}
+@media (max-width: 380px) {
+  :root { --mc-tab-dock-gap: 10px; }
+  body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav,
+  body.mc-standalone-page #mc-premium-tabs.mc-unified-nav {
+    width: calc(100vw - 12px) !important;
+    padding: 6px 4px !important;
+    gap: 0 !important;
+  }
+  body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab,
+  body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab {
+    font-size: 8px !important;
+  }
+  body.mc-stage-dashboard #mc-premium-tabs.mc-unified-nav .mc-nav-tab .mc-tab-icon,
+  body.mc-standalone-page #mc-premium-tabs.mc-unified-nav .mc-nav-tab .mc-tab-icon {
+    width: 34px !important;
+    height: 34px !important;
+    flex-basis: 34px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #mc-premium-tabs.mc-unified-nav * { animation: none !important; transition: none !important; }
+}
