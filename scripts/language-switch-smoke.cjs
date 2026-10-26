@@ -24,6 +24,12 @@ const {readdirSync}=require('node:fs');
     const scrolled=await select.boundingBox();assert(scrolled.y>=0&&scrolled.y<160,path+' stays visible');
     await select.selectOption('en');
    }
+   // Complete the actual age gate before testing the adult dashboard language state.
+   await page.goto('http://127.0.0.1:8768/age-entry.html');
+   await page.locator('[data-choice="adult"]').click();
+   await page.locator('#birthdate').fill('1990-04-01');
+   await page.locator('#continue').click();
+   await page.waitForURL('**/index.html');
    await page.goto('http://127.0.0.1:8768/index.html?section=moodSection');
    const activeBefore=await page.locator('section.active').first().getAttribute('id');
    await page.locator('#mcLanguageSelect').selectOption('fr');
