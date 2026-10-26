@@ -174,11 +174,13 @@ async function run() {
       // fixed bottom tab and assert the destination screen is actually active.
       for(const [label,target] of [['My Buddy','moodSection'],['Wellness','tipsSection'],['Support','helpSection'],['Awards','badgesSection'],['Home','homeSection']]){
         await page.goto('http://127.0.0.1:8765/assessment-centre.html',{waitUntil:'domcontentloaded'});
-        const tab=page.locator('#mc-premium-tabs .mc-standalone-tab[href*="'+target+'"]');
+        const tab=page.locator(target==='moodSection'?'#mc-premium-tabs .mc-standalone-tab[href="daily-life.html"]':'#mc-premium-tabs .mc-standalone-tab[href*="'+target+'"]');
         await tab.click();
         if(target==='moodSection'){
           await page.waitForURL('**/daily-life.html');
           assert(await page.locator('.buddy-mood').first().isVisible(),setup.name+' My Buddy tab broken');
+          assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' My Buddy active tab missing');
+          assert.equal(await page.locator('#mc-premium-tabs a[aria-current="page"] .mc-tab-label').innerText(),'My Buddy');
         }else{
           await page.waitForFunction(id=>document.body.classList.contains('mc-stage-dashboard')&&document.getElementById(id)?.classList.contains('active'),target,{timeout:5000});
           assert.equal(await page.locator('#mc-premium-tabs [aria-current="page"]').count(),1,setup.name+' incorrect active tab '+label);

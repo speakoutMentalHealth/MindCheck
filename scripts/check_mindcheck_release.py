@@ -155,7 +155,7 @@ check("offline cache version updated", EXPECTED_CACHE in sw)
 # Ensure the six-tab navigation persists on every standalone MindCheck HTML page.
 standalone=(ROOT/"js/mindcheck-standalone-nav.js").read_text(encoding="utf-8")
 check("shared tab navigation cached", "'./js/mindcheck-standalone-nav.js'" in sw)
-check("all six shared tabs", all(label in standalone for label in ("Home","Mood","Assessments","Wellness","Support","Awards")))
+check("all six shared tabs", all(label in standalone for label in ("Home","My Buddy","Assessments","Wellness","Support","Awards")))
 check("safe area space under persistent tabs", "env(safe-area-inset-bottom)" in (ROOT/"mindcheck-premium-nav.css").read_text(encoding="utf-8"))
 for page in ("assessment-centre.html","adhd.html","audit-screening.html","pcl5-screening.html","sleep-awareness.html","trauma-awareness.html","suicide-support.html","professional-assessments.html","clinical-assessment-guide.html","clinician-referral-preparation.html","resources.html","training-hub.html","volunteers.html","monitoring.html","certificate.html","verify.html"):
     body=(ROOT/page).read_text(encoding="utf-8")
