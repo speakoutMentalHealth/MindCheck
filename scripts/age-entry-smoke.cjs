@@ -17,7 +17,12 @@ assert.match(await page.locator('#group').innerText(),/under 13/i);
 assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('kids-mode')),true,'child route uses Kids Mode');
 assert.match(await page.locator('#welcome').innerText(),/Feelings Adventure/);
 assert.equal(await page.locator('#adventure-map').isVisible(),true,'Kids Mode adventure map visible');
-assert.equal(await page.locator('.adventure-stop').count(),5,'five optional adventure destinations');
+assert.equal(await page.locator('.adventure-stop').count(),6,'six optional adventure destinations');
+assert.deepEqual(await page.locator('.adventure-stop strong').allTextContents(),[
+  'Feelings Garden','Story Street','Skills Studio','Calm Corner','Kiddies TV','Kiddies Learn'
+],'the six adventure destinations match the intended youth experience');
+assert.equal(await page.locator('.adventure-stop').filter({hasText:'Kiddies TV'}).getAttribute('href'),'https://speakoutmentalhealth.org/kiddies-tv.html','Kiddies TV uses its child-focused destination');
+assert.equal(await page.locator('.adventure-stop').filter({hasText:'Kiddies Learn'}).getAttribute('href'),'https://speakoutmentalhealth.org/kiddies.html','Kiddies Learn uses its education destination');
 assert.equal(await page.locator('#activities').isVisible(),false,'other sections hidden on home');
 const menuLayout=await page.locator('.youth-section-menu').evaluate(nav=>({fits:nav.scrollWidth<=nav.clientWidth+2,allVisible:[...nav.querySelectorAll('a:not([hidden])')].every(link=>{const a=link.getBoundingClientRect(),n=nav.getBoundingClientRect();return a.left>=n.left-2&&a.right<=n.right+2&&a.height>=44})}));
 assert.equal(menuLayout.fits,true,'all menu destinations fit without horizontal scrolling');

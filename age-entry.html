@@ -25,13 +25,15 @@ input{min-height:48px}
 </main><script>
 (()=>{'use strict';
 const form=document.getElementById('age-form'),input=document.getElementById('birthdate'),message=document.getElementById('message');
+// Keep the choice state consistent with the form's actual required DOB field.
+
 let selected=null;
 const now=new Date();input.max=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
 document.querySelectorAll('[data-choice]').forEach(button=>button.addEventListener('click',()=>{
  selected=button.dataset.choice;
  document.querySelectorAll('[data-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
  message.textContent='';
- form.hidden=false;document.getElementById('continue').disabled=false;input.focus();
+ form.hidden=false;document.getElementById('continue').disabled=false;input.required=true;input.focus();
 }));
 form.addEventListener('submit',event=>{
  event.preventDefault();message.textContent='';
