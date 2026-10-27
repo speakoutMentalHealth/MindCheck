@@ -1,0 +1,48 @@
+name: Community live deployment audit
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/community-live-audit.cjs'
+      - 'scripts/community-live-mobile.cjs'
+      - '.github/workflows/community-live-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-live-community:
+    name: Verify published adult Community assets (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check public HTML, styles, PWA cache and disabled forum feature
+        run: node scripts/community-live-audit.cjs
+
+  check-live-mobile:
+    name: Check iPhone-width design, filters and read-only forum
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run read-only production layout and age-navigation checks
+        run: node scripts/community-live-mobile.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-community-screenshots
+          path: artifacts/live-community/
+          if-no-files-found: warn
+          retention-days: 7
