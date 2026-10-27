@@ -45,6 +45,12 @@ const origin = "http://127.0.0.1:8799/";
       await page.locator("#continue").click();
       await page.waitForURL("**/index.html");
       await page.goto(origin+"index.html?section=homeSection");
+      // The adult home initially shows the welcome stage on a fresh session.
+      // Enter its existing companion journey before testing dashboard cards.
+      if (!await page.locator("#homeSection.active").isVisible()) {
+        await page.locator(".mc-front-door .mc-primary-action").click();
+        await page.locator("#homeSection.active").waitFor();
+      }
       assert.equal(await page.locator("#goCommunity").count(),1,
         "Adult home has exactly one Community feature card.");
       assert.equal(await page.locator('header .mc-community-nav-entry').count(),1);
