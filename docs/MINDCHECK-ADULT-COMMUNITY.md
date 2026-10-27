@@ -39,3 +39,22 @@ Welcome & Announcements; Learning & ICT; Career & Opportunities; Networking & Me
 - [ ] Only then turn on the community handoff through a separate, reviewed configuration change. Do not treat this front-end switch as authorization.
 
 Do not change age-entry gating, activate public posting or merge unfinished backend forum PRs merely to expose a link.
+
+## Hands-on room testing before the real forum launches
+
+1. Open the MindCheck 18+ Community page.
+2. Select **Try room** beside any of the six planned spaces.
+3. In the dedicated `community-preview.html?room=...` sandbox, browse example threads, filter discussions, submit an example topic or reply and inspect the simulated moderator queue.
+4. Select **Show demo moderation queue**, then approve/remove the pending sample item. Test the report interaction.
+5. Refresh the page and confirm example submissions have disappeared. The sandbox never imports Firebase, writes private MindCheck records, requests user identity or sends a forum POST.
+6. If no rooms are visible on the **real** SpeakOut `forum.html`, this is currently expected: the Firestore rule `forumRoomValid()` requires `published == false` for all browser-created/updated room documents. Signing in or editing client-side feature flags cannot bypass it.
+
+### Real forum pilot prerequisites
+
+- Use a separate, explicitly selected **staging Firebase project**. Never connect a production browser session to emulator permissions or seed a live production database with examples.
+- Create a few fictional staging room documents and synthetic approved-adult account grants; use scoped moderator assignments. The existing Firestore security emulator suite already seeds hypothetical published rooms for rule verification.
+- Confirm a verifiable adult enrolment procedure, one lead moderator and backup, reporting escalation and safe data deletion/retention; keep assessment, check-in and school records entirely independent.
+- Deploy required forum Firestore indexes, authorise **staging-only** room publication using audited administrative controls and verify forum topic/reply queries with real staging accounts.
+- After end-to-end staged moderation succeeds, plan a separately reviewed, explicit production publish capability. Until then the production public forum remains closed.
+
+A UX demo is useful for layout and interaction feedback; it **does not** certify real account security, moderation operations or the production data pipeline.
