@@ -2,10 +2,12 @@
 const assert = require("node:assert/strict");
 const targets = [
  {label:"MindCheck Community page",url:"https://mindcheck.speakoutmentalhealth.org/community.html",markers:["mc-c-hero","Community spaces","mcCommunityNotOpen"],mustPass:true},
- {label:"MindCheck community filters",url:"https://mindcheck.speakoutmentalhealth.org/js/mc-community-directory.js?v=20261027",markers:["data-c-filter","aria-pressed"],mustPass:true},
+ {label:"MindCheck community filters",url:"https://mindcheck.speakoutmentalhealth.org/js/mc-community-directory.js?v=20261027-demo",markers:["data-c-filter","aria-pressed"],mustPass:true},
+ {label:"MindCheck interactive room preview",url:"https://mindcheck.speakoutmentalhealth.org/community-preview.html?room=learn-build",markers:["community-room-preview.js","Moderator preview","DEMO MODE"],mustPass:true},
+ {label:"MindCheck preview interactions",url:"https://mindcheck.speakoutmentalhealth.org/js/community-room-preview.js?v=20261027",markers:["simulated moderator","sample discussion","roomDefinitions"],mustPass:true},
  {label:"MindCheck community styles",url:"https://mindcheck.speakoutmentalhealth.org/css/mindcheck-community.css?v=20261027-premium",markers:["white-space:nowrap","mc-home-community-tool"],mustPass:true},
  {label:"MindCheck premium home assets",url:"https://mindcheck.speakoutmentalhealth.org/js/compact-home.js?v=20261027-premium",markers:["mcHomeCommunityLink","Adults 18+"],mustPass:true},
- {label:"MindCheck PWA service worker",url:"https://mindcheck.speakoutmentalhealth.org/sw.js",markers:["mc-v62-premium-forum-20261027"],mustPass:true},
+ {label:"MindCheck PWA service worker",url:"https://mindcheck.speakoutmentalhealth.org/sw.js",markers:["mc-v63-adult-forum-room-preview-20261027"],mustPass:true},
  {label:"MindCheck launch-off setting",url:"https://mindcheck.speakoutmentalhealth.org/js/community-config.js?v=20261027",markers:["enabled: false"],mustPass:true},
  {label:"SpeakOut forum interior",url:"https://speakoutmentalhealth.org/forum.html",markers:["Community discussions","id=\"topicSearch\"","Preview — not launched."],mustPass:true}
 ];
@@ -27,5 +29,5 @@ async function check({label,url,markers,mustPass}){
  const failed=results.filter(r=>r.mustPass&&!r.ok);
  console.log("\nPUBLIC DEPLOYMENT SUMMARY: "+(failed.length?"INCOMPLETE / STALE / INACCESSIBLE":"ALL EXPECTED ASSETS LIVE"));
  if(failed.length){console.error("Failing targets: "+failed.map(x=>x.label).join(", "));process.exitCode=1;}
- else assert.equal(results.length,7);
+ else assert.equal(results.length,9);
 })().catch(e=>{console.error(e);process.exitCode=1;});
