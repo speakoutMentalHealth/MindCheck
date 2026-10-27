@@ -12,9 +12,11 @@ fs.mkdirSync(out,{recursive:true});
       await context.addInitScript(()=>{
         try{sessionStorage.setItem("mc-age-entry-band","adult");sessionStorage.setItem("mc-age-entry-adult","1");}catch(_){}
       });
-      let writes=0;
+      // Other MindCheck pages may send existing analytics/telemetry;
+      // block them in this read-only audit but never count them as forum writes.
+      let blockedWrites=0;
       await context.route("**/*", route=>{
-        if(!["GET","HEAD","OPTIONS"].includes(route.request().method())){writes++;return route.abort();}
+        if(!["GET","HEAD","OPTIONS"].includes(route.request().method())){blockedWrites++;return route.abort();}
         return route.continue();
       });
       const community=await context.newPage();
@@ -52,8 +54,25 @@ fs.mkdirSync(out,{recursive:true});
       const forumWidth=await forum.evaluate(()=>({screen:innerWidth,doc:document.documentElement.scrollWidth}));
       assert(forumWidth.doc<=forumWidth.screen+2,"Forum horizontal overflow at "+width+": "+JSON.stringify(forumWidth));
       await forum.screenshot({path:out+"/forum-"+width+".png",fullPage:true});
-      assert.equal(writes,0,"No write requests in live design QA");
-      console.log("PASS live mobile Community at "+width+"x"+height+"; no clipped title, no horizontal overflow, forum closed");
+      const preview=await context.newPage();
+      let previewWrites=0;
+      preview.on("request", req => {
+        if(!["GET","HEAD","OPTIONS"].includes(req.method())) previewWrites++;
+      });
+      await preview.goto("https://mindcheck.speakoutmentalhealth.org/community-preview.html?room=learn-build",{waitUntil:"domcontentloaded",timeout:30000});
+      await preview.locator("#roomTitle").waitFor();
+      assert.equal(await preview.locator("#roomList .space").count(),6,"Six example rooms can be entered");
+      assert.equal(await preview.locator("#topicList .topic").count(),2,"Two example discussions");
+      await preview.locator("#topicList .topic").first().click();
+      await preview.locator("#replyBody").fill("A simulated reply that remains only in the browser.");
+      await preview.locator('#replyForm button[type="submit"]').click();
+      await preview.locator("#moderatorMode").click();
+      assert.equal(await preview.locator("#queue li").count(),1,"Simulated moderation queue");
+      assert.equal(previewWrites,0,"Interactive example room does not submit browser data");
+      const previewWidth=await preview.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+      assert(previewWidth<=2,"Preview horizontal overflow "+width);
+      await preview.screenshot({path:out+"/preview-"+width+".png",fullPage:true});
+      console.log("PASS live mobile Community at "+width+"x"+height+"; demo room interactive; no forum writes; unrelated analytics blocked="+blockedWrites);
       await context.close();
     }
   } finally {await browser.close();}
