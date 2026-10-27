@@ -1,0 +1,24 @@
+name: Community live deployment audit
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/community-live-audit.cjs'
+      - '.github/workflows/community-live-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-live-community:
+    name: Verify published adult Community assets (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check public HTML, styles, PWA cache and disabled forum feature
+        run: node scripts/community-live-audit.cjs
