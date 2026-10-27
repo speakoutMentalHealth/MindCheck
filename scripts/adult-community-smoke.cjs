@@ -54,7 +54,9 @@ const origin = "http://127.0.0.1:8799/";
       assert.equal(await page.locator("#goCommunity").count(),1,
         "Adult home has exactly one Community feature card.");
       assert.equal(await page.locator('header .mc-community-nav-entry').count(),1);
-      await page.locator("#goCommunity").click();
+      assert(await page.locator("#mcCommunityHeroLink").isVisible(),
+        "18+ Community must be visible in the premium dashboard hero.");
+      await page.locator("#mcCommunityHeroLink").click();
       await page.waitForURL("**/community.html");
       assert.equal(await page.locator(".room").count(),6);
       assert.equal(await page.locator("#mcCommunityOpen").isVisible(),false,
