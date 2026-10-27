@@ -1,0 +1,43 @@
+/* Premium adult-only MindCheck Community entry. No youth navigation changes. */
+.mc-community-grid-card{position:relative;overflow:hidden;background:linear-gradient(140deg,#f7fffb 5%,#e6f5ed 65%,#e9f3fb 100%)!important;border:1px solid #b9dbce!important;text-decoration:none;color:#173d34!important}
+.mc-community-grid-card:focus-visible{outline:3px solid #196c52;outline-offset:4px}
+.mc-community-grid-card .mc-community-label{display:inline-block;margin-bottom:9px;font-size:.75rem;letter-spacing:.08em;font-weight:800;color:#23664e;text-transform:uppercase}
+.mc-community-grid-card .mc-community-symbol{font-size:2.25rem;line-height:1.2;display:block;margin-bottom:8px}
+.mc-community-grid-card p{color:#476658!important}
+.mc-community-grid-card .mc-community-next{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;font-weight:800;color:#17664a}
+.mc-community-note{font-size:.83rem;color:#536b62;line-height:1.5;margin:10px 0 0}
+@media(prefers-reduced-motion:reduce){.mc-community-grid-card{transition:none!important}}
+
+/* Compact premium home replaces legacy cards; this is the actual visible adult entry. */
+.mc-home-compact #homeSection .mc-home-community-cta{display:flex!important;align-items:center;gap:12px;min-height:65px;padding:10px 13px;border:1px solid #b9d9c9;background:linear-gradient(110deg,#f0faf4,#fff);color:#174b39;text-decoration:none;border-radius:19px;box-shadow:0 7px 23px #103a2910}
+.mc-home-community-cta:focus-visible{outline:3px solid #176a52;outline-offset:3px}
+.mc-home-community-mark{display:grid;place-items:center;flex:0 0 41px;height:41px;border-radius:13px;background:#dcefe4;color:#17674b;font-size:1.7rem}
+.mc-home-community-copy{display:grid;gap:1px;min-width:0;flex:1}.mc-home-community-copy strong{font-weight:850;font-size:.94rem;line-height:1.2}.mc-home-community-copy small{color:#507364;font-size:.76rem;line-height:1.35}
+.mc-home-community-status{font-size:.73rem;color:#176a4a;font-weight:760;text-align:right;max-width:115px}
+@media(max-width:350px){.mc-home-community-status{font-size:.67rem;max-width:83px}.mc-home-compact #homeSection .mc-home-community-cta{gap:8px}}
+
+/* Three equal, touch-friendly adult home tools. No extra vertical dashboard card. */
+body.mc-home-compact #homeSection .mc-home-tools{grid-template-columns:repeat(3,minmax(0,1fr));}
+body.mc-home-compact #homeSection .mc-home-community-tool{display:grid!important;text-decoration:none;background:linear-gradient(125deg,#e5f6ed,#fff);border-color:#b6d7c6;cursor:pointer;}
+body.mc-home-compact #homeSection .mc-home-community-tool strong{color:#175239;}
+body.mc-home-compact #homeSection .mc-home-community-tool small{color:#456a59;}
+body.mc-home-compact #homeSection .mc-home-community-tool:focus-visible{outline:3px solid #18684a;outline-offset:3px;}
+@media(max-width:420px){
+ body.mc-home-compact #homeSection .mc-home-tools{gap:7px;}
+ body.mc-home-compact #homeSection .mc-home-tool{min-width:0;min-height:74px;padding:8px 6px;gap:4px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+ body.mc-home-compact #homeSection .mc-home-tool strong{font-size:.82rem;letter-spacing:-.022em;line-height:1.22;}
+ body.mc-home-compact #homeSection .mc-home-tool small{font-size:.67rem;line-height:1.25;}
+}
+@media(max-width:355px) and (max-height:610px){
+ body.mc-home-compact #homeSection .mc-dashboard-hero{padding:16px!important;}
+ body.mc-home-compact #homeSection .mc-dashboard-lead{margin-bottom:9px!important;}
+ body.mc-home-compact #homeSection .mc-home-launch{margin-top:7px;gap:7px;}
+ body.mc-home-compact #homeSection .mc-home-tool{min-height:70px;padding:8px 4px;}
+ body.mc-home-compact #homeSection .mc-home-momentum{gap:12px;}
+}
+
+/* Reserve more vertical room for translated home copy on short phones without
+   shrinking touch targets or the fixed bottom-navigation safe area. */
+@media(max-width:430px){
+ body.mc-home-compact.mc-stage-dashboard #homeSection .mc-home-launch{margin-top:8px!important;gap:7px!important;}
+}
