@@ -7,3 +7,11 @@
 .mc-community-grid-card .mc-community-next{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;font-weight:800;color:#17664a}
 .mc-community-note{font-size:.83rem;color:#536b62;line-height:1.5;margin:10px 0 0}
 @media(prefers-reduced-motion:reduce){.mc-community-grid-card{transition:none!important}}
+
+/* Compact premium home replaces legacy cards; this is the actual visible adult entry. */
+.mc-home-compact #homeSection .mc-home-community-cta{display:flex!important;align-items:center;gap:12px;min-height:65px;padding:10px 13px;border:1px solid #b9d9c9;background:linear-gradient(110deg,#f0faf4,#fff);color:#174b39;text-decoration:none;border-radius:19px;box-shadow:0 7px 23px #103a2910}
+.mc-home-community-cta:focus-visible{outline:3px solid #176a52;outline-offset:3px}
+.mc-home-community-mark{display:grid;place-items:center;flex:0 0 41px;height:41px;border-radius:13px;background:#dcefe4;color:#17674b;font-size:1.7rem}
+.mc-home-community-copy{display:grid;gap:1px;min-width:0;flex:1}.mc-home-community-copy strong{font-weight:850;font-size:.94rem;line-height:1.2}.mc-home-community-copy small{color:#507364;font-size:.76rem;line-height:1.35}
+.mc-home-community-status{font-size:.73rem;color:#176a4a;font-weight:760;text-align:right;max-width:115px}
+@media(max-width:350px){.mc-home-community-status{font-size:.67rem;max-width:83px}.mc-home-compact #homeSection .mc-home-community-cta{gap:8px}}
