@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<script>/* Adult navigation safeguard only. Real forum membership is enforced independently. */try{if(sessionStorage.getItem("mc-age-entry-band")!=="adult"||sessionStorage.getItem("mc-age-entry-adult")!=="1")location.replace("age-entry.html");}catch(_){location.replace("age-entry.html");}</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7faf8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Interactive demonstration of SpeakOut Community rooms. All content is simulated; no posts are saved.">
+<title>Try the Community · MindCheck 18+</title>
+<link rel="icon" href="icons/logo.png">
+<style>
+*{box-sizing:border-box}
+:root{color-scheme:light;font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;background:#f5f8f6;color:#1b3e31}
+body{margin:0;min-height:100vh;background:#f5f8f6}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:#226549}
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid #288359;outline-offset:3px}
+header{background:#fff;border-bottom:1px solid #dbe8dd}
+.top{max-width:1220px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 21px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#174634;font-weight:830;letter-spacing:-.02em;white-space:nowrap}
+.mark{display:grid;place-items:center;width:37px;height:37px;background:#174d3b;color:#fff;border-radius:12px;font-size:1.2rem}
+.back{font-weight:740;text-decoration:none;color:#2c6850;font-size:.85rem}
+.page{max-width:1220px;padding:20px 21px 50px;margin:auto}
+.intro{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:18px}
+.eyebrow{font-size:.72rem;text-transform:uppercase;font-weight:840;letter-spacing:.1em;color:#326e4f}
+h1{font-size:clamp(1.65rem,4vw,2.25rem);line-height:1.15;letter-spacing:-.04em;margin:5px 0}
+.intro p{margin:0;color:#597166;font-size:.86rem}
+.label-demo{border:1px solid #ead49d;border-radius:99px;background:#fff7e6;color:#76521c;font-size:.77rem;font-weight:830;padding:8px 13px;white-space:nowrap}
+.layout{display:grid;grid-template-columns:228px minmax(0,1fr) 244px;gap:16px;align-items:start}
+.panel{background:#fff;border:1px solid #dae7df;border-radius:18px;box-shadow:0 6px 23px #163b2510;min-width:0}
+.sidebar{padding:16px 10px}
+.sidebar h2,.sidepanel h2{font-size:.95rem;color:#1a4333;margin:0 8px 12px;letter-spacing:-.015em}
+#roomList{display:grid;gap:4px}
+.space{display:flex;gap:9px;align-items:center;text-align:left;border:1px solid transparent;border-radius:11px;background:transparent;color:#395b4b;width:100%;padding:10px;font-size:.82rem;font-weight:680;line-height:1.36}
+.space:before{content:"◌";display:grid;place-items:center;width:29px;height:29px;flex:0 0 29px;background:#edf5ee;border-radius:9px;color:#2d7552}
+.space[aria-current=true]{border-color:#cfe5d5;background:#e7f4eb;color:#164c36;font-weight:850}
+.center{min-height:470px;overflow:hidden}
+.center-head{display:flex;justify-content:space-between;align-items:start;gap:14px;padding:23px 23px 15px;border-bottom:1px solid #e4eee7}
+.center h2{margin:0 0 5px;font-size:1.34rem;letter-spacing:-.03em;line-height:1.22;color:#1e4535}
+.center .hint{font-size:.85rem;color:#577567;margin:0}
+.pill{font-size:.68rem;font-weight:850;border-radius:99px;padding:6px 10px;background:#e9f5ed;color:#296d4e;white-space:nowrap}
+.tools{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:16px 23px;border-bottom:1px solid #eaf0ec}
+.search{width:min(100%,360px);padding:10px 13px;min-height:43px;border-radius:11px;border:1px solid #cdded3;color:#203f32;background:#fff}
+.primary{background:#176044;border:0;color:white;border-radius:11px;padding:11px 16px;min-height:43px;font-size:.85rem;font-weight:820}
+.primary:hover{background:#104c35}
+.subtle{border:1px solid #d9e7dc;border-radius:10px;background:#f6faf7;color:#246547;padding:9px 12px;font-size:.82rem;font-weight:770}
+.topic{display:block;width:100%;text-align:left;padding:18px 23px;background:#fff;border:0;border-bottom:1px solid #edf2ee}
+.topic:hover{background:#f8fbf9}
+.topic-title{display:block;font-size:.99rem;font-weight:840;color:#184832;margin-bottom:7px}
+.topic-body{display:block;color:#567063;font-size:.85rem;line-height:1.52}
+.topic-meta{display:block;color:#57795f;font-size:.74rem;font-weight:700;margin-top:10px}
+#topicList .no-results{color:#5d7567;padding:25px;font-size:.91rem}
+#thread{padding:20px 23px 28px}
+.thread-back{display:inline-flex;align-items:center;gap:8px;padding:0;border:0;background:none;color:#2b694b;font-size:.82rem;font-weight:830;margin-bottom:14px}
+#threadTitle{margin:0 0 8px;font-size:1.24rem;letter-spacing:-.03em;color:#1d4835}
+.thread-label{font-size:.73rem;font-weight:730;color:#387852}
+.thread-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.91rem;line-height:1.65;color:#2d4c3e}
+.rule{border:0;border-top:1px solid #e6eee8;margin:19px 0}
+#replyList{display:grid;gap:11px}
+.reply{border:1px solid #e2ece5;background:#fafdfa;border-radius:12px;padding:12px}
+.reply small{color:#54735e;font-weight:700;font-size:.73rem}
+.reply p{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;color:#2c4d3d;font-size:.87rem}
+.form-label{display:block;font-weight:800;font-size:.83rem;margin:14px 0 7px}
+textarea{display:block;width:100%;min-height:100px;resize:vertical;border:1px solid #cdded4;border-radius:11px;padding:12px;color:#243f33;background:#fff}
+.form-actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:11px}
+.sidecol{display:grid;gap:15px}
+.sidepanel{padding:18px 14px}
+.sidepanel p{margin:0 8px 12px;color:#4e6a59;font-size:.83rem;line-height:1.6}
+.sandbox-banner{background:#fff9eb;border:1px solid #ebdba9;color:#76571e;padding:12px;border-radius:12px;margin:0 8px 13px;font-size:.82rem;line-height:1.5}
+.modtoggle{display:block;width:calc(100% - 16px);margin:0 8px;min-height:43px;text-align:center}
+.modtoggle[aria-pressed=true]{background:#dff0e4;border-color:#a4d0b1}
+#queue{list-style:none;padding:0 8px;margin:12px 0 0;display:grid;gap:12px}
+#queue li{border:1px solid #e5ede5;border-radius:11px;padding:10px;background:#f9fcfa;font-size:.78rem}
+#queue li p{margin:4px 0 8px;font-size:.79rem}
+#queue li button{min-height:38px;margin:2px 4px 2px 0}
+.notice{display:none;margin:14px 23px;padding:11px 13px;background:#eef8f0;border:1px solid #cde5d2;border-radius:10px;color:#285c40;font-size:.84rem;font-weight:710}
+.notice:not(:empty){display:block}
+dialog{width:min(94vw,480px);border:1px solid #dce6de;border-radius:19px;padding:23px;box-shadow:0 20px 80px #143b2830}
+dialog::backdrop{background:#10281b99}
+dialog h2{margin:0 0 6px;font-size:1.23rem}
+dialog p{margin:0;color:#5a7565;font-size:.85rem}
+dialog input,dialog select{width:100%;min-height:44px;padding:10px;border:1px solid #c5dacc;border-radius:10px}
+footer{padding:20px 2px;text-align:center;color:#496558;font-size:.76rem}
+@media(max-width:1010px){.layout{grid-template-columns:200px minmax(0,1fr)}.sidecol{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.top,.page{padding-left:14px;padding-right:14px}.layout{display:flex;flex-direction:column;gap:12px}.layout>.panel,.layout>.sidecol{width:100%}.sidebar{padding:13px 10px}.sidebar h2{margin-bottom:8px}
+#roomList{display:flex;gap:7px;overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}
+.space{flex:0 0 auto;width:auto;max-width:190px;min-height:45px}
+.sidecol{display:grid;grid-template-columns:1fr}
+.intro{align-items:start}.label-demo{font-size:.7rem;padding:7px}
+.center-head,.tools,.topic{padding-left:16px;padding-right:16px}
+#thread{padding:18px 16px 25px}.notice{margin-left:16px;margin-right:16px}
+}
+@media(max-width:370px){.label-demo{display:none}.brand{font-size:.89rem}.top{gap:8px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<script defer src="js/community-room-preview.js?v=20261027"></script>
+</head><body>
+<header><div class="top"><a href="community.html" class="brand"><span class="mark" aria-hidden="true">✦</span><span>MindCheck · Community</span></a><a class="back" href="community.html">← All spaces</a></div></header>
+<main class="page">
+<div class="intro"><div><div class="eyebrow">MindCheck 18+ / Interactive preview</div><h1>Explore a community room</h1><p>Test discussions, replies, reports and moderator review with example content.</p></div><span class="label-demo">DEMO MODE</span></div>
+<div class="layout">
+<aside class="panel sidebar"><h2>Community spaces</h2><nav id="roomList" aria-label="Example community spaces"></nav></aside>
+<section class="panel center" aria-labelledby="roomTitle">
+<div class="center-head"><div><h2 id="roomTitle">Community space</h2><p class="hint" id="roomDesc"></p></div><span class="pill">Sample content</span></div>
+<div class="tools"><input class="search" type="search" id="searchTopics" aria-label="Search example topics" placeholder="Search discussions…" autocomplete="off"><button class="primary" id="createTopic" type="button">+ New discussion</button></div>
+<p id="notice" class="notice" role="status" aria-live="polite"></p>
+<div id="topicList" aria-label="Example approved discussions"></div>
+<div id="thread" hidden>
+<button type="button" class="thread-back" id="backToTopics">← All discussions</button>
+<span class="thread-label">EXAMPLE DISCUSSION</span><h2 id="threadTitle"></h2><p class="thread-text" id="threadBody"></p>
+<div class="form-actions"><button type="button" class="subtle" id="reportTopic">Report example topic</button></div>
+<hr class="rule"><h3>Replies</h3><div id="replyList"></div>
+<form id="replyForm"><label class="form-label" for="replyBody">Write a reply</label><textarea id="replyBody" required minlength="5" maxlength="1500" placeholder="Write an example reply…"></textarea><div class="form-actions"><button class="primary" type="submit">Submit for review (demo)</button></div></form>
+</div></section>
+<aside class="sidecol" aria-label="Preview controls">
+<section class="panel sidepanel"><h2>Testing mode</h2><div class="sandbox-banner"><strong>Simulation only.</strong> All discussions are fictional examples. Posts, replies and reports stay in this browser tab and disappear when you reload. No real users or Firestore data are accessed.</div><p>Try submitting a discussion, then switch to the moderator preview to approve it.</p></section>
+<section class="panel sidepanel"><h2>Moderator preview</h2><p>Simulate the moderation queue and approve or remove example content.</p><button class="subtle modtoggle" id="moderatorMode" aria-pressed="false" type="button">Show demo moderation queue</button><ul id="queue" hidden></ul><p id="reportStatus" aria-live="polite"></p></section>
+</aside>
+</div>
+<footer>This is a design test, not the live forum. Real access requires a verified adult account and separately authorised room publication.</footer>
+</main>
+<dialog id="topicDialog" aria-labelledby="topicDialogHeading"><form id="topicForm">
+<h2 id="topicDialogHeading">Start an example discussion</h2><p>This post will be kept only in your current browser tab.</p>
+<label class="form-label" for="topicTitle">Title</label><input id="topicTitle" required minlength="5" maxlength="120" placeholder="What would you like to discuss?">
+<label class="form-label" for="topicBody">Your message</label><textarea id="topicBody" required minlength="5" maxlength="1500" placeholder="Write an example discussion…"></textarea>
+<div class="form-actions"><button class="primary" type="submit">Submit for review</button><button class="subtle" id="cancelTopic" type="button">Cancel</button></div></form></dialog>
+<dialog id="reportDialog" aria-labelledby="reportDialogHeading"><form id="reportForm">
+<h2 id="reportDialogHeading">Report sample content</h2><p>This only demonstrates the reporting interface.</p>
+<label class="form-label" for="reportReason">Reason</label>
+<select id="reportReason" required><option value="">Choose a reason</option><option value="spam">Spam</option><option value="harassment">Harassment</option><option value="privacy">Privacy concern</option><option value="unsafe">Unsafe content</option><option value="other">Other</option></select>
+<div class="form-actions"><button class="primary" type="submit">Submit example report</button><button class="subtle" type="button" id="cancelReport">Cancel</button></div></form></dialog>
+</body></html>

@@ -16,6 +16,7 @@ on:
       - 'scripts/browser-smoke.cjs'
       - 'scripts/age-entry-smoke.cjs'
       - 'scripts/adult-community-smoke.cjs'
+      - 'scripts/community-preview-smoke.cjs'
       - 'scripts/language-switch-smoke.cjs'
       - 'scripts/translation-coverage-smoke.cjs'
       - 'scripts/breathing-studio-smoke.cjs'
@@ -55,6 +56,8 @@ jobs:
         run: node scripts/age-entry-smoke.cjs
       - name: Verify adult-only Community hub and locked forum handoff
         run: node scripts/adult-community-smoke.cjs
+      - name: Verify adult-only example room navigation without persistent writes
+        run: node scripts/community-preview-smoke.cjs
       - name: Check counsellor pathway interactions and accessibility
         run: node scripts/counsellor-pathway-smoke.cjs
       - name: Check Training Centre learning flow and accessibility
