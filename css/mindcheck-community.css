@@ -1,0 +1,9 @@
+/* Premium adult-only MindCheck Community entry. No youth navigation changes. */
+.mc-community-grid-card{position:relative;overflow:hidden;background:linear-gradient(140deg,#f7fffb 5%,#e6f5ed 65%,#e9f3fb 100%)!important;border:1px solid #b9dbce!important;text-decoration:none;color:#173d34!important}
+.mc-community-grid-card:focus-visible{outline:3px solid #196c52;outline-offset:4px}
+.mc-community-grid-card .mc-community-label{display:inline-block;margin-bottom:9px;font-size:.75rem;letter-spacing:.08em;font-weight:800;color:#23664e;text-transform:uppercase}
+.mc-community-grid-card .mc-community-symbol{font-size:2.25rem;line-height:1.2;display:block;margin-bottom:8px}
+.mc-community-grid-card p{color:#476658!important}
+.mc-community-grid-card .mc-community-next{display:inline-flex;align-items:center;gap:6px;font-size:.9rem;font-weight:800;color:#17664a}
+.mc-community-note{font-size:.83rem;color:#536b62;line-height:1.5;margin:10px 0 0}
+@media(prefers-reduced-motion:reduce){.mc-community-grid-card{transition:none!important}}
