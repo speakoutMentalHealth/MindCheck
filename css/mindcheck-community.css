@@ -35,3 +35,9 @@ body.mc-home-compact #homeSection .mc-home-community-tool:focus-visible{outline:
  body.mc-home-compact #homeSection .mc-home-tool{min-height:70px;padding:8px 4px;}
  body.mc-home-compact #homeSection .mc-home-momentum{gap:12px;}
 }
+
+/* Reserve more vertical room for translated home copy on short phones without
+   shrinking touch targets or the fixed bottom-navigation safe area. */
+@media(max-width:430px){
+ body.mc-home-compact.mc-stage-dashboard #homeSection .mc-home-launch{margin-top:8px!important;gap:7px!important;}
+}
