@@ -56,9 +56,21 @@ const origin = "http://127.0.0.1:8799/";
       assert.equal(await page.locator('header .mc-community-nav-entry').count(),1);
       assert(await page.locator("#mcHomeCommunityLink").isVisible(),
         "18+ Community must be visible in the real compact adult dashboard.");
+      const tileLabel = await page.locator("#mcHomeCommunityLink strong").evaluate(el => {
+        const style = getComputedStyle(el);
+        return { whiteSpace: style.whiteSpace, labelOverflow: el.scrollWidth > el.clientWidth + 2 };
+      });
+      assert.equal(tileLabel.whiteSpace, "nowrap", "Community label must not break vertically.");
+      assert.equal(tileLabel.labelOverflow, false, "Community label must fit its tile at "+width+"px.");
       await page.locator("#mcHomeCommunityLink").click();
       await page.waitForURL("**/community.html");
       assert.equal(await page.locator(".room").count(),6);
+      assert.equal(await page.locator("#communityTitle").evaluate(el=>getComputedStyle(el).color),"rgb(255, 255, 255)",
+        "Community hero heading must remain white on the dark background.");
+      await page.locator('[data-c-filter="connect"]').click();
+      assert.equal(await page.locator(".room:visible").count(),2,"Room directory category filter works.");
+      await page.locator('[data-c-filter="all"]').click();
+      assert.equal(await page.locator(".room:visible").count(),6,"All community rooms restored.");
       assert.equal(await page.locator("#mcCommunityOpen").isVisible(),false,
         "Forum is closed until explicit backend release.");
       assert.equal(await page.locator("#mcCommunityNotOpen").isVisible(),true);

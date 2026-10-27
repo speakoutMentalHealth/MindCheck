@@ -1,96 +1,161 @@
 <!doctype html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="utf-8">
-<script>/* Adult-navigation gate only: not identity or age verification. */try{if(sessionStorage.getItem("mc-age-entry-band")!=="adult"||sessionStorage.getItem("mc-age-entry-adult")!=="1")location.replace("age-entry.html");}catch(_){location.replace("age-entry.html");}</script>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#315d46">
-<meta name="description" content="MindCheck 18+ Community: adult networking, learning, mentorship and moderated conversations. Pre-launch preview.">
+<script>/* Navigation guard only. The separate SpeakOut backend enforces real adult eligibility. */try{if(sessionStorage.getItem("mc-age-entry-band")!=="adult"||sessionStorage.getItem("mc-age-entry-adult")!=="1")location.replace("age-entry.html");}catch(_){location.replace("age-entry.html");}</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7faf8">
+<meta name="description" content="MindCheck Community: a thoughtfully moderated space for adult learning, opportunities and connection.">
 <meta name="robots" content="noindex,nofollow">
 <title>Community · MindCheck 18+</title>
 <link rel="icon" href="icons/logo.png">
-<link rel="stylesheet" href="mc-theme.css">
-<link rel="stylesheet" href="css/adult-guide.css?v=20261023-adult">
 <link rel="stylesheet" href="css/language-switch.css">
 <script defer src="js/mindcheck-i18n.js"></script>
 <script defer src="js/language-switch.js"></script>
 <link rel="stylesheet" href="css/platform-quality.css?v=20261023-quality">
 <script defer src="js/platform-quality.js?v=20261023-quality"></script>
+<link rel="stylesheet" href="css/mindcheck-community.css?v=20261027-premium">
 <style>
 *{box-sizing:border-box}
-:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#173b32;background:#f3faf6}
-body{margin:0;min-height:100vh;background:radial-gradient(circle at 95% 0,#e3f3e9 0,transparent 38%),#f3faf6;color:#153a30}
-a{color:#0e6347}
-header{background:#fff;border-bottom:1px solid #d4e8db;padding:13px 5%;box-shadow:0 3px 15px #09291e0b}
-.top{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;color:#163d31;text-decoration:none;font-weight:850}
-.brand img{height:44px;width:44px;object-fit:contain}
-nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap}nav a{font-weight:700;text-decoration:none;font-size:.9rem}
-main{width:min(1100px,92%);margin:25px auto 76px}
-.hero{padding:clamp(22px,5vw,48px);border-radius:26px;background:linear-gradient(130deg,#103d35,#196852 55%,#2b756d);color:#fff;position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;right:-45px;top:-60px;width:290px;height:290px;border-radius:50%;background:#ffffff0d;pointer-events:none}
-.kicker{font-size:.76rem;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:#c4eed5}
-h1{font-size:clamp(2rem,5.8vw,3.75rem);line-height:1.08;margin:11px 0 13px;max-width:600px}
-.hero p{font-size:1.04rem;line-height:1.65;max-width:660px;color:#e0f5e8}
-.tag{display:inline-block;border:1px solid #b5e7d4;background:#eaf9f1;border-radius:99px;padding:6px 12px;font-size:.77rem;color:#225744;font-weight:800}
-.hero .tag{background:#ffffff18;border-color:#ffffff55;color:#fff}
-.heading{margin:30px 0 12px}
-.heading h2{font-size:clamp(1.4rem,4vw,1.85rem);margin:0 0 6px}.heading p{color:#53685c;line-height:1.6;margin:0}
-.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.room{background:#fff;border:1px solid #d4e6db;border-radius:19px;padding:21px;box-shadow:0 6px 25px #1a493510;min-height:170px}
-.room .ico{font-size:1.55rem;display:block;margin-bottom:10px}.room h3{margin:0 0 7px;font-size:1.08rem;color:#184c39}
-.room p{margin:0 0 12px;font-size:.9rem;color:#587367;line-height:1.55}.room small{color:#297051;font-size:.78rem;font-weight:760}
-.split{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}
-.panel{padding:24px;background:#fff;border:1px solid #d7e6dc;border-radius:20px}
-.panel h2{font-size:1.28rem;margin:0 0 11px}.panel p,.panel li{line-height:1.65;color:#476256}
-.panel ul{padding-left:20px}.panel li{margin-bottom:7px}
-.status{padding:13px 15px;border:1px solid #bedbcf;background:#f0faf3;border-radius:13px;color:#24543e;font-size:.92rem;line-height:1.55}
-.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px;align-items:center}
-.button{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:12px;background:#fff;color:#115237!important;text-decoration:none;font-weight:850;min-height:45px}
-.button.outline{background:transparent;border:1px solid #a9d9c1;color:#fff!important}
-.button.dark{background:#146b4e;color:white!important}
-.button[aria-disabled=true]{background:#e4ece7;color:#607567!important;cursor:default}
-[hidden]{display:none!important} /* Explicitly keep the disabled forum invitation hidden even with .button styles. */
-:focus-visible{outline:3px solid #ffa42c;outline-offset:4px}
-footer{padding:20px 0;text-align:center;color:#52685b;font-size:.82rem}
-@media(max-width:800px){.rooms{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}}
-@media(max-width:560px){main{margin-top:14px}.hero{border-radius:20px}.rooms{grid-template-columns:1fr}.room{min-height:0}.top{justify-content:center}nav{justify-content:center}}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body.mc-community-page{--ink:#193d34;--muted:#65786f;--line:#e0e9e2;--pine:#174d3e;--soft:#edf5ef;margin:0;min-height:100vh;background:#f6f9f7;color:var(--ink);font:400 15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body.mc-community-page a{color:inherit}
+body.mc-community-page button,body.mc-community-page input{font:inherit}
+body.mc-community-page :focus-visible{outline:3px solid #39876a;outline-offset:3px}
+body.mc-community-page #mcLanguageBar{z-index:25}
+.mc-c-shell{max-width:1160px;padding:0 24px;margin:0 auto}
+.mc-c-topbar{background:#fff;border-bottom:1px solid var(--line)}
+.mc-c-topbar .mc-c-shell{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.mc-c-brand{display:flex;align-items:center;gap:12px;font-size:1.14rem;text-decoration:none;font-weight:810;letter-spacing:-.035em;white-space:nowrap}
+.mc-c-brand img{width:39px;height:39px;object-fit:contain}
+.mc-c-brand b{color:#177651;font-weight:800}
+.mc-c-headerlinks{display:flex;align-items:center;gap:8px}
+.mc-c-headerlinks a{text-decoration:none;min-height:40px;padding:10px 13px;border-radius:11px;font-size:.85rem;font-weight:700}
+.mc-c-headerlinks a:last-child{background:#eaf3ec;color:#185c43}
+.mc-c-main{padding-top:24px;padding-bottom:58px}
+.mc-c-breadcrumb{display:flex;gap:9px;align-items:center;color:#607b6a;font-size:.81rem;font-weight:650;margin:0 0 14px}
+.mc-c-breadcrumb a{text-decoration:none}
+.mc-c-hero{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:22px;min-height:194px;border-radius:24px;padding:29px 34px;background:linear-gradient(113deg,#123d33,#246b50);color:#fff;box-shadow:0 13px 34px rgba(21,67,48,.1)}
+.mc-c-hero:after{content:"";pointer-events:none;position:absolute;width:300px;height:300px;border-radius:50%;border:50px solid rgba(255,255,255,.045);right:-80px;top:-136px}
+.mc-c-hero-copy{position:relative;z-index:1;min-width:0}
+.mc-c-kicker{font-size:.71rem;letter-spacing:.12em;font-weight:850;color:#b8e5cb;text-transform:uppercase}
+body.mc-community-page .mc-c-hero h1{color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:none!important;font-size:clamp(1.9rem,4vw,2.75rem)!important;font-weight:830;letter-spacing:-.045em;line-height:1.12;margin:9px 0 11px;max-width:620px}
+body.mc-community-page .mc-c-hero p{color:#dcefe4!important;font-size:.96rem;line-height:1.55;margin:0;max-width:550px}
+.mc-c-hero-action{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.mc-c-hero-action a{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:#164a37!important;padding:13px 18px;border-radius:12px;min-height:44px;text-decoration:none;font-weight:790;white-space:nowrap}
+.mc-c-hero-action small{color:#cae8d7;font-size:.76rem}
+.mc-c-columns{display:grid;grid-template-columns:minmax(0,1fr) 300px;align-items:start;gap:22px;margin-top:23px}
+.mc-c-surface{min-width:0;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 6px 28px rgba(18,55,41,.035)}
+.mc-c-boardhead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:22px 24px 13px}
+body.mc-community-page h2{color:var(--ink)!important;font-size:1.23rem!important;line-height:1.3;font-weight:800;letter-spacing:-.025em;margin:0 0 5px}
+.mc-c-boardhead p{margin:0;color:var(--muted);font-size:.86rem}
+.mc-c-tag{white-space:nowrap;padding:6px 10px;background:#eef6ef;color:#2a7450;font-size:.71rem;font-weight:790;border-radius:99px}
+.mc-c-filters{display:flex;gap:7px;padding:5px 24px 17px;overflow-x:auto;scrollbar-width:thin}
+.mc-c-filter{flex:none;border:1px solid #d9e7dd;background:#fff;color:#53675b;border-radius:99px;padding:8px 13px;min-height:39px;cursor:pointer;font-size:.81rem!important;font-weight:720!important}
+.mc-c-filter[aria-pressed=true]{background:#195542;border-color:#195542;color:white}
+.mc-c-rooms{border-top:1px solid var(--line)}
+.mc-c-room{display:grid;grid-template-columns:43px minmax(0,1fr) 22px;gap:13px;padding:17px 24px;align-items:center;border-bottom:1px solid #edf1ee}
+.mc-c-room:last-child{border-bottom:0}
+.mc-c-symbol{display:grid;place-items:center;width:43px;height:43px;border-radius:13px;background:#e9f4eb;color:#267358;font-size:1.35rem;font-weight:750}
+.mc-c-room[data-group=opportunity] .mc-c-symbol{background:#f5eee4;color:#9a632c}
+.mc-c-room[data-group=connect] .mc-c-symbol{background:#f0edfa;color:#7455a1}
+.mc-c-room h3{font-size:.95rem;font-weight:820;line-height:1.25;margin:0 0 4px;letter-spacing:-.01em}
+.mc-c-room p{color:#67796e;margin:0;font-size:.81rem;line-height:1.42;max-width:560px}
+.mc-c-room small{display:inline-block;color:#568067;margin-top:5px;font-size:.72rem;font-weight:660}
+.mc-c-chevron{font-size:1.2rem;color:#9caea1}
+.mc-c-empty{padding:28px 24px;color:#66796d}
+.mc-c-sidebar{display:grid;gap:15px}
+.mc-c-panel{padding:21px 20px}
+.mc-c-panel h2{font-size:1.08rem!important;margin-bottom:11px}
+.mc-c-panel p{font-size:.85rem;line-height:1.6;margin:8px 0;color:#607468}
+.mc-c-state{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:780;color:#8a651f}
+.mc-c-dot{width:8px;height:8px;border-radius:50%;background:#c99234}
+.mc-c-status{background:#fbf7ec;padding:12px;border-radius:12px;border:1px solid #f1e3bb;color:#71572b!important;font-size:.84rem!important}
+.mc-c-unavailable{display:inline-flex;justify-content:center;align-items:center;border:1px solid #d9e5db;background:#eff4f0;color:#5f766a;border-radius:11px;padding:11px 13px;font-size:.84rem;font-weight:740;min-height:43px}
+.mc-c-sidebar #mcCommunityOpen{display:inline-flex;align-items:center;justify-content:center;background:#185d45;color:#fff!important;border-radius:11px;text-decoration:none;padding:11px 14px;font-weight:800;font-size:.83rem}
+.mc-c-guide{display:grid;gap:13px;padding:0;margin:14px 0 0;list-style:none}
+.mc-c-guide li{display:flex;gap:10px;font-size:.84rem;color:#456257;line-height:1.45}
+.mc-c-guide strong{flex:none;display:grid;place-items:center;width:23px;height:23px;border-radius:8px;background:#edf5ed;color:#245d46;font-size:.72rem}
+.mc-c-footer{font-size:.76rem;color:#708077;text-align:center;margin-top:22px}
+@media(max-width:850px){.mc-c-columns{grid-template-columns:minmax(0,1fr)}.mc-c-sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}.mc-c-hero{min-height:0}}
+@media(max-width:600px){
+ .mc-c-shell{padding:0 16px}.mc-c-topbar .mc-c-shell{min-height:62px;gap:8px}
+ .mc-c-brand{font-size:1.02rem;gap:7px}.mc-c-brand img{width:31px;height:31px}
+ .mc-c-headerlinks a{font-size:.78rem;padding:8px}.mc-c-headerlinks a:first-child{display:none}
+ .mc-c-main{padding-top:14px;padding-bottom:26px}
+ .mc-c-breadcrumb{margin-bottom:11px}
+ .mc-c-hero{grid-template-columns:1fr;gap:15px;padding:23px 20px;border-radius:19px}
+ body.mc-community-page .mc-c-hero h1{font-size:clamp(1.65rem,7vw,2.15rem)!important;line-height:1.14}
+ body.mc-community-page .mc-c-hero p{font-size:.87rem}
+ .mc-c-hero-action{flex-direction:row;align-items:center;gap:10px}.mc-c-hero-action a{min-height:42px;padding:10px 13px;font-size:.82rem}.mc-c-hero-action small{font-size:.7rem}
+ .mc-c-columns{margin-top:15px;gap:13px}
+ .mc-c-surface{border-radius:16px}.mc-c-boardhead{padding:18px 17px 10px}
+ .mc-c-filters{padding:4px 17px 14px}.mc-c-room{grid-template-columns:38px minmax(0,1fr) 15px;gap:11px;padding:13px 16px}
+ .mc-c-symbol{width:38px;height:38px;border-radius:11px;font-size:1.15rem}
+ .mc-c-room h3{font-size:.89rem}.mc-c-room p{font-size:.78rem}
+ .mc-c-sidebar{grid-template-columns:1fr}
+ .mc-c-panel{padding:18px}
+}
+@media(max-width:365px){.mc-c-hero-action small{display:none}.mc-c-brand{font-size:.93rem}.mc-c-headerlinks a{font-size:.71rem}}
+/* WCAG AA legibility on light surfaces, including shared skip-navigation. */
+body.mc-community-page .mc-quality-skip{background:#164a38!important;color:#fff!important;border-color:#164a38!important}
+body.mc-community-page .mc-c-breadcrumb,body.mc-community-page .mc-c-breadcrumb a{color:#385e4a!important}
+body.mc-community-page .mc-c-room small{color:#36624a!important}
+body.mc-community-page .mc-c-unavailable{color:#345b46!important}
+body.mc-community-page .mc-c-footer{color:#476153!important}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 <script defer src="js/adult-entry.js?v=20261023-adult"></script>
 <script defer src="js/community-config.js?v=20261027"></script>
 <script defer src="js/mc-community.js?v=20261027"></script>
+<script defer src="js/mc-community-directory.js?v=20261027"></script>
 </head>
-<body>
-<header><div class="top">
-<a class="brand" href="index.html"><img src="icons/logo.png" alt=""><span>MindCheck <span style="color:#187d57">18+</span></span></a>
-<nav aria-label="Adult community navigation"><a href="index.html">MindCheck Home</a><a href="resources.html">Support resources</a><a href="https://speakoutmentalhealth.org/" target="_blank" rel="noopener noreferrer">SpeakOut ↗</a></nav>
+<body class="mc-community-page">
+<header class="mc-c-topbar"><div class="mc-c-shell">
+<a class="mc-c-brand" href="index.html"><img src="icons/logo.png" alt=""><span>MindCheck <b>Community</b></span></a>
+<nav class="mc-c-headerlinks" aria-label="Community navigation"><a href="https://speakoutmentalhealth.org/" target="_blank" rel="noopener noreferrer">SpeakOut</a><a href="index.html">← Back to MindCheck</a></nav>
 </div></header>
-<main>
-<section class="hero" aria-labelledby="communityTitle">
-<span class="kicker">MindCheck Adult Experience</span>
-<h1 id="communityTitle">Your community for connection and growth.</h1>
-<p>Share what you know, learn new skills, discover opportunities and build professional relationships in a thoughtful, moderated adult community.</p>
-<span class="tag">For adults 18+ · Member verification required</span>
-<div class="actions"><a class="button" href="#rooms">Explore the rooms</a><a class="button outline" href="index.html">Return to MindCheck</a></div>
+<main class="mc-c-shell mc-c-main">
+<div class="mc-c-breadcrumb"><a href="index.html">MindCheck 18+</a><span aria-hidden="true">/</span><span>Community</span></div>
+<section class="mc-c-hero" aria-labelledby="communityTitle">
+<div class="mc-c-hero-copy"><div class="mc-c-kicker">THE 18+ COMMUNITY</div><h1 id="communityTitle">Better together.</h1><p>A place to exchange ideas, discover opportunities and build meaningful connections—guided by respectful, moderated conversations.</p></div>
+<div class="mc-c-hero-action"><a href="#rooms">Browse spaces <span aria-hidden="true">↗</span></a><small>Adults 18+ · Verified membership</small></div>
 </section>
-<section aria-labelledby="roomsTitle" id="rooms">
-<div class="heading"><h2 id="roomsTitle">Explore community rooms</h2><p>These are proposed discussion areas. Room membership, content and private discussions are not visible in this preview.</p></div>
-<div class="rooms">
-<article class="room"><span class="ico" aria-hidden="true">✦</span><h3>Welcome & Announcements</h3><p>Official community updates, guidelines and introductions.</p><small>Planned · Public information</small></article>
-<article class="room"><span class="ico" aria-hidden="true">⌘</span><h3>Learning & ICT</h3><p>Exchange ideas, digital skills and practical project knowledge.</p><small>Planned · Public topics</small></article>
-<article class="room"><span class="ico" aria-hidden="true">◇</span><h3>Career & Opportunities</h3><p>Find vetted professional opportunities, grants and scholarships.</p><small>Planned · Curated topics</small></article>
-<article class="room"><span class="ico" aria-hidden="true">◎</span><h3>Networking & Mentorship</h3><p>Connect with adult professionals, mentors and collaborators.</p><small>Planned · Approved members</small></article>
-<article class="room"><span class="ico" aria-hidden="true">♧</span><h3>Projects & Volunteering</h3><p>Contribute skills to outreach, education and community projects.</p><small>Planned · Approved members</small></article>
-<article class="room"><span class="ico" aria-hidden="true">◇</span><h3>Private Group Rooms</h3><p>Restricted spaces accessible only to individually approved adult members.</p><small>Planned · Invitation required</small></article>
-</div></section>
-<div class="split">
-<section class="panel" aria-labelledby="accessTitle"><h2 id="accessTitle">How access will work</h2>
-<ul><li>Read approved public discussions after launch.</li><li>Register separately and have adult eligibility verified before posting.</li><li>Join private rooms only when an administrator grants access.</li><li>Report abuse, misinformation or unsafe content for human review.</li><li>MindCheck mood entries, assessment results and personal journal remain private and never feed the forum.</li></ul></section>
-<section class="panel" aria-labelledby="releaseTitle"><h2 id="releaseTitle">Community availability</h2>
-<p id="mcCommunityStatus" class="status" role="status">The community is being prepared. Discussion and membership invitations are not open yet.</p>
-<div class="actions"><a id="mcCommunityOpen" class="button dark" hidden rel="noopener noreferrer">Open SpeakOut Community</a><span id="mcCommunityNotOpen" class="button" aria-disabled="true">Forum opening soon</span></div>
-<p style="font-size:.83rem">This is a moderated discussion space, not a counselling service, crisis hotline or place to share private assessment results. For urgent help, contact local emergency services or a qualified professional.</p></section>
+<div class="mc-c-columns">
+<section class="mc-c-surface" id="rooms" aria-labelledby="roomsTitle">
+<div class="mc-c-boardhead"><div><h2 id="roomsTitle">Community spaces</h2><p>Explore the areas planned for the community.</p></div><span class="mc-c-tag">Preview</span></div>
+<div class="mc-c-filters" role="group" aria-label="Filter community spaces">
+<button type="button" class="mc-c-filter" data-c-filter="all" aria-pressed="true">All spaces</button>
+<button type="button" class="mc-c-filter" data-c-filter="learn" aria-pressed="false">Learning</button>
+<button type="button" class="mc-c-filter" data-c-filter="opportunity" aria-pressed="false">Opportunities</button>
+<button type="button" class="mc-c-filter" data-c-filter="connect" aria-pressed="false">Connect</button>
 </div>
-</main>
-<footer>SpeakOut Mental Health Outreach · MindCheck 18+ · Private wellness information stays separate.</footer>
-</body></html>
+<div class="mc-c-rooms" id="mcRoomDirectory">
+<article class="mc-c-room room" data-group="learn"><span class="mc-c-symbol" aria-hidden="true">✦</span><div><h3>Welcome & announcements</h3><p>Getting started, community guidelines and official updates.</p><small>Information space</small></div><span class="mc-c-chevron" aria-hidden="true">›</span></article>
+<article class="mc-c-room room" data-group="learn"><span class="mc-c-symbol" aria-hidden="true">⌘</span><div><h3>Learning & digital skills</h3><p>Explore ICT, education, creative projects and practical learning.</p><small>Learning space</small></div><span class="mc-c-chevron" aria-hidden="true">›</span></article>
+<article class="mc-c-room room" data-group="opportunity"><span class="mc-c-symbol" aria-hidden="true">↗</span><div><h3>Careers & opportunities</h3><p>Discover relevant development, scholarships and career resources.</p><small>Curated opportunities</small></div><span class="mc-c-chevron" aria-hidden="true">›</span></article>
+<article class="mc-c-room room" data-group="connect"><span class="mc-c-symbol" aria-hidden="true">◎</span><div><h3>Networking & mentorship</h3><p>Connect with verified adult peers, mentors and collaborators.</p><small>Members only</small></div><span class="mc-c-chevron" aria-hidden="true">›</span></article>
+<article class="mc-c-room room" data-group="opportunity"><span class="mc-c-symbol" aria-hidden="true">✳</span><div><h3>Projects & volunteering</h3><p>Learn how to contribute to educational and outreach projects.</p><small>Members only</small></div><span class="mc-c-chevron" aria-hidden="true">›</span></article>
+<article class="mc-c-room room" data-group="connect"><span class="mc-c-symbol" aria-hidden="true">◇</span><div><h3>Private group spaces</h3><p>Selected conversations reserved for specifically approved adults.</p><small>Invitation required</small></div><span class="mc-c-chevron" aria-hidden="true">›</span></article>
+</div><p class="mc-c-empty" id="mcDirectoryEmpty" hidden>No spaces match this filter.</p>
+</section>
+<aside class="mc-c-sidebar" aria-label="Community information">
+<section class="mc-c-surface mc-c-panel" aria-labelledby="availabilityHeading">
+<div class="mc-c-state"><span class="mc-c-dot"></span> COMING SOON</div>
+<h2 id="availabilityHeading" style="margin-top:12px">Community access</h2>
+<p id="mcCommunityStatus" class="mc-c-status" role="status" aria-live="polite">We’re preparing the community. Discussions and membership invitations are not open yet.</p>
+<a id="mcCommunityOpen" hidden rel="noopener noreferrer">Open SpeakOut Community ↗</a>
+<span id="mcCommunityNotOpen" class="mc-c-unavailable">Discussions not yet open</span>
+<p>Verified adult accounts will be required to post. The MindCheck age selector does not verify an account.</p>
+</section>
+<section class="mc-c-surface mc-c-panel" aria-labelledby="conductHeading">
+<h2 id="conductHeading">A respectful space</h2><ul class="mc-c-guide">
+<li><strong>01</strong><span>Share ideas and knowledge, not confidential wellness records.</span></li>
+<li><strong>02</strong><span>Conversations and replies are reviewed by moderators.</span></li>
+<li><strong>03</strong><span>Private rooms require a separate explicit invitation.</span></li>
+</ul><p>This forum is not a counselling or emergency service. For immediate danger, contact local emergency services.</p>
+</section>
+</aside>
+</div>
+<p class="mc-c-footer">SpeakOut Mental Health Outreach · Your MindCheck mood history and assessments stay separate from the forum.</p>
+</main></body></html>
