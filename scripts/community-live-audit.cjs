@@ -1,0 +1,31 @@
+/* Safe read-only public deployment smoke. Does not sign in, send wellness data or activate the forum. */
+const assert = require("node:assert/strict");
+const targets = [
+ {label:"MindCheck Community page",url:"https://mindcheck.speakoutmentalhealth.org/community.html",markers:["mc-c-hero","Community spaces","mcCommunityNotOpen"],mustPass:true},
+ {label:"MindCheck community filters",url:"https://mindcheck.speakoutmentalhealth.org/js/mc-community-directory.js?v=20261027",markers:["data-c-filter","aria-pressed"],mustPass:true},
+ {label:"MindCheck community styles",url:"https://mindcheck.speakoutmentalhealth.org/css/mindcheck-community.css?v=20261027-premium",markers:["white-space:nowrap","mc-home-community-tool"],mustPass:true},
+ {label:"MindCheck premium home assets",url:"https://mindcheck.speakoutmentalhealth.org/js/compact-home.js?v=20261027-premium",markers:["mcHomeCommunityLink","Adults 18+"],mustPass:true},
+ {label:"MindCheck PWA service worker",url:"https://mindcheck.speakoutmentalhealth.org/sw.js",markers:["mc-v62-premium-forum-20261027"],mustPass:true},
+ {label:"MindCheck launch-off setting",url:"https://mindcheck.speakoutmentalhealth.org/js/community-config.js?v=20261027",markers:["enabled: false"],mustPass:true},
+ {label:"SpeakOut forum interior",url:"https://speakoutmentalhealth.org/forum.html",markers:["Community discussions","id=\"topicSearch\"","Preview — not launched."],mustPass:true}
+];
+async function check({label,url,markers,mustPass}){
+ const started=Date.now(),controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),18000);
+ try{
+  const response=await fetch(url,{signal:controller.signal,redirect:"follow",headers:{"accept":"text/html, text/javascript, text/css, */*","cache-control":"no-cache","user-agent":"SpeakOutReleaseAudit/1.0"}});
+  const content=(await response.text()).slice(0,2000000);
+  const missing=markers.filter(m=>!content.includes(m));
+  const htmlFallback=/<html[\\s>]/i.test(content)&&(!url.includes(".html"));
+  const ok=response.ok&&missing.length===0&&!htmlFallback;
+  console.log(JSON.stringify({label,ok,status:response.status,finalUrl:response.url,elapsedMs:Date.now()-started,bytes:content.length,missing,htmlFallback,etag:response.headers.get("etag"),cache:response.headers.get("x-cache")||response.headers.get("cf-cache-status")}));
+  return {ok,mustPass,label,missing};
+ }catch(e){console.log(JSON.stringify({label,ok:false,reason:String(e?.message||e).slice(0,220),elapsedMs:Date.now()-started}));return{ok:false,mustPass,label};}
+ finally{clearTimeout(timeout);}
+}
+(async()=>{
+ const results=await Promise.all(targets.map(check));
+ const failed=results.filter(r=>r.mustPass&&!r.ok);
+ console.log("\nPUBLIC DEPLOYMENT SUMMARY: "+(failed.length?"INCOMPLETE / STALE / INACCESSIBLE":"ALL EXPECTED ASSETS LIVE"));
+ if(failed.length){console.error("Failing targets: "+failed.map(x=>x.label).join(", "));process.exitCode=1;}
+ else assert.equal(results.length,7);
+})().catch(e=>{console.error(e);process.exitCode=1;});
