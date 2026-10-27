@@ -1,0 +1,20 @@
+/* Shared visual refinements for the principal MindCheck journeys. */
+body.mc-buddy-page{background:#f7f6f2;color:#173f3c}
+body.mc-buddy-page .buddy-app-header{background:#fffefa;border-color:#dce3dc;box-shadow:none}
+body.mc-buddy-page .buddy-intro{background:linear-gradient(130deg,#193f3b,#356c5b);border-color:#29574d}
+body.mc-buddy-page .buddy-intro h1,body.mc-buddy-page .buddy-intro p,body.mc-buddy-page .buddy-intro .buddy-eyebrow,body.mc-buddy-page .buddy-intro-symbol{color:#f2f8ee}
+body.mc-buddy-page main>.card:not(.buddy-intro){background:#fffefa;border-color:#dce3dc;box-shadow:0 8px 28px #173f3c0a}
+body.mc-buddy-page .buddy-mood{background:#f5f5ee;border-color:#dbe4d9}
+body.mc-buddy-page .buddy-mood[aria-pressed=true]{background:#e2f1df;border-color:#276f55}
+body.mc-buddy-page #buddy-checkin-status{padding:12px 14px;border-radius:14px;background:#edf4e8;color:#264e40}
+body.mc-buddy-page #buddy-reflection{border-top:1px solid #dce6db}
+body.mc-buddy-page :is(#buddy-diary-title,#journal,#task-input){background:#fafbf6;border-color:#ceddd0}
+#assessmentMain .ac-hero{border-radius:24px;box-shadow:none}
+#assessmentMain .ac-card{border-radius:20px;box-shadow:0 6px 22px #173f3c0a}
+#assessmentMain .ac-filters button[aria-pressed=true]{box-shadow:0 3px 10px #173f3c20}
+#assessmentMain .ac-jump a{border-radius:14px}
+body.mc-home-compact .mc-home-tool{border-radius:20px!important}
+body.mc-home-compact .mc-home-momentum{font-variant-numeric:tabular-nums}
+body.kids-mode .adventure-stop{border-radius:24px}
+@media(max-width:550px){body.mc-buddy-page main>.card:not(.buddy-intro){padding:20px 17px}body.mc-buddy-page .buddy-moods{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}body.mc-buddy-page .buddy-mood{min-width:0}.ac-grid{gap:12px}}
+@media(prefers-reduced-motion:reduce){body.mc-buddy-page .buddy-mood:hover{transform:none}}
