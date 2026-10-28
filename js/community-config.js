@@ -1,8 +1,10 @@
-/* Disabled until SpeakOut Forum passes privacy, moderation and age-verification release gates.
- * This switch changes navigation only. The forum backend must independently verify adult grants.
- * Do NOT enable by changing client code alone; confirm the destination is production ready.
+/* Adult-only public sign-in gateway is available for volunteer registration.
+ * The independent forum room-release gate stays disabled until verified membership,
+ * moderator coverage and backend production acceptance are complete. This client
+ * never grants adult/room entitlement; Firestore rules enforce all access.
  */
 window.MindCheckCommunityConfig = Object.freeze({
   enabled: false,
+  gatewayEnabled: true,
   destination: "https://speakoutmentalhealth.org/forum.html"
 });

@@ -22,7 +22,8 @@ const origin = "http://127.0.0.1:8799/";
     assert(!fs.readFileSync("youth.html","utf8").includes("community.html"),
       "Under-18 experience must not link to the adult forum.");
     const config = fs.readFileSync("js/community-config.js","utf8");
-    assert.match(config, /enabled:\s*false/, "Production handoff must remain off.");
+    assert.match(config, /enabled:\s*false/, "Private discussion release must remain off.");
+    assert.match(config, /gatewayEnabled:\s*true/, "Adult volunteer application gateway must be available.");
     browser = await chromium.launch({ headless:true });
     for(const width of [320,390,430,1280]) {
       const context = await browser.newContext({viewport:{width,height:850},serviceWorkers:"block"});
@@ -71,9 +72,11 @@ const origin = "http://127.0.0.1:8799/";
       assert.equal(await page.locator(".room:visible").count(),2,"Room directory category filter works.");
       await page.locator('[data-c-filter="all"]').click();
       assert.equal(await page.locator(".room:visible").count(),6,"All community rooms restored.");
-      assert.equal(await page.locator("#mcCommunityOpen").isVisible(),false,
-        "Forum is closed until explicit backend release.");
-      assert.equal(await page.locator("#mcCommunityNotOpen").isVisible(),true);
+      assert.equal(await page.locator("#mcCommunityOpen").isVisible(),true,
+        "Verified adult pathway must expose the separate SpeakOut sign-in gateway.");
+      assert.equal(await page.locator("#mcCommunityOpen").getAttribute("href"),"https://speakoutmentalhealth.org/forum.html");
+      assert.equal(await page.locator("#mcCommunityNotOpen").isVisible(),false);
+      assert.match(await page.locator("#mcCommunityStatus").innerText(),/Private discussions remain invitation-only/);
       assert(await page.locator("#mcLanguageSelect").isVisible(),
         "Adult community retains the language selection.");
       assert.equal(await page.locator("#mcLanguageSelect option").count(),6);
@@ -87,9 +90,9 @@ const origin = "http://127.0.0.1:8799/";
       });
       assert.deepEqual(violations,[],"Community accessibility at "+width+"px");
       assert.deepEqual(errors,[],"No runtime errors at "+width+"px");
-      assert.deepEqual(writes,[],"No write requests or forum API calls while disabled.");
+      assert.deepEqual(writes,[],"No forum writes or personal data transmitted by the gateway.");
       await context.close();
     }
-    console.log("PASS: age-separated MindCheck Community, no youth entry, feature-locked forum, responsive + accessible.");
+    console.log("PASS: age-separated MindCheck Community, no youth entry, approved-account gateway, still-locked private rooms, responsive + accessible.");
   } finally { await browser?.close(); server.kill(); }
 })().catch(e=>{ console.error(e); process.exitCode=1; });
