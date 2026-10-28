@@ -21,10 +21,15 @@
     validDestination = url.origin === approvedHost && url.pathname === approvedPath &&
       url.search === "" && url.hash === "";
   } catch (_) {}
-  if (config.enabled !== true || !adultPath || !validDestination) return;
-  // This only links out to a separate account. No MindCheck data is ever sent.
+  if (!adultPath || !validDestination || (config.gatewayEnabled !== true && config.enabled !== true)) return;
+  // This is only an adult navigation link. The forum independently checks sign-in,
+  // approved account, real adult verification, private-room grants and pilot release.
+  // No MindCheck wellness information or date of birth is transmitted.
   open.href = approvedHost + approvedPath;
+  open.textContent = config.enabled === true ? "Open SpeakOut Community" : "Sign in or apply for forum access";
   open.hidden = false;
   pending.hidden = true;
-  status.textContent = "The SpeakOut Community is available for approved adult members. A separate verified forum account is required to participate.";
+  status.textContent = config.enabled === true
+    ? "Approved adult members can access assigned discussion rooms after signing in."
+    : "Volunteer applications and approved-account sign-in are open. Private discussions remain invitation-only and will appear only after the controlled pilot is activated.";
 })();
