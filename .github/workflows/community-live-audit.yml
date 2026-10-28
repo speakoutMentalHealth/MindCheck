@@ -1,23 +1,32 @@
 name: Community live deployment audit
 
+# A pull request changes the expected files before those files exist on the live site.
+# Only inspect production after the main GitHub Pages deployment succeeds,
+# or when a maintainer explicitly runs this read-only audit.
 on:
-  pull_request:
-    paths:
-      - 'scripts/community-live-audit.cjs'
-      - 'scripts/community-live-mobile.cjs'
-      - '.github/workflows/community-live-audit.yml'
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - pages build and deployment
+    types:
+      - completed
+    branches:
+      - main
 
 permissions:
   contents: read
 
 jobs:
   check-live-community:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     name: Verify published adult Community assets (read-only)
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -25,11 +34,15 @@ jobs:
         run: node scripts/community-live-audit.cjs
 
   check-live-mobile:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     name: Check iPhone-width design, filters and read-only forum
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
