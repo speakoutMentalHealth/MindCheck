@@ -5,7 +5,7 @@ const targets = [
  {label:"MindCheck community filters",url:"https://mindcheck.speakoutmentalhealth.org/js/mc-community-directory.js?v=20261028-pilot",markers:["data-c-filter","aria-pressed"],mustPass:true},
  {label:"MindCheck community styles",url:"https://mindcheck.speakoutmentalhealth.org/css/mindcheck-community.css?v=20261027-premium",markers:["white-space:nowrap","mc-home-community-tool"],mustPass:true},
  {label:"MindCheck premium home assets",url:"https://mindcheck.speakoutmentalhealth.org/js/compact-home.js?v=20261027-premium",markers:["mcHomeCommunityLink","Adults 18+"],mustPass:true},
- {label:"MindCheck PWA service worker",url:"https://mindcheck.speakoutmentalhealth.org/sw.js",markers:["mc-v64-private-pilot-ui-20261028"],mustPass:true},
+ {label:"MindCheck PWA service worker",url:"https://mindcheck.speakoutmentalhealth.org/sw.js",markers:["mc-v63-adult-forum-room-preview-20261027"],mustPass:true},
  {label:"MindCheck launch-off setting",url:"https://mindcheck.speakoutmentalhealth.org/js/community-config.js?v=20261027",markers:["enabled: false"],mustPass:true},
  {label:"SpeakOut forum gateway",url:"https://speakoutmentalhealth.org/auth.html?next=forum",markers:["id=\"loginPanel\"","id=\"joinPanel\""],mustPass:true},
  {label:"SpeakOut forum interior",url:"https://speakoutmentalhealth.org/forum.html",markers:["Community discussions","id=\"topicSearch\"","Restricted pilot community."],mustPass:true}
