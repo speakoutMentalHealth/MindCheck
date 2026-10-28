@@ -54,25 +54,11 @@ fs.mkdirSync(out,{recursive:true});
       const forumWidth=await forum.evaluate(()=>({screen:innerWidth,doc:document.documentElement.scrollWidth}));
       assert(forumWidth.doc<=forumWidth.screen+2,"Forum horizontal overflow at "+width+": "+JSON.stringify(forumWidth));
       await forum.screenshot({path:out+"/forum-"+width+".png",fullPage:true});
-      const preview=await context.newPage();
-      let previewWrites=0;
-      preview.on("request", req => {
-        if(!["GET","HEAD","OPTIONS"].includes(req.method())) previewWrites++;
-      });
-      await preview.goto("https://mindcheck.speakoutmentalhealth.org/community-preview.html?room=learn-build",{waitUntil:"domcontentloaded",timeout:30000});
-      await preview.locator("#roomTitle").waitFor();
-      assert.equal(await preview.locator("#roomList .space").count(),6,"Six example rooms can be entered");
-      assert.equal(await preview.locator("#topicList .topic").count(),2,"Two example discussions");
-      await preview.locator("#topicList .topic").first().click();
-      await preview.locator("#replyBody").fill("A simulated reply that remains only in the browser.");
-      await preview.locator('#replyForm button[type="submit"]').click();
-      await preview.locator("#moderatorMode").click();
-      assert.equal(await preview.locator("#queue li").count(),1,"Simulated moderation queue");
-      assert.equal(previewWrites,0,"Interactive example room does not submit browser data");
-      const previewWidth=await preview.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
-      assert(previewWidth<=2,"Preview horizontal overflow "+width);
-      await preview.screenshot({path:out+"/preview-"+width+".png",fullPage:true});
-      console.log("PASS live mobile Community at "+width+"x"+height+"; demo room interactive; no forum writes; unrelated analytics blocked="+blockedWrites);
+      assert.equal(await community.locator(".mc-c-room-preview-link").count(),0,
+        "Live MindCheck directory must not present demo room actions");
+      assert.equal(await community.locator('a[href*="community-preview.html"]').count(),0,
+        "Live MindCheck directory must not link to the legacy simulator");
+      console.log("PASS live mobile Community at "+width+"x"+height+"; pilot-only navigation; no forum writes; unrelated analytics blocked="+blockedWrites);
       await context.close();
     }
   } finally {await browser.close();}
