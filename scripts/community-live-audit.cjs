@@ -24,7 +24,17 @@ async function check({label,url,markers,mustPass}){
  finally{clearTimeout(timeout);}
 }
 (async()=>{
- const results=await Promise.all(targets.map(check));
+ // GitHub Pages and intermediary caches can lag after an otherwise successful deploy.
+ // Retry only stale targets for a bounded period; never turn a persistent mismatch into a pass.
+ let results=await Promise.all(targets.map(check));
+ for(let attempt=2;attempt<=5;attempt++){
+   const stale=results.filter(r=>r.mustPass&&!r.ok);
+   if(!stale.length) break;
+   console.log("Production release propagation check "+attempt+"/5: retrying "+stale.map(r=>r.label).join(", "));
+   await new Promise(resolve=>setTimeout(resolve,10000));
+   const retried=await Promise.all(stale.map(r=>check(targets.find(t=>t.label===r.label))));
+   results=results.map(r=>retried.find(next=>next.label===r.label)||r);
+ }
  const failed=results.filter(r=>r.mustPass&&!r.ok);
  console.log("\nPUBLIC DEPLOYMENT SUMMARY: "+(failed.length?"INCOMPLETE / STALE / INACCESSIBLE":"ALL EXPECTED ASSETS LIVE"));
  if(failed.length){console.error("Failing targets: "+failed.map(x=>x.label).join(", "));process.exitCode=1;}
