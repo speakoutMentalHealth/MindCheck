@@ -352,9 +352,12 @@ body.mc-stage-welcome :where(button,.btn,a):focus-visible{outline:3px solid #176
 /* Lift the six-section mobile navigation above the bottom screen edge. */
 @media(max-width:699px){body.mc-stage-dashboard #mc-premium-tabs{bottom:calc(env(safe-area-inset-bottom,0px) + 16px)!important;left:12px!important;right:12px!important;width:calc(100% - 24px)!important;border:1px solid #d9e8df!important;border-radius:22px!important;box-shadow:0 8px 30px #163f3450!important;z-index:1000!important}body.mc-stage-dashboard{padding-bottom:calc(125px + env(safe-area-inset-bottom,0px))!important}body.mc-stage-dashboard .mc-premium-tabs .mc-tab-label{font-size:clamp(.64rem,2.4vw,.8rem)}}
 </style><link rel="stylesheet" href="mindcheck-premium-nav.css?v=20261026-unified-dock">
-<link rel="stylesheet" href="css/mindcheck-nav-unified.css?v=20261026-v55"></head>
+<link rel="stylesheet" href="css/mindcheck-nav-unified.css?v=20261026-v55"><link rel="stylesheet" href="css/native-touch.css?v=20261027">
+<link rel="stylesheet" href="css/premium-screens.css?v=20261027">
+<link rel="stylesheet" href="css/mindcheck-community.css?v=20261027-premium">
+</head>
 <body class="mc-stage-welcome">
-  <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a class="mc-ai-guide-entry" href="guide.html" data-support="guide">✦ AI Guide</a><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
+  <header class="mc-brand-nav"><a class="mc-brand" href="index.html" aria-label="SpeakOut MindCheck home"><img src="icons/logo.png" alt="SpeakOut Mental Health logo"><span><strong>SpeakOut MindCheck</strong><small>Mental Health Outreach</small></span></a><nav class="mc-nav-actions" aria-label="Main navigation"><a class="mc-ai-guide-entry" href="guide.html" data-support="guide">✦ AI Guide</a><a class="mc-community-nav-entry" href="community.html" aria-label="Community for adults 18 and over">Community 18+</a><a href="https://speakoutmentalhealth.org/" aria-label="Open the main SpeakOut website">SpeakOut website ↗</a></nav></header>
 
   <main class="mc-front-door" aria-label="Welcome to MindCheck">
   <div class="mc-hero">
@@ -456,6 +459,7 @@ body.mc-stage-welcome :where(button,.btn,a):focus-visible{outline:3px solid #176
         <div class="mc-dashboard-actions">
           <button type="button" class="mc-dashboard-main-action" onclick="document.getElementById('goMood').click()">Check in with yourself <span aria-hidden="true">↗</span></button>
           <a class="mc-dashboard-secondary-action" href="assessment-centre.html">Explore assessments <span aria-hidden="true">→</span></a>
+          <a class="mc-dashboard-secondary-action mc-community-hero-action" id="mcCommunityHeroLink" href="community.html" aria-label="Explore MindCheck Community for adults 18 and over">Community 18+ <span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="mc-dashboard-art" aria-hidden="true"><div class="mc-orbit mc-orbit-one"></div><div class="mc-orbit mc-orbit-two"></div><div class="mc-orbit mc-orbit-three"></div><div class="mc-art-core"><span class="mc-art-heart">♥</span></div><span class="mc-art-star mc-star-a">✧</span><span class="mc-art-star mc-star-b">✳</span></div>
@@ -566,6 +570,14 @@ body.mc-stage-welcome :where(button,.btn,a):focus-visible{outline:3px solid #176
         <h3><span data-i18n="badges">Badges</span></h3>
         <p data-i18n="badgesDesc">See unlocked badges and celebrate your progress.</p>
       </div>
+
+      <a class="card mc-community-grid-card" id="goCommunity" href="community.html" aria-label="Explore MindCheck Community for adults aged 18 and over">
+        <span class="mc-community-label">18+ Community · In preparation</span>
+        <span class="mc-community-symbol" aria-hidden="true">◎</span>
+        <h3>Community &amp; Networking</h3>
+        <p>Grow together through learning, mentoring, career opportunities and moderated conversations.</p>
+        <span class="mc-community-next">Explore rooms <span aria-hidden="true">→</span></span>
+      </a>
 
 
 
@@ -706,6 +718,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
   <section id="helpSection" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="helpTitle">Get Help 📞</h2>
     <p class="mc-support-intro" data-support="intro">Find care. Learn new skills. Connect with SpeakOut.</p>
+    <nav class="mc-home-pathways" aria-label="Counselling and opportunities"><a href="become-a-counsellor.html">Become a counsellor</a><a href="ambassador.html">Become an ambassador</a><a href="https://wa.me/2348118103510" target="_blank" rel="noopener noreferrer">Speak to a counsellor</a><p>Contact SpeakOut about support and availability.</p></nav>
     <aside class="mc-support-urgent"><strong data-support="urgent">Need urgent help?</strong><p data-i18n="helpEmergencyDesc">If you're in immediate danger or feel unsafe, contact your local emergency number.</p><a href="tel:112" data-support="emergency">Call 112 · Nigeria emergency services</a></aside>
     <div class="mc-support-routes" role="group" aria-label="Support options">
       <button type="button" data-support-open="mcSupportCare"><span aria-hidden="true">♡</span><strong data-support="care">Professional care</strong><small data-support="careHint">Hospitals & referral options</small></button>
@@ -720,7 +733,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
       <div class="mc-support-actions"><a href="clinician-referral-preparation.html" data-support="prepare">Prepare for an appointment</a><a href="resources.html" data-support="resources">More clinics & resources</a></div>
     </details>
     <details class="mc-support-panel"><summary data-support="pathways">Training & ways to help</summary><div class="mc-support-actions"><a href="training-hub.html" data-support="learn">Learn & train</a><a href="become-a-counsellor.html" data-support="counsellor">Explore the counsellor pathway</a><a href="volunteers.html" data-support="volunteer">Get involved</a></div><p data-support="qualification">Learning and practice quizzes do not qualify you to provide professional counselling.</p><a href="guide.html?topic=training" data-support="guideTraining">Ask the AI Guide about training →</a></details>
-    <div class="mc-support-panel"><h3 data-support="contact">Contact SpeakOut</h3><p data-support="contactNote">For non-emergency enquiries and referral questions. Support hours and response times are not yet confirmed.</p><div class="mc-support-actions"><a href="tel:+2348118103510" data-support="call">Call SpeakOut</a><a href="https://wa.me/2348118103510" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a><a href="guide.html?topic=assessment" data-support="guide">✦ AI Guide</a></div></div>
+    <div class="mc-support-panel" id="mcSupportContact"><h3 data-support="contact">Contact SpeakOut</h3><p data-support="contactNote">For non-emergency enquiries and referral questions. Support hours and response times are not yet confirmed.</p><div class="mc-support-actions"><a href="tel:+2348118103510" data-support="call">Call SpeakOut</a><a href="https://wa.me/2348118103510" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a><a href="guide.html?topic=assessment" data-support="guide">✦ AI Guide</a></div></div>
     <div class="toolbar"><button id="helpBackHome" class="btn btn-ghost" data-i18n="backHome">Back to Home</button></div>
   </section>
 
@@ -897,7 +910,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
     const getPoints=()=>Number(getJSON(KEY_POINTS, 0))||0;
     const setPoints=v=>localStorage.setItem(KEY_POINTS, String(v));
     const addPoints=n=>setPoints(getPoints()+n);
-    const getStreak=()=>Number(getJSON(KEY_STREAK, 0))||0;
+    const getStreak=()=>{const d=new Date();d.setDate(d.getDate()-1);const yesterday=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const last=getLast();return last===todayStr()||last===yesterday ? Number(getJSON(KEY_STREAK, 0))||0 : 0;};
     const setStreak=v=>localStorage.setItem(KEY_STREAK, String(v));
     const getLast=()=>{try{return localStorage.getItem(KEY_LAST)||'';}catch(_){return '';}};
     const setLast=v=>localStorage.setItem(KEY_LAST, v);
@@ -1386,7 +1399,7 @@ body.mc-stage-welcome .mc-nav-actions a{min-height:44px;display:inline-flex;alig
 <script src="js/mindcheck-calm-interactions.js" defer></script>
 <script src="js/mindcheck-page-locales.js?v=20261026-v55" defer></script>
 <script src="js/compact-home-copy.js?v=20261026-companion" defer></script>
-<script src="js/compact-home.js?v=20261026-companion" defer></script><script src="js/mindcheck-visual-system.js" defer></script>
+<script src="js/compact-home.js?v=20261027-premium" defer></script><script src="js/mindcheck-visual-system.js" defer></script>
 <script src="js/calm-studio-copy.js?v=20261023-calm" defer></script>
 <script src="js/calm-studio.js?v=20261023-calm" defer></script>
 <script src="js/speakout-platform-switcher.js?v=20261023-quality" defer></script>
