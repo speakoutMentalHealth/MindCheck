@@ -3,7 +3,7 @@ window.MindCheckHomeCopy={
   "en": {
     "title": "A moment for you.",
     "intro": "Check in. Find calm. Feel supported.",
-    "start": "Check my mood →",
+    "start": "My Mental Health Companion →",
     "eyebrow": "YOUR SPACE, YOUR PACE",
     "question": "How are you feeling?",
     "private": "Private on this device",
@@ -21,7 +21,7 @@ window.MindCheckHomeCopy={
   "ha": {
     "title": "Lokaci domin ka.",
     "intro": "Duba yanayinka. Samu natsuwa da taimako.",
-    "start": "Duba yanayina →",
+    "start": "My Mental Health Companion →",
     "eyebrow": "WURINKA, A HANKALINKA",
     "question": "Yaya kake ji?",
     "private": "Na sirri a na’urar nan",
@@ -39,7 +39,7 @@ window.MindCheckHomeCopy={
   "ig": {
     "title": "Obere oge maka gị.",
     "intro": "Lelee obi gị. Chọta udo na nkwado.",
-    "start": "Lelee ọnọdụ obi m →",
+    "start": "My Mental Health Companion →",
     "eyebrow": "EBE GỊ, N’ỌSỌ GỊ",
     "question": "Kedu ka obi dị gị?",
     "private": "Nzuzo na ngwaọrụ a",
@@ -57,7 +57,7 @@ window.MindCheckHomeCopy={
   "yo": {
     "title": "Àkókò kan fún ọ.",
     "intro": "Ṣàyẹ̀wò ara rẹ. Rí ìfarabalẹ̀ àti ìrànlọ́wọ́.",
-    "start": "Ṣàyẹ̀wò ìmọ̀lára mi →",
+    "start": "My Mental Health Companion →",
     "eyebrow": "IBI RẸ, NÍ ÌRỌ̀RÙN RẸ",
     "question": "Báwo ni ara rẹ ṣe rí?",
     "private": "Àṣírí lórí ẹ̀rọ yìí",
@@ -75,7 +75,7 @@ window.MindCheckHomeCopy={
   "pcm": {
     "title": "Small moment for you.",
     "intro": "Check in. Find calm. Get support.",
-    "start": "Check my mood →",
+    "start": "My Mental Health Companion →",
     "eyebrow": "YOUR SPACE, YOUR PACE",
     "question": "How you dey feel?",
     "private": "Private for this device",
@@ -93,7 +93,7 @@ window.MindCheckHomeCopy={
   "fr": {
     "title": "Un moment pour vous.",
     "intro": "Faites le point. Retrouvez calme et soutien.",
-    "start": "Faire mon bilan →",
+    "start": "My Mental Health Companion →",
     "eyebrow": "VOTRE ESPACE, VOTRE RYTHME",
     "question": "Comment allez-vous ?",
     "private": "Privé sur cet appareil",

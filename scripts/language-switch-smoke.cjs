@@ -9,7 +9,7 @@ const {readdirSync}=require('node:fs');
   for(let i=0;i<40;i++){try{await new Promise((resolve,reject)=>{const socket=require('node:net').connect(8768,'127.0.0.1');socket.on('connect',()=>{socket.end();resolve();});socket.on('error',reject);});break}catch{await new Promise(r=>setTimeout(r,100));}}
   browser=await chromium.launch({headless:true});
   // The DOB entry and youth educational page are separate, not yet localized flows.
-  const pages=readdirSync('.').filter(p=>p.endsWith('.html')&&!['age-entry.html','youth.html'].includes(p)).concat('certificate/index.html');
+  const pages=readdirSync('.').filter(p=>p.endsWith('.html')&&!['age-entry.html','youth.html','community.html','community-preview.html'].includes(p)).concat('certificate/index.html');
   for(const width of [320,390,1280]){
    const context=await browser.newContext({viewport:{width,height:844},serviceWorkers:'block'});
    await context.route('**/*',route=>route.request().url().startsWith('http://127.0.0.1:8768/')?route.continue():route.abort());
@@ -24,7 +24,13 @@ const {readdirSync}=require('node:fs');
     const scrolled=await select.boundingBox();assert(scrolled.y>=0&&scrolled.y<160,path+' stays visible');
     await select.selectOption('en');
    }
-   await page.goto('http://127.0.0.1:8768/index.html?section=moodSection');
+   // Complete the actual age gate, then test language switching on the dashboard.\n   // The former Mood route now intentionally opens the separate My Buddy page.
+   await page.goto('http://127.0.0.1:8768/age-entry.html');
+   await page.locator('[data-choice="adult"]').click();
+   await page.locator('#birthdate').fill('1990-04-01');
+   await page.locator('#continue').click();
+   await page.waitForURL('**/index.html');
+   await page.goto('http://127.0.0.1:8768/index.html?section=homeSection');
    const activeBefore=await page.locator('section.active').first().getAttribute('id');
    await page.locator('#mcLanguageSelect').selectOption('fr');
    assert.equal(await page.locator('section.active').first().getAttribute('id'),activeBefore,'language must preserve current step');
@@ -37,7 +43,9 @@ const {readdirSync}=require('node:fs');
    await context.close();
   }
   const blocked=await browser.newContext({serviceWorkers:'block'});await blocked.addInitScript(()=>{Object.defineProperty(window,'localStorage',{configurable:true,get(){throw Error('local storage unavailable')}});});
-  const p=await blocked.newPage();await p.goto('http://127.0.0.1:8768/index.html');await p.locator('#mcLanguageSelect').selectOption('ha');assert.equal(await p.locator('#mcLanguageSelect').inputValue(),'ha');await blocked.close();
+  const p=await blocked.newPage();await p.goto('http://127.0.0.1:8768/index.html');await p.locator('#mcLanguageSelect').selectOption('ha');assert.equal(await p.locator('#mcLanguageSelect').inputValue(),'ha');
+  await p.goto('http://127.0.0.1:8768/age-entry.html');await p.locator('[data-choice="adult"]').click();await p.locator('#birthdate').fill('1990-04-01');await p.locator('#continue').click();await p.waitForURL('**/index.html');
+  await p.goto('http://127.0.0.1:8768/guide.html');await p.locator('#mcLanguageSelect').selectOption('fr');assert.match(await p.locator('#mcAdultWellnessTitle').innerText(),/adultes/,'adult wellness responds without localStorage');await p.locator('#mcLanguageSelect').selectOption('en');assert.match(await p.locator('#mcAdultWellnessTitle').innerText(),/adults/);await blocked.close();
   console.log('PASS language switching remains usable with blocked storage');
  }finally{await browser?.close();server.kill();}
 })().catch(e=>{console.error(e);process.exitCode=1});

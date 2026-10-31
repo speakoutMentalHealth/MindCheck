@@ -15,7 +15,7 @@ function mount(){
  const copy=key=>(window.MindCheckHomeCopy?.[language()]||window.MindCheckHomeCopy.en)[key];
  const footer=()=>'<div class="mc-home-footer"><a href="privacy.html" data-hc="privacy">Privacy</a><a href="terms.html" data-hc="terms">Terms</a><a href="https://speakoutmentalhealth.org/">SpeakOut ↗</a></div>';
  const launch=document.createElement('div');launch.className='mc-home-launch';
- launch.innerHTML='<div class="mc-home-tools"><button id="mcOpenBreathing" class="mc-home-tool mc-home-breathe" type="button" aria-haspopup="dialog"><span class="mc-home-tool-icon" aria-hidden="true">◌</span><strong data-hc="breathe">Breathe</strong><small data-hc="breatheHint">Find your rhythm</small></button><button id="mcOpenJourney" class="mc-home-tool" type="button" aria-haspopup="dialog"><span class="mc-home-tool-icon" aria-hidden="true">↗</span><strong data-hc="journey">My journey</strong><small data-hc="journeyHint">Progress & challenges</small></button></div><div class="mc-home-momentum"><span><strong id="mcCompactCheckins">0</strong> <span data-hc="checkins">Check-ins</span></span><span><strong id="mcCompactStreak">0</strong> <span data-hc="streak">Day streak</span></span></div>'+footer();
+ launch.innerHTML='<div class="mc-home-tools"><button id="mcOpenBreathing" class="mc-home-tool mc-home-breathe" type="button" aria-haspopup="dialog"><span class="mc-home-tool-icon" aria-hidden="true">◌</span><strong data-hc="breathe">Breathe</strong><small data-hc="breatheHint">Find your rhythm</small></button><button id="mcOpenJourney" class="mc-home-tool" type="button" aria-haspopup="dialog"><span class="mc-home-tool-icon" aria-hidden="true">↗</span><strong data-hc="journey">My journey</strong><small data-hc="journeyHint">Progress & challenges</small></button><a class="mc-home-tool mc-home-community-tool" id="mcHomeCommunityLink" href="community.html" aria-label="Explore Community for adults eighteen and above"><span class="mc-home-tool-icon" aria-hidden="true">◎</span><strong>Community</strong><small>Adults 18+</small></a></div><div class="mc-home-momentum"><span><strong id="mcCompactCheckins">0</strong> <span data-hc="checkins">Check-ins</span></span><span><strong id="mcCompactStreak">0</strong> <span data-hc="streak">Day streak</span></span></div>'+footer();
  home.querySelector('.mc-dashboard-hero').after(launch);
  const scene=document.querySelector('#mcBreathing .mc-breathing-visual');
  let fitFrame=0;
@@ -53,7 +53,8 @@ function mount(){
   document.getElementById('homeTitle').textContent=copy('question');
   document.querySelector('.mc-dashboard-lead').textContent=copy('private');
   document.querySelector('.mc-dashboard-kicker').textContent=copy('eyebrow');
-  document.querySelector('.mc-dashboard-main-action').textContent=copy('start');
+  document.querySelector('.mc-dashboard-main-action').textContent='Open My Buddy →';
+  document.querySelector('.mc-front-discover-grid [data-hc-nav="navMood"]').textContent='My Buddy';
   document.getElementById('mcHomeSheetClose').setAttribute('aria-label',copy('close'));
   document.getElementById('mcHomeSheetTitle').textContent=copy(sheet.dataset.panel==='journey'?'journey':'breathe');
   document.querySelector('.mc-brand strong').textContent='MindCheck';document.querySelector('.mc-brand small').textContent='SpeakOut Mental Health';
@@ -80,13 +81,14 @@ function mount(){
  // The visible language control makes a second language-selection screen unnecessary.
  function enter(target){
   if(!body.classList.contains('mc-stage-dashboard')){document.getElementById('startBtn').click();document.querySelector('.tbtn.live[data-lang="'+(language())+'"]').click();}
-  document.getElementById(target).click();window.scrollTo({top:0,behavior:'auto'});
+  if(target)document.getElementById(target).click();window.scrollTo({top:0,behavior:'auto'});
  }
- document.querySelector('.mc-primary-action').addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();enter('goMood');},true);
+ document.querySelector('.mc-primary-action').addEventListener('click',event=>{event.preventDefault();event.stopImmediatePropagation();enter(null);},true);
  const cards=Array.from(document.querySelectorAll('.mc-front-discover-card'));
  for(const [index,target] of ['goMood','goTips','goHelp'].entries()){
   const card=cards[index],link=document.createElement('a');link.className=card.className;link.innerHTML=card.innerHTML;link.querySelector('strong').dataset.hcNav=['navMood','navWellness','navSupport'][index];link.href='index.html?section='+['moodSection','tipsSection','helpSection'][index];
-  link.addEventListener('click',event=>{event.preventDefault();enter(target);});card.replaceWith(link);
+  if(index===0){link.href='daily-life.html';link.querySelector('strong').textContent='My Buddy';link.addEventListener('click',event=>{event.preventDefault();window.location.assign('daily-life.html')});}
+  else link.addEventListener('click',event=>{event.preventDefault();enter(target);});card.replaceWith(link);
  }
  document.querySelector('.mc-front-discover-title').hidden=true;
  const install=document.getElementById('mcInstallBanner');

@@ -16,8 +16,8 @@ export function createHandler(generate=explain){return async function(request,en
  if(!data||Array.isArray(data)||Object.keys(data).sort().join(',')!=='adult,language,question'||data.adult!==true||!Object.hasOwn(topics,data.question)||!['en','fr'].includes(data.language))return reply({error:'Invalid selection'},400);
  const topic=topics[data.question],fact=(topic[data.language]||topic).answer;
  const fallback=reason=>reply({source:'prepared',answer:fact,reason});
- // Hybrid policy: no anonymous AI generation. Unverified or absent access
- // always returns prepared public education, even when GUIDE_ENABLED is true.
+ // Generated AI requires a trusted, signed adult entitlement. Browser DOB or
+ // adult:true is not proof of adulthood. All missing settings fail closed.
  if(env.GUIDE_REQUIRE_ADULT_TOKEN!=='true')return fallback('authorization');
  const authorization=request.headers.get('Authorization')||'';
  const match=/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/.exec(authorization);

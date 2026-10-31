@@ -98,7 +98,7 @@ fr:[
     var done=Object.keys(entries).filter(function(key){return Array.isArray(entries[key]);}).reduce(function(n,key){return n+entries[key].length;},0);
     var todayDone=Array.isArray(entries[today()])?entries[today()]:[];
     document.getElementById('mcJourneyCheckins').textContent=history.length;
-    document.getElementById('mcJourneyStreak').textContent=String(Math.max(0,Number(json('mc_streak',0))||0));
+    var previousDay=new Date();previousDay.setDate(previousDay.getDate()-1);var yesterday=previousDay.getFullYear()+'-'+String(previousDay.getMonth()+1).padStart(2,'0')+'-'+String(previousDay.getDate()).padStart(2,'0');var last='';try{last=localStorage.getItem('mc_lastCheckin')||'';}catch(e){}var streak=(last===today()||last===yesterday)?Math.max(0,Number(json('mc_streak',0))||0):0;document.getElementById('mcJourneyStreak').textContent=String(streak);
     document.getElementById('mcJourneyTips').textContent=tips.length;
     document.getElementById('mcJourneyChallenges').textContent=done;
     var mood=document.getElementById('mcJourneyMood');mood.replaceChildren();

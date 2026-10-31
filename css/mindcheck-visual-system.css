@@ -112,3 +112,22 @@ body.mc-home-compact>footer{color:#52665c!important;opacity:1!important}
 /* Locked milestones remain readable; status text communicates availability. */
 body.mc-stage-dashboard #badgesSection .badge.locked{opacity:1!important;filter:none!important;background:#f2f1eb!important}
 body.mc-stage-dashboard #badgesSection .badge :is(.name,.desc,.status){color:#435b4b!important;opacity:1!important}
+
+/* Cross-feature finishing pass: dashboard, assessments, wellness and support. */
+body.mc-stage-dashboard :is(#homeSection,#moodSection,#tipsSection,#assessmentCentre,#assessmentsSection,#breathingSection,#supportSection,#trainingHub,#badgesSection){max-width:100%;min-width:0}
+body.mc-stage-dashboard :is(.card,.panel,.assessment-card,.wellness-card){overflow-wrap:anywhere}
+body.mc-stage-dashboard :is(input:not([type=checkbox]):not([type=radio]),textarea,select){max-width:100%;border-radius:14px}
+body.mc-stage-dashboard :is(button,.btn,[role=button]){touch-action:manipulation}
+body.mc-stage-dashboard :is(button,a,input,select,textarea):focus-visible{outline:3px solid #176b4b!important;outline-offset:3px!important}
+body.mc-stage-dashboard :is(.grid,.assessment-grid,.wellness-grid)>*{min-width:0}
+body.mc-stage-dashboard :is(.card,.panel){border-radius:20px}
+body.mc-stage-dashboard :is(.card,.panel) h2{line-height:1.2;letter-spacing:-.02em}
+body.mc-stage-dashboard :is(.card,.panel) p{line-height:1.55}
+@media(max-width:600px){
+ body.mc-stage-dashboard :is(input:not([type=checkbox]):not([type=radio]),textarea,select){font-size:16px}
+ body.mc-stage-dashboard :is(button,.btn,input,select,textarea){min-height:44px}
+ body.mc-stage-dashboard :is(.grid,.assessment-grid,.wellness-grid){gap:12px}
+ body.mc-stage-dashboard :is(.card,.panel){max-width:100%}
+ body.mc-stage-dashboard :is(.card,.panel) h2{font-size:clamp(1.15rem,5vw,1.5rem)}
+}
+@media(prefers-reduced-motion:reduce){body.mc-stage-dashboard :is(.card,.panel,button,.btn){scroll-behavior:auto;transition:none!important;animation:none!important}}

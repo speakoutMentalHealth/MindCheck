@@ -240,3 +240,30 @@ body.mc-stage-dashboard #homeSection .grid .card p{
 @media(prefers-reduced-motion:reduce){
   body.mc-stage-dashboard #homeSection .grid .card{transition:none!important;transform:none!important}
 }
+
+/* MindCheck design foundation v1: accessible, reusable, non-destructive. */
+:root{
+  --mc-ui-ink:#12382e;--mc-ui-muted:#45695d;--mc-ui-surface:#fff;
+  --mc-ui-border:#d9e9e1;--mc-ui-focus:#176b4b;
+  --mc-ui-radius:20px;--mc-ui-shadow:0 12px 32px rgba(13,58,44,.07);
+  --mc-ui-space-1:6px;--mc-ui-space-2:12px;--mc-ui-space-3:18px;--mc-ui-space-4:24px;
+}
+html{scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{overflow-wrap:break-word}
+img,video,iframe{max-width:100%}
+:where(button,input,select,textarea){font:inherit}
+:where(button,[role="button"],a){-webkit-tap-highlight-color:transparent}
+:where(button,a,input,select,textarea):focus-visible{outline:3px solid var(--mc-ui-focus);outline-offset:3px}
+:where(button,[role="button"]):not(:disabled){cursor:pointer}
+:where(button,a,input,select,textarea):disabled{cursor:not-allowed}
+:where(.card,.panel){min-width:0}
+:where(.card){overflow-wrap:anywhere}
+@media(max-width:600px){
+  :where(button,.btn,input,select,textarea){min-height:44px}
+  :where(.grid)>*{min-width:0}
+}
+@media(prefers-reduced-motion:reduce){
+  html:focus-within{scroll-behavior:auto}
+  :where(button,.btn,.card,a){animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+@media(forced-colors:active){:where(button,a,input):focus-visible{outline:3px solid Highlight}}

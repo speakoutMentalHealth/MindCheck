@@ -1,0 +1,70 @@
+name: Community live deployment audit
+
+# A pull request changes the expected files before those files exist on the live site.
+# Only inspect production after the main GitHub Pages deployment succeeds,
+# or when a maintainer explicitly runs this read-only audit.
+on:
+  # Generated Pages jobs do not always emit a compatible workflow_run event.
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - pages build and deployment
+    types:
+      - completed
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  check-live-community:
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    name: Verify published adult Community assets (read-only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Allow production CDN to catch up after main merge
+        if: ${{ github.event_name == 'push' }}
+        run: sleep 75
+      - name: Check public HTML, styles, PWA cache and sign-in gateway
+        run: node scripts/community-live-audit.cjs
+
+  check-live-mobile:
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    name: Check iPhone-width design, filters and read-only forum
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Allow production CDN to catch up after main merge
+        if: ${{ github.event_name == 'push' }}
+        run: sleep 75
+      - name: Run read-only production layout and age-navigation checks
+        run: node scripts/community-live-mobile.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-community-screenshots
+          path: artifacts/live-community/
+          if-no-files-found: warn
+          retention-days: 7

@@ -3,13 +3,14 @@
 (function () {
   'use strict';
   const ids=['homeSection','moodSection','formContainer','tipsSection','helpSection','badgesSection'];
-  const labels={homeSection:'Home',moodSection:'Mood',formContainer:'Assessments',tipsSection:'Wellness',helpSection:'Support',badgesSection:'Awards'};
+  const labels={homeSection:'Home',moodSection:'My Buddy',formContainer:'Assessments',tipsSection:'Wellness',helpSection:'Support',badgesSection:'Awards'};
   const icons={"homeSection":"<path d=\"m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z\"/>","moodSection":"<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2M8.5 9h.01M15.5 9h.01\"/>","formContainer":"<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 8h6M9 12h6M9 16h4\"/>","tipsSection":"<path d=\"M9 18h6M10 21h4M8 14a7 7 0 1 1 8 0c-.7.6-1 1.2-1 2H9c0-.8-.3-1.4-1-2z\"/>","helpSection":"<path d=\"M20 12v5a3 3 0 0 1-3 3h-2l-3 2-3-2H7a3 3 0 0 1-3-3v-5\"/><path d=\"M12 15S5 11 5 7a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4-7 8-7 8z\"/>","badgesSection":"<path d=\"m12 2 3 6 7 .9-5 5 .9 7.1-5.9-3.2L6.1 21l.9-7.1-5-5L9 8z\"/>"};
   let current='',suppressHistory=false;
   function ready(){return document.body.classList.contains('mc-stage-dashboard');}
   function activeId(){return ids.find(id=>document.getElementById(id)?.classList.contains('active'))||'';}
   function findTrigger(id){return {homeSection:null,moodSection:'goMood',formContainer:'goScreenings',tipsSection:'goTips',helpSection:'goHelp',badgesSection:'goBadges'}[id];}
   function navigate(id,fromHistory){
+    if(id==='moodSection'){window.location.assign('daily-life.html');return;}
     if(id==='formContainer'){window.location.assign('assessment-centre.html');return;}
     if(!ids.includes(id))return;
     if(!ready())return;
@@ -45,15 +46,21 @@
       if(title){if(!title.hasAttribute('tabindex'))title.setAttribute('tabindex','-1');title.focus({preventScroll:true});}
     }
   }
+  function ensureUnifiedSkin(){
+    if(document.querySelector('link[href*="css/mindcheck-nav-unified.css"]'))return;
+    const skin=document.createElement('link');skin.rel='stylesheet';skin.href='css/mindcheck-nav-unified.css?v=20261026-v55';
+    document.head.appendChild(skin);
+  }
   function mount(){
+    ensureUnifiedSkin();
     if(document.getElementById('mc-premium-tabs'))return;
     const nav=document.createElement('nav');
     nav.id='mc-premium-tabs';
-    nav.className='mc-premium-tabs';
+    nav.className='mc-premium-tabs mc-unified-nav';
     nav.setAttribute('aria-label','MindCheck sections');
     ids.forEach(id=>{
       const button=document.createElement('button');
-      button.type='button';button.dataset.mcNavTarget=id;
+      button.type='button';button.className='mc-nav-tab';button.dataset.mcNavTarget=id;
       button.innerHTML='<span class="mc-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+icons[id]+'</svg></span><span class="mc-tab-label">'+labels[id]+'</span>';
       button.addEventListener('click',()=>{button.classList.remove('mc-tapped');void button.offsetWidth;button.classList.add('mc-tapped');navigate(id,false);});
       button.addEventListener('animationend',()=>button.classList.remove('mc-tapped'));
