@@ -51,3 +51,13 @@ test('unspecified or malformed adult-token configuration never calls AI provider
  assert.equal((await explicit.json()).source,'gemini');
  assert.equal(generated,1);
 });
+
+test('assessment safety disclaimer is allowed without permitting appended medical advice',async()=>{
+ const assessment={...good,question:'assessment'};
+ for(const answer of ['Open the Assessment Centre to explore the tools. Screening results are not a diagnosis.', 'Screening results are not a diagnosis; a qualified professional should interpret clinical concerns.', "Un résultat n’est pas un diagnostic. Consultez le centre des évaluations."]){
+  const result=await createHandler(async()=>answer)(request(assessment),env);assert.equal((await result.json()).source,'gemini');
+ }
+ for(const answer of ['Screening results are not a diagnosis, but take medication.', 'This is not a diagnosis. Take medication.', 'Your diagnosis is depression.', 'This is not a diagnosis; take medication.', 'Ces résultats ne constituent pas un diagnostic. Votre diagnostic est confirmé.']){
+  const result=await createHandler(async()=>answer)(request(assessment),env);assert.equal((await result.json()).reason,'output');
+ }
+});
