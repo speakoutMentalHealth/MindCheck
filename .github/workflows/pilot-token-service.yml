@@ -1,0 +1,16 @@
+name: Adult pilot token service
+on:
+  pull_request:
+    paths: ['server/guide/pilot-token-service.mjs', 'server/guide/entitlement-issuer.mjs', 'server/guide/age-entitlement.mjs', 'tests/pilot-token-service.test.mjs', '.github/workflows/pilot-token-service.yml']
+  push:
+    branches: [main]
+    paths: ['server/guide/pilot-token-service.mjs', 'tests/pilot-token-service.test.mjs']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/pilot-token-service.test.mjs
