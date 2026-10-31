@@ -1,0 +1,19 @@
+name: Adult pilot token service
+on:
+  pull_request:
+    paths: ['js/mindcheck-adult-access.mjs', 'js/pilot-token-client.mjs', 'scripts/pilot-token-bridge-smoke.cjs', 'server/guide/pilot-token-client.mjs', 'tests/pilot-token-client.test.mjs', 'server/guide/pilot-token-service.mjs', 'server/guide/entitlement-issuer.mjs', 'server/guide/age-entitlement.mjs', 'tests/pilot-token-service.test.mjs', '.github/workflows/pilot-token-service.yml']
+  push:
+    branches: [main]
+    paths: ['js/mindcheck-adult-access.mjs', 'js/pilot-token-client.mjs', 'scripts/pilot-token-bridge-smoke.cjs', 'server/guide/pilot-token-client.mjs', 'tests/pilot-token-client.test.mjs', 'server/guide/pilot-token-service.mjs', 'tests/pilot-token-service.test.mjs']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/pilot-token-*.test.mjs
+      - run: npm install --no-save --no-package-lock playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/pilot-token-bridge-smoke.cjs
