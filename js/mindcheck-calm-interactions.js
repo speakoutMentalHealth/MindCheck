@@ -32,10 +32,20 @@ if(filters.length){
   var cards=Array.from(document.querySelectorAll('.ac-card[data-category]'));
   var questionnaires=['emotional','focus','substance'];
   function apply(filter){
+    if(!['all','questionnaire','guidance'].includes(filter))return;
     var shown=0;
-    cards.forEach(function(el){var questionnaire=questionnaires.includes(el.dataset.category)||el.querySelector('a[href="pcl5-screening.html"]');var visible=filter==='all'||(filter==='questionnaire'?questionnaire:!questionnaire);el.hidden=!visible;if(visible)shown++;});
+    cards.forEach(function(el){
+      // Prefer explicit card classification; keep a fallback for any older page.
+      var questionnaire=el.dataset.toolType
+        ?el.dataset.toolType==='questionnaire'
+        :questionnaires.includes(el.dataset.category)||!!el.querySelector('a[href="pcl5-screening.html"]');
+      var visible=filter==='all'||(filter==='questionnaire'?questionnaire:!questionnaire);
+      el.hidden=!visible;
+      if(visible)shown++;
+    });
     filters.forEach(function(btn){btn.setAttribute('aria-pressed',String(btn.dataset.acFilter===filter));});
-    document.getElementById('acFilterStatus').textContent=shown+' / '+cards.length;
+    var count=document.getElementById('acFilterStatus');
+    if(count)count.textContent='Showing '+shown+' of '+cards.length+' resources';
   }
   filters.forEach(function(btn){btn.addEventListener('click',function(){apply(btn.dataset.acFilter);});});apply('all');
 }

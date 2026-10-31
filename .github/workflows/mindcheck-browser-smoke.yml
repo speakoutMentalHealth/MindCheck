@@ -15,6 +15,7 @@ on:
       - '*.css'
       - 'scripts/browser-smoke.cjs'
       - 'scripts/age-entry-smoke.cjs'
+      - 'scripts/buddy-assessment-smoke.cjs'
       - 'scripts/adult-community-smoke.cjs'
       - 'scripts/community-preview-smoke.cjs'
       - 'scripts/language-switch-smoke.cjs'
@@ -54,6 +55,8 @@ jobs:
           node scripts/buddy-streak-smoke.cjs
       - name: Check DOB age-entry and youth navigation
         run: node scripts/age-entry-smoke.cjs
+      - name: Check My Buddy and assessment filters without live Drive access
+        run: node scripts/buddy-assessment-smoke.cjs
       - name: Verify adult-only Community hub and locked forum handoff
         run: node scripts/adult-community-smoke.cjs
       - name: Verify adult-only example room navigation without persistent writes
