@@ -1,3 +1,4 @@
+import {safeGuideOutput} from './output-safety.mjs';
 import '../../js/guide-content.js';
 import { explain } from './provider.mjs';
 import { verifyAdultToken } from './age-entitlement.mjs';
@@ -30,7 +31,7 @@ export function createHandler(generate=explain){return async function(request,en
  try{
   const limit=await env.GUIDE_LIMITER.limit({key:'mindcheck-guide-pilot'});if(!limit.success)return fallback('busy');
   const answer=await generate(env,fact,data.language,AbortSignal.timeout(12000));
-  if(typeof answer!=='string'||answer.trim().length<10||answer.length>900||/[<>]|https?:|www\.|\b(prescrib|medicat|diagnos|dosage|cure|suicid)/i.test(answer))return fallback('output');
+  if(!safeGuideOutput(answer))return fallback('output');
   return reply({source:'gemini',answer:answer.trim()});
  }catch(error){const status=Number(error?.statusCode);const reason=error?.name==='TimeoutError'||error?.name==='AbortError'?'timeout':status===429?'quota':status===401||status===403?'provider_access':status===404?'model':status===400?'provider_request':'provider';return fallback(reason);} // Never return or log provider errors, keys, requests or IP addresses.
 };}
