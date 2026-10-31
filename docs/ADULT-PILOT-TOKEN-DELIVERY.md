@@ -14,3 +14,8 @@ Still required before activation:
 - Provision secrets and test signed-in eligible, unverified, underage, expired and revoked accounts end to end.
 
 This module deliberately does not invent an authentication service or grant real people eligibility.
+
+## Confirmed portal integration points
+The SpeakOut platform Worker already has `verifiedIdentity` (Firebase issuer/audience verification) and `authenticatedUser` (current `users/{uid}` approval check). Reuse these helpers; do not substitute browser DOB or forum membership for AI consent. Proposed AI eligibility records must be server-only and independently approved.
+
+`pilot-token-client.mjs` now implements on-demand acquisition and logout invalidation through an injected authenticated issuer adapter. It never writes browser storage, never retries silently on denial, and requests fresh eligibility on each uncached AI request. It is not yet loaded by the page: actual endpoint and cross-domain sign-in wiring remain missing.
