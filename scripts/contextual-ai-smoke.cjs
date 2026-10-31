@@ -7,6 +7,7 @@ try{
  browser=await chromium.launch();const origin='http://127.0.0.1:8799/';
  for(const width of [320,390,1280]){
   const c=await browser.newContext({viewport:{width,height:740},serviceWorkers:'block'}),calls=[];let mode='ok';
+  await c.addInitScript(()=>{window.MindCheckVerifiedAdultAccess={getToken:async()=> 'mockpayload.mocksignature'}});
   await c.route('**/*',r=>r.request().url().startsWith(origin)?r.continue():r.abort());
   await c.route('https://mindcheck-guide.speakout-platform-api.workers.dev/**',r=>{calls.push(r.request().postDataJSON());return r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(mode==='ok'?{source:'gemini',answer:'Choose a mood, then save your check-in. History remains in this browser.'}:{source:'prepared',reason:'quota',answer:'Prepared answer.'})})});
   const p=await c.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
@@ -27,8 +28,14 @@ try{
   await p.goto(origin+'assessment-centre.html');await p.locator('main .mc-inline-guide').click();await p.locator('#mcGuideQuestion').filter({hasText:'assessments'}).waitFor();mode='quota';await p.locator('#mcGuideAI').click();await p.waitForFunction(()=>document.getElementById('mcGuideAIStatus').textContent.includes('[quota]'));assert(await p.locator('#mcGuideAnswer').isVisible());
   assert.equal(calls[2].question,'assessment');assert.deepEqual(errors,[]);await c.close();console.log('PASS in-app guide '+width+': exact public payloads, no auto generation, language-specific cache, fallback, accessible dialog, focus restoration');
  }
+ // Missing adult authorization must never call the AI endpoint.
+ const denied=await browser.newContext({serviceWorkers:'block'});let unauthorizedCalls=0;
+ await denied.route('https://mindcheck-guide.speakout-platform-api.workers.dev/**',r=>{unauthorizedCalls++;return r.abort()});
+ const dp=await denied.newPage();await dp.goto(origin+'index.html?section=moodSection');await dp.locator('#moodSection .mc-inline-guide').click();await dp.locator('#mcGuideAI').click();
+ await dp.waitForFunction(()=>document.getElementById('mcGuideAIStatus').textContent.includes('[authorization]'));
+ assert.equal(unauthorizedCalls,0);assert(await dp.locator('#mcGuideAnswer').isVisible());assert.equal(await dp.locator('#mcGuideAIAnswer').isVisible(),false);await denied.close();
  // Closing invalidates a delayed request; its reply must not appear on reopening.
- const c=await browser.newContext({serviceWorkers:'block'});await c.route('**/*',r=>r.request().url().startsWith(origin)?r.continue():r.abort());let release;
+ const c=await browser.newContext({serviceWorkers:'block'});await c.addInitScript(()=>{window.MindCheckVerifiedAdultAccess={getToken:async()=> 'mockpayload.mocksignature'}});await c.route('**/*',r=>r.request().url().startsWith(origin)?r.continue():r.abort());let release;
  await c.route('https://mindcheck-guide.speakout-platform-api.workers.dev/**',async r=>{await new Promise(resolve=>release=resolve);try{await r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({source:'gemini',answer:'Delayed public answer that should not be displayed.'})})}catch{}});
  const p=await c.newPage();await p.goto(origin+'index.html');await p.locator('.mc-ai-guide-entry').click();await p.locator('#mcGuideAI').click();for(let i=0;i<30&&!release;i++)await p.waitForTimeout(50);assert(release);await p.keyboard.press('Escape');release();await p.locator('.mc-ai-guide-entry').click();assert.equal(await p.locator('#mcGuideAIAnswer').isVisible(),false);await c.close();console.log('PASS close aborts generation and rejects stale replies');
 }finally{await browser?.close();server.kill()}})().catch(e=>{console.error(e);process.exitCode=1});
