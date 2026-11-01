@@ -1,0 +1,110 @@
+/* MindCheck final presentation layer, 2026-11-01.
+   Deliberately scoped: presentation only, no assessment, age or storage policy changes. */
+:root{
+  --mc-finish-forest:#123f35;
+  --mc-finish-emerald:#1c7959;
+  --mc-finish-paper:#fbfcf8;
+  --mc-finish-line:#dce9df;
+  --mc-finish-focus:#176b4b;
+}
+/* Portfolio-inspired opening, repeated on each app-entry load, with a fail-safe. */
+.mc-launch-intro{
+  position:fixed;inset:0;z-index:2147483000;isolation:isolate;
+  display:grid;place-items:center;overflow:auto;
+  padding:calc(26px + env(safe-area-inset-top)) max(24px,env(safe-area-inset-right)) calc(32px + env(safe-area-inset-bottom)) max(24px,env(safe-area-inset-left));
+  background:radial-gradient(ellipse 60% 55% at 50% 32%,#226d56 0%,#114337 46%,#061e1b 100%);
+  color:#fff!important;text-align:center;
+  font-family:'Outfit',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease;
+  animation:mc-launch-failsafe 0s linear 7s forwards;
+}
+.mc-launch-intro::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;
+  background:radial-gradient(circle at 19% 78%,#7df4bf 0,transparent 21%),radial-gradient(circle at 87% 24%,#edc76a 0,transparent 18%);
+}
+.mc-launch-intro[hidden]{display:none!important;animation:none!important}
+.mc-launch-intro.is-exiting{opacity:0;visibility:hidden;pointer-events:none}
+@keyframes mc-launch-failsafe{to{visibility:hidden;opacity:0;pointer-events:none}}
+html.mc-launch-open,html.mc-launch-open body{overflow:hidden!important}
+.mc-launch-inner{position:relative;z-index:1;width:min(100%,540px);margin:auto;display:grid;justify-items:center;gap:0}
+.mc-launch-mark{position:relative;width:154px;height:154px;display:grid;place-items:center;margin:0 auto 28px}
+.mc-launch-ring{position:absolute;inset:0;border-radius:50%;border:1px solid #c1f4d94d;animation:mc-launch-orbit 10s linear infinite}
+.mc-launch-ring:nth-child(2){inset:13px;border-color:#edc97555;animation-direction:reverse;animation-duration:8s}
+.mc-launch-ring:nth-child(3){inset:27px;border-color:#d0f8e890;animation-duration:6s}
+.mc-launch-logo{position:relative;z-index:2;width:76px;height:76px;object-fit:contain;padding:7px;background:#fff;border-radius:24px;box-shadow:0 0 50px #bdfce02e,0 18px 45px #001b1666;animation:mc-launch-breathe 3s ease-in-out infinite}
+.mc-launch-label{margin:0 0 14px;letter-spacing:.25em;font-size:clamp(.65rem,2vw,.76rem);line-height:1.5;font-weight:800;color:#c5f2dc}
+.mc-launch-intro h2{font-size:clamp(2.35rem,8vw,4.6rem);font-weight:700;line-height:1.03;letter-spacing:-.06em;max-width:11ch;margin:0;color:#fff;text-wrap:balance}
+.mc-launch-intro p.mc-launch-subtitle{font-size:clamp(.97rem,3vw,1.12rem);color:#d9ede3;line-height:1.6;margin:21px 0 0;max-width:29ch}
+.mc-launch-progress{width:min(200px,64vw);height:3px;overflow:hidden;background:#ffffff32;border-radius:50px;margin-top:38px}
+.mc-launch-progress span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#a6eec7,#f0d28d);transform-origin:left;animation:mc-launch-progress 4.5s linear both}
+.mc-launch-intro .mc-launch-skip{margin-top:24px;min-height:44px;padding:10px 19px;border:1px solid #c5ebd67a;border-radius:999px;background:#ffffff12!important;color:#fff!important;font:650 .89rem/1.3 'Outfit',system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(7px)}
+.mc-launch-intro .mc-launch-skip:hover{background:#ffffff2b!important;border-color:#fff}
+.mc-launch-intro .mc-launch-skip:focus-visible{outline:3px solid #f2d89b!important;outline-offset:4px!important}
+@keyframes mc-launch-orbit{to{transform:rotate(360deg)}}
+@keyframes mc-launch-breathe{50%{transform:translateY(-4px) scale(1.035)}}
+@keyframes mc-launch-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Refine the pictured age-selection screen without changing DOB-based routing. */
+body.mc-age-entry{min-height:100dvh;display:grid;place-items:center;padding:clamp(14px,4vw,32px);background:radial-gradient(circle at 15% 10%,#d7f4e2,transparent 43%),radial-gradient(circle at 100% 92%,#ede5fa,transparent 36%),#f4faf6}
+body.mc-age-entry main#main-content{width:min(100%,560px);background:#fffefa;border:1px solid #d8e9df;box-shadow:0 20px 65px #133f3520;padding:clamp(23px,5vw,37px);border-radius:30px}
+body.mc-age-entry .entry-brand{gap:13px;margin-bottom:16px}
+body.mc-age-entry .entry-logo{width:52px;height:52px;object-fit:contain}
+body.mc-age-entry .entry-eyebrow{font-size:.77rem;color:#267c5b;letter-spacing:.2em}
+body.mc-age-entry h1{font-size:clamp(2rem,7vw,2.75rem);max-width:15ch;color:#102d2a;letter-spacing:-.05em}
+body.mc-age-entry .choices{margin:24px 0 22px;gap:12px}
+body.mc-age-entry .choices button{box-shadow:0 8px 22px #163d3010;min-height:154px;border-radius:23px;position:relative}
+body.mc-age-entry .choices button[data-choice=adult]{background:linear-gradient(155deg,#fcfffd,#ebf7f0)}
+body.mc-age-entry .choices button[data-choice=youth]{background:linear-gradient(155deg,#fff9ed,#f2edfb)}
+body.mc-age-entry .choices button[aria-pressed=true]{box-shadow:0 0 0 3px #25845d35,0 12px 28px #163d3020;border-color:#257c59}
+body.mc-age-entry .entry-note{background:#f1f8f4;line-height:1.55;border-radius:18px}
+body.mc-age-entry #age-form{background:#f6fbf7;border-radius:20px}
+body.mc-age-entry #continue{background:linear-gradient(115deg,#246e52,#12503c);box-shadow:0 7px 22px #14573b22}
+body.mc-age-entry :is(button,input):focus-visible{outline:3px solid var(--mc-finish-focus);outline-offset:4px}
+/* Adult welcome, cards, tools, language and fixed navigation. */
+body.mc-stage-welcome .mc-front-door .mc-hero{border-radius:clamp(24px,4vw,36px)}
+body.mc-stage-welcome .mc-front-discover-card{border-radius:19px}
+body.mc-stage-dashboard :is(.mc-dashboard-hero,.mc-dashboard-section-heading,.mc-journey,.mc-breathing,.mc-grounding,.mc-support-panel){min-width:0}
+body.mc-stage-dashboard :is(.mc-dashboard-main-action,.mc-dashboard-secondary-action,.mc-breathing-controls button,#tipsSection button,#helpSection a){touch-action:manipulation}
+body.mc-stage-dashboard :is(.mc-dashboard-main-action,.mc-dashboard-secondary-action,.mc-breathing-controls button,#tipsSection button,#helpSection a):focus-visible{outline:3px solid var(--mc-finish-focus)!important;outline-offset:3px!important}
+body.mc-stage-dashboard :is(#homeSection,#moodSection,#tipsSection,#helpSection,#badgesSection){scroll-margin-top:76px}
+body.mc-stage-dashboard :is(.mc-journey,.mc-breathing,.mc-grounding){border-radius:23px}
+body.mc-stage-dashboard :is(.mc-dashboard-hero-content,.mc-support-panel,.mc-journey-head){overflow-wrap:anywhere}
+body.mc-stage-dashboard #mc-premium-tabs{padding-bottom:max(8px,env(safe-area-inset-bottom))!important}
+body.mc-stage-dashboard .crisis{box-shadow:none!important;animation:none!important}
+/* The same finishing language on youth, assessment and buddy experiences. */
+body.mc-youth-page{background:radial-gradient(circle at 5% 0,#e2f8e8,transparent 40%),#f9fbf5}
+body.mc-youth-page :is(.youth-hero,.panel,.adventure-stop){border-radius:23px}
+body.mc-youth-page .youth-nav{border-radius:17px}
+body.mc-youth-page .panel{box-shadow:0 10px 28px #1a55400c}
+body.mc-youth-page :is(a,button,input,select):focus-visible{outline:3px solid var(--mc-finish-focus);outline-offset:3px}
+#assessmentMain .ac-hero{border-radius:26px}
+#assessmentMain .ac-jump{gap:8px}
+#assessmentMain .ac-jump a{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+#assessmentMain .ac-card{border-radius:21px;box-shadow:0 9px 24px #173f3c0d}
+#assessmentMain :is(.ac-card a,.ac-jump a):focus-visible{outline:3px solid var(--mc-finish-focus);outline-offset:3px}
+body.mc-buddy-page main>.card{border-radius:23px}
+body.mc-buddy-page :is(.buddy-mood,.buddy-header-home,button){touch-action:manipulation}
+body.mc-buddy-page :is(.buddy-mood,.buddy-header-home,button,textarea,input):focus-visible{outline:3px solid var(--mc-finish-focus);outline-offset:3px}
+@media(max-width:600px){
+ body.mc-age-entry main#main-content{padding:22px 19px;border-radius:26px}
+ body.mc-age-entry .choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ body.mc-age-entry .choices button{min-width:0;min-height:144px;padding:13px 8px}
+ body.mc-age-entry .choice-desc{font-size:.76rem}
+ body.mc-stage-dashboard :is(input:not([type=checkbox]):not([type=radio]),textarea,select){font-size:16px}
+ body.mc-stage-dashboard .mc-dashboard-actions{gap:10px;flex-wrap:wrap}
+ #assessmentMain .ac-jump a{flex:1 1 42%}
+}
+@media(max-width:350px){
+ body.mc-age-entry .choices button{min-height:136px}
+ body.mc-age-entry .choice-title{font-size:.92rem}
+ .mc-launch-mark{width:126px;height:126px}
+ .mc-launch-logo{width:64px;height:64px}
+}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ body.mc-age-entry .choices button:hover{transform:translateY(-3px)}
+ #assessmentMain .ac-card:hover{transform:translateY(-2px);transition:transform .18s ease}
+}
+@media(prefers-reduced-motion:reduce){
+ .mc-launch-ring,.mc-launch-logo,.mc-launch-progress span{animation:none!important}
+ .mc-launch-intro{transition:none!important}
+ body.mc-age-entry .choices button,#assessmentMain .ac-card{transition:none!important;transform:none!important}
+}
