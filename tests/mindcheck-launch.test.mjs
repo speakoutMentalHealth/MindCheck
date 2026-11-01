@@ -54,7 +54,12 @@ test('each primary entry has a replayable, skippable introduction', () => {
     const html = read(page);
     assert.match(html, /id="mcLaunchIntro"/);
     assert.match(html, /data-mc-launch-skip/);
-    assert.match(html, /js\/mindcheck-launch\.js\?v=20261101/);
+    if (page === 'index.html') {
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101/);
+    } else {
+      assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
+      assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
+    }
     assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101/);
   }
 });
