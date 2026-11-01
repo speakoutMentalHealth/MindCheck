@@ -31,7 +31,7 @@
     ]);
     play('.mc-launch-inner',[
       {opacity:0,offset:0},{opacity:0,offset:.159},
-      {opacity:1,offset:.148},{opacity:1,offset:1}
+      {opacity:1,offset:.28},{opacity:1,offset:1}
     ]);
   }else{
     play('.mc-launch-prelude',[
