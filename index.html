@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <script>/* Navigation gate only: not identity verification or authorization. */try{if(sessionStorage.getItem("mc-age-entry-band")!=="adult"||sessionStorage.getItem("mc-age-entry-adult")!=="1")location.replace("age-entry.html");}catch(_){location.replace("age-entry.html");}</script>
+<script>/* Consume DOB-to-section handoff before first paint. */try{if(sessionStorage.getItem('mc-launch-handoff-once')==='adult'){sessionStorage.removeItem('mc-launch-handoff-once');document.documentElement.classList.add('mc-launch-handoff');}}catch(_){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SpeakOut MindCheck 💚</title>
   <meta name="description" content="For adults 18+: check in privately and explore wellbeing resources in your preferred language. SpeakOut MindCheck Nigeria." />
@@ -355,7 +356,7 @@ body.mc-stage-welcome :where(button,.btn,a):focus-visible{outline:3px solid #176
 <link rel="stylesheet" href="css/mindcheck-nav-unified.css?v=20261026-v55"><link rel="stylesheet" href="css/native-touch.css?v=20261027">
 <link rel="stylesheet" href="css/premium-screens.css?v=20261027">
 <link rel="stylesheet" href="css/mindcheck-community.css?v=20261027-premium">
-<link rel="stylesheet" href="css/mindcheck-launch-finish.css?v=20261101"><script src="js/mindcheck-launch.js?v=20261101" defer></script>
+<link rel="stylesheet" href="css/mindcheck-launch-finish.css?v=20261101-iosfix"><script src="js/mindcheck-launch.js?v=20261101-iosfix" defer></script>
 </head>
 <body class="mc-stage-welcome">
 <div id="mcLaunchIntro" class="mc-launch-intro" role="dialog" aria-modal="true" aria-labelledby="mcLaunchTitle" aria-describedby="mcLaunchDescription">
