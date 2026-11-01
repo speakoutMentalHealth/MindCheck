@@ -64,6 +64,18 @@ jobs:
         run: node scripts/adult-community-smoke.cjs
       - name: Verify adult-only example room navigation without persistent writes
         run: node scripts/community-preview-smoke.cjs
+  browser-learning:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1 axe-core@4.10.3
+          npx playwright install --with-deps chromium
       - name: Check counsellor pathway interactions and accessibility
         run: node scripts/counsellor-pathway-smoke.cjs
       - name: Check Training Centre learning flow and accessibility
@@ -74,6 +86,30 @@ jobs:
         run: node scripts/translation-coverage-smoke.cjs
       - name: Check breathing studio sessions and grounding
         run: node scripts/breathing-studio-smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: counsellor-pathway-preview
+          path: artifacts/counsellor-pathway
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: training-centre-preview
+          path: artifacts/training-centre
+          retention-days: 14
+  browser-wellness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1 axe-core@4.10.3
+          npx playwright install --with-deps chromium
       - name: Check compact home and full-screen tools
         run: node scripts/compact-home-smoke.cjs
       - name: Check phone installation handoff and compact breathing
@@ -90,19 +126,19 @@ jobs:
         run: node scripts/support-guide-smoke.cjs
       - name: Check adult entry and optional guide privacy
         run: node scripts/adult-guide-smoke.cjs
+  browser-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test runner
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1 axe-core@4.10.3
+          npx playwright install --with-deps chromium
       - name: Check all public pages and private data controls
         run: node scripts/platform-quality-smoke.cjs
       - name: Run responsive browser smoke suite
         run: node scripts/browser-smoke.cjs
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: counsellor-pathway-preview
-          path: artifacts/counsellor-pathway
-          retention-days: 14
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: training-centre-preview
-          path: artifacts/training-centre
-          retention-days: 14
