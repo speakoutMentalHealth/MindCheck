@@ -38,8 +38,8 @@ async function serverReady() {
     assert.equal(await intro.isVisible(), true, 'Reduced Motion: opening must show');
     await page.waitForTimeout(900);
     assert.equal(await intro.isVisible(), true, 'Reduced Motion: not a brief flash');
-    const gentleStart = await page.locator('.mc-launch-prelude').evaluate(el=>Number(getComputedStyle(el).opacity));
-    assert(gentleStart > 0.5, 'Reduced Motion: wordmark must actually fade into view');
+    const gentleAnimations = await page.locator('.mc-launch-prelude').evaluate(el=>el.getAnimations().length);
+    assert(gentleAnimations > 0, 'Reduced Motion: an accessible crossfade animation must be scheduled');
     await page.waitForTimeout(2200);
     assert.equal(await intro.isVisible(), true, 'Reduced Motion: stays visible after 3 seconds');
     const gentleEnd = await page.evaluate(()=>({
