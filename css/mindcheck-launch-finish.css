@@ -149,3 +149,158 @@ html.mc-launch-handoff .mc-launch-intro{display:none!important}
 @media(prefers-reduced-motion:reduce){
   .mc-launch-intro .mc-launch-progress span{animation:none!important;transform:scaleX(1);opacity:.5}
 }
+
+/* Cinematic v69: a timed sequence, not a static splash. JS drives WAAPI when
+   supported; these CSS keyframes are the progressive-enhancement fallback. */
+.mc-launch-intro.mc-cinematic{--mc-scene-time:4.5s}
+.mc-launch-intro.mc-cinematic .mc-launch-prelude{
+  display:block;
+  animation:mc-scene-word var(--mc-scene-time) cubic-bezier(.2,.75,.25,1) both;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-inner{
+  animation:mc-scene-arrive var(--mc-scene-time) cubic-bezier(.2,.75,.25,1) both;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-mark{
+  animation:mc-scene-orbit-enter var(--mc-scene-time) cubic-bezier(.2,.75,.25,1) both;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-logo{
+  box-shadow:0 0 0 1px #fff9,0 0 46px #bdfce086,0 18px 45px #001b1666;
+  animation:mc-scene-glow 2.1s ease-in-out infinite;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-label{
+  animation:mc-scene-copy var(--mc-scene-time) ease both;
+}
+.mc-launch-intro.mc-cinematic h2{
+  max-width:none;
+  font-size:clamp(3rem,11vw,5.3rem);
+  font-weight:800;
+  letter-spacing:-.055em;
+  text-shadow:0 6px 30px #082f2470;
+  animation:mc-scene-title var(--mc-scene-time) ease both;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-subtitle{
+  max-width:23ch;
+  margin:10px 0 0;
+  font-weight:550;
+  font-size:clamp(1.03rem,3.5vw,1.33rem);
+  animation:mc-scene-description var(--mc-scene-time) ease both;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-whisper{
+  color:#cbe7d8;
+  font-size:clamp(.82rem,2.6vw,.96rem);
+  letter-spacing:.085em;
+  margin:12px 0 0;
+  animation:mc-scene-description var(--mc-scene-time) ease both;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-progress{
+  width:min(204px,58vw);
+  margin-top:26px;
+  animation:mc-scene-description var(--mc-scene-time) ease both;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-progress span{
+  animation:mc-launch-progress var(--mc-scene-time) linear both;
+}
+.mc-launch-intro .mc-launch-footnote{
+  position:absolute;z-index:4;
+  bottom:calc(26px + env(safe-area-inset-bottom));
+  left:calc(19px + env(safe-area-inset-left));
+  max-width:calc(100% - 190px);
+  font-size:clamp(.64rem,2vw,.78rem);
+  font-weight:500;letter-spacing:.015em;line-height:1.5;
+  text-align:left;color:#d7eee2;
+}
+.mc-launch-intro .mc-launch-footnote a{
+  color:#fff5d3; font-weight:800; text-underline-offset:3px;
+  text-decoration:underline;text-decoration-color:#edcd83;
+}
+.mc-launch-intro .mc-launch-footnote a:focus-visible{
+  outline:3px solid #f5d586;outline-offset:5px;border-radius:3px;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-ring:nth-child(1){
+  border-width:1.5px; animation:mc-launch-orbit 8s linear infinite;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-ring:nth-child(2){
+  border-width:3px; animation:mc-launch-orbit 5.5s linear infinite reverse;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-ring:nth-child(3){
+  animation:mc-launch-orbit 3.6s linear infinite;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-mist{
+  animation:mc-launch-mist-drift 9s ease-in-out infinite alternate;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-stars{
+  animation:mc-launch-stars-drift 35s linear infinite;
+}
+.mc-launch-intro.mc-cinematic .mc-launch-beam{
+  animation:mc-launch-beam-drift 6s ease-in-out infinite alternate;
+}
+@keyframes mc-scene-word{
+  0%{opacity:0;transform:translate(-50%,-36%) scale(.76)}
+  12%,28%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  49%,100%{opacity:0;transform:translate(-50%,-95%) scale(.56)}
+}
+@keyframes mc-scene-arrive{
+  0%,29%{opacity:0;transform:translateY(25px) scale(.91)}
+  54%,100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes mc-scene-orbit-enter{
+  0%,30%{opacity:.15;transform:scale(.52) rotate(-15deg)}
+  55%{opacity:1;transform:scale(1.11) rotate(3deg)}
+  76%,100%{opacity:1;transform:scale(1) rotate(0)}
+}
+@keyframes mc-scene-copy{
+  0%,39%{opacity:0;transform:translateY(12px)}
+  59%,100%{opacity:1;transform:translateY(0)}
+}
+@keyframes mc-scene-title{
+  0%,49%{opacity:0;transform:translateY(20px)}
+  69%,100%{opacity:1;transform:translateY(0)}
+}
+@keyframes mc-scene-description{
+  0%,61%{opacity:0;transform:translateY(10px)}
+  81%,100%{opacity:1;transform:translateY(0)}
+}
+@keyframes mc-scene-glow{
+  0%,100%{filter:brightness(1);box-shadow:0 0 0 1px #ffffff80,0 0 34px #bdfce065}
+  50%{filter:brightness(1.12);box-shadow:0 0 0 5px #ecf8d550,0 0 65px #bdfce0ae}
+}
+@keyframes mc-scene-soft-word{
+  0%{opacity:0}10%,30%{opacity:1}47%,100%{opacity:0}
+}
+@keyframes mc-scene-soft-arrive{
+  0%,30%{opacity:0}54%,100%{opacity:1}
+}
+@media(max-height:680px){
+  .mc-launch-intro.mc-cinematic .mc-launch-mark{width:110px;height:110px;margin-bottom:9px}
+  .mc-launch-intro.mc-cinematic .mc-launch-subtitle{margin-top:3px}
+  .mc-launch-intro.mc-cinematic .mc-launch-whisper{margin-top:5px}
+  .mc-launch-intro.mc-cinematic .mc-launch-progress{margin-top:12px}
+}
+@media(max-width:370px){
+  .mc-launch-intro .mc-launch-footnote{left:14px;max-width:calc(100% - 175px)}
+  .mc-launch-intro .mc-launch-skip{right:14px}
+}
+/* iOS Reduce Motion still gets a visible staged crossfade and progressing
+   timeline; we eliminate vestibular zooms, spins and camera sweeps. */
+@media(prefers-reduced-motion:reduce){
+  .mc-launch-intro.mc-cinematic .mc-launch-prelude{
+    display:block!important;
+    animation:mc-scene-soft-word 4.5s linear both!important;
+    transform:translate(-50%,-50%)!important;
+  }
+  .mc-launch-intro.mc-cinematic .mc-launch-inner{
+    animation:mc-scene-soft-arrive 4.5s linear both!important;
+    transform:none!important;
+  }
+  .mc-launch-intro.mc-cinematic :is(.mc-launch-mark,.mc-launch-logo,.mc-launch-label,h2,.mc-launch-subtitle,.mc-launch-whisper,.mc-launch-progress){
+    animation:none!important;
+    transform:none!important;
+  }
+  .mc-launch-intro.mc-cinematic .mc-launch-progress span{
+    animation:mc-launch-progress 4.5s linear both!important;
+    opacity:1;
+  }
+  .mc-launch-intro.mc-cinematic :is(.mc-launch-ring,.mc-launch-stars,.mc-launch-mist,.mc-launch-beam){
+    animation:none!important;
+  }
+}
