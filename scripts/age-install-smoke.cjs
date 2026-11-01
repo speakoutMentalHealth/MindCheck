@@ -20,9 +20,9 @@ async function ready(){
   assert.equal(manifest.start_url,'./age-entry.html');
   assert.equal(manifest.display,'standalone');
   assert.equal(manifest.icons.some(x=>x.sizes==='192x192'),true);
-  for(const width of [320,390]){
+  for(const [width,height] of [[320,480],[320,568],[390,600],[390,844],[430,740]]){
    const ctx=await browser.newContext({
-     viewport:{width,height:844},serviceWorkers:'block',
+     viewport:{width,height},serviceWorkers:'block',
      userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 Safari/604.1'
    });
    const page=await ctx.newPage();
@@ -44,7 +44,36 @@ async function ready(){
    await page.locator('[data-install-close]').click();
    assert.equal(await page.locator('#mcAgeInstallDialog').isVisible(),false);
    await page.locator('[data-choice="adult"]').click();
-   assert.equal(await page.locator('#age-form').isVisible(),true,'DOB form unaffected');
+   assert.equal(await page.locator('#age-form').isVisible(),true,'DOB step is visible');
+   assert.equal(await page.locator('#mcAgeInstallCard').isVisible(),false,'Install card leaves the age-confirmation step');
+   assert.equal(await page.locator('.choices').isVisible(),false,'Large age tiles leave the confirmation step');
+   assert.equal(await page.locator('#mcAgeSelectedLabel').innerText(),'18+ Adults');
+   const layout=await page.evaluate(()=>{
+     const r=document.getElementById('continue').getBoundingClientRect();
+     const d=document.getElementById('birthdate').getBoundingClientRect();
+     return {
+       scrollY:window.scrollY,
+       top:r.top,
+       bottom:r.bottom,
+       dateBottom:d.bottom,
+       height:window.innerHeight,
+       horizontalOverflow:document.documentElement.scrollWidth>window.innerWidth+2,
+       focus:document.activeElement?.id
+     };
+   });
+   assert.equal(layout.scrollY,0,'Confirmation screen must reset scrolling');
+   assert.equal(layout.horizontalOverflow,false,'Confirmation form must fit phone width');
+   assert(layout.top>=0 && layout.bottom<=layout.height-4,
+     'Continue must be on screen without scrolling at '+width+'x'+height+': '+JSON.stringify(layout));
+   assert(layout.dateBottom<layout.top,'Date field must appear before Continue');
+   assert.equal(layout.focus,'mcAgeFormTitle','Focus heading rather than opening phone date picker');
+   await page.locator('#mcAgeChange').click();
+   assert.equal(await page.locator('#age-form').isVisible(),false,'Change category returns to two age cards');
+   assert.equal(await page.locator('.choices').isVisible(),true,'Both categories reappear');
+   assert.equal(await page.locator('#mcAgeInstallCard').isVisible(),true,'Download option returns to selection');
+   await page.locator('[data-choice="youth"]').click();
+   assert.equal(await page.locator('#mcAgeSelectedLabel').innerText(),'Under 18');
+   assert.equal(await page.locator('#continue').isVisible(),true);
    await ctx.close();
   }
   const ctx=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'block'});
