@@ -6,7 +6,7 @@ import { runInNewContext } from 'node:vm';
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 const launch = read('js/mindcheck-launch.js');
 
-function buildPage(reduced = false) {
+function buildPage(reduced = false, referrer = '', navigationType = 'navigate') {
   const listeners = {};
   const scheduled = new Map();
   const classes = new Set();
@@ -28,6 +28,7 @@ function buildPage(reduced = false) {
     addEventListener(type, callback) { listeners['intro-' + type] = callback; }
   };
   const document = {
+    referrer,
     body: { children: [intro, main] },
     documentElement: { classList: {
       add(name) { classes.add(name); },
@@ -37,6 +38,8 @@ function buildPage(reduced = false) {
     querySelector() { return main; }
   };
   const window = {
+    location: { origin: 'https://mindcheck.speakoutmentalhealth.org' },
+    performance: { getEntriesByType() { return [{ type: navigationType }]; } },
     matchMedia() { return { matches: reduced }; },
     setTimeout(callback, delay) {
       const id = ++nextTimer;
@@ -45,7 +48,7 @@ function buildPage(reduced = false) {
     }
   };
   const clearTimeout = id => scheduled.delete(id);
-  runInNewContext(launch, { document, window, clearTimeout });
+  runInNewContext(launch, { document, window, clearTimeout, URL });
   return { listeners, scheduled, classes, main, intro, skip };
 }
 
@@ -101,4 +104,16 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(worker, /mc-v67-intro-ui-polish-20261101/);
   assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101/);
   assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101/);
+});
+
+test('DOB handoff avoids a duplicate intro; subsequent reload replays it', () => {
+  const url = 'https://mindcheck.speakoutmentalhealth.org/age-entry.html';
+  const navigating = buildPage(false, url, 'navigate');
+  assert.equal(navigating.intro.hidden, true);
+  assert.equal(navigating.main.inert, false);
+  assert.equal(navigating.scheduled.size, 0);
+
+  const refreshing = buildPage(false, url, 'reload');
+  assert.equal(refreshing.intro.hidden, false);
+  assert.ok([...refreshing.scheduled.values()].some(item => item.delay === 4500));
 });
