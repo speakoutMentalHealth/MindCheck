@@ -57,11 +57,13 @@ body.mc-age-step-active #age-form .error{margin:6px 0;min-height:1.4em;font-size
 body.mc-age-step-active #continue{display:block;width:100%;min-height:54px;margin-top:12px;font-size:1.03rem;background:#135e42;color:#fff}
 body.mc-age-step-active #continue::after{content:"  →";font-weight:900}
 @media(max-height:570px){
+  body.mc-age-step-active .entry-brand{display:none!important}
   body.mc-age-step-active{padding:6px 8px}
   body.mc-age-step-active main{padding:12px}
   body.mc-age-step-active .entry-brand{margin-bottom:7px}
   body.mc-age-step-active #age-form{padding:12px}
-  body.mc-age-step-active .mc-age-step-head{margin-bottom:6px}
+  body.mc-age-step-active .mc-age-step-head{margin-bottom:4px}
+  body.mc-age-step-active #age-form label{margin:4px 0}
   body.mc-age-step-active #age-form .small{margin:8px 0}
   body.mc-age-step-active #continue{margin-top:8px}
 }
@@ -98,7 +100,7 @@ body.mc-age-step-active #continue::after{content:"  →";font-weight:900}
 </div>
 <h2 id="mcAgeFormTitle" tabindex="-1">One quick step</h2>
 <p class="mc-age-step-selected" id="mcAgeSelectedLabel">18+ Adults</p>
-<label for="birthdate">Enter your full date of birth</label><input id="birthdate" type="date" required autocomplete="bday"><p class="small">No login required. Your date of birth is used only to calculate your age in this browser and is not stored or sent to a server.</p><p class="error" id="message" role="alert"></p><button id="continue" type="submit" disabled>Continue</button></form>
+<label for="birthdate">Enter your full date of birth</label><input id="birthdate" type="date" required autocomplete="bday"><p class="small">No login needed. Your birth date is checked here only to choose the correct age section. It is not saved or sent to a server.</p><p class="error" id="message" role="alert"></p><button id="continue" type="submit" disabled>Continue</button></form>
 <p class="small entry-note">For a child or teenager, a trusted adult may need to help with consent and support. The date of birth is not sent to a server.</p>
 </main><script>
 (()=>{'use strict';
