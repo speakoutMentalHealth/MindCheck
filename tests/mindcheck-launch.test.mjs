@@ -22,7 +22,7 @@ function buildPage(reduced = false, handoff = false) {
     focus() { this.focused = true; }
   };
   const intro = {
-    tagName: 'DIV', hidden: false,
+    tagName: 'DIV', hidden: false, dataset: {},
     classList: { add(name) { classes.add(name); } },
     querySelector() { return skip; },
     addEventListener(type, callback) { listeners['intro-' + type] = callback; }
@@ -58,13 +58,15 @@ test('each primary entry has a replayable, skippable introduction', () => {
     assert.match(html, /class="mc-launch-prelude"/);
     assert.match(html, /class="mc-launch-stars"/);
     assert.match(html, /class="mc-launch-mist"/);
+    assert.match(html, /Towards a sound mind and growth\./);
+    assert.match(html, /A product of <a href="https:\/\/speakoutmentalhealth\.org\/"/);
     if (page === 'index.html') {
-      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-iosfix/);
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-cinematic/);
     } else {
       assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
       assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
     }
-    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-iosfix/);
+    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-cinematic/);
   }
 });
 
@@ -91,6 +93,7 @@ test('reduced-motion visitors are not forced through the animation', () => {
   const page = buildPage(true);
   assert.ok([...page.scheduled.values()].some(item => item.delay === 4500));
   assert.equal([...page.scheduled.values()].some(item => item.delay === 150), false);
+  assert.equal(page.intro.dataset.motion, 'gentle');
 });
 
 test('age gates, support pages and offline assets remain connected', () => {
@@ -100,9 +103,9 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(read('assessment-centre.html'), /mindcheck-launch-finish\.css/);
   assert.match(read('daily-life.html'), /mindcheck-launch-finish\.css/);
   const worker = read('sw.js');
-  assert.match(worker, /mc-v68-ios-intro-timing-20261101/);
-  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-iosfix/);
-  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-iosfix/);
+  assert.match(worker, /mc-v69-visible-cinematic-20261101/);
+  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-cinematic/);
+  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-cinematic/);
 });
 
 test('age handoff is suppressed before first paint and refresh gets the full intro', () => {

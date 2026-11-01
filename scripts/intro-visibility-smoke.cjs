@@ -38,8 +38,16 @@ async function serverReady() {
     assert.equal(await intro.isVisible(), true, 'Reduced Motion: opening must show');
     await page.waitForTimeout(900);
     assert.equal(await intro.isVisible(), true, 'Reduced Motion: not a brief flash');
+    const gentleStart = await page.locator('.mc-launch-prelude').evaluate(el=>Number(getComputedStyle(el).opacity));
+    assert(gentleStart > 0.5, 'Reduced Motion: wordmark must actually fade into view');
     await page.waitForTimeout(2200);
     assert.equal(await intro.isVisible(), true, 'Reduced Motion: stays visible after 3 seconds');
+    const gentleEnd = await page.evaluate(()=>({
+      word: Number(getComputedStyle(document.querySelector('.mc-launch-prelude')).opacity),
+      panel: Number(getComputedStyle(document.querySelector('.mc-launch-inner')).opacity)
+    }));
+    assert(gentleEnd.word < 0.15 && gentleEnd.panel > 0.7,
+      'Reduced Motion: staged wordmark-to-content crossfade must be visible');
     await intro.waitFor({state:'hidden', timeout:2800});
     const elapsed = await page.evaluate(() => performance.now());
     assert(elapsed>=4000, 'Intro dismissed too early: '+elapsed+' ms');
@@ -62,7 +70,39 @@ async function serverReady() {
     assert.equal(await page.locator('#main-content').isVisible(),true);
 
     await context.close();
-    console.log('PASS iPhone-width intro: 4.5-second reduced-motion display, no DOB flash, refresh replay and skip.');
+
+    // The default mobile experience must show tangible movement, not just
+    // an unchanged four-second logo. Assert real JS-driven animations run.
+    const full = await browser.newContext({
+      viewport:{width:390,height:844},
+      reducedMotion:'no-preference',
+      serviceWorkers:'block'
+    });
+    const animated = await full.newPage();
+    await animated.goto(origin + 'age-entry.html', {waitUntil:'domcontentloaded'});
+    await animated.waitForTimeout(700);
+    const early = await animated.evaluate(()=>({
+      word:Number(getComputedStyle(document.querySelector('.mc-launch-prelude')).opacity),
+      panel:Number(getComputedStyle(document.querySelector('.mc-launch-inner')).opacity),
+      animations:document.querySelector('.mc-launch-inner').getAnimations().length,
+      logoTransform:getComputedStyle(document.querySelector('.mc-launch-mark')).transform
+    }));
+    assert(early.word>0.3,'Full animation: opening wordmark must be visible');
+    assert(early.animations>=1,'Full animation: inner panel must be animated by JS/CSS');
+    await animated.waitForTimeout(2250);
+    const later = await animated.evaluate(()=>({
+      word:Number(getComputedStyle(document.querySelector('.mc-launch-prelude')).opacity),
+      panel:Number(getComputedStyle(document.querySelector('.mc-launch-inner')).opacity),
+      logoTransform:getComputedStyle(document.querySelector('.mc-launch-mark')).transform
+    }));
+    assert(later.word < early.word,'Full animation: opening wordmark must fade away');
+    assert(later.panel > early.panel+0.3,'Full animation: logo and copy must appear');
+    assert(later.logoTransform!==early.logoTransform,'Full animation: logo entrance must visibly move');
+    assert.equal(await animated.locator('.mc-launch-footnote a').getAttribute('href'),
+      'https://speakoutmentalhealth.org/','SpeakOut product credit is linked');
+    assert.match(await animated.locator('#mcLaunchDescription').innerText(),/Towards a sound mind and growth/);
+    await full.close();
+    console.log('PASS iPhone-width cinematic intro: visible JS animation and gentler reduced-motion sequence; 4.5-second duration, no DOB flash, refresh replay, Skip, and linked SpeakOut credit.');
   } finally {
     if(browser) await browser.close();
     server.kill('SIGTERM');
