@@ -15,6 +15,7 @@ on:
       - '*.css'
       - 'scripts/browser-smoke.cjs'
       - 'scripts/age-entry-smoke.cjs'
+      - 'scripts/age-install-smoke.cjs'
       - 'scripts/intro-visibility-smoke.cjs'
       - 'scripts/buddy-assessment-smoke.cjs'
       - 'scripts/adult-community-smoke.cjs'
@@ -56,6 +57,8 @@ jobs:
           node scripts/buddy-streak-smoke.cjs
       - name: Check DOB age-entry and youth navigation
         run: node scripts/age-entry-smoke.cjs
+      - name: Validate mobile-age install CTA and PWA instructions
+        run: node scripts/age-install-smoke.cjs
       - name: Validate 15s logo-unveiling intro and no-flash handoff
         run: node scripts/intro-visibility-smoke.cjs
       - name: Check My Buddy and assessment filters without live Drive access
