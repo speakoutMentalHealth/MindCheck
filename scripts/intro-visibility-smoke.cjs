@@ -101,7 +101,7 @@ async function serverReady() {
       'Full animation: both reveal stages must have active animations');
     assert(early.panelDuration,'Full animation: stage must use the full 8.5-second timeline');
     await animated.waitForTimeout(900);
-    const ringLater = await animated.locator('.mc-launch-ring').evaluate(el=>getComputedStyle(el).transform);
+    const ringLater = await animated.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform);
     assert.notEqual(ringLater,early.ringTransform,
       'Full animation: decorative ring should visibly rotate on screen');
     await animated.waitForTimeout(1600);
