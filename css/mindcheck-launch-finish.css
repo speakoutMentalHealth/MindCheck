@@ -16,7 +16,7 @@
   color:#fff!important;text-align:center;
   font-family:'Outfit',ui-sans-serif,system-ui,-apple-system,sans-serif;
   opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease;
-  animation:mc-launch-failsafe 0s linear 13s forwards;
+  animation:mc-launch-failsafe 0s linear 22s forwards;
 }
 .mc-launch-intro::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;
@@ -302,5 +302,132 @@ html.mc-launch-handoff .mc-launch-intro{display:none!important}
   }
   .mc-launch-intro.mc-cinematic :is(.mc-launch-ring,.mc-launch-stars,.mc-launch-mist,.mc-launch-beam){
     animation:none!important;
+  }
+}
+
+/* MindCheck 15-second logo-unveiling storyboard (v71).
+   0–2.7s wordmark; 2.7–6.1s logo unveiling; 6–9.5s message;
+   9.5–15s readable final frame. No media downloads or audio. */
+.mc-launch-intro.mc-cinematic.mc-unveiling{--mc-scene-time:15s;animation:mc-launch-failsafe 0s linear 22s forwards}
+.mc-launch-intro.mc-unveiling .mc-launch-prelude{
+  animation:mc-unveil-word 15s ease both;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-inner{
+  animation:mc-unveil-inner 15s ease both;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-mark{
+  animation:mc-unveil-mark 15s ease both;
+  isolation:isolate;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-logo{
+  z-index:3;position:relative;
+  clip-path:circle(0% at 50% 50%);
+  animation:mc-unveil-logo 15s ease both,mc-scene-glow 2.2s ease-in-out infinite;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-mark::before{
+  content:"";position:absolute;z-index:1;inset:-20px;
+  pointer-events:none;border-radius:50%;
+  border:2px solid #f4d88a;
+  box-shadow:0 0 28px #f4d88a9c, inset 0 0 25px #e6fbd275;
+  animation:mc-unveil-halo 15s ease-out both;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-mark::after{
+  content:"";position:absolute;z-index:4;inset:10%;
+  border-radius:50%;pointer-events:none;
+  background:linear-gradient(115deg,transparent 23%,#fff8cf00 39%,#fff8cfbb 48%,#fffce9ec 50%,#fff8cf00 61%,transparent 77%);
+  background-size:260% 100%;
+  mix-blend-mode:screen;
+  animation:mc-unveil-glint 15s ease-in-out both;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-label{
+  animation:mc-unveil-label 15s ease both;
+}
+.mc-launch-intro.mc-unveiling h2{
+  animation:mc-unveil-title 15s ease both;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-subtitle,
+.mc-launch-intro.mc-unveiling .mc-launch-whisper,
+.mc-launch-intro.mc-unveiling .mc-launch-progress{
+  animation:mc-unveil-message 15s ease both;
+}
+.mc-launch-intro.mc-unveiling .mc-launch-progress span{
+  animation:mc-launch-progress 15s linear both;
+}
+@keyframes mc-unveil-word{
+  0%{opacity:0;transform:translate(-50%,-30%) scale(.76)}
+  7%,15.5%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  21%,100%{opacity:0;transform:translate(-50%,-100%) scale(.6)}
+}
+@keyframes mc-unveil-inner{
+  0%,17%{opacity:0;transform:translateY(24px) scale(.9)}
+  30%,100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes mc-unveil-mark{
+  0%,17%{opacity:0;transform:scale(.42) rotate(-20deg)}
+  32%{opacity:1;transform:scale(1.08) rotate(4deg)}
+  44%,100%{opacity:1;transform:scale(1) rotate(0)}
+}
+@keyframes mc-unveil-logo{
+  0%,20%{clip-path:circle(0% at 50% 50%);opacity:.2}
+  29%{clip-path:circle(36% at 50% 50%);opacity:1}
+  40.5%,100%{clip-path:circle(75% at 50% 50%);opacity:1}
+}
+@keyframes mc-unveil-halo{
+  0%,19%{opacity:0;transform:scale(.32)}
+  26%{opacity:.9;transform:scale(.65)}
+  41%{opacity:.75;transform:scale(1.1)}
+  51%,100%{opacity:0;transform:scale(1.25)}
+}
+@keyframes mc-unveil-glint{
+  0%,22%{opacity:0;background-position:100% 0}
+  28%{opacity:.4}
+  36%{opacity:1;background-position:0 0}
+  45%,100%{opacity:0;background-position:0 0}
+}
+@keyframes mc-unveil-label{
+  0%,35%{opacity:0;transform:translateY(12px)}
+  47%,100%{opacity:1;transform:translateY(0)}
+}
+@keyframes mc-unveil-title{
+  0%,42%{opacity:0;transform:translateY(20px)}
+  55%,100%{opacity:1;transform:translateY(0)}
+}
+@keyframes mc-unveil-message{
+  0%,51%{opacity:0;transform:translateY(12px)}
+  63%,100%{opacity:1;transform:translateY(0)}
+}
+@keyframes mc-unveil-reduced-word{
+  0%{opacity:0}7%,15%{opacity:1}23%,100%{opacity:0}
+}
+@keyframes mc-unveil-reduced-inner{
+  0%,17%{opacity:0}30%,100%{opacity:1}
+}
+@keyframes mc-unveil-reduced-logo{
+  0%,18%{opacity:0}36%,100%{opacity:1}
+}
+/* The only motion in Reduce Motion mode is a sequential opacity dissolve. */
+@media(prefers-reduced-motion:reduce){
+  .mc-launch-intro.mc-unveiling .mc-launch-prelude{
+    animation:mc-unveil-reduced-word 15s linear both!important;
+    transform:translate(-50%,-50%)!important;
+  }
+  .mc-launch-intro.mc-unveiling .mc-launch-inner{
+    animation:mc-unveil-reduced-inner 15s linear both!important;
+    transform:none!important;
+  }
+  .mc-launch-intro.mc-unveiling .mc-launch-logo{
+    animation:mc-unveil-reduced-logo 15s linear both!important;
+    clip-path:none!important;transform:none!important;
+  }
+  .mc-launch-intro.mc-unveiling .mc-launch-mark,
+  .mc-launch-intro.mc-unveiling :is(.mc-launch-label,h2,.mc-launch-subtitle,.mc-launch-whisper,.mc-launch-progress){
+    animation:none!important;transform:none!important;
+  }
+  .mc-launch-intro.mc-unveiling .mc-launch-mark::before,
+  .mc-launch-intro.mc-unveiling .mc-launch-mark::after{
+    display:none!important;
+  }
+  .mc-launch-intro.mc-unveiling .mc-launch-progress span{
+    animation:mc-launch-progress 15s linear both!important;
   }
 }
