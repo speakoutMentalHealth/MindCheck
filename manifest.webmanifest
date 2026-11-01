@@ -1,7 +1,7 @@
 {
   "name": "SpeakOut MindCheck",
   "short_name": "MindCheck",
-  "start_url": "./",
+  "start_url": "./age-entry.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f7f8f2",
