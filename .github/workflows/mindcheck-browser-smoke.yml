@@ -56,7 +56,7 @@ jobs:
           node scripts/buddy-streak-smoke.cjs
       - name: Check DOB age-entry and youth navigation
         run: node scripts/age-entry-smoke.cjs
-      - name: Validate 8.5s iPhone intro and no-flash handoff
+      - name: Validate 15s logo-unveiling intro and no-flash handoff
         run: node scripts/intro-visibility-smoke.cjs
       - name: Check My Buddy and assessment filters without live Drive access
         run: node scripts/buddy-assessment-smoke.cjs
