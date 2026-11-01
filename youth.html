@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#315d46">
 <script>try{if(sessionStorage.getItem('mc-age-entry-band')!=='youth')location.replace('age-entry.html');}catch(_){location.replace('age-entry.html');}</script>
+<script>/* Consume DOB-to-section handoff before first paint. */try{if(sessionStorage.getItem('mc-launch-handoff-once')==='youth'){sessionStorage.removeItem('mc-launch-handoff-once');document.documentElement.classList.add('mc-launch-handoff');}}catch(_){}</script>
 <title>MindCheck Youth | Feelings and Wellbeing</title><link rel="stylesheet" href="mc-theme.css">
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f2faf6;color:#173c31;font:16px/1.6 system-ui,sans-serif}main{width:min(100% - 32px,850px);max-width:850px;margin:20px auto 60px;padding:0}header,.panel{background:white;border:1px solid #d4e9de;border-radius:22px;padding:clamp(18px,4vw,30px);margin-bottom:16px}header{color:#173c31;text-align:left;font-size:1rem;font-weight:400;line-height:1.55;height:auto;min-height:0}header p{color:#31594b;font-size:1rem;font-weight:400;line-height:1.55}header .notice{color:#164a36;font-size:.95rem;font-weight:400;line-height:1.55;margin-top:16px}header .notice strong{color:#103e2f;font-weight:750}header>a{display:inline-block;font-size:.95rem;font-weight:650;line-height:1.4}header h1{font-weight:750;max-width:18ch}h1{font-size:clamp(1.8rem,5vw,2.5rem);line-height:1.2;margin:.5em 0}h2{font-size:1.25rem}p{max-width:70ch}a{color:#176747}a:focus-visible,button:focus-visible{outline:3px solid #19754e;outline-offset:3px}.eyebrow{font-size:.8rem;font-weight:800;letter-spacing:.09em;color:#21684d;text-transform:uppercase}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.card{background:#f7fcf9;border:1px solid #d4e9de;border-radius:16px;padding:18px}.card strong{display:block}.card p{margin-bottom:0}.notice{border-left:4px solid #23865d;padding:12px 16px;background:#eaf7f0;border-radius:10px}.tag{font-size:.8rem;color:#376a53}.quiet{color:#45675a}button{font:inherit;border:1px solid #207550;border-radius:12px;background:#fff;color:#155f40;padding:12px 16px;cursor:pointer}button.primary{background:#206f4b;color:#fff}#calm-status{font-weight:700;min-height:1.6em}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
@@ -91,7 +92,7 @@ main#main-content{width:min(100% - 24px,1120px)}
 @media(max-width:420px){.adventure-stop{min-height:138px;padding:14px 8px}.adventure-stop strong{font-size:.95rem}}
 </style><link rel="stylesheet" href="css/native-touch.css?v=20261027">
 <link rel="stylesheet" href="css/premium-screens.css?v=20261027">
-<link rel="stylesheet" href="css/mindcheck-launch-finish.css?v=20261101"></head><body class="mc-youth-page"><div id="mcLaunchIntro" class="mc-launch-intro" role="dialog" aria-modal="true" aria-labelledby="mcLaunchTitle" aria-describedby="mcLaunchDescription">
+<link rel="stylesheet" href="css/mindcheck-launch-finish.css?v=20261101-iosfix"></head><body class="mc-youth-page"><div id="mcLaunchIntro" class="mc-launch-intro" role="dialog" aria-modal="true" aria-labelledby="mcLaunchTitle" aria-describedby="mcLaunchDescription">
   <div class="mc-launch-atmosphere" aria-hidden="true"><span class="mc-launch-stars"></span><span class="mc-launch-mist"></span><span class="mc-launch-beam"></span></div>
   <div class="mc-launch-prelude" aria-hidden="true">MINDCHECK</div>
   <div class="mc-launch-inner">
@@ -171,16 +172,12 @@ const bank=[
   'use strict';
   const intro=document.getElementById('mcLaunchIntro');
   if(!intro)return;
-  // A completed DOB selection is a navigation, not a fresh arrival; avoid a second intro.
-  // A real refresh always plays the intro, including after returning from age entry.
-  try{
-    const ref=document.referrer?new URL(document.referrer):null;
-    const navigation=window.performance&&window.performance.getEntriesByType('navigation')[0];
-    if(ref&&ref.origin===window.location.origin&&/\/age-entry\.html$/.test(ref.pathname)&&navigation?.type!=='reload'){
-      intro.hidden=true;
-      return;
-    }
-  }catch(_){}
+  // The DOB form sets a one-navigation marker. The landing page consumes it
+  // in the <head> to hide the intro before first paint (no one-frame flash).
+  if(document.documentElement.classList.contains('mc-launch-handoff')){
+    intro.hidden=true;
+    return;
+  }
   const skip=intro.querySelector('[data-mc-launch-skip]');
   const reduced=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const elements=Array.from(document.body.children).filter(el=>el!==intro&&el.tagName!=='SCRIPT'&&el.tagName!=='STYLE');
@@ -210,7 +207,7 @@ const bank=[
       if(event.key==='Tab'){event.preventDefault();skip.focus();}
     });
   }
-  timer=window.setTimeout(()=>finish(false),reduced?150:4500);
+  timer=window.setTimeout(()=>finish(false),4500);
   if(skip&&!reduced){try{skip.focus({preventScroll:true});}catch(_){skip.focus();}}
 })();
 

@@ -6,10 +6,10 @@ import { runInNewContext } from 'node:vm';
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 const launch = read('js/mindcheck-launch.js');
 
-function buildPage(reduced = false, referrer = '', navigationType = 'navigate') {
+function buildPage(reduced = false, handoff = false) {
   const listeners = {};
   const scheduled = new Map();
-  const classes = new Set();
+  const classes = new Set(handoff ? ['mc-launch-handoff'] : []);
   let nextTimer = 0;
   const skip = {
     focus() { this.focused = true; },
@@ -28,18 +28,16 @@ function buildPage(reduced = false, referrer = '', navigationType = 'navigate') 
     addEventListener(type, callback) { listeners['intro-' + type] = callback; }
   };
   const document = {
-    referrer,
     body: { children: [intro, main] },
     documentElement: { classList: {
       add(name) { classes.add(name); },
-      remove(name) { classes.delete(name); }
+      remove(name) { classes.delete(name); },
+      contains(name) { return classes.has(name); }
     } },
     getElementById(id) { return id === 'mcLaunchIntro' ? intro : null; },
     querySelector() { return main; }
   };
   const window = {
-    location: { origin: 'https://mindcheck.speakoutmentalhealth.org' },
-    performance: { getEntriesByType() { return [{ type: navigationType }]; } },
     matchMedia() { return { matches: reduced }; },
     setTimeout(callback, delay) {
       const id = ++nextTimer;
@@ -61,12 +59,12 @@ test('each primary entry has a replayable, skippable introduction', () => {
     assert.match(html, /class="mc-launch-stars"/);
     assert.match(html, /class="mc-launch-mist"/);
     if (page === 'index.html') {
-      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101/);
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-iosfix/);
     } else {
       assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
       assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
     }
-    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101/);
+    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-iosfix/);
   }
 });
 
@@ -91,7 +89,8 @@ test('Skip intro exits immediately and returns keyboard focus', () => {
 
 test('reduced-motion visitors are not forced through the animation', () => {
   const page = buildPage(true);
-  assert.ok([...page.scheduled.values()].some(item => item.delay === 150));
+  assert.ok([...page.scheduled.values()].some(item => item.delay === 4500));
+  assert.equal([...page.scheduled.values()].some(item => item.delay === 150), false);
 });
 
 test('age gates, support pages and offline assets remain connected', () => {
@@ -101,19 +100,27 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(read('assessment-centre.html'), /mindcheck-launch-finish\.css/);
   assert.match(read('daily-life.html'), /mindcheck-launch-finish\.css/);
   const worker = read('sw.js');
-  assert.match(worker, /mc-v67-intro-ui-polish-20261101/);
-  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101/);
-  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101/);
+  assert.match(worker, /mc-v68-ios-intro-timing-20261101/);
+  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-iosfix/);
+  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-iosfix/);
 });
 
-test('DOB handoff avoids a duplicate intro; subsequent reload replays it', () => {
-  const url = 'https://mindcheck.speakoutmentalhealth.org/age-entry.html';
-  const navigating = buildPage(false, url, 'navigate');
-  assert.equal(navigating.intro.hidden, true);
-  assert.equal(navigating.main.inert, false);
-  assert.equal(navigating.scheduled.size, 0);
+test('age handoff is suppressed before first paint and refresh gets the full intro', () => {
+  const firstVisit = buildPage(false, true);
+  assert.equal(firstVisit.intro.hidden, true);
+  assert.equal(firstVisit.main.inert, false);
+  assert.equal(firstVisit.scheduled.size, 0);
 
-  const refreshing = buildPage(false, url, 'reload');
-  assert.equal(refreshing.intro.hidden, false);
-  assert.ok([...refreshing.scheduled.values()].some(item => item.delay === 4500));
+  const refreshed = buildPage(false, false);
+  assert.equal(refreshed.intro.hidden, false);
+  assert.ok([...refreshed.scheduled.values()].some(item => item.delay === 4500));
+
+  for (const path of ['index.html', 'youth.html']) {
+    const html = read(path);
+    const prelude = html.slice(0, html.indexOf('</head>'));
+    assert.match(prelude, /mc-launch-handoff-once/);
+    assert.match(prelude, /mc-launch-handoff/);
+  }
+  assert.match(read('age-entry.html'), /sessionStorage\.setItem\('mc-launch-handoff-once',actual\)/);
+  assert.match(read('css/mindcheck-launch-finish.css'), /html\.mc-launch-handoff \.mc-launch-intro\{display:none!important\}/);
 });

@@ -5,16 +5,12 @@
   'use strict';
   const intro=document.getElementById('mcLaunchIntro');
   if(!intro)return;
-  // A completed DOB selection is a navigation, not a fresh arrival; avoid a second intro.
-  // A real refresh always plays the intro, including after returning from age entry.
-  try{
-    const ref=document.referrer?new URL(document.referrer):null;
-    const navigation=window.performance&&window.performance.getEntriesByType('navigation')[0];
-    if(ref&&ref.origin===window.location.origin&&/\/age-entry\.html$/.test(ref.pathname)&&navigation?.type!=='reload'){
-      intro.hidden=true;
-      return;
-    }
-  }catch(_){}
+  // The DOB form sets a one-navigation marker. The landing page consumes it
+  // in the <head> to hide the intro before first paint (no one-frame flash).
+  if(document.documentElement.classList.contains('mc-launch-handoff')){
+    intro.hidden=true;
+    return;
+  }
   const skip=intro.querySelector('[data-mc-launch-skip]');
   const reduced=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const elements=Array.from(document.body.children).filter(el=>el!==intro&&el.tagName!=='SCRIPT'&&el.tagName!=='STYLE');
@@ -44,6 +40,6 @@
       if(event.key==='Tab'){event.preventDefault();skip.focus();}
     });
   }
-  timer=window.setTimeout(()=>finish(false),reduced?150:4500);
+  timer=window.setTimeout(()=>finish(false),4500);
   if(skip&&!reduced){try{skip.focus({preventScroll:true});}catch(_){skip.focus();}}
 })();

@@ -17,7 +17,7 @@ input{min-height:48px}
 @media(hover:hover) and (prefers-reduced-motion:no-preference){.choices button:hover{transform:translateY(-2px)}}
 @media(max-width:380px){main{padding:20px}.choices{gap:8px}.choices button{padding:12px}}
 @media(prefers-reduced-motion:reduce){.choices button{transition:none}}
-</style><link rel="stylesheet" href="css/mindcheck-launch-finish.css?v=20261101"></head><body class="mc-age-entry"><div id="mcLaunchIntro" class="mc-launch-intro" role="dialog" aria-modal="true" aria-labelledby="mcLaunchTitle" aria-describedby="mcLaunchDescription">
+</style><link rel="stylesheet" href="css/mindcheck-launch-finish.css?v=20261101-iosfix"></head><body class="mc-age-entry"><div id="mcLaunchIntro" class="mc-launch-intro" role="dialog" aria-modal="true" aria-labelledby="mcLaunchTitle" aria-describedby="mcLaunchDescription">
   <div class="mc-launch-atmosphere" aria-hidden="true"><span class="mc-launch-stars"></span><span class="mc-launch-mist"></span><span class="mc-launch-beam"></span></div>
   <div class="mc-launch-prelude" aria-hidden="true">MINDCHECK</div>
   <div class="mc-launch-inner">
@@ -57,6 +57,7 @@ form.addEventListener('submit',event=>{
  const actual=age>=18?'adult':'youth';
  if(actual!==selected){selected=actual;document.querySelectorAll('[data-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.choice===actual)));message.textContent=actual==='adult'?'Your age places you in the 18+ section. Continuing there.':'Your age places you in the Under 18 section. Continuing there.';}
  try{sessionStorage.setItem('mc-age-entry-band',actual);sessionStorage.setItem('mc-age-entry-adult',actual==='adult'?'1':'0');sessionStorage.setItem('mc-age-entry-youth-group',actual==='youth'?(age<13?'child':'teen'):'');}catch(_){}
+try{sessionStorage.setItem('mc-launch-handoff-once',actual);}catch(_){}
  location.assign(actual==='adult'?'index.html':'youth.html');
 });
 })();
@@ -69,16 +70,12 @@ form.addEventListener('submit',event=>{
   'use strict';
   const intro=document.getElementById('mcLaunchIntro');
   if(!intro)return;
-  // A completed DOB selection is a navigation, not a fresh arrival; avoid a second intro.
-  // A real refresh always plays the intro, including after returning from age entry.
-  try{
-    const ref=document.referrer?new URL(document.referrer):null;
-    const navigation=window.performance&&window.performance.getEntriesByType('navigation')[0];
-    if(ref&&ref.origin===window.location.origin&&/\/age-entry\.html$/.test(ref.pathname)&&navigation?.type!=='reload'){
-      intro.hidden=true;
-      return;
-    }
-  }catch(_){}
+  // The DOB form sets a one-navigation marker. The landing page consumes it
+  // in the <head> to hide the intro before first paint (no one-frame flash).
+  if(document.documentElement.classList.contains('mc-launch-handoff')){
+    intro.hidden=true;
+    return;
+  }
   const skip=intro.querySelector('[data-mc-launch-skip]');
   const reduced=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const elements=Array.from(document.body.children).filter(el=>el!==intro&&el.tagName!=='SCRIPT'&&el.tagName!=='STYLE');
@@ -108,7 +105,7 @@ form.addEventListener('submit',event=>{
       if(event.key==='Tab'){event.preventDefault();skip.focus();}
     });
   }
-  timer=window.setTimeout(()=>finish(false),reduced?150:4500);
+  timer=window.setTimeout(()=>finish(false),4500);
   if(skip&&!reduced){try{skip.focus({preventScroll:true});}catch(_){skip.focus();}}
 })();
 

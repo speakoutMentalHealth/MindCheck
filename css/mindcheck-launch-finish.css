@@ -142,3 +142,10 @@ body.mc-buddy-page :is(.buddy-mood,.buddy-header-home,button,textarea,input):foc
  .mc-launch-prelude{display:none}
  .mc-launch-inner{opacity:1;transform:none}
 }
+
+/* iOS: suppress the DOB handoff intro before its first paint. */
+html.mc-launch-handoff .mc-launch-intro{display:none!important}
+/* Reduced motion means no animation, not an unreadable 150 ms flash. */
+@media(prefers-reduced-motion:reduce){
+  .mc-launch-intro .mc-launch-progress span{animation:none!important;transform:scaleX(1);opacity:.5}
+}
