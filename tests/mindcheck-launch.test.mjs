@@ -58,23 +58,25 @@ test('each primary entry has a replayable, skippable introduction', () => {
     assert.match(html, /class="mc-launch-prelude"/);
     assert.match(html, /class="mc-launch-stars"/);
     assert.match(html, /class="mc-launch-mist"/);
+    assert.match(html, /class="mc-launch-logo"/);
+    assert.match(html, /SpeakOut<\/a>/);
     assert.match(html, /Towards a sound mind and growth\./);
     assert.match(html, /A product of <a href="https:\/\/speakoutmentalhealth\.org\/"/);
     if (page === 'index.html') {
-      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-cinematic/);
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-unveiling15/);
     } else {
       assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
       assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
     }
-    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-cinematic/);
+    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-unveiling15/);
   }
 });
 
-test('automatic 4.5-second exit restores the existing app', () => {
+test('automatic 15-second exit restores the existing app', () => {
   const page = buildPage();
   assert.equal(page.main.inert, true);
   assert.equal(page.classes.has('mc-launch-open'), true);
-  const timeout = [...page.scheduled.values()].find(item => item.delay === 4500);
+  const timeout = [...page.scheduled.values()].find(item => item.delay === 15000);
   assert.ok(timeout);
   timeout.callback();
   assert.equal(page.main.inert, false);
@@ -86,14 +88,16 @@ test('Skip intro exits immediately and returns keyboard focus', () => {
   page.listeners['skip-click']();
   assert.equal(page.main.inert, false);
   assert.equal(page.main.focused, true);
-  assert.equal([...page.scheduled.values()].some(item => item.delay === 4500), false);
+  assert.equal([...page.scheduled.values()].some(item => item.delay === 15000), false);
 });
 
-test('reduced-motion visitors are not forced through the animation', () => {
+test('reduced-motion visitors get the same 15-second reading window', () => {
   const page = buildPage(true);
-  assert.ok([...page.scheduled.values()].some(item => item.delay === 4500));
+  assert.ok([...page.scheduled.values()].some(item => item.delay === 15000));
   assert.equal([...page.scheduled.values()].some(item => item.delay === 150), false);
   assert.equal(page.intro.dataset.motion, 'gentle');
+  assert.ok(read('js/mindcheck-launch.js').includes("clipPath:'circle(36%"));
+  assert.match(read('css/mindcheck-launch-finish.css'), /@keyframes mc-unveil-logo/);
 });
 
 test('age gates, support pages and offline assets remain connected', () => {
@@ -103,9 +107,9 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(read('assessment-centre.html'), /mindcheck-launch-finish\.css/);
   assert.match(read('daily-life.html'), /mindcheck-launch-finish\.css/);
   const worker = read('sw.js');
-  assert.match(worker, /mc-v69-visible-cinematic-20261101/);
-  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-cinematic/);
-  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-cinematic/);
+  assert.match(worker, /mc-v71-unveiling-15sec-20261101/);
+  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-unveiling15/);
+  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-unveiling15/);
 });
 
 test('age handoff is suppressed before first paint and refresh gets the full intro', () => {
@@ -116,7 +120,7 @@ test('age handoff is suppressed before first paint and refresh gets the full int
 
   const refreshed = buildPage(false, false);
   assert.equal(refreshed.intro.hidden, false);
-  assert.ok([...refreshed.scheduled.values()].some(item => item.delay === 4500));
+  assert.ok([...refreshed.scheduled.values()].some(item => item.delay === 15000));
 
   for (const path of ['index.html', 'youth.html']) {
     const html = read(path);
