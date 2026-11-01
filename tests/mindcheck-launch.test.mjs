@@ -63,12 +63,12 @@ test('each primary entry has a replayable, skippable introduction', () => {
     assert.match(html, /Towards a sound mind and growth\./);
     assert.match(html, /A product of <a href="https:\/\/speakoutmentalhealth\.org\/"/);
     if (page === 'index.html') {
-      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-15000ms/);
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-unveiling15/);
     } else {
       assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
       assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
     }
-    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-15000ms/);
+    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-unveiling15/);
   }
 });
 
@@ -108,8 +108,8 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(read('daily-life.html'), /mindcheck-launch-finish\.css/);
   const worker = read('sw.js');
   assert.match(worker, /mc-v71-unveiling-15sec-20261101/);
-  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-15000ms/);
-  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-15000ms/);
+  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-unveiling15/);
+  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-unveiling15/);
 });
 
 test('age handoff is suppressed before first paint and refresh gets the full intro', () => {
