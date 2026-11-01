@@ -108,3 +108,37 @@ body.mc-buddy-page :is(.buddy-mood,.buddy-header-home,button,textarea,input):foc
  .mc-launch-intro{transition:none!important}
  body.mc-age-entry .choices button,#assessmentMain .ac-card{transition:none!important;transform:none!important}
 }
+
+/* Portfolio-aligned staged arrival: word mark → orbiting logo → message.
+   Uses SpeakOut's calm palette; decorative animation never controls the safety exit. */
+.mc-launch-atmosphere{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.mc-launch-stars,.mc-launch-mist,.mc-launch-beam{position:absolute;inset:-14%;pointer-events:none}
+.mc-launch-stars{inset:0;opacity:.23;background-image:radial-gradient(#e9fff0a8 1px,transparent 1.4px);background-size:43px 43px;animation:mc-launch-stars-drift 38s linear infinite}
+.mc-launch-mist{background:radial-gradient(ellipse at 30% 55%,#5bdeb94b,transparent 29%),radial-gradient(ellipse at 76% 38%,#f4d38b2e,transparent 23%);filter:blur(35px);animation:mc-launch-mist-drift 10s ease-in-out infinite alternate}
+.mc-launch-beam{background:linear-gradient(117deg,transparent 28%,#b8ffdc1c,transparent 66%),linear-gradient(247deg,transparent 31%,#f4d38b15,transparent 63%);animation:mc-launch-beam-drift 6s ease-in-out infinite alternate}
+.mc-launch-prelude{position:absolute;z-index:2;top:50%;left:50%;font-size:clamp(2.6rem,10vw,6.8rem);line-height:1.05;letter-spacing:-.07em;font-weight:900;color:#effdf4;text-shadow:0 0 42px #b2f7d06b;white-space:nowrap;animation:mc-launch-word-reveal 4.5s ease forwards}
+.mc-launch-inner{opacity:0;animation:mc-launch-portrait-reveal 4.5s ease both}
+.mc-launch-mark{width:clamp(158px,44vw,225px);height:clamp(158px,44vw,225px);margin-bottom:20px}
+.mc-launch-ring{border-style:dashed}
+.mc-launch-ring:nth-child(2){border-width:2px;border-style:solid;border-left-color:transparent;border-bottom-color:transparent}
+.mc-launch-ring:nth-child(3){border-style:solid;border-top-width:3px;border-top-color:#f2d590}
+.mc-launch-logo{width:clamp(76px,19vw,100px);height:clamp(76px,19vw,100px);border-radius:50%;padding:10px}
+.mc-launch-skip{position:absolute;z-index:4;right:calc(17px + env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));margin:0!important;background:#ffffff18!important}
+@keyframes mc-launch-stars-drift{to{transform:translateY(-44px)}}
+@keyframes mc-launch-mist-drift{to{transform:translate3d(5%,-3%,0) scale(1.12)}}
+@keyframes mc-launch-beam-drift{to{transform:translateX(24px) rotate(2deg)}}
+@keyframes mc-launch-word-reveal{
+  0%{opacity:0;transform:translate(-50%,calc(-50% + 25px)) scale(.86)}
+  17%,32%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  50%,100%{opacity:0;transform:translate(-50%,calc(-50% - 75px)) scale(.55)}
+}
+@keyframes mc-launch-portrait-reveal{
+  0%,31%{opacity:0;transform:translateY(10px) scale(.92)}
+  55%,100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(max-height:700px){.mc-launch-mark{width:132px;height:132px;margin-bottom:12px}.mc-launch-intro h2{font-size:clamp(2rem,7vw,3.1rem)}.mc-launch-subtitle{margin-top:12px!important}.mc-launch-progress{margin-top:18px}}
+@media(prefers-reduced-motion:reduce){
+ .mc-launch-stars,.mc-launch-mist,.mc-launch-beam,.mc-launch-prelude,.mc-launch-inner{animation:none!important}
+ .mc-launch-prelude{display:none}
+ .mc-launch-inner{opacity:1;transform:none}
+}
