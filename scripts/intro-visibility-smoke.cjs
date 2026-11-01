@@ -1,4 +1,4 @@
-/* Browser regression: the portfolio-style intro must last ~4.5 seconds
+/* Browser regression: the portfolio-style intro must last ~8.5 seconds
  * even when iOS prefers reduced motion. No personal data leaves localhost. */
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
@@ -48,9 +48,13 @@ async function serverReady() {
     }));
     assert(gentleEnd.word < 0.15 && gentleEnd.panel > 0.7,
       'Reduced Motion: staged wordmark-to-content crossfade must be visible');
-    await intro.waitFor({state:'hidden', timeout:2800});
+    await page.waitForTimeout(2700);
+    assert.equal(await intro.isVisible(), true, 'Extended intro must remain visible after roughly 6 seconds');
+    assert.equal(await page.locator('.mc-launch-inner').isVisible(), true, 'Completed closing message should remain readable');
+    await intro.waitFor({state:'hidden', timeout:4300});
     const elapsed = await page.evaluate(() => performance.now());
-    assert(elapsed>=4000, 'Intro dismissed too early: '+elapsed+' ms');
+    assert(elapsed>=8000, 'Intro dismissed before eight seconds: '+elapsed+' ms');
+    assert(elapsed<12000, 'Intro failed to exit automatically: '+elapsed+' ms');
 
     // DOB handoff must skip the second intro before it is ever painted.
     await page.locator('[data-choice="youth"]').click();
@@ -102,7 +106,7 @@ async function serverReady() {
       'https://speakoutmentalhealth.org/','SpeakOut product credit is linked');
     assert.match(await animated.locator('#mcLaunchDescription').innerText(),/Towards a sound mind and growth/);
     await full.close();
-    console.log('PASS iPhone-width cinematic intro: visible JS animation and gentler reduced-motion sequence; 4.5-second duration, no DOB flash, refresh replay, Skip, and linked SpeakOut credit.');
+    console.log('PASS iPhone-width cinematic intro: visible JS animation and gentler reduced-motion sequence; 8.5-second duration, no DOB flash, refresh replay, Skip, and linked SpeakOut credit.');
   } finally {
     if(browser) await browser.close();
     server.kill('SIGTERM');
