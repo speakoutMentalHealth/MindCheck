@@ -107,7 +107,7 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(read('assessment-centre.html'), /mindcheck-launch-finish\.css/);
   assert.match(read('daily-life.html'), /mindcheck-launch-finish\.css/);
   const worker = read('sw.js');
-  assert.match(worker, /mc-v71-unveiling-15sec-20261101/);
+  assert.match(worker, /mc-v72-age-install-community-20261101/);
   assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-unveiling15/);
   assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-unveiling15/);
 });
