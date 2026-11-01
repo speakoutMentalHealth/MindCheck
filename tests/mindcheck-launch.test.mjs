@@ -59,12 +59,12 @@ test('each primary entry has a replayable, skippable introduction', () => {
     assert.match(html, /class="mc-launch-stars"/);
     assert.match(html, /class="mc-launch-mist"/);
     if (page === 'index.html') {
-      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-iosfix-iosfix/);
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-iosfix/);
     } else {
       assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
       assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
     }
-    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-iosfix-iosfix/);
+    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-iosfix/);
   }
 });
 
