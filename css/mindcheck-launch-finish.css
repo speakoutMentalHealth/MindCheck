@@ -16,7 +16,7 @@
   color:#fff!important;text-align:center;
   font-family:'Outfit',ui-sans-serif,system-ui,-apple-system,sans-serif;
   opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease;
-  animation:mc-launch-failsafe 0s linear 7s forwards;
+  animation:mc-launch-failsafe 0s linear 13s forwards;
 }
 .mc-launch-intro::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;
@@ -36,7 +36,7 @@ html.mc-launch-open,html.mc-launch-open body{overflow:hidden!important}
 .mc-launch-intro h2{font-size:clamp(2.35rem,8vw,4.6rem);font-weight:700;line-height:1.03;letter-spacing:-.06em;max-width:11ch;margin:0;color:#fff;text-wrap:balance}
 .mc-launch-intro p.mc-launch-subtitle{font-size:clamp(.97rem,3vw,1.12rem);color:#d9ede3;line-height:1.6;margin:21px 0 0;max-width:29ch}
 .mc-launch-progress{width:min(200px,64vw);height:3px;overflow:hidden;background:#ffffff32;border-radius:50px;margin-top:38px}
-.mc-launch-progress span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#a6eec7,#f0d28d);transform-origin:left;animation:mc-launch-progress 4.5s linear both}
+.mc-launch-progress span{display:block;width:100%;height:100%;background:linear-gradient(90deg,#a6eec7,#f0d28d);transform-origin:left;animation:mc-launch-progress 8.5s linear both}
 .mc-launch-intro .mc-launch-skip{margin-top:24px;min-height:44px;padding:10px 19px;border:1px solid #c5ebd67a;border-radius:999px;background:#ffffff12!important;color:#fff!important;font:650 .89rem/1.3 'Outfit',system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(7px)}
 .mc-launch-intro .mc-launch-skip:hover{background:#ffffff2b!important;border-color:#fff}
 .mc-launch-intro .mc-launch-skip:focus-visible{outline:3px solid #f2d89b!important;outline-offset:4px!important}
@@ -116,8 +116,8 @@ body.mc-buddy-page :is(.buddy-mood,.buddy-header-home,button,textarea,input):foc
 .mc-launch-stars{inset:0;opacity:.23;background-image:radial-gradient(#e9fff0a8 1px,transparent 1.4px);background-size:43px 43px;animation:mc-launch-stars-drift 38s linear infinite}
 .mc-launch-mist{background:radial-gradient(ellipse at 30% 55%,#5bdeb94b,transparent 29%),radial-gradient(ellipse at 76% 38%,#f4d38b2e,transparent 23%);filter:blur(35px);animation:mc-launch-mist-drift 10s ease-in-out infinite alternate}
 .mc-launch-beam{background:linear-gradient(117deg,transparent 28%,#b8ffdc1c,transparent 66%),linear-gradient(247deg,transparent 31%,#f4d38b15,transparent 63%);animation:mc-launch-beam-drift 6s ease-in-out infinite alternate}
-.mc-launch-prelude{position:absolute;z-index:2;top:50%;left:50%;font-size:clamp(2.6rem,10vw,6.8rem);line-height:1.05;letter-spacing:-.07em;font-weight:900;color:#effdf4;text-shadow:0 0 42px #b2f7d06b;white-space:nowrap;animation:mc-launch-word-reveal 4.5s ease forwards}
-.mc-launch-inner{opacity:0;animation:mc-launch-portrait-reveal 4.5s ease both}
+.mc-launch-prelude{position:absolute;z-index:2;top:50%;left:50%;font-size:clamp(2.6rem,10vw,6.8rem);line-height:1.05;letter-spacing:-.07em;font-weight:900;color:#effdf4;text-shadow:0 0 42px #b2f7d06b;white-space:nowrap;animation:mc-launch-word-reveal 8.5s ease forwards}
+.mc-launch-inner{opacity:0;animation:mc-launch-portrait-reveal 8.5s ease both}
 .mc-launch-mark{width:clamp(158px,44vw,225px);height:clamp(158px,44vw,225px);margin-bottom:20px}
 .mc-launch-ring{border-style:dashed}
 .mc-launch-ring:nth-child(2){border-width:2px;border-style:solid;border-left-color:transparent;border-bottom-color:transparent}
@@ -152,7 +152,7 @@ html.mc-launch-handoff .mc-launch-intro{display:none!important}
 
 /* Cinematic v69: a timed sequence, not a static splash. JS drives WAAPI when
    supported; these CSS keyframes are the progressive-enhancement fallback. */
-.mc-launch-intro.mc-cinematic{--mc-scene-time:4.5s}
+.mc-launch-intro.mc-cinematic{--mc-scene-time:8.5s}
 .mc-launch-intro.mc-cinematic .mc-launch-prelude{
   display:block;
   animation:mc-scene-word var(--mc-scene-time) cubic-bezier(.2,.75,.25,1) both;
@@ -236,39 +236,39 @@ html.mc-launch-handoff .mc-launch-intro{display:none!important}
 }
 @keyframes mc-scene-word{
   0%{opacity:0;transform:translate(-50%,-36%) scale(.76)}
-  12%,28%{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  49%,100%{opacity:0;transform:translate(-50%,-95%) scale(.56)}
+  6.4%,14.8%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  25.9%,100%{opacity:0;transform:translate(-50%,-95%) scale(.56)}
 }
 @keyframes mc-scene-arrive{
-  0%,29%{opacity:0;transform:translateY(25px) scale(.91)}
-  54%,100%{opacity:1;transform:translateY(0) scale(1)}
+  0%,15.4%{opacity:0;transform:translateY(25px) scale(.91)}
+  28.6%,100%{opacity:1;transform:translateY(0) scale(1)}
 }
 @keyframes mc-scene-orbit-enter{
-  0%,30%{opacity:.15;transform:scale(.52) rotate(-15deg)}
-  55%{opacity:1;transform:scale(1.11) rotate(3deg)}
-  76%,100%{opacity:1;transform:scale(1) rotate(0)}
+  0%,15.9%{opacity:.15;transform:scale(.52) rotate(-15deg)}
+  29.1%{opacity:1;transform:scale(1.11) rotate(3deg)}
+  40.2%,100%{opacity:1;transform:scale(1) rotate(0)}
 }
 @keyframes mc-scene-copy{
-  0%,39%{opacity:0;transform:translateY(12px)}
-  59%,100%{opacity:1;transform:translateY(0)}
+  0%,20.6%{opacity:0;transform:translateY(12px)}
+  31.2%,100%{opacity:1;transform:translateY(0)}
 }
 @keyframes mc-scene-title{
-  0%,49%{opacity:0;transform:translateY(20px)}
-  69%,100%{opacity:1;transform:translateY(0)}
+  0%,25.9%{opacity:0;transform:translateY(20px)}
+  36.5%,100%{opacity:1;transform:translateY(0)}
 }
 @keyframes mc-scene-description{
-  0%,61%{opacity:0;transform:translateY(10px)}
-  81%,100%{opacity:1;transform:translateY(0)}
+  0%,32.3%{opacity:0;transform:translateY(10px)}
+  42.9%,100%{opacity:1;transform:translateY(0)}
 }
 @keyframes mc-scene-glow{
   0%,100%{filter:brightness(1);box-shadow:0 0 0 1px #ffffff80,0 0 34px #bdfce065}
   50%{filter:brightness(1.12);box-shadow:0 0 0 5px #ecf8d550,0 0 65px #bdfce0ae}
 }
 @keyframes mc-scene-soft-word{
-  0%{opacity:0}10%,30%{opacity:1}47%,100%{opacity:0}
+  0%{opacity:0}5.3%,15.9%{opacity:1}24.4%,100%{opacity:0}
 }
 @keyframes mc-scene-soft-arrive{
-  0%,30%{opacity:0}54%,100%{opacity:1}
+  0%,15.9%{opacity:0}28%,100%{opacity:1}
 }
 @media(max-height:680px){
   .mc-launch-intro.mc-cinematic .mc-launch-mark{width:110px;height:110px;margin-bottom:9px}
@@ -285,11 +285,11 @@ html.mc-launch-handoff .mc-launch-intro{display:none!important}
 @media(prefers-reduced-motion:reduce){
   .mc-launch-intro.mc-cinematic .mc-launch-prelude{
     display:block!important;
-    animation:mc-scene-soft-word 4.5s linear both!important;
+    animation:mc-scene-soft-word 8.5s linear both!important;
     transform:translate(-50%,-50%)!important;
   }
   .mc-launch-intro.mc-cinematic .mc-launch-inner{
-    animation:mc-scene-soft-arrive 4.5s linear both!important;
+    animation:mc-scene-soft-arrive 8.5s linear both!important;
     transform:none!important;
   }
   .mc-launch-intro.mc-cinematic :is(.mc-launch-mark,.mc-launch-logo,.mc-launch-label,h2,.mc-launch-subtitle,.mc-launch-whisper,.mc-launch-progress){
@@ -297,7 +297,7 @@ html.mc-launch-handoff .mc-launch-intro{display:none!important}
     transform:none!important;
   }
   .mc-launch-intro.mc-cinematic .mc-launch-progress span{
-    animation:mc-launch-progress 4.5s linear both!important;
+    animation:mc-launch-progress 8.5s linear both!important;
     opacity:1;
   }
   .mc-launch-intro.mc-cinematic :is(.mc-launch-ring,.mc-launch-stars,.mc-launch-mist,.mc-launch-beam){
