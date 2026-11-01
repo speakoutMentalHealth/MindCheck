@@ -85,23 +85,33 @@ async function serverReady() {
     const animated = await full.newPage();
     await animated.goto(origin + 'age-entry.html', {waitUntil:'domcontentloaded'});
     await animated.waitForTimeout(700);
-    const early = await animated.evaluate(()=>({
-      word:Number(getComputedStyle(document.querySelector('.mc-launch-prelude')).opacity),
-      panel:Number(getComputedStyle(document.querySelector('.mc-launch-inner')).opacity),
-      animations:document.querySelector('.mc-launch-inner').getAnimations().length,
-      logoTransform:getComputedStyle(document.querySelector('.mc-launch-mark')).transform
-    }));
-    assert(early.word>0.3,'Full animation: opening wordmark must be visible');
-    assert(early.animations>=1,'Full animation: inner panel must be animated by JS/CSS');
-    await animated.waitForTimeout(2250);
+    const early = await animated.evaluate(()=>{
+      const word=document.querySelector('.mc-launch-prelude');
+      const panel=document.querySelector('.mc-launch-inner');
+      const ring=document.querySelector('.mc-launch-ring');
+      const panelAnimations=panel.getAnimations();
+      return {
+        wordAnimations:word.getAnimations().length,
+        panelAnimations:panelAnimations.length,
+        panelDuration:panelAnimations.some(animation=>animation.effect?.getTiming().duration===8500),
+        ringTransform:getComputedStyle(ring).transform
+      };
+    });
+    assert(early.wordAnimations>0&&early.panelAnimations>0,
+      'Full animation: both reveal stages must have active animations');
+    assert(early.panelDuration,'Full animation: stage must use the full 8.5-second timeline');
+    await animated.waitForTimeout(900);
+    const ringLater = await animated.locator('.mc-launch-ring').evaluate(el=>getComputedStyle(el).transform);
+    assert.notEqual(ringLater,early.ringTransform,
+      'Full animation: decorative ring should visibly rotate on screen');
+    await animated.waitForTimeout(1600);
     const later = await animated.evaluate(()=>({
-      word:Number(getComputedStyle(document.querySelector('.mc-launch-prelude')).opacity),
       panel:Number(getComputedStyle(document.querySelector('.mc-launch-inner')).opacity),
-      logoTransform:getComputedStyle(document.querySelector('.mc-launch-mark')).transform
+      progress:Number(getComputedStyle(document.querySelector('.mc-launch-progress span')).width)
     }));
-    assert(later.word < early.word,'Full animation: opening wordmark must fade away');
-    assert(later.panel > early.panel+0.3,'Full animation: logo and copy must appear');
-    assert(later.logoTransform!==early.logoTransform,'Full animation: logo entrance must visibly move');
+    assert(later.panel>0.65,'Full animation: logo and closing message should be visible');
+    assert.equal(await animated.locator('#mcLaunchIntro').isVisible(),true,
+      'Extended 8.5-second intro must not vanish after the original 4.5-second timeline');
     assert.equal(await animated.locator('.mc-launch-footnote a').getAttribute('href'),
       'https://speakoutmentalhealth.org/','SpeakOut product credit is linked');
     assert.match(await animated.locator('#mcLaunchDescription').innerText(),/Towards a sound mind and growth/);
