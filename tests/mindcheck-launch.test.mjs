@@ -22,7 +22,7 @@ function buildPage(reduced = false, handoff = false) {
     focus() { this.focused = true; }
   };
   const intro = {
-    tagName: 'DIV', hidden: false,
+    tagName: 'DIV', hidden: false, dataset: {},
     classList: { add(name) { classes.add(name); } },
     querySelector() { return skip; },
     addEventListener(type, callback) { listeners['intro-' + type] = callback; }
