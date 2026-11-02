@@ -48,13 +48,14 @@
   <h2>Weekly WHO-Style Monitoring</h2>
   <p class="muted">
     These indicators reflect core WHO community mental-health monitoring domains: coverage, screening,
-    detection of red-flag cases, referrals, follow-up, and volunteer effort. Submit one row per week
+    detection of red-flag cases, referrals, follow-up, and volunteer effort. Record one row per week
     per programme or LGA.
   </p>
 
   <!-- Entry form -->
   <section class="card">
-    <h3>Submit weekly summary</h3>
+    <h3>Record weekly summary</h3>
+    <p class="muted">This page saves locally only while the online receiver is being verified. It does not transmit this form. Export a CSV and share it only through your programme administrator’s approved secure channel.</p>
     <div class="grid-2">
       <div>
         <label for="program">Programme / channel</label>
@@ -104,8 +105,8 @@
   <section class="card">
     <h3>Local weekly log (for your browser)</h3>
     <p class="muted">
-      This table is saved in this browser. Online delivery is not confirmed by this page.
-      Export a CSV as your backup and ask the programme administrator to confirm receipt in the register.
+      This table is saved in this browser only. Nothing is sent online from this page.
+      Export a CSV and send it via your programme administrator’s approved secure process; ask for confirmation in the official register.
     </p>
     <div class="mc-monitoring-table-wrap" role="region" aria-label="Saved weekly monitoring table" tabindex="0"><table id="monTable">
       <thead>
@@ -136,9 +137,7 @@
 </footer>
 
 <script>
-  // same web app + auth style as training hub
-  const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbwbTvjd_4QXeFUmtBZxK1aldG0CtGSEELiP-koRFO-0G-IqctT32syjnSF1-Crl5tQ00A/exec';
-  const AUTH_TOKEN  = 'speakout123';
+  // No browser-side endpoint or authorization token: online intake requires a verified, server-controlled receiver.
   const LS_KEY_MON  = 'mc_monitoring_weeks';
 
   const els = id => document.getElementById(id);
@@ -171,9 +170,7 @@
     }
   }
 
-  let monitoringBusy=false;
-  async function saveMonitoring(){
-    if(monitoringBusy)return;
+  function saveMonitoring(){
     const row = {
       program   : els('program').value.trim(),
       lga       : els('lga').value.trim(),
@@ -200,28 +197,7 @@
     }catch{
       setMonStatus(false,'This browser could not save a local copy. Nothing was sent. Check device storage before trying again.');return;
     }
-    monitoringBusy=true;els('submitMonitoring').disabled=true;
-    setMonStatus(false,'Saved on this device. Attempting online delivery…');
-    const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),15000);
-
-    // build payload for Apps Script
-    const payload = Object.assign({}, row, {
-      auth: AUTH_TOKEN,
-      type:'monitoring_week'
-    });
-
-    try{
-      // An opaque response cannot prove that the server accepted or stored this row.
-      await fetch(SCRIPT_URL + '?auth=' + encodeURIComponent(AUTH_TOKEN), {
-        method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
-        body:JSON.stringify(payload),signal:controller.signal
-      });
-      setMonStatus(false,'Saved on this device. Online receipt is unconfirmed. Export a CSV and ask the programme administrator to verify the register.');
-    }catch{
-      setMonStatus(false,'Saved on this device. Online delivery could not be confirmed. Export a CSV for your programme administrator; do not assume the register was updated.');
-    }finally{
-      clearTimeout(timeout);monitoringBusy=false;els('submitMonitoring').disabled=false;
-    }
+    setMonStatus(true,'Saved on this device only. No data was sent online. Export a CSV and share it via the programme administrator’s approved secure process. Ask the administrator to confirm receipt in the official register.');
   }
 
   function exportCsv(){
