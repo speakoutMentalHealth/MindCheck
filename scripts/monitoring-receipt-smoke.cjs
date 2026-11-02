@@ -1,6 +1,6 @@
 /* The weekly form is local-only until an authorized server receiver is verified. */
 const {chromium}=require('./adult-browser-fixture.cjs'),assert=require('node:assert/strict'),fs=require('node:fs'),{spawn}=require('node:child_process'),net=require('node:net');
-assert.doesNotMatch(fs.readFileSync('monitoring.html','utf8'),/AUTH_TOKEN|SCRIPT_URL|mode:\\s*['"]no-cors['"]|fetch\\s*\\(/,'monitoring form must not have browser-side network submission');
+assert.doesNotMatch(fs.readFileSync('monitoring.html','utf8'),/AUTH_TOKEN|SCRIPT_URL|mode:\s*['"]no-cors['"]|fetch\s*\(/,'monitoring form must not have browser-side network submission');
 (async()=>{let browser;const server=spawn('python3',['-m','http.server','8778','--bind','127.0.0.1'],{stdio:'ignore'});try{
 for(let i=0;i<50;i++){try{await new Promise((r,j)=>{const s=net.connect(8778,'127.0.0.1');s.on('connect',()=>{s.end();r()});s.on('error',j)});break}catch{await new Promise(r=>setTimeout(r,100))}}
 browser=await chromium.launch();
