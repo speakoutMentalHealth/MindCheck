@@ -1,6 +1,15 @@
 # MindCheck — backend security handover and sign-off
 
-**Status:** Frontend security improvements are deployed; backend verification is NOT complete. Do not mark this checklist complete using browser-only demonstrations.
+**Status:** Frontend improvements exist on merged `main`; backend verification is NOT complete. Do not mark this checklist complete using browser-only demonstrations or inferred public deployment state.
+
+## November 1, 2026 — release evidence and outstanding gates
+
+- PR [#225](https://github.com/speakoutMentalHealth/MindCheck/pull/225) was merged into `main` as `f8098ba8934dec42e6bac7719ce2ac9241407fd9`. Its candidate head `542972c11674ca04a35521160b47c83d089e5241` had four successful reported workflows: legacy exposure, youth safety, static release, and browser smoke.
+- This is **source/CI evidence**, not proof that the custom-domain GitHub Pages deployment is at that commit. Post-merge public checks of `age-entry.html` and `sw.js` remain required, as does physical iPhone Safari/in-app browser testing of both adult and youth DOB routing and Add to Home Screen.
+- Separate operational gates remain open: #79 exposed legacy check-in receiver, #80 paused Summit SheetDB permissions, #81 trusted certificate issuance/verification and retired cash-claim route. [SpeakOut portal #409](https://github.com/speakoutMentalHealth/speakout-landing-page/issues/409) governs the separate approved-volunteer forum pilot and is not cleared by MindCheck frontend CI.
+- **Decision:** the age-entry engineering patch is merged and its PR workflows passed; wider safeguarding-sensitive, reporting-dependent, certificate-dependent or private forum rollout remains **HOLD** until the respective owner-side and physical-device evidence is documented.
+
+
 
 ## 1. Access and ownership
 
@@ -37,12 +46,14 @@ The public `verify.html` page requires a successful response and a matching cert
 - Confirm assessment pass records come from a trusted source and cannot be created by editing browser state; verify that a training completion document is not misrepresented as professional licensure.
 - Verify the official certificate page and verification page use the same approved backend release/version.
 
-## 5. Cash milestone verification — blocking issue #81
+## 5. Retired cash-claim route — blocking issue #81
 
-- Keep device-generated streaks, points, badges and milestone IDs as **personal progress only**, not evidence of earned or paid money.
-- Build a private, append-only award ledger with unique user/milestone and an authorized approver. Verify eligibility independently and prevent duplicate approval or payment.
-- Record states clearly: `submitted` → `under_review` → `approved/rejected` → `paid` (if applicable), each with timestamps and admin evidence. Only backend state can represent payout confirmation.
-- Establish fraud/appeal/duplicate-account rules, admin access separation, budget limits, and a privacy-conscious retention schedule.
+MindCheck now offers **non-cash, device-local progress badges only**. There is no planned cash payout feature. Do **not** create a new cash-award ledger, redemption flow, payment states or participant-payment claims to satisfy this release gate.
+
+- Keep streaks, points and badges explicitly non-monetary; do not treat browser-generated progress as evidence of an official certificate, verified participation or professional qualification.
+- With the authorized Apps Script editor, inventory callers of the former `award_claim` backend route, retire that case **at the source**, and verify retired writes are rejected. Frontend removal alone does not disable the old endpoint.
+- Preserve historical records according to the approved retention policy. Do not delete production records or change other active routes (`checkin`, `certificate_issue`, `training_pass`, `monitoring_week`, public verification) while retiring the claim handler.
+- Record the backend deployment/version, owner sign-off and safe rollback procedure privately. Use synthetic data only and do not publish old credentials or award records.
 
 ## 6. Acceptance checklist
 
@@ -53,7 +64,7 @@ The public `verify.html` page requires a successful response and a matching cert
 - [ ] Old SheetDB API read access independently blocked
 - [ ] Verified certificate, unknown certificate, mismatch and outage tested
 - [ ] Official certificate issuance controlled server-side
-- [ ] Cash award ledger and authorizations confirmed
+- [ ] Old `award_claim` backend route retired and synthetic cash-claim writes rejected; device-local badges remain non-cash
 - [ ] No personal records, API keys or secrets committed to this repository
 - [ ] Rollback and incident contacts recorded privately
 - [ ] Site browser tests and production deployment pass
