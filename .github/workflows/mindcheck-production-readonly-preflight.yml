@@ -1,0 +1,30 @@
+name: MindCheck production read-only preflight
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/production-readonly-preflight.cjs'
+      - 'scripts/production-readonly-preflight.test.cjs'
+      - '.github/workflows/mindcheck-production-readonly-preflight.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read-only-preflight:
+    name: Verify publication and privacy markers (GET only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check preflight regression cases
+        run: node --test scripts/production-readonly-preflight.test.cjs
+      - name: Check live published pages without submitting information
+        if: github.event_name != 'pull_request'
+        run: node scripts/production-readonly-preflight.cjs
