@@ -13,7 +13,7 @@ i18n = (ROOT / "js/mindcheck-i18n.js").read_text(encoding="utf-8")
 sw = (ROOT / "sw.js").read_text(encoding="utf-8")
 css = (ROOT / "mc-theme.css").read_text(encoding="utf-8")
 failures = []
-EXPECTED_CACHE = "mc-v73-age-step-continue-20261101"
+EXPECTED_CACHE = "mc-v74-speakout-logo-20261103"
 
 def check(name, condition):
     print(("PASS" if condition else "FAIL") + ": " + name)
@@ -42,7 +42,7 @@ check("no localized cash amounts", "₦" not in i18n)
 check("privacy notice", 'href="privacy.html"' in html)
 check("emergency support", 'id="crisisBanner"' in html and 'href="tel:112"' in html)
 for asset in ("js/mindcheck-premium-nav.js","mindcheck-premium-nav.css","mindcheck-premium-layout.css","mindcheck-focused-app.css","mindcheck-compact-header.css","speakout-brand-unification.css","speakout-subsections.css","icons/logo.png","icons/apple-touch-icon.png"):
-    check("offline UI asset " + asset, "'./"+asset+"'" in sw and (ROOT / asset).exists())
+    check("offline UI asset " + asset, ("'./"+asset+"'" in sw or "'./"+asset+"?v=20261103-speakout-logo'" in sw) and (ROOT / asset).exists())
 check("service worker caches current CSS", "'./mc-theme.css'" in sw)
 check("service worker caches locale JS", "'./js/mindcheck-i18n.js'" in sw)
 check("service worker cache version rotated", EXPECTED_CACHE in sw and "mc-v50-contextual-ai-20261024" not in sw)
