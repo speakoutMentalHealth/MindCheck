@@ -249,14 +249,22 @@ async function run() {
       }
       // Mock official verifier responses: an 'ok' result for a different ID must be rejected.
       const cert=await context.newPage();
+      let exactCertificate = false;
       await cert.route('https://script.google.com/**', async route=>{
-        await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,cert_id:'MC-CERT-OTHER',name:'Test Record',score:80,date:'2026-01-01'})});
+        await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,cert_id:exactCertificate?'MC-CERT-EXPECTED':'MC-CERT-OTHER',name:'Test Record',score:80,date:'2026-01-01'})});
       });
       await cert.goto('http://127.0.0.1:8765/verify.html',{waitUntil:'domcontentloaded'});
       await cert.locator('#certInput').fill('MC-CERT-EXPECTED');
       await cert.locator('#verifyBtn').click();
       await cert.locator('#statusBox').getByText('Certificate not verified').waitFor();
       assert.equal(await cert.locator('#statusBox').getAttribute('class'),'status bad','certificate ID mismatch wrongly verified');
+      exactCertificate = true;
+      await cert.locator('#verifyBtn').click();
+      await cert.locator('#statusBox').getByText('Certificate record found').waitFor();
+      const verifiedDetails = await cert.locator('#detailBox').innerText();
+      assert.match(verifiedDetails,/MC-CERT-EXPECTED/);
+      assert.match(verifiedDetails,/Test Record/);
+      assert.doesNotMatch(verifiedDetails,/score|80%/i,'public certificate lookup must not reveal private assessment score');
       await cert.close();
       assert.deepEqual(errors,[],setup.name+' JavaScript errors: '+errors.join('; '));
       await context.close();
