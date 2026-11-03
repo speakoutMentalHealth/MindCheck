@@ -1,6 +1,12 @@
 name: MindCheck certificate publication verification
 
 on:
+  pull_request:
+    paths:
+      - 'verify.html'
+      - 'scripts/check-certificate-publication.cjs'
+      - 'scripts/check-certificate-publication.test.cjs'
+      - '.github/workflows/mindcheck-certificate-publication.yml'
   push:
     branches: [main]
     paths:
@@ -26,4 +32,5 @@ jobs:
       - name: Check source and regression tests
         run: node --test scripts/check-certificate-publication.test.cjs
       - name: Confirm corrected live certificate verification page
+        if: github.event_name != 'pull_request'
         run: node scripts/check-certificate-publication.cjs
