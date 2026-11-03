@@ -1,0 +1,36 @@
+name: MindCheck certificate publication verification
+
+on:
+  pull_request:
+    paths:
+      - 'verify.html'
+      - 'scripts/check-certificate-publication.cjs'
+      - 'scripts/check-certificate-publication.test.cjs'
+      - '.github/workflows/mindcheck-certificate-publication.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'verify.html'
+      - 'scripts/check-certificate-publication.cjs'
+      - 'scripts/check-certificate-publication.test.cjs'
+      - '.github/workflows/mindcheck-certificate-publication.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-certificate-publication:
+    name: Verify live certificate privacy
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check source and regression tests
+        run: node --test scripts/check-certificate-publication.test.cjs
+      - name: Confirm corrected live certificate verification page
+        if: github.event_name != 'pull_request'
+        run: node scripts/check-certificate-publication.cjs
