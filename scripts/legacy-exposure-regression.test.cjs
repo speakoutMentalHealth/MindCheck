@@ -36,3 +36,10 @@ test('security handover keeps receiver-owner and credential retirement as unveri
  assert.match(source,/Rotate or revoke the old credential/i);
  assert.match(source,/authenticated owner\/editor access/i);
 });
+
+test('public certificate verification does not publish assessment scores',()=>{
+ const source=read('verify.html');
+ assert.match(source,/data\.cert_id/);
+ assert.match(source,/Certificate record found/);
+ assert.doesNotMatch(source,/data\.score|Score:|assessment score.*String\(/i);
+});
