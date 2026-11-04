@@ -431,3 +431,31 @@ html.mc-launch-handoff .mc-launch-intro{display:none!important}
     animation:mc-launch-progress 15s linear both!important;
   }
 }
+
+/* Visible orbital highlights; motion remains an explicit choice in Reduce Motion. */
+.mc-launch-intro .mc-launch-ring::after{
+ content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;
+ border-radius:50%;background:#cfffe4;box-shadow:0 0 14px #b6ffdc;
+}
+.mc-launch-intro .mc-launch-ring:nth-child(2)::after{background:#f4d38b;box-shadow:0 0 16px #f4d38b}
+.mc-launch-intro .mc-launch-ring:nth-child(3)::after{width:6px;height:6px;top:-3px}
+.mc-launch-intro[data-orbit="running"] .mc-launch-ring:nth-child(1){animation:mc-launch-orbit 8s linear infinite!important}
+.mc-launch-intro[data-orbit="running"] .mc-launch-ring:nth-child(2){animation:mc-launch-orbit 5.5s linear infinite reverse!important}
+.mc-launch-intro[data-orbit="running"] .mc-launch-ring:nth-child(3){animation:mc-launch-orbit 3.6s linear infinite!important}
+.mc-launch-intro[data-orbit="paused"] :is(.mc-launch-ring,.mc-launch-stars,.mc-launch-mist,.mc-launch-beam){animation-play-state:paused!important}
+.mc-launch-intro .mc-launch-motion{
+ position:absolute;z-index:4;right:calc(17px + env(safe-area-inset-right));
+ bottom:calc(74px + env(safe-area-inset-bottom));min-height:44px;
+ padding:10px 16px;border:1px solid #c5ebd659;border-radius:999px;
+ background:#092e26cc;color:#e0f6e9;font:600 .8rem/1.3 system-ui,sans-serif;
+ cursor:pointer;touch-action:manipulation;
+}
+.mc-launch-motion:focus-visible{outline:3px solid #f2d89b;outline-offset:4px}
+.mc-launch-intro .mc-launch-inner{margin:auto;width:min(100%,540px)}
+.mc-launch-intro.mc-cinematic .mc-launch-subtitle{max-width:27ch;text-wrap:balance}
+@media(max-height:740px){
+ .mc-launch-intro{padding-top:max(20px,env(safe-area-inset-top));padding-bottom:calc(130px + env(safe-area-inset-bottom))}
+ .mc-launch-intro.mc-cinematic .mc-launch-mark{width:132px;height:132px;margin-bottom:14px}
+ .mc-launch-intro.mc-cinematic h2{font-size:clamp(2.3rem,10vw,3.6rem)}
+ .mc-launch-intro .mc-launch-label{letter-spacing:.17em;font-size:.64rem}
+}

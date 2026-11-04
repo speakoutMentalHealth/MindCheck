@@ -15,6 +15,10 @@ function buildPage(reduced = false, handoff = false) {
     focus() { this.focused = true; },
     addEventListener(type, callback) { listeners['skip-' + type] = callback; }
   };
+  const motion = {
+    setAttribute(name,value) { this[name]=value; },
+    addEventListener(type,callback) { listeners['motion-'+type]=callback; }
+  };
   const main = {
     tagName: 'MAIN', inert: false, focused: false,
     hasAttribute() { return false; },
@@ -24,7 +28,7 @@ function buildPage(reduced = false, handoff = false) {
   const intro = {
     tagName: 'DIV', hidden: false, dataset: {},
     classList: { add(name) { classes.add(name); } },
-    querySelector() { return skip; },
+    querySelector(selector) { return selector === '[data-mc-launch-motion]' ? motion : skip; },
     addEventListener(type, callback) { listeners['intro-' + type] = callback; }
   };
   const document = {
@@ -47,7 +51,7 @@ function buildPage(reduced = false, handoff = false) {
   };
   const clearTimeout = id => scheduled.delete(id);
   runInNewContext(launch, { document, window, clearTimeout, URL });
-  return { listeners, scheduled, classes, main, intro, skip };
+  return { listeners, scheduled, classes, main, intro, skip, motion };
 }
 
 test('each primary entry has a replayable, skippable introduction', () => {
@@ -60,15 +64,15 @@ test('each primary entry has a replayable, skippable introduction', () => {
     assert.match(html, /class="mc-launch-mist"/);
     assert.match(html, /class="mc-launch-logo"/);
     assert.match(html, /SpeakOut<\/a>/);
-    assert.match(html, /Towards a sound mind and growth\./);
+    assert.match(html, /Towards a sound mind and healthy growth\./);
     assert.match(html, /A product of <a href="https:\/\/speakoutmentalhealth\.org\/"/);
     if (page === 'index.html') {
-      assert.match(html, /js\/mindcheck-launch\.js\?v=20261101-unveiling15/);
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261104-orbit/);
     } else {
       assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
       assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
     }
-    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261101-unveiling15/);
+    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261104-orbit/);
   }
 });
 
@@ -107,9 +111,9 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(read('assessment-centre.html'), /mindcheck-launch-finish\.css/);
   assert.match(read('daily-life.html'), /mindcheck-launch-finish\.css/);
   const worker = read('sw.js');
-  assert.match(worker, /mc-v74-speakout-logo-20261103/);
-  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261101-unveiling15/);
-  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261101-unveiling15/);
+  assert.match(worker, /mc-v75-orbit-20261104/);
+  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261104-orbit/);
+  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261104-orbit/);
 });
 
 test('age handoff is suppressed before first paint and refresh gets the full intro', () => {
@@ -130,4 +134,19 @@ test('age handoff is suppressed before first paint and refresh gets the full int
   }
   assert.match(read('age-entry.html'), /sessionStorage\.setItem\('mc-launch-handoff-once',actual\)/);
   assert.match(read('css/mindcheck-launch-finish.css'), /html\.mc-launch-handoff \.mc-launch-intro\{display:none!important\}/);
+});
+
+ test('orbit controls respect reduced motion and allow an explicit opt-in', () => {
+  const reduced=buildPage(true);
+  assert.equal(reduced.intro.dataset.orbit,'paused');
+  assert.equal(reduced.motion.textContent,'Animate logo');
+  reduced.listeners['motion-click']();
+  assert.equal(reduced.intro.dataset.orbit,'running');
+  assert.equal(reduced.motion['aria-pressed'],'true');
+  reduced.listeners['motion-click']();
+  assert.equal(reduced.intro.dataset.orbit,'paused');
+  const full=buildPage();
+  assert.equal(full.intro.dataset.orbit,'running');
+  full.listeners['motion-click']();
+  assert.equal(full.intro.dataset.orbit,'paused');
 });
