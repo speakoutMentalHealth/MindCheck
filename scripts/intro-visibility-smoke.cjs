@@ -49,7 +49,7 @@ async function serverReady() {
       'Reduced motion: wordmark must give way to the logo and message');
     await page.waitForTimeout(5000);
     assert.equal(await intro.isVisible(),true,'15-second intro should still show after 10 seconds');
-    assert.match(await page.locator('#mcLaunchDescription').innerText(),/Towards a sound mind and growth/);
+    assert.match(await page.locator('#mcLaunchDescription').innerText(),/Towards a sound mind and healthy growth/);
     await intro.waitFor({state:'hidden',timeout:7000});
     const elapsed=await page.evaluate(()=>performance.now());
     assert(elapsed>=14000,'Intro dismissed before 14 seconds: '+elapsed+'ms');
@@ -72,6 +72,18 @@ async function serverReady() {
     await intro.waitFor({state:'hidden'});
     assert.equal(await page.locator('#main-content').isVisible(),true);
 
+    // Reduced Motion stays quiet until the visitor explicitly requests orbiting.
+    await page.goto(origin+'age-entry.html',{waitUntil:'domcontentloaded'});
+    assert.equal(await page.locator('#mcLaunchIntro').getAttribute('data-orbit'),'paused');
+    await page.locator('[data-mc-launch-motion]').click();
+    assert.equal(await page.locator('[data-mc-launch-motion]').getAttribute('aria-pressed'),'true');
+    const opted=await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform);
+    await page.waitForTimeout(400);
+    assert.notEqual(await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform),opted);
+    await page.locator('[data-mc-launch-motion]').click();
+    const paused=await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform);
+    await page.waitForTimeout(400);
+    assert.equal(await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform),paused);
     await context.close();
 
     // Test the actual unveiling instead of assuming a static splash timer.
@@ -113,7 +125,7 @@ async function serverReady() {
     assert.equal(await animated.locator('.mc-launch-footnote a').getAttribute('href'),
       'https://speakoutmentalhealth.org/');
     assert.match(await animated.locator('#mcLaunchDescription').innerText(),
-      /Towards a sound mind and growth/);
+      /Towards a sound mind and healthy growth/);
     await animated.locator('[data-mc-launch-skip]').click();
     await animated.locator('#mcLaunchIntro').waitFor({state:'hidden'});
     await full.close();

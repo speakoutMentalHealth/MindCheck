@@ -19,6 +19,17 @@
   const duration=15000;
   intro.classList.add('mc-cinematic','mc-unveiling');
   intro.dataset.motion=reduced?'gentle':'full';
+  const motion=intro.querySelector('[data-mc-launch-motion]');
+  let orbiting=!reduced;
+  const setOrbit=()=>{
+    intro.dataset.orbit=orbiting?'running':'paused';
+    if(motion){
+      motion.textContent=orbiting?'Pause animation':'Animate logo';
+      motion.setAttribute('aria-pressed',String(orbiting));
+    }
+  };
+  setOrbit();
+  if(motion)motion.addEventListener('click',()=>{orbiting=!orbiting;setOrbit();});
   const play=(selector,frames)=>{
     const target=intro.querySelector(selector);
     if(!target||typeof target.animate!=='function')return;
@@ -101,10 +112,10 @@
     intro.addEventListener('keydown',event=>{
       if(event.key==='Escape'){event.preventDefault();finish(true);}
       if(event.key==='Tab'&&productLink){
-        const backward=event.shiftKey===true;
-        if((!backward&&document.activeElement===skip)||(backward&&document.activeElement===productLink)){
-          event.preventDefault();productLink.focus();
-        }
+        const first=productLink;
+        const last=skip;
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
       }
     });
   }
