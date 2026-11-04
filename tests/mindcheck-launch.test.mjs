@@ -67,12 +67,12 @@ test('each primary entry has a replayable, skippable introduction', () => {
     assert.match(html, /Towards a sound mind and healthy growth\./);
     assert.match(html, /A product of <a href="https:\/\/speakoutmentalhealth\.org\/"/);
     if (page === 'index.html') {
-      assert.match(html, /js\/mindcheck-launch\.js\?v=20261104-orbit/);
+      assert.match(html, /js\/mindcheck-launch\.js\?v=20261104-autoorbit/);
     } else {
       assert.ok(html.includes(launch), 'age and youth keep the intro script inline');
       assert.doesNotMatch(html, /<script[^>]+src\s*=/i);
     }
-    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261104-orbit/);
+    assert.match(html, /css\/mindcheck-launch-finish\.css\?v=20261104-autoorbit/);
   }
 });
 
@@ -111,9 +111,9 @@ test('age gates, support pages and offline assets remain connected', () => {
   assert.match(read('assessment-centre.html'), /mindcheck-launch-finish\.css/);
   assert.match(read('daily-life.html'), /mindcheck-launch-finish\.css/);
   const worker = read('sw.js');
-  assert.match(worker, /mc-v75-orbit-20261104/);
-  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261104-orbit/);
-  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261104-orbit/);
+  assert.match(worker, /mc-v76-autoorbit-20261104/);
+  assert.match(worker, /\.\/js\/mindcheck-launch\.js\?v=20261104-autoorbit/);
+  assert.match(worker, /\.\/css\/mindcheck-launch-finish\.css\?v=20261104-autoorbit/);
 });
 
 test('age handoff is suppressed before first paint and refresh gets the full intro', () => {
@@ -136,17 +136,16 @@ test('age handoff is suppressed before first paint and refresh gets the full int
   assert.match(read('css/mindcheck-launch-finish.css'), /html\.mc-launch-handoff \.mc-launch-intro\{display:none!important\}/);
 });
 
- test('orbit controls respect reduced motion and allow an explicit opt-in', () => {
-  const reduced=buildPage(true);
-  assert.equal(reduced.intro.dataset.orbit,'paused');
-  assert.equal(reduced.motion.textContent,'Animate logo');
-  reduced.listeners['motion-click']();
-  assert.equal(reduced.intro.dataset.orbit,'running');
-  assert.equal(reduced.motion['aria-pressed'],'true');
-  reduced.listeners['motion-click']();
-  assert.equal(reduced.intro.dataset.orbit,'paused');
-  const full=buildPage();
-  assert.equal(full.intro.dataset.orbit,'running');
-  full.listeners['motion-click']();
-  assert.equal(full.intro.dataset.orbit,'paused');
+test('orbit starts automatically in both motion modes and can pause/resume', () => {
+  for(const preference of [true,false]){
+    const page=buildPage(preference);
+    assert.equal(page.intro.dataset.orbit,'running');
+    assert.equal(page.motion.textContent,'Pause animation');
+    page.listeners['motion-click']();
+    assert.equal(page.intro.dataset.orbit,'paused');
+    assert.equal(page.motion['aria-pressed'],'false');
+    assert.equal(page.motion.textContent,'Resume animation');
+    page.listeners['motion-click']();
+    assert.equal(page.intro.dataset.orbit,'running');
+  }
 });

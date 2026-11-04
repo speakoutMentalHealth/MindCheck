@@ -72,18 +72,19 @@ async function serverReady() {
     await intro.waitFor({state:'hidden'});
     assert.equal(await page.locator('#main-content').isVisible(),true);
 
-    // Reduced Motion stays quiet until the visitor explicitly requests orbiting.
+    // Even reduced-motion entry starts orbiting without a click; pause/resume works.
     await page.goto(origin+'age-entry.html',{waitUntil:'domcontentloaded'});
-    assert.equal(await page.locator('#mcLaunchIntro').getAttribute('data-orbit'),'paused');
-    await page.locator('[data-mc-launch-motion]').click();
-    assert.equal(await page.locator('[data-mc-launch-motion]').getAttribute('aria-pressed'),'true');
-    const opted=await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform);
+    assert.equal(await page.locator('#mcLaunchIntro').getAttribute('data-orbit'),'running');
+    const first=await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform);
     await page.waitForTimeout(400);
-    assert.notEqual(await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform),opted);
+    assert.notEqual(await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform),first);
     await page.locator('[data-mc-launch-motion]').click();
+    assert.equal(await page.locator('[data-mc-launch-motion]').getAttribute('aria-pressed'),'false');
     const paused=await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform);
     await page.waitForTimeout(400);
     assert.equal(await page.locator('.mc-launch-ring').first().evaluate(el=>getComputedStyle(el).transform),paused);
+    await page.locator('[data-mc-launch-motion]').click();
+    assert.equal(await page.locator('#mcLaunchIntro').getAttribute('data-orbit'),'running');
     await context.close();
 
     // Test the actual unveiling instead of assuming a static splash timer.

@@ -20,11 +20,12 @@
   intro.classList.add('mc-cinematic','mc-unveiling');
   intro.dataset.motion=reduced?'gentle':'full';
   const motion=intro.querySelector('[data-mc-launch-motion]');
-  let orbiting=!reduced;
+  // Start the requested logo orbit on every entry; Pause remains available.
+  let orbiting=true;
   const setOrbit=()=>{
     intro.dataset.orbit=orbiting?'running':'paused';
     if(motion){
-      motion.textContent=orbiting?'Pause animation':'Animate logo';
+      motion.textContent=orbiting?'Pause animation':'Resume animation';
       motion.setAttribute('aria-pressed',String(orbiting));
     }
   };
